@@ -693,10 +693,11 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
   /**
    * Returns a new assertion object with the current {@link Throwable} suppressed exceptions as the object under test.
    * <p>
-   * As suppressed exceptions are contained in {@code Throwable[]} instance,
-   * {@link AbstractObjectArrayAssert array assertions} can be chained after this invocation.
+   * As suppressed exceptions are contained in a {@code Throwable[]} instance,
+   * {@linkplain AbstractObjectArrayAssert array assertions} can be chained after this invocation.
    * <p>
-   * You can navigate back to the current {@link Throwable} with {@link SuppressedExceptionsAssert#returnToThrowable() returnToThrowable()}.
+   * You can navigate back to the current {@code Throwable} with
+   * {@link SuppressedExceptionsAssert#returnToThrowable() returnToThrowable()}.
    * <p>
    * Examples:
    * <pre><code class='java'>Exception exception = new Exception("boom!");
