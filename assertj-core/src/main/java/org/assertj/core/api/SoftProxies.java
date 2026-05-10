@@ -80,6 +80,7 @@ class SoftProxies {
                                                                                                                                    "scale",
                                                                                                                                    "size",
                                                                                                                                    "succeedsWithin",
+                                                                                                                                   "suppressedExceptions",
                                                                                                                                    "toAssert",
                                                                                                                                    "usingRecursiveComparison");
 
@@ -199,6 +200,21 @@ class SoftProxies {
       Constructor<?> constructor = proxyClass.getConstructor(Object.class, RecursiveComparisonConfiguration.class);
       RecursiveComparisonAssert<?> proxiedAssert = (RecursiveComparisonAssert<?>) constructor.newInstance(recursiveComparisonAssert.actual,
                                                                                                           recursiveComparisonAssert.getRecursiveComparisonConfiguration());
+      ((AssertJProxySetup) proxiedAssert).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
+      return proxiedAssert;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  SuppressedExceptionsAssert<?, ?> createSuppressedExceptionsAssertProxy(SuppressedExceptionsAssert<?, ?> suppressedExceptionsAssert) {
+    Class<?> proxyClass = createSoftAssertionProxyClass(SuppressedExceptionsAssert.class);
+    try {
+      AbstractThrowableAssert<?, ?> originAssert = suppressedExceptionsAssert.returnToThrowable();
+      Constructor<?> constructor = proxyClass.getConstructor(AbstractThrowableAssert.class, Throwable[].class);
+      SuppressedExceptionsAssert<?, ?> proxiedAssert = (SuppressedExceptionsAssert<?, ?>) constructor.newInstance(originAssert,
+                                                                                                                  originAssert.actual()
+                                                                                                                              .getSuppressed());
       ((AssertJProxySetup) proxiedAssert).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
       return proxiedAssert;
     } catch (Exception e) {

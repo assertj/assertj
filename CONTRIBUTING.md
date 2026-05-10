@@ -142,6 +142,7 @@ Some examples are:
 * `returnToFile()` in `FileSizeAssert`
 * `returnToIterable()` in `IterableSizeAssert`
 * `returnToMap()` in `MapSizeAssert`
+* `returnToThrowable()` in `SuppressedExceptionsAssert`
 
 ## Binary Compatibility
 

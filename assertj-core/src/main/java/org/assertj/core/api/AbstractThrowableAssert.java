@@ -843,6 +843,41 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
+   * Returns a new assertion object with the current {@link Throwable} suppressed exceptions as the object under test.
+   * <p>
+   * As suppressed exceptions are contained in {@code Throwable[]} instance,
+   * {@link AbstractObjectArrayAssert array assertions} can be chained after this invocation.
+   * <p>
+   * You can navigate back to the current {@link Throwable} with {@link SuppressedExceptionsAssert#returnToThrowable() returnToThrowable()}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>Throwable throwable = new Throwable("boom!");
+   * Throwable invalidArgException = new IllegalArgumentException("invalid argument");
+   * Throwable ioException = new IOException("IO error");
+   * throwable.addSuppressed(invalidArgException);
+   * throwable.addSuppressed(ioException);
+   *
+   * // these assertions succeed:
+   * assertThat(throwable).suppressedExceptions()
+   *                      .containsOnly(invalidArgException, ioException)
+   *                      .returnToThrowable()
+   *                      .hasMessage("boom!");
+   *
+   * // this assertion fails:
+   * assertThat(throwable).suppressedExceptions()
+   *                      .isEmpty();</code></pre>
+   *
+   * @return a new assertion object
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @since 3.28.0
+   */
+  public SuppressedExceptionsAssert<SELF, ACTUAL> suppressedExceptions() {
+    isNotNull();
+    return SuppressedExceptionsAssert.from(myself)
+                                     .describedAs("checking suppressed exceptions");
+  }
+
+  /**
    * Verifies that the {@link org.assertj.core.api.ThrowableAssert.ThrowingCallable} didn't raise a throwable.
    * <p>
    * Example :
