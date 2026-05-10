@@ -87,42 +87,36 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
   }
 
   @Test
-  void should_not_collect_AssertionError_from_CompletableFuture_succeedsWithin_Duration() {
+  void should_only_collect_AssertionError_from_CompletableFuture_succeedsWithin_duration_and_skip_following_ones() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    var assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(TEN_MILLIS));
+    softly.assertThat(future).succeedsWithin(TEN_MILLIS).isEqualTo("foo").isEqualTo("bar");
     // THEN
-    assertThat(softly.errorsCollected()).isEmpty();
-    assertThat(assertionError).hasMessageContaining("Cancelled");
+    then(softly.errorsCollected()).singleElement(THROWABLE).hasMessageContaining("Cancelled");
   }
 
   @Test
-  void should_not_collect_AssertionError_from_CompletableFuture_succeedsWithin_Duration_asString() {
+  void should_only_collect_AssertionError_from_CompletableFuture_strongly_typed_succeedsWithin_duration_and_skip_following_ones() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    var assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(TEN_MILLIS,
-                                                                                             as(STRING)));
+    softly.assertThat(future).succeedsWithin(TEN_MILLIS, as(STRING)).isEqualTo("foo").isEqualTo("bar");
     // THEN
-    assertThat(softly.errorsCollected()).isEmpty();
-    assertThat(assertionError).hasMessageContaining("Cancelled");
+    then(softly.errorsCollected()).singleElement(THROWABLE).hasMessageContaining("Cancelled");
   }
 
   @Test
-  void should_not_collect_AssertionError_from_CompletableFuture_isCompletedWithValueMatchingWithin_Duration() {
+  void should_only_collect_AssertionError_from_CompletableFuture_isCompletedWithValueMatchingWithin_Duration_and_skip_following_ones() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future)
-                                                                     .isCompletedWithValueMatchingWithin(Predicate.isEqual("test"),
-                                                                                                         TEN_MILLIS));
+    softly.assertThat(future).isCompletedWithValueMatchingWithin(Predicate.isEqual("bar"), TEN_MILLIS).isEqualTo("foo");
     // THEN
-    assertThat(softly.errorsCollected()).isEmpty();
-    assertThat(assertionError).hasMessageContaining("Cancelled");
+    then(softly.errorsCollected()).singleElement(THROWABLE).hasMessageContaining("Cancelled");
   }
 
   @Test
