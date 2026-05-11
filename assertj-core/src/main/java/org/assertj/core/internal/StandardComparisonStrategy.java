@@ -126,6 +126,9 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
     if (iterable == null) {
       return false;
     }
+    if (iterable instanceof Collection) {
+      return ((Collection<?>) iterable).contains(value);
+    }
     return Streams.stream(iterable).anyMatch(object -> areEqual(object, value));
   }
 

@@ -23,7 +23,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.configuration.Configuration.MAX_INDICES_FOR_PRINTING;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactlyWithIndexes;
-import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
 import static org.assertj.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.core.util.Arrays.array;
@@ -86,7 +86,7 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertContainsExactly(INFO, emptyList(), null))
-                                    .withMessage(valuesToLookForIsNull());
+                                    .withMessage(shouldNotBeNull("values").create());
   }
 
   @Test

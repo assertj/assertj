@@ -37,7 +37,8 @@ public class ShouldContainAnyOf extends BasicErrorMessageFactory {
   }
 
   private ShouldContainAnyOf(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
-    super(FORMAT_WITH_COMPARISON_STRATEGY, actual, expected, comparisonStrategy);
+    super(comparisonStrategy.isStandard() ? DEFAULT_FORMAT : FORMAT_WITH_COMPARISON_STRATEGY, actual, expected,
+          comparisonStrategy);
   }
 
   private ShouldContainAnyOf(Object actual, Object expected) {

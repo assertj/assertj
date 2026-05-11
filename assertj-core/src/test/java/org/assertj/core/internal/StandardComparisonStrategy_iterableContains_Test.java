@@ -15,31 +15,43 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
- * Tests for {@link StandardComparisonStrategy#iterableContains(java.util.Collection, Object)}.
- * 
  * @author Joel Costigliola
  */
-class StandardComparisonStrategy_iterableContains_Test extends AbstractTest_StandardComparisonStrategy {
+class StandardComparisonStrategy_iterableContains_Test {
 
-  @Test
-  void should_pass() {
+  private final StandardComparisonStrategy underTest = StandardComparisonStrategy.instance();
+
+  @ParameterizedTest
+  @CsvSource({
+      "Frodo, true",
+      " , true",
+      "Sauron, false"
+  })
+  void should_pass(String value, boolean expected) {
+    // GIVEN
     List<?> list = newArrayList("Sam", "Merry", null, "Frodo");
-    assertThat(standardComparisonStrategy.iterableContains(list, "Frodo")).isTrue();
-    assertThat(standardComparisonStrategy.iterableContains(list, null)).isTrue();
-    assertThat(standardComparisonStrategy.iterableContains(list, "Sauron")).isFalse();
+    // WHEN
+    boolean result = underTest.iterableContains(list, value);
+    // THEN
+    then(result).isEqualTo(expected);
   }
 
   @Test
   void should_return_false_if_iterable_is_null() {
-    assertThat(standardComparisonStrategy.iterableContains(null, "Sauron")).isFalse();
+    // WHEN
+    boolean result = underTest.iterableContains(null, "Sauron");
+    // THEN
+    then(result).isFalse();
   }
 
 }

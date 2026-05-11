@@ -26,6 +26,7 @@ import static org.assertj.core.error.ShouldHaveSizeGreaterThan.shouldHaveSizeGre
 import static org.assertj.core.error.ShouldHaveSizeGreaterThanOrEqualTo.shouldHaveSizeGreaterThanOrEqualTo;
 import static org.assertj.core.error.ShouldHaveSizeLessThan.shouldHaveSizeLessThan;
 import static org.assertj.core.error.ShouldHaveSizeLessThanOrEqualTo.shouldHaveSizeLessThanOrEqualTo;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonErrors.iterableOfValuesToLookForIsEmpty;
@@ -174,8 +175,8 @@ public final class CommonValidations {
     requireNonNull(expectedType, "The given type should not be null");
   }
 
-  public static void checkIterableIsNotNull(Iterable<?> set) {
-    requireNonNull(set, "The iterable to look for should not be null");
+  public static void checkIterableIsNotNull(Iterable<?> iterable) {
+    requireNonNull(iterable, shouldNotBeNull("iterable")::create);
   }
 
   public static void checkSequenceIsNotNull(Object sequence) {

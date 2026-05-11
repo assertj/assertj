@@ -171,7 +171,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
 
   @Override
   public String asText() {
-    return "when comparing values using " + toString();
+    return "when comparing values using " + this;
   }
 
   @Override

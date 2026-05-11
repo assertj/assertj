@@ -36,8 +36,6 @@ import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Iterables#assertContainsExactly(AssertionInfo, Iterable, Object[])}</code>.
- *
  * @author Joel Costigliola
  */
 class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
