@@ -34,8 +34,7 @@ public abstract class AbstractFileSizeAssert<ORIGIN extends AbstractFileAssert<O
    * @since 3.28.0
    */
   protected AbstractFileSizeAssert(AbstractFileAssert<ORIGIN> originAssert) {
-    super(originAssert.actual.length(), AbstractFileSizeAssert.class);
-    this.originAssert = originAssert;
+    this(originAssert, originAssert.actual.length());
   }
 
   /**
@@ -45,6 +44,11 @@ public abstract class AbstractFileSizeAssert<ORIGIN extends AbstractFileAssert<O
   protected AbstractFileSizeAssert(Long actualFileSize, Class<?> selfType) {
     super(actualFileSize, selfType);
     this.originAssert = null;
+  }
+
+  protected AbstractFileSizeAssert(AbstractFileAssert<ORIGIN> originAssert, Long actualFileSize) {
+    super(actualFileSize, AbstractFileSizeAssert.class);
+    this.originAssert = originAssert;
   }
 
   /**
@@ -61,9 +65,6 @@ public abstract class AbstractFileSizeAssert<ORIGIN extends AbstractFileAssert<O
    */
   @CheckReturnValue
   public AbstractFileAssert<ORIGIN> returnToFile() {
-    if (originAssert == null) {
-      throw new IllegalStateException("No origin available. Was this assert created from its deprecated constructor?");
-    }
     return originAssert;
   }
 

@@ -678,7 +678,7 @@ class SoftAssertions_navigations_on_null_actual_Test {
   }
 
   @Nested
-  class FileAndPathContent {
+  class FileNavigation {
 
     @Test
     void should_not_throw_when_calling_content_on_null_file() {
@@ -699,6 +699,31 @@ class SoftAssertions_navigations_on_null_actual_Test {
     }
 
     @Test
+    void should_not_throw_when_calling_binaryContent_on_null_file() {
+      // GIVEN / WHEN
+      softly.assertThat((java.io.File) null).binaryContent().isEqualTo(new byte[0]);
+      // THEN
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_size_on_null_file() {
+      // GIVEN / WHEN
+      softly.assertThat((java.io.File) null)
+            .size().isEqualTo(new byte[0])
+            .returnToFile().describedAs("hasName on null file").hasName("foo");
+      // THEN
+      List<AssertionError> errorsCollected = softly.assertionErrorsCollected();
+      then(errorsCollected.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(errorsCollected.get(1)).hasMessageContaining("hasName on null file");
+    }
+  }
+
+  @Nested
+  class PathNavigation {
+
+    @Test
     void should_not_throw_when_calling_content_on_null_path() {
       // GIVEN / WHEN
       softly.assertThat((java.nio.file.Path) null).content().contains("x");
@@ -711,15 +736,6 @@ class SoftAssertions_navigations_on_null_actual_Test {
     void should_not_throw_when_calling_content_with_charset_on_null_path() {
       // GIVEN / WHEN
       softly.assertThat((java.nio.file.Path) null).content(java.nio.charset.StandardCharsets.UTF_8).contains("x");
-      // THEN
-      then(softly.errorsCollected()).singleElement(THROWABLE)
-                                    .hasMessageContaining("Expecting actual not to be null");
-    }
-
-    @Test
-    void should_not_throw_when_calling_binaryContent_on_null_file() {
-      // GIVEN / WHEN
-      softly.assertThat((java.io.File) null).binaryContent().isEqualTo(new byte[0]);
       // THEN
       then(softly.errorsCollected()).singleElement(THROWABLE)
                                     .hasMessageContaining("Expecting actual not to be null");

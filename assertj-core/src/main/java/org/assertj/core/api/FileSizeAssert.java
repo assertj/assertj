@@ -23,10 +23,19 @@ public class FileSizeAssert<T> extends AbstractFileSizeAssert<FileAssert> {
     super(originAssert);
   }
 
+  private FileSizeAssert(AbstractFileAssert<FileAssert> originAssert, Long size) {
+    super(originAssert, size);
+  }
+
   @Override
   @CheckReturnValue
   public AbstractFileAssert<FileAssert> returnToFile() {
     return super.returnToFile();
+  }
+
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  static FileSizeAssert nullFileSizeAssert(AbstractFileAssert originAssert) {
+    return new FileSizeAssert(originAssert, null);
   }
 
 }
