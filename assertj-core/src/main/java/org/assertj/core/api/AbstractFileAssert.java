@@ -18,6 +18,7 @@ package org.assertj.core.api;
 import static java.nio.file.Files.readAllBytes;
 import static java.nio.file.Files.readString;
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.api.FileSizeAssert.nullFileSizeAssert;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.io.File;
@@ -1258,8 +1259,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.21.0
    */
   public AbstractStringAssert<?> content() {
-    // does not call content(Charset.defaultCharset()) to avoid double proxying in soft assertions.
-    return internalContent(Charset.defaultCharset());
+    return content(Charset.defaultCharset());
   }
 
   /**
@@ -1281,7 +1281,11 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.21.0
    */
   public AbstractStringAssert<?> content(Charset charset) {
-    return internalContent(charset);
+    return executeAssertionNavigation(() -> {
+      files.assertCanRead(info, actual);
+      String fileContent = readFile(charset);
+      return new StringAssert(fileContent).withAssertionState(myself);
+    }, StringAssert::nullStringAssert);
   }
 
   /**
@@ -1329,18 +1333,13 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @CheckReturnValue
   public AbstractFileSizeAssert<SELF> size() {
-    requireNonNull(actual, "Can not perform assertions on the size of a null file.");
-    FileSizeAssert result = new FileSizeAssert(this);
-    result.withAssertionState(myself);
-    return result;
-  }
-
-  private AbstractStringAssert<?> internalContent(Charset charset) {
     return executeAssertionNavigation(() -> {
-      files.assertCanRead(info, actual);
-      String fileContent = readFile(charset);
-      return new StringAssert(fileContent).withAssertionState(myself);
-    }, StringAssert::nullStringAssert);
+      isNotNull();
+      FileSizeAssert result = new FileSizeAssert(this);
+      result.withAssertionState(myself);
+      return result;
+    }, () -> nullFileSizeAssert(this));
+
   }
 
   private byte[] readFile() {
