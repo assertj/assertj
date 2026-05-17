@@ -39,6 +39,12 @@ public abstract class AbstractIterableSizeAssert<ORIGIN extends AbstractIterable
     this.originAssert = originAssert;
   }
 
+  protected AbstractIterableSizeAssert(AbstractIterableAssert<ORIGIN, ITERABLE, ELEMENT, ELEMENT_ASSERT> originAssert,
+                                       Integer size) {
+    super(size, AbstractIterableSizeAssert.class);
+    this.originAssert = originAssert;
+  }
+
   /**
    * @deprecated use {@link #AbstractIterableSizeAssert(AbstractIterableAssert)} instead.
    */

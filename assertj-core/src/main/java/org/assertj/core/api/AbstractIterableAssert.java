@@ -18,6 +18,7 @@ package org.assertj.core.api;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.IterableSizeAssert.nullIterableSizeAssert;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
@@ -3437,10 +3438,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @SuppressWarnings({ "unchecked", "rawtypes" }) // FIXME gh-4210
   @CheckReturnValue
   public AbstractIterableSizeAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> size() {
-    isNotNull();
-    IterableSizeAssert result = new IterableSizeAssert(this);
-    result.withAssertionState(myself);
-    return result;
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      IterableSizeAssert result = new IterableSizeAssert(this);
+      result.withAssertionState(myself);
+      return result;
+    }, () -> nullIterableSizeAssert(this));
   }
 
   // lazy init TypeComparators

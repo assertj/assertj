@@ -24,13 +24,9 @@ public class IterableSizeAssert<ELEMENT>
     super(originAssert);
   }
 
-  /**
-   * @deprecated use {@link #IterableSizeAssert(AbstractIterableAssert)} instead.
-   */
-  @Deprecated
-  public IterableSizeAssert(AbstractIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> originAssert,
-                            @SuppressWarnings("unused") Integer size) {
-    this(originAssert);
+  protected IterableSizeAssert(AbstractIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> originAssert,
+                               @SuppressWarnings("unused") Integer size) {
+    super(originAssert, size);
   }
 
   @Override
@@ -39,4 +35,8 @@ public class IterableSizeAssert<ELEMENT>
     return super.returnToIterable();
   }
 
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  static IterableSizeAssert nullIterableSizeAssert(AbstractIterableAssert originAssert) {
+    return new IterableSizeAssert(originAssert, null);
+  }
 }

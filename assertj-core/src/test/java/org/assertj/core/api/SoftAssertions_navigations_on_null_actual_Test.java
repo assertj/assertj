@@ -398,6 +398,18 @@ class SoftAssertions_navigations_on_null_actual_Test {
       then(softly.errorsCollected()).isEmpty();
     }
 
+    @Test
+    void should_skip_size_assertions_but_not_iterable_ones_when_iterable_under_test_is_null() {
+      // GIVEN / WHEN
+      softly.assertThat((Iterable<Object>) null)
+            .size().isGreaterThan(1)
+            .returnToIterable().describedAs("isEmpty on null iterable").isEmpty();
+      // THEN
+      List<AssertionError> errorsCollected = softly.assertionErrorsCollected();
+      then(errorsCollected.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(errorsCollected.get(1)).hasMessageContaining("isEmpty on null iterable");
+    }
+
   }
 
   @Nested
@@ -708,7 +720,7 @@ class SoftAssertions_navigations_on_null_actual_Test {
     }
 
     @Test
-    void should_not_throw_when_calling_size_on_null_file() {
+    void should_skip_size_assertions_but_not_file_ones_when_file_under_test_is_null() {
       // GIVEN / WHEN
       softly.assertThat((java.io.File) null)
             .size().isEqualTo(new byte[0])
