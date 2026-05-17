@@ -36,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Futures;
@@ -48,7 +49,7 @@ import org.assertj.core.presentation.PredicateDescription;
  */
 // TODO deprecate completed for succeeds?
 public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompletableFutureAssert<SELF, RESULT>, RESULT> extends
-  AbstractAssertWithComparator<SELF, CompletableFuture<RESULT>> {
+    AbstractAssertWithComparator<SELF, CompletableFuture<RESULT>> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Futures futures = Futures.instance();
@@ -436,14 +437,8 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout.
    */
   public ObjectAssert<RESULT> succeedsWithin(Duration timeout) {
-    return internalSucceedsWithin(timeout);
-  }
-
-  private ObjectAssert<RESULT> internalSucceedsWithin(Duration timeout) {
-    return executeAssertionNavigation(() -> {
-      RESULT result = futures.assertSucceededWithin(info, actual, timeout);
-      return newObjectAssert(result);
-    }, ObjectAssert::nullObjectAssert);
+    return executeAssertionNavigation(() -> newObjectAssert(futures.assertSucceededWithin(info, actual, timeout)),
+                                      ObjectAssert::nullObjectAssert);
   }
 
   // introduced to be proxied for assumptions and soft assertions.
@@ -481,13 +476,8 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout.
    */
   public ObjectAssert<RESULT> succeedsWithin(long timeout, TimeUnit unit) {
-    return internalSucceedsWithin(timeout, unit);
-  }
-
-  private ObjectAssert<RESULT> internalSucceedsWithin(long timeout, TimeUnit unit) {
-    // succeedsWithin does NOT integrate with soft assertions - errors are thrown directly.
-    RESULT result = futures.assertSucceededWithin(info, actual, timeout, unit);
-    return newObjectAssert(result);
+    return executeAssertionNavigation(() -> newObjectAssert(futures.assertSucceededWithin(info, actual, timeout, unit)),
+                                      ObjectAssert::nullObjectAssert);
   }
 
   /**
@@ -518,7 +508,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    */
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT succeedsWithin(Duration timeout,
                                                                      InstanceOfAssertFactory<RESULT, ASSERT> assertFactory) {
-    return internalSucceedsWithin(timeout).asInstanceOf(assertFactory);
+    return succeedsWithin(timeout).asInstanceOf(assertFactory);
   }
 
   /**
@@ -549,7 +539,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    */
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT succeedsWithin(long timeout, TimeUnit unit,
                                                                      InstanceOfAssertFactory<RESULT, ASSERT> assertFactory) {
-    return internalSucceedsWithin(timeout, unit).asInstanceOf(assertFactory);
+    return succeedsWithin(timeout, unit).asInstanceOf(assertFactory);
   }
 
   /**
@@ -583,7 +573,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @since 3.18.0
    */
   public WithThrowable failsWithin(Duration timeout) {
-    return internalFailsWithin(timeout);
+    return executeWithThrowableAssertionNavigation(() -> new WithThrowable(futures.assertFailedWithin(info, actual, timeout)));
   }
 
   /**
@@ -618,17 +608,8 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @since 3.18.0
    */
   public WithThrowable failsWithin(long timeout, TimeUnit unit) {
-    return internalFailsWithin(timeout, unit);
-  }
-
-  private WithThrowable internalFailsWithin(Duration timeout) {
-    Exception exception = futures.assertFailedWithin(info, actual, timeout);
-    return new WithThrowable(exception);
-  }
-
-  private WithThrowable internalFailsWithin(long timeout, TimeUnit unit) {
-    Exception exception = futures.assertFailedWithin(info, actual, timeout, unit);
-    return new WithThrowable(exception);
+    return executeWithThrowableAssertionNavigation(() -> new WithThrowable(futures.assertFailedWithin(info, actual, timeout,
+                                                                                                      unit)));
   }
 
   /**
@@ -654,7 +635,9 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @since 3.27.0
    */
   public WithThrowable completesExceptionallyWithin(Duration timeout) {
-    return internalCompletesExceptionallyWithin(timeout);
+    return executeWithThrowableAssertionNavigation(() -> new WithThrowable(futures.assertCompletedExceptionallyWithin(info,
+                                                                                                                      actual,
+                                                                                                                      timeout)));
   }
 
   /**
@@ -681,17 +664,14 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @since 3.27.0
    */
   public WithThrowable completesExceptionallyWithin(long timeout, TimeUnit unit) {
-    return internalCompletesExceptionallyWithin(timeout, unit);
+    return executeWithThrowableAssertionNavigation(() -> new WithThrowable(futures.assertCompletedExceptionallyWithin(info,
+                                                                                                                      actual,
+                                                                                                                      timeout,
+                                                                                                                      unit)));
   }
 
-  private WithThrowable internalCompletesExceptionallyWithin(Duration timeout) {
-    Exception exception = futures.assertCompletedExceptionallyWithin(info, actual, timeout);
-    return new WithThrowable(exception);
-  }
-
-  private WithThrowable internalCompletesExceptionallyWithin(long timeout, TimeUnit unit) {
-    Exception exception = futures.assertCompletedExceptionallyWithin(info, actual, timeout, unit);
-    return new WithThrowable(exception);
+  private WithThrowable executeWithThrowableAssertionNavigation(Supplier<WithThrowable> navigationCode) {
+    return executeAssertionNavigation(navigationCode, WithThrowable::dummyWithThrowable);
   }
 
 }
