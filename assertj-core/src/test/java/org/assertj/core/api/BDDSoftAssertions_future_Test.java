@@ -24,16 +24,15 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Soft assertions on futures")
 class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
 
   private static final Duration TEN_MILLIS = Duration.ofMillis(10);
@@ -44,44 +43,38 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     softly = new BDDSoftAssertions();
   }
 
-  @SuppressWarnings("deprecation")
   @Test
   void should_work_with_CompletionStage() {
     // GIVEN
     CompletionStage<String> completionStage = completedFuture("done");
     // WHEN
     softly.then(completionStage).isDone();
-    softly.then(completionStage).isCancelled();
-    completionStage = null;
-    softly.then(completionStage).isNull();
+    softly.then(completionStage).describedAs("should be reported").isCancelled();
+    softly.then((CompletionStage<String>) null).isNull();
     // THEN
-    then(softly.errorsCollected()).singleElement(as(THROWABLE))
-                                  .hasMessageContaining("cancelled");
+    then(softly.errorsCollected()).singleElement(as(THROWABLE)).hasMessageContaining("should be reported");
   }
 
   @Test
-  void should_not_collect_AssertionError_from_CompletableFuture_succeedsWithin() {
+  void should_only_collect_AssertionError_from_CompletableFuture_succeedsWithin_and_skip_following_ones() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    var assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(10, MILLISECONDS));
+    softly.then(future).succeedsWithin(10, MILLISECONDS).isEqualTo("foo").isEqualTo("bar");
     // THEN
-    then(softly.errorsCollected()).isEmpty();
-    then(assertionError).hasMessageContaining("Cancelled");
+    then(softly.errorsCollected()).singleElement(THROWABLE).hasMessageContaining("Cancelled");
   }
 
   @Test
-  void should_not_collect_AssertionError_from_CompletableFuture_succeedsWithin_asString() {
+  void should_only_collect_AssertionError_from_CompletableFuture_strongly_typed_succeedsWithin_and_skip_following_ones() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    var assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(10, MILLISECONDS,
-                                                                                       as(STRING)));
+    softly.then(future).succeedsWithin(10, MILLISECONDS, as(STRING)).isEqualTo("foo").isEqualTo("bar");
     // THEN
-    then(softly.errorsCollected()).isEmpty();
-    then(assertionError).hasMessageContaining("Cancelled");
+    then(softly.errorsCollected()).singleElement(THROWABLE).hasMessageContaining("Cancelled");
   }
 
   @Test
@@ -155,47 +148,73 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
   }
 
   @Test
-  void should_not_collect_AssertionError_from_Future_failsWithin() {
+  void should_only_collect_AssertionError_from_Future_failsWithin_and_skip_following_ones() {
     // GIVEN
     Future<String> future = completedFuture("done");
     // WHEN
-    var assertionError = expectAssertionError(() -> softly.then(future).failsWithin(10, MILLISECONDS));
+    softly.then(future).failsWithin(10, MILLISECONDS).withThrowableOfType(IOException.class).withMessage("foo");
     // THEN
-    then(softly.errorsCollected()).isEmpty();
-    then(assertionError).hasMessageContaining("to have failed within 10L MILLISECONDS.");
+    then(softly.errorsCollected()).singleElement(THROWABLE)
+                                  .hasMessageContaining("to have failed within 10L MILLISECONDS.");
   }
 
   @Test
-  void should_not_collect_AssertionError_from_Future_failsWithin_Duration() {
+  void should_only_collect_AssertionError_from_Future_failsWithinDuration_and_skip_following_ones() {
     // GIVEN
     Future<String> future = completedFuture("done");
     // WHEN
-    var assertionError = expectAssertionError(() -> softly.then(future).failsWithin(TEN_MILLIS));
+    softly.then(future).failsWithin(Duration.ofNanos(10)).withThrowableOfType(Exception.class).withMessage("foo");
     // THEN
-    then(softly.errorsCollected()).isEmpty();
-    then(assertionError).hasMessageContaining("to have failed within 0.01s.");
+    then(softly.errorsCollected()).singleElement(THROWABLE)
+                                  .hasMessageContaining("to have failed within 0.00000001s.");
   }
 
   @Test
-  void should_not_collect_AssertionError_from_CompletableFuture_failsWithin() {
+  void should_only_collect_AssertionError_from_CompletableFuture_failsWithin_and_skip_following_ones() {
     // GIVEN
     CompletableFuture<String> future = completedFuture("done");
     // WHEN
-    var assertionError = expectAssertionError(() -> softly.then(future).failsWithin(10, MILLISECONDS));
+    softly.then(future).failsWithin(10, MILLISECONDS).withThrowableOfType(Exception.class).withMessage("foo");
     // THEN
-    then(softly.errorsCollected()).isEmpty();
-    then(assertionError).hasMessageContaining("to have failed within 10L MILLISECONDS.");
+    then(softly.errorsCollected()).singleElement(THROWABLE)
+                                  .hasMessageContaining("to have failed within 10L MILLISECONDS.");
   }
 
   @Test
-  void should_not_collect_AssertionError_from_CompletableFuture_failsWithin_Duration() {
+  void should_only_collect_AssertionError_from_CompletableFuture_failsWithinDuration_and_skip_following_ones() {
     // GIVEN
     CompletableFuture<String> future = completedFuture("done");
     // WHEN
-    var assertionError = expectAssertionError(() -> softly.then(future).failsWithin(TEN_MILLIS));
+    softly.then(future).failsWithin(Duration.ofMillis(10)).withThrowableOfType(Exception.class).withMessage("foo");
     // THEN
-    then(softly.errorsCollected()).isEmpty();
-    then(assertionError).hasMessageContaining("to have failed within 0.01s.");
+    then(softly.errorsCollected()).singleElement(THROWABLE)
+                                  .hasMessageContaining("to have failed within 0.01s.");
+  }
+
+  @Test
+  void should_only_collect_AssertionError_from_CompletableFuture_completesExceptionallyWithin_and_skip_following_ones() {
+    // GIVEN
+    CompletableFuture<String> future = completedFuture("done");
+    // WHEN
+    softly.then(future).completesExceptionallyWithin(10, MILLISECONDS)
+          .withThrowableOfType(Exception.class)
+          .withMessage("foo");
+    // THEN
+    then(softly.errorsCollected()).singleElement(THROWABLE)
+                                  .hasMessageContaining("to have completed exceptionally within 10L MILLISECONDS.");
+  }
+
+  @Test
+  void should_only_collect_AssertionError_from_CompletableFuture_completesExceptionallyWithinDuration_and_skip_following_ones() {
+    // GIVEN
+    CompletableFuture<String> future = completedFuture("done");
+    // WHEN
+    softly.then(future).completesExceptionallyWithin(Duration.ofNanos(10))
+          .withThrowableOfType(Exception.class)
+          .withMessage("foo");
+    // THEN
+    then(softly.errorsCollected()).singleElement(THROWABLE)
+                                  .hasMessageContaining("to have completed exceptionally within 0.00000001s.");
   }
 
   @Test

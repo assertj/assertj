@@ -434,13 +434,13 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
   }
 
   private WithThrowable internalFailsWithin(Duration timeout) {
-    Exception exception = futures.assertFailedWithin(info, actual, timeout);
-    return new WithThrowable(exception);
+    return executeAssertionNavigation(() -> new WithThrowable(futures.assertFailedWithin(info, actual, timeout)),
+                                      WithThrowable::dummyWithThrowable);
   }
 
   private WithThrowable internalFailsWithin(long timeout, TimeUnit unit) {
-    Exception exception = futures.assertFailedWithin(info, actual, timeout, unit);
-    return new WithThrowable(exception);
+    return executeAssertionNavigation(() -> new WithThrowable(futures.assertFailedWithin(info, actual, timeout, unit)),
+                                      WithThrowable::dummyWithThrowable);
   }
 
   private ObjectAssert<RESULT> internalSucceedsWithin(Duration timeout) {
