@@ -15,7 +15,6 @@
  */
 package org.assertj.core.api;
 
-import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -1134,15 +1133,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(Function<? super ELEMENT, V> extractor) {
-    return internalExtracting(extractor);
-  }
-
-  private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> internalExtracting(Function<? super ELEMENT, V> extractor) {
-    return executeAssertionNavigation(() -> {
-      isNotNull();
-      List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
-      return newListAssertInstanceForMethodsChangingElementType(values);
-    }, ListAssert::nullListAssert);
+    return map(extractor);
   }
 
   /**
@@ -1176,7 +1167,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 3.19.0
    */
   public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> map(Function<? super ELEMENT, V> mapper) {
-    return internalExtracting(mapper);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      List<V> values = FieldsOrPropertiesExtractor.extract(actual, mapper);
+      return newListAssertInstanceForMethodsChangingElementType(values);
+    }, ListAssert::nullListAssert);
   }
 
   /**
@@ -1221,7 +1216,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
-    return internalExtracting(extractor);
+    return map(extractor);
   }
 
   /**
@@ -1263,7 +1258,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> map(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> mapper) {
-    return internalExtracting(mapper);
+    return map((Function<? super ELEMENT, V>) mapper);
   }
 
   /*
@@ -1312,7 +1307,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(Function<? super ELEMENT, ? extends Collection<V>> extractor) {
-    return doFlatExtracting(extractor);
+    return flatMap(extractor);
   }
 
   /**
@@ -1348,7 +1343,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatMap(Function<? super ELEMENT, ? extends Collection<V>> mapper) {
-    return doFlatExtracting(mapper);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      List<V> result = FieldsOrPropertiesExtractor.extract(actual, mapper).stream()
+                                                  .flatMap(Collection::stream)
+                                                  .collect(toList());
+      return newListAssertInstanceForMethodsChangingElementType(result);
+    }, ListAssert::nullListAssert);
   }
 
   /**
@@ -1385,7 +1386,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(ThrowingExtractor<? super ELEMENT, ? extends Collection<V>, EXCEPTION> extractor) {
-    return doFlatExtracting(extractor);
+    return flatMap(extractor);
   }
 
   /**
@@ -1422,17 +1423,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatMap(ThrowingExtractor<? super ELEMENT, ? extends Collection<V>, EXCEPTION> mapper) {
-    return doFlatExtracting(mapper);
-  }
-
-  private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Function<? super ELEMENT, ? extends Collection<V>> extractor) {
-    return executeAssertionNavigation(() -> {
-      isNotNull();
-      List<V> result = FieldsOrPropertiesExtractor.extract(actual, extractor).stream()
-                                                  .flatMap(Collection::stream)
-                                                  .collect(toList());
-      return newListAssertInstanceForMethodsChangingElementType(result);
-    }, ListAssert::nullListAssert);
+    return flatMap((Function<? super ELEMENT, ? extends Collection<V>>) mapper);
   }
 
   /**
@@ -1804,7 +1795,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @Override
   public SELF hasSameElementsAs(Iterable<? extends ELEMENT> iterable) {
-    // containsOnlyElementsOf is deprecated so we use its implementation
     return containsOnly(toArray(iterable));
   }
 
@@ -2470,12 +2460,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public SELF filteredOnNull(String propertyOrFieldName) {
-    // can't call filteredOn(String propertyOrFieldName, null) as it does not work with soft assertions proxying
-    // mechanism, it would lead to double proxying which is not handle properly (improvements needed in our proxy mechanism)
-    Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual);
-    Iterable<? extends ELEMENT> filteredIterable = filter.with(propertyOrFieldName, null).get();
-    return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
+    return filteredOn(propertyOrFieldName, (Object) null);
   }
+
+  // can't call filteredOn(String propertyOrFieldName, null) as it does not work with soft assertions proxying
+  // mechanism, it would lead to double proxying which is not handle properly (improvements needed in our proxy mechanism)
+  // Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual);
+  // Iterable<? extends ELEMENT> filteredIterable = filter.with(propertyOrFieldName, null).get();
+  // return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
 
   /**
    * Filters the iterable under test keeping only elements having a property or field matching the filter expressed with
@@ -2647,7 +2639,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   public SELF filteredOnAssertions(Consumer<? super ELEMENT> elementAssertions) {
     checkArgument(elementAssertions != null, "The element assertions should not be null");
     List<? extends ELEMENT> filteredIterable = stream(actual.spliterator(), false).filter(byPassingAssertions(elementAssertions))
-                                                                                  .collect(toList());
+                                                                                  .toList();
     return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
   }
 
@@ -3104,7 +3096,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   public SELF filteredOn(Predicate<? super ELEMENT> predicate) {
     checkArgument(predicate != null, "The filter predicate should not be null");
-    List<? extends ELEMENT> filteredIterable = stream(actual.spliterator(), false).filter(predicate).collect(toList());
+    List<? extends ELEMENT> filteredIterable = stream(actual.spliterator(), false).filter(predicate).toList();
     return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
   }
 
