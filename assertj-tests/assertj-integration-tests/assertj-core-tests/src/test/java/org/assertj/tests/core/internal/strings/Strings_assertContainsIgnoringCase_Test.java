@@ -25,7 +25,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.DefaultLocale;
+import org.junit.jupiter.api.util.DefaultLocale;
 
 /**
  * @author Alex Ruiz

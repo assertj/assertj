@@ -28,7 +28,7 @@ import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.assertj.tests.core.testkit.StringHashCodeTestComparator;
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.DefaultLocale;
+import org.junit.jupiter.api.util.DefaultLocale;
 
 class Strings_assertStartsWithIgnoringCase_Test extends StringsBaseTest {
 
