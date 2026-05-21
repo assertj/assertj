@@ -17,13 +17,13 @@ package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.error.ShouldBeNumeric.shouldBeNumeric;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.BYTE;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.DOUBLE;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.FLOAT;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.INTEGER;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.LONG;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.SHORT;
+import static org.assertj.core.error.ShouldBeNumeric.shouldBeNumeric;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;

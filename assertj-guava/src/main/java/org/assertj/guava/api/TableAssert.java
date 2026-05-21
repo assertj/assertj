@@ -24,12 +24,14 @@ import static org.assertj.guava.error.TableShouldContainRows.tableShouldContainR
 import static org.assertj.guava.error.TableShouldHaveColumnCount.tableShouldHaveColumnCount;
 import static org.assertj.guava.error.TableShouldHaveRowCount.tableShouldHaveRowCount;
 
-import com.google.common.collect.Sets;
-import com.google.common.collect.Table;
 import java.util.Set;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.error.ShouldBeEmpty;
 import org.assertj.core.error.ShouldNotBeEmpty;
+
+import com.google.common.collect.Sets;
+import com.google.common.collect.Table;
 
 /**
  * @author Jan Gorman

@@ -26,6 +26,7 @@ import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS
 import java.util.Comparator;
 import java.util.Map;
 import java.util.function.Function;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.ObjectAssert;

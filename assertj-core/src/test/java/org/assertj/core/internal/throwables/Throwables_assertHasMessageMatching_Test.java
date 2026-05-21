@@ -21,12 +21,12 @@ import static org.assertj.core.error.ShouldHaveMessageMatchingRegex.shouldHaveMe
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.verify;
 
+import java.util.regex.Pattern;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
-
-import java.util.regex.Pattern;
 
 /**
  * Tests for <code>{@link ThrowableAssert#hasMessageMatching(String)}</code>.

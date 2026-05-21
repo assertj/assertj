@@ -19,6 +19,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.function.Consumer;
+
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.description.Description;
 import org.assertj.tests.core.testkit.MutatesGlobalConfiguration;

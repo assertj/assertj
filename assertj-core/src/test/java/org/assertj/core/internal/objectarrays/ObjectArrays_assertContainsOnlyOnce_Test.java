@@ -28,7 +28,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
-import java.awt.*;
+import java.awt.Rectangle;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectArrays;

@@ -17,8 +17,6 @@ package org.assertj.tests.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @DisplayName("https://github.com/assertj/assertj/issues/3551")
 @DataJpaTest

@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatPredicate;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.function.Predicate;
+
 import org.assertj.core.api.PredicateAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

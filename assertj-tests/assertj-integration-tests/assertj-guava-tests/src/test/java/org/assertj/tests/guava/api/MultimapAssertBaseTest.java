@@ -15,10 +15,12 @@
  */
 package org.assertj.tests.guava.api;
 
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
-import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 
 public class MultimapAssertBaseTest {
 

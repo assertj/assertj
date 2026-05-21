@@ -17,7 +17,6 @@ package org.assertj.core.internal.paths;
 
 import static java.nio.file.Files.createDirectory;
 import static java.nio.file.Files.createFile;
-import static java.nio.file.Files.createSymbolicLink;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;

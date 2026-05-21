@@ -18,6 +18,7 @@ package org.assertj.tests.core.testkit;
 import static org.assertj.core.data.Index.atIndex;
 
 import java.util.regex.Pattern;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.data.Index;

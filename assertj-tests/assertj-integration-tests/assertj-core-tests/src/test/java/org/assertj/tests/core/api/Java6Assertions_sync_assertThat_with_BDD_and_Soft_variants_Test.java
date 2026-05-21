@@ -18,6 +18,7 @@ package org.assertj.tests.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.Method;
+
 import org.assertj.core.api.Java6Assertions;
 import org.assertj.core.api.Java6BDDAssertions;
 import org.assertj.core.api.Java6BDDSoftAssertionsProvider;

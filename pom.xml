@@ -160,6 +160,11 @@
               <eclipse>
                 <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
               </eclipse>
+              <importOrder>
+                <order>#,java|javax,org,</order>
+              </importOrder>
+              <removeUnusedImports/>
+              <forbidWildcardImports/>
             </java>
           </configuration>
         </plugin>

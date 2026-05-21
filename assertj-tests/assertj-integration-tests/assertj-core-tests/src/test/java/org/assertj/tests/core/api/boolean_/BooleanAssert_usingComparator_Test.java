@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.catchException;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.Comparator;
+
 import org.junit.jupiter.api.Test;
 
 class BooleanAssert_usingComparator_Test {

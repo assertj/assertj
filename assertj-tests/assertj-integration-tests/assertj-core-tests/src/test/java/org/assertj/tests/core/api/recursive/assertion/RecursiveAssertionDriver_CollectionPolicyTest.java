@@ -16,18 +16,18 @@
 package org.assertj.tests.core.api.recursive.assertion;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_AND_ELEMENTS;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_ONLY;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.ELEMENTS_ONLY;
+import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionDriver;
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.junit.jupiter.api.Test;
 
 class RecursiveAssertionDriver_CollectionPolicyTest extends AbstractRecursiveAssertionDriverTestBase {

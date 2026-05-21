@@ -15,10 +15,10 @@
  */
 package org.assertj.core.util;
 
-import java.util.Arrays;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+
+import java.util.Arrays;
 
 public class StackTraceUtils {
 

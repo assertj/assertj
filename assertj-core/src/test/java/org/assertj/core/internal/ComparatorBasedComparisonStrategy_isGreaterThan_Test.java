@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import java.awt.*;
+import java.awt.Rectangle;
 
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;

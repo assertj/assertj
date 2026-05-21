@@ -15,19 +15,19 @@
  */
 package org.assertj.core.api.charsequence;
 
-import org.assertj.core.api.CharSequenceAssert;
-import org.assertj.core.api.CharSequenceAssertBaseTest;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
+
+import java.util.stream.Stream;
+
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.CharSequenceAssert#isNotEqualToNormalizingWhitespace(CharSequence)}</code>.

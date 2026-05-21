@@ -25,7 +25,6 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;

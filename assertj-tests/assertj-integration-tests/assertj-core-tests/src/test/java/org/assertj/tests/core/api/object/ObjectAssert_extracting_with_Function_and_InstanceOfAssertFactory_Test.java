@@ -25,6 +25,7 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.function.Function;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AbstractIntegerAssert;

@@ -17,6 +17,7 @@ package org.assertj.tests.core.testkit;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
+
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;

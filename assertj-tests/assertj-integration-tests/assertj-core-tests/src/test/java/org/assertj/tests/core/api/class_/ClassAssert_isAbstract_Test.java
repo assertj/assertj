@@ -22,6 +22,7 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.AbstractCollection;
+
 import org.junit.jupiter.api.Test;
 
 class ClassAssert_isAbstract_Test {

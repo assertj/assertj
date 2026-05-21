@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+
 import org.assertj.core.api.AbstractInputStreamAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

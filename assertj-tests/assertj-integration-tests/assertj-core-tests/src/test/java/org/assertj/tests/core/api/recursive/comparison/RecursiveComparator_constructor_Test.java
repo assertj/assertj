@@ -15,11 +15,11 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
+import static org.assertj.core.api.BDDAssertions.then;
+
 import org.assertj.core.api.recursive.comparison.RecursiveComparator;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.BDDAssertions.then;
 
 class RecursiveComparator_constructor_Test {
 

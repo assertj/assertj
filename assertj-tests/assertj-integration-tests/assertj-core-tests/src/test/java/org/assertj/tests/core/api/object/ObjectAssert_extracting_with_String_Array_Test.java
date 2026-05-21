@@ -22,6 +22,7 @@ import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.math.BigDecimal;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.util.introspection.IntrospectionError;

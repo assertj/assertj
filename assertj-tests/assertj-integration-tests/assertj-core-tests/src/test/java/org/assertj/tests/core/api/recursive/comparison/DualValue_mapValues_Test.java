@@ -18,9 +18,9 @@ package org.assertj.tests.core.api.recursive.comparison;
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.tests.core.testkit.Maps.mapOf;
 import static org.assertj.tests.core.testkit.Maps.treeMapOf;
-import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
 import java.util.stream.Stream;

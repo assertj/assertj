@@ -15,15 +15,15 @@
  */
 package org.assertj.core.api.map;
 
-import org.assertj.core.testkit.jdk11.Jdk11;
-import org.junit.jupiter.api.Test;
-
-import java.util.Map;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
+
+import java.util.Map;
+
+import org.assertj.core.testkit.jdk11.Jdk11;
+import org.junit.jupiter.api.Test;
 
 class MapAssert_values_Test {
 

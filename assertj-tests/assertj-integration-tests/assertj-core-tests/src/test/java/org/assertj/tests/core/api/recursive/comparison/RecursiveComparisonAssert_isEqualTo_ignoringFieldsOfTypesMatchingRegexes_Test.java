@@ -15,12 +15,13 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import org.assertj.tests.core.api.recursive.data.Human;
-import org.assertj.tests.core.api.recursive.data.Person;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Sets.newHashSet;
+import static org.assertj.tests.core.testkit.ObjectArrays.arrayOf;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,13 +33,12 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Sets.newHashSet;
-import static org.assertj.tests.core.testkit.ObjectArrays.arrayOf;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
+import org.assertj.tests.core.api.recursive.data.Human;
+import org.assertj.tests.core.api.recursive.data.Person;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 @SuppressWarnings("unused")
 class RecursiveComparisonAssert_isEqualTo_ignoringFieldsOfTypesMatchingRegexes_Test

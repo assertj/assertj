@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.List;
+
 import org.assertj.core.api.ClassBasedNavigableListAssert;
 import org.assertj.tests.core.testkit.IllegalVehicleAssert;
 import org.assertj.tests.core.testkit.Vehicle;

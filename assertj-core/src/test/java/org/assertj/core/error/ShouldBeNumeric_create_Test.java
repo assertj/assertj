@@ -17,8 +17,8 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeNumeric.shouldBeNumeric;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.INTEGER;
+import static org.assertj.core.error.ShouldBeNumeric.shouldBeNumeric;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.Description;

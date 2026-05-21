@@ -37,7 +37,6 @@ import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyExactly;
 import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
 import static org.assertj.core.error.NoElementsShouldSatisfy.noElementsShouldSatisfy;
-import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.error.ShouldContain.shouldContain;

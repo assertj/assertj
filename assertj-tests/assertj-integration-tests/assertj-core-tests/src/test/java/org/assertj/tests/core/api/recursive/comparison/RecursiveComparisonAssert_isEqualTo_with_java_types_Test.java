@@ -15,12 +15,9 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.tests.core.api.recursive.data.Person;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.Arrays.array;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -33,9 +30,12 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Arrays.array;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.tests.core.api.recursive.data.Person;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonAssert_isEqualTo_with_java_types_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 

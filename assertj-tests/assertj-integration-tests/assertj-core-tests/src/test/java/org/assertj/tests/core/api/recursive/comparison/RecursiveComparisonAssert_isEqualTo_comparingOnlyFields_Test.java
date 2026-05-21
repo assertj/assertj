@@ -15,21 +15,6 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
-import org.assertj.tests.core.api.recursive.data.Human;
-import org.assertj.tests.core.api.recursive.data.Person;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import java.time.ZonedDateTime;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Stream;
-
 import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
@@ -39,6 +24,21 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.set;
 import static org.assertj.tests.core.api.recursive.data.FriendlyPerson.friend;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
+
+import java.time.ZonedDateTime;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Stream;
+
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
+import org.assertj.tests.core.api.recursive.data.Human;
+import org.assertj.tests.core.api.recursive.data.Person;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 

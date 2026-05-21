@@ -23,10 +23,12 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 import static org.assertj.tests.guava.testkit.AssertionErrors.expectAssertionError;
 
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
-import java.util.List;
-import org.junit.jupiter.api.Test;
 
 class MultimapAssert_hasSameEntriesAs_Test extends MultimapAssertBaseTest {
 

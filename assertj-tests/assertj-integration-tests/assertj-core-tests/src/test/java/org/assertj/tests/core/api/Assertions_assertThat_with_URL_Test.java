@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import org.assertj.core.api.AbstractUrlAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

@@ -18,6 +18,7 @@ package org.assertj.tests.core.navigation;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+
 import org.assertj.core.api.AssertFactory;
 import org.assertj.core.api.FactoryBasedNavigableListAssert;
 import org.assertj.tests.core.testkit.Vehicle;

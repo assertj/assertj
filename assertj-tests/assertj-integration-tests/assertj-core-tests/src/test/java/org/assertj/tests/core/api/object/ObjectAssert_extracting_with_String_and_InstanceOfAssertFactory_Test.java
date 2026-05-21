@@ -27,6 +27,7 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractBigDecimalAssert;
 import org.assertj.core.api.AbstractLongAssert;

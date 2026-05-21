@@ -19,9 +19,9 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Objects;

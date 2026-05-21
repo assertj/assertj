@@ -22,8 +22,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 import static org.assertj.tests.guava.testkit.AssertionErrors.expectAssertionError;
 
-import com.google.common.collect.Range;
 import org.junit.jupiter.api.Test;
+
+import com.google.common.collect.Range;
 
 /**
  * @author Marcin Kwaczyński

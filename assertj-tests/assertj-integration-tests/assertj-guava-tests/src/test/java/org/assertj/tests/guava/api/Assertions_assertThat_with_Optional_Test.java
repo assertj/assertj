@@ -18,9 +18,10 @@ package org.assertj.tests.guava.api;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.guava.api.Assertions.assertThat;
 
-import com.google.common.base.Optional;
 import org.assertj.guava.api.OptionalAssert;
 import org.junit.jupiter.api.Test;
+
+import com.google.common.base.Optional;
 
 /**
  * @author Joel Costigliola

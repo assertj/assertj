@@ -25,10 +25,12 @@ import static org.assertj.guava.api.Assertions.assertThat;
 import static org.assertj.guava.error.RangeSetShouldEnclose.shouldEnclose;
 import static org.assertj.tests.guava.testkit.AssertionErrors.expectAssertionError;
 
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
 import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.RangeSet;
-import java.util.List;
-import org.junit.jupiter.api.Test;
 
 class RangeSetAssert_enclosesAll_with_RangeSet_Test {
 

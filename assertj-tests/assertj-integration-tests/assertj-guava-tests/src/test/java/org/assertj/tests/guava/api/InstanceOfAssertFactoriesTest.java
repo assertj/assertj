@@ -30,15 +30,8 @@ import static org.assertj.guava.api.InstanceOfAssertFactories.rangeMap;
 import static org.assertj.guava.api.InstanceOfAssertFactories.rangeSet;
 import static org.assertj.guava.api.InstanceOfAssertFactories.table;
 
-import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.ImmutableMultiset;
-import com.google.common.collect.ImmutableRangeMap;
-import com.google.common.collect.ImmutableRangeSet;
-import com.google.common.collect.ImmutableTable;
-import com.google.common.collect.Range;
-import com.google.common.io.ByteSource;
 import java.io.IOException;
+
 import org.assertj.guava.api.Assertions;
 import org.assertj.guava.api.ByteSourceAssert;
 import org.assertj.guava.api.MultimapAssert;
@@ -49,6 +42,15 @@ import org.assertj.guava.api.RangeMapAssert;
 import org.assertj.guava.api.RangeSetAssert;
 import org.assertj.guava.api.TableAssert;
 import org.junit.jupiter.api.Test;
+
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableMultiset;
+import com.google.common.collect.ImmutableRangeMap;
+import com.google.common.collect.ImmutableRangeSet;
+import com.google.common.collect.ImmutableTable;
+import com.google.common.collect.Range;
+import com.google.common.io.ByteSource;
 
 /**
  * @author Stefano Cordio

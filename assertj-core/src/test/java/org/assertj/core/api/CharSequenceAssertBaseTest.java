@@ -17,11 +17,11 @@ package org.assertj.core.api;
 
 import static org.mockito.Mockito.mock;
 
-import org.assertj.core.internal.Strings;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.assertj.core.internal.Strings;
 
 /**
  * Base class for {@link CharSequenceAssert} tests.

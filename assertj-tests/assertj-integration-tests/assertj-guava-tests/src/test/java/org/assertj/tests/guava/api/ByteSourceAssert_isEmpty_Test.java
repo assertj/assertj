@@ -21,9 +21,11 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 
-import com.google.common.io.ByteSource;
 import java.io.IOException;
+
 import org.junit.jupiter.api.Test;
+
+import com.google.common.io.ByteSource;
 
 /**
  * Tests for <code>{@link ByteSource#isEmpty()}</code>.

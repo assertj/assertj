@@ -15,11 +15,7 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -27,7 +23,11 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 

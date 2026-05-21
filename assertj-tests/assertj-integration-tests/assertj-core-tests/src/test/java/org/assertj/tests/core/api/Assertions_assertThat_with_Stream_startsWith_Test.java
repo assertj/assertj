@@ -26,6 +26,7 @@ import static org.assertj.tests.core.testkit.ObjectArrays.emptyArray;
 
 import java.util.List;
 import java.util.stream.Stream;
+
 import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

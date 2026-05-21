@@ -15,6 +15,20 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toSet;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.recursive.comparison.ComparingFields.COMPARING_FIELDS;
+import static org.assertj.core.api.recursive.comparison.ComparingProperties.COMPARING_PROPERTIES;
+import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
+
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
 import org.assertj.core.api.recursive.comparison.ComparingNormalizedFields;
 import org.assertj.core.api.recursive.comparison.ComparingProperties;
 import org.assertj.core.api.recursive.comparison.ComparingSnakeOrCamelCaseFields;
@@ -24,20 +38,6 @@ import org.assertj.core.internal.Objects;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.tests.core.api.recursive.data.Person;
 import org.junit.jupiter.api.Test;
-
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-
-import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toSet;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.recursive.comparison.ComparingFields.COMPARING_FIELDS;
-import static org.assertj.core.api.recursive.comparison.ComparingProperties.COMPARING_PROPERTIES;
-import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
 class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest {

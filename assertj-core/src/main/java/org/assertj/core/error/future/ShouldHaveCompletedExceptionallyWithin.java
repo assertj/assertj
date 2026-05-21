@@ -18,6 +18,7 @@ package org.assertj.core.error.future;
 import java.time.Duration;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 

@@ -15,19 +15,19 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+
+import java.util.List;
+
 import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.DualValue;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.BeforeEach;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
-import static org.assertj.core.util.Lists.list;
-import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 public class RecursiveComparisonAssert_isEqualTo_BaseTest {
 

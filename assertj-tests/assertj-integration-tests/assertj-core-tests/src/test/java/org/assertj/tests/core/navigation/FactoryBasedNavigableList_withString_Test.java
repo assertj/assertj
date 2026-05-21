@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.atIndex;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
+
 import org.assertj.core.api.AssertFactory;
 import org.assertj.core.api.StringAssert;
 import org.junit.jupiter.api.Test;

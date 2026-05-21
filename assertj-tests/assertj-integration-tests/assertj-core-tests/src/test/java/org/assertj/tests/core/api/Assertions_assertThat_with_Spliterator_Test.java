@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.stream.Stream;
+
 import org.assertj.core.api.SpliteratorAssert;
 import org.junit.jupiter.api.Test;
 

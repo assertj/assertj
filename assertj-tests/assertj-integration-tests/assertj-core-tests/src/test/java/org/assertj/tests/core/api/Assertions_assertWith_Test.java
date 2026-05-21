@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.Assertions.assertWith;
 
 import java.util.function.Consumer;
+
 import org.assertj.tests.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 

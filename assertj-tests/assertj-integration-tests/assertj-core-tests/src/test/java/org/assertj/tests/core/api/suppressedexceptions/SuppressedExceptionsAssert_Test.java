@@ -20,13 +20,13 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 
+import java.lang.reflect.Executable;
+import java.lang.reflect.Modifier;
+
 import org.assertj.core.api.AbstractThrowableAssert;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.SuppressedExceptionsAssert;
 import org.junit.jupiter.api.Test;
-
-import java.lang.reflect.Executable;
-import java.lang.reflect.Modifier;
 
 class SuppressedExceptionsAssert_Test {
 

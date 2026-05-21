@@ -15,10 +15,10 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.annotation.CheckReturnValue;
-
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+
+import org.assertj.core.annotation.CheckReturnValue;
 
 /**
  * Assertions for {@link Throwable#getSuppressed() suppressed exceptions} of a {@link Throwable}.

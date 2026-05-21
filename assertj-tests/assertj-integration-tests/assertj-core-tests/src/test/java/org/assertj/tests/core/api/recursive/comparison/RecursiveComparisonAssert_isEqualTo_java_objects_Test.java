@@ -15,13 +15,13 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import org.junit.jupiter.api.Test;
-
-import java.util.IntSummaryStatistics;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+
+import java.util.IntSummaryStatistics;
+
+import org.junit.jupiter.api.Test;
 
 class RecursiveComparisonAssert_isEqualTo_java_objects_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 

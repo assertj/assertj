@@ -27,6 +27,7 @@ import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErro
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.io.IOException;
+
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 

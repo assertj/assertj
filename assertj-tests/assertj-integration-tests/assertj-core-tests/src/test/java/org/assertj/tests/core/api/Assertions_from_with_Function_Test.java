@@ -19,6 +19,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.Mockito.mock;
 
 import java.util.function.Function;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

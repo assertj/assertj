@@ -24,6 +24,7 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 class ClassAssert_hasPermittedSubclasses_Test {

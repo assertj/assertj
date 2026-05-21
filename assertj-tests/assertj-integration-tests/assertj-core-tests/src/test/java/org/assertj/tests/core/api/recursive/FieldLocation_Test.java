@@ -26,7 +26,6 @@ import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.base.Stopwatch;
-
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 class FieldLocation_Test {

@@ -15,7 +15,6 @@
  */
 package org.assertj.core.api;
 
-import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.Assertions.assertThat;

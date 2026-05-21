@@ -18,6 +18,7 @@ package org.assertj.tests.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.function.LongPredicate;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.LongPredicateAssert;
 import org.junit.jupiter.api.BeforeEach;
