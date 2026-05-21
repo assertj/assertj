@@ -29,7 +29,7 @@ import static org.assertj.core.util.Sets.set;
 
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.DefaultLocale;
+import org.junit.jupiter.api.util.DefaultLocale;
 
 /**
  * @author Brummolix
