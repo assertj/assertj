@@ -1548,18 +1548,18 @@ public class Assertions implements InstanceOfAssertFactories {
    *   }
    * }
    *
-   * TextException textException = catchThrowableOfType(() -&gt; { throw new TextException("boom!", 1, 5); },
-   *                                                    TextException.class);
+   * TextException textException = catchThrowableOfType(TextException.class,
+   *                                                    () -&gt; { throw new TextException("boom!", 1, 5); });
    * // assertions succeed
    * assertThat(textException).hasMessage("boom!");
    * assertThat(textException.line).isEqualTo(1);
    * assertThat(textException.column).isEqualTo(5);
    *
-   * // succeeds as catchThrowableOfType returns null when the code does not thrown any exceptions
+   * // succeeds as catchThrowableOfType returns null when the code does not throw any exceptions
    * assertThat(catchThrowableOfType( Exception.class, () -&gt; {})).isNull();
    *
    * // fails as TextException is not a RuntimeException
-   * catchThrowableOfType(() -&gt; { throw new TextException("boom!", 1, 5); }, RuntimeException.class);</code></pre>
+   * catchThrowableOfType(RuntimeException.class, () -&gt; { throw new TextException("boom!", 1, 5); });</code></pre>
    *
    * @param <THROWABLE> the {@link Throwable} type.
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.

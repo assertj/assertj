@@ -3110,8 +3110,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *   }
    * }
    *
-   * CustomParseException e = catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
-   *                                               CustomParseException.class);
+   * CustomParseException e = catchThrowableOfType(CustomParseException.class,
+   *                                               () -&gt; { throw new CustomParseException("boom!", 1, 5); });
    * // assertions pass
    * assertThat(e).hasMessageContaining("boom");
    * assertThat(e.line).isEqualTo(1);
