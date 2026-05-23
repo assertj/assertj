@@ -22,6 +22,7 @@ import static org.assertj.core.util.Strings.isNullOrEmpty;
 import static org.assertj.core.util.Strings.quote;
 
 import java.util.function.Supplier;
+
 import org.assertj.core.description.Description;
 import org.assertj.core.description.EmptyTextDescription;
 import org.assertj.core.description.TextDescription;

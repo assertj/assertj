@@ -24,6 +24,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;

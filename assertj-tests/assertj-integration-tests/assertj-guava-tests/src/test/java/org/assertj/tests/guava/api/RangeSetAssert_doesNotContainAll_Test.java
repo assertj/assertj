@@ -27,10 +27,12 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 import static org.assertj.tests.guava.testkit.AssertionErrors.expectAssertionError;
 
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
 import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.RangeSet;
-import java.util.List;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author Ilya Koshaleu

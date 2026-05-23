@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api;
+package org.assertj.tests.core.api;
 
 import static org.assertj.core.api.Assertions.assertThatException;
-import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.testkit.ThrowingCallableFactory.codeThrowing;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.tests.core.testkit.ThrowingCallableFactory.codeThrowing;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.io.IOException;
 
+import org.assertj.core.api.ThrowableAssertAlternative;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +32,7 @@ class ThrowableAssertAlternative_withSuppressedExceptionsThat_Test {
   private final Throwable throwable = new Exception("initial error");
 
   @BeforeEach
-  public final void setUp() {
+  void setUp() {
     Throwable invalidArgException = new IllegalArgumentException("invalid argument");
     Throwable ioException = new IOException("IO error");
     throwable.addSuppressed(invalidArgException);
@@ -43,7 +44,7 @@ class ThrowableAssertAlternative_withSuppressedExceptionsThat_Test {
     // WHEN
     var suppressedExceptionsAssert = new ThrowableAssertAlternative<>(throwable).withSuppressedExceptionsThat();
     // THEN
-    then(suppressedExceptionsAssert.actual).containsExactly(throwable.getSuppressed());
+    then(suppressedExceptionsAssert.actual()).containsExactly(throwable.getSuppressed());
   }
 
   @Test
@@ -59,7 +60,7 @@ class ThrowableAssertAlternative_withSuppressedExceptionsThat_Test {
     assertThatException().isThrownBy(codeThrowing(throwable))
                          .withSuppressedExceptionsThat()
                          .isNotEmpty()
-                         .returnToInitialThrowable()
+                         .returnToThrowable()
                          .isSameAs(throwable)
                          .hasMessage("initial error");
   }
@@ -92,9 +93,9 @@ class ThrowableAssertAlternative_withSuppressedExceptionsThat_Test {
     // GIVEN
     Throwable actual = null;
     // WHEN
-    var nullPointerException = catchNullPointerException(() -> new ThrowableAssertAlternative<>(actual).withSuppressedExceptionsThat());
+    var assertionError = expectAssertionError(() -> new ThrowableAssertAlternative<>(actual).withSuppressedExceptionsThat());
     // THEN
-    then(nullPointerException).hasMessage("Can not perform assertions on the suppressed exceptions of a null throwable.");
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
 }

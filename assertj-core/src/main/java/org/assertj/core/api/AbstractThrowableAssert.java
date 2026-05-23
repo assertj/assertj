@@ -15,7 +15,6 @@
  */
 package org.assertj.core.api;
 
-import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 import static org.assertj.core.error.ShouldNotHaveThrownExcept.shouldNotHaveThrownExcept;
@@ -754,11 +753,13 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
-   * Returns a new assertion object that uses the suppressed exceptions of the current {@link Throwable} as the object under test.
+   * Returns a new assertion object with the current {@link Throwable} suppressed exceptions as the object under test.
    * <p>
-   * As suppressed exceptions is a {@code Throwable[]}, you can chain any array assertions after {@code suppressedExceptions()}.
+   * As suppressed exceptions are contained in a {@code Throwable[]} instance,
+   * {@linkplain AbstractObjectArrayAssert array assertions} can be chained after this invocation.
    * <p>
-   * You can navigate back to the current {@link Throwable} with {@link AbstractSuppressedExceptionsAssert#returnToInitialThrowable() returnToInitialThrowable()}.
+   * You can navigate back to the current {@code Throwable} with
+   * {@link SuppressedExceptionsAssert#returnToThrowable() returnToThrowable()}.
    * <p>
    * Examples:
    * <pre><code class='java'>Throwable throwable = new Throwable("boom!");
@@ -770,7 +771,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * // these assertions succeed:
    * assertThat(throwable).suppressedExceptions()
    *                      .containsOnly(invalidArgException, ioException)
-   *                      .returnToInitialThrowable()
+   *                      .returnToThrowable()
    *                      .hasMessage("boom!");
    *
    * // this assertion fails:
@@ -779,14 +780,12 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *
    * @return a new assertion object
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @since 4.0.0
+   * @since 3.28.0
    */
-  public AbstractSuppressedExceptionsAssert<SELF, ACTUAL> suppressedExceptions() {
-    requireNonNull(actual, "Can not perform assertions on the suppressed exceptions of a null throwable.");
-    var suppressedExceptionsAssert = new SuppressedExceptionsAssert<>(this, actual.getSuppressed());
-    suppressedExceptionsAssert.withAssertionState(myself);
-    suppressedExceptionsAssert.describedAs("checking suppressed exceptions");
-    return suppressedExceptionsAssert;
+  public SuppressedExceptionsAssert<SELF, ACTUAL> suppressedExceptions() {
+    isNotNull();
+    return SuppressedExceptionsAssert.from(myself)
+                                     .describedAs("checking suppressed exceptions");
   }
 
   /**

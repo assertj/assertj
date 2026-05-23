@@ -15,13 +15,13 @@
  */
 package org.assertj.core.api;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.BDDAssertions.then;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class DefaultAssertionErrorCollector_register_AfterAssertionErrorCollected_Test {
   private List<String> errorMessages;

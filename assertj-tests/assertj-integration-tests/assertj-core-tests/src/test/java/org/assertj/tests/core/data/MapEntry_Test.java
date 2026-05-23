@@ -19,9 +19,10 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
 import org.assertj.core.data.MapEntry;
 import org.junit.jupiter.api.Test;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 /**
  * @author Alex Ruiz

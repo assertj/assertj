@@ -21,9 +21,11 @@ import static org.assertj.guava.api.Assertions.assertThat;
 import static org.assertj.guava.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.tests.guava.testkit.AssertionErrors.expectAssertionError;
 
-import com.google.common.io.ByteSource;
 import java.io.IOException;
+
 import org.junit.jupiter.api.Test;
+
+import com.google.common.io.ByteSource;
 
 /**
  * @author Andrew Gaul

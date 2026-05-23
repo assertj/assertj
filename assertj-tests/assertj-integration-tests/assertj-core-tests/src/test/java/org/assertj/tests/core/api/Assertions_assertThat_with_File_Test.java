@@ -18,6 +18,7 @@ package org.assertj.tests.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
+
 import org.assertj.core.api.AbstractFileAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

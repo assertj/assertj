@@ -29,10 +29,10 @@ import java.time.temporal.TemporalUnit;
 import java.util.Comparator;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.internal.Comparables;
-import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OffsetDateTimeByInstantComparator;

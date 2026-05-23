@@ -16,10 +16,6 @@
 package org.assertj.scripts;
 
 import static java.lang.Runtime.getRuntime;
-import static java.nio.file.Files.copy;
-import static java.nio.file.Files.readString;
-import static java.nio.file.Files.writeString;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Arrays.array;
 
 import java.nio.file.Path;

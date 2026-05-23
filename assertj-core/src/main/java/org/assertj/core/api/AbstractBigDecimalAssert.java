@@ -21,10 +21,10 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigDecimals;
-import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 
 /**
  * Base class for all implementations of assertions for {@link BigDecimal}s.

@@ -21,8 +21,8 @@ import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicLongArray;
 
 import org.assertj.core.annotation.CheckReturnValue;
-import org.assertj.core.data.Index;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.data.Index;
 import org.assertj.core.internal.LongArrays;
 
 public class AtomicLongArrayAssert

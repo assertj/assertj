@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.assertj.core.annotation.CheckReturnValue;
-import org.assertj.core.data.Index;
-import org.assertj.core.description.Description;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.data.Index;
+import org.assertj.core.description.Description;
 import org.assertj.core.internal.Lists;
 
 /**

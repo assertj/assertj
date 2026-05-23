@@ -22,16 +22,16 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
 import static org.assertj.tests.core.testkit.ShortArrays.emptyArray;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ShortArrays;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ShortArrays;
 import org.junit.jupiter.api.Test;
 
 /**

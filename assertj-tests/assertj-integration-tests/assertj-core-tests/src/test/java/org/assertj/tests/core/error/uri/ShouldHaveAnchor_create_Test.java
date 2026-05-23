@@ -20,6 +20,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveAnchor.shouldHaveAnchor;
 
 import java.net.URL;
+
 import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 

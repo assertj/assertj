@@ -18,6 +18,7 @@ package org.assertj.tests.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.function.IntPredicate;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.IntPredicateAssert;
 import org.junit.jupiter.api.BeforeEach;

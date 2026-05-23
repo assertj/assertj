@@ -20,6 +20,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 
 import java.io.ByteArrayInputStream;
+
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;

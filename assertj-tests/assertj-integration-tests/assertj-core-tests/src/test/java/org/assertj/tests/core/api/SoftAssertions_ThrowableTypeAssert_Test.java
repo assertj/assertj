@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api;
+package org.assertj.tests.core.api;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.testkit.ThrowingCallableFactory.codeThrowing;
+import static org.assertj.tests.core.testkit.ThrowingCallableFactory.codeThrowing;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.io.IOException;
@@ -24,7 +24,9 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.ThrowableTypeAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

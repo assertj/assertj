@@ -21,6 +21,7 @@ import static org.assertj.core.util.Strings.escapePercent;
 import static org.assertj.core.util.Strings.join;
 
 import java.util.List;
+
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.DeepDifference.Difference;

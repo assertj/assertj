@@ -15,9 +15,10 @@
  */
 package org.assertj.tests.guava.api;
 
+import org.junit.jupiter.api.BeforeEach;
+
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
-import org.junit.jupiter.api.BeforeEach;
 
 /**
  * @author Jan Gorman

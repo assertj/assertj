@@ -18,9 +18,9 @@ package org.assertj.tests.core.internal.strings;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldEndWithIgnoringCase.shouldEndWithIgnoringCase;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;

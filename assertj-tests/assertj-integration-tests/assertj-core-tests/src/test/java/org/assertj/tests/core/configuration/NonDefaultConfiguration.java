@@ -20,6 +20,7 @@ import static org.assertj.core.presentation.BinaryRepresentation.BINARY_REPRESEN
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.PreferredAssumptionException;
 import org.assertj.core.presentation.Representation;

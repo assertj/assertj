@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.function.Consumer;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;

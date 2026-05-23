@@ -18,8 +18,8 @@ package org.assertj.tests.core.internal.strings;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
-import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Strings;

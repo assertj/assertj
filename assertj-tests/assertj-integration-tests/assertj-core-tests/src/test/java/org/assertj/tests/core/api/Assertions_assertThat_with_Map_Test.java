@@ -19,6 +19,7 @@ import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
+
 import org.assertj.core.api.AbstractMapAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

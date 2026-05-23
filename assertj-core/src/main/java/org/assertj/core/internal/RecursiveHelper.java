@@ -15,6 +15,8 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.util.Arrays.isArray;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -24,8 +26,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
-
-import static org.assertj.core.util.Arrays.isArray;
 
 public class RecursiveHelper {
   public static boolean isContainer(Object o) {

@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+
 import org.assertj.core.internal.Diff;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.TextFileWriter;

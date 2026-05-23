@@ -20,11 +20,12 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.ErrorMessages.offsetValueIsNotPositive;
 import static org.assertj.core.internal.ErrorMessages.strictOffsetValueIsNotStrictlyPositive;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 /**
  * Tests for {@link Offset}.

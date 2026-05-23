@@ -17,8 +17,8 @@ package org.assertj.tests.core.internal.strings;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
-import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;

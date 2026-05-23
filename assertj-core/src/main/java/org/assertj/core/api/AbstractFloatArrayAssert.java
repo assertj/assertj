@@ -20,9 +20,9 @@ import static java.util.stream.IntStream.range;
 import java.util.Comparator;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
-import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.FloatArrays;
 
 public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAssert<SELF>>

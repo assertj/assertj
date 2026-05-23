@@ -21,6 +21,7 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import org.assertj.core.api.AssumptionExceptionFactory;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.internal.Failures;

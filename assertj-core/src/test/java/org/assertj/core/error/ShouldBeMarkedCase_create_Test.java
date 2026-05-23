@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldBeMarked.shouldBeMarked;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.concurrent.atomic.AtomicMarkableReference;
+
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 

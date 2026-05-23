@@ -24,6 +24,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.util.Iterator;
+
 import org.assertj.core.api.IteratorAssert;
 import org.junit.jupiter.api.Test;
 

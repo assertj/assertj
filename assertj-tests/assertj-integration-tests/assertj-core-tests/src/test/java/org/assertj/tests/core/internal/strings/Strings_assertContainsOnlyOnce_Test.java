@@ -19,8 +19,8 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
-import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Strings;

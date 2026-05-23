@@ -19,9 +19,9 @@ import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;

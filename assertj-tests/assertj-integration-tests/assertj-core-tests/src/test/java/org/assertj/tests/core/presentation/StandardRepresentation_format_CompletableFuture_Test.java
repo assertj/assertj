@@ -21,6 +21,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.concurrent.CompletableFuture;
+
 import org.junit.jupiter.api.Test;
 
 class StandardRepresentation_format_CompletableFuture_Test {

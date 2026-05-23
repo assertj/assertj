@@ -23,11 +23,11 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
 import static org.assertj.tests.core.testkit.ShortArrays.emptyArray;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;

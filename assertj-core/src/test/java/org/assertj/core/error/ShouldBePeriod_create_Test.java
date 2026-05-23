@@ -21,6 +21,7 @@ import static org.assertj.core.error.ShouldBePeriod.shouldBePositive;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.time.Period;
+
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 

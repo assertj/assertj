@@ -20,9 +20,9 @@ import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldL
 
 import java.util.List;
 
-import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionDriver;
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.junit.jupiter.api.Test;
 
 class RecursiveAssertionDriver_PrimitiveFieldHandlingTest extends AbstractRecursiveAssertionDriverTestBase {

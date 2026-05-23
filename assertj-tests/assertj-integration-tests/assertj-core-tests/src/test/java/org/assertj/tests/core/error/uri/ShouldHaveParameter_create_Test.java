@@ -23,6 +23,7 @@ import static org.assertj.core.util.Lists.list;
 
 import java.net.URI;
 import java.net.URL;
+
 import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 

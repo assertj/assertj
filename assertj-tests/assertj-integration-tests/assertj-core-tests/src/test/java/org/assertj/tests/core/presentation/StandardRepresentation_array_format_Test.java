@@ -21,6 +21,7 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Strings.quote;
 
 import java.util.stream.Stream;
+
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.presentation.HexadecimalRepresentation;

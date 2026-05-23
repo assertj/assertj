@@ -36,6 +36,7 @@ import static org.assertj.core.util.IterableUtil.sizeOf;
 
 import java.lang.reflect.Array;
 import java.util.Map;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;

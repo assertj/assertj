@@ -28,8 +28,8 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
 import org.junit.jupiter.api.Test;
 
 /**

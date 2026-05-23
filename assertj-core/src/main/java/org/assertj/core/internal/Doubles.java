@@ -15,10 +15,10 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.Math.abs;
+
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
-
-import static java.lang.Math.abs;
 
 /**
  * Reusable assertions for <code>{@link Double}</code>s.

@@ -30,6 +30,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.data.Index;

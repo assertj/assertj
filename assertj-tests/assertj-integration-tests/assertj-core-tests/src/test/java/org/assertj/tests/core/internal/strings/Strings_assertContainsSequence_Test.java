@@ -22,10 +22,10 @@ import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainSequenceOfCharSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsNull;
-import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Strings;

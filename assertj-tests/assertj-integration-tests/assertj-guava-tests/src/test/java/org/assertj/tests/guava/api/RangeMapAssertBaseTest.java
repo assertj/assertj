@@ -15,9 +15,10 @@
  */
 package org.assertj.tests.guava.api;
 
+import org.junit.jupiter.api.BeforeEach;
+
 import com.google.common.collect.Range;
 import com.google.common.collect.TreeRangeMap;
-import org.junit.jupiter.api.BeforeEach;
 
 public class RangeMapAssertBaseTest {
 

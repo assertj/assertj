@@ -24,6 +24,7 @@ import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

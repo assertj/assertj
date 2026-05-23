@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
-import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionDriver;
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.junit.jupiter.api.Test;
 
 class RecursiveAssertionDriver_RecursionTest extends AbstractRecursiveAssertionDriverTestBase {

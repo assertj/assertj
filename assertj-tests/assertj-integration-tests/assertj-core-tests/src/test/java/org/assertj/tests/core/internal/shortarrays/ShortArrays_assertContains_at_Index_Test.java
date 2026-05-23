@@ -21,11 +21,11 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
+import static org.assertj.core.util.FailureMessages.actualIsEmpty;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.ShortArrays.emptyArray;
 import static org.assertj.tests.core.testkit.TestData.someIndex;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.assertj.core.util.FailureMessages.actualIsEmpty;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;

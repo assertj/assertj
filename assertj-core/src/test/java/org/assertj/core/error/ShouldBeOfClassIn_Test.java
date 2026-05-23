@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.util.Lists.list;
 
 import java.io.File;
+
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;

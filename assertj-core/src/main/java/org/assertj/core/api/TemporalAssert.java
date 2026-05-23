@@ -15,9 +15,9 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.data.TemporalOffset;
-
 import java.time.temporal.Temporal;
+
+import org.assertj.core.data.TemporalOffset;
 
 public class TemporalAssert extends AbstractTemporalAssert<TemporalAssert, Temporal> {
 

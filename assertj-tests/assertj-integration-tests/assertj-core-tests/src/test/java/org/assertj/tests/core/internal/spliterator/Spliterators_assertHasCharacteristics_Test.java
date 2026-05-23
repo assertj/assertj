@@ -26,7 +26,6 @@ import java.util.Spliterator;
 
 import org.assertj.tests.core.internal.SpliteratorsBaseTest;
 import org.assertj.tests.core.testkit.StringSpliterator;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**

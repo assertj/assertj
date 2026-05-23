@@ -21,10 +21,10 @@ import static org.assertj.core.testkit.BiPredicates.ALWAYS_DIFFERENT;
 import static org.assertj.core.testkit.BiPredicates.ALWAYS_EQUALS;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
+import java.util.function.BiPredicate;
+
 import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
-
-import java.util.function.BiPredicate;
 
 class ObjectAssert_usingEquals_Test {
 

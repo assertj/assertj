@@ -21,6 +21,7 @@ import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
 import static org.assertj.core.error.future.Warning.WARNING;
 
 import java.util.concurrent.CompletableFuture;
+
 import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 

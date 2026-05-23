@@ -30,10 +30,12 @@ import static org.mockito.Mockito.verify;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collections;
 import java.util.List;
-import nl.jqno.equalsverifier.EqualsVerifier;
+
 import org.assertj.core.api.AssertFactory.ValueProvider;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 /**
  * @author Stefano Cordio

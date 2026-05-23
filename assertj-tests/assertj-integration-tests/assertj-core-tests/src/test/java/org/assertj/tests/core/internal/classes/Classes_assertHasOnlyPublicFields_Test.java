@@ -18,14 +18,14 @@ package org.assertj.tests.core.internal.classes;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoPublicFields;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveFields;
-import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 
 import java.util.LinkedHashSet;
 
-import org.assertj.tests.core.internal.ClassesBaseTest;
 import org.assertj.core.util.Sets;
+import org.assertj.tests.core.internal.ClassesBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

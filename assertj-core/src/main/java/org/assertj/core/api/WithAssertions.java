@@ -2831,9 +2831,9 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *   }
    * }
    *
-   * TextException textException = catchThrowableOfType(() -&gt; { throw new TextException("boom!", 1, 5); },
-   *                                                    TextException.class);
-   * // assertions succeed:
+   * TextException textException = catchThrowableOfType(TextException.class,
+   *                                                    () -&gt; { throw new TextException("boom!", 1, 5); });
+   * // assertions succeed
    * assertThat(textException).hasMessage("boom!");
    * assertThat(textException.line).isEqualTo(1);
    * assertThat(textException.column).isEqualTo(5);

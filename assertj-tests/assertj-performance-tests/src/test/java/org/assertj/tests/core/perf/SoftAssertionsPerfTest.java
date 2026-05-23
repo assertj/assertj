@@ -44,6 +44,7 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.util.Lists;

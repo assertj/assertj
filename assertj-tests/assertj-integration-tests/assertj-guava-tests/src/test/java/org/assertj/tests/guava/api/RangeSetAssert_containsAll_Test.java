@@ -26,9 +26,10 @@ import static org.assertj.core.util.IterableUtil.iterable;
 import static org.assertj.guava.api.Assertions.assertThat;
 import static org.assertj.tests.guava.testkit.AssertionErrors.expectAssertionError;
 
+import org.junit.jupiter.api.Test;
+
 import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.RangeSet;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author Ilya Koshaleu

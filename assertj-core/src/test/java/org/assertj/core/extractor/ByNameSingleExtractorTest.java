@@ -17,7 +17,6 @@ package org.assertj.core.extractor;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.configuration.ConfigurationProvider.loadRegisteredConfiguration;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.introspection.Introspection.setExtractBareNamePropertyMethods;
@@ -27,10 +26,7 @@ import java.util.OptionalInt;
 
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
-import org.assertj.core.util.introspection.Introspection;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ByNameSingleExtractorTest {
