@@ -583,6 +583,18 @@ class SoftAssertions_navigations_on_null_actual_Test {
     }
 
     @Test
+    void should_skip_size_assertions_but_not_file_ones_when_map_under_test_is_null() {
+      // GIVEN / WHEN
+      softly.assertThat((Map<String, String>) null)
+            .size().isEqualTo(7)
+            .returnToMap().describedAs("isNotEmpty on null map").isNotEmpty();
+      // THEN
+      List<AssertionError> errorsCollected = softly.assertionErrorsCollected();
+      then(errorsCollected.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(errorsCollected.get(1)).hasMessageContaining("isNotEmpty on null map");
+    }
+
+    @Test
     void should_not_throw_when_extractingByKey_on_null_map() {
       // GIVEN / WHEN
       softly.assertThat((Map<String, String>) null).extractingByKey("k").isEqualTo("v");
@@ -741,7 +753,7 @@ class SoftAssertions_navigations_on_null_actual_Test {
     void should_skip_size_assertions_but_not_file_ones_when_file_under_test_is_null() {
       // GIVEN / WHEN
       softly.assertThat((java.io.File) null)
-            .size().isEqualTo(new byte[0])
+            .size().isEqualTo(7)
             .returnToFile().describedAs("hasName on null file").hasName("foo");
       // THEN
       List<AssertionError> errorsCollected = softly.assertionErrorsCollected();

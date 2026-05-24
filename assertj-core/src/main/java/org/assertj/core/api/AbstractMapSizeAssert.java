@@ -40,6 +40,11 @@ public abstract class AbstractMapSizeAssert<ORIGIN extends AbstractMapAssert<ORI
     this.originAssert = originAssert;
   }
 
+  protected AbstractMapSizeAssert(AbstractMapAssert<ORIGIN, MAP, KEY, VALUE> originAssert, Integer size) {
+    super(size, AbstractMapSizeAssert.class);
+    this.originAssert = originAssert;
+  }
+
   /**
    * @deprecated use {@link #AbstractMapSizeAssert(AbstractMapAssert)} instead.
    */

@@ -25,19 +25,20 @@ public class MapSizeAssert<KEY, VALUE> extends AbstractMapSizeAssert<MapAssert<K
     super(originAssert);
   }
 
-  /**
-   * @deprecated use {@link #MapSizeAssert(AbstractMapAssert)} instead.
-   */
-  @Deprecated
-  public MapSizeAssert(AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> originAssert,
-                       @SuppressWarnings("unused") Integer size) {
-    this(originAssert);
+  protected MapSizeAssert(AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> originAssert,
+                          @SuppressWarnings("unused") Integer size) {
+    super(originAssert, size);
   }
 
   @Override
   @CheckReturnValue
   public AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> returnToMap() {
     return super.returnToMap();
+  }
+
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  static MapSizeAssert nullMapSizeAssert(AbstractMapAssert originAssert) {
+    return new MapSizeAssert(originAssert, null);
   }
 
 }

@@ -54,5 +54,4 @@ public class CollectionAssert<ELEMENT> extends
     return new CollectionAssert<>(null);
   }
 
-
 }

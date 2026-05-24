@@ -16,9 +16,9 @@
 package org.assertj.core.api;
 
 import static java.util.Collections.singleton;
-import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.MapSizeAssert.nullMapSizeAssert;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
 import static org.assertj.core.extractor.Extractors.byName;
@@ -1614,10 +1614,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @SuppressWarnings({ "unchecked", "rawtypes" }) // FIXME gh-4210
   @CheckReturnValue
   public AbstractMapSizeAssert<SELF, ACTUAL, K, V> size() {
-    requireNonNull(actual, "Can not perform assertions on the size of a null map.");
-    MapSizeAssert result = new MapSizeAssert(this);
-    result.withAssertionState(myself);
-    return result;
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      MapSizeAssert result = new MapSizeAssert(this);
+      result.withAssertionState(myself);
+      return result;
+    }, () -> nullMapSizeAssert(this));
+
   }
 
   /**
