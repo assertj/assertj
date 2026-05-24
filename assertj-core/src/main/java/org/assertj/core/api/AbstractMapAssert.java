@@ -1681,7 +1681,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, V> extractingByKey(K key) {
-    return internalExtractingByKey(key);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      V extractedValue = actual.get(key);
+      String extractedPropertyOrFieldDescription = extractedDescriptionOf(key);
+      String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
+      return new ObjectAssert<>(extractedValue).withAssertionState(myself).as(description);
+    }, ObjectAssert::nullObjectAssert);
   }
 
   /**
@@ -1716,17 +1722,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT extractingByKey(K key, InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return internalExtractingByKey(key).asInstanceOf(assertFactory);
-  }
-
-  private AbstractObjectAssert<?, V> internalExtractingByKey(K key) {
-    return executeAssertionNavigation(() -> {
-      isNotNull();
-      V extractedValue = actual.get(key);
-      String extractedPropertyOrFieldDescription = extractedDescriptionOf(key);
-      String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
-      return new ObjectAssert<>(extractedValue).withAssertionState(myself).as(description);
-    }, ObjectAssert::nullObjectAssert);
+    return extractingByKey(key).asInstanceOf(assertFactory);
   }
 
   /**
