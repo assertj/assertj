@@ -2255,6 +2255,36 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  void should_work_with_doesNotReturn() {
+    // GIVEN
+    Object object = "foo";
+    // WHEN
+    softly.assertThat(object)
+          .overridingErrorMessage("doesNotReturn error").doesNotReturn("foo", Object::toString)
+          .overridingErrorMessage("isEqualTo error").isEqualTo("bar");
+    // THEN
+    var errorsCollected = softly.assertionErrorsCollected();
+    then(errorsCollected).hasSize(2);
+    then(errorsCollected.get(0)).hasMessage("doesNotReturn error");
+    then(errorsCollected.get(1)).hasMessage("isEqualTo error");
+  }
+
+  @Test
+  void should_work_with_returns() {
+    // GIVEN
+    Object object = "foo";
+    // WHEN
+    softly.assertThat(object)
+          .overridingErrorMessage("returns error").returns("bar", Object::toString)
+          .overridingErrorMessage("isEqualTo error").isEqualTo("bar");
+    // THEN
+    var errorsCollected = softly.assertionErrorsCollected();
+    then(errorsCollected).hasSize(2);
+    then(errorsCollected.get(0)).hasMessage("returns error");
+    then(errorsCollected.get(1)).hasMessage("isEqualTo error");
+  }
+
+  @Test
   void should_work_with_byte_array() {
     // GIVEN
     byte[] byteArray = "AssertJ".getBytes();

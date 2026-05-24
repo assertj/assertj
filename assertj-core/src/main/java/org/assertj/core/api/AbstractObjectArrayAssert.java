@@ -2177,7 +2177,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public <V, C extends Collection<V>, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(ThrowingExtractor<? super ELEMENT, C, EXCEPTION> extractor) {
-    return flatExtracting((Function<? super ELEMENT, C>)extractor);
+    return flatExtracting((Function<? super ELEMENT, C>) extractor);
   }
 
   /**
