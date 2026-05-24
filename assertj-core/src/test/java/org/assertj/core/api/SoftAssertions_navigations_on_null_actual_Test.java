@@ -717,6 +717,15 @@ class SoftAssertions_navigations_on_null_actual_Test {
                                     .hasMessageContaining("Expecting actual not to be null");
     }
 
+    @Test
+    void should_not_throw_when_calling_suppressedExceptions_on_null_throwable() {
+      // GIVEN / WHEN
+      softly.assertThat((Throwable) null).suppressedExceptions().hasSize(3);
+      // THEN
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
+    }
+
   }
 
   @Nested

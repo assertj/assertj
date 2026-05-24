@@ -45,7 +45,7 @@ import org.assertj.core.internal.Throwables;
  * @author Paweł Baczyński
  */
 public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAssert<SELF, ACTUAL>, ACTUAL extends Throwable>
-    extends AbstractObjectAssert<SELF, ACTUAL> {
+  extends AbstractObjectAssert<SELF, ACTUAL> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Throwables throwables = Throwables.instance();
@@ -783,9 +783,11 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 3.28.0
    */
   public SuppressedExceptionsAssert<SELF, ACTUAL> suppressedExceptions() {
-    isNotNull();
-    return SuppressedExceptionsAssert.from(myself)
-                                     .describedAs("checking suppressed exceptions");
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      SuppressedExceptionsAssert<SELF, ACTUAL> suppressedExceptionsAssert = SuppressedExceptionsAssert.from(myself);
+      return suppressedExceptionsAssert.describedAs("checking suppressed exceptions");
+    }, () -> new SuppressedExceptionsAssert<>(myself, new Throwable[0]));
   }
 
   /**

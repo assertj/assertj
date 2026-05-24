@@ -26,6 +26,7 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import java.io.IOException;
 
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert;
 import org.assertj.tests.core.testkit.NavigationMethodBaseTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -114,5 +115,21 @@ class ThrowableAssert_suppressedExceptions_Test implements NavigationMethodBaseT
                 .usingRecursiveComparison().ignoringFields("description")
                 .isEqualTo(underTest.info);
   }
+
+  @Test
+  void should_work_with_soft_assertions() {
+    // GIVEN
+    var softly = new SoftAssertions();
+    // WHEN
+    softly.assertThat(actual).suppressedExceptions()
+          .as("hasSize desc").hasSize(7)
+          .as("isEmpty desc").isEmpty();
+    // THEN
+    var errorsCollected = softly.assertionErrorsCollected();
+    then(errorsCollected).hasSize(2);
+    then(errorsCollected.get(0)).hasMessageContaining("hasSize desc");
+    then(errorsCollected.get(1)).hasMessageContaining("isEmpty desc");
+  }
+
 
 }
