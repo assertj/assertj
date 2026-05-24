@@ -24,9 +24,10 @@ import java.util.Iterator;
 import org.assertj.core.annotation.Beta;
 
 /**
- * <p>Base class for all implementations of assertions for {@link Iterator}s.</p>
- * <p>Note that none of the assertions modify the actual iterator, i.e. they do not consume any elements.
- * In order to use consuming assertions, use {@link #toIterable()}.</p>
+ * Base class for all implementations of assertions for {@link Iterator}s.
+ * <p>
+ * Note that none of the assertions modify the actual iterator, i.e. they do not consume any elements.
+ * In order to use consuming assertions, use {@link #toIterable()}.
  *
  * @param <SELF> the "self" type of this assertion class.
  * @param <ELEMENT> the type of elements.
@@ -48,8 +49,8 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
   }
 
   /**
-   * <p>Verifies that the actual {@code Iterator} has at least one more element.</p>
-   *
+   * Verifies that the actual {@code Iterator} has at least one more element.
+   * <p>
    * Example:
    * <pre><code class='java'> Iterator&lt;TolkienCharacter&gt; elvesRingBearers = list(galadriel, elrond, gandalf).iterator();
    *
@@ -70,15 +71,15 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
   }
 
   /**
-   * <p>Verifies that the actual {@code Iterator} has no more elements.</p>
-   *
+   * Verifies that the actual {@code Iterator} has no more elements.
+   * <p>
    * Example:
    * <pre><code class='java'> Iterator&lt;String&gt; result = Collections.emptyList().iterator();
    *
    * assertThat(result).isExhausted();</code></pre>
    *
-   * @throws AssertionError if the actual {@code Iterator} is {@code null} or has another element.
    * @return this assertion object.
+   * @throws AssertionError if the actual {@code Iterator} is {@code null} or has another element.
    * @since 3.12.0
    */
   public SELF isExhausted() {
@@ -92,8 +93,9 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
   }
 
   /**
-   * <p>Creates a new {@link IterableAssert} from this {@link IteratorAssert} which allows for
-   * using any Iterable assertions like {@link IterableAssert#contains(Object[])}.</p>
+   * Creates a new {@link IterableAssert} from this {@link IteratorAssert} which allows for
+   * using any Iterable assertions like {@link IterableAssert#contains(Object[])}.
+   * <p>
    * Example:
    * <pre><code class='java'> Iterator&lt;String&gt; bestBasketBallPlayers = getBestBasketBallPlayers();
    *
@@ -152,4 +154,5 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
       throwAssertionError(shouldBeUnmodifiable(method, e));
     }
   }
+
 }
