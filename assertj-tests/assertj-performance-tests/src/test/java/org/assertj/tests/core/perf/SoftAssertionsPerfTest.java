@@ -187,7 +187,7 @@ class SoftAssertionsPerfTest {
   }
 
   @Test
-  void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
+  void should_be_able_to_catch_exceptions_thrown_by_other_methods() {
     // perform a bunch of soft assertions
     softly.assertThat(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
     softly.assertThat(Boolean.FALSE).isTrue();

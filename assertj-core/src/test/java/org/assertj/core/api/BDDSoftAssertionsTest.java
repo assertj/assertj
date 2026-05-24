@@ -190,7 +190,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   @SuppressWarnings({ "deprecation" })
   @Test
-  void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
+  void should_be_able_to_catch_exceptions_thrown_by_other_methods() throws MalformedURLException {
     // GIVEN
     softly.then(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
     softly.then(Boolean.FALSE).isTrue();

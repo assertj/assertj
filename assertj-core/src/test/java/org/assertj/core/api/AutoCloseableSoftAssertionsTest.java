@@ -58,7 +58,7 @@ class AutoCloseableSoftAssertionsTest {
   }
 
   @Test
-  void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
+  void should_be_able_to_catch_exceptions_thrown_by_other_methods() {
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
     try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
 

@@ -201,7 +201,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
 
   @SuppressWarnings("removal")
   @Test
-  void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
+  void should_be_able_to_catch_exceptions_thrown_by_other_methods() throws MalformedURLException {
     try {
       softly.assertThat(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
 
