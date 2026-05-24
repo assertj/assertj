@@ -41,6 +41,6 @@ public class BooleanAssert extends AbstractBooleanAssert<BooleanAssert> {
   }
 
   public static BooleanAssert nullBooleanAssert() {
-    return new BooleanAssert((Boolean)null);
+    return new BooleanAssert((Boolean) null);
   }
 }

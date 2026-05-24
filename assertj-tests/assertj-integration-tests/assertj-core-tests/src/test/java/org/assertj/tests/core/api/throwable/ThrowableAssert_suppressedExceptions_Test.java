@@ -131,5 +131,4 @@ class ThrowableAssert_suppressedExceptions_Test implements NavigationMethodBaseT
     then(errorsCollected.get(1)).hasMessageContaining("isEmpty desc");
   }
 
-
 }

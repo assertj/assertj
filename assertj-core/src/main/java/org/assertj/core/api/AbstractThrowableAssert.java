@@ -45,7 +45,7 @@ import org.assertj.core.internal.Throwables;
  * @author Paweł Baczyński
  */
 public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAssert<SELF, ACTUAL>, ACTUAL extends Throwable>
-  extends AbstractObjectAssert<SELF, ACTUAL> {
+    extends AbstractObjectAssert<SELF, ACTUAL> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Throwables throwables = Throwables.instance();
