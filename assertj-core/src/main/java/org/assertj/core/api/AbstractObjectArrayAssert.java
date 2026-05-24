@@ -2130,7 +2130,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(Function<? super ELEMENT, C> extractor) {
-    return doFlatExtracting(extractor);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      List<V> result = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor).stream()
+                                                  .flatMap(Collection::stream).collect(toList());
+      return newListAssertInstance(result).withAssertionState(myself);
+    }, ListAssert::nullListAssert);
   }
 
   /**
@@ -2172,16 +2177,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public <V, C extends Collection<V>, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(ThrowingExtractor<? super ELEMENT, C, EXCEPTION> extractor) {
-    return doFlatExtracting(extractor);
-  }
-
-  private <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Function<? super ELEMENT, C> extractor) {
-    return executeAssertionNavigation(() -> {
-      isNotNull();
-      List<V> result = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor).stream()
-                                                  .flatMap(Collection::stream).collect(toList());
-      return newListAssertInstance(result).withAssertionState(myself);
-    }, ListAssert::nullListAssert);
+    return flatExtracting((Function<? super ELEMENT, C>)extractor);
   }
 
   /**
