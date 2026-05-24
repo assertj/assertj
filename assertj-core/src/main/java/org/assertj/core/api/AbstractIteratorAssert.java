@@ -15,33 +15,32 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldBeExhausted.shouldBeExhausted;
 import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
+import static org.assertj.core.error.ShouldHaveNext.shouldHaveNext;
 
 import java.util.Iterator;
 
 import org.assertj.core.annotation.Beta;
-import org.assertj.core.internal.Iterators;
 
 /**
  * <p>Base class for all implementations of assertions for {@link Iterator}s.</p>
  * <p>Note that none of the assertions modify the actual iterator, i.e. they do not consume any elements.
  * In order to use consuming assertions, use {@link #toIterable()}.</p>
  *
- * @param <SELF>    the "self" type of this assertion class.
+ * @param <SELF> the "self" type of this assertion class.
  * @param <ELEMENT> the type of elements.
+ *
  * @author Stephan Windmüller
  * @since 3.12.0
  */
 public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert<SELF, ELEMENT>, ELEMENT>
-    extends AbstractAssertWithComparator<SELF, Iterator<? extends ELEMENT>> {
-
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Iterators iterators = Iterators.instance();
+    extends AbstractAssert<SELF, Iterator<? extends ELEMENT>> {
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractIteratorAssert}</code>.
    *
-   * @param actual   the actual value to verify
+   * @param actual the actual value to verify
    * @param selfType the "self type"
    */
   protected AbstractIteratorAssert(Iterator<? extends ELEMENT> actual, Class<?> selfType) {
@@ -50,34 +49,48 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
 
   /**
    * <p>Verifies that the actual {@code Iterator} has at least one more element.</p>
-   * <p>
+   *
    * Example:
    * <pre><code class='java'> Iterator&lt;TolkienCharacter&gt; elvesRingBearers = list(galadriel, elrond, gandalf).iterator();
    *
    * assertThat(elvesRingBearers).hasNext();</code></pre>
    *
-   * @return this assertion object.
    * @throws AssertionError if the actual {@code Iterator} is {@code null} or does not have another element.
+   * @return this assertion object.
    * @since 3.12.0
    */
   public SELF hasNext() {
-    return executeAssertion(() -> iterators.assertHasNext(info, actual));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasNext();
+    });
+  }
+
+  private void assertHasNext() {
+    if (!actual.hasNext()) throw assertionError(shouldHaveNext());
   }
 
   /**
    * <p>Verifies that the actual {@code Iterator} has no more elements.</p>
-   * <p>
+   *
    * Example:
    * <pre><code class='java'> Iterator&lt;String&gt; result = Collections.emptyList().iterator();
    *
    * assertThat(result).isExhausted();</code></pre>
    *
-   * @return this assertion object.
    * @throws AssertionError if the actual {@code Iterator} is {@code null} or has another element.
+   * @return this assertion object.
    * @since 3.12.0
    */
   public SELF isExhausted() {
-    return executeAssertion(() -> iterators.assertIsExhausted(info, actual));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsExhausted();
+    });
+  }
+
+  private void assertIsExhausted() {
+    if (actual.hasNext()) throw assertionError(shouldBeExhausted());
   }
 
   /**
