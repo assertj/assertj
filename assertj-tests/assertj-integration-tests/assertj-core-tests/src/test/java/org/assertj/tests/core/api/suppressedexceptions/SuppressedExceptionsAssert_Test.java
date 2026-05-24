@@ -34,7 +34,11 @@ class SuppressedExceptionsAssert_Test {
     // WHEN
     var constructor = SuppressedExceptionsAssert.class.getDeclaredConstructor(AbstractThrowableAssert.class, Throwable[].class);
     // THEN
-    then(Modifier.isPrivate(constructor.getModifiers())).isTrue(); // FIXME gh-1693 use constructor-specific assertions
+    int constructorModifiers = constructor.getModifiers();
+    // FIXME gh-1693 use constructor-specific assertions
+    then(Modifier.isPrivate(constructorModifiers)).isFalse();
+    then(Modifier.isPublic(constructorModifiers)).isFalse();
+    then(Modifier.isProtected(constructorModifiers)).isFalse();
   }
 
   @Test

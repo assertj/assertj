@@ -42,7 +42,7 @@ public class SuppressedExceptionsAssert<ORIGIN extends AbstractThrowableAssert<O
     return new SuppressedExceptionsAssert<>(originAssert, originAssert.actual.getSuppressed()).withAssertionState(originAssert);
   }
 
-  protected SuppressedExceptionsAssert(ORIGIN originAssert, Throwable[] suppressedExceptions) {
+  SuppressedExceptionsAssert(ORIGIN originAssert, Throwable[] suppressedExceptions) {
     super(suppressedExceptions, SuppressedExceptionsAssert.class);
     this.originAssert = requireNonNull(originAssert, shouldNotBeNull("originAssert")::create);
   }
