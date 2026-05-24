@@ -962,6 +962,15 @@ class SoftAssertions_navigations_on_null_actual_Test {
     }
 
     @Test
+    void should_not_throw_when_calling_asBoolean_on_null_string() {
+      // GIVEN / WHEN
+      softly.assertThat((String) null).asBoolean().overridingErrorMessage("isEqualTo error").isEqualTo(true);
+      // THEN
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("isEqualTo error");
+    }
+
+    @Test
     void should_not_throw_when_calling_asByte_on_null_string() {
       // GIVEN / WHEN
       softly.assertThat((String) null).asByte().isEqualTo((byte) 0);

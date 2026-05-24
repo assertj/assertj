@@ -434,7 +434,8 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @since 3.25.0
    */
   public AbstractBooleanAssert<?> asBoolean() {
-    return InstanceOfAssertFactories.BOOLEAN.createAssert(Boolean.parseBoolean(actual)).withAssertionState(myself);
+    return executeAssertionNavigation(() -> InstanceOfAssertFactories.BOOLEAN.createAssert(Boolean.parseBoolean(actual)).withAssertionState(myself),
+                                      BooleanAssert::nullBooleanAssert);
   }
 
   /**

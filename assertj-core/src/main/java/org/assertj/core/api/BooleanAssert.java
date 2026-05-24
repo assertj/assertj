@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Boolean)}</code> or
  * <code>{@link Assertions#assertThat(boolean)}</code>.
  * </p>
- * 
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author David DIDIER
@@ -38,5 +38,9 @@ public class BooleanAssert extends AbstractBooleanAssert<BooleanAssert> {
 
   public BooleanAssert(AtomicBoolean actual) {
     this(actual == null ? null : actual.get());
+  }
+
+  public static BooleanAssert nullBooleanAssert() {
+    return new BooleanAssert((Boolean)null);
   }
 }
