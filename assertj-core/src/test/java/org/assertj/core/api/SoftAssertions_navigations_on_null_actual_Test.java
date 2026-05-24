@@ -565,6 +565,24 @@ class SoftAssertions_navigations_on_null_actual_Test {
   class MapNavigations {
 
     @Test
+    void should_not_throw_when_calling_keys_on_null_map() {
+      // GIVEN / WHEN
+      softly.assertThat((Map<String, String>) null).keys().contains("foo");
+      // THEN
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_values_on_null_map() {
+      // GIVEN / WHEN
+      softly.assertThat((Map<String, String>) null).values().contains("foo");
+      // THEN
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
     void should_not_throw_when_extractingByKey_on_null_map() {
       // GIVEN / WHEN
       softly.assertThat((Map<String, String>) null).extractingByKey("k").isEqualTo("v");

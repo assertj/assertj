@@ -50,4 +50,9 @@ public class CollectionAssert<ELEMENT> extends
     return new CollectionAssert<>(newArrayList(iterable));
   }
 
+  public static <ELEMENT> CollectionAssert<ELEMENT> nullCollectionAssert() {
+    return new CollectionAssert<>(null);
+  }
+
+
 }

@@ -18,7 +18,6 @@ package org.assertj.core.api;
 import static java.util.Collections.singleton;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
@@ -2075,8 +2074,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 3.28.0
    */
   public AbstractCollectionAssert<?, Collection<? extends K>, K, ObjectAssert<K>> keys() {
-    requireNonNull(actual, "Can not extract keys from a null map.");
-    return assertThat(actual.keySet());
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      return new CollectionAssert<>(actual.keySet());
+    }, CollectionAssert::nullCollectionAssert);
   }
 
   /**
@@ -2098,7 +2099,9 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 3.26.0
    */
   public AbstractCollectionAssert<?, Collection<? extends V>, V, ObjectAssert<V>> values() {
-    requireNonNull(actual, "Can not extract values from a null map.");
-    return assertThat(actual.values());
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      return new CollectionAssert<>(actual.values());
+    }, CollectionAssert::nullCollectionAssert);
   }
 }
