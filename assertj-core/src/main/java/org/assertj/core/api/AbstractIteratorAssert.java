@@ -15,13 +15,13 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldBeExhausted.shouldBeExhausted;
 import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
+import static org.assertj.core.error.ShouldHaveNext.shouldHaveNext;
 
 import java.util.Iterator;
 
 import org.assertj.core.annotation.Beta;
-import org.assertj.core.internal.Iterators;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * <p>Base class for all implementations of assertions for {@link Iterator}s.</p>
@@ -36,9 +36,6 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert<SELF, ELEMENT>, ELEMENT>
     extends AbstractAssert<SELF, Iterator<? extends ELEMENT>> {
-
-  @VisibleForTesting
-  Iterators iterators = Iterators.instance();
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractIteratorAssert}</code>.
@@ -63,8 +60,13 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
    * @since 3.12.0
    */
   public SELF hasNext() {
-    iterators.assertHasNext(info, actual);
+    isNotNull();
+    assertHasNext();
     return myself;
+  }
+
+  private void assertHasNext() {
+    if (!actual.hasNext()) throw assertionError(shouldHaveNext());
   }
 
   /**
@@ -80,8 +82,13 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
    * @since 3.12.0
    */
   public SELF isExhausted() {
-    iterators.assertIsExhausted(info, actual);
+    isNotNull();
+    assertIsExhausted();
     return myself;
+  }
+
+  private void assertIsExhausted() {
+    if (actual.hasNext()) throw assertionError(shouldBeExhausted());
   }
 
   /**
