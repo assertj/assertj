@@ -29,4 +29,5 @@ open module org.assertj.tests.core {
   requires org.mockito;
   requires org.opentest4j;
   requires org.junit.jupiter.api;
+  requires org.apache.commons.collections4;
 }
