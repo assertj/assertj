@@ -246,7 +246,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @return this assertion object.
    */
   public SELF hasValueMatching(Predicate<? super VALUE> predicate) {
-    return hasValueMatching(predicate, PredicateDescription.GIVEN);
+    return hasValueMatching(predicate, PredicateDescription.GIVEN.description);
   }
 
   /**
@@ -265,15 +265,11 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @return this assertion object.
    */
   public SELF hasValueMatching(Predicate<? super VALUE> predicate, String description) {
-    return hasValueMatching(predicate, new PredicateDescription(description));
-  }
-
-  private SELF hasValueMatching(Predicate<? super VALUE> predicate, PredicateDescription description) {
     return executeAssertion(() -> {
       assertValueIsPresent();
       // noinspection OptionalGetWithoutIsPresent
       if (!predicate.test(actual.get())) {
-        throwAssertionError(shouldMatch(actual.get(), predicate, description));
+        throwAssertionError(shouldMatch(actual.get(), predicate, new PredicateDescription(description)));
       }
     });
   }
@@ -514,7 +510,11 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, VALUE> get() {
-    return internalGet();
+    return executeAssertionNavigation(() -> {
+      isPresent();
+      // noinspection OptionalGetWithoutIsPresent
+      return assertThat(actual.get()).withAssertionState(myself);
+    }, ObjectAssert::nullObjectAssert);
   }
 
   /**
@@ -544,7 +544,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    */
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT get(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return internalGet().asInstanceOf(assertFactory);
+    return get().asInstanceOf(assertFactory);
   }
 
   /**
@@ -711,14 +711,6 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   @Override
   public RecursiveAssertionAssert usingRecursiveAssertion(RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
     return super.usingRecursiveAssertion(recursiveAssertionConfiguration);
-  }
-
-  private AbstractObjectAssert<?, VALUE> internalGet() {
-    return executeAssertionNavigation(() -> {
-      isPresent();
-      // noinspection OptionalGetWithoutIsPresent
-      return assertThat(actual.get()).withAssertionState(myself);
-    }, ObjectAssert::nullObjectAssert);
   }
 
   private void checkNotNull(Object expectedValue) {
