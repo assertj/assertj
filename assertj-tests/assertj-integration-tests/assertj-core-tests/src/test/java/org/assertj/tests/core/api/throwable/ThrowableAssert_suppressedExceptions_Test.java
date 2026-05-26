@@ -16,8 +16,8 @@
 package org.assertj.tests.core.api.throwable;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS;
 import static org.assertj.tests.core.testkit.NavigationMethodBaseTest.extractObjectField;
@@ -26,6 +26,7 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import java.io.IOException;
 
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert;
 import org.assertj.tests.core.testkit.NavigationMethodBaseTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +37,7 @@ class ThrowableAssert_suppressedExceptions_Test implements NavigationMethodBaseT
   private final Throwable actual = new Throwable("initial error");
 
   @BeforeEach
-  public final void setUp() {
+  void setUp() {
     Throwable invalidArgException = new IllegalArgumentException("invalid argument");
     Throwable ioException = new IOException("IO error");
     actual.addSuppressed(invalidArgException);
@@ -55,7 +56,7 @@ class ThrowableAssert_suppressedExceptions_Test implements NavigationMethodBaseT
     // noinspection EqualsWithItself
     assertThat(actual).suppressedExceptions()
                       .hasSize(2)
-                      .returnToInitialThrowable()
+                      .returnToThrowable()
                       .isSameAs(actual)
                       .hasMessage("initial error");
   }
@@ -83,9 +84,9 @@ class ThrowableAssert_suppressedExceptions_Test implements NavigationMethodBaseT
     // GIVEN
     Throwable actual = null;
     // WHEN
-    var nullPointerException = catchNullPointerException(() -> assertThat(actual).suppressedExceptions());
+    var assertionError = expectAssertionError(() -> assertThat(actual).suppressedExceptions());
     // THEN
-    then(nullPointerException).hasMessage("Can not perform assertions on the suppressed exceptions of a null throwable.");
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
   @Override
@@ -113,6 +114,21 @@ class ThrowableAssert_suppressedExceptions_Test implements NavigationMethodBaseT
                 .extracting(AbstractAssert::getWritableAssertionInfo)
                 .usingRecursiveComparison().ignoringFields("description")
                 .isEqualTo(underTest.info);
-
   }
+
+  @Test
+  void should_work_with_soft_assertions() {
+    // GIVEN
+    var softly = new SoftAssertions();
+    // WHEN
+    softly.assertThat(actual).suppressedExceptions()
+          .as("hasSize desc").hasSize(7)
+          .as("isEmpty desc").isEmpty();
+    // THEN
+    var errorsCollected = softly.assertionErrorsCollected();
+    then(errorsCollected).hasSize(2);
+    then(errorsCollected.get(0)).hasMessageContaining("hasSize desc");
+    then(errorsCollected.get(1)).hasMessageContaining("isEmpty desc");
+  }
+
 }

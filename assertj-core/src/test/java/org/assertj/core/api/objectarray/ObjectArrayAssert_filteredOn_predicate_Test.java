@@ -17,9 +17,12 @@ package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 
 import java.util.function.Predicate;
 
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.testkit.Employee;
 import org.junit.jupiter.api.Test;
 
@@ -36,6 +39,19 @@ class ObjectArrayAssert_filteredOn_predicate_Test extends ObjectArrayAssert_filt
       Predicate<? super Employee> predicate = null;
       assertThat(employees).filteredOn(predicate);
     }).withMessage("The filter predicate should not be null");
+  }
+
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    // WHEN
+    softly.assertThat(employees)
+          .overridingErrorMessage("error message")
+          .filteredOn(employee -> employee.getAge() > 100)
+          .containsOnly(luke, obiwan);
+    // THEN
+    then(softly.assertionErrorsCollected()).singleElement(THROWABLE).hasMessage("error message");
   }
 
 }

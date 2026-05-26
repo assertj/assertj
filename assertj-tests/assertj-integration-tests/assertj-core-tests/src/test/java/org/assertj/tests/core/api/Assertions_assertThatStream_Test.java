@@ -23,6 +23,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.util.stream.Stream;
+
 import org.assertj.tests.core.testkit.StringStream;
 import org.junit.jupiter.api.Test;
 

@@ -18,20 +18,21 @@ package org.assertj.core.api.iterable;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.util.Sets.newHashSet;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.IterableAssert;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.assertj.core.testkit.Employee;
-import org.assertj.core.testkit.TolkienCharacter;
 import org.junit.jupiter.api.Test;
 
 class IterableAssert_filteredOn_predicate_Test extends IterableAssert_filtered_baseTest {
-
-  private static Predicate<? super TolkienCharacter> nameStartingWithFro = hobbit -> hobbit.getName().startsWith("Fro");
 
   @Test
   void should_filter_iterable_under_test_on_predicate() {
@@ -64,4 +65,16 @@ class IterableAssert_filteredOn_predicate_Test extends IterableAssert_filtered_b
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
   }
 
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    // WHEN
+    softly.assertThat(employees)
+          .overridingErrorMessage("error message")
+          .filteredOn(employee -> employee.getAge() > 100).containsOnly(luke, obiwan);
+    // THEN
+    List<AssertionError> errors = softly.assertionErrorsCollected();
+    then(errors).singleElement(THROWABLE).hasMessage("error message");
+  }
 }

@@ -18,7 +18,7 @@ package org.assertj.core.testkit;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.DefaultLocale;
+import org.junit.jupiter.api.util.DefaultLocale;
 
 class CaseInsensitiveCharacterComparatorTest {
 

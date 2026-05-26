@@ -22,7 +22,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.ArrayList;
 
-import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**

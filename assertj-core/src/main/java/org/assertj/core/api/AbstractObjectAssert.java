@@ -103,8 +103,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoNullFieldsOrProperties() {
-    objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual);
-    return myself;
+    return executeAssertion(() -> objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual));
   }
 
   /**
@@ -132,8 +131,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @since 3.12.0
    */
   public SELF hasAllNullFieldsOrProperties() {
-    objects.assertHasAllNullFieldsOrPropertiesExcept(info, actual);
-    return myself;
+    return executeAssertion(() -> objects.assertHasAllNullFieldsOrPropertiesExcept(info, actual));
   }
 
   /**
@@ -163,8 +161,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoNullFieldsOrPropertiesExcept(String... propertiesOrFieldsToIgnore) {
-    objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual, propertiesOrFieldsToIgnore);
-    return myself;
+    return executeAssertion(() -> objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual, propertiesOrFieldsToIgnore));
   }
 
   /**
@@ -193,8 +190,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @since 3.12.0
    */
   public SELF hasAllNullFieldsOrPropertiesExcept(String... propertiesOrFieldsToIgnore) {
-    objects.assertHasAllNullFieldsOrPropertiesExcept(info, actual, propertiesOrFieldsToIgnore);
-    return myself;
+    return executeAssertion(() -> objects.assertHasAllNullFieldsOrPropertiesExcept(info, actual, propertiesOrFieldsToIgnore));
   }
 
   // lazy init TypeComparators
@@ -283,8 +279,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws AssertionError           if the actual object does not have the given field/property
    */
   public SELF hasFieldOrProperty(String name) {
-    objects.assertHasFieldOrProperty(info, actual, name);
-    return myself;
+    return executeAssertion(() -> objects.assertHasFieldOrProperty(info, actual, name));
   }
 
   /**
@@ -333,8 +328,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @see AbstractObjectAssert#hasFieldOrProperty(java.lang.String)
    */
   public SELF hasFieldOrPropertyWithValue(String name, Object value) {
-    objects.assertHasFieldOrPropertyWithValue(info, actual, name, value);
-    return myself;
+    return executeAssertion(() -> objects.assertHasFieldOrPropertyWithValue(info, actual, name, value));
   }
 
   /**
@@ -374,8 +368,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @since 3.19.0
    */
   public SELF hasOnlyFields(String... expectedFieldNames) {
-    objects.assertHasOnlyFields(info, actual, expectedFieldNames);
-    return myself;
+    return executeAssertion(() -> objects.assertHasOnlyFields(info, actual, expectedFieldNames));
   }
 
   /**
@@ -415,10 +408,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(String... propertiesOrFields) {
-    Tuple values = byName(propertiesOrFields).apply(actual);
-    String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
-    String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
-    return newListAssertInstance(values.toList()).withAssertionState(myself).as(description);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      Tuple values = byName(propertiesOrFields).apply(actual);
+      String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
+      String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
+      return newListAssertInstance(values.toList()).withAssertionState(myself).as(description);
+    }, ListAssert::nullListAssert);
   }
 
   /**
@@ -543,18 +539,14 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   @SafeVarargs
   public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, ?>... extractors) {
-    return extractingForProxy(extractors);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingForProxy(Function<? super ACTUAL, ?>[] extractors) {
     requireNonNull(extractors, shouldNotBeNull("extractors")::create);
-    List<Object> values = Stream.of(extractors)
-                                .map(extractor -> extractor.apply(actual))
-                                .collect(toList());
-    return newListAssertInstance(values).withAssertionState(myself);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      List<Object> values = Stream.of(extractors)
+                                  .map(extractor -> extractor.apply(actual))
+                                  .collect(toList());
+      return newListAssertInstance(values).withAssertionState(myself);
+    }, ListAssert::nullListAssert);
   }
 
   /**
@@ -654,10 +646,11 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   public <T> SELF returns(T expected, Function<ACTUAL, T> from) {
     requireNonNull(from, "The given getter method/Function must not be null");
-    isNotNull();
-    Objects objects = getComparatorBasedObjectAssertions(expected);
-    objects.assertEqual(info, from.apply(actual), expected);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      Objects objects = getComparatorBasedObjectAssertions(expected);
+      objects.assertEqual(info, from.apply(actual), expected);
+    });
   }
 
   /**
@@ -708,10 +701,11 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   public <T> SELF doesNotReturn(T expected, Function<ACTUAL, T> from) {
     requireNonNull(from, "The given getter method/Function must not be null");
-    isNotNull();
-    Objects objects = getComparatorBasedObjectAssertions(expected);
-    objects.assertNotEqual(info, from.apply(actual), expected);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      Objects objects = getComparatorBasedObjectAssertions(expected);
+      objects.assertNotEqual(info, from.apply(actual), expected);
+    });
   }
 
   private Objects getComparatorBasedObjectAssertions(Object value) {

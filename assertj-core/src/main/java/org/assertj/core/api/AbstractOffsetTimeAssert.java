@@ -64,12 +64,13 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * @throws AssertionError if the actual {@code OffsetTime} is not strictly before the given one.
    */
   public SELF isBefore(OffsetTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertOffsetTimeParameterIsNotNull(other);
-    if (!actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeBefore(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertOffsetTimeParameterIsNotNull(other);
+      if (!actual.isBefore(other)) {
+        throw Failures.instance().failure(info, shouldBeBefore(actual, other));
+      }
+    });
   }
 
   /**
@@ -110,12 +111,13 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * @throws AssertionError if the actual {@code OffsetTime} is not before or equals to the given one.
    */
   public SELF isBeforeOrEqualTo(OffsetTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertOffsetTimeParameterIsNotNull(other);
-    if (actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeBeforeOrEqualTo(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertOffsetTimeParameterIsNotNull(other);
+      if (actual.isAfter(other)) {
+        throw Failures.instance().failure(info, shouldBeBeforeOrEqualTo(actual, other));
+      }
+    });
   }
 
   /**
@@ -156,12 +158,13 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * @throws AssertionError if the actual {@code OffsetTime} is not after or equals to the given one.
    */
   public SELF isAfterOrEqualTo(OffsetTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertOffsetTimeParameterIsNotNull(other);
-    if (actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeAfterOrEqualTo(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertOffsetTimeParameterIsNotNull(other);
+      if (actual.isBefore(other)) {
+        throw Failures.instance().failure(info, shouldBeAfterOrEqualTo(actual, other));
+      }
+    });
   }
 
   /**
@@ -202,12 +205,13 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * @throws AssertionError if the actual {@code OffsetTime} is not strictly after the given one.
    */
   public SELF isAfter(OffsetTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertOffsetTimeParameterIsNotNull(other);
-    if (!actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeAfter(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertOffsetTimeParameterIsNotNull(other);
+      if (!actual.isAfter(other)) {
+        throw Failures.instance().failure(info, shouldBeAfter(actual, other));
+      }
+    });
   }
 
   /**
@@ -383,12 +387,13 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * @throws AssertionError if the actual {@code OffsetTime} is not equal with timezone ignored.
    */
   public SELF isEqualToIgnoringTimezone(OffsetTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertOffsetTimeParameterIsNotNull(other);
-    if (!areEqualIgnoringTimezone(actual, other)) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringTimezone(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertOffsetTimeParameterIsNotNull(other);
+      if (!areEqualIgnoringTimezone(actual, other)) {
+        throw Failures.instance().failure(info, shouldBeEqualIgnoringTimezone(actual, other));
+      }
+    });
   }
 
   /**
@@ -420,12 +425,13 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    *           fields.
    */
   public SELF hasSameHourAs(OffsetTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertOffsetTimeParameterIsNotNull(other);
-    if (!haveSameHourField(actual, other)) {
-      throw Failures.instance().failure(info, shouldHaveSameHourAs(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertOffsetTimeParameterIsNotNull(other);
+      if (!haveSameHourField(actual, other)) {
+        throw Failures.instance().failure(info, shouldHaveSameHourAs(actual, other));
+      }
+    });
   }
 
   /**
@@ -455,8 +461,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * @since 3.7.1
    */
   public SELF isBetween(OffsetTime startInclusive, OffsetTime endInclusive) {
-    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true));
   }
 
   /**
@@ -518,8 +523,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * @since 3.7.1
    */
   public SELF isStrictlyBetween(OffsetTime startExclusive, OffsetTime endExclusive) {
-    comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false));
   }
 
   /**

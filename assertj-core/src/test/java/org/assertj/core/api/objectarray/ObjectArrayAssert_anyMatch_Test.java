@@ -15,24 +15,24 @@
  */
 package org.assertj.core.api.objectarray;
 
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
+import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.presentation.PredicateDescription;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class ObjectArrayAssert_anyMatch_Test extends ObjectArrayAssertBaseTest {
 
-  private Predicate<Object> predicate;
-
-  @BeforeEach
-  void beforeOnce() {
-    predicate = o -> o != null;
-  }
+  private final Predicate<Object> predicate = Objects::nonNull;
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
@@ -41,7 +41,19 @@ class ObjectArrayAssert_anyMatch_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertAnyMatch(getInfo(assertions), newArrayList(getActual(assertions)), predicate,
+    verify(iterables).assertAnyMatch(getInfo(assertions), List.of(getActual(assertions)), predicate,
                                      PredicateDescription.GIVEN);
+  }
+
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    // WHEN
+    softly.assertThat(array("Luke", "Yoda"))
+          .overridingErrorMessage("error message")
+          .anyMatch(obj -> false);
+    // THEN
+    then(softly.assertionErrorsCollected()).singleElement(THROWABLE).hasMessage("error message");
   }
 }

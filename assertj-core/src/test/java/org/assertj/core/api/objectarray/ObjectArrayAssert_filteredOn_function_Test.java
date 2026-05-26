@@ -15,16 +15,19 @@
  */
 package org.assertj.core.api.objectarray;
 
-import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.Name.lastNameComparator;
 import static org.assertj.core.testkit.Name.name;
+import static org.assertj.core.util.Arrays.array;
 
 import java.util.function.Function;
 
-import org.assertj.core.api.IterableAssert;
+import org.assertj.core.api.ObjectArrayAssert;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
 import org.junit.jupiter.api.DisplayName;
@@ -57,18 +60,30 @@ class ObjectArrayAssert_filteredOn_function_Test extends ObjectArrayAssert_filte
   @Test
   void should_pass_keep_assertion_state() {
     // GIVEN
-    Iterable<Name> names = asList(name("Manu", "Ginobili"), name("Magic", "Johnson"));
+    Name[] names = array(name("Manu", "Ginobili"), name("Magic", "Johnson"));
     // WHEN
-    IterableAssert<Name> assertion = assertThat(names).as("test description")
-                                                      .withFailMessage("error message")
-                                                      .withRepresentation(UNICODE_REPRESENTATION)
-                                                      .usingElementComparator(lastNameComparator)
-                                                      .filteredOn(Name::getFirst, "Manu")
-                                                      .containsExactly(name("Whoever", "Ginobili"));
+    ObjectArrayAssert<Name> assertion = assertThat(names).as("test description")
+                                                         .withFailMessage("error message")
+                                                         .withRepresentation(UNICODE_REPRESENTATION)
+                                                         .usingElementComparator(lastNameComparator)
+                                                         .filteredOn(Name::getFirst, "Manu")
+                                                         .containsExactly(name("Whoever", "Ginobili"));
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    then(assertion.descriptionText()).isEqualTo("test description");
+    then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
   }
 
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    // WHEN
+    softly.assertThat(employees)
+          .overridingErrorMessage("error message")
+          .filteredOn(Employee::getAge, 100)
+          .containsOnly(luke, obiwan);
+    // THEN
+    then(softly.assertionErrorsCollected()).singleElement(THROWABLE).hasMessage("error message");
+  }
 }

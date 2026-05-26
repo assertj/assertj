@@ -17,11 +17,21 @@ package org.assertj.core.api;
 
 import org.assertj.core.annotation.CheckReturnValue;
 
-public class WithThrowable {
+// extends AbstractAssert just for skipping assertion when a soft assertion precondition fails
+@SuppressWarnings("rawtypes")
+public class WithThrowable extends AbstractAssert { //
   private final Throwable throwable;
 
   WithThrowable(Throwable exception) {
+    // noinspection unchecked
+    super(exception, WithThrowable.class);
     this.throwable = exception;
+  }
+
+  // used as a soft assertion fallback where we are skipping any further assertions
+  // the skipping assertion behavior is propagated to ThrowableAssertAlternative
+  static WithThrowable dummyWithThrowable() {
+    return new WithThrowable(new Throwable());
   }
 
   /**
@@ -29,6 +39,7 @@ public class WithThrowable {
    * further assertions on the underlying throwable.
    * <p>
    * Equivalent to {@code withThrowableThat().isInstanceOf(type)}
+   *
    * @param type the expected {@link Throwable} type
    * @return a {@link ThrowableAssertAlternative} built with underlying throwable.
    */
@@ -38,11 +49,12 @@ public class WithThrowable {
 
   /**
    * Returns a {@link ThrowableAssertAlternative} to chain assertions on the underlying throwable.
+   *
    * @return a {@link ThrowableAssertAlternative} built with underlying throwable.
    */
   @CheckReturnValue
   public ThrowableAssertAlternative<?> withThrowableThat() {
-    return new ThrowableAssertAlternative<>(throwable);
+    return new ThrowableAssertAlternative<>(throwable).withAssertionState(this);
   }
 
 }

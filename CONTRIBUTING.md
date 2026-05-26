@@ -7,7 +7,7 @@ We appreciate your effort, and to make sure that your pull request is easy to re
 * Use JDK 25 or newer to build the project.
 * Use **[AssertJ code Eclipse formatting preferences](eclipse/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it with the [Adapter for Eclipse Code Formatter](https://plugins.jetbrains.com/plugin/6546-adapter-for-eclipse-code-formatter) plugin)
 * Write a complete Javadoc for each assertion method with a code example (succeeding and failing assertion(s)).
-* As we use JUnit 5, favor `package-private` visibility for test classes and methods.
+* As we use JUnit 6, favor `package-private` visibility for test classes and methods.
 * Write one JUnit test class for each assertion method with the following naming convention: `<AssertClass>_<assertion>_Test`.
 * Write test assertions with AssertJ! Let's eat our own dog food.
 * The unit test method naming convention is underscore-based (like Python) rather than camel-case; we find it more readable for long test names!
@@ -27,7 +27,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 // other imports not shown for brevity
 
-class OptionalAssert_containsInstanceOf_Test extends BaseTest {
+class OptionalAssert_containsInstanceOf_Test {
 
   @Test
   void should_fail_if_optional_is_empty() {
@@ -59,6 +59,8 @@ It's okay not to follow some of the rules described above if you have a good rea
 We prefer integrating PR by squashing all the commits and rebasing it to `main`; if your PR has diverged and needs to get the newer `main` commits, please rebase on `main` but **do not merge `main` in your PR branch** as it will prevent rebasing later on.
 
 ## Naming Conventions
+
+### Assertions
 
 Here are some of the `ThrowableAssert` assertions: `hasMessage`, `hasNoCause`, `hasMessageContaining`; for each of them we have a test class, note the naming convention:
 * `ThrowableAssert_hasMessage_Test`
@@ -120,6 +122,27 @@ BAD! (not in the same line)
 ```
 
 You can generate the Javadoc and read it in your browser to see what it actually looks like.
+
+### Navigation Methods
+
+In addition to assertions, AssertJ provides methods that change the object under test to a related one (for example, a field, a property, or a derived value), enabling further type-specific assertions.
+Such methods are referred to as _navigation methods_ and are named after the underlying getter or with a meaningful term describing the target element.
+
+Some examples are:
+* `first()` and `last()` in `IterableAssert`, providing assertions for the first and last iterable elements
+* `get()` in `OptionalAssert`, providing assertions for the value contained in the `Optional` (backed by `Optional#get()`)
+* `size()` in `MapAssert`, providing assertions for the size of the `Map` (backed by `Map#size()`)
+* `cause()` in `ThrowableAssert`, providing assertions for the cause of the `Throwable` (backed by `Throwable#getCause()`)
+
+The resulting assertions after navigation may also provide a way to return to the object that initiated the navigation.
+Such methods are named `returnToX`, where `X` is the type of the previous object under test.
+
+Some examples are:
+* `returnToBigDecimal()` in `BigDecimalScaleAssert`
+* `returnToFile()` in `FileSizeAssert`
+* `returnToIterable()` in `IterableSizeAssert`
+* `returnToMap()` in `MapSizeAssert`
+* `returnToThrowable()` in `SuppressedExceptionsAssert`
 
 ## Binary Compatibility
 

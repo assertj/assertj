@@ -65,8 +65,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   public SELF isEqualTo(short expected) {
-    shorts.assertEqual(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> shorts.assertEqual(info, actual, expected));
   }
 
   /**
@@ -85,57 +84,49 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * @throws AssertionError if the actual value is equal to the given one.
    */
   public SELF isNotEqualTo(short other) {
-    shorts.assertNotEqual(info, actual, other);
-    return myself;
+    return executeAssertion(() -> shorts.assertNotEqual(info, actual, other));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isZero() {
-    shorts.assertIsZero(info, actual);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsZero(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotZero() {
-    shorts.assertIsNotZero(info, actual);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsNotZero(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isOne() {
-    shorts.assertIsOne(info, actual);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsOne(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isPositive() {
-    shorts.assertIsPositive(info, actual);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsPositive(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNegative() {
-    shorts.assertIsNegative(info, actual);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsNegative(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotNegative() {
-    shorts.assertIsNotNegative(info, actual);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsNotNegative(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotPositive() {
-    shorts.assertIsNotPositive(info, actual);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsNotPositive(info, actual));
   }
 
   /**
@@ -156,8 +147,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * @since 3.17.0
    */
   public SELF isEven() {
-    shorts.assertIsEven(info, actual);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsEven(info, actual));
   }
 
   /**
@@ -178,8 +168,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * @since 3.17.0
    */
   public SELF isOdd() {
-    shorts.assertIsOdd(info, actual);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsOdd(info, actual));
   }
 
   /**
@@ -199,8 +188,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
   public SELF isLessThan(short other) {
-    shorts.assertLessThan(info, actual, other);
-    return myself;
+    return executeAssertion(() -> shorts.assertLessThan(info, actual, other));
   }
 
   /**
@@ -219,8 +207,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * @throws AssertionError if the actual value is greater than the given one.
    */
   public SELF isLessThanOrEqualTo(short other) {
-    shorts.assertLessThanOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> shorts.assertLessThanOrEqualTo(info, actual, other));
   }
 
   /**
@@ -240,8 +227,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
   public SELF isGreaterThan(short other) {
-    shorts.assertGreaterThan(info, actual, other);
-    return myself;
+    return executeAssertion(() -> shorts.assertGreaterThan(info, actual, other));
   }
 
   /**
@@ -260,8 +246,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * @throws AssertionError if the actual value is less than the given one.
    */
   public SELF isGreaterThanOrEqualTo(short other) {
-    shorts.assertGreaterThanOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> shorts.assertGreaterThanOrEqualTo(info, actual, other));
   }
 
   /**
@@ -279,8 +264,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    */
   @Override
   public SELF isBetween(Short start, Short end) {
-    shorts.assertIsBetween(info, actual, start, end);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsBetween(info, actual, start, end));
   }
 
   /**
@@ -298,8 +282,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    */
   @Override
   public SELF isStrictlyBetween(Short start, Short end) {
-    shorts.assertIsStrictlyBetween(info, actual, start, end);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsStrictlyBetween(info, actual, start, end));
   }
 
   /**
@@ -336,8 +319,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * @throws AssertionError if the actual value is not close enough to the given one.
    */
   public SELF isCloseTo(short expected, Offset<Short> offset) {
-    shorts.assertIsCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -372,8 +354,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * @since 2.6.0 / 3.6.0
    */
   public SELF isNotCloseTo(short expected, Offset<Short> offset) {
-    shorts.assertIsNotCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsNotCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -411,8 +392,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    */
   @Override
   public SELF isCloseTo(Short expected, Offset<Short> offset) {
-    shorts.assertIsCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -448,8 +428,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    */
   @Override
   public SELF isNotCloseTo(Short expected, Offset<Short> offset) {
-    shorts.assertIsNotCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsNotCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -475,8 +454,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    */
   @Override
   public SELF isCloseTo(Short expected, Percentage percentage) {
-    shorts.assertIsCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -501,8 +479,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    */
   @Override
   public SELF isNotCloseTo(Short expected, Percentage percentage) {
-    shorts.assertIsNotCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsNotCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -527,8 +504,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * @throws AssertionError if the actual value is not close to the given one.
    */
   public SELF isCloseTo(short expected, Percentage percentage) {
-    shorts.assertIsCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -552,8 +528,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * @since 2.6.0 / 3.6.0
    */
   public SELF isNotCloseTo(short expected, Percentage percentage) {
-    shorts.assertIsNotCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> shorts.assertIsNotCloseToPercentage(info, actual, expected, percentage));
   }
 
   @Override

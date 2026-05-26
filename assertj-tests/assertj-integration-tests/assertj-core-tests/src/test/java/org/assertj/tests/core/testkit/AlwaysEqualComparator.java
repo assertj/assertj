@@ -17,6 +17,7 @@ package org.assertj.tests.core.testkit;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
+
 import org.assertj.core.groups.Tuple;
 
 public class AlwaysEqualComparator<T> implements Comparator<T> {

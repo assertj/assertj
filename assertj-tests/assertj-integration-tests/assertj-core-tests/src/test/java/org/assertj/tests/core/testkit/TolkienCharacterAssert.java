@@ -16,6 +16,7 @@
 package org.assertj.tests.core.testkit;
 
 import java.util.Objects;
+
 import org.assertj.core.api.AbstractAssert;
 
 public class TolkienCharacterAssert extends AbstractAssert<TolkienCharacterAssert, TolkienCharacter> {

@@ -20,6 +20,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 class PrimitiveArrayList_Test {

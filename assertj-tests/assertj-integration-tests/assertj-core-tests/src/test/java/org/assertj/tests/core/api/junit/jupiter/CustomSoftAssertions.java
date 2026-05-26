@@ -23,11 +23,10 @@ import org.assertj.core.api.ListAssert;
 
 class CustomSoftAssertions extends AbstractSoftAssertions {
   public IntegerAssert expectThat(int value) {
-    return proxy(IntegerAssert.class, Integer.class, value);
+    return soft(new IntegerAssert(value));
   }
 
-  @SuppressWarnings("unchecked")
   public <T> ListAssert<T> expectThat(List<? extends T> actual) {
-    return proxy(ListAssert.class, List.class, actual);
+    return soft(new ListAssert<T>(actual));
   }
 }

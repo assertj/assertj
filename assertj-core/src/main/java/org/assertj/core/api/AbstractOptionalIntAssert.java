@@ -56,9 +56,10 @@ public abstract class AbstractOptionalIntAssert<SELF extends AbstractOptionalInt
    * @throws AssertionError if actual is null.
    */
   public SELF isPresent() {
-    isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
+    });
   }
 
   /**
@@ -90,9 +91,10 @@ public abstract class AbstractOptionalIntAssert<SELF extends AbstractOptionalInt
    * @throws AssertionError if actual is null.
    */
   public SELF isEmpty() {
-    isNotNull();
-    if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
+    });
   }
 
   /**
@@ -130,10 +132,11 @@ public abstract class AbstractOptionalIntAssert<SELF extends AbstractOptionalInt
    * @throws AssertionError if actual has not the value as expected.
    */
   public SELF hasValue(int expectedValue) {
-    isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
-    if (expectedValue != actual.getAsInt())
-      throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.getAsInt(), expectedValue);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
+      if (expectedValue != actual.getAsInt())
+        throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.getAsInt(), expectedValue);
+    });
   }
 }

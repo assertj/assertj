@@ -27,6 +27,7 @@ import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
 import java.util.function.Consumer;
+
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 

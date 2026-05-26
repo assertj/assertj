@@ -15,8 +15,8 @@
  */
 package org.assertj.tests.core.internal.shortarrays;
 
-import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.testkit.FieldTestUtils.writeField;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 

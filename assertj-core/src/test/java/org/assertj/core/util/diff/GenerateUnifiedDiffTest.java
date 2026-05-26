@@ -18,10 +18,8 @@ package org.assertj.core.util.diff;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 
-import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.util.Files;

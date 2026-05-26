@@ -15,13 +15,13 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
-import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
-
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
 
 import java.math.BigInteger;
+
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * Reusable assertions for <code>{@link BigInteger}</code>s.

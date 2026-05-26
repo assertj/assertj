@@ -68,31 +68,32 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
   @Override
   public Boolean2DArrayAssert isDeepEqualTo(boolean[][] expected) {
     // boolean[][] actual = new boolean[][] { { true, false }, { false, true } };
-    if (actual == expected) return myself;
-    isNotNull();
-    if (expected.length != actual.length) {
-      throw failures.failure(info, shouldHaveSameSizeAs(actual, expected, actual.length, expected.length));
-    }
-
-    for (int i = 0; i < actual.length; i++) {
-      boolean[] actualSubArray = actual[i];
-      boolean[] expectedSubArray = expected[i];
-
-      if (actualSubArray == expectedSubArray) continue;
-      if (actualSubArray == null) throw failures.failure(info, shouldNotBeNull("actual[" + i + "]"));
-      if (expectedSubArray.length != actualSubArray.length) {
-        throw failures.failure(info, subarraysShouldHaveSameSize(actual, expected, actualSubArray, actualSubArray.length,
-                                                                 expectedSubArray, expectedSubArray.length, i),
-                               info.representation().toStringOf(actual), info.representation().toStringOf(expected));
+    return executeAssertion(() -> {
+      if (actual == expected) return;
+      isNotNull();
+      if (expected.length != actual.length) {
+        throw failures.failure(info, shouldHaveSameSizeAs(actual, expected, actual.length, expected.length));
       }
-      for (int j = 0; j < actualSubArray.length; j++) {
-        if (actualSubArray[j] != expectedSubArray[j]) {
-          throw failures.failure(info, elementShouldBeEqual(actualSubArray[j], expectedSubArray[j], i, j),
+
+      for (int i = 0; i < actual.length; i++) {
+        boolean[] actualSubArray = actual[i];
+        boolean[] expectedSubArray = expected[i];
+
+        if (actualSubArray == expectedSubArray) continue;
+        if (actualSubArray == null) throw failures.failure(info, shouldNotBeNull("actual[" + i + "]"));
+        if (expectedSubArray.length != actualSubArray.length) {
+          throw failures.failure(info, subarraysShouldHaveSameSize(actual, expected, actualSubArray, actualSubArray.length,
+                                                                   expectedSubArray, expectedSubArray.length, i),
                                  info.representation().toStringOf(actual), info.representation().toStringOf(expected));
         }
+        for (int j = 0; j < actualSubArray.length; j++) {
+          if (actualSubArray[j] != expectedSubArray[j]) {
+            throw failures.failure(info, elementShouldBeEqual(actualSubArray[j], expectedSubArray[j], i, j),
+                                   info.representation().toStringOf(actual), info.representation().toStringOf(expected));
+          }
+        }
       }
-    }
-    return myself;
+    });
   }
 
   /**
@@ -140,7 +141,7 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
    */
   @Override
   public void isNullOrEmpty() {
-    boolean2dArrays.assertNullOrEmpty(info, actual);
+    executeAssertion(() -> boolean2dArrays.assertNullOrEmpty(info, actual));
   }
 
   /**
@@ -162,7 +163,7 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
    */
   @Override
   public void isEmpty() {
-    boolean2dArrays.assertEmpty(info, actual);
+    executeAssertion(() -> boolean2dArrays.assertEmpty(info, actual));
   }
 
   /**
@@ -186,8 +187,7 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
    */
   @Override
   public Boolean2DArrayAssert isNotEmpty() {
-    boolean2dArrays.assertNotEmpty(info, actual);
-    return myself;
+    return executeAssertion(() -> boolean2dArrays.assertNotEmpty(info, actual));
   }
 
   /**
@@ -209,8 +209,8 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
    */
   @Override
   public Boolean2DArrayAssert hasDimensions(int expectedFirstDimension, int expectedSecondDimension) {
-    boolean2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, expectedSecondDimension);
-    return myself;
+    return executeAssertion(() -> boolean2dArrays.assertHasDimensions(info, actual, expectedFirstDimension,
+                                                                      expectedSecondDimension));
   }
 
   /**
@@ -232,8 +232,7 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
    */
   @Override
   public Boolean2DArrayAssert hasNumberOfRows(int expected) {
-    boolean2dArrays.assertNumberOfRows(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> boolean2dArrays.assertNumberOfRows(info, actual, expected));
   }
 
   /**
@@ -261,8 +260,7 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
    */
   @Override
   public Boolean2DArrayAssert hasSameDimensionsAs(Object array) {
-    boolean2dArrays.assertHasSameDimensionsAs(info, actual, array);
-    return myself;
+    return executeAssertion(() -> boolean2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 
   /**
@@ -285,8 +283,7 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
    * @throws AssertionError if the actual {@code boolean[][]}does not contain the given value at the given index.
    */
   public Boolean2DArrayAssert contains(boolean[] value, Index index) {
-    boolean2dArrays.assertContains(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> boolean2dArrays.assertContains(info, actual, value, index));
   }
 
   /**
@@ -307,7 +304,6 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
    * @throws AssertionError if the actual {@code boolean[][]}contains the given value at the given index.
    */
   public Boolean2DArrayAssert doesNotContain(boolean[] value, Index index) {
-    boolean2dArrays.assertDoesNotContain(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> boolean2dArrays.assertDoesNotContain(info, actual, value, index));
   }
 }

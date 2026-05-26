@@ -32,4 +32,8 @@ public class ObjectAssert<ACTUAL> extends AbstractObjectAssert<ObjectAssert<ACTU
   public ObjectAssert(ACTUAL actual) {
     super(actual, ObjectAssert.class);
   }
+
+  public static <ACTUAL> ObjectAssert<ACTUAL> nullObjectAssert() {
+    return new ObjectAssert<>(null);
+  }
 }

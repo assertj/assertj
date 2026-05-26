@@ -23,8 +23,8 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Collections;
 
-import org.assertj.core.description.TextDescription;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;

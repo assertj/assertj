@@ -21,6 +21,7 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 
 import java.io.File;
 import java.nio.file.Path;
+
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.Representation;

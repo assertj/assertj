@@ -15,12 +15,12 @@
  */
 package org.assertj.core.api.throwable;
 
-import org.assertj.core.api.ThrowableAssert;
-import org.assertj.core.api.ThrowableAssertBaseTest;
+import static org.mockito.Mockito.verify;
 
 import java.util.regex.Pattern;
 
-import static org.mockito.Mockito.verify;
+import org.assertj.core.api.ThrowableAssert;
+import org.assertj.core.api.ThrowableAssertBaseTest;
 
 /**
  * @author Andrei Solntsev

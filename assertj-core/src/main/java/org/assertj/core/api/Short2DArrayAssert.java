@@ -67,30 +67,31 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    */
   @Override
   public Short2DArrayAssert isDeepEqualTo(short[][] expected) {
-    if (actual == expected) return myself;
-    isNotNull();
-    if (expected.length != actual.length) {
-      throw failures.failure(info, shouldHaveSameSizeAs(actual, expected, actual.length, expected.length));
-    }
-    for (int i = 0; i < actual.length; i++) {
-      short[] actualSubArray = actual[i];
-      short[] expectedSubArray = expected[i];
-
-      if (actualSubArray == expectedSubArray) continue;
-      if (actualSubArray == null) throw failures.failure(info, shouldNotBeNull("actual[" + i + "]"));
-      if (expectedSubArray.length != actualSubArray.length) {
-        throw failures.failure(info, subarraysShouldHaveSameSize(actual, expected, actualSubArray, actualSubArray.length,
-                                                                 expectedSubArray, expectedSubArray.length, i),
-                               info.representation().toStringOf(actual), info.representation().toStringOf(expected));
+    return executeAssertion(() -> {
+      if (actual == expected) return;
+      isNotNull();
+      if (expected.length != actual.length) {
+        throw failures.failure(info, shouldHaveSameSizeAs(actual, expected, actual.length, expected.length));
       }
-      for (int j = 0; j < actualSubArray.length; j++) {
-        if (actualSubArray[j] != expectedSubArray[j]) {
-          throw failures.failure(info, elementShouldBeEqual(actualSubArray[j], expectedSubArray[j], i, j),
+      for (int i = 0; i < actual.length; i++) {
+        short[] actualSubArray = actual[i];
+        short[] expectedSubArray = expected[i];
+
+        if (actualSubArray == expectedSubArray) continue;
+        if (actualSubArray == null) throw failures.failure(info, shouldNotBeNull("actual[" + i + "]"));
+        if (expectedSubArray.length != actualSubArray.length) {
+          throw failures.failure(info, subarraysShouldHaveSameSize(actual, expected, actualSubArray, actualSubArray.length,
+                                                                   expectedSubArray, expectedSubArray.length, i),
                                  info.representation().toStringOf(actual), info.representation().toStringOf(expected));
         }
+        for (int j = 0; j < actualSubArray.length; j++) {
+          if (actualSubArray[j] != expectedSubArray[j]) {
+            throw failures.failure(info, elementShouldBeEqual(actualSubArray[j], expectedSubArray[j], i, j),
+                                   info.representation().toStringOf(actual), info.representation().toStringOf(expected));
+          }
+        }
       }
-    }
-    return myself;
+    });
   }
 
   /**
@@ -138,7 +139,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    */
   @Override
   public void isNullOrEmpty() {
-    short2dArrays.assertNullOrEmpty(info, actual);
+    executeAssertion(() -> short2dArrays.assertNullOrEmpty(info, actual));
   }
 
   /**
@@ -161,7 +162,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    */
   @Override
   public void isEmpty() {
-    short2dArrays.assertEmpty(info, actual);
+    executeAssertion(() -> short2dArrays.assertEmpty(info, actual));
   }
 
   /**
@@ -185,8 +186,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    */
   @Override
   public Short2DArrayAssert isNotEmpty() {
-    short2dArrays.assertNotEmpty(info, actual);
-    return myself;
+    return executeAssertion(() -> short2dArrays.assertNotEmpty(info, actual));
   }
 
   /**
@@ -208,8 +208,8 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    */
   @Override
   public Short2DArrayAssert hasDimensions(int expectedFirstDimension, int expectedSecondDimension) {
-    short2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, expectedSecondDimension);
-    return myself;
+    return executeAssertion(() -> short2dArrays.assertHasDimensions(info, actual, expectedFirstDimension,
+                                                                    expectedSecondDimension));
   }
 
   /**
@@ -231,8 +231,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    */
   @Override
   public Short2DArrayAssert hasNumberOfRows(int expected) {
-    short2dArrays.assertNumberOfRows(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> short2dArrays.assertNumberOfRows(info, actual, expected));
   }
 
   /**
@@ -260,8 +259,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    */
   @Override
   public Short2DArrayAssert hasSameDimensionsAs(Object array) {
-    short2dArrays.assertHasSameDimensionsAs(info, actual, array);
-    return myself;
+    return executeAssertion(() -> short2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 
   /**
@@ -285,8 +283,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    * @throws AssertionError if the actual {@code short[][]} does not contain the given value at the given index.
    */
   public Short2DArrayAssert contains(short[] value, Index index) {
-    short2dArrays.assertContains(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> short2dArrays.assertContains(info, actual, value, index));
   }
 
   /**
@@ -310,8 +307,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    * @throws AssertionError if the actual {@code short[][]} does not contain the given value at the given index.
    */
   public Short2DArrayAssert contains(int[] value, Index index) {
-    short2dArrays.assertContains(info, actual, toShort(value), index);
-    return myself;
+    return executeAssertion(() -> short2dArrays.assertContains(info, actual, toShort(value), index));
   }
 
   /**
@@ -334,8 +330,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    * @throws AssertionError if the actual {@code short[][]} contains the given value at the given index.
    */
   public Short2DArrayAssert doesNotContain(short[] value, Index index) {
-    short2dArrays.assertDoesNotContain(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> short2dArrays.assertDoesNotContain(info, actual, value, index));
   }
 
   /**
@@ -358,8 +353,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    * @throws AssertionError if the actual {@code short[][]} contains the given value at the given index.
    */
   public Short2DArrayAssert doesNotContain(int[] value, Index index) {
-    short2dArrays.assertDoesNotContain(info, actual, toShort(value), index);
-    return myself;
+    return executeAssertion(() -> short2dArrays.assertDoesNotContain(info, actual, toShort(value), index));
   }
 
   private static short[] toShort(int[] value) {

@@ -21,8 +21,8 @@ import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 
-import org.assertj.tests.core.internal.ClassesBaseTest;
 import org.assertj.core.util.Sets;
+import org.assertj.tests.core.internal.ClassesBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**

@@ -65,12 +65,13 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * @throws AssertionError if the actual adder is {@code null}.
    */
   public SELF hasValue(long expected) {
-    isNotNull();
-    long actualValue = actual.sum();
-    if (!objects.getComparisonStrategy().areEqual(actualValue, expected)) {
-      throwAssertionError(shouldHaveValue(actual, expected));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      long actualValue = actual.sum();
+      if (!objects.getComparisonStrategy().areEqual(actualValue, expected)) {
+        throwAssertionError(shouldHaveValue(actual, expected));
+      }
+    });
   }
 
   /**
@@ -91,12 +92,13 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * @throws AssertionError if the actual sum is not the given value.
    */
   public SELF doesNotHaveValue(long unexpected) {
-    isNotNull();
-    long actualValue = actual.sum();
-    if (objects.getComparisonStrategy().areEqual(actualValue, unexpected)) {
-      throwAssertionError(shouldNotContainValue(actual, unexpected));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      long actualValue = actual.sum();
+      if (objects.getComparisonStrategy().areEqual(actualValue, unexpected)) {
+        throwAssertionError(shouldNotContainValue(actual, unexpected));
+      }
+    });
   }
 
   @Override
@@ -121,116 +123,97 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
 
   @Override
   public SELF isZero() {
-    longs.assertIsZero(info, actual.longValue());
-    return myself;
+    return executeAssertion(() -> longs.assertIsZero(info, actual.longValue()));
   }
 
   @Override
   public SELF isNotZero() {
-    longs.assertIsNotZero(info, actual.longValue());
-    return myself;
+    return executeAssertion(() -> longs.assertIsNotZero(info, actual.longValue()));
   }
 
   @Override
   public SELF isOne() {
-    longs.assertIsOne(info, actual.longValue());
-    return myself;
+    return executeAssertion(() -> longs.assertIsOne(info, actual.longValue()));
   }
 
   @Override
   public SELF isPositive() {
-    longs.assertIsPositive(info, actual.longValue());
-    return myself;
+    return executeAssertion(() -> longs.assertIsPositive(info, actual.longValue()));
   }
 
   @Override
   public SELF isNegative() {
-    longs.assertIsNegative(info, actual.longValue());
-    return myself;
+    return executeAssertion(() -> longs.assertIsNegative(info, actual.longValue()));
   }
 
   @Override
   public SELF isNotNegative() {
-    longs.assertIsNotNegative(info, actual.longValue());
-    return myself;
+    return executeAssertion(() -> longs.assertIsNotNegative(info, actual.longValue()));
   }
 
   @Override
   public SELF isNotPositive() {
-    longs.assertIsNotPositive(info, actual.longValue());
-    return myself;
+    return executeAssertion(() -> longs.assertIsNotPositive(info, actual.longValue()));
   }
 
   @Override
   public SELF isEqualByComparingTo(Long other) {
-    longs.assertEqualByComparison(info, actual.longValue(), other);
-    return myself;
+    return executeAssertion(() -> longs.assertEqualByComparison(info, actual.longValue(), other));
   }
 
   @Override
   public SELF isNotEqualByComparingTo(Long other) {
-    longs.assertNotEqualByComparison(info, actual.longValue(), other);
-    return myself;
+    return executeAssertion(() -> longs.assertNotEqualByComparison(info, actual.longValue(), other));
   }
 
   @Override
   public SELF isLessThan(Long other) {
-    longs.assertLessThan(info, actual.longValue(), other);
-    return myself;
+    return executeAssertion(() -> longs.assertLessThan(info, actual.longValue(), other));
   }
 
   @Override
   public SELF isLessThanOrEqualTo(Long other) {
-    longs.assertLessThanOrEqualTo(info, actual.longValue(), other);
-    return myself;
+    return executeAssertion(() -> longs.assertLessThanOrEqualTo(info, actual.longValue(), other));
   }
 
   @Override
   public SELF isGreaterThan(Long other) {
-    longs.assertGreaterThan(info, actual.longValue(), other);
-    return myself;
+    return executeAssertion(() -> longs.assertGreaterThan(info, actual.longValue(), other));
   }
 
   @Override
   public SELF isGreaterThanOrEqualTo(Long other) {
-    longs.assertGreaterThanOrEqualTo(info, actual.longValue(), other);
-    return myself;
+    return executeAssertion(() -> longs.assertGreaterThanOrEqualTo(info, actual.longValue(), other));
   }
 
   @Override
   public SELF isBetween(Long start, Long end) {
-    longs.assertIsBetween(info, actual.longValue(), start, end);
-    return myself;
+    return executeAssertion(() -> longs.assertIsBetween(info, actual.longValue(), start, end));
   }
 
   @Override
   public SELF isStrictlyBetween(Long start, Long end) {
-    longs.assertIsStrictlyBetween(info, actual.longValue(), start, end);
-    return myself;
+    return executeAssertion(() -> longs.assertIsStrictlyBetween(info, actual.longValue(), start, end));
   }
 
   @Override
   public SELF isCloseTo(Long expected, Offset<Long> offset) {
-    longs.assertIsCloseTo(info, actual.longValue(), expected, offset);
-    return myself;
+    return executeAssertion(() -> longs.assertIsCloseTo(info, actual.longValue(), expected, offset));
   }
 
   @Override
   public SELF isNotCloseTo(Long expected, Offset<Long> offset) {
-    longs.assertIsNotCloseTo(info, actual.longValue(), expected, offset);
-    return myself;
+    return executeAssertion(() -> longs.assertIsNotCloseTo(info, actual.longValue(), expected, offset));
   }
 
   @Override
   public SELF isCloseTo(Long expected, Percentage percentage) {
-    longs.assertIsCloseToPercentage(info, actual.longValue(), expected, percentage);
-    return myself;
+    return executeAssertion(() -> longs.assertIsCloseToPercentage(info, actual.longValue(), expected, percentage));
   }
 
   @Override
   public SELF isNotCloseTo(Long expected, Percentage percentage) {
-    longs.assertIsNotCloseToPercentage(info, actual.longValue(), expected, percentage);
-    return myself;
+    return executeAssertion(() -> longs.assertIsNotCloseToPercentage(info, actual.longValue(), expected, percentage));
   }
 
 }

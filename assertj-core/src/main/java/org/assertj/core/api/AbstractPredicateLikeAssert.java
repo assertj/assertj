@@ -47,28 +47,32 @@ abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAss
   }
 
   protected SELF acceptsInternal(PRIMITIVE value) {
-    isNotNull();
-    if (!primitivePredicate.test(value))
-      throwAssertionError(shouldAccept(primitivePredicate, value, PredicateDescription.GIVEN));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!primitivePredicate.test(value))
+        throwAssertionError(shouldAccept(primitivePredicate, value, PredicateDescription.GIVEN));
+    });
   }
 
   protected SELF rejectsInternal(PRIMITIVE value) {
-    isNotNull();
-    if (primitivePredicate.test(value))
-      throwAssertionError(shouldNotAccept(primitivePredicate, value, PredicateDescription.GIVEN));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (primitivePredicate.test(value))
+        throwAssertionError(shouldNotAccept(primitivePredicate, value, PredicateDescription.GIVEN));
+    });
   }
 
   protected SELF acceptsAllInternal(Iterable<? extends PRIMITIVE> values) {
-    isNotNull();
-    iterables.assertAllMatch(info, values, primitivePredicate, PredicateDescription.GIVEN);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      iterables.assertAllMatch(info, values, primitivePredicate, PredicateDescription.GIVEN);
+    });
   }
 
   protected SELF rejectsAllInternal(Iterable<? extends PRIMITIVE> values) {
-    isNotNull();
-    iterables.assertNoneMatch(info, values, primitivePredicate, PredicateDescription.GIVEN);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      iterables.assertNoneMatch(info, values, primitivePredicate, PredicateDescription.GIVEN);
+    });
   }
 }

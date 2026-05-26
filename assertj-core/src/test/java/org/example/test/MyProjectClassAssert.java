@@ -28,10 +28,11 @@ public class MyProjectClassAssert extends AbstractAssert<MyProjectClassAssert, M
 
   public MyProjectClassAssert hasValue(Object value) throws Exception {
     if (value == null) throw new IOException("does not mean anything, it's just for the test");
-    if (!Objects.equals(actual.getValue(), value)) {
-      failWithMessage("Expecting value to be <%s> but was <%s>:", value, actual.getValue());
-    }
-    return this;
+    return executeAssertion(() -> {
+      if (!Objects.equals(actual.getValue(), value)) {
+        failWithMessage("Expecting value to be <%s> but was <%s>:", value, actual.getValue());
+      }
+    });
   }
 
 }

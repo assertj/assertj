@@ -68,10 +68,11 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    * @throws AssertionError if the actual {@code YearMonth} is not strictly before the given one.
    */
   public SELF isBefore(YearMonth other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertYearMonthParameterIsNotNull(other);
-    if (!actual.isBefore(other)) throwAssertionError(shouldBeBefore(actual, other));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertYearMonthParameterIsNotNull(other);
+      if (!actual.isBefore(other)) throwAssertionError(shouldBeBefore(actual, other));
+    });
   }
 
   /**
@@ -112,12 +113,13 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    * @throws AssertionError if the actual {@code YearMonth} is not before or equal to the given one.
    */
   public SELF isBeforeOrEqualTo(YearMonth other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertYearMonthParameterIsNotNull(other);
-    if (actual.isAfter(other)) {
-      throwAssertionError(shouldBeBeforeOrEqualTo(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertYearMonthParameterIsNotNull(other);
+      if (actual.isAfter(other)) {
+        throwAssertionError(shouldBeBeforeOrEqualTo(actual, other));
+      }
+    });
   }
 
   /**
@@ -159,10 +161,11 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    * @throws AssertionError if the actual {@code YearMonth} is not after or equal to the given one.
    */
   public SELF isAfterOrEqualTo(YearMonth other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertYearMonthParameterIsNotNull(other);
-    if (actual.isBefore(other)) throwAssertionError(shouldBeAfterOrEqualTo(actual, other));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertYearMonthParameterIsNotNull(other);
+      if (actual.isBefore(other)) throwAssertionError(shouldBeAfterOrEqualTo(actual, other));
+    });
   }
 
   /**
@@ -203,10 +206,11 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    * @throws AssertionError if the actual {@code YearMonth} is not strictly after the given one.
    */
   public SELF isAfter(YearMonth other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertYearMonthParameterIsNotNull(other);
-    if (!actual.isAfter(other)) throwAssertionError(shouldBeAfter(actual, other));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertYearMonthParameterIsNotNull(other);
+      if (!actual.isAfter(other)) throwAssertionError(shouldBeAfter(actual, other));
+    });
   }
 
   /**
@@ -338,9 +342,10 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    * @throws AssertionError if the actual {@code YearMonth} is not in the past.
    */
   public SELF isInThePast() {
-    Objects.instance().assertNotNull(info, actual);
-    if (!actual.isBefore(YearMonth.now())) throwAssertionError(shouldBeInThePast(actual));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (!actual.isBefore(YearMonth.now())) throwAssertionError(shouldBeInThePast(actual));
+    });
   }
 
   /**
@@ -358,9 +363,10 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    * @throws AssertionError if the actual {@code YearMonth} is not the current {@code YearMonth}.
    */
   public SELF isCurrentYearMonth() {
-    Objects.instance().assertNotNull(info, actual);
-    if (!actual.equals(YearMonth.now())) throwAssertionError(shouldBeCurrentYearMonth(actual));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (!actual.equals(YearMonth.now())) throwAssertionError(shouldBeCurrentYearMonth(actual));
+    });
   }
 
   /**
@@ -375,9 +381,10 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    * @throws AssertionError if the actual {@code YearMonth} is not in the future.
    */
   public SELF isInTheFuture() {
-    Objects.instance().assertNotNull(info, actual);
-    if (!actual.isAfter(YearMonth.now())) throwAssertionError(shouldBeInTheFuture(actual));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (!actual.isAfter(YearMonth.now())) throwAssertionError(shouldBeInTheFuture(actual));
+    });
   }
 
   /**
@@ -405,8 +412,7 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    * @throws AssertionError if the actual value is not in [start, end] period.
    */
   public SELF isBetween(YearMonth startInclusive, YearMonth endInclusive) {
-    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true));
   }
 
   /**
@@ -466,8 +472,7 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    * @throws AssertionError if the actual value is not in ]start, end[ period.
    */
   public SELF isStrictlyBetween(YearMonth startExclusive, YearMonth endExclusive) {
-    comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false));
   }
 
   /**
@@ -518,9 +523,10 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    * @throws AssertionError if the actual {@code YearMonth} is not in the given year.
    */
   public SELF hasYear(int year) {
-    Objects.instance().assertNotNull(info, actual);
-    if (actual.getYear() != year) throwAssertionError(shouldHaveDateField(actual, "year", year));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.getYear() != year) throwAssertionError(shouldHaveDateField(actual, "year", year));
+    });
   }
 
   /**
@@ -539,9 +545,10 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    * @throws AssertionError if the actual {@code YearMonth} is not in the given month.
    */
   public SELF hasMonth(Month month) {
-    Objects.instance().assertNotNull(info, actual);
-    if (!actual.getMonth().equals(month)) throwAssertionError(shouldHaveMonth(actual, month));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (!actual.getMonth().equals(month)) throwAssertionError(shouldHaveMonth(actual, month));
+    });
   }
 
   /**
@@ -560,9 +567,10 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    * @throws AssertionError if the actual {@code YearMonth} is not in the given month.
    */
   public SELF hasMonthValue(int month) {
-    Objects.instance().assertNotNull(info, actual);
-    if (actual.getMonthValue() != month) throwAssertionError(shouldHaveDateField(actual, "month", month));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.getMonthValue() != month) throwAssertionError(shouldHaveDateField(actual, "month", month));
+    });
   }
 
   /**

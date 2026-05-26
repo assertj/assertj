@@ -15,20 +15,44 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.annotation.CheckReturnValue;
+
 /**
  * Base class for file size assertions.
  * 
  * @since 3.22.0
  */
-public abstract class AbstractFileSizeAssert<SELF extends AbstractFileAssert<SELF>>
-    extends AbstractLongAssert<AbstractFileSizeAssert<SELF>> {
+public abstract class AbstractFileSizeAssert<ORIGIN extends AbstractFileAssert<ORIGIN>>
+    extends AbstractLongAssert<AbstractFileSizeAssert<ORIGIN>> {
 
-  protected AbstractFileSizeAssert(Long actualFileSize, Class<?> selfType) {
-    super(actualFileSize, selfType);
+  private final AbstractFileAssert<ORIGIN> originAssert;
+
+  /**
+   * Creates a new instance from an origin {@link AbstractFileAssert} instance.
+   *
+   * @param originAssert the origin {@link AbstractFileAssert} that initiated the navigation.
+   * @since 3.28.0
+   */
+  protected AbstractFileSizeAssert(AbstractFileAssert<ORIGIN> originAssert) {
+    this(originAssert, originAssert.actual.length());
   }
 
   /**
-   * Returns to the file on which we ran size assertions on.
+   * @deprecated use {@link #AbstractFileSizeAssert(AbstractFileAssert)} instead.
+   */
+  @Deprecated
+  protected AbstractFileSizeAssert(Long actualFileSize, Class<?> selfType) {
+    super(actualFileSize, selfType);
+    this.originAssert = null;
+  }
+
+  protected AbstractFileSizeAssert(AbstractFileAssert<ORIGIN> originAssert, Long actualFileSize) {
+    super(actualFileSize, AbstractFileSizeAssert.class);
+    this.originAssert = originAssert;
+  }
+
+  /**
+   * Returns to the origin {@link AbstractFileAssert} instance that initiated the navigation.
    * <p>
    * Example:
    * <pre><code class='java'> File file = File.createTempFile(&quot;tmp&quot;, &quot;bin&quot;);
@@ -36,8 +60,12 @@ public abstract class AbstractFileSizeAssert<SELF extends AbstractFileAssert<SEL
    *
    * assertThat(file).size().isGreaterThan(1L).isLessThan(5L)
    *                 .returnToFile().hasBinaryContent(new byte[] {1, 1});</code></pre>
-   *    
-   * @return file assertions. 
+   *
+   * @return the origin {@link AbstractFileAssert} instance.
    */
-  public abstract AbstractFileAssert<SELF> returnToFile();
+  @CheckReturnValue
+  public AbstractFileAssert<ORIGIN> returnToFile() {
+    return originAssert;
+  }
+
 }

@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 
@@ -80,7 +81,7 @@ class IterableAssert_flatMap_Test {
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(simpsons).flatMap(children));
     // THEN
-    then(assertionError).hasMessage("Expecting actual not to be null");
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
   @Test

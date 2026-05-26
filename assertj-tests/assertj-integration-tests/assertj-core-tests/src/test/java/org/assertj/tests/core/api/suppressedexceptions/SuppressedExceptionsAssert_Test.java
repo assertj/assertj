@@ -1,0 +1,70 @@
+/*
+ * Copyright 2012-2026 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.assertj.tests.core.api.suppressedexceptions;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
+import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+
+import java.lang.reflect.Modifier;
+
+import org.assertj.core.api.AbstractThrowableAssert;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.SuppressedExceptionsAssert;
+import org.junit.jupiter.api.Test;
+
+class SuppressedExceptionsAssert_Test {
+
+  @Test
+  void constructor_should_be_package_private() throws NoSuchMethodException {
+    // WHEN
+    var constructor = SuppressedExceptionsAssert.class.getDeclaredConstructor(AbstractThrowableAssert.class, Throwable[].class);
+    // THEN
+    int constructorModifiers = constructor.getModifiers();
+    // FIXME gh-1693 use constructor-specific assertions
+    then(Modifier.isPrivate(constructorModifiers)).isFalse();
+    then(Modifier.isPublic(constructorModifiers)).isFalse();
+    then(Modifier.isProtected(constructorModifiers)).isFalse();
+  }
+
+  @Test
+  void returnToThrowable_should_return_origin() {
+    // GIVEN
+    AbstractThrowableAssert<?, Throwable> origin = assertThat(new Throwable());
+    SuppressedExceptionsAssert<?, Throwable> underTest = origin.suppressedExceptions();
+    // WHEN
+    AbstractThrowableAssert<?, Throwable> result = underTest.returnToThrowable();
+    // THEN
+    then(result).isSameAs(origin);
+  }
+
+  @Test
+  void should_work_with_soft_assertions() {
+    // GIVEN
+    var softly = new SoftAssertions();
+    var actual = new RuntimeException();
+    // WHEN
+    softly.assertThat(actual)
+          .suppressedExceptions()
+          .isNotEmpty();
+    // THEN
+    then(softly.assertionErrorsCollected()).singleElement(THROWABLE)
+                                           .hasMessageContaining(shouldNotBeEmpty().create())
+                                           .hasMessageContaining("[checking suppressed exceptions]");
+  }
+
+}

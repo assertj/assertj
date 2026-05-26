@@ -20,9 +20,9 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldEndWithIgnoringCase.shouldEndWithIgnoringCase;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
-import org.assertj.core.description.TextDescription;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.description.TextDescription;
 import org.assertj.core.util.OtherStringTestComparator;
 import org.junit.jupiter.api.Test;
 

@@ -18,6 +18,7 @@ package org.assertj.core.error;
 import static java.util.stream.Collectors.joining;
 
 import java.util.Map;
+
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 

@@ -19,12 +19,13 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.ErrorMessages.percentageValueIsInRange;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
 import org.assertj.core.data.Percentage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 /**
  * Tests for {@link Percentage}.

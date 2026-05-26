@@ -15,10 +15,10 @@
  */
 package org.assertj.core.api.string_;
 
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.StringAssert;
 import org.assertj.core.api.StringAssertBaseTest;
-
-import static org.mockito.Mockito.verify;
 
 class StringAssert_isBase64Url_Test extends StringAssertBaseTest {
 

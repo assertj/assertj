@@ -22,7 +22,7 @@ import static org.assertj.tests.core.testkit.TestData.someInfo;
 
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.DefaultLocale;
+import org.junit.jupiter.api.util.DefaultLocale;
 
 /**
  * @author Alex Ruiz

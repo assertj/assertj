@@ -42,4 +42,8 @@ public class LongAssert extends AbstractLongAssert<LongAssert> {
     this(actual == null ? null : actual.get());
   }
 
+  public static LongAssert nullLongAssert() {
+    return new LongAssert((Long) null);
+  }
+
 }

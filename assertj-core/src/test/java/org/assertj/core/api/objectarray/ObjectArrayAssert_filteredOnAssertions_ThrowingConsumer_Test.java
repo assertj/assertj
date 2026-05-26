@@ -19,11 +19,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.ThrowingConsumerFactory.throwingConsumer;
 
 import org.assertj.core.api.ObjectArrayAssert;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowingConsumer;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.assertj.core.testkit.Employee;
@@ -83,9 +85,22 @@ class ObjectArrayAssert_filteredOnAssertions_ThrowingConsumer_Test extends Objec
                                                            .filteredOnAssertions(fourCharsWord)
                                                            .containsExactly("JOHN", "JANE");
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    then(assertion.descriptionText()).isEqualTo("test description");
+    then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+  }
+
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    // WHEN
+    softly.assertThat(employees)
+          .overridingErrorMessage("error message")
+          .filteredOnAssertions(employee -> assertThat(employee.getAge()).isGreaterThan(100))
+          .containsOnly(luke, obiwan);
+    // THEN
+    then(softly.assertionErrorsCollected()).singleElement(THROWABLE).hasMessage("error message");
   }
 
 }

@@ -153,4 +153,8 @@ public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowable
     return VOWEL.indexOf(typeSimpleName.charAt(0)) != -1;
   }
 
+  public static ThrowableAssert<?> nullThrowableAssert() {
+    return new ThrowableAssert<>((Throwable) null);
+  }
+
 }

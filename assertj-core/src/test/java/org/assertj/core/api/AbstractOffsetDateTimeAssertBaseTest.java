@@ -20,8 +20,8 @@ import static org.mockito.Mockito.mock;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-import org.assertj.core.internal.Comparables;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
 
 public abstract class AbstractOffsetDateTimeAssertBaseTest extends TemporalAssertBaseTest<OffsetDateTimeAssert, OffsetDateTime> {

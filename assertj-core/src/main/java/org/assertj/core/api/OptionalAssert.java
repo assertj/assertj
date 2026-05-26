@@ -29,4 +29,8 @@ public class OptionalAssert<VALUE> extends AbstractOptionalAssert<OptionalAssert
     super(actual, OptionalAssert.class);
   }
 
+  public static <VALUE> OptionalAssert<VALUE> nullOptionalAssert() {
+    return new OptionalAssert<>(null);
+  }
+
 }

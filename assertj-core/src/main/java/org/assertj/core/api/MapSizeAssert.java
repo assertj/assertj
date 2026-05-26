@@ -21,16 +21,24 @@ import org.assertj.core.annotation.CheckReturnValue;
 
 public class MapSizeAssert<KEY, VALUE> extends AbstractMapSizeAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> {
 
-  private AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> source;
+  public MapSizeAssert(AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> originAssert) {
+    super(originAssert);
+  }
 
-  public MapSizeAssert(AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> source, Integer i) {
-    super(i, MapSizeAssert.class);
-    this.source = source;
+  protected MapSizeAssert(AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> originAssert,
+                          @SuppressWarnings("unused") Integer size) {
+    super(originAssert, size);
   }
 
   @Override
   @CheckReturnValue
   public AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> returnToMap() {
-    return source;
+    return super.returnToMap();
   }
+
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  static MapSizeAssert nullMapSizeAssert(AbstractMapAssert originAssert) {
+    return new MapSizeAssert(originAssert, null);
+  }
+
 }

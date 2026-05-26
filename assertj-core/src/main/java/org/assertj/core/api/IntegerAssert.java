@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Integer)}</code> or
  * <code>{@link Assertions#assertThat(int)}</code>.
  * </p>
- * 
+ *
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Ansgar Konermann
@@ -40,5 +40,9 @@ public class IntegerAssert extends AbstractIntegerAssert<IntegerAssert> {
 
   public IntegerAssert(AtomicInteger actual) {
     this(actual == null ? null : actual.get());
+  }
+
+  public static IntegerAssert nullIntegerAssert() {
+    return new IntegerAssert((Integer) null);
   }
 }

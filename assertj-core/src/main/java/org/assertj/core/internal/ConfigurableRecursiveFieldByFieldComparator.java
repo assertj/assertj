@@ -20,6 +20,7 @@ import static org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonS
 
 import java.util.Comparator;
 import java.util.Objects;
+
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
 import org.assertj.core.util.introspection.IntrospectionError;

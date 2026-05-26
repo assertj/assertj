@@ -49,12 +49,13 @@ public class AtomicReferenceAssert<V> extends AbstractAssertWithComparator<Atomi
    * @since 2.7.0 / 3.7.0
    */
   public AtomicReferenceAssert<V> hasValue(V expectedValue) {
-    isNotNull();
-    V actualValue = actual.get();
-    if (!objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
-      throw assertionError(shouldHaveValue(actual, expectedValue));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      V actualValue = actual.get();
+      if (!objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
+        throw assertionError(shouldHaveValue(actual, expectedValue));
+      }
+    });
   }
 
   /**
@@ -75,12 +76,13 @@ public class AtomicReferenceAssert<V> extends AbstractAssertWithComparator<Atomi
    * @since 2.7.0 / 3.7.0
    */
   public AtomicReferenceAssert<V> doesNotHaveValue(V nonExpectedValue) {
-    isNotNull();
-    V actualValue = actual.get();
-    if (objects.getComparisonStrategy().areEqual(actualValue, nonExpectedValue)) {
-      throw assertionError(shouldNotContainValue(actual, nonExpectedValue));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      V actualValue = actual.get();
+      if (objects.getComparisonStrategy().areEqual(actualValue, nonExpectedValue)) {
+        throw assertionError(shouldNotContainValue(actual, nonExpectedValue));
+      }
+    });
   }
 
   /**
@@ -160,10 +162,11 @@ public class AtomicReferenceAssert<V> extends AbstractAssertWithComparator<Atomi
    * @since 3.18.0
    */
   public AtomicReferenceAssert<V> hasValueSatisfying(Consumer<? super V> requirements) {
-    requireNonNull(requirements, "The Consumer<? super V> expressing the assertions requirements must not be null");
-    isNotNull();
-    requirements.accept(actual.get());
-    return myself;
+    return executeAssertion(() -> {
+      requireNonNull(requirements, "The Consumer<? super V> expressing the assertions requirements must not be null");
+      isNotNull();
+      requirements.accept(actual.get());
+    });
   }
 
   /**

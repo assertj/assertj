@@ -21,6 +21,7 @@ import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 
 import java.net.URI;
 import java.net.URL;
+
 import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 

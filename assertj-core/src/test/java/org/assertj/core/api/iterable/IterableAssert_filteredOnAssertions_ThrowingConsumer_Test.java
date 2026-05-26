@@ -20,27 +20,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.util.Sets.newHashSet;
 import static org.assertj.core.util.ThrowingConsumerFactory.throwingConsumer;
 
 import org.assertj.core.api.IterableAssert;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowingConsumer;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.assertj.core.testkit.Employee;
-import org.assertj.core.testkit.TolkienCharacter;
 import org.junit.jupiter.api.Test;
 
 class IterableAssert_filteredOnAssertions_ThrowingConsumer_Test extends IterableAssert_filtered_baseTest {
-
-  private static final ThrowingConsumer<? super TolkienCharacter> nameStartingWithFro = hobbit -> assertThat(hobbit.getName()).startsWith("Fro");
 
   @Test
   void should_rethrow_throwables_as_runtime_exceptions() {
     // GIVEN
     Throwable exception = new Throwable("boom!");
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(employees).filteredOnAssertions(throwingConsumer(exception)));
+    var throwable = catchThrowable(() -> assertThat(employees).filteredOnAssertions(throwingConsumer(exception)));
     // THEN
     then(throwable).isInstanceOf(RuntimeException.class)
                    .cause().isSameAs(exception);
@@ -94,4 +93,17 @@ class IterableAssert_filteredOnAssertions_ThrowingConsumer_Test extends Iterable
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
   }
 
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    ThrowingConsumer<Employee> employeeThrowingConsumer = employee -> assertThat(employee.getAge()).isGreaterThan(100);
+    // WHEN
+    softly.assertThat(employees)
+          .filteredOnAssertions(employeeThrowingConsumer)
+          .overridingErrorMessage("error message")
+          .contains(luke);
+    // THEN
+    then(softly.assertionErrorsCollected()).singleElement(THROWABLE).hasMessage("error message");
+  }
 }

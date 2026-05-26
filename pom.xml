@@ -129,7 +129,7 @@
     <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
     <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
     <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
-    <maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
+    <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
     <maven-failsafe-plugin.version>3.5.5</maven-failsafe-plugin.version>
     <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
     <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
@@ -137,12 +137,12 @@
     <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
     <maven-release-plugin.version>3.3.1</maven-release-plugin.version>
     <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
-    <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
+    <maven-site-plugin.version>3.22.0</maven-site-plugin.version>
     <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
     <maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
     <maven-surefire-report-plugin.version>3.5.5</maven-surefire-report-plugin.version>
-    <sonar-maven-plugin.version>5.5.0.6356</sonar-maven-plugin.version>
-    <spotless-maven-plugin.version>3.4.0</spotless-maven-plugin.version>
+    <sonar-maven-plugin.version>5.6.0.6792</sonar-maven-plugin.version>
+    <spotless-maven-plugin.version>3.5.1</spotless-maven-plugin.version>
   </properties>
 
   <build>
@@ -162,6 +162,11 @@
                 <version>4.33</version>
                 <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
               </eclipse>
+              <importOrder>
+                <order>#,java|javax,org,</order>
+              </importOrder>
+              <removeUnusedImports/>
+              <forbidWildcardImports/>
             </java>
           </configuration>
         </plugin>

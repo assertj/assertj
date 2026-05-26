@@ -15,16 +15,22 @@
  */
 package org.assertj.core.api.iterable;
 
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
+
+import java.util.List;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#startsWith(Object...)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -38,5 +44,16 @@ class IterableAssert_startsWith_Test extends IterableAssertBaseTest {
   @Override
   protected void verify_internal_effects() {
     verify(iterables).assertStartsWith(getInfo(assertions), getActual(assertions), array("Luke", "Yoda"));
+  }
+
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    // WHEN
+    softly.assertThat(List.of("Luke", "Yoda")).startsWith("Obiwan");
+    // THEN
+    List<AssertionError> errors = softly.assertionErrorsCollected();
+    then(errors).singleElement(THROWABLE).hasMessageContaining("Obiwan");
   }
 }

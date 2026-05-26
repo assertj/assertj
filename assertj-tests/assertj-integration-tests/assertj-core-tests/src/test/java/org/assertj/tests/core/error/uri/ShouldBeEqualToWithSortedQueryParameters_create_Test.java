@@ -21,6 +21,7 @@ import static org.assertj.core.error.uri.ShouldBeEqualToWithSortedQueryParameter
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -16,9 +16,10 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.Map;
 
@@ -45,11 +46,13 @@ class MapAssert_values_Test {
   }
 
   @Test
-  void should_have_an_helpful_error_message_when_values_is_used_on_a_null_map() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
-    Map<String, String> nullMap = null;
-    // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> assertThat(nullMap).values().contains("nothing"))
-                                    .withMessage("Can not extract values from a null map.");
+    Map<Object, Object> map = null;
+    // WHEN
+    var error = expectAssertionError(() -> assertThat(map).values());
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
+
 }

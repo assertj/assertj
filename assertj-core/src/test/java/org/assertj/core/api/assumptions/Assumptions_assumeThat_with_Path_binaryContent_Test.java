@@ -21,7 +21,6 @@ import static org.assertj.core.api.BDDAssertions.thenCode;
 import static org.assertj.core.testkit.ClasspathResources.resourcePath;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
-import java.io.File;
 import java.nio.file.Path;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;

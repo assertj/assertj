@@ -76,9 +76,11 @@ public class AtomicMarkableReferenceAssert<VALUE>
    * @since 2.7.0 / 3.7.0
    */
   public AtomicMarkableReferenceAssert<VALUE> isMarked() {
-    boolean marked = actual.isMarked();
-    if (!marked) throwAssertionError(shouldBeMarked(actual));
-    return this;
+    return executeAssertion(() -> {
+      boolean marked = actual.isMarked();
+      if (!marked)
+        throwAssertionError(shouldBeMarked(actual));
+    });
   }
 
   /**
@@ -95,8 +97,10 @@ public class AtomicMarkableReferenceAssert<VALUE>
    * @since 2.7.0 / 3.7.0
    */
   public AtomicMarkableReferenceAssert<VALUE> isNotMarked() {
-    boolean marked = actual.isMarked();
-    if (marked) throwAssertionError(shouldNotBeMarked(actual));
-    return this;
+    return executeAssertion(() -> {
+      boolean marked = actual.isMarked();
+      if (marked)
+        throwAssertionError(shouldNotBeMarked(actual));
+    });
   }
 }

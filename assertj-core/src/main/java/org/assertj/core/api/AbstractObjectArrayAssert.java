@@ -129,7 +129,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public void isNullOrEmpty() {
-    arrays.assertNullOrEmpty(info, actual);
+    executeAssertion(() -> arrays.assertNullOrEmpty(info, actual));
   }
 
   /**
@@ -139,7 +139,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public void isEmpty() {
-    arrays.assertEmpty(info, actual);
+    executeAssertion(() -> arrays.assertEmpty(info, actual));
   }
 
   /**
@@ -149,8 +149,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF isNotEmpty() {
-    arrays.assertNotEmpty(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertNotEmpty(info, actual));
   }
 
   /**
@@ -160,8 +159,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasSize(int expected) {
-    arrays.assertHasSize(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSize(info, actual, expected));
   }
 
   /**
@@ -181,8 +179,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasSizeGreaterThan(int boundary) {
-    arrays.assertHasSizeGreaterThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThan(info, actual, boundary));
   }
 
   /**
@@ -203,8 +200,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -224,8 +220,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasSizeLessThan(int boundary) {
-    arrays.assertHasSizeLessThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThan(info, actual, boundary));
   }
 
   /**
@@ -246,8 +241,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasSizeLessThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -269,8 +263,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
-    arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary));
   }
 
   /**
@@ -298,8 +291,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF hasSameSizeAs(Object other) {
     // same implementation as in AbstractArrayAssert, but can't inherit from it due to generics problem ...
-    arrays.assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSameSizeAs(info, actual, other));
   }
 
   /**
@@ -323,8 +315,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSameSizeAs(info, actual, other));
   }
 
   /**
@@ -351,15 +342,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF contains(ELEMENT... values) {
-    return containsForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsForProxy(ELEMENT[] values) {
-    arrays.assertContains(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, values));
   }
 
   /**
@@ -397,15 +380,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsOnly(ELEMENT... values) {
-    return containsOnlyForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsOnlyForProxy(ELEMENT[] values) {
-    arrays.assertContainsOnly(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnly(info, actual, values));
   }
 
   /**
@@ -429,8 +404,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF containsOnlyNulls() {
-    arrays.assertContainsOnlyNulls(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyNulls(info, actual));
   }
 
   /**
@@ -485,15 +459,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsOnlyOnce(ELEMENT... values) {
-    return containsOnlyOnceForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsOnlyOnceForProxy(ELEMENT[] values) {
-    arrays.assertContainsOnlyOnce(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, actual, values));
   }
 
   /**
@@ -528,15 +494,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsExactly(ELEMENT... values) {
-    return containsExactlyForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsExactlyForProxy(ELEMENT[] values) {
-    arrays.assertContainsExactly(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactly(info, actual, values));
   }
 
   /**
@@ -563,15 +521,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsExactlyInAnyOrder(ELEMENT... values) {
-    return containsExactlyInAnyOrderForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsExactlyInAnyOrderForProxy(ELEMENT[] values) {
-    arrays.assertContainsExactlyInAnyOrder(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, values));
   }
 
   /**
@@ -628,15 +578,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsSequence(ELEMENT... sequence) {
-    return containsSequenceForProxy(sequence);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsSequenceForProxy(ELEMENT[] sequence) {
-    arrays.assertContainsSequence(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, sequence));
   }
 
   /**
@@ -665,8 +607,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF containsSequence(Iterable<? extends ELEMENT> sequence) {
     checkSequenceIsNotNull(sequence);
-    arrays.assertContainsSequence(info, actual, toArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, toArray(sequence)));
   }
 
   /**
@@ -694,15 +635,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF doesNotContainSequence(ELEMENT... sequence) {
-    return doesNotContainSequenceForProxy(sequence);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF doesNotContainSequenceForProxy(ELEMENT[] sequence) {
-    arrays.assertDoesNotContainSequence(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainSequence(info, actual, sequence));
   }
 
   /**
@@ -730,8 +663,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF doesNotContainSequence(Iterable<? extends ELEMENT> sequence) {
     checkSequenceIsNotNull(sequence);
-    arrays.assertDoesNotContainSequence(info, actual, toArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainSequence(info, actual, toArray(sequence)));
   }
 
   /**
@@ -756,15 +688,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsSubsequence(ELEMENT... subsequence) {
-    return containsSubsequenceForProxy(subsequence);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsSubsequenceForProxy(ELEMENT[] subsequence) {
-    arrays.assertContainsSubsequence(info, actual, subsequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, subsequence));
   }
 
   /**
@@ -789,8 +713,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF containsSubsequence(Iterable<? extends ELEMENT> subsequence) {
     checkSubsequenceIsNotNull(subsequence);
-    arrays.assertContainsSubsequence(info, actual, toArray(subsequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, toArray(subsequence)));
   }
 
   /**
@@ -816,15 +739,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF doesNotContainSubsequence(ELEMENT... subsequence) {
-    return doesNotContainSubsequenceForProxy(subsequence);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF doesNotContainSubsequenceForProxy(ELEMENT[] subsequence) {
-    arrays.assertDoesNotContainSubsequence(info, actual, subsequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainSubsequence(info, actual, subsequence));
   }
 
   /**
@@ -850,8 +765,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF doesNotContainSubsequence(Iterable<? extends ELEMENT> subsequence) {
     checkSubsequenceIsNotNull(subsequence);
-    arrays.assertDoesNotContainSubsequence(info, actual, toArray(subsequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainSubsequence(info, actual, toArray(subsequence)));
   }
 
   /**
@@ -881,8 +795,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF contains(ELEMENT value, Index index) {
-    arrays.assertContains(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, value, index));
   }
 
   /**
@@ -909,8 +822,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasOnlyElementsOfTypes(Class<?>... types) {
-    arrays.assertHasOnlyElementsOfTypes(info, actual, types);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasOnlyElementsOfTypes(info, actual, types));
   }
 
   /**
@@ -940,8 +852,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasExactlyElementsOfTypes(Class<?>... expectedTypes) {
-    arrays.assertHasExactlyElementsOfTypes(info, actual, expectedTypes);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasExactlyElementsOfTypes(info, actual, expectedTypes));
   }
 
   /**
@@ -969,8 +880,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF doesNotContain(ELEMENT value, Index index) {
-    arrays.assertDoesNotContain(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, value, index));
   }
 
   /**
@@ -997,15 +907,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF doesNotContain(ELEMENT... values) {
-    return doesNotContainForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF doesNotContainForProxy(ELEMENT[] values) {
-    arrays.assertDoesNotContain(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, values));
   }
 
   /**
@@ -1030,8 +932,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF doesNotContainAnyElementsOf(Iterable<? extends ELEMENT> iterable) {
-    arrays.assertDoesNotContainAnyElementsOf(info, actual, iterable);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainAnyElementsOf(info, actual, iterable));
   }
 
   /**
@@ -1053,8 +954,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF doesNotHaveDuplicates() {
-    arrays.assertDoesNotHaveDuplicates(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotHaveDuplicates(info, actual));
   }
 
   /**
@@ -1081,15 +981,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF startsWith(ELEMENT... sequence) {
-    return startsWithForProxy(sequence);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF startsWithForProxy(ELEMENT[] sequence) {
-    arrays.assertStartsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertStartsWith(info, actual, sequence));
   }
 
   /**
@@ -1115,8 +1007,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF endsWith(ELEMENT[] sequence) {
-    arrays.assertEndsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, actual, sequence));
   }
 
   /**
@@ -1143,15 +1034,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF endsWith(ELEMENT first, ELEMENT... sequence) {
-    return endsWithForProxy(first, sequence);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF endsWithForProxy(ELEMENT first, ELEMENT[] sequence) {
-    arrays.assertEndsWith(info, actual, first, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, actual, first, sequence));
   }
 
   /**
@@ -1175,8 +1058,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF isSubsetOf(Iterable<? extends ELEMENT> values) {
-    arrays.assertIsSubsetOf(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSubsetOf(info, actual, values));
   }
 
   /**
@@ -1201,15 +1083,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF isSubsetOf(ELEMENT... values) {
-    return isSubsetOfForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF isSubsetOfForProxy(ELEMENT[] values) {
-    arrays.assertIsSubsetOf(info, actual, Arrays.asList(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSubsetOf(info, actual, Arrays.asList(values)));
   }
 
   /**
@@ -1231,8 +1105,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF containsNull() {
-    arrays.assertContainsNull(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsNull(info, actual));
   }
 
   /**
@@ -1254,8 +1127,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF doesNotContainNull() {
-    arrays.assertDoesNotContainNull(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainNull(info, actual));
   }
 
   /**
@@ -1282,8 +1154,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF are(Condition<? super ELEMENT> condition) {
-    arrays.assertAre(info, actual, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertAre(info, actual, condition));
   }
 
   /**
@@ -1310,8 +1181,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF areNot(Condition<? super ELEMENT> condition) {
-    arrays.assertAreNot(info, actual, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertAreNot(info, actual, condition));
   }
 
   /**
@@ -1338,8 +1208,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF have(Condition<? super ELEMENT> condition) {
-    arrays.assertHave(info, actual, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertHave(info, actual, condition));
   }
 
   /**
@@ -1366,8 +1235,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF doNotHave(Condition<? super ELEMENT> condition) {
-    arrays.assertDoNotHave(info, actual, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoNotHave(info, actual, condition));
   }
 
   /**
@@ -1393,8 +1261,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF areAtLeast(int times, Condition<? super ELEMENT> condition) {
-    arrays.assertAreAtLeast(info, actual, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertAreAtLeast(info, actual, times, condition));
   }
 
   /**
@@ -1438,8 +1305,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF areAtMost(int times, Condition<? super ELEMENT> condition) {
-    arrays.assertAreAtMost(info, actual, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertAreAtMost(info, actual, times, condition));
   }
 
   /**
@@ -1466,8 +1332,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF areExactly(int times, Condition<? super ELEMENT> condition) {
-    arrays.assertAreExactly(info, actual, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertAreExactly(info, actual, times, condition));
   }
 
   /**
@@ -1506,8 +1371,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF haveAtLeast(int times, Condition<? super ELEMENT> condition) {
-    arrays.assertHaveAtLeast(info, actual, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertHaveAtLeast(info, actual, times, condition));
   }
 
   /**
@@ -1529,8 +1393,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF haveAtMost(int times, Condition<? super ELEMENT> condition) {
-    arrays.assertHaveAtMost(info, actual, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertHaveAtMost(info, actual, times, condition));
   }
 
   /**
@@ -1552,8 +1415,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF haveExactly(int times, Condition<? super ELEMENT> condition) {
-    arrays.assertHaveExactly(info, actual, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertHaveExactly(info, actual, times, condition));
   }
 
   /**
@@ -1561,8 +1423,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasAtLeastOneElementOfType(Class<?> type) {
-    arrays.assertHasAtLeastOneElementOfType(info, actual, type);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasAtLeastOneElementOfType(info, actual, type));
   }
 
   /**
@@ -1570,8 +1431,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasOnlyElementsOfType(Class<?> type) {
-    arrays.assertHasOnlyElementsOfType(info, actual, type);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasOnlyElementsOfType(info, actual, type));
   }
 
   /**
@@ -1579,8 +1439,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF doesNotHaveAnyElementsOfTypes(Class<?>... unexpectedTypes) {
-    arrays.assertDoesNotHaveAnyElementsOfTypes(info, actual, unexpectedTypes);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotHaveAnyElementsOfTypes(info, actual, unexpectedTypes));
   }
 
   /**
@@ -1588,8 +1447,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF isSorted() {
-    arrays.assertIsSorted(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSorted(info, actual));
   }
 
   /**
@@ -1597,8 +1455,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF isSortedAccordingTo(Comparator<? super ELEMENT> comparator) {
-    arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSortedAccordingToComparator(info, actual, comparator));
   }
 
   /**
@@ -1622,8 +1479,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF containsAll(Iterable<? extends ELEMENT> iterable) {
-    arrays.assertContainsAll(info, actual, iterable);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAll(info, actual, iterable));
   }
 
   /**
@@ -1706,7 +1562,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   /**
+   * /**
    * Enable using a recursive field by field comparison strategy similar to {@link #usingRecursiveComparison()} but contrary to the latter <b>you can chain any iterable assertions after this method</b> (this is why this method exists).
    * <p>
    * This method uses the default {@link RecursiveComparisonConfiguration}, if you need to customize it use {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} instead.
@@ -1807,7 +1663,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // assertion fails because howard is missing and leonard is not expected.
    * assertThat(doctors).usingRecursiveFieldByFieldElementComparator(configuration)
    *                    .containsExactlyInAnyOrderElementsOf(List.of(howard, sheldon, raj));</code></pre>
-   *
+   * <p>
    * A detailed documentation for the recursive comparison is available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>.
    * <p>
    * A point worth mentioning: <b>elements order does matter if the expected iterable is ordered</b>, for example comparing a {@code Set<Person>} to a {@code List<Person>} fails as {@code List} is ordered and {@code Set} is not.<br>
@@ -1968,10 +1824,13 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(String fieldOrProperty) {
-    Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
-    String extractedDescription = extractedDescriptionOf(fieldOrProperty);
-    String description = mostRelevantDescription(info.description(), extractedDescription);
-    return newListAssertInstance(newArrayList(values)).withAssertionState(myself).as(description);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
+      String extractedDescription = extractedDescriptionOf(fieldOrProperty);
+      String description = mostRelevantDescription(info.description(), extractedDescription);
+      return newListAssertInstance(newArrayList(values)).withAssertionState(myself).as(description);
+    }, ListAssert::nullListAssert);
   }
 
   /**
@@ -2021,11 +1880,14 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extracting(String fieldOrProperty,
                                                                                      Class<P> extractingType) {
-    @SuppressWarnings("unchecked")
-    List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(fieldOrProperty));
-    String extractedDescription = extractedDescriptionOf(fieldOrProperty);
-    String description = mostRelevantDescription(info.description(), extractedDescription);
-    return newListAssertInstance(values).withAssertionState(myself).as(description);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      @SuppressWarnings("unchecked")
+      List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(fieldOrProperty));
+      String extractedDescription = extractedDescriptionOf(fieldOrProperty);
+      String description = mostRelevantDescription(info.description(), extractedDescription);
+      return newListAssertInstance(values).withAssertionState(myself).as(description);
+    }, ListAssert::nullListAssert);
   }
 
   /**
@@ -2079,10 +1941,13 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(String... propertiesOrFields) {
-    List<Tuple> values = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(propertiesOrFields));
-    String extractedDescription = extractedDescriptionOf(propertiesOrFields);
-    String description = mostRelevantDescription(info.description(), extractedDescription);
-    return newListAssertInstance(values).withAssertionState(myself).as(description);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      List<Tuple> values = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(propertiesOrFields));
+      String extractedDescription = extractedDescriptionOf(propertiesOrFields);
+      String description = mostRelevantDescription(info.description(), extractedDescription);
+      return newListAssertInstance(values).withAssertionState(myself).as(description);
+    }, ListAssert::nullListAssert);
   }
 
   /**
@@ -2118,8 +1983,11 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public <U> AbstractListAssert<?, List<? extends U>, U, ObjectAssert<U>> extracting(Function<? super ELEMENT, U> extractor) {
-    List<U> values = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor);
-    return newListAssertInstance(values).withAssertionState(myself);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      List<U> values = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor);
+      return newListAssertInstance(values).withAssertionState(myself);
+    }, ListAssert::nullListAssert);
   }
 
   /**
@@ -2162,8 +2030,11 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
-    List<V> values = FieldsOrPropertiesExtractor.extract(newArrayList(actual), extractor);
-    return newListAssertInstance(values).withAssertionState(myself);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      List<V> values = FieldsOrPropertiesExtractor.extract(newArrayList(actual), extractor);
+      return newListAssertInstance(values).withAssertionState(myself);
+    }, ListAssert::nullListAssert);
   }
 
   /**
@@ -2217,19 +2088,14 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   @SafeVarargs
   public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(Function<? super ELEMENT, ?>... extractors) {
-    return extractingForProxy(extractors);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingForProxy(Function<? super ELEMENT, ?>[] extractors) {
-
-    Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
-                                                                                          .map(extractor -> extractor.apply(objectToExtractValueFrom))
-                                                                                          .toArray());
-    List<Tuple> tuples = stream(actual).map(tupleExtractor).collect(toList());
-    return newListAssertInstance(tuples).withAssertionState(myself);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
+                                                                                            .map(extractor -> extractor.apply(objectToExtractValueFrom))
+                                                                                            .toArray());
+      List<Tuple> tuples = stream(actual).map(tupleExtractor).collect(toList());
+      return newListAssertInstance(tuples).withAssertionState(myself);
+    }, ListAssert::nullListAssert);
   }
 
   /**
@@ -2264,7 +2130,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(Function<? super ELEMENT, C> extractor) {
-    return doFlatExtracting(extractor);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      List<V> result = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor).stream()
+                                                  .flatMap(Collection::stream).collect(toList());
+      return newListAssertInstance(result).withAssertionState(myself);
+    }, ListAssert::nullListAssert);
   }
 
   /**
@@ -2306,13 +2177,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public <V, C extends Collection<V>, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(ThrowingExtractor<? super ELEMENT, C, EXCEPTION> extractor) {
-    return doFlatExtracting(extractor);
-  }
-
-  private <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Function<? super ELEMENT, C> extractor) {
-    List<V> result = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor).stream()
-                                                .flatMap(Collection::stream).collect(toList());
-    return newListAssertInstance(result).withAssertionState(myself);
+    return flatExtracting((Function<? super ELEMENT, C>) extractor);
   }
 
   /**
@@ -2346,24 +2211,27 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(String propertyName) {
-    List<Object> extractedValues = newArrayList();
-    List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(propertyName));
-    for (Object group : extractedGroups) {
-      // expecting group to be an iterable or an array
-      if (isArray(group)) {
-        int size = Array.getLength(group);
-        for (int i = 0; i < size; i++) {
-          extractedValues.add(Array.get(group, i));
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      List<Object> extractedValues = newArrayList();
+      List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(propertyName));
+      for (Object group : extractedGroups) {
+        // expecting group to be an iterable or an array
+        if (isArray(group)) {
+          int size = Array.getLength(group);
+          for (int i = 0; i < size; i++) {
+            extractedValues.add(Array.get(group, i));
+          }
+        } else if (group instanceof Iterable<?> iterable) {
+          for (Object value : iterable) {
+            extractedValues.add(value);
+          }
+        } else {
+          CommonErrors.wrongElementTypeForFlatExtracting(group);
         }
-      } else if (group instanceof Iterable<?> iterable) {
-        for (Object value : iterable) {
-          extractedValues.add(value);
-        }
-      } else {
-        CommonErrors.wrongElementTypeForFlatExtracting(group);
       }
-    }
-    return newListAssertInstance(extractedValues).withAssertionState(myself);
+      return newListAssertInstance(extractedValues).withAssertionState(myself);
+    }, ListAssert::nullListAssert);
   }
 
   /**
@@ -2405,10 +2273,13 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingResultOf(String method) {
-    Object[] values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-    String extractedDescription = extractedDescriptionOfMethod(method);
-    String description = mostRelevantDescription(info.description(), extractedDescription);
-    return newListAssertInstance(newArrayList(values)).withAssertionState(myself).as(description);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      Object[] values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
+      String extractedDescription = extractedDescriptionOfMethod(method);
+      String description = mostRelevantDescription(info.description(), extractedDescription);
+      return newListAssertInstance(newArrayList(values)).withAssertionState(myself).as(description);
+    }, ListAssert::nullListAssert);
   }
 
   /**
@@ -2453,11 +2324,14 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extractingResultOf(String method,
                                                                                              Class<P> extractingType) {
-    @SuppressWarnings("unchecked")
-    P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-    String extractedDescription = extractedDescriptionOfMethod(method);
-    String description = mostRelevantDescription(info.description(), extractedDescription);
-    return newListAssertInstance(newArrayList(values)).withAssertionState(myself).as(description);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      @SuppressWarnings("unchecked")
+      P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
+      String extractedDescription = extractedDescriptionOfMethod(method);
+      String description = mostRelevantDescription(info.description(), extractedDescription);
+      return newListAssertInstance(newArrayList(values)).withAssertionState(myself).as(description);
+    }, ListAssert::nullListAssert);
   }
 
   /**
@@ -2737,7 +2611,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IllegalArgumentException if the given predicate is {@code null}.
    */
   public SELF filteredOn(Predicate<? super ELEMENT> predicate) {
-    return internalFilteredOn(predicate);
+    checkArgument(predicate != null, "The filter predicate should not be null");
+    List<ELEMENT> filteredList = stream(actual).filter(predicate).toList();
+    return newObjectArrayAssert(filteredList);
   }
 
   /**
@@ -2771,8 +2647,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public <T> SELF filteredOn(Function<? super ELEMENT, T> function, T expectedValue) {
     checkArgument(function != null, "The filter function should not be null");
-    // call internalFilteredOn to avoid double proxying in soft assertions
-    return internalFilteredOn(element -> java.util.Objects.equals(function.apply(element), expectedValue));
+    return filteredOn(element -> java.util.Objects.equals(function.apply(element), expectedValue));
   }
 
   /**
@@ -2795,7 +2670,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @since 3.11.0
    */
   public SELF filteredOnAssertions(Consumer<? super ELEMENT> elementAssertions) {
-    return internalFilteredOnAssertions(elementAssertions);
+    checkArgument(elementAssertions != null, "The element assertions should not be null");
+    List<ELEMENT> filteredList = stream(actual).filter(byPassingAssertions(elementAssertions)).toList();
+    return newObjectArrayAssert(filteredList).withAssertionState(myself);
   }
 
   /**
@@ -2820,13 +2697,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @since 3.21.0
    */
   public SELF filteredOnAssertions(ThrowingConsumer<? super ELEMENT> elementAssertions) {
-    return internalFilteredOnAssertions(elementAssertions);
-  }
-
-  private SELF internalFilteredOnAssertions(Consumer<? super ELEMENT> elementAssertions) {
-    checkArgument(elementAssertions != null, "The element assertions should not be null");
-    List<ELEMENT> filteredIterable = stream(actual).filter(byPassingAssertions(elementAssertions)).collect(toList());
-    return newObjectArrayAssert(filteredIterable).withAssertionState(myself);
+    return filteredOnAssertions((Consumer<? super ELEMENT>) elementAssertions);
   }
 
   /**
@@ -2852,8 +2723,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF allMatch(Predicate<? super ELEMENT> predicate) {
-    iterables.assertAllMatch(info, newArrayList(actual), predicate, PredicateDescription.GIVEN);
-    return myself;
+    return allMatch(predicate, PredicateDescription.GIVEN.description);
   }
 
   /**
@@ -2861,8 +2731,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF allMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
-    iterables.assertAllMatch(info, newArrayList(actual), predicate, new PredicateDescription(predicateDescription));
-    return myself;
+    return executeAssertion(() -> iterables.assertAllMatch(info, List.of(actual), predicate,
+                                                           new PredicateDescription(predicateDescription)));
   }
 
   /**
@@ -2870,7 +2740,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF allSatisfy(Consumer<? super ELEMENT> requirements) {
-    return internalAllSatisfy(requirements);
+    return executeAssertion(() -> iterables.assertAllSatisfy(info, newArrayList(actual), requirements));
   }
 
   /**
@@ -2908,12 +2778,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF allSatisfy(ThrowingConsumer<? super ELEMENT> requirements) {
-    return internalAllSatisfy(requirements);
-  }
-
-  private SELF internalAllSatisfy(Consumer<? super ELEMENT> requirements) {
-    iterables.assertAllSatisfy(info, newArrayList(actual), requirements);
-    return myself;
+    return allSatisfy((Consumer<? super ELEMENT>) requirements);
   }
 
   /**
@@ -2939,8 +2804,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF anyMatch(Predicate<? super ELEMENT> predicate) {
-    iterables.assertAnyMatch(info, newArrayList(actual), predicate, PredicateDescription.GIVEN);
-    return myself;
+    return anyMatch(predicate, PredicateDescription.GIVEN.description);
   }
 
   /**
@@ -2970,8 +2834,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF anyMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
-    iterables.assertAnyMatch(info, newArrayList(actual), predicate, new PredicateDescription(predicateDescription));
-    return myself;
+    return executeAssertion(() -> iterables.assertAnyMatch(info, List.of(actual), predicate,
+                                                           new PredicateDescription(predicateDescription)));
   }
 
   /**
@@ -3004,8 +2868,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   public <OTHER_ELEMENT> SELF zipSatisfy(OTHER_ELEMENT[] other,
                                          BiConsumer<? super ELEMENT, OTHER_ELEMENT> zipRequirements) {
-    iterables.assertZipSatisfy(info, newArrayList(actual), newArrayList(other), zipRequirements);
-    return myself;
+    return executeAssertion(() -> iterables.assertZipSatisfy(info, List.of(actual), List.of(other), zipRequirements));
   }
 
   /**
@@ -3013,7 +2876,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF anySatisfy(Consumer<? super ELEMENT> requirements) {
-    return internalAnySatisfy(requirements);
+    return executeAssertion(() -> iterables.assertAnySatisfy(info, newArrayList(actual), requirements));
   }
 
   /**
@@ -3051,12 +2914,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF anySatisfy(ThrowingConsumer<? super ELEMENT> requirements) {
-    return internalAnySatisfy(requirements);
-  }
-
-  private SELF internalAnySatisfy(Consumer<? super ELEMENT> requirements) {
-    iterables.assertAnySatisfy(info, newArrayList(actual), requirements);
-    return myself;
+    return anySatisfy((Consumer<? super ELEMENT>) requirements);
   }
 
   /**
@@ -3064,7 +2922,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF noneSatisfy(Consumer<? super ELEMENT> restrictions) {
-    return internalNoneSatisfy(restrictions);
+    return executeAssertion(() -> iterables.assertNoneSatisfy(info, newArrayList(actual), restrictions));
   }
 
   /**
@@ -3102,12 +2960,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF noneSatisfy(ThrowingConsumer<? super ELEMENT> restrictions) {
-    return internalNoneSatisfy(restrictions);
-  }
-
-  private SELF internalNoneSatisfy(Consumer<? super ELEMENT> restrictions) {
-    iterables.assertNoneSatisfy(info, newArrayList(actual), restrictions);
-    return myself;
+    return noneSatisfy((Consumer<? super ELEMENT>) restrictions);
   }
 
   /**
@@ -3153,7 +3006,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF satisfiesExactly(Consumer<? super ELEMENT>... requirements) {
-    return satisfiesExactlyForProxy(requirements);
+    return executeAssertion(() -> iterables.assertSatisfiesExactly(info, List.of(actual), requirements));
   }
 
   /**
@@ -3205,15 +3058,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF satisfiesExactly(ThrowingConsumer<? super ELEMENT>... requirements) {
-    return satisfiesExactlyForProxy(requirements);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF satisfiesExactlyForProxy(Consumer<? super ELEMENT>[] requirements) {
-    iterables.assertSatisfiesExactly(info, newArrayList(actual), requirements);
-    return myself;
+    return satisfiesExactly((Consumer<? super ELEMENT>[]) requirements);
   }
 
   /**
@@ -3269,7 +3114,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF satisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>... requirements) {
-    return satisfiesExactlyInAnyOrderForProxy(requirements);
+    return executeAssertion(() -> iterables.assertSatisfiesExactlyInAnyOrder(info, List.of(actual), requirements));
   }
 
   /**
@@ -3326,15 +3171,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF satisfiesExactlyInAnyOrder(ThrowingConsumer<? super ELEMENT>... requirements) {
-    return satisfiesExactlyInAnyOrderForProxy(requirements);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF satisfiesExactlyInAnyOrderForProxy(Consumer<? super ELEMENT>[] requirements) {
-    iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(actual), requirements);
-    return myself;
+    return satisfiesExactlyInAnyOrder((Consumer<? super ELEMENT>[]) requirements);
   }
 
   /**
@@ -3362,7 +3199,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF satisfiesOnlyOnce(Consumer<? super ELEMENT> requirements) {
-    return satisfiesOnlyOnceForProxy(requirements);
+    return executeAssertion(() -> iterables.assertSatisfiesOnlyOnce(info, List.of(actual), requirements));
   }
 
   /**
@@ -3391,15 +3228,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF satisfiesOnlyOnce(ThrowingConsumer<? super ELEMENT> requirements) {
-    return satisfiesOnlyOnceForProxy(requirements);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF satisfiesOnlyOnceForProxy(Consumer<? super ELEMENT> requirements) {
-    iterables.assertSatisfiesOnlyOnce(info, newArrayList(actual), requirements);
-    return myself;
+    return satisfiesOnlyOnce((Consumer<? super ELEMENT>) requirements);
   }
 
   /**
@@ -3430,15 +3259,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsAnyOf(ELEMENT... values) {
-    return containsAnyOfForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsAnyOfForProxy(ELEMENT[] values) {
-    arrays.assertContainsAnyOf(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, values));
   }
 
   /**
@@ -3495,8 +3316,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF noneMatch(Predicate<? super ELEMENT> predicate) {
-    iterables.assertNoneMatch(info, newArrayList(actual), predicate, PredicateDescription.GIVEN);
-    return myself;
+    return noneMatch(predicate, PredicateDescription.GIVEN.description);
   }
 
   /**
@@ -3527,8 +3347,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF noneMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
-    iterables.assertNoneMatch(info, newArrayList(actual), predicate, new PredicateDescription(predicateDescription));
-    return myself;
+    return executeAssertion(() -> iterables.assertNoneMatch(info, List.of(actual), predicate,
+                                                            new PredicateDescription(predicateDescription)));
   }
 
   /**
@@ -3759,7 +3579,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public ObjectAssert<ELEMENT> singleElement() {
-    return internalSingleElement();
+    return executeAssertionNavigation(this::internalSingleElement,
+                                      () -> toAssert(null, navigationDescription("check single element")));
   }
 
   /**
@@ -3801,7 +3622,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT singleElement(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return internalSingleElement().asInstanceOf(assertFactory);
+    return executeAssertionNavigation(() -> internalSingleElement().asInstanceOf(assertFactory),
+                                      () -> nullValueAssert(assertFactory));
   }
 
   private ObjectAssert<ELEMENT> internalSingleElement() {
@@ -3822,7 +3644,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   private ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
-    return new ObjectAssert<>(value).as(description);
+    return new ObjectAssert<>(value).withAssertionState(myself).as(description);
   }
 
   // lazy init TypeComparators
@@ -3900,9 +3722,4 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return filteredList.toArray(actualCopy);
   }
 
-  private SELF internalFilteredOn(Predicate<? super ELEMENT> predicate) {
-    checkArgument(predicate != null, "The filter predicate should not be null");
-    List<ELEMENT> filteredList = stream(actual).filter(predicate).collect(toList());
-    return newObjectArrayAssert(filteredList);
-  }
 }

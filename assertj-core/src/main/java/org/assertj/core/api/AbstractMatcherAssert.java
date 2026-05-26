@@ -57,11 +57,12 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    * @since 3.23.0
    */
   public SELF matches() {
-    isNotNull();
-    if (!actual.matches()) {
-      throw Failures.instance().failure(info, shouldMatch(actual));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!actual.matches()) {
+        throw Failures.instance().failure(info, shouldMatch(actual));
+      }
+    });
   }
 
   /**
@@ -83,9 +84,10 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    * @since 4.0.0
    */
   public AbstractStringAssert<?> group(int groupIndex) {
-    isNotNull();
-    matches();
-    return assertThat(extractGroup(() -> actual.group(groupIndex), groupIndex));
+    return executeAssertionNavigation(() -> {
+      matches();
+      return assertThat(extractGroup(() -> actual.group(groupIndex), groupIndex)).withAssertionState(myself);
+    }, StringAssert::nullStringAssert);
   }
 
   /**
@@ -107,9 +109,10 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    * @since 4.0.0
    */
   public AbstractStringAssert<?> group(String groupName) {
-    isNotNull();
-    matches();
-    return assertThat(extractGroup(() -> actual.group(groupName), groupName));
+    return executeAssertionNavigation(() -> {
+      matches();
+      return assertThat(extractGroup(() -> actual.group(groupName), groupName)).withAssertionState(myself);
+    }, StringAssert::nullStringAssert);
   }
 
   /**
@@ -129,9 +132,10 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    * @since 4.0.0
    */
   public ListAssert<String> groups() {
-    isNotNull();
-    matches();
-    return assertThat(rangeClosed(1, actual.groupCount()).mapToObj(actual::group).toList());
+    return executeAssertionNavigation(() -> {
+      matches();
+      return assertThat(rangeClosed(1, actual.groupCount()).mapToObj(actual::group).toList()).withAssertionState(myself);
+    }, ListAssert::nullListAssert);
   }
 
   private String extractGroup(Supplier<String> groupExtractor, Object groupIdentifier) {

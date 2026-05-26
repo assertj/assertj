@@ -18,12 +18,15 @@ package org.assertj.core.api.objectarray;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.function.Consumer;
 
 import org.assertj.core.api.IterableAssert;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.TolkienCharacter;
@@ -61,9 +64,23 @@ class ObjectArrayAssert_filteredOnAssertions_Test extends ObjectArrayAssert_filt
                                                         .filteredOnAssertions(string -> assertThat(string.length()).isEqualTo(4))
                                                         .containsExactly("JOHN", "JANE");
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    then(assertion.descriptionText()).isEqualTo("test description");
+    then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+  }
+
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    Consumer<Employee> assertions = employee -> assertThat(employee.getAge()).isGreaterThan(100);
+    // WHEN
+    softly.assertThat(employees)
+          .overridingErrorMessage("error message")
+          .filteredOnAssertions(assertions)
+          .containsOnly(luke, obiwan);
+    // THEN
+    then(softly.assertionErrorsCollected()).singleElement(THROWABLE).hasMessage("error message");
   }
 
 }

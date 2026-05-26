@@ -34,4 +34,8 @@ public class ByteAssert extends AbstractByteAssert<ByteAssert> {
   public ByteAssert(Byte actual) {
     super(actual, ByteAssert.class);
   }
+
+  public static ByteAssert nullByteAssert() {
+    return new ByteAssert(null);
+  }
 }

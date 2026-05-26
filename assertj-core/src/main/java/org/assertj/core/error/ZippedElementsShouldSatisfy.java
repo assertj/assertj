@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Strings.escapePercent;
 
 import java.util.List;
+
 import org.assertj.core.api.AssertionInfo;
 
 public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {

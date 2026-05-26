@@ -16,6 +16,8 @@
 package org.assertj.core.api.iterable;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
@@ -24,6 +26,7 @@ import java.util.List;
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -46,5 +49,16 @@ class IterableAssert_isSubsetOf_with_Array_Test extends IterableAssertBaseTest {
   @Test
   void invoke_api_like_user() {
     assertThat(newArrayList("Luke", "Yoda")).isSubsetOf("Yoda", "Luke", "Chewbacca");
+  }
+
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    // WHEN
+    softly.assertThat(List.of("Luke", "Yoda")).isSubsetOf("Solo", "Luke");
+    // THEN
+    List<AssertionError> errors = softly.assertionErrorsCollected();
+    then(errors).singleElement(THROWABLE).hasMessageContaining("to be subset of");
   }
 }

@@ -45,11 +45,11 @@ import org.assertj.core.util.diff.Delta;
 
 /**
  * Base class for all implementations of assertions for {@link InputStream}s.
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
- * @param <ACTUAL> the type of the "actual" value.
  *
+ * @param <SELF>   the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
+ *                 target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *                 for more details.
+ * @param <ACTUAL> the type of the "actual" value.
  * @author Matthieu Baechler
  * @author Mikhail Mazursky
  * @author Stefan Birkner
@@ -85,14 +85,16 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @param charset the {@link Charset} to interpret the {@code InputStream}'s content to a String
    * @return a string assertion object.
    * @throws NullPointerException if the given {@code Charset} is {@code null}.
-   * @throws AssertionError if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError       if the actual {@code InputStream} is {@code null}.
    * @throws UncheckedIOException if an I/O error occurs.
    * @since 3.20.0
    */
   @CheckReturnValue
   public AbstractStringAssert<?> asString(Charset charset) {
-    isNotNull();
-    return assertThat(asString(actual, charset));
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      return assertThat(asString(actual, charset)).withAssertionState(myself);
+    }, StringAssert::nullStringAssert);
   }
 
   private String asString(InputStream actual, Charset charset) {
@@ -130,14 +132,15 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @param expected the given {@code InputStream} to compare the actual {@code InputStream} to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code InputStream} is {@code null}.
-   * @throws AssertionError if the actual {@code InputStream} is {@code null}.
-   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
+   * @throws AssertionError       if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError       if the content of the actual {@code InputStream} is not equal to the content of the given one.
    * @throws UncheckedIOException if an I/O error occurs.
    */
   public SELF hasSameContentAs(InputStream expected) {
-    isNotNull();
-    assertHasSameContentAs(expected);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasSameContentAs(expected);
+    });
   }
 
   private void assertHasSameContentAs(InputStream expected) {
@@ -167,14 +170,15 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    *
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code InputStream} is {@code null}.
-   * @throws AssertionError if the content of the actual {@code InputStream} is not empty.
+   * @throws AssertionError       if the content of the actual {@code InputStream} is not empty.
    * @throws UncheckedIOException if an I/O error occurs.
    * @since 3.17.0
    */
   public SELF isEmpty() {
-    isNotNull();
-    assertIsEmpty();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsEmpty();
+    });
   }
 
   private void assertIsEmpty() {
@@ -202,14 +206,15 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    *
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code InputStream} is {@code null}.
-   * @throws AssertionError if the content of the actual {@code InputStream} is empty.
+   * @throws AssertionError       if the content of the actual {@code InputStream} is empty.
    * @throws UncheckedIOException if an I/O error occurs.
    * @since 3.17.0
    */
   public SELF isNotEmpty() {
-    isNotNull();
-    assertIsNotEmpty();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsNotEmpty();
+    });
   }
 
   private void assertIsNotEmpty() {
@@ -245,15 +250,16 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @param expected the given {@code String} to compare the actual {@code InputStream} to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code String} is {@code null}.
-   * @throws AssertionError if the actual {@code InputStream} is {@code null}.
-   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the given {@code String}.
+   * @throws AssertionError       if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError       if the content of the actual {@code InputStream} is not equal to the given {@code String}.
    * @throws UncheckedIOException if an I/O error occurs.
    * @since 3.11.0
    */
   public SELF hasContent(String expected) {
-    isNotNull();
-    assertHasContent(expected);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasContent(expected);
+    });
   }
 
   private void assertHasContent(String expected) {
@@ -287,15 +293,16 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @param expected the expected binary content to compare the actual {@code InputStream}'s content to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given content is {@code null}.
-   * @throws AssertionError if the actual {@code InputStream} is {@code null}.
-   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the given binary content.
+   * @throws AssertionError       if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError       if the content of the actual {@code InputStream} is not equal to the given binary content.
    * @throws UncheckedIOException if an I/O error occurs.
    * @since 3.16.0
    */
   public SELF hasBinaryContent(byte[] expected) {
-    isNotNull();
-    assertHasBinaryContent(expected);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasBinaryContent(expected);
+    });
   }
 
   private void assertHasBinaryContent(byte[] expected) {
@@ -329,20 +336,21 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "3735dff8e1f9df0492a34ef075205b8f".getBytes());</code></pre>
    *
    * @param algorithm the MessageDigest used to calculate the digests.
-   * @param expected the expected binary content to compare the actual {@code InputStream}'s digest to.
+   * @param expected  the expected binary content to compare the actual {@code InputStream}'s digest to.
    * @return {@code this} assertion object.
-   * @throws NullPointerException  if the given algorithm is {@code null}.
-   * @throws NullPointerException  if the given digest is {@code null}.
-   * @throws AssertionError        if the actual {@code InputStream} is {@code null}.
-   * @throws AssertionError        if the actual {@code InputStream} is not readable.
+   * @throws NullPointerException if the given algorithm is {@code null}.
+   * @throws NullPointerException if the given digest is {@code null}.
+   * @throws AssertionError       if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError       if the actual {@code InputStream} is not readable.
    * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code InputStream}'s digest is not equal to the given one.
    * @since 3.11.0
    */
   public SELF hasDigest(MessageDigest algorithm, byte[] expected) {
-    isNotNull();
-    assertHasDigest(algorithm, expected);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasDigest(algorithm, expected);
+    });
   }
 
   /**
@@ -364,20 +372,21 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "3735dff8e1f9df0492a34ef075205b8f");</code></pre>
    *
    * @param algorithm the MessageDigest used to calculate the digests.
-   * @param digest the expected binary content to compare the actual {@code InputStream}'s digest to.
+   * @param digest    the expected binary content to compare the actual {@code InputStream}'s digest to.
    * @return {@code this} assertion object.
-   * @throws NullPointerException  if the given algorithm is {@code null}.
-   * @throws NullPointerException  if the given digest is {@code null}.
-   * @throws AssertionError        if the actual {@code InputStream} is {@code null}.
-   * @throws AssertionError        if the actual {@code InputStream} is not readable.
+   * @throws NullPointerException if the given algorithm is {@code null}.
+   * @throws NullPointerException if the given digest is {@code null}.
+   * @throws AssertionError       if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError       if the actual {@code InputStream} is not readable.
    * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code InputStream}'s digest is not equal to the given one.
    * @since 3.11.0
    */
   public SELF hasDigest(MessageDigest algorithm, String digest) {
-    isNotNull();
-    assertHasDigest(algorithm, Digests.fromHex(digest));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasDigest(algorithm, Digests.fromHex(digest));
+    });
   }
 
   /**
@@ -399,20 +408,21 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * assertThat(tested).hasDigest("MD5", "3735dff8e1f9df0492a34ef075205b8f".getBytes()); </code></pre>
    *
    * @param algorithm the algorithm used to calculate the digests.
-   * @param expected the expected binary content to compare the actual {@code InputStream}'s content to.
+   * @param expected  the expected binary content to compare the actual {@code InputStream}'s content to.
    * @return {@code this} assertion object.
-   * @throws NullPointerException  if the given algorithm is {@code null}.
-   * @throws NullPointerException  if the given digest is {@code null}.
-   * @throws AssertionError        if the actual {@code InputStream} is {@code null}.
-   * @throws AssertionError        if the actual {@code InputStream} is not readable.
+   * @throws NullPointerException if the given algorithm is {@code null}.
+   * @throws NullPointerException if the given digest is {@code null}.
+   * @throws AssertionError       if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError       if the actual {@code InputStream} is not readable.
    * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code InputStream}'s digest is not equal to the given one.
    * @since 3.11.0
    */
   public SELF hasDigest(String algorithm, byte[] expected) {
-    isNotNull();
-    assertHasDigest(algorithm, expected);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasDigest(algorithm, expected);
+    });
   }
 
   /**
@@ -434,20 +444,21 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * assertThat(tested).hasDigest("MD5", "3735dff8e1f9df0492a34ef075205b8f"); </code></pre>
    *
    * @param algorithm the algorithm used to calculate the digests.
-   * @param digest the expected binary content to compare the actual {@code InputStream}'s content to.
+   * @param digest    the expected binary content to compare the actual {@code InputStream}'s content to.
    * @return {@code this} assertion object.
-   * @throws NullPointerException  if the given algorithm is {@code null}.
-   * @throws NullPointerException  if the given digest is {@code null}.
-   * @throws AssertionError        if the actual {@code InputStream} is {@code null}.
-   * @throws AssertionError        if the actual {@code InputStream} is not readable.
+   * @throws NullPointerException if the given algorithm is {@code null}.
+   * @throws NullPointerException if the given digest is {@code null}.
+   * @throws AssertionError       if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError       if the actual {@code InputStream} is not readable.
    * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code InputStream}'s digest is not equal to the given one.
    * @since 3.11.0
    */
   public SELF hasDigest(String algorithm, String digest) {
-    isNotNull();
-    assertHasDigest(algorithm, digest);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasDigest(algorithm, digest);
+    });
   }
 
   private void assertHasDigest(String algorithm, String digest) {

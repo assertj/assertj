@@ -15,7 +15,6 @@
  */
 package org.assertj.tests.core.testkit;
 
-import com.google.common.reflect.TypeResolver;
 import java.io.InputStream;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
@@ -23,12 +22,13 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+
+import com.google.common.reflect.TypeResolver;
 
 /**
  * A Type canonizar that helps with the resolving of a {@link Type} so it can be compared to a similar one

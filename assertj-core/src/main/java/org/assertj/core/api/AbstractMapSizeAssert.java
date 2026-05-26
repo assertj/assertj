@@ -17,12 +17,54 @@ package org.assertj.core.api;
 
 import java.util.Map;
 
-public abstract class AbstractMapSizeAssert<SELF extends AbstractMapAssert<SELF, A, KEY, VALUE>, A extends Map<KEY, VALUE>, KEY, VALUE>
-    extends AbstractIntegerAssert<AbstractMapSizeAssert<SELF, A, KEY, VALUE>> {
+import org.assertj.core.annotation.CheckReturnValue;
 
-  protected AbstractMapSizeAssert(Integer actual, Class<?> selfType) {
-    super(actual, selfType);
+//@format:off
+public abstract class AbstractMapSizeAssert<ORIGIN extends AbstractMapAssert<ORIGIN, MAP, KEY, VALUE>,
+                                            MAP extends Map<KEY, VALUE>,
+                                            KEY,
+                                            VALUE>
+    extends AbstractIntegerAssert<AbstractMapSizeAssert<ORIGIN, MAP, KEY, VALUE>> {
+//@format:on
+
+  private final AbstractMapAssert<ORIGIN, MAP, KEY, VALUE> originAssert;
+
+  /**
+   * Creates a new instance from an origin {@link AbstractMapAssert} instance.
+   *
+   * @param originAssert the origin {@link AbstractMapAssert} that initiated the navigation.
+   * @since 3.28.0
+   */
+  protected AbstractMapSizeAssert(AbstractMapAssert<ORIGIN, MAP, KEY, VALUE> originAssert) {
+    super(originAssert.actual.size(), AbstractMapSizeAssert.class);
+    this.originAssert = originAssert;
   }
 
-  public abstract AbstractMapAssert<SELF, A, KEY, VALUE> returnToMap();
+  protected AbstractMapSizeAssert(AbstractMapAssert<ORIGIN, MAP, KEY, VALUE> originAssert, Integer size) {
+    super(size, AbstractMapSizeAssert.class);
+    this.originAssert = originAssert;
+  }
+
+  /**
+   * @deprecated use {@link #AbstractMapSizeAssert(AbstractMapAssert)} instead.
+   */
+  @Deprecated
+  protected AbstractMapSizeAssert(Integer actual, Class<?> selfType) {
+    super(actual, selfType);
+    this.originAssert = null;
+  }
+
+  /**
+   * Returns to the origin {@link AbstractMapAssert} instance that initiated the navigation.
+   *
+   * @return the origin {@link AbstractMapAssert} instance.
+   */
+  @CheckReturnValue
+  public AbstractMapAssert<ORIGIN, MAP, KEY, VALUE> returnToMap() {
+    if (originAssert == null) {
+      throw new IllegalStateException("No origin available. Was this assert created from its deprecated constructor?");
+    }
+    return originAssert;
+  }
+
 }

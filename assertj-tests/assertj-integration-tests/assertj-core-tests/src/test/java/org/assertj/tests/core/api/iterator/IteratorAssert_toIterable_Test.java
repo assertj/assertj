@@ -13,34 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.internal;
+package org.assertj.tests.core.api.iterator;
 
-import static org.assertj.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.spy;
+import java.util.Arrays;
 
-import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.IterableAssert;
+import org.assertj.core.api.IteratorAssert;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
- * Base class for testing <code>{@link Iterators}</code>.
- * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Iterators#failures} appropriately.
- *
- * @author Natália Struharová
- *
+ * @author Sára Juhošová
  */
-public class IteratorsBaseTest {
+class IteratorAssert_toIterable_Test {
 
-  protected static final AssertionInfo INFO = someInfo();
-
-  protected Failures failures;
-  protected Iterators iterators;
+  private IteratorAssert<Integer> assertions;
 
   @BeforeEach
-  public void setUp() {
-    failures = spy(Failures.instance());
-    iterators = new Iterators();
-    iterators.failures = failures;
+  void setup() {
+    assertions = new IteratorAssert<>(Arrays.stream(new Integer[] { 5, 13, 42, 100 }).iterator());
+  }
+
+  @Test
+  void should_return_equivalent_iterable() {
+    IterableAssert<Integer> returned = assertions.toIterable();
+    returned.containsExactly(5, 13, 42, 100);
   }
 
 }

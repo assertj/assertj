@@ -28,6 +28,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+
 import org.junit.jupiter.api.Test;
 
 class InputStreamAssert_isEmpty_Test {

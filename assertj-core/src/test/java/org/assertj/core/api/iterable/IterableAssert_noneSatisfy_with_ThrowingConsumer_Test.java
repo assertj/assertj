@@ -18,12 +18,16 @@ package org.assertj.core.api.iterable;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.ThrowingConsumerFactory.throwingConsumer;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
+
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowingConsumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,4 +72,17 @@ class IterableAssert_noneSatisfy_with_ThrowingConsumer_Test extends IterableAsse
     then(throwable).isSameAs(runtimeException);
   }
 
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    ThrowingConsumer<String> requirements = s -> assertThat(s).startsWith("Luk");
+    // WHEN
+    softly.assertThat(List.of("Luke", "Yoda"))
+          .overridingErrorMessage("error message")
+          .noneSatisfy(requirements);
+    // THEN
+    List<AssertionError> errors = softly.assertionErrorsCollected();
+    then(errors).singleElement(THROWABLE).hasMessage("error message");
+  }
 }

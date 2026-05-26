@@ -16,6 +16,9 @@
 package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
@@ -23,7 +26,9 @@ import java.util.function.Consumer;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class ObjectArrayAssert_allSatisfy_Test extends ObjectArrayAssertBaseTest {
 
@@ -42,5 +47,18 @@ class ObjectArrayAssert_allSatisfy_Test extends ObjectArrayAssertBaseTest {
   @Override
   protected void verify_internal_effects() {
     verify(iterables).assertAllSatisfy(getInfo(assertions), newArrayList(getActual(assertions)), restrictions);
+  }
+
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    Consumer<String> requirements = s -> assertThat(s).startsWith("Lu");
+    // WHEN
+    softly.assertThat(array("Luke", "Yoda"))
+          .overridingErrorMessage("error message")
+          .allSatisfy(requirements);
+    // THEN
+    then(softly.assertionErrorsCollected()).singleElement(THROWABLE).hasMessage("error message");
   }
 }

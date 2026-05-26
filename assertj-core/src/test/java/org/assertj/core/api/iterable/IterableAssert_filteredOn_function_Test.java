@@ -18,14 +18,18 @@ package org.assertj.core.api.iterable;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.Name.lastNameComparator;
 import static org.assertj.core.testkit.Name.name;
 import static org.assertj.core.util.Sets.newHashSet;
 
+import java.util.List;
 import java.util.function.Function;
 
 import org.assertj.core.api.IterableAssert;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
 import org.junit.jupiter.api.DisplayName;
@@ -74,4 +78,16 @@ class IterableAssert_filteredOn_function_Test extends IterableAssert_filtered_ba
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
   }
 
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    // WHEN
+    softly.assertThat(employees)
+          .overridingErrorMessage("error message")
+          .filteredOn(Employee::getAge, 100).containsOnly(luke, obiwan);
+    // THEN
+    List<AssertionError> errors = softly.assertionErrorsCollected();
+    then(errors).singleElement(THROWABLE).hasMessage("error message");
+  }
 }

@@ -26,8 +26,8 @@ open module org.assertj.tests.core {
   requires org.junit.platform.testkit;
   requires org.junit.jupiter.engine;
   requires org.junit.jupiter.params;
-  requires org.junitpioneer;
   requires org.mockito;
   requires org.opentest4j;
   requires org.junit.jupiter.api;
+  requires org.apache.commons.collections4;
 }

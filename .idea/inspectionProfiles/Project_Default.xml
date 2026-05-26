@@ -8,5 +8,6 @@
         <option name="m_maxLength" value="255" />
       </extension>
     </inspection_tool>
+    <inspection_tool class="UnusedReturnValue" enabled="false" level="WARNING" enabled_by_default="false" />
   </profile>
 </component>

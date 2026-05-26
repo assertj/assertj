@@ -17,9 +17,9 @@ package org.assertj.tests.core.internal.strings;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeBase64.shouldBeBase64;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.DisplayName;

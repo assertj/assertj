@@ -45,7 +45,11 @@ public class FactoryBasedNavigableListAssert<SELF extends FactoryBasedNavigableL
 
   @Override
   public ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
-    return assertFactory.createAssert(value).as(description);
+    return super.toAssert(value, description);
+  }
+
+  public ELEMENT_ASSERT toAssert(ELEMENT value) {
+    return assertFactory.createAssert(value);
   }
 
   @SuppressWarnings("unchecked")

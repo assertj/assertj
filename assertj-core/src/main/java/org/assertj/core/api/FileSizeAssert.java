@@ -19,16 +19,23 @@ import org.assertj.core.annotation.CheckReturnValue;
 
 public class FileSizeAssert<T> extends AbstractFileSizeAssert<FileAssert> {
 
-  private AbstractFileAssert<FileAssert> fileAssert;
+  public FileSizeAssert(AbstractFileAssert<FileAssert> originAssert) {
+    super(originAssert);
+  }
 
-  public FileSizeAssert(AbstractFileAssert<FileAssert> fileAssert) {
-    super(fileAssert.actual.length(), FileSizeAssert.class);
-    this.fileAssert = fileAssert;
+  private FileSizeAssert(AbstractFileAssert<FileAssert> originAssert, Long size) {
+    super(originAssert, size);
   }
 
   @Override
   @CheckReturnValue
   public AbstractFileAssert<FileAssert> returnToFile() {
-    return fileAssert;
+    return super.returnToFile();
   }
+
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  static FileSizeAssert nullFileSizeAssert(AbstractFileAssert originAssert) {
+    return new FileSizeAssert(originAssert, null);
+  }
+
 }

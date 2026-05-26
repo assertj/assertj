@@ -38,23 +38,28 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
     super(actual, selfType);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void isNullOrEmpty() {
-    arrays.assertNullOrEmpty(info, actual);
+    executeAssertion(() -> arrays.assertNullOrEmpty(info, actual));
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void isEmpty() {
-    arrays.assertEmpty(info, actual);
+    executeAssertion(() -> arrays.assertEmpty(info, actual));
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isNotEmpty() {
-    arrays.assertNotEmpty(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertNotEmpty(info, actual));
   }
 
   /**
@@ -69,8 +74,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   @Override
   public SELF hasSize(int expected) {
-    arrays.assertHasSize(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSize(info, actual, expected));
   }
 
   /**
@@ -90,8 +94,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   @Override
   public SELF hasSizeGreaterThan(int boundary) {
-    arrays.assertHasSizeGreaterThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThan(info, actual, boundary));
   }
 
   /**
@@ -112,8 +115,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   @Override
   public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -133,8 +135,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   @Override
   public SELF hasSizeLessThan(int boundary) {
-    arrays.assertHasSizeLessThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThan(info, actual, boundary));
   }
 
   /**
@@ -155,8 +156,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   @Override
   public SELF hasSizeLessThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -170,7 +170,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * // assertion will fail
    * assertThat(new byte[] { 37, 38 }).hasSizeBetween(4, 5);</code></pre>
    *
-   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param lowerBoundary  the lower boundary compared to which actual size should be greater than or equal to.
    * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the number of values of the actual array is not between the boundaries.
@@ -178,8 +178,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   @Override
   public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
-    arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary));
   }
 
   /**
@@ -194,8 +193,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSameSizeAs(info, actual, other));
   }
 
   /**
@@ -219,8 +217,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @throws AssertionError       if the actual array does not contain the given values.
    */
   public SELF contains(byte... values) {
-    arrays.assertContains(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, values));
   }
 
   /**
@@ -246,8 +243,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   public SELF contains(Byte[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContains(info, actual, toPrimitiveByteArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, toPrimitiveByteArray(values)));
   }
 
   /**
@@ -272,8 +268,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @since 2.6.0 / 3.6.0
    */
   public SELF contains(int... values) {
-    arrays.assertContains(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, values));
   }
 
   /**
@@ -299,8 +294,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *                              given ones.
    */
   public SELF containsOnly(byte... values) {
-    arrays.assertContainsOnly(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnly(info, actual, values));
   }
 
   /**
@@ -328,8 +322,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   public SELF containsOnly(Byte[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsOnly(info, actual, toPrimitiveByteArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnly(info, actual, toPrimitiveByteArray(values)));
   }
 
   /**
@@ -356,8 +349,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @since 2.6.0 / 3.6.0
    */
   public SELF containsOnly(int... values) {
-    arrays.assertContainsOnly(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnly(info, actual, values));
   }
 
   /**
@@ -382,8 +374,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *                              values.
    */
   public SELF containsOnlyOnce(byte... values) {
-    arrays.assertContainsOnlyOnce(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, actual, values));
   }
 
   /**
@@ -410,8 +401,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   public SELF containsOnlyOnce(Byte[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsOnlyOnce(info, actual, toPrimitiveByteArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, actual, toPrimitiveByteArray(values)));
   }
 
   /**
@@ -437,8 +427,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @since 2.6.0 / 3.6.0
    */
   public SELF containsOnlyOnce(int... values) {
-    arrays.assertContainsOnlyOnce(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, actual, values));
   }
 
   /**
@@ -462,8 +451,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
   public SELF containsSequence(byte... sequence) {
-    arrays.assertContainsSequence(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, sequence));
   }
 
   /**
@@ -489,8 +477,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   public SELF containsSequence(Byte[] sequence) {
     requireNonNullParameter(sequence, "sequence");
-    arrays.assertContainsSequence(info, actual, toPrimitiveByteArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, toPrimitiveByteArray(sequence)));
   }
 
   /**
@@ -515,8 +502,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @since 2.6.0 / 3.6.0
    */
   public SELF containsSequence(int... sequence) {
-    arrays.assertContainsSequence(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, sequence));
   }
 
   /**
@@ -541,8 +527,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
   public SELF containsSubsequence(byte... subsequence) {
-    arrays.assertContainsSubsequence(info, actual, subsequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, subsequence));
   }
 
   /**
@@ -569,8 +554,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   public SELF containsSubsequence(Byte[] subsequence) {
     requireNonNullParameter(subsequence, "subsequence");
-    arrays.assertContainsSubsequence(info, actual, toPrimitiveByteArray(subsequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, toPrimitiveByteArray(subsequence)));
   }
 
   /**
@@ -596,8 +580,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @since 2.6.0 / 3.6.0
    */
   public SELF containsSubsequence(int... subsequence) {
-    arrays.assertContainsSubsequence(info, actual, subsequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, subsequence));
   }
 
   /**
@@ -622,8 +605,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @throws AssertionError            if the actual array does not contain the given value at the given index.
    */
   public SELF contains(byte value, Index index) {
-    arrays.assertContains(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, value, index));
   }
 
   /**
@@ -649,8 +631,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @since 2.6.0 / 3.6.0
    */
   public SELF contains(int value, Index index) {
-    arrays.assertContains(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, value, index));
   }
 
   /**
@@ -671,8 +652,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @throws AssertionError           if the actual array contains any of the given values.
    */
   public SELF doesNotContain(byte... values) {
-    arrays.assertDoesNotContain(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, values));
   }
 
   /**
@@ -695,8 +675,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   public SELF doesNotContain(Byte[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertDoesNotContain(info, actual, toPrimitiveByteArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, toPrimitiveByteArray(values)));
   }
 
   /**
@@ -718,8 +697,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @since 2.6.0 / 3.6.0
    */
   public SELF doesNotContain(int... values) {
-    arrays.assertDoesNotContain(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, values));
   }
 
   /**
@@ -742,8 +720,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @throws AssertionError       if the actual array contains the given value at the given index.
    */
   public SELF doesNotContain(byte value, Index index) {
-    arrays.assertDoesNotContain(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, value, index));
   }
 
   /**
@@ -767,8 +744,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @since 2.6.0 / 3.6.0
    */
   public SELF doesNotContain(int value, Index index) {
-    arrays.assertDoesNotContain(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, value, index));
   }
 
   /**
@@ -786,8 +762,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @throws AssertionError if the actual array contains duplicates.
    */
   public SELF doesNotHaveDuplicates() {
-    arrays.assertDoesNotHaveDuplicates(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotHaveDuplicates(info, actual));
   }
 
   /**
@@ -810,8 +785,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @throws AssertionError       if the actual array does not start with the given sequence.
    */
   public SELF startsWith(byte... sequence) {
-    arrays.assertStartsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertStartsWith(info, actual, sequence));
   }
 
   /**
@@ -836,8 +810,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   public SELF startsWith(Byte[] sequence) {
     requireNonNullParameter(sequence, "sequence");
-    arrays.assertStartsWith(info, actual, toPrimitiveByteArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertStartsWith(info, actual, toPrimitiveByteArray(sequence)));
   }
 
   /**
@@ -861,8 +834,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @since 2.6.0 / 3.6.0
    */
   public SELF startsWith(int... sequence) {
-    arrays.assertStartsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertStartsWith(info, actual, sequence));
   }
 
   /**
@@ -879,13 +851,12 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
-   * @throws NullPointerException     if the given argument is {@code null}.
-   * @throws AssertionError           if the actual array is {@code null}.
-   * @throws AssertionError           if the actual array does not end with the given sequence.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError       if the actual array is {@code null}.
+   * @throws AssertionError       if the actual array does not end with the given sequence.
    */
   public SELF endsWith(byte... sequence) {
-    arrays.assertEndsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, actual, sequence));
   }
 
   /**
@@ -902,15 +873,14 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
-   * @throws NullPointerException     if the given argument is {@code null}.
-   * @throws AssertionError           if the actual array is {@code null}.
-   * @throws AssertionError           if the actual array does not end with the given sequence.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError       if the actual array is {@code null}.
+   * @throws AssertionError       if the actual array does not end with the given sequence.
    * @since 3.19.0
    */
   public SELF endsWith(Byte[] sequence) {
     requireNonNullParameter(sequence, "sequence");
-    arrays.assertEndsWith(info, actual, toPrimitiveByteArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, actual, toPrimitiveByteArray(sequence)));
   }
 
   /**
@@ -927,31 +897,34 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
-   * @throws NullPointerException     if the given argument is {@code null}.
-   * @throws AssertionError           if the actual array is {@code null}.
-   * @throws AssertionError           if the actual array does not end with the given sequence.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError       if the actual array is {@code null}.
+   * @throws AssertionError       if the actual array does not end with the given sequence.
    * @since 2.6.0 / 3.6.0
    */
   public SELF endsWith(int... sequence) {
-    arrays.assertEndsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, actual, sequence));
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isSorted() {
-    arrays.assertIsSorted(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSorted(info, actual));
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isSortedAccordingTo(Comparator<? super Byte> comparator) {
-    arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSortedAccordingToComparator(info, actual, comparator));
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @CheckReturnValue
   public SELF usingElementComparator(Comparator<? super Byte> customComparator) {
@@ -959,7 +932,9 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @CheckReturnValue
   public SELF usingDefaultElementComparator() {
@@ -997,8 +972,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
     // We can't get the best of both approaches even if we call assertContainsExactly only when assertEqual, assertContainsExactly
     // would take a long time to compute the diff between both arrays.
     // We can at least solve the representation of byte[] arrays so that they show the bytes
-    objects.assertEqual(info, actual, values);
-    return myself;
+    return executeAssertion(() -> objects.assertEqual(info, actual, values));
   }
 
   /**
@@ -1032,10 +1006,8 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
     // We can't get the best of both approaches even if we call assertContainsExactly only when assertEqual, assertContainsExactly
     // would take a long time to compute the diff between both arrays.
     // We can at least solve the representation of byte[] arrays so that they show the bytes
-
     requireNonNullParameter(values, "values");
-    objects.assertEqual(info, actual, toPrimitiveByteArray(values));
-    return myself;
+    return executeAssertion(() -> objects.assertEqual(info, actual, toPrimitiveByteArray(values)));
   }
 
   /**
@@ -1061,8 +1033,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @since 2.6.0 / 3.6.0
    */
   public SELF containsExactly(int... values) {
-    arrays.assertContainsExactly(info, actual, arrays.toByteArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactly(info, actual, arrays.toByteArray(values)));
   }
 
   /**
@@ -1081,15 +1052,14 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
-   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
-   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @throws AssertionError       if the actual group is {@code null}.
+   * @throws AssertionError       if the given argument is an empty array and the actual array is not empty.
+   * @throws AssertionError       if the actual group does not contain the given values, i.e. the actual group
+   *                              contains some or none of the given values, or the actual group contains more values than the given ones.
    * @since 2.6.0 / 3.6.0
    */
   public SELF containsExactlyInAnyOrder(byte... values) {
-    arrays.assertContainsExactlyInAnyOrder(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, values));
   }
 
   /**
@@ -1108,16 +1078,15 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
-   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
-   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @throws AssertionError       if the actual group is {@code null}.
+   * @throws AssertionError       if the given argument is an empty array and the actual array is not empty.
+   * @throws AssertionError       if the actual group does not contain the given values, i.e. the actual group
+   *                              contains some or none of the given values, or the actual group contains more values than the given ones.
    * @since 3.19.0
    */
   public SELF containsExactlyInAnyOrder(Byte[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsExactlyInAnyOrder(info, actual, toPrimitiveByteArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, toPrimitiveByteArray(values)));
   }
 
   /**
@@ -1136,15 +1105,14 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
-   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
-   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @throws AssertionError       if the actual group is {@code null}.
+   * @throws AssertionError       if the given argument is an empty array and the actual array is not empty.
+   * @throws AssertionError       if the actual group does not contain the given values, i.e. the actual group
+   *                              contains some or none of the given values, or the actual group contains more values than the given ones.
    * @since 2.6.0 / 3.6.0
    */
   public SELF containsExactlyInAnyOrder(int... values) {
-    arrays.assertContainsExactlyInAnyOrder(info, actual, arrays.toByteArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, arrays.toByteArray(values)));
   }
 
   /**
@@ -1167,14 +1135,13 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @param values the values whose at least one which is expected to be in the array under test.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the array of values is {@code null}.
-   * @throws AssertionError if the array of values is empty and the array under test is not empty.
-   * @throws AssertionError if the array under test is {@code null}.
-   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @throws AssertionError       if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError       if the array under test is {@code null}.
+   * @throws AssertionError       if the array under test does not contain any of the given {@code values}.
    * @since 2.9.0 / 3.9.0
    */
   public SELF containsAnyOf(byte... values) {
-    arrays.assertContainsAnyOf(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, values));
   }
 
   /**
@@ -1197,15 +1164,14 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @param values the values whose at least one which is expected to be in the array under test.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the array of values is {@code null}.
-   * @throws AssertionError if the array of values is empty and the array under test is not empty.
-   * @throws AssertionError if the array under test is {@code null}.
-   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @throws AssertionError       if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError       if the array under test is {@code null}.
+   * @throws AssertionError       if the array under test does not contain any of the given {@code values}.
    * @since 3.19.0
    */
   public SELF containsAnyOf(Byte[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsAnyOf(info, actual, toPrimitiveByteArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, toPrimitiveByteArray(values)));
   }
 
   /**
@@ -1228,14 +1194,13 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @param values the values whose at least one which is expected to be in the array under test.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the array of values is {@code null}.
-   * @throws AssertionError if the array of values is empty and the array under test is not empty.
-   * @throws AssertionError if the array under test is {@code null}.
-   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @throws AssertionError       if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError       if the array under test is {@code null}.
+   * @throws AssertionError       if the array under test does not contain any of the given {@code values}.
    * @since 2.9.0 / 3.9.0
    */
   public SELF containsAnyOf(int... values) {
-    arrays.assertContainsAnyOf(info, actual, arrays.toByteArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, arrays.toByteArray(values)));
   }
 
   /**
@@ -1257,13 +1222,14 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *                  .isEqualTo("FF0000");</code></pre>
    *
    * @return a String assertion object
-   *
    * @since 3.16.0
    */
   @CheckReturnValue
   public AbstractStringAssert<?> asHexString() {
-    objects.assertNotNull(info, actual);
-    return assertThat(toHexString(actual));
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      return assertThat(toHexString(actual)).withAssertionState(myself);
+    }, StringAssert::nullStringAssert);
   }
 
   /**
@@ -1286,15 +1252,16 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *                  .isEqualTo("FF0000");</code></pre>
    *
    * @return a String assertion object
-   *
    * @since 3.17.0
    */
   @Override
   @CheckReturnValue
   public AbstractStringAssert<?> asString() {
-    objects.assertNotNull(info, actual);
-    String actualAsString = new String(actual);
-    return assertThat(actualAsString);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      String actualAsString = new String(actual);
+      return assertThat(actualAsString).withAssertionState(myself);
+    }, StringAssert::nullStringAssert);
   }
 
   /**
@@ -1316,14 +1283,15 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *
    * @param charset the {@link Charset} to interpret the bytes to a String
    * @return a String assertion object
-   *
    * @since 3.17.0
    */
   @CheckReturnValue
   public AbstractStringAssert<?> asString(Charset charset) {
-    objects.assertNotNull(info, actual);
-    String actualAsString = new String(actual, charset);
-    return assertThat(actualAsString);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      String actualAsString = new String(actual, charset);
+      return assertThat(actualAsString).withAssertionState(myself);
+    }, StringAssert::nullStringAssert);
   }
 
   /**
@@ -1335,13 +1303,14 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *
    * @return a new {@link StringAssert} instance whose string under test is the result of the encoding.
    * @throws AssertionError if the actual value is {@code null}.
-   *
    * @since 3.22.0
    */
   @CheckReturnValue
   public AbstractStringAssert<?> asBase64Encoded() {
-    objects.assertNotNull(info, actual);
-    return new StringAssert(Base64.getEncoder().encodeToString(actual)).withAssertionState(myself);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      return new StringAssert(Base64.getEncoder().encodeToString(actual)).withAssertionState(myself);
+    }, StringAssert::nullStringAssert);
   }
 
   /**
@@ -1353,13 +1322,14 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *
    * @return a new {@link StringAssert} instance whose string under test is the result of the encoding.
    * @throws AssertionError if the actual value is {@code null}.
-   *
    * @since 4.0.0
    */
   @CheckReturnValue
   public AbstractStringAssert<?> asBase64UrlEncoded() {
-    objects.assertNotNull(info, actual);
-    return new StringAssert(Base64.getUrlEncoder().encodeToString(actual)).withAssertionState(myself);
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      return new StringAssert(Base64.getUrlEncoder().encodeToString(actual)).withAssertionState(myself);
+    }, StringAssert::nullStringAssert);
   }
 
   private static byte[] toPrimitiveByteArray(Byte[] values) {

@@ -49,8 +49,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if the actual protocol is not equal to the expected protocol.
    */
   public SELF hasProtocol(String expected) {
-    urls.assertHasProtocol(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> urls.assertHasProtocol(info, actual, expected));
   }
 
   /**
@@ -75,8 +74,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws IllegalArgumentException if given path is null.
    */
   public SELF hasPath(String expected) {
-    urls.assertHasPath(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> urls.assertHasPath(info, actual, expected));
   }
 
   /**
@@ -93,8 +91,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a path.
    */
   public SELF hasNoPath() {
-    urls.assertHasPath(info, actual, "");
-    return myself;
+    return executeAssertion(() -> urls.assertHasPath(info, actual, ""));
   }
 
   /**
@@ -113,8 +110,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if the actual port is not equal to the expected port.
    */
   public SELF hasPort(int expected) {
-    urls.assertHasPort(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> urls.assertHasPort(info, actual, expected));
   }
 
   /**
@@ -131,8 +127,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a port.
    */
   public SELF hasNoPort() {
-    urls.assertHasPort(info, actual, -1);
-    return myself;
+    return executeAssertion(() -> urls.assertHasPort(info, actual, -1));
   }
 
   /**
@@ -152,8 +147,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if the actual host is not equal to the expected host.
    */
   public SELF hasHost(String expected) {
-    urls.assertHasHost(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> urls.assertHasHost(info, actual, expected));
   }
 
   /**
@@ -171,8 +165,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @since 3.22.0
    */
   public SELF hasNoHost() {
-    urls.assertHasNoHost(info, actual);
-    return myself;
+    return executeAssertion(() -> urls.assertHasNoHost(info, actual));
   }
 
   /**
@@ -193,8 +186,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if the actual authority is not equal to the expected authority.
    */
   public SELF hasAuthority(String expected) {
-    urls.assertHasAuthority(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> urls.assertHasAuthority(info, actual, expected));
   }
 
   /**
@@ -213,8 +205,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if the actual query is not equal to the expected query.
    */
   public SELF hasQuery(String expected) {
-    urls.assertHasQuery(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> urls.assertHasQuery(info, actual, expected));
   }
 
   /**
@@ -231,8 +222,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a query.
    */
   public SELF hasNoQuery() {
-    urls.assertHasQuery(info, actual, null);
-    return myself;
+    return executeAssertion(() -> urls.assertHasQuery(info, actual, null));
   }
 
   /**
@@ -251,8 +241,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if the actual anchor is not equal to the expected anchor.
    */
   public SELF hasAnchor(String expected) {
-    urls.assertHasAnchor(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> urls.assertHasAnchor(info, actual, expected));
   }
 
   /**
@@ -269,8 +258,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has an anchor.
    */
   public SELF hasNoAnchor() {
-    urls.assertHasAnchor(info, actual, null);
-    return myself;
+    return executeAssertion(() -> urls.assertHasAnchor(info, actual, null));
   }
 
   /**
@@ -291,8 +279,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if the actual userinfo is not equal to the expected userinfo.
    */
   public SELF hasUserInfo(String expected) {
-    urls.assertHasUserInfo(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> urls.assertHasUserInfo(info, actual, expected));
   }
 
   /**
@@ -309,8 +296,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has some userinfo.
    */
   public SELF hasNoUserInfo() {
-    urls.assertHasUserInfo(info, actual, null);
-    return myself;
+    return executeAssertion(() -> urls.assertHasUserInfo(info, actual, null));
   }
 
   /**
@@ -333,8 +319,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
   public SELF hasParameter(String name) {
-    urls.assertHasParameter(info, actual, name);
-    return myself;
+    return executeAssertion(() -> urls.assertHasParameter(info, actual, name));
   }
 
   /**
@@ -359,8 +344,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
   public SELF hasParameter(String name, String value) {
-    urls.assertHasParameter(info, actual, name, value);
-    return myself;
+    return executeAssertion(() -> urls.assertHasParameter(info, actual, name, value));
   }
 
   /**
@@ -381,8 +365,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoParameters() {
-    urls.assertHasNoParameters(info, actual);
-    return myself;
+    return executeAssertion(() -> urls.assertHasNoParameters(info, actual));
   }
 
   /**
@@ -406,8 +389,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoParameter(String name) {
-    urls.assertHasNoParameter(info, actual, name);
-    return myself;
+    return executeAssertion(() -> urls.assertHasNoParameter(info, actual, name));
   }
 
   /**
@@ -435,8 +417,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoParameter(String name, String value) {
-    urls.assertHasNoParameter(info, actual, name, value);
-    return myself;
+    return executeAssertion(() -> urls.assertHasNoParameter(info, actual, name, value));
   }
 
   /**
@@ -464,7 +445,6 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @since 3.16.0
    */
   public SELF isEqualToWithSortedQueryParameters(URL expected) {
-    urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected));
   }
 }

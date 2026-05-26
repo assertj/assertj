@@ -22,6 +22,7 @@ import static org.assertj.core.util.Lists.list;
 
 import java.io.File;
 import java.nio.file.Path;
+
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.Representation;

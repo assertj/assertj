@@ -22,6 +22,7 @@ import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.testkit.Maps.mapOf;
 
 import java.util.Map;
+
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;

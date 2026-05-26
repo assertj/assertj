@@ -17,7 +17,6 @@ package org.assertj.core.internal.files;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
-import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
@@ -25,11 +24,8 @@ import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 /**
  * @author Yvonne Wang

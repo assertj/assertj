@@ -18,6 +18,7 @@ package org.assertj.tests.core.navigation;
 import static org.assertj.core.api.Assertions.atIndex;
 
 import java.util.List;
+
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.tests.core.testkit.Vehicle;
 import org.assertj.tests.core.testkit.VehicleAssert;

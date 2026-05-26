@@ -18,11 +18,12 @@ package org.assertj.tests.guava.error;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.guava.error.ShouldHaveSameContent.shouldHaveSameContent;
 
-import com.google.common.io.ByteSource;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
+
+import com.google.common.io.ByteSource;
 
 class ShouldHaveSameContentTest_create_Test {
 

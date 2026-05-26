@@ -29,6 +29,7 @@ import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
+import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.testkit.ClasspathResources.resourcePath;
@@ -189,7 +190,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   @SuppressWarnings({ "deprecation" })
   @Test
-  void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
+  void should_be_able_to_catch_exceptions_thrown_by_other_methods() throws MalformedURLException {
     // GIVEN
     softly.then(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
     softly.then(Boolean.FALSE).isTrue();
@@ -577,7 +578,9 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .isEmpty();
     // THEN
     assertThat(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                        .containsExactly("error 1", "error 2", "error 3");
+                                        .containsExactly("[Extracted: first] error 1",
+                                                         "[Extracted: first] error 2",
+                                                         "[Extracted: last] error 3");
   }
 
   @Test
@@ -724,7 +727,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  void should_propagate_AssertionError_from_nested_proxied_calls() {
+  void should_propagate_AssertionError_from_nested_calls() {
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.then(emptyList()).first();
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
@@ -787,37 +790,35 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
     // 4 - a specific assertion !
     public TolkienHeroesAssert hasName(String name) {
-      // check that actual TolkienCharacter we want to make assertions on is not null.
-      isNotNull();
+      return executeAssertion(() -> {
+        // check that actual TolkienCharacter we want to make assertions on is not null.
+        isNotNull();
 
-      // check condition
-      if (!Objects.equals(actual.name, name)) {
-        failWithMessage("Expected character's name to be <%s> but was <%s>", name, actual.name);
-      }
-
-      // return the current assertion for method chaining
-      return this;
+        // check condition
+        if (!Objects.equals(actual.name, name)) {
+          failWithMessage("Expected character's name to be <%s> but was <%s>", name, actual.name);
+        }
+      });
     }
 
     // 4 - another specific assertion !
     public TolkienHeroesAssert hasAge(int age) {
-      // check that actual TolkienCharacter we want to make assertions on is not null.
-      isNotNull();
+      return executeAssertion(() -> {
+        // check that actual TolkienCharacter we want to make assertions on is not null.
+        isNotNull();
 
-      // check condition
-      if (actual.age != age) {
-        failWithMessage("Expected character's age to be <%s> but was <%s>", age, actual.age);
-      }
-
-      // return the current assertion for method chaining
-      return this;
+        // check condition
+        if (actual.age != age) {
+          failWithMessage("Expected character's age to be <%s> but was <%s>", age, actual.age);
+        }
+      });
     }
   }
 
   public static class TolkienSoftAssertions extends SoftAssertions {
 
     public TolkienHeroesAssert then(TolkienHero actual) {
-      return proxy(TolkienHeroesAssert.class, TolkienHero.class, actual);
+      return soft(new TolkienHeroesAssert(actual));
     }
 
     @Override
@@ -1045,6 +1046,32 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).singleElement(as(THROWABLE))
                                .hasMessageContaining("single element");
+  }
+
+  @Test
+  void array_soft_assertions_should_work_with_singleElement_navigation() {
+    // GIVEN
+    Name[] names = array(name("Jane", "Doe"));
+    // WHEN
+    softly.then(names)
+          .as("single element")
+          .singleElement()
+          .isNotNull();
+    softly.then(names)
+          .as("single element")
+          .overridingErrorMessage("error message")
+          .singleElement()
+          .isNull();
+    softly.then(names)
+          .as("single element as Name")
+          .overridingErrorMessage("error message")
+          .singleElement(as(type(Name.class)))
+          .isNull();
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    then(errorsCollected).hasSize(2);
+    then(errorsCollected.get(0)).hasMessage("[single element check single element] error message");
+    then(errorsCollected.get(1)).hasMessage("[single element as Name check single element] error message");
   }
 
   @Test

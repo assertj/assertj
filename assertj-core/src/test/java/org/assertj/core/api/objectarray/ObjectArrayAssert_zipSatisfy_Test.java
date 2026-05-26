@@ -16,24 +16,23 @@
 package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
+import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Test;
 
 class ObjectArrayAssert_zipSatisfy_Test extends ObjectArrayAssertBaseTest {
 
-  private BiConsumer<Object, String> requirements;
-  private String[] other;
-
-  @BeforeEach
-  void beforeOnce() {
-    requirements = (o1, o2) -> assertThat(o1).hasSameHashCodeAs(o2);
-  }
+  private final BiConsumer<Object, String> requirements = (o1, o2) -> assertThat(o1).hasSameHashCodeAs(o2);;
+  private final String[] other = array();
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
@@ -42,9 +41,18 @@ class ObjectArrayAssert_zipSatisfy_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertZipSatisfy(getInfo(assertions),
-                                       newArrayList(getActual(assertions)),
-                                       newArrayList(other),
-                                       requirements);
+    verify(iterables).assertZipSatisfy(getInfo(assertions), List.of(getActual(assertions)), List.of(other), requirements);
+  }
+
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    // WHEN
+    softly.assertThat(array("Luke", "Yoda"))
+          .overridingErrorMessage("error message")
+          .zipSatisfy(other, requirements);
+    // THEN
+    then(softly.assertionErrorsCollected()).singleElement(THROWABLE).hasMessage("error message");
   }
 }

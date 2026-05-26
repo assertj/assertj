@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGiv
 import static org.assertj.core.util.Arrays.array;
 
 import java.util.Comparator;
+
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;

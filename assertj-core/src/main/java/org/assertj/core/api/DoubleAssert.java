@@ -39,4 +39,8 @@ public class DoubleAssert extends AbstractDoubleAssert<DoubleAssert> {
   public DoubleAssert(double actual) {
     super(actual, DoubleAssert.class);
   }
+
+  public static DoubleAssert nullDoubleAssert() {
+    return new DoubleAssert(null);
+  }
 }

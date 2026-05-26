@@ -88,7 +88,7 @@ class MatchPredicateTest implements WithAssertions {
 
   @Test
   void should_fail_if_given_predicate_description_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).matches(x -> x.lightSaberColor.equals("Green"),
+    assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).matches(x -> x.lightSaberColor.equals("Red"),
                                                                                null))
                                     .withMessage("The predicate description must not be null");
   }

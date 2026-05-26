@@ -17,13 +17,16 @@ package org.assertj.core.api.charsequence;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
@@ -61,4 +64,15 @@ class CharSequenceAssert_containsPatternSatisfying_String_Test {
     then(assertionError).hasMessage(shouldContain("ar", "z", StandardComparisonStrategy.instance()).create());
   }
 
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    String pattern = ".(a.)";
+    // WHEN
+    softly.assertThat("bar").containsPatternSatisfying(pattern, matcher -> assertThat(matcher.group(1)).contains("z"));
+    // THEN
+    List<AssertionError> errors = softly.assertionErrorsCollected();
+    then(errors).singleElement(THROWABLE).hasMessage(shouldContain("ar", "z", StandardComparisonStrategy.instance()).create());
+  }
 }

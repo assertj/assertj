@@ -15,24 +15,62 @@
  */
 package org.assertj.core.api;
 
-public class SuppressedExceptionsAssert<INITIAL extends AbstractThrowableAssert<INITIAL, T>, T extends Throwable>
-    extends AbstractSuppressedExceptionsAssert<INITIAL, T> {
+import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 
-  private final AbstractThrowableAssert<INITIAL, T> initialThrowableAssert;
+import org.assertj.core.annotation.CheckReturnValue;
 
-  public SuppressedExceptionsAssert(AbstractThrowableAssert<INITIAL, T> initialThrowableAssert,
-                                    Throwable[] suppressedExceptions) {
+/**
+ * Assertions for {@link Throwable#getSuppressed() suppressed exceptions} of a {@link Throwable}.
+ * <p>
+ * This class is instantiated via the {@link AbstractThrowableAssert#suppressedExceptions() suppressedExceptions()}
+ * navigation method, and allows returning to the source assertion instance via {@link #returnToThrowable()}.
+ * <p>
+ * This class is intended for internal AssertJ use and is not meant to be subclassed
+ * outside {@link org.assertj.core.api}.
+ *
+ * @param <ORIGIN>    the type of the source assertion.
+ * @param <THROWABLE> the type of the throwable under test in the source assertion.
+ * @since 3.28.0
+ */
+public class SuppressedExceptionsAssert<ORIGIN extends AbstractThrowableAssert<ORIGIN, THROWABLE>, THROWABLE extends Throwable>
+    extends AbstractObjectArrayAssert<SuppressedExceptionsAssert<ORIGIN, THROWABLE>, Throwable> {
+
+  private final ORIGIN originAssert;
+
+  static <ORIGIN extends AbstractThrowableAssert<ORIGIN, THROWABLE>, THROWABLE extends Throwable> SuppressedExceptionsAssert<ORIGIN, THROWABLE> from(ORIGIN originAssert) {
+    return new SuppressedExceptionsAssert<>(originAssert, originAssert.actual.getSuppressed()).withAssertionState(originAssert);
+  }
+
+  SuppressedExceptionsAssert(ORIGIN originAssert, Throwable[] suppressedExceptions) {
     super(suppressedExceptions, SuppressedExceptionsAssert.class);
-    this.initialThrowableAssert = initialThrowableAssert;
+    this.originAssert = requireNonNull(originAssert, shouldNotBeNull("originAssert")::create);
   }
 
   @Override
-  protected SuppressedExceptionsAssert<INITIAL, T> newObjectArrayAssert(Throwable[] array) {
-    return new SuppressedExceptionsAssert<>(initialThrowableAssert, array);
+  protected SuppressedExceptionsAssert<ORIGIN, THROWABLE> newObjectArrayAssert(Throwable[] suppressedExceptions) {
+    return new SuppressedExceptionsAssert<>(originAssert, suppressedExceptions);
   }
 
-  @Override
-  public AbstractThrowableAssert<INITIAL, T> returnToInitialThrowable() {
-    return initialThrowableAssert;
+  /**
+   * Returns to the origin {@link AbstractThrowableAssert} instance that initiated the navigation.
+   * <p>
+   * Example:
+   * <pre><code class='java'>Throwable throwable = new Throwable("boom!");
+   * Throwable invalidArgException = new IllegalArgumentException("invalid argument");
+   * Throwable ioException = new IOException("IO error");
+   * throwable.addSuppressed(invalidArgException);
+   * throwable.addSuppressed(ioException);
+   *
+   * assertThat(throwable).suppressedExceptions()
+   *                      .containsOnly(invalidArgException, ioException)
+   *                      .returnToThrowable()
+   *                      .hasMessage("boom!");</code></pre>
+   *
+   * @return the origin {@link AbstractThrowableAssert} instance.
+   */
+  @CheckReturnValue
+  public ORIGIN returnToThrowable() {
+    return originAssert;
   }
 }

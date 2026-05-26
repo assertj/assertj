@@ -21,8 +21,9 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 
-import com.google.common.collect.TreeRangeMap;
 import org.junit.jupiter.api.Test;
+
+import com.google.common.collect.TreeRangeMap;
 
 public class RangeMapAssert_containsKeys_Test extends RangeMapAssertBaseTest {
 

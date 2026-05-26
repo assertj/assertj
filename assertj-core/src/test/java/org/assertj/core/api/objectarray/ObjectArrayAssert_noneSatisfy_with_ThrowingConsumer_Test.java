@@ -18,6 +18,7 @@ package org.assertj.core.api.objectarray;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.ThrowingConsumerFactory.throwingConsumer;
@@ -25,6 +26,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowingConsumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -69,4 +71,16 @@ class ObjectArrayAssert_noneSatisfy_with_ThrowingConsumer_Test extends ObjectArr
     then(throwable).isSameAs(runtimeException);
   }
 
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    ThrowingConsumer<String> requirements = s -> assertThat(s).startsWith("Luk");
+    // WHEN
+    softly.assertThat(array("Luke", "Yoda"))
+          .overridingErrorMessage("error message")
+          .noneSatisfy(requirements);
+    // THEN
+    then(softly.assertionErrorsCollected()).singleElement(THROWABLE).hasMessage("error message");
+  }
 }

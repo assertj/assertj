@@ -56,9 +56,10 @@ public class AbstractSpliteratorAssert<SELF extends AbstractSpliteratorAssert<SE
    * @return {@code this} assertion object.
    */
   public SELF hasCharacteristics(int... characteristics) {
-    isNotNull();
-    spliterators.assertHasCharacteristics(info, actual, characteristics);
-    return this.myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      spliterators.assertHasCharacteristics(info, actual, characteristics);
+    });
   }
 
   /**
@@ -84,8 +85,9 @@ public class AbstractSpliteratorAssert<SELF extends AbstractSpliteratorAssert<SE
    * @return {@code this} assertion object.
    */
   public SELF hasOnlyCharacteristics(int... characteristics) {
-    isNotNull();
-    spliterators.assertHasOnlyCharacteristics(info, actual, characteristics);
-    return this.myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      spliterators.assertHasOnlyCharacteristics(info, actual, characteristics);
+    });
   }
 }

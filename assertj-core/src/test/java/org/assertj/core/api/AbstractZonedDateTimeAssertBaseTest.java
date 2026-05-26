@@ -20,9 +20,9 @@ import static org.mockito.Mockito.mock;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
 import org.assertj.core.internal.Comparables;
-import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 
 public abstract class AbstractZonedDateTimeAssertBaseTest extends TemporalAssertBaseTest<ZonedDateTimeAssert, ZonedDateTime> {
 

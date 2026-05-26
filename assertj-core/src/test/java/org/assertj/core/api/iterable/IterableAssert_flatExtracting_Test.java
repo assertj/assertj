@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -113,7 +114,7 @@ class IterableAssert_flatExtracting_Test {
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(simpsons).flatExtracting(childrenExtractor));
     // THEN
-    then(assertionError).hasMessage("Expecting actual not to be null");
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
   @Test

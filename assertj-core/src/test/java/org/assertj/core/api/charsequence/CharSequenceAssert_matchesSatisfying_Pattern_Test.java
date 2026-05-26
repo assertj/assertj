@@ -17,14 +17,17 @@ package org.assertj.core.api.charsequence;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
@@ -61,5 +64,17 @@ class CharSequenceAssert_matchesSatisfying_Pattern_Test {
                                                                                         matcher -> assertThat(matcher.group(1)).contains("b")));
     // THEN
     then(assertionError).hasMessage(shouldContain("a", "b", StandardComparisonStrategy.instance()).create());
+  }
+
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    Pattern pattern = Pattern.compile(".*(a).*");
+    // WHEN
+    softly.assertThat("Frodo").matchesSatisfying(pattern, matcher -> assertThat(true).isTrue());
+    // THEN
+    List<AssertionError> errors = softly.assertionErrorsCollected();
+    then(errors).singleElement(THROWABLE).hasMessageContaining(shouldMatch("Frodo", ".*(a).*").create());
   }
 }

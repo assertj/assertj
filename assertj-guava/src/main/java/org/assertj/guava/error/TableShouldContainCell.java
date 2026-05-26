@@ -15,9 +15,10 @@
  */
 package org.assertj.guava.error;
 
-import com.google.common.collect.Table;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
+
+import com.google.common.collect.Table;
 
 /**
  * @author David Harris

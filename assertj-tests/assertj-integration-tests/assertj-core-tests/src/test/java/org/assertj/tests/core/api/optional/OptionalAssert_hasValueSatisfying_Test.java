@@ -17,22 +17,21 @@ package org.assertj.tests.core.api.optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import java.io.IOException;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.api.ThrowingConsumer;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 class OptionalAssert_hasValueSatisfying_Test {
 
-  public static final Consumer<String> NO_OP = s -> {};
+  public static final Consumer<String> NO_OP = _ -> {};
 
   @Test
   void should_fail_when_optional_is_null() {
@@ -57,32 +56,31 @@ class OptionalAssert_hasValueSatisfying_Test {
 
   @Test
   void should_pass_when_consumer_passes() {
-    assertThat(Optional.of("something")).hasValueSatisfying(s -> assertThat(s).isEqualTo("something")
-                                                                              .startsWith("some")
-                                                                              .endsWith("thing"));
-    assertThat(Optional.of(10)).hasValueSatisfying(i -> assertThat(i).isGreaterThan(9));
-  }
+    Consumer<String> requirement1 = s -> assertThat(s).isEqualTo("something").startsWith("some").endsWith("thing");
+    assertThat(Optional.of("something")).hasValueSatisfying(requirement1);
 
-  @Test
-  void should_pass_when_throwing_consumer_passes() {
-    // GIVEN
-    Optional<String> optional = Optional.of("something");
-    ThrowingConsumer<String> throwingConsumer = value -> {
-      if (!value.equals("something")) {
-        throw new IOException("Value does not match");
-      }
-    };
-    // WHEN/THEN
-    then(optional).hasValueSatisfying(throwingConsumer);
+    Consumer<Integer> requirement2 = i -> assertThat(i).isGreaterThan(9);
+    assertThat(Optional.of(10)).hasValueSatisfying(requirement2);
   }
 
   @Test
   void should_fail_from_consumer() {
     // GIVEN
-    ThrowingCallable code = () -> assertThat(Optional.of("something else")).hasValueSatisfying(s -> assertThat(s).isEqualTo("something"));
+    Consumer<String> requirement = s -> assertThat(s).isEqualTo("something");
     // WHEN
-    var assertionError = expectAssertionError(code);
+    var assertionError = expectAssertionError(() -> assertThat(Optional.of("foo")).hasValueSatisfying(requirement));
     // THEN
-    then(assertionError).hasMessage(shouldBeEqualMessage("\"something else\"", "\"something\""));
+    then(assertionError).hasMessage(shouldBeEqualMessage("\"foo\"", "\"something\""));
+  }
+
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    Consumer<Integer> requirement = i -> assertThat(i).overridingErrorMessage("error message").isGreaterThan(100);
+    // WHEN
+    softly.assertThat(Optional.of(10)).hasValueSatisfying(requirement);
+    // THEN
+    then(softly.assertionErrorsCollected()).singleElement(THROWABLE).hasMessage("error message");
   }
 }

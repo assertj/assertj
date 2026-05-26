@@ -48,7 +48,9 @@ class SoftAssertionsMultipleProjectsTest {
     }
 
     public NotClassyAssert isClassy() {
-      throw new AssertionError("Sorry I'm not classy!");
+      return executeAssertion(() -> {
+        throw new AssertionError("Sorry I'm not classy!");
+      });
     }
 
     public NotClassyAssert isNotClassy() {
@@ -66,19 +68,21 @@ class SoftAssertionsMultipleProjectsTest {
     }
 
     public ClassyAssert isNotClassy() {
-      throw new AssertionError("Hey I'm classy!");
+      return executeAssertion(() -> {
+        throw new AssertionError("Hey I'm classy!");
+      });
     }
   }
 
   interface Class1SoftAssertions extends SoftAssertionsProvider {
     default NotClassyAssert assertThat(NotClassy actual) {
-      return proxy(NotClassyAssert.class, NotClassy.class, actual);
+      return soft(new NotClassyAssert(actual));
     }
   }
 
   interface Class2SoftAssertions extends SoftAssertionsProvider {
     default ClassyAssert assertThat(Classy actual) {
-      return proxy(ClassyAssert.class, Classy.class, actual);
+      return soft(new ClassyAssert(actual));
     }
   }
 

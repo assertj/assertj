@@ -15,12 +15,12 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
-
 import static org.assertj.core.util.BigIntegerComparator.BIG_INTEGER_COMPARATOR;
 
 import java.math.BigInteger;
 import java.util.Comparator;
+
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 
 public class BigIntegersBaseTest extends NumbersBaseTest<BigIntegers, BigInteger> {
 

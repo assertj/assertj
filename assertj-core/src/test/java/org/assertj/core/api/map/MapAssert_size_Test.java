@@ -16,9 +16,11 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.testkit.Maps.mapOf;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.Map;
 
@@ -28,18 +30,21 @@ class MapAssert_size_Test {
 
   @Test
   void should_be_able_to_use_integer_assertions_on_size_the_map_size() {
+    // GIVEN
     Map<String, String> stringToString = mapOf(entry("a", "1"), entry("b", "2"));
-    // @format:off
-    assertThat(stringToString).size().isGreaterThan(0)
-                                     .isLessThanOrEqualTo(3)
-                              .returnToMap().contains(entry("a", "1"));
-    // @format:on
+    // WHEN/THEN
+    then(stringToString).size().isGreaterThan(0).isLessThanOrEqualTo(3)
+                        .returnToMap().contains(entry("a", "1"));
   }
 
   @Test
-  void should_have_an_helpful_error_message_when_size_is_used_on_a_null_map() {
-    Map<String, String> nullMap = null;
-    assertThatNullPointerException().isThrownBy(() -> assertThat(nullMap).size().isGreaterThan(1))
-                                    .withMessage("Can not perform assertions on the size of a null map.");
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    Map<Object, Object> nullMap = null;
+    // WHEN
+    var error = expectAssertionError(() -> assertThat(nullMap).size().isGreaterThan(1));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
+
 }

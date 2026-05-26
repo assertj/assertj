@@ -16,9 +16,10 @@
 package org.assertj.core.api.file;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.testkit.ClasspathResources.resourceFile;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.io.File;
 
@@ -42,8 +43,9 @@ class FileAssert_size_Test {
   void should_have_a_helpful_error_message_when_size_is_used_on_a_null_file() {
     // GIVEN
     File nullFile = null;
-    // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> assertThat(nullFile).size().isGreaterThan(1))
-                                    .withMessage("Can not perform assertions on the size of a null file.");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(nullFile).size().isGreaterThan(1));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 }

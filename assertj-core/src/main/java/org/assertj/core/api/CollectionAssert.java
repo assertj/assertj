@@ -41,13 +41,17 @@ public class CollectionAssert<ELEMENT> extends
   }
 
   @Override
-  protected ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
-    return new ObjectAssert<>(value).as(description);
+  protected ObjectAssert<ELEMENT> toAssert(ELEMENT value) {
+    return new ObjectAssert<>(value);
   }
 
   @Override
   protected CollectionAssert<ELEMENT> newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
     return new CollectionAssert<>(newArrayList(iterable));
+  }
+
+  public static <ELEMENT> CollectionAssert<ELEMENT> nullCollectionAssert() {
+    return new CollectionAssert<>(null);
   }
 
 }

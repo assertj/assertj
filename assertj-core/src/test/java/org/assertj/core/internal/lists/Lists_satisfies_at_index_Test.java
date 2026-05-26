@@ -26,6 +26,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 import java.util.function.Consumer;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Lists;

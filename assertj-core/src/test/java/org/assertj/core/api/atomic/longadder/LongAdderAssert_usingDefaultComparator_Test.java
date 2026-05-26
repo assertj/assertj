@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Comparator;
 import java.util.concurrent.atomic.LongAdder;
+
 import org.assertj.core.api.LongAdderAssert;
 import org.assertj.core.api.LongAdderAssertBaseTest;
 import org.assertj.core.internal.Longs;

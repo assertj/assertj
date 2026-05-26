@@ -37,4 +37,8 @@ public class FloatAssert extends AbstractFloatAssert<FloatAssert> {
   public FloatAssert(float actual) {
     super(actual, FloatAssert.class);
   }
+
+  public static FloatAssert nullFloatAssert() {
+    return new FloatAssert(null);
+  }
 }

@@ -22,9 +22,10 @@ import static org.assertj.guava.api.Assertions.assertThat;
 import static org.assertj.guava.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.tests.guava.testkit.AssertionErrors.expectAssertionError;
 
+import org.junit.jupiter.api.Test;
+
 import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.RangeSet;
-import org.junit.jupiter.api.Test;
 
 class RangeSetAssert_hasSize_Test {
 

@@ -19,6 +19,7 @@ import static java.time.Instant.EPOCH;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.never;
@@ -30,6 +31,9 @@ import java.util.List;
 
 import org.assertj.core.api.HashSetAssert;
 import org.assertj.core.api.HashSetAssertBaseTest;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.util.Sets;
+import org.junit.jupiter.api.Test;
 
 class HashSetAssert_isSubsetOf_Test extends HashSetAssertBaseTest {
 
@@ -79,4 +83,16 @@ class HashSetAssert_isSubsetOf_Test extends HashSetAssertBaseTest {
     then(assertionError).hasMessageStartingWith(messageStart)
                         .hasMessageNotContaining("hashCode");
   }
+
+  @Test
+  public void should_work_with_soft_assertions() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    // WHEN
+    softly.assertThat(Sets.newLinkedHashSet("Luke", "Yoda")).isSubsetOf(List.of("Solo", "Luke"));
+    // THEN
+    List<AssertionError> errors = softly.assertionErrorsCollected();
+    then(errors).singleElement(THROWABLE).hasMessageContaining("to be subset of");
+  }
+
 }

@@ -27,9 +27,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.withSettings;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.nio.file.DirectoryStream;
 import java.nio.file.SecureDirectoryStream;
 import java.util.ArrayList;
@@ -37,6 +34,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
+
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -46,6 +44,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresentationTest {
 

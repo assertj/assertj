@@ -23,12 +23,12 @@ import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.shouldContainSubsequence;
 import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsNull;
-import static org.assertj.tests.core.testkit.Maps.mapOf;
-import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.tests.core.testkit.Maps.mapOf;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.WritableAssertionInfo;
