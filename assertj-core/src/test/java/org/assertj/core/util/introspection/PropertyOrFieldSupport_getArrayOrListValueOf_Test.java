@@ -22,8 +22,8 @@ import org.assertj.core.testkit.Office;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/*
- * @author DAniel Giribet Farre
+/**
+ * @author Daniel Giribet Farre
  */
 public class PropertyOrFieldSupport_getArrayOrListValueOf_Test {
 
