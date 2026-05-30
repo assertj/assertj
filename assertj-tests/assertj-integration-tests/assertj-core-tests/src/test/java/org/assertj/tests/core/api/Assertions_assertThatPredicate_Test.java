@@ -16,29 +16,39 @@
 package org.assertj.tests.core.api;
 
 import static org.assertj.core.api.Assertions.assertThatPredicate;
-import static org.assertj.core.api.BDDAssertions.then;
 
+import java.util.Iterator;
 import java.util.function.Predicate;
 
-import org.assertj.core.api.PredicateAssert;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class Assertions_assertThatPredicate_Test {
 
-  private Predicate<String> actual;
-
-  @BeforeEach
-  void before() {
-    actual = value -> value.equals("something");
+  @Test
+  void should_provide_Predicate_assertions() {
+    // GIVEN
+    IteratorPredicate<String> actual = new IteratorPredicate<>();
+    // WHEN/THEN
+    assertThatPredicate(actual).rejects("foo");
   }
 
-  @Test
-  void should_create_Assert() {
-    // GIVEN
-    PredicateAssert<String> assertions = assertThatPredicate(actual);
-    // WHEN/THEN
-    then(assertions).isNotNull();
+  private static class IteratorPredicate<T> implements Iterator<T>, Predicate<T> {
+
+    @Override
+    public boolean test(T t) {
+      return false;
+    }
+
+    @Override
+    public boolean hasNext() {
+      return false;
+    }
+
+    @Override
+    public T next() {
+      return null;
+    }
+
   }
 
 }
