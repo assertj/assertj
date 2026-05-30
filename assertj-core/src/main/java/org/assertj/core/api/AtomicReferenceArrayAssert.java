@@ -2445,6 +2445,9 @@ public class AtomicReferenceArrayAssert<T>
    * globally disabled by calling {@link Assertions#setAllowExtractingPrivateFields(boolean)
    * Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
+   * <p>
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
    * <p>
@@ -2506,6 +2509,9 @@ public class AtomicReferenceArrayAssert<T>
    * globally disabled by calling {@link Assertions#setAllowExtractingPrivateFields(boolean)
    * Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
+   * <p>
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
    * <p>
@@ -2559,10 +2565,12 @@ public class AtomicReferenceArrayAssert<T>
    * this can be globally disabled by calling {@link Assertions#setAllowExtractingPrivateFields(boolean)
    * Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
+   * <p>
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
    * <p>
-   *
    * As an example, let's check stuff on some special employees :
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);

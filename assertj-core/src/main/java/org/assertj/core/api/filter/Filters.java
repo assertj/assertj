@@ -220,12 +220,16 @@ public class Filters<E> {
   }
 
   /**
-   * Filter the underlying group, keeping only elements with a property equals to given value.
+   * Filter the underlying group, keeping only elements with a property equals to given value, it may be a nested
+   * property like<code>"address.street.name"</code>.
    * <p>
-   * Let's, for example, filter Employees with name "Alex" :
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
+   * <p>
+   * Let's, for example, filter Employees with name "Alex":
    * <pre><code class='java'> filter(employees).with("name", "Alex").get();</code></pre>
    *
-   * which is shortcut of :
+   * which is shortcut of:
    * <pre><code class='java'> filter(employees).with("name").equalsTo("Alex").get();</code></pre>
    *
    * @param propertyOrFieldName the name of the property/field whose value will compared to given value. It may be a
@@ -245,6 +249,9 @@ public class Filters<E> {
   /**
    * Sets the name of the property used for filtering, it may be a nested property like
    * <code>"address.street.name"</code>.
+   * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
    * <p>
    * The typical usage is to chain this call with a comparison method, for example :
    * <pre><code class='java'> filter(employees).with("name").equalsTo("Alex").get();</code></pre>

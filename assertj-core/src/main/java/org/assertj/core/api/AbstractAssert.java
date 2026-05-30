@@ -1244,6 +1244,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Nested field/property is supported, specifying "address.street.number" is equivalent to get the value
    * corresponding to actual.getAddress().getStreet().getNumber()
    * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
+   * <p>
    * Private field can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    *
    * @param <ASSERT>        the type of the resulting {@code Assert}

@@ -2367,9 +2367,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * globally disabled by calling {@link Assertions#setAllowExtractingPrivateFields(boolean)
    * Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
+   * <p>
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
-   * <p>
    * <p>
    * As an example, let's check all employees 800 years old (yes, special employees):
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
@@ -2433,6 +2435,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
    * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
+   * <p>
    * As an example, let's check all employees 800 years old (yes, special employees):
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
@@ -2464,12 +2469,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return filteredOn(propertyOrFieldName, (Object) null);
   }
 
-  // can't call filteredOn(String propertyOrFieldName, null) as it does not work with soft assertions proxying
-  // mechanism, it would lead to double proxying which is not handle properly (improvements needed in our proxy mechanism)
-  // Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual);
-  // Iterable<? extends ELEMENT> filteredIterable = filter.with(propertyOrFieldName, null).get();
-  // return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
-
   /**
    * Filters the iterable under test keeping only elements having a property or field matching the filter expressed with
    * the {@link FilterOperator}, the property/field is specified by {@code propertyOrFieldName} parameter.
@@ -2489,6 +2488,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
    * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
    * <p>
    * As an example, let's check stuff on some special employees:
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);

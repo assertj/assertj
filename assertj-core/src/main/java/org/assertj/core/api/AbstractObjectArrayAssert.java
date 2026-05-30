@@ -2382,9 +2382,11 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * globally disabled by calling {@link Assertions#setAllowExtractingPrivateFields(boolean)
    * Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
+   * <p>
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
-   * <p>
    * <p>
    * As an example, let's check all employees 800 years old (yes, special employees):
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
@@ -2445,6 +2447,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * globally disabled by calling {@link Assertions#setAllowExtractingPrivateFields(boolean)
    * Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
+   * <p>
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
    * <p>
@@ -2495,6 +2500,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * no such property exists it tries to read the value from a field. Reading private fields is supported by default,
    * this can be globally disabled by calling {@link Assertions#setAllowExtractingPrivateFields(boolean)
    * Assertions.setAllowExtractingPrivateFields(false)}.
+   * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
    * <p>
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
