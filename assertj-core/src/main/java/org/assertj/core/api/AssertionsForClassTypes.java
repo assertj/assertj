@@ -15,8 +15,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.data.Percentage.withPercentage;
-
 import java.io.File;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -64,11 +62,6 @@ import org.assertj.core.data.Percentage;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.annotation.Contract;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.util.Files;
-import org.assertj.core.util.Paths;
-import org.assertj.core.util.URLs;
-import org.assertj.core.util.introspection.FieldSupport;
 
 /**
  * Java 8 is picky when choosing the right <code>assertThat</code> method if the object under test is generic and bounded,
@@ -78,76 +71,92 @@ import org.assertj.core.util.introspection.FieldSupport;
  * <p>
  * This why {@link Assertions} have been split in {@link AssertionsForClassTypes} and {@link AssertionsForInterfaceTypes}
  * (see http://stackoverflow.com/questions/29499847/ambiguous-method-in-java-8-why).
+ *
+ * @deprecated Use {@link Assertions#assertThat} instead. In case of compiler ambiguity error, use the explicit
+ * {@code assertThat<Type>} helpers in {@link Assertions}.
  */
+@Deprecated
 @CheckReturnValue
 public class AssertionsForClassTypes {
 
   /**
-   * Create assertion for {@link java.util.concurrent.CompletableFuture}.
+   * Create assertion for {@link CompletableFuture}.
    *
    * @param actual the actual value.
-   * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
+   * @param <RESULT> the type of the value contained in the {@link CompletableFuture}.
    *
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletableFuture<RESULT> actual) {
-    return new CompletableFutureAssert<>(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
-   * Create assertion for {@link java.util.Optional}.
+   * Create assertion for {@link Optional}.
    *
    * @param actual the actual value.
-   * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
+   * @param <VALUE> the type of the value contained in the {@link Optional}.
    *
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <VALUE> OptionalAssert<VALUE> assertThat(Optional<VALUE> actual) {
-    return new OptionalAssert<>(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
-   * Create assertion for {@link java.util.OptionalDouble}.
+   * Create assertion for {@link OptionalDouble}.
    *
    * @param actual the actual value.
    *
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static OptionalDoubleAssert assertThat(OptionalDouble actual) {
-    return new OptionalDoubleAssert(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
-   * Create assertion for {@link java.util.OptionalInt}.
+   * Create assertion for {@link OptionalInt}.
    *
    * @param actual the actual value.
    *
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static OptionalIntAssert assertThat(OptionalInt actual) {
-    return new OptionalIntAssert(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
-   * Create assertion for {@link java.util.regex.Matcher}
+   * Create assertion for {@link Matcher}
    *
    * @param actual the actual value
    *
    * @return the created assertion object
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static MatcherAssert assertThat(Matcher actual) {
-    return new MatcherAssert(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
-   * Create assertion for {@link java.util.OptionalInt}.
+   * Create assertion for {@link OptionalInt}.
    *
    * @param actual the actual value.
    *
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static OptionalLongAssert assertThat(OptionalLong actual) {
-    return new OptionalLongAssert(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -216,9 +225,11 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.17.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Boolean2DArrayAssert assertThat(boolean[][] actual) {
-    return new Boolean2DArrayAssert(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -257,9 +268,11 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.17.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Byte2DArrayAssert assertThat(byte[][] actual) {
-    return new Byte2DArrayAssert(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -288,9 +301,11 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.17.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Char2DArrayAssert assertThat(char[][] actual) {
-    return new Char2DArrayAssert(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -308,9 +323,11 @@ public class AssertionsForClassTypes {
    *
    * @param actual the actual value.
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static ClassAssert assertThat(Class<?> actual) {
-    return new ClassAssert(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -349,9 +366,11 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.17.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Double2DArrayAssert assertThat(double[][] actual) {
-    return new Double2DArrayAssert(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -410,9 +429,11 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.17.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Float2DArrayAssert assertThat(float[][] actual) {
-    return new Float2DArrayAssert(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -441,9 +462,11 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.17.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Int2DArrayAssert assertThat(int[][] actual) {
-    return new Int2DArrayAssert(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -492,9 +515,11 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.17.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Long2DArrayAssert assertThat(long[][] actual) {
-    return new Long2DArrayAssert(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -503,9 +528,11 @@ public class AssertionsForClassTypes {
    * @param <T> the actual value type.
    * @param actual the actual value.
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <T> ObjectAssert<T> assertThat(T actual) {
-    return new ObjectAssert<>(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -514,9 +541,11 @@ public class AssertionsForClassTypes {
    * @param <T> the actual elements type.
    * @param actual the actual value.
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <T> ObjectArrayAssert<T> assertThat(T[] actual) {
-    return new ObjectArrayAssert<>(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -526,9 +555,11 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.17.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <T> Object2DArrayAssert<T> assertThat(T[][] actual) {
-    return new Object2DArrayAssert<>(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -567,9 +598,11 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.17.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Short2DArrayAssert assertThat(short[][] actual) {
-    return new Short2DArrayAssert(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -635,7 +668,7 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Creates a new instance of <code>{@link java.time.OffsetDateTime}</code>.
+   * Creates a new instance of <code>{@link OffsetDateTime}</code>.
    *
    * @param actual the actual value.
    * @return the created assertion object.
@@ -645,7 +678,7 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Create assertion for {@link java.time.OffsetTime}.
+   * Create assertion for {@link OffsetTime}.
    *
    * @param actual the actual value.
    * @return the created assertion object.
@@ -814,9 +847,11 @@ public class AssertionsForClassTypes {
    * @param <T> the exception type.
    * @param exceptionType the class of exception type.
    * @return the created {@link ThrowableTypeAssert}.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <T extends Throwable> ThrowableTypeAssert<T> assertThatExceptionOfType(final Class<? extends T> exceptionType) {
-    return new ThrowableTypeAssert<>(exceptionType);
+    return Assertions.assertThatExceptionOfType(exceptionType);
   }
 
   /**
@@ -829,9 +864,11 @@ public class AssertionsForClassTypes {
    *
    * @return the created {@link NotThrownAssert}.
    * @since 3.17.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static NotThrownAssert assertThatNoException() {
-    return new NotThrownAssert();
+    return Assertions.assertThatNoException();
   }
 
   /**
@@ -903,9 +940,11 @@ public class AssertionsForClassTypes {
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see AssertionsForClassTypes#catchThrowableOfType(Class, ThrowableAssert.ThrowingCallable)
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
-    return ThrowableAssert.catchThrowable(shouldRaiseThrowable);
+    return Assertions.catchThrowable(shouldRaiseThrowable);
   }
 
   /**
@@ -945,11 +984,12 @@ public class AssertionsForClassTypes {
    * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
    * @since 3.9.0
    * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
   @Deprecated
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
                                                                              Class<THROWABLE> type) {
-    return catchThrowableOfType(type, shouldRaiseThrowable);
+    return Assertions.catchThrowableOfType(shouldRaiseThrowable, type);
   }
 
   /**
@@ -988,10 +1028,12 @@ public class AssertionsForClassTypes {
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
    * @since 3.26.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(Class<THROWABLE> type,
                                                                              ThrowingCallable shouldRaiseThrowable) {
-    return ThrowableAssert.catchThrowableOfType(type, shouldRaiseThrowable);
+    return Assertions.catchThrowableOfType(type, shouldRaiseThrowable);
   }
   // -------------------------------------------------------------------------------------------------
   // fail methods : not assertions but here to have a single entry point to all AssertJ features.
@@ -1002,9 +1044,11 @@ public class AssertionsForClassTypes {
    * full feature entry point to all AssertJ Assert features (but you can use {@link Fail} if you prefer).
    *
    * @param removeAssertJRelatedElementsFromStackTrace flag.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
-    Fail.setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
+    Assertions.setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
   }
 
   /**
@@ -1015,8 +1059,9 @@ public class AssertionsForClassTypes {
    * @throws AssertionError with the given message.
    */
   @Contract("_ -> fail")
+  @Deprecated
   public static void fail(String failureMessage) {
-    Fail.fail(failureMessage);
+    Assertions.fail(failureMessage);
   }
 
   /**
@@ -1026,8 +1071,9 @@ public class AssertionsForClassTypes {
    * @throws AssertionError without message.
    */
   @Contract(" -> fail")
+  @Deprecated
   public static void fail() {
-    Fail.fail();
+    Assertions.fail();
   }
 
   /**
@@ -1039,8 +1085,9 @@ public class AssertionsForClassTypes {
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
   @Contract("_, _ -> fail")
+  @Deprecated
   public static void fail(String failureMessage, Throwable realCause) {
-    Fail.fail(failureMessage, realCause);
+    Assertions.fail(failureMessage, realCause);
   }
 
   /**
@@ -1051,8 +1098,9 @@ public class AssertionsForClassTypes {
    * @throws AssertionError with the {@link Throwable} that caused the failure.
    */
   @Contract("_ -> fail")
+  @Deprecated
   public static void fail(Throwable realCause) {
-    Fail.fail(realCause);
+    Assertions.fail(realCause);
   }
 
   /**
@@ -1066,8 +1114,9 @@ public class AssertionsForClassTypes {
    *           not been.
    */
   @Contract("_ -> fail")
+  @Deprecated
   public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
-    Fail.shouldHaveThrown(throwableClass);
+    Assertions.failBecauseExceptionWasNotThrown(throwableClass);
   }
 
   /**
@@ -1079,8 +1128,9 @@ public class AssertionsForClassTypes {
    *           not been.
    */
   @Contract("_ -> fail")
+  @Deprecated
   public static void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
-    Fail.shouldHaveThrown(throwableClass);
+    Assertions.shouldHaveThrown(throwableClass);
   }
 
   /**
@@ -1106,9 +1156,11 @@ public class AssertionsForClassTypes {
    *  "Guards! Guards! (Discworld)"]</code></pre>
    *
    * @param maxLengthForSingleLineDescription the maximum length for an iterable/array to be displayed on one line
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static void setMaxLengthForSingleLineDescription(int maxLengthForSingleLineDescription) {
-    StandardRepresentation.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription);
+    Assertions.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription);
   }
 
   // ------------------------------------------------------------------------------------------------------
@@ -1142,9 +1194,11 @@ public class AssertionsForClassTypes {
    * @throws NullPointerException if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
    * @return the created {@code Properties}.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <T> Properties<T> extractProperty(String propertyName, Class<T> propertyType) {
-    return Properties.extractProperty(propertyName, propertyType);
+    return Assertions.extractProperty(propertyName, propertyType);
   }
 
   /**
@@ -1171,9 +1225,11 @@ public class AssertionsForClassTypes {
    * @throws NullPointerException if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
    * @return the created {@code Properties}.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Properties<Object> extractProperty(String propertyName) {
-    return Properties.extractProperty(propertyName);
+    return Assertions.extractProperty(propertyName);
   }
 
   /**
@@ -1182,38 +1238,44 @@ public class AssertionsForClassTypes {
    *
    * @param values the values stored in the {@link Tuple}
    * @return the built {@link Tuple}
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Tuple tuple(Object... values) {
-    return Tuple.tuple(values);
+    return Assertions.tuple(values);
   }
 
   /**
    * Globally sets whether
-   * <code>{@link org.assertj.core.api.AbstractIterableAssert#extracting(String) IterableAssert#extracting(String)}</code>
+   * <code>{@link AbstractIterableAssert#extracting(String) IterableAssert#extracting(String)}</code>
    * and
-   * <code>{@link org.assertj.core.api.AbstractObjectArrayAssert#extracting(String) ObjectArrayAssert#extracting(String)}</code>
+   * <code>{@link AbstractObjectArrayAssert#extracting(String) ObjectArrayAssert#extracting(String)}</code>
    * should be allowed to extract private fields, if not and they try it fails with exception.
    *
    * @param allowExtractingPrivateFields allow private fields extraction. Default {@code true}.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static void setAllowExtractingPrivateFields(boolean allowExtractingPrivateFields) {
-    FieldSupport.extraction().setAllowUsingPrivateFields(allowExtractingPrivateFields);
+    Assertions.setAllowExtractingPrivateFields(allowExtractingPrivateFields);
   }
 
   /**
    * Globally sets whether the use of private fields is allowed for comparison.
    * The following (incomplete) list of methods will be impacted by this change :
    * <ul>
-   * <li><code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code></li>
-   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(Object)}</code></li>
+   * <li><code>{@link AbstractIterableAssert#usingElementComparatorOnFields(String...)}</code></li>
+   * <li><code>{@link AbstractObjectAssert#isEqualToComparingFieldByField(Object)}</code></li>
    * </ul>
    *
    * If the value is <code>false</code> and these methods try to compare private fields, it will fail with an exception.
    *
    * @param allowComparingPrivateFields allow private fields comparison. Default {@code true}.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static void setAllowComparingPrivateFields(boolean allowComparingPrivateFields) {
-    FieldSupport.comparison().setAllowUsingPrivateFields(allowComparingPrivateFields);
+    Assertions.setAllowComparingPrivateFields(allowComparingPrivateFields);
   }
 
   // ------------------------------------------------------------------------------------------------------
@@ -1235,9 +1297,11 @@ public class AssertionsForClassTypes {
    * @param key the key of the entry to create.
    * @param value the value of the entry to create.
    * @return the created {@code MapEntry}.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <K, V> MapEntry<K, V> entry(K key, V value) {
-    return MapEntry.entry(key, value);
+    return Assertions.entry(key, value);
   }
 
   /**
@@ -1251,9 +1315,11 @@ public class AssertionsForClassTypes {
    * @param index the value of the index.
    * @return the created {@code Index}.
    * @throws IllegalArgumentException if the given value is negative.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Index atIndex(int index) {
-    return Index.atIndex(index);
+    return Assertions.atIndex(index);
   }
 
   /**
@@ -1266,9 +1332,11 @@ public class AssertionsForClassTypes {
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Offset<Double> offset(Double value) {
-    return Offset.offset(value);
+    return Assertions.offset(value);
   }
 
   /**
@@ -1281,9 +1349,11 @@ public class AssertionsForClassTypes {
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Offset<Float> offset(Float value) {
-    return Offset.offset(value);
+    return Assertions.offset(value);
   }
 
   /**
@@ -1296,9 +1366,11 @@ public class AssertionsForClassTypes {
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Offset<Double> within(Double value) {
-    return Offset.offset(value);
+    return Assertions.within(value);
   }
 
   /**
@@ -1311,9 +1383,11 @@ public class AssertionsForClassTypes {
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Offset<Float> within(Float value) {
-    return Offset.offset(value);
+    return Assertions.within(value);
   }
 
   /**
@@ -1326,9 +1400,11 @@ public class AssertionsForClassTypes {
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Offset<BigDecimal> within(BigDecimal value) {
-    return Offset.offset(value);
+    return Assertions.within(value);
   }
 
   /**
@@ -1341,9 +1417,11 @@ public class AssertionsForClassTypes {
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Offset<Byte> within(Byte value) {
-    return Offset.offset(value);
+    return Assertions.within(value);
   }
 
   /**
@@ -1356,9 +1434,11 @@ public class AssertionsForClassTypes {
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Offset<Integer> within(Integer value) {
-    return Offset.offset(value);
+    return Assertions.within(value);
   }
 
   /**
@@ -1371,9 +1451,11 @@ public class AssertionsForClassTypes {
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Offset<Short> within(Short value) {
-    return Offset.offset(value);
+    return Assertions.within(value);
   }
 
   /**
@@ -1386,13 +1468,15 @@ public class AssertionsForClassTypes {
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Offset<Long> within(Long value) {
-    return Offset.offset(value);
+    return Assertions.within(value);
   }
 
   /**
-   * Assertions entry point for Double {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for
+   * Assertions entry point for Double {@link Percentage} to use with isCloseTo assertions for
    * percentages.
    * <p>
    * Typical usage :
@@ -1402,13 +1486,15 @@ public class AssertionsForClassTypes {
    * @return the created {@code Percentage}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Percentage withinPercentage(Double value) {
-    return withPercentage(value);
+    return Assertions.withinPercentage(value);
   }
 
   /**
-   * Assertions entry point for Integer {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for
+   * Assertions entry point for Integer {@link Percentage} to use with isCloseTo assertions for
    * percentages.
    * <p>
    * Typical usage :
@@ -1418,13 +1504,15 @@ public class AssertionsForClassTypes {
    * @return the created {@code Percentage}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Percentage withinPercentage(Integer value) {
-    return withPercentage(value);
+    return Assertions.withinPercentage(value);
   }
 
   /**
-   * Assertions entry point for Long {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for
+   * Assertions entry point for Long {@link Percentage} to use with isCloseTo assertions for
    * percentages.
    * <p>
    * Typical usage :
@@ -1434,9 +1522,11 @@ public class AssertionsForClassTypes {
    * @return the created {@code Percentage}.
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static Percentage withinPercentage(Long value) {
-    return withPercentage(value);
+    return Assertions.withinPercentage(value);
   }
 
   // ------------------------------------------------------------------------------------------------------
@@ -1453,8 +1543,9 @@ public class AssertionsForClassTypes {
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
   @SafeVarargs
+  @Deprecated
   public static <T> Condition<T> allOf(Condition<? super T>... conditions) {
-    return AllOf.allOf(conditions);
+    return Assertions.allOf(conditions);
   }
 
   /**
@@ -1465,9 +1556,11 @@ public class AssertionsForClassTypes {
    * @return the created {@code AnyOf}.
    * @throws NullPointerException if the given iterable is {@code null}.
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <T> Condition<T> allOf(Iterable<? extends Condition<? super T>> conditions) {
-    return AllOf.allOf(conditions);
+    return Assertions.allOf(conditions);
   }
 
   /**
@@ -1484,8 +1577,9 @@ public class AssertionsForClassTypes {
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
   @SafeVarargs
+  @Deprecated
   public static <T> Condition<T> anyOf(Condition<? super T>... conditions) {
-    return AnyOf.anyOf(conditions);
+    return Assertions.anyOf(conditions);
   }
 
   /**
@@ -1496,9 +1590,11 @@ public class AssertionsForClassTypes {
    * @return the created {@code AnyOf}.
    * @throws NullPointerException if the given iterable is {@code null}.
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <T> Condition<T> anyOf(Iterable<? extends Condition<? super T>> conditions) {
-    return AnyOf.anyOf(conditions);
+    return Assertions.anyOf(conditions);
   }
 
   /**
@@ -1507,9 +1603,11 @@ public class AssertionsForClassTypes {
    * @param <T> the type of object the given condition accept.
    * @param condition the condition to inverse.
    * @return The Not condition created.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <T> DoesNotHave<T> doesNotHave(Condition<? super T> condition) {
-    return DoesNotHave.doesNotHave(condition);
+    return Assertions.doesNotHave(condition);
   }
 
   /**
@@ -1518,9 +1616,11 @@ public class AssertionsForClassTypes {
    * @param <T> the type of object the given condition accept.
    * @param condition the condition to inverse.
    * @return The Not condition created.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <T> Not<T> not(Condition<? super T> condition) {
-    return Not.not(condition);
+    return Assertions.not(condition);
   }
 
   // --------------------------------------------------------------------------------------------------
@@ -1544,9 +1644,11 @@ public class AssertionsForClassTypes {
    * @param array the array to filter.
    * @throws NullPointerException if the given array is {@code null}.
    * @return the created <code>{@link Filters}</code>.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <E> Filters<E> filter(E[] array) {
-    return Filters.filter(array);
+    return Assertions.filter(array);
   }
 
   /**
@@ -1567,9 +1669,11 @@ public class AssertionsForClassTypes {
    * @param iterableToFilter the iterable to filter.
    * @throws NullPointerException if the given array is {@code null}.
    * @return the created <code>{@link Filters}</code>.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {
-    return Filters.filter(iterableToFilter);
+    return Assertions.filter(iterableToFilter);
   }
 
   /**
@@ -1591,9 +1695,11 @@ public class AssertionsForClassTypes {
    *
    * @param values values to match (one match is sufficient)
    * @return the created "in" filter
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static InFilter in(Object... values) {
-    return InFilter.in(values);
+    return Assertions.in(values);
   }
 
   /**
@@ -1615,9 +1721,11 @@ public class AssertionsForClassTypes {
    *
    * @param valuesNotToMatch values not to match (none of the values must match)
    * @return the created "not in" filter
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static NotInFilter notIn(Object... valuesNotToMatch) {
-    return NotInFilter.notIn(valuesNotToMatch);
+    return Assertions.notIn(valuesNotToMatch);
   }
 
   /**
@@ -1639,9 +1747,11 @@ public class AssertionsForClassTypes {
    *
    * @param valueNotToMatch the value not to match
    * @return the created "not" filter
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static NotFilter not(Object valueNotToMatch) {
-    return NotFilter.not(valueNotToMatch);
+    return Assertions.not(valueNotToMatch);
   }
 
   // --------------------------------------------------------------------------------------------------
@@ -1660,9 +1770,11 @@ public class AssertionsForClassTypes {
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static String contentOf(File file, Charset charset) {
-    return Files.contentOf(file, charset);
+    return Assertions.contentOf(file, charset);
   }
 
   /**
@@ -1677,9 +1789,11 @@ public class AssertionsForClassTypes {
    * @return the content of the file.
    * @throws IllegalArgumentException if the given character set is not supported on this platform.
    * @throws UncheckedIOException if an I/O exception occurs.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static String contentOf(File file, String charsetName) {
-    return Files.contentOf(file, charsetName);
+    return Assertions.contentOf(file, charsetName);
   }
 
   /**
@@ -1693,9 +1807,11 @@ public class AssertionsForClassTypes {
    * @param file the file.
    * @return the content of the file.
    * @throws UncheckedIOException if an I/O exception occurs.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static String contentOf(File file) {
-    return Files.contentOf(file, Charset.defaultCharset());
+    return Assertions.contentOf(file);
   }
 
   /**
@@ -1707,9 +1823,11 @@ public class AssertionsForClassTypes {
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static List<String> linesOf(File file) {
-    return Files.linesOf(file, Charset.defaultCharset());
+    return Assertions.linesOf(file);
   }
 
   /**
@@ -1721,9 +1839,11 @@ public class AssertionsForClassTypes {
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static List<String> linesOf(File file, Charset charset) {
-    return Files.linesOf(file, charset);
+    return Assertions.linesOf(file, charset);
   }
 
   /**
@@ -1735,9 +1855,11 @@ public class AssertionsForClassTypes {
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static List<String> linesOf(File file, String charsetName) {
-    return Files.linesOf(file, charsetName);
+    return Assertions.linesOf(file, charsetName);
   }
 
   /**
@@ -1751,9 +1873,11 @@ public class AssertionsForClassTypes {
    * @throws UncheckedIOException if an I/O exception occurs.
    *
    * @since 3.23.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static List<String> linesOf(Path path) {
-    return Paths.linesOf(path, Charset.defaultCharset());
+    return Assertions.linesOf(path);
   }
 
   /**
@@ -1767,9 +1891,11 @@ public class AssertionsForClassTypes {
    * @throws UncheckedIOException if an I/O exception occurs.
    *
    * @since 3.23.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static List<String> linesOf(Path path, Charset charset) {
-    return Paths.linesOf(path, charset);
+    return Assertions.linesOf(path, charset);
   }
 
   /**
@@ -1783,9 +1909,11 @@ public class AssertionsForClassTypes {
    * @throws UncheckedIOException if an I/O exception occurs.
    *
    * @since 3.23.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static List<String> linesOf(Path path, String charsetName) {
-    return Paths.linesOf(path, charsetName);
+    return Assertions.linesOf(path, charsetName);
   }
 
   // --------------------------------------------------------------------------------------------------
@@ -1803,9 +1931,11 @@ public class AssertionsForClassTypes {
    * @return the content of the URL.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static String contentOf(URL url, Charset charset) {
-    return URLs.contentOf(url, charset);
+    return Assertions.contentOf(url, charset);
   }
 
   /**
@@ -1819,9 +1949,11 @@ public class AssertionsForClassTypes {
    * @return the content of the URL.
    * @throws IllegalArgumentException if the given character set is not supported on this platform.
    * @throws UncheckedIOException if an I/O exception occurs.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static String contentOf(URL url, String charsetName) {
-    return URLs.contentOf(url, charsetName);
+    return Assertions.contentOf(url, charsetName);
   }
 
   /**
@@ -1834,9 +1966,11 @@ public class AssertionsForClassTypes {
    * @param url the URL.
    * @return the content of the file.
    * @throws UncheckedIOException if an I/O exception occurs.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static String contentOf(URL url) {
-    return URLs.contentOf(url, Charset.defaultCharset());
+    return Assertions.contentOf(url);
   }
 
   /**
@@ -1848,9 +1982,11 @@ public class AssertionsForClassTypes {
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static List<String> linesOf(URL url) {
-    return URLs.linesOf(url, Charset.defaultCharset());
+    return Assertions.linesOf(url);
   }
 
   /**
@@ -1862,9 +1998,11 @@ public class AssertionsForClassTypes {
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static List<String> linesOf(URL url, Charset charset) {
-    return URLs.linesOf(url, charset);
+    return Assertions.linesOf(url, charset);
   }
 
   /**
@@ -1876,9 +2014,11 @@ public class AssertionsForClassTypes {
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static List<String> linesOf(URL url, String charsetName) {
-    return URLs.linesOf(url, charsetName);
+    return Assertions.linesOf(url, charsetName);
   }
 
   // --------------------------------------------------------------------------------------------------
@@ -1916,30 +2056,32 @@ public class AssertionsForClassTypes {
    * To revert to default strict date parsing, call {@code setLenientDateParsing(false)}.
    *
    * @param value whether lenient parsing mode should be enabled or not
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static void setLenientDateParsing(boolean value) {
-    AbstractDateAssert.setLenientDateParsing(value);
+    Assertions.setLenientDateParsing(value);
   }
 
   /**
    * Add the given date format to the ones used to parse date String in String based Date assertions like
-   * {@link org.assertj.core.api.AbstractDateAssert#isEqualTo(String)}.
+   * {@link AbstractDateAssert#isEqualTo(String)}.
    * <p>
    * User date formats are used before default ones in the order they have been registered (first registered, first
    * used).
    * <p>
    * AssertJ is going to use any date formats registered with one of these methods :
    * <ul>
-   * <li>{@link org.assertj.core.api.AbstractDateAssert#withDateFormat(String)}</li>
-   * <li>{@link org.assertj.core.api.AbstractDateAssert#withDateFormat(java.text.DateFormat)}</li>
-   * <li>{@link #registerCustomDateFormat(java.text.DateFormat)}</li>
+   * <li>{@link AbstractDateAssert#withDateFormat(String)}</li>
+   * <li>{@link AbstractDateAssert#withDateFormat(DateFormat)}</li>
+   * <li>{@link #registerCustomDateFormat(DateFormat)}</li>
    * <li>{@link #registerCustomDateFormat(String)}</li>
    * </ul>
    * <p>
    * Beware that AssertJ will use the newly registered format for <b>all remaining Date assertions in the test suite</b>
    * <p>
    * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or
-   * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
+   * {@link AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p>
    * Code examples:
    *
@@ -1962,30 +2104,32 @@ public class AssertionsForClassTypes {
    * assertThat(date).isEqualTo("2003-04-26");</code></pre>
    *
    * @param userCustomDateFormat the new Date format used for String based Date assertions.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static void registerCustomDateFormat(DateFormat userCustomDateFormat) {
-    AbstractDateAssert.registerCustomDateFormat(userCustomDateFormat);
+    Assertions.registerCustomDateFormat(userCustomDateFormat);
   }
 
   /**
    * Add the given date format to the ones used to parse date String in String based Date assertions like
-   * {@link org.assertj.core.api.AbstractDateAssert#isEqualTo(String)}.
+   * {@link AbstractDateAssert#isEqualTo(String)}.
    * <p>
    * User date formats are used before default ones in the order they have been registered (first registered, first
    * used).
    * <p>
    * AssertJ is going to use any date formats registered with one of these methods :
    * <ul>
-   * <li>{@link org.assertj.core.api.AbstractDateAssert#withDateFormat(String)}</li>
-   * <li>{@link org.assertj.core.api.AbstractDateAssert#withDateFormat(java.text.DateFormat)}</li>
-   * <li>{@link #registerCustomDateFormat(java.text.DateFormat)}</li>
+   * <li>{@link AbstractDateAssert#withDateFormat(String)}</li>
+   * <li>{@link AbstractDateAssert#withDateFormat(DateFormat)}</li>
+   * <li>{@link #registerCustomDateFormat(DateFormat)}</li>
    * <li>{@link #registerCustomDateFormat(String)}</li>
    * </ul>
    * <p>
    * Beware that AssertJ will use the newly registered format for <b>all remaining Date assertions in the test suite</b>
    * <p>
    * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or
-   * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
+   * {@link AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p>
    * Code examples:
    *
@@ -2008,9 +2152,11 @@ public class AssertionsForClassTypes {
    * assertThat(date).isEqualTo("2003-04-26");</code></pre>
    *
    * @param userCustomDateFormatPattern the new Date format pattern used for String based Date assertions.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static void registerCustomDateFormat(String userCustomDateFormatPattern) {
-    AbstractDateAssert.registerCustomDateFormat(userCustomDateFormatPattern);
+    Assertions.registerCustomDateFormat(userCustomDateFormatPattern);
   }
 
   /**
@@ -2033,9 +2179,11 @@ public class AssertionsForClassTypes {
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static void useDefaultDateFormatsOnly() {
-    AbstractDateAssert.useDefaultDateFormatsOnly();
+    Assertions.useDefaultDateFormatsOnly();
   }
 
   /**

@@ -1991,7 +1991,7 @@ public class BDDAssertions extends Assertions {
    * @since 3.20.0
    */
   public static Throwable catchThrowable(ThrowingCallable throwingCallable) {
-    return AssertionsForClassTypes.catchThrowable(throwingCallable);
+    return Assertions.catchThrowable(throwingCallable);
   }
 
   /**
