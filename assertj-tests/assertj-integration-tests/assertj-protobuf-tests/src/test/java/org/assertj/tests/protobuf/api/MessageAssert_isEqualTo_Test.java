@@ -16,8 +16,8 @@
 package org.assertj.tests.protobuf.api;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.tests.protobuf.testkit.AssertionErrors.expectAssertionError;
 import static org.assertj.protobuf.api.Assertions.assertThat;
+import static org.assertj.tests.protobuf.testkit.AssertionErrors.expectAssertionError;
 
 import org.assertj.tests.protobuf.TestProtos.TestMessage;
 import org.junit.jupiter.api.Test;
