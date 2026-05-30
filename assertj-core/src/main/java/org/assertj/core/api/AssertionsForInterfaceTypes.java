@@ -66,7 +66,11 @@ import org.assertj.core.annotation.CheckReturnValue;
  * @author William Delanoue
  * @author Turbo87
  * @author dorzey
+ *
+ * @deprecated Use {@link Assertions#assertThat} instead. In case of compiler ambiguity error, use the explicit
+ * {@code assertThat<Type>} helpers in {@link Assertions}.
  */
+@Deprecated
 @CheckReturnValue
 public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
 
@@ -80,9 +84,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param <T> the AssertProvider wrapped type.
    * @param component the component that creates its own assert
    * @return the associated {@link Assert} of the given component
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <T> T assertThat(final AssertProvider<T> component) {
-    return component.assertThat();
+    return Assertions.assertThat(component);
   }
 
   /**
@@ -106,9 +112,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <ELEMENT> IterableAssert<ELEMENT> assertThat(Iterable<? extends ELEMENT> actual) {
-    return IterableAssert.assertThatIterable(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -121,9 +129,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.23.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <ELEMENT> IterableAssert<ELEMENT> assertThatIterable(Iterable<? extends ELEMENT> actual) {
-    return assertThat(actual);
+    return Assertions.assertThatIterable(actual);
   }
 
   /**
@@ -132,9 +142,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <ELEMENT> IteratorAssert<ELEMENT> assertThat(Iterator<? extends ELEMENT> actual) {
-    return IteratorAssert.assertThatIterator(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -147,9 +159,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.23.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <ELEMENT> IteratorAssert<ELEMENT> assertThatIterator(Iterator<? extends ELEMENT> actual) {
-    return assertThat(actual);
+    return Assertions.assertThatIterator(actual);
   }
 
   /**
@@ -185,9 +199,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <ELEMENT> ListAssert<ELEMENT> assertThat(List<? extends ELEMENT> actual) {
-    return ListAssert.assertThatList(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -200,9 +216,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.23.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <ELEMENT> ListAssert<ELEMENT> assertThatList(List<? extends ELEMENT> actual) {
-    return assertThat(actual);
+    return Assertions.assertThatList(actual);
   }
 
   /**
@@ -231,9 +249,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param <ELEMENT> the type of elements.
    * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <ELEMENT> ListAssert<ELEMENT> assertThat(Stream<? extends ELEMENT> actual) {
-    return ListAssert.assertThatStream(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -266,9 +286,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.23.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <ELEMENT> ListAssert<ELEMENT> assertThatStream(Stream<? extends ELEMENT> actual) {
-    return assertThat(actual);
+    return Assertions.assertThatStream(actual);
   }
 
   /**
@@ -296,9 +318,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    *
    * @param actual the actual {@link DoubleStream} value.
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static ListAssert<Double> assertThat(DoubleStream actual) {
-    return ListAssert.assertThatDoubleStream(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -326,9 +350,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    *
    * @param actual the actual {@link LongStream} value.
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static ListAssert<Long> assertThat(LongStream actual) {
-    return ListAssert.assertThatLongStream(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -356,9 +382,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    *
    * @param actual the actual {@link IntStream} value.
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static ListAssert<Integer> assertThat(IntStream actual) {
-    return ListAssert.assertThatIntStream(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -535,9 +563,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param <V> the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
-    return MapAssert.assertThatMap(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -618,9 +648,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param <T> the generic type of the user-defined assert.
    * @param assertion the assertion to return.
    * @return the given assertion.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <T extends AssertDelegateTarget> T assertThat(T assertion) {
-    return assertion;
+    return Assertions.assertThat(assertion);
   }
 
   /**
@@ -630,9 +662,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param <T> the type of the value contained in the {@link Predicate}.
    * @return the created assertion object.
    * @since 3.5.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <T> PredicateAssert<T> assertThat(Predicate<T> actual) {
-    return PredicateAssert.assertThatPredicate(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -645,9 +679,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param <T> the type of the value contained in the {@link Predicate}.
    * @return the created assertion object.
    * @since 3.23.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <T> PredicateAssert<T> assertThatPredicate(Predicate<T> actual) {
-    return assertThat(actual);
+    return Assertions.assertThatPredicate(actual);
   }
 
   /**
@@ -656,9 +692,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.5.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static IntPredicateAssert assertThat(IntPredicate actual) {
-    return IntPredicateAssert.assertThatIntPredicate(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -667,9 +705,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.5.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static LongPredicateAssert assertThat(LongPredicate actual) {
-    return LongPredicateAssert.assertThatLongPredicate(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -678,9 +718,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.5.0
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static DoublePredicateAssert assertThat(DoublePredicate actual) {
-    return DoublePredicateAssert.assertThatDoublePredicate(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -692,9 +734,11 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletionStage}.
    *
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletionStage<RESULT> actual) {
-    return CompletableFutureAssert.assertThatCompletionStage(actual);
+    return Assertions.assertThat(actual);
   }
 
   /**
@@ -704,8 +748,10 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    *
    * @return the created assertion object.
-   */
+   * @deprecated Use the same method in {@link Assertions} instead.
+  */
+  @Deprecated
   public static <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(Spliterator<ELEMENT> actual) {
-    return SpliteratorAssert.assertThatSpliterator(actual);
+    return Assertions.assertThat(actual);
   }
 }
