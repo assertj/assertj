@@ -24,9 +24,9 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import java.util.Objects;
 
 import org.assertj.core.api.Condition;
-import org.junitpioneer.vintage.Test;
+import org.junit.jupiter.api.Test;
 
-public class AbstractAssert_satisfiesAllOf_Test {
+class AbstractAssert_satisfiesAllOf_Test {
 
   @Test
   void should_pass_when_all_of_the_condition_is_met() {
@@ -70,4 +70,5 @@ public class AbstractAssert_satisfiesAllOf_Test {
                                            "   [✗] not equals abc%n" +
                                            "]"));
   }
+
 }
