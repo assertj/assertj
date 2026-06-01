@@ -70,4 +70,5 @@ class AbstractAssert_satisfiesAllOf_Test {
                                            "   [✗] not equals abc%n" +
                                            "]"));
   }
+
 }
