@@ -83,5 +83,4 @@ jobs:
       - name: Run ${{ matrix.project }} build
         run: |
           cd tmp/${{ matrix.project }}
-          VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)
-          ./mvnw -D${{ matrix.property }}=$VERSION -B install
+          ./mvnw -D${{ matrix.property }}=3.27.8-SNAPSHOT -B install
