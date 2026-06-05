@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        targets:
+        include:
           - project: spring-framework
             repo: spring-projects/spring-framework
           - project: spring-boot
@@ -61,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        targets:
+        include:
           - project: JsonUnit
             repo: lukas-krecan/JsonUnit
             property: assertj.version
