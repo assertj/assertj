@@ -12,7 +12,7 @@ gradle.projectsLoaded {
         configurations.all {
             resolutionStrategy {
                 eachDependency {
-                    if (requested.group == "org.assertj" && requested.name == "assertj-bom") {
+                    if (requested.group == "org.assertj") {
                         useVersion("+")
                     }
                 }
