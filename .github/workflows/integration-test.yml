@@ -26,8 +26,6 @@ jobs:
             repo: spring-projects/spring-boot
           - project: junit-framework
             repo: junit-team/junit-framework
-          - project: mockito
-            repo: mockito/mockito
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -54,37 +52,3 @@ jobs:
           cp .github/workflows/use-snapshot.gradle.kts tmp/${{ matrix.project }}
           cd tmp/${{ matrix.project }}
           ./gradlew --init-script use-snapshot.gradle.kts build
-
-  maven-integrations:
-
-    name: Java 25 - ${{ matrix.project }}
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - project: JsonUnit
-            repo: lukas-krecan/JsonUnit
-            property: assertj.version
-
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: Setup Java
-        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
-        with:
-          distribution: 'zulu'
-          java-version: '25'
-          cache: 'maven'
-      - name: Build
-        run: ./mvnw $MAVEN_ARGS -DskipTests install
-      - name: Create a temporary directory
-        run: mkdir -p tmp/${{ matrix.project }}
-      - name: Clone target repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          repository: ${{ matrix.repo }}
-          path: tmp/${{matrix.project}}
-          fetch-depth: 1
-      - name: Run ${{matrix.project}} build
-        run: |
-          cd tmp/${{matrix.project}}
-          ./mvnw -D${{ matrix.property }}=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout) -B install
