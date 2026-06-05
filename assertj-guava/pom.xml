@@ -62,24 +62,6 @@
     </pluginManagement>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <configuration>
-          <rules combine.children="append">
-            <bannedDependencies>
-              <includes>
-                <include>net.bytebuddy:byte-buddy</include>
-                <include>org.assertj:assertj-core</include>
-              </includes>
-              <excludes>
-                <exclude>org.assertj:assertj-guava</exclude>
-                <exclude>*:*:*:jar:compile</exclude>
-              </excludes>
-            </bannedDependencies>
-          </rules>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>biz.aQute.bnd</groupId>
         <artifactId>bnd-maven-plugin</artifactId>
         <extensions>true</extensions>
@@ -135,15 +117,22 @@
           </execution>
         </executions>
       </plugin>
-      <!-- generate jacoco report -->
       <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
         <configuration>
-          <excludes>
-            <!-- exclude deprecated classes -->
-            <exclude>org/assertj/guava/data/MapEntry*</exclude>
-          </excludes>
+          <rules combine.children="append">
+            <bannedDependencies>
+              <includes>
+                <include>net.bytebuddy:byte-buddy</include>
+                <include>org.assertj:assertj-core</include>
+              </includes>
+              <excludes>
+                <exclude>org.assertj:assertj-guava</exclude>
+                <exclude>*:*:*:jar:compile</exclude>
+              </excludes>
+            </bannedDependencies>
+          </rules>
         </configuration>
       </plugin>
       <plugin>
@@ -186,6 +175,16 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- exclude deprecated classes -->
+            <exclude>org/assertj/guava/data/MapEntry*</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.sonatype.central</groupId>
