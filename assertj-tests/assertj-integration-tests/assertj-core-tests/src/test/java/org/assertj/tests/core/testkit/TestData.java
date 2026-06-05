@@ -25,10 +25,8 @@ import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 
-/**
- * @author Alex Ruiz
- * @author Yvonne Wang
- */
+/// @author Alex Ruiz
+/// @author Yvonne Wang
 public final class TestData {
 
   private static final WritableAssertionInfo ASSERTION_INFO = new WritableAssertionInfo();

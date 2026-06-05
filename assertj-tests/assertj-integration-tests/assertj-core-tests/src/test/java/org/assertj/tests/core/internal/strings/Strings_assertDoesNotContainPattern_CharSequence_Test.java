@@ -25,14 +25,10 @@ import static org.assertj.tests.core.testkit.TestData.someInfo;
 
 import java.util.regex.PatternSyntaxException;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Strings#assertDoesNotContainPattern(AssertionInfo, CharSequence, CharSequence)}</code>.
- */
+/// Tests for [Strings#assertDoesNotContainPattern(AssertionInfo, CharSequence, CharSequence)].
 class Strings_assertDoesNotContainPattern_CharSequence_Test extends StringsBaseTest {
 
   private static final String CONTAINED_PATTERN = "y.*u?";

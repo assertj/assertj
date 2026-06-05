@@ -23,10 +23,8 @@ import org.assertj.core.api.AbstractZonedDateTimeAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Joel Costigliola
- * @author Marcin Zajączkowski
- */
+/// @author Joel Costigliola
+/// @author Marcin Zajączkowski
 class Assertions_assertThat_with_ZonedDateTime_Test {
 
   @Test

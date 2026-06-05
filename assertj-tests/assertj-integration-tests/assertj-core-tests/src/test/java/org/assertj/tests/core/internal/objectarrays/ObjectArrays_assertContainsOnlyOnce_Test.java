@@ -31,9 +31,7 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author William Delanoue
- */
+/// @author William Delanoue
 class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
 
   @Test

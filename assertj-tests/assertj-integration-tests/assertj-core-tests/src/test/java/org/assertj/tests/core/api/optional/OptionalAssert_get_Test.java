@@ -29,11 +29,9 @@ import org.assertj.core.api.OptionalAssert;
 import org.assertj.tests.core.testkit.NavigationMethodBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link OptionalAssert#get()}</code>.
- *
- * @author Filip Hrisafov
- */
+/// Tests for [OptionalAssert#get()].
+///
+/// @author Filip Hrisafov
 class OptionalAssert_get_Test implements NavigationMethodBaseTest<OptionalAssert<String>> {
 
   private final Optional<String> optional = Optional.of("Frodo");

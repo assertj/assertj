@@ -52,10 +52,8 @@ import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Range;
 import com.google.common.io.ByteSource;
 
-/**
- * @author Stefano Cordio
- * @since 3.3.0
- */
+/// @author Stefano Cordio
+/// @since 3.3.0
 class InstanceOfAssertFactoriesTest {
 
   @Test

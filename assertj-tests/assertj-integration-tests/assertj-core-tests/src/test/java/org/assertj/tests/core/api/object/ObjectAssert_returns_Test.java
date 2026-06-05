@@ -27,9 +27,7 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import org.assertj.tests.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Takuya "Mura-Mi" Murakami
- */
+/// @author Takuya "Mura-Mi" Murakami
 class ObjectAssert_returns_Test {
 
   @Test

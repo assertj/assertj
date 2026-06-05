@@ -24,12 +24,10 @@ import org.assertj.core.groups.Properties;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Properties#extractProperty(String, Class)}</code>.
- *
- * @author Yvonne Wang
- * @author Mikhail Mazursky
- */
+/// Tests for [Properties#extractProperty(String, Class)].
+///
+/// @author Yvonne Wang
+/// @author Mikhail Mazursky
 class Properties_extractProperty_Test {
 
   @Test

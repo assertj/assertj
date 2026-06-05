@@ -23,9 +23,7 @@ import java.util.stream.Stream;
 import org.assertj.core.api.SpliteratorAssert;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author William Bakker
- */
+/// @author William Bakker
 class Assertions_assertThat_with_Spliterator_Test {
 
   @Test

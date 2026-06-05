@@ -15,9 +15,7 @@
  */
 package org.assertj.tests.core.testkit;
 
-/**
- * Object for test with a private inaccessible field set a unique value.
- */
+/// Object for test with a private inaccessible field set a unique value.
 public class TestClassWithRandomId {
 
   private final long id;

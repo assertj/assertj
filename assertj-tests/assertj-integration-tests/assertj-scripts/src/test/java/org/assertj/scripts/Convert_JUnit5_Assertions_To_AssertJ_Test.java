@@ -31,9 +31,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-/**
- * @author XiaoMingZHM, Eveneko
- */
+/// @author XiaoMingZHM, Eveneko
 class Convert_JUnit5_Assertions_To_AssertJ_Test {
 
   @TempDir

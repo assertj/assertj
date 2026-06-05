@@ -36,10 +36,8 @@ import org.assertj.core.internal.Diff;
 import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Matthieu Baechler
- * @author Joel Costigliola
- */
+/// @author Matthieu Baechler
+/// @author Joel Costigliola
 class InputStreamAssert_hasSameContentAs_Test {
 
   @Test

@@ -22,11 +22,9 @@ import org.assertj.core.groups.Properties;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Properties#ofType(Class)}</code>.
- *
- * @author Olivier Michallat
- */
+/// Tests for [Properties#ofType(Class)].
+///
+/// @author Olivier Michallat
 class Properties_ofType_Test {
 
   @Test

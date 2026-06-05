@@ -24,11 +24,9 @@ import org.assertj.core.api.OptionalAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- * @author Mikhail Mazursky
- * @author Alexander Bischof
- */
+/// @author Alex Ruiz
+/// @author Mikhail Mazursky
+/// @author Alexander Bischof
 class Assertions_assertThat_with_Optional_Test {
 
   private Optional<String> actual;

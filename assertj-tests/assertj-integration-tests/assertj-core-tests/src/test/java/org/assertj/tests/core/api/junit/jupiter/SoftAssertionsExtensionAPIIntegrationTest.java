@@ -42,12 +42,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.platform.testkit.engine.EngineTestKit;
 
-/**
- * Integration tests for the public API functions of {@link SoftAssertionsExtension}.
- *
- * @author Fr Jeremy Krieg
- * @since 3.18
- */
+/// Integration tests for the public API functions of [SoftAssertionsExtension].
+///
+/// @author Fr Jeremy Krieg
+/// @since 3.18
 class SoftAssertionsExtensionAPIIntegrationTest {
 
   @Disabled("Executed via the JUnit Platform Test Kit")

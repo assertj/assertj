@@ -19,9 +19,7 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-/**
- * @author Filip Hrisafov
- */
+/// @author Filip Hrisafov
 abstract class AbstractBaseRepresentationTest {
 
   @BeforeEach

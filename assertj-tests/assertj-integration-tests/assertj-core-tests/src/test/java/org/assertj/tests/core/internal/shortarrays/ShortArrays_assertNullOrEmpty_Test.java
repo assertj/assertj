@@ -23,15 +23,12 @@ import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ShortArrays;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ShortArrays#assertNullOrEmpty(AssertionInfo, short[])}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// Tests for [ShortArrays#assertNullOrEmpty(AssertionInfo, short[].
+///
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class ShortArrays_assertNullOrEmpty_Test extends ShortArraysBaseTest {
 
   @Test

@@ -23,10 +23,8 @@ import org.assertj.core.internal.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class ObjectArrays_assertContains_Test extends ObjectArraysBaseTest {
 
   private Arrays internalArrays;

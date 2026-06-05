@@ -24,9 +24,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-/**
- * @author Filip Hrisafov
- */
+/// @author Filip Hrisafov
 class CharSequenceAssert_isNotBlank_Test {
 
   @ParameterizedTest

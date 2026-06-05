@@ -21,18 +21,13 @@ import static org.mockito.Mockito.verify;
 
 import java.net.URL;
 
-import org.assertj.core.api.AssertionInfo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-/**
- * Tests for
- * <code>{@link org.assertj.core.internal.Urls#assertIsEqualToWithSortedQueryParameters(AssertionInfo, URL, URL)} (org.assertj.core.api.AssertionInfo, java.net.URL, java.net.URL)}  </code>
- * .
- *
- * @author SUN Ting
- */
+/// Tests for [org.assertj.core.internal.Urls#assertIsEqualToWithSortedQueryParameters(AssertionInfo, URL, URL)].
+///
+/// @author SUN Ting
 @DisplayName("assertIsEqualToWithSortedQueryParameters")
 class Urls_assertIsEqualToWithSortedQueryParameters_Test extends UrlsBaseTest {
 

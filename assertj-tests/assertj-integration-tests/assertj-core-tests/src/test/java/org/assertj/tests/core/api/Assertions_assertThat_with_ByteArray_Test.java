@@ -22,9 +22,7 @@ import org.assertj.core.api.AbstractByteArrayAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- */
+/// @author Alex Ruiz
 class Assertions_assertThat_with_ByteArray_Test {
 
   @Test

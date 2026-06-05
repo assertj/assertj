@@ -31,9 +31,7 @@ import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.util.DefaultLocale;
 
-/**
- * @author Brummolix
- */
+/// @author Brummolix
 class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
 
   @Test

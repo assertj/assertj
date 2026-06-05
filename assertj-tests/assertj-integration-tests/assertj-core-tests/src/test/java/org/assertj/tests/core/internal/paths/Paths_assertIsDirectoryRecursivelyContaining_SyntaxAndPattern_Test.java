@@ -30,9 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-/**
- * @author David Haccoun
- */
+/// @author David Haccoun
 class Paths_assertIsDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends PathsSimpleBaseTest {
 
   private static final String TXT_EXTENSION_PATTERN = "regex:.+\\.txt";

@@ -17,9 +17,7 @@ package org.assertj.tests.core.api.inputstream;
 
 import java.io.ByteArrayInputStream;
 
-/**
-* A {@link ByteArrayInputStream} that does not allow {@link #markSupported() marking}.
-*/
+/// A [ByteArrayInputStream] that does not allow [marking][#markSupported()].
 class UnmarkableByteArrayInputStream extends ByteArrayInputStream {
 
   UnmarkableByteArrayInputStream(byte[] buf) {

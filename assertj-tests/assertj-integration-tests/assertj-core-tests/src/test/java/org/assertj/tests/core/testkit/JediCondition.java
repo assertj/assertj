@@ -21,11 +21,9 @@ import java.util.Set;
 
 import org.assertj.core.api.Condition;
 
-/**
- * A {@code Condition} checking is a Jedi
- *
- * @author Nicolas François
- */
+/// A `Condition` checking is a Jedi
+///
+/// @author Nicolas François
 public class JediCondition extends Condition<String> {
 
   private final Set<String> jedis = newLinkedHashSet("Luke", "Yoda", "Obiwan");

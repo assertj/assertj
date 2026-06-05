@@ -25,15 +25,12 @@ import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Strings#assertHasSameSizeAs(AssertionInfo, CharSequence, Iterable)}</code>.
- *
- * @author Nicolas François
- */
+/// Tests for [Strings#assertHasSameSizeAs(AssertionInfo, CharSequence, Iterable)].
+///
+/// @author Nicolas François
 class Strings_assertHasSameSizeAs_with_Iterable_Test extends StringsBaseTest {
 
   private String actual = "Han";

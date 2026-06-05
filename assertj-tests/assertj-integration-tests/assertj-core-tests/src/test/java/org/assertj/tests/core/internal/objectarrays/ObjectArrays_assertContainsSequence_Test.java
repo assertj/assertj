@@ -29,10 +29,8 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class ObjectArrays_assertContainsSequence_Test extends ObjectArraysBaseTest {
 
   @Override

@@ -22,9 +22,7 @@ import java.util.function.Supplier;
 
 import org.assertj.core.data.MapEntry;
 
-/**
- * @author Alex Ruiz
- */
+/// @author Alex Ruiz
 public final class Maps {
 
   @SafeVarargs

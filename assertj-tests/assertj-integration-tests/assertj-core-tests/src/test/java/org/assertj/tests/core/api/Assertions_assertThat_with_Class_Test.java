@@ -21,9 +21,7 @@ import org.assertj.core.api.AbstractClassAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author William Delanoue
- */
+/// @author William Delanoue
 class Assertions_assertThat_with_Class_Test {
 
   @Test

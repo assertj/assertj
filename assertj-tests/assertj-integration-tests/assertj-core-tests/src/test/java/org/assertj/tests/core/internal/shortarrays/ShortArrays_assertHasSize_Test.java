@@ -20,16 +20,12 @@ import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ShortArrays;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ShortArrays#assertHasSize(AssertionInfo, short[], int)}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// Tests for [ShortArrays#assertHasSize(AssertionInfo, short[].
+///
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class ShortArrays_assertHasSize_Test extends ShortArraysBaseTest {
 
   @Test

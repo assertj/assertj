@@ -26,9 +26,7 @@ import org.assertj.core.internal.BinaryDiffResult;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Olivier Michallat, Stefan Birkner
- */
+/// @author Olivier Michallat, Stefan Birkner
 @DisplayName("BinaryDiff diff(InputStream)")
 class BinaryDiff_diff_InputStream_bytes_Test {
 

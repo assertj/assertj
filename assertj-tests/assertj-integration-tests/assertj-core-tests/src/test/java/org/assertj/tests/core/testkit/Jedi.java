@@ -17,12 +17,10 @@ package org.assertj.tests.core.testkit;
 
 import java.util.Random;
 
-/**
- * Object for test.
- *
- * @author Nicolas François
- * @author Joel Costigliola
- */
+/// Object for test.
+///
+/// @author Nicolas François
+/// @author Joel Costigliola
 public class Jedi extends Person {
 
   @SuppressWarnings("unused")

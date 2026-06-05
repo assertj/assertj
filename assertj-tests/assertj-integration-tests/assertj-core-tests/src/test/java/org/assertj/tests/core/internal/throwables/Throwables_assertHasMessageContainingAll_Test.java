@@ -26,9 +26,7 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Phillip Webb
- */
+/// @author Phillip Webb
 class Throwables_assertHasMessageContainingAll_Test extends ThrowablesBaseTest {
 
   @Test

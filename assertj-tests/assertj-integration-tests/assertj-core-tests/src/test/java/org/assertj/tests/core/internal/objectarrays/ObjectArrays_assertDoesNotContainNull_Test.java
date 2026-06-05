@@ -22,16 +22,12 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ObjectArrays;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ObjectArrays#assertDoesNotContainNull(AssertionInfo, Object[])}</code>.
- *
- * @author Joel Costigliola
- * @author Mikhail Mazursky
- */
+/// Tests for [ObjectArrays#assertDoesNotContainNull(AssertionInfo, Object[].
+///
+/// @author Joel Costigliola
+/// @author Mikhail Mazursky
 class ObjectArrays_assertDoesNotContainNull_Test extends ObjectArraysBaseTest {
 
   @Override

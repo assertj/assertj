@@ -24,11 +24,9 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Uris;
 import org.junit.jupiter.api.BeforeEach;
 
-/**
- * Base test class for {@link java.net.URI} tests.
- *
- * @author Alexander Bischof
- */
+/// Base test class for [java.net.URI] tests.
+///
+/// @author Alexander Bischof
 public abstract class UrisBaseTest {
 
   protected Failures failures;

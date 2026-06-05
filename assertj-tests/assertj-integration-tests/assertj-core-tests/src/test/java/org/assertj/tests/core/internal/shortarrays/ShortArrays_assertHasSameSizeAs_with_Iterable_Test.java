@@ -25,14 +25,11 @@ import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.internal.ShortArrays;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ShortArrays#assertHasSameSizeAs(AssertionInfo, short[], Iterable)}</code>.
- *
- * @author Nicolas François
- */
+/// Tests for [ShortArrays#assertHasSameSizeAs(AssertionInfo, short[].
+///
+/// @author Nicolas François
 class ShortArrays_assertHasSameSizeAs_with_Iterable_Test extends ShortArraysBaseTest {
 
   @Test

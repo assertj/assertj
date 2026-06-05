@@ -20,16 +20,12 @@ import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Shorts;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Shorts#assertIsNegative(AssertionInfo, Short)}</code>.
- *
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// Tests for [Shorts#assertIsNegative(AssertionInfo, Short)].
+///
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class Shorts_assertIsNegative_Test extends ShortsBaseTest {
 
   @Test

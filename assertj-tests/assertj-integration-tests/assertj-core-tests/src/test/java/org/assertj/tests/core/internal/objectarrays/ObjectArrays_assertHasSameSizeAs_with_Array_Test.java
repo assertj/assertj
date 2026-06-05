@@ -23,10 +23,8 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Nicolas François
- * @author Joel Costigliola
- */
+/// @author Nicolas François
+/// @author Joel Costigliola
 class ObjectArrays_assertHasSameSizeAs_with_Array_Test extends ObjectArraysBaseTest {
 
   @Test

@@ -22,16 +22,13 @@ import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Strings#assertNullOrEmpty(AssertionInfo, CharSequence)}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// Tests for [Strings#assertNullOrEmpty(AssertionInfo, CharSequence)].
+///
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class Strings_assertNullOrEmpty_Test extends StringsBaseTest {
 
   @Test

@@ -21,9 +21,7 @@ import org.assertj.core.api.AbstractBooleanAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- */
+/// @author Alex Ruiz
 class Assertions_assertThat_with_primitive_boolean_Test {
 
   @Test

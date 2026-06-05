@@ -25,9 +25,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Mariusz Smykula
- */
+/// @author Mariusz Smykula
 class Assertions_assertThat_inHexadecimal_Test {
 
   @Test

@@ -18,16 +18,12 @@ package org.assertj.tests.core.internal.shorts;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Shorts;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Shorts#assertIsPositive(AssertionInfo, Short)}</code>.
- *
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// Tests for [Shorts#assertIsPositive(AssertionInfo, Short)].
+///
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class Shorts_assertIsPositive_Test extends ShortsBaseTest {
 
   @Test

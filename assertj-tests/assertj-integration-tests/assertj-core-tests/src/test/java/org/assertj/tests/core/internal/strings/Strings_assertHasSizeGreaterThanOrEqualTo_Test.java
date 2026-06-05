@@ -21,16 +21,13 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Strings#assertHasSizeGreaterThanOrEqualTo(AssertionInfo, CharSequence, int)} </code>.
- *
- * @author Sandra Parsick
- * @author Georg Berky
- */
+/// Tests for [Strings#assertHasSizeGreaterThanOrEqualTo(AssertionInfo, CharSequence, int)].
+///
+/// @author Sandra Parsick
+/// @author Georg Berky
 class Strings_assertHasSizeGreaterThanOrEqualTo_Test extends StringsBaseTest {
 
   @Test

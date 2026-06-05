@@ -28,15 +28,12 @@ import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ShortArrays;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ShortArrays#assertEndsWith(AssertionInfo, short[], short[])}</code>.
- * 
- * @author Alex Ruiz
- * @author Florent Biville
- */
+/// Tests for [ShortArrays#assertEndsWith(AssertionInfo, short[].
+///
+/// @author Alex Ruiz
+/// @author Florent Biville
 class ShortArrays_assertEndsWith_Test extends ShortArraysBaseTest {
 
   @Override

@@ -23,10 +23,8 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Sandra Parsick
- * @author Georg Berky
- */
+/// @author Sandra Parsick
+/// @author Georg Berky
 class Throwables_assertHasMessageNotContaining_Test extends ThrowablesBaseTest {
 
   @Test

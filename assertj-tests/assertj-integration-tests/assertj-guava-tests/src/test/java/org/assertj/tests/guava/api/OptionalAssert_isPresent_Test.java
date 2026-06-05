@@ -24,10 +24,8 @@ import org.junit.jupiter.api.Test;
 
 import com.google.common.base.Optional;
 
-/**
- * @author Kornel
- * @author Joel Costigliola
- */
+/// @author Kornel
+/// @author Joel Costigliola
 public class OptionalAssert_isPresent_Test {
 
   @Test

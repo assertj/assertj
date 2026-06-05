@@ -24,9 +24,7 @@ import org.assertj.core.description.JoinDescription;
 import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Edgar Asatryan
- */
+/// @author Edgar Asatryan
 class JoinDescription_value_Test {
 
   @Test

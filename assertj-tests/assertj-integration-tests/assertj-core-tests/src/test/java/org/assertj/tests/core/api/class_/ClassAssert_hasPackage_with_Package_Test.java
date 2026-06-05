@@ -27,9 +27,7 @@ import java.util.Collection;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Matteo Mirk
- */
+/// @author Matteo Mirk
 class ClassAssert_hasPackage_with_Package_Test {
 
   @Test

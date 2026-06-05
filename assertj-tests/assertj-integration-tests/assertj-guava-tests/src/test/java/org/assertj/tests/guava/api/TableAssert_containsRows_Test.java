@@ -24,9 +24,7 @@ import static org.assertj.guava.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Jan Gorman
- */
+/// @author Jan Gorman
 public class TableAssert_containsRows_Test extends TableAssertBaseTest {
 
   @Test

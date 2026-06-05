@@ -20,9 +20,7 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.nio.file.Path;
 
-/**
- * @author XiaoMingZHM, Eveneko
- */
+/// @author XiaoMingZHM, Eveneko
 class ShellScriptExecutor {
 
   static void execute(Path script, Path inputFile) throws Exception {

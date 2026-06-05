@@ -25,9 +25,7 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Matteo Mirk
- */
+/// @author Matteo Mirk
 class ClassAssert_hasPackage_with_String_Test {
 
   @Test

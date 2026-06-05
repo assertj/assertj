@@ -26,9 +26,7 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Jean-Christophe Gay
- */
+/// @author Jean-Christophe Gay
 class Throwables_assertHasRootCauseExactlyInstanceOf_Test extends ThrowablesBaseTest {
 
   private static final Throwable throwableWithCause = new Throwable(new Exception(new IllegalArgumentException()));

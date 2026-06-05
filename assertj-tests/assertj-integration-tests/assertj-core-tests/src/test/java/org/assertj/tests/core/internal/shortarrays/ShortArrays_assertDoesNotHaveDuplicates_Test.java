@@ -27,15 +27,12 @@ import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ShortArrays;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ShortArrays#assertDoesNotHaveDuplicates(AssertionInfo, short[])}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// Tests for [ShortArrays#assertDoesNotHaveDuplicates(AssertionInfo, short[].
+///
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class ShortArrays_assertDoesNotHaveDuplicates_Test extends ShortArraysBaseTest {
 
   @Override

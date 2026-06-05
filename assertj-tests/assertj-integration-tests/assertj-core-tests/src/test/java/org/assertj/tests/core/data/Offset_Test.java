@@ -27,11 +27,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
-/**
- * Tests for {@link Offset}.
- *
- * @author Alex Ruiz
- */
+/// Tests for [Offset].
+///
+/// @author Alex Ruiz
 class Offset_Test {
 
   @Test

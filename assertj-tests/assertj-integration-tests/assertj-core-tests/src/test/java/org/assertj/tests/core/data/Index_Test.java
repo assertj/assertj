@@ -25,11 +25,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
-/**
- * Tests for {@link Index}.
- *
- * @author Alex Ruiz
- */
+/// Tests for [Index].
+///
+/// @author Alex Ruiz
 class Index_Test {
 
   @Test
