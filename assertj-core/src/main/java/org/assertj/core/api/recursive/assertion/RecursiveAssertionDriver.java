@@ -16,7 +16,7 @@
 package org.assertj.core.api.recursive.assertion;
 
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_ONLY;
+import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.IterableAssertionPolicy.ITERABLE_OBJECT_ONLY;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_OBJECT_AND_ENTRIES;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_OBJECT_ONLY;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.OptionalAssertionPolicy.OPTIONAL_OBJECT_ONLY;
@@ -133,7 +133,7 @@ public class RecursiveAssertionDriver {
 
   private boolean shouldRecurseOverSpecialTypes(Class<?> nodeType) {
     boolean recurseOverContainer = isContainer(nodeType)
-                                   && configuration.getCollectionAssertionPolicy() != COLLECTION_OBJECT_ONLY;
+                                   && configuration.getIterableAssertionPolicy() != ITERABLE_OBJECT_ONLY;
     boolean recurseOverMap = isMap(nodeType) && configuration.getMapAssertionPolicy() != MAP_OBJECT_ONLY;
     boolean recurseOverOptional = isOptionalOrPrimitiveOptional(nodeType)
                                   && configuration.getOptionalAssertionPolicy() != OPTIONAL_OBJECT_ONLY;
@@ -149,17 +149,16 @@ public class RecursiveAssertionDriver {
     } else if (isOptionalOrPrimitiveOptional(nodeType)) {
       recurseIntoOptional(predicate, node, fieldLocation);
     } else if (isIterable(nodeType)) {
-      recurseIntoCollection(predicate, (Iterable<?>) node, fieldLocation);
+      recurseIntoIterable(predicate, (Iterable<?>) node, fieldLocation);
     }
   }
 
-  private void recurseIntoCollection(Predicate<Object> predicate, Iterable<?> collection, FieldLocation fieldLocation) {
-    // TODO handle collection if needed by policy
-    if (collection == null) {
-      return; // no way to recursive into the collection, anyway the collection node has already been visited
+  private void recurseIntoIterable(Predicate<Object> predicate, Iterable<?> iterable, FieldLocation fieldLocation) {
+    if (iterable == null) {
+      return; // no way to recurse into the iterable, anyway the iterable node has already been visited
     }
     int index = 0;
-    for (Object element : collection) {
+    for (Object element : iterable) {
       assertRecursively(predicate, element, safeGetClass(element), fieldLocation.field(INDEX_FORMAT.formatted(index)));
       index++;
     }

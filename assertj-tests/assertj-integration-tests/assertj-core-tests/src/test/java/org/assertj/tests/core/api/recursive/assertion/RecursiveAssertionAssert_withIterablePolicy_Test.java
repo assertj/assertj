@@ -17,39 +17,39 @@ package org.assertj.tests.core.api.recursive.assertion;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_ONLY;
-import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.ELEMENTS_ONLY;
+import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.IterableAssertionPolicy.ELEMENTS_ONLY;
+import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.IterableAssertionPolicy.ITERABLE_OBJECT_ONLY;
 
 import org.assertj.core.api.RecursiveAssertionAssert;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.junit.jupiter.api.Test;
 
-class RecursiveAssertionAssert_withCollectionPolicy_Test {
+class RecursiveAssertionAssert_withIterablePolicy_Test {
 
   @Test
-  void should_use_given_CollectionAssertionPolicy() {
+  void should_use_given_IterableAssertionPolicy() {
     // GIVEN
     Object object = "foo";
-    RecursiveAssertionConfiguration.CollectionAssertionPolicy collectionAssertionPolicy = COLLECTION_OBJECT_ONLY;
+    RecursiveAssertionConfiguration.IterableAssertionPolicy iterableAssertionPolicy = ITERABLE_OBJECT_ONLY;
     // WHEN
     RecursiveAssertionAssert recursiveAssertionAssert = assertThat(object).usingRecursiveAssertion()
-                                                                          .withCollectionAssertionPolicy(collectionAssertionPolicy);
+                                                                          .withIterableAssertionPolicy(iterableAssertionPolicy);
     // THEN
     RecursiveAssertionConfiguration expectedConfig = RecursiveAssertionConfiguration.builder()
-                                                                                    .withCollectionAssertionPolicy(collectionAssertionPolicy)
+                                                                                    .withIterableAssertionPolicy(iterableAssertionPolicy)
                                                                                     .build();
     then(recursiveAssertionAssert).hasFieldOrPropertyWithValue("recursiveAssertionConfiguration", expectedConfig);
   }
 
   @Test
-  void should_use_given_ELEMENTS_ONLY_CollectionAssertionPolicy_by_default() {
+  void should_use_given_ELEMENTS_ONLY_IterableAssertionPolicy_by_default() {
     // GIVEN
     Object object = "foo";
     // WHEN
     RecursiveAssertionAssert recursiveAssertionAssert = assertThat(object).usingRecursiveAssertion();
     // THEN
     RecursiveAssertionConfiguration expectedConfig = RecursiveAssertionConfiguration.builder()
-                                                                                    .withCollectionAssertionPolicy(ELEMENTS_ONLY)
+                                                                                    .withIterableAssertionPolicy(ELEMENTS_ONLY)
                                                                                     .build();
     then(recursiveAssertionAssert).hasFieldOrPropertyWithValue("recursiveAssertionConfiguration", expectedConfig);
   }

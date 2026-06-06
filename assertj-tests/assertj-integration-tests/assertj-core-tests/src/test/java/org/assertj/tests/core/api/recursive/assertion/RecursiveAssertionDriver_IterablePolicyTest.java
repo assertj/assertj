@@ -16,9 +16,9 @@
 package org.assertj.tests.core.api.recursive.assertion;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_AND_ELEMENTS;
-import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_ONLY;
-import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.ELEMENTS_ONLY;
+import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.IterableAssertionPolicy.ELEMENTS_ONLY;
+import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.IterableAssertionPolicy.ITERABLE_OBJECT_AND_ELEMENTS;
+import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.IterableAssertionPolicy.ITERABLE_OBJECT_ONLY;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.util.Lists.list;
 
@@ -31,13 +31,13 @@ import org.assertj.core.api.recursive.assertion.RecursiveAssertionDriver;
 import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.junit.jupiter.api.Test;
 
-class RecursiveAssertionDriver_CollectionPolicyTest extends AbstractRecursiveAssertionDriverTestBase {
+class RecursiveAssertionDriver_IterablePolicyTest extends AbstractRecursiveAssertionDriverTestBase {
 
   @Test
-  void should_assert_over_collection_object_but_not_elements_when_policy_is_collection_only() {
+  void should_assert_over_collection_object_but_not_elements_when_policy_is_iterable_only() {
     // GIVEN
     RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
-                                                                                   .withCollectionAssertionPolicy(COLLECTION_OBJECT_ONLY)
+                                                                                   .withIterableAssertionPolicy(ITERABLE_OBJECT_ONLY)
                                                                                    .build();
     RecursiveAssertionDriver objectUnderTest = new RecursiveAssertionDriver(configuration);
     Object testObject = testObjectWithACollection();
@@ -48,10 +48,10 @@ class RecursiveAssertionDriver_CollectionPolicyTest extends AbstractRecursiveAss
   }
 
   @Test
-  void should_assert_over_array_object_but_not_elements_when_policy_is_collection_only() {
+  void should_assert_over_array_object_but_not_elements_when_policy_is_iterable_only() {
     // GIVEN
     RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
-                                                                                   .withCollectionAssertionPolicy(COLLECTION_OBJECT_ONLY)
+                                                                                   .withIterableAssertionPolicy(ITERABLE_OBJECT_ONLY)
                                                                                    .build();
     RecursiveAssertionDriver objectUnderTest = new RecursiveAssertionDriver(configuration);
     Object testObject = testObjectWithAnArray();
@@ -62,10 +62,10 @@ class RecursiveAssertionDriver_CollectionPolicyTest extends AbstractRecursiveAss
   }
 
   @Test
-  void should_assert_over_iterable_object_but_not_elements_when_policy_is_collection_only() {
+  void should_assert_over_iterable_object_but_not_elements_when_policy_is_iterable_only() {
     // GIVEN
     RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
-                                                                                   .withCollectionAssertionPolicy(COLLECTION_OBJECT_ONLY)
+                                                                                   .withIterableAssertionPolicy(ITERABLE_OBJECT_ONLY)
                                                                                    .build();
     RecursiveAssertionDriver objectUnderTest = new RecursiveAssertionDriver(configuration);
     Object testObject = testObjectWithAnIterable();
@@ -79,7 +79,7 @@ class RecursiveAssertionDriver_CollectionPolicyTest extends AbstractRecursiveAss
   void should_assert_over_collection_elements_but_not_collection_when_policy_is_elements_only() {
     // GIVEN
     RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
-                                                                                   .withCollectionAssertionPolicy(ELEMENTS_ONLY)
+                                                                                   .withIterableAssertionPolicy(ELEMENTS_ONLY)
                                                                                    .build();
     RecursiveAssertionDriver objectUnderTest = new RecursiveAssertionDriver(configuration);
     Object testObject = testObjectWithACollection();
@@ -91,10 +91,10 @@ class RecursiveAssertionDriver_CollectionPolicyTest extends AbstractRecursiveAss
   }
 
   @Test
-  void should_assert_over_array_elements_but_not_object_when_policy_is_collection_only() {
+  void should_assert_over_array_elements_but_not_object_when_policy_is_elements_only() {
     // GIVEN
     RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
-                                                                                   .withCollectionAssertionPolicy(ELEMENTS_ONLY)
+                                                                                   .withIterableAssertionPolicy(ELEMENTS_ONLY)
                                                                                    .build();
     RecursiveAssertionDriver objectUnderTest = new RecursiveAssertionDriver(configuration);
     Object testObject = testObjectWithAnArray();
@@ -109,7 +109,7 @@ class RecursiveAssertionDriver_CollectionPolicyTest extends AbstractRecursiveAss
   void should_assert_over_iterable_elements_but_not_object_when_policy_is_elements_only() {
     // GIVEN
     RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
-                                                                                   .withCollectionAssertionPolicy(ELEMENTS_ONLY)
+                                                                                   .withIterableAssertionPolicy(ELEMENTS_ONLY)
                                                                                    .build();
     RecursiveAssertionDriver objectUnderTest = new RecursiveAssertionDriver(configuration);
     Object testObject = testObjectWithAnIterable();
@@ -124,7 +124,7 @@ class RecursiveAssertionDriver_CollectionPolicyTest extends AbstractRecursiveAss
   void should_assert_over_collection_object_and_elements_when_policy_is_object_and_elements() {
     // GIVEN
     RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
-                                                                                   .withCollectionAssertionPolicy(COLLECTION_OBJECT_AND_ELEMENTS)
+                                                                                   .withIterableAssertionPolicy(ITERABLE_OBJECT_AND_ELEMENTS)
                                                                                    .build();
     RecursiveAssertionDriver objectUnderTest = new RecursiveAssertionDriver(configuration);
     Object testObject = testObjectWithACollection();
@@ -140,7 +140,7 @@ class RecursiveAssertionDriver_CollectionPolicyTest extends AbstractRecursiveAss
   void should_assert_over_array_object_and_elements_when_policy_is_object_and_elements() {
     // GIVEN
     RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
-                                                                                   .withCollectionAssertionPolicy(COLLECTION_OBJECT_AND_ELEMENTS)
+                                                                                   .withIterableAssertionPolicy(ITERABLE_OBJECT_AND_ELEMENTS)
                                                                                    .build();
     RecursiveAssertionDriver objectUnderTest = new RecursiveAssertionDriver(configuration);
     Object testObject = testObjectWithAnArray();
@@ -156,7 +156,7 @@ class RecursiveAssertionDriver_CollectionPolicyTest extends AbstractRecursiveAss
   void should_assert_over_null_iterable_field_without_throwing() {
     // GIVEN
     RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
-                                                                                   .withCollectionAssertionPolicy(COLLECTION_OBJECT_AND_ELEMENTS)
+                                                                                   .withIterableAssertionPolicy(ITERABLE_OBJECT_AND_ELEMENTS)
                                                                                    .build();
     RecursiveAssertionDriver objectUnderTest = new RecursiveAssertionDriver(configuration);
     Object testObject = testObjectWithANullIterable();
