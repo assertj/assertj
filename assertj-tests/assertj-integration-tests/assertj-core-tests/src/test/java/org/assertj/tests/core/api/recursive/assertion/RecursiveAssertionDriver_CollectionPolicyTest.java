@@ -23,6 +23,7 @@ import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldL
 import static org.assertj.core.util.Lists.list;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
@@ -61,6 +62,20 @@ class RecursiveAssertionDriver_CollectionPolicyTest extends AbstractRecursiveAss
   }
 
   @Test
+  void should_assert_over_iterable_object_but_not_elements_when_policy_is_collection_only() {
+    // GIVEN
+    RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
+                                                                                   .withCollectionAssertionPolicy(COLLECTION_OBJECT_ONLY)
+                                                                                   .build();
+    RecursiveAssertionDriver objectUnderTest = new RecursiveAssertionDriver(configuration);
+    Object testObject = testObjectWithAnIterable();
+    // WHEN
+    List<FieldLocation> failedFields = objectUnderTest.assertOverObjectGraph(failingMockPredicate, testObject);
+    // THEN
+    then(failedFields).containsOnly(rootFieldLocation().field("iterable"));
+  }
+
+  @Test
   void should_assert_over_collection_elements_but_not_collection_when_policy_is_elements_only() {
     // GIVEN
     RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
@@ -88,6 +103,21 @@ class RecursiveAssertionDriver_CollectionPolicyTest extends AbstractRecursiveAss
     // THEN
     then(failedFields).containsOnly(rootFieldLocation().field("array").field("[0]"),
                                     rootFieldLocation().field("array").field("[1]"));
+  }
+
+  @Test
+  void should_assert_over_iterable_elements_but_not_object_when_policy_is_elements_only() {
+    // GIVEN
+    RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
+                                                                                   .withCollectionAssertionPolicy(ELEMENTS_ONLY)
+                                                                                   .build();
+    RecursiveAssertionDriver objectUnderTest = new RecursiveAssertionDriver(configuration);
+    Object testObject = testObjectWithAnIterable();
+    // WHEN
+    List<FieldLocation> failedFields = objectUnderTest.assertOverObjectGraph(failingMockPredicate, testObject);
+    // THEN
+    then(failedFields).containsOnly(rootFieldLocation().field("iterable").field("[0]"),
+                                    rootFieldLocation().field("iterable").field("[1]"));
   }
 
   @Test
@@ -122,6 +152,20 @@ class RecursiveAssertionDriver_CollectionPolicyTest extends AbstractRecursiveAss
                                     rootFieldLocation().field("array").field("[1]"));
   }
 
+  @Test
+  void should_assert_over_null_iterable_field_without_throwing() {
+    // GIVEN
+    RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
+                                                                                   .withCollectionAssertionPolicy(COLLECTION_OBJECT_AND_ELEMENTS)
+                                                                                   .build();
+    RecursiveAssertionDriver objectUnderTest = new RecursiveAssertionDriver(configuration);
+    Object testObject = testObjectWithANullIterable();
+    // WHEN
+    List<FieldLocation> failedFields = objectUnderTest.assertOverObjectGraph(failingMockPredicate, testObject);
+    // THEN
+    then(failedFields).containsOnly(rootFieldLocation().field("iterable"));
+  }
+
   private Object testObjectWithACollection() {
     ClassWithCollectionChild child = new ClassWithCollectionChild();
     child.collection.add("Hello World!");
@@ -136,11 +180,40 @@ class RecursiveAssertionDriver_CollectionPolicyTest extends AbstractRecursiveAss
     return child;
   }
 
+  private Object testObjectWithAnIterable() {
+    return new ClassWithIterableChild(new NonCollectionIterable(list("Hello World!", "Goodbye World!")));
+  }
+
+  private Object testObjectWithANullIterable() {
+    return new ClassWithIterableChild(null);
+  }
+
   class ClassWithCollectionChild {
     Collection<Object> collection = list();
   }
 
   class ClassWithArrayChild {
     Object[] array = new Object[2];
+  }
+
+  class ClassWithIterableChild {
+    Iterable<Object> iterable;
+
+    ClassWithIterableChild(Iterable<Object> iterable) {
+      this.iterable = iterable;
+    }
+  }
+
+  class NonCollectionIterable implements Iterable<Object> {
+    private final List<Object> values;
+
+    NonCollectionIterable(List<Object> values) {
+      this.values = values;
+    }
+
+    @Override
+    public Iterator<Object> iterator() {
+      return values.iterator();
+    }
   }
 }
