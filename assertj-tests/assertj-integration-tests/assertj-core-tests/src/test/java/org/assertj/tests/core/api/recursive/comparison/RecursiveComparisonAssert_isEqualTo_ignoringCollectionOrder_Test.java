@@ -30,10 +30,12 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
+import org.assertj.tests.core.api.recursive.data.Person;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -518,13 +520,18 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
   }
 
   // related to https://github.com/assertj/assertj/issues/3598
-  @Test
-  public void should_fix_3598() {
-    // GIVEN
-    Inner i1 = new Inner(1);
-    Inner i2 = new Inner(2);
-    Inner i3 = new Inner(3);
+  public static Stream<Arguments> should_fix_3598() {
+    return Stream.of(arguments(new Inner<>(1), new Inner<>(2), new Inner<>(3)),
+                     arguments(new Inner<>(Color.BLUE), new Inner<>(Color.RED), new Inner<>(Color.GREEN)),
+                     arguments(new Inner<>(Optional.of("a")), new Inner<>(Optional.of("b")), new Inner<>(Optional.of("c"))),
+                     arguments(new Inner<>(new Person("a")), new Inner<>(new Person("b")), new Inner<>(new Person("c"))),
+                     arguments(new Inner<>("a"), new Inner<>("b"), new Inner<>("c")));
+  }
 
+  @ParameterizedTest
+  @MethodSource
+  public void should_fix_3598(Inner<?> i1, Inner<?> i2, Inner<?> i3) {
+    // GIVEN
     Outer o1A = new Outer(i1);
     Outer o2A = new Outer(i2);
     Outer o3A = new Outer(i3);
@@ -555,10 +562,10 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     }
   }
 
-  static class Inner {
-    public int val;
+  static class Inner<T> {
+    public T val;
 
-    public Inner(int val) {
+    public Inner(T val) {
       this.val = val;
     }
 

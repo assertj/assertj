@@ -785,7 +785,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
       expectedFieldValue = null;
     }
     FieldLocation fieldLocation = parentDualValue.fieldLocation.field(fieldName);
-    return new DualValue(fieldLocation, actualFieldValue, expectedFieldValue);
+    return new DualValue(fieldLocation, actualFieldValue, expectedFieldValue, parentDualValue);
   }
 
   boolean hasCustomComparator(DualValue dualValue) {

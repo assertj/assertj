@@ -23,7 +23,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
 import static org.assertj.core.api.recursive.comparison.DualValue.DEFAULT_ORDERED_COLLECTION_TYPES;
-import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
+import static org.assertj.core.api.recursive.comparison.DualValue.rootDualValue;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newHashSet;
@@ -141,9 +141,8 @@ public class RecursiveComparisonDifferenceCalculator {
       dualValuesToCompare.addFirst(dualValue);
     }
 
-    private void initDualValuesToCompare(Object actual, Object expected, FieldLocation nodeLocation) {
+    private void initDualValuesToCompare(DualValue dualValue) {
       // before anything are these values to be compared at all?
-      DualValue dualValue = new DualValue(nodeLocation, actual, expected);
       if (recursiveComparisonConfiguration.shouldNotEvaluate(dualValue)) return;
       boolean mustCompareNodesRecursively = mustCompareNodesRecursively(dualValue);
       if (dualValue.hasNoNullValues() && mustCompareNodesRecursively) {
@@ -151,21 +150,22 @@ public class RecursiveComparisonDifferenceCalculator {
         if (recursiveComparisonConfiguration.someComparedFieldsHaveBeenSpecified() && dualValue.fieldLocation.isRoot()) {
           // We must check compared fields existence only once and at the root level, if we don't as we use the recursive
           // comparison to compare unordered collection elements, we would check the compared fields at the wrong level.
-          recursiveComparisonConfiguration.checkComparedFieldsExist(actual);
+          recursiveComparisonConfiguration.checkComparedFieldsExist(dualValue.actual);
         }
         // TODO should fail if actual and expected don't have the same fields (taking into account ignored/compared fields)
         Set<String> actualChildrenNodeNamesToCompare = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
         if (!actualChildrenNodeNamesToCompare.isEmpty()) {
           // fields to ignore are evaluated when adding their corresponding dualValues to dualValuesToCompare which filters
           // ignored fields according to recursiveComparisonConfiguration
-          Set<String> expectedChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(expected);
+          Set<String> expectedChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(dualValue.expected);
           if (expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare)) {
             // we compare actual fields vs expected, ignoring expected additional fields
             for (String actualChildNodeName : actualChildrenNodeNamesToCompare) {
-              Object actualChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, actual);
-              Object expectedChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, expected);
-              DualValue childNodeDualValue = new DualValue(nodeLocation.field(actualChildNodeName), actualChildNodeValue,
-                                                           expectedChildNodeValue);
+              Object actualChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, dualValue.actual);
+              Object expectedChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, dualValue.expected);
+              DualValue childNodeDualValue = new DualValue(dualValue.fieldLocation.field(actualChildNodeName),
+                                                           actualChildNodeValue,
+                                                           expectedChildNodeValue, dualValue);
               registerForComparison(childNodeDualValue);
             }
           } else {
@@ -236,16 +236,16 @@ public class RecursiveComparisonDifferenceCalculator {
     if (recursiveComparisonConfiguration.isInStrictTypeCheckingMode() && expectedTypeIsNotSubtypeOfActualType(actual, expected)) {
       return list(expectedAndActualTypeDifference(actual, expected));
     }
-    return determineDifferences(actual, expected, rootFieldLocation(), new VisitedDualValues(), recursiveComparisonConfiguration);
+    return determineDifferences(rootDualValue(actual, expected), new VisitedDualValues(), recursiveComparisonConfiguration);
   }
 
   // TODO keep track of ignored fields in an RecursiveComparisonExecution class ?
 
-  private static List<ComparisonDifference> determineDifferences(Object actual, Object expected, FieldLocation fieldLocation,
+  private static List<ComparisonDifference> determineDifferences(DualValue initialDualValue,
                                                                  VisitedDualValues visitedDualValues,
                                                                  RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     ComparisonState comparisonState = new ComparisonState(visitedDualValues, recursiveComparisonConfiguration);
-    comparisonState.initDualValuesToCompare(actual, expected, fieldLocation);
+    comparisonState.initDualValuesToCompare(initialDualValue);
 
     while (comparisonState.hasDualValuesToCompare()) {
 
@@ -257,7 +257,7 @@ public class RecursiveComparisonDifferenceCalculator {
       }
 
       // if we have already visited the dual value, no need to compute the comparison differences again, this also avoid cycles
-      Optional<List<ComparisonDifference>> comparisonDifferences = comparisonState.visitedDualValues.registeredComparisonDifferencesOf(dualValue);
+      Optional<Set<ComparisonDifference>> comparisonDifferences = comparisonState.visitedDualValues.getRegisteredComparisonDifferencesOf(dualValue);
       if (comparisonDifferences.isPresent()) {
         if (!comparisonDifferences.get().isEmpty()) {
           comparisonState.addDifference(dualValue, "already visited node but now location is: " + dualValue.fieldLocation);
@@ -418,7 +418,7 @@ public class RecursiveComparisonDifferenceCalculator {
             Object actualChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, actualFieldValue);
             Object expectedChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, expectedFieldValue);
             DualValue newDualValue = new DualValue(dualValue.fieldLocation.field(actualChildNodeName),
-                                                   actualChildNodeValue, expectedChildNodeValue);
+                                                   actualChildNodeValue, expectedChildNodeValue, dualValue);
             comparisonState.registerForComparison(newDualValue);
           }
         }
@@ -508,7 +508,7 @@ public class RecursiveComparisonDifferenceCalculator {
       Object actualElement = Array.get(dualValue.actual, i);
       Object expectedElement = Array.get(dualValue.expected, i);
       FieldLocation elementFieldLocation = arrayFieldLocation.field(format("[%d]", i));
-      comparisonState.registerForComparison(new DualValue(elementFieldLocation, actualElement, expectedElement));
+      comparisonState.registerForComparison(new DualValue(elementFieldLocation, actualElement, expectedElement, dualValue));
     }
   }
 
@@ -536,7 +536,7 @@ public class RecursiveComparisonDifferenceCalculator {
     int i = 0;
     for (Object element : actualCollection) {
       FieldLocation elementFieldLocation = dualValue.fieldLocation.field(format("[%d]", i));
-      DualValue elementDualValue = new DualValue(elementFieldLocation, element, expectedIterator.next());
+      DualValue elementDualValue = new DualValue(elementFieldLocation, element, expectedIterator.next(), dualValue);
       comparisonState.registerForComparison(elementDualValue);
       i++;
     }
@@ -576,6 +576,8 @@ public class RecursiveComparisonDifferenceCalculator {
       if (actualHashBucket != null) {
         Iterator<?> actualIterator = actualHashBucket.iterator();
         expectedElementMatched = searchExpectedElementIn(actualIterator, expectedElement, dualValue, comparisonState);
+        // found an element in actual matching expectedElement, remove it as it can't be used to match other expected elements
+        if (expectedElementMatched) actualIterator.remove();
       }
       // It may be that expectedElement matches an actual element in a different hash bucket, to account for this, we check the
       // other actual elements for matches. This may result in O(n^2) complexity in the worst case.
@@ -585,7 +587,11 @@ public class RecursiveComparisonDifferenceCalculator {
           if (actualElementsEntry.getKey().equals(expectedHash)) continue;
           Iterator<?> actualElementsIterator = actualElementsEntry.getValue().iterator();
           expectedElementMatched = searchExpectedElementIn(actualElementsIterator, expectedElement, dualValue, comparisonState);
-          if (expectedElementMatched) break;
+          if (expectedElementMatched) {
+            // found an element in actual matching expectedElement, remove it as it can't be used to match other expected elements
+            actualElementsIterator.remove();
+            break;
+          }
         }
         if (!expectedElementMatched) expectedElementsNotFound.add(expectedElement);
       }
@@ -609,20 +615,11 @@ public class RecursiveComparisonDifferenceCalculator {
     while (actualIterator.hasNext()) {
       Object actualElement = actualIterator.next();
       // we need to get the currently visited dual values otherwise a cycle would cause an infinite recursion.
-      DualValue elementDualValue = new DualValue(dualValue.fieldLocation, actualElement, expectedElement);
-      List<ComparisonDifference> differences = determineDifferences(actualElement, expectedElement,
-                                                                    dualValue.fieldLocation,
+      DualValue elementDualValue = new DualValue(dualValue.fieldLocation, actualElement, expectedElement, dualValue);
+      List<ComparisonDifference> differences = determineDifferences(elementDualValue,
                                                                     comparisonState.visitedDualValues,
                                                                     comparisonState.recursiveComparisonConfiguration);
-      if (differences.isEmpty()) {
-        // found an element in actual matching expectedElement, remove it as it can't be used to match other expected elements
-        actualIterator.remove();
-        return true;
-      }
-      // add the differences to this pair's visited entry; otherwise they are added only to
-      // child dual values, and a later cycle-cache hit would falsely resolve the pair as "equal".
-      differences.forEach(difference -> comparisonState.visitedDualValues.registerComparisonDifference(elementDualValue,
-                                                                                                       difference));
+      if (differences.isEmpty()) return true;
     }
     return false;
   }
@@ -658,7 +655,8 @@ public class RecursiveComparisonDifferenceCalculator {
       } else {
         // as the key/field match we can simply compare field/key values
         FieldLocation keyFieldLocation = keyFieldLocation(dualValue.fieldLocation, actualEntry.getKey());
-        comparisonState.registerForComparison(new DualValue(keyFieldLocation, actualEntry.getValue(), expectedEntry.getValue()));
+        comparisonState.registerForComparison(new DualValue(keyFieldLocation, actualEntry.getValue(), expectedEntry.getValue(),
+                                                            dualValue));
       }
     }
   }
@@ -690,7 +688,7 @@ public class RecursiveComparisonDifferenceCalculator {
     // actual and expected maps have the same keys, we need now to compare their values
     for (Object key : expectedMap.keySet()) {
       FieldLocation keyFieldLocation = keyFieldLocation(dualValue.fieldLocation, key);
-      comparisonState.registerForComparison(new DualValue(keyFieldLocation, actualMap.get(key), expectedMap.get(key)));
+      comparisonState.registerForComparison(new DualValue(keyFieldLocation, actualMap.get(key), expectedMap.get(key), dualValue));
     }
   }
 
@@ -741,7 +739,8 @@ public class RecursiveComparisonDifferenceCalculator {
     Object value1 = actual.get();
     Object value2 = expected.get();
     // we add VALUE_FIELD_NAME to the path since we register Optional.value fields.
-    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2));
+    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2,
+                                                        dualValue));
   }
 
   private static void compareAtomicBoolean(DualValue dualValue, ComparisonState comparisonState) {
@@ -754,7 +753,8 @@ public class RecursiveComparisonDifferenceCalculator {
     Object value1 = actual.get();
     Object value2 = expected.get();
     // we add VALUE_FIELD_NAME to the path since we register AtomicBoolean.value fields.
-    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2));
+    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2,
+                                                        dualValue));
   }
 
   private static void compareAtomicInteger(DualValue dualValue, ComparisonState comparisonState) {
@@ -767,7 +767,8 @@ public class RecursiveComparisonDifferenceCalculator {
     Object value1 = actual.get();
     Object value2 = expected.get();
     // we add VALUE_FIELD_NAME to the path since we register AtomicInteger.value fields.
-    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2));
+    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2,
+                                                        dualValue));
   }
 
   private static void compareAtomicIntegerArray(DualValue dualValue, ComparisonState comparisonState) {
@@ -793,7 +794,7 @@ public class RecursiveComparisonDifferenceCalculator {
       Object actualElement = actual.get(i);
       Object expectedElement = expected.get(i);
       FieldLocation elementFieldLocation = arrayFieldLocation.field(format(ARRAY_FIELD_NAME + "[%d]", i));
-      comparisonState.registerForComparison(new DualValue(elementFieldLocation, actualElement, expectedElement));
+      comparisonState.registerForComparison(new DualValue(elementFieldLocation, actualElement, expectedElement, dualValue));
     }
   }
 
@@ -807,7 +808,8 @@ public class RecursiveComparisonDifferenceCalculator {
     Object value1 = actual.get();
     Object value2 = expected.get();
     // we add VALUE_FIELD_NAME to the path since we register AtomicLong.value fields.
-    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2));
+    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2,
+                                                        dualValue));
   }
 
   private static void compareAtomicLongArray(DualValue dualValue, ComparisonState comparisonState) {
@@ -833,7 +835,7 @@ public class RecursiveComparisonDifferenceCalculator {
       Object actualElement = actual.get(i);
       Object expectedElement = expected.get(i);
       FieldLocation elementFieldLocation = arrayFieldLocation.field(format(ARRAY_FIELD_NAME + "[%d]", i));
-      comparisonState.registerForComparison(new DualValue(elementFieldLocation, actualElement, expectedElement));
+      comparisonState.registerForComparison(new DualValue(elementFieldLocation, actualElement, expectedElement, dualValue));
     }
   }
 
@@ -861,7 +863,7 @@ public class RecursiveComparisonDifferenceCalculator {
       Object actualElement = actual.get(i);
       Object expectedElement = expected.get(i);
       FieldLocation elementFieldLocation = arrayFieldLocation.field(format(ARRAY_FIELD_NAME + "[%d]", i));
-      comparisonState.registerForComparison(new DualValue(elementFieldLocation, actualElement, expectedElement));
+      comparisonState.registerForComparison(new DualValue(elementFieldLocation, actualElement, expectedElement, dualValue));
     }
   }
 
@@ -875,7 +877,8 @@ public class RecursiveComparisonDifferenceCalculator {
     Object value1 = actual.get();
     Object value2 = expected.get();
     // we add VALUE_FIELD_NAME to the path since we register AtomicReference.value fields.
-    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2));
+    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2,
+                                                        dualValue));
   }
 
   /**

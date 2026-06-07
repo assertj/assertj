@@ -22,7 +22,6 @@ import static org.assertj.core.util.Lists.list;
 import java.util.Objects;
 
 import org.assertj.core.api.recursive.comparison.DualValue;
-import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.junit.jupiter.api.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -32,10 +31,11 @@ class DualValue_Test {
   @Test
   void should_honor_equals_contract() {
     EqualsVerifier.forClass(DualValue.class)
-                  .withFactory(values -> new DualValue(values.<FieldLocation> get("fieldLocation"), values.get("actual"),
-                                                       values.get("expected")))
+                  .withFactory(values -> new DualValue(values.get("fieldLocation"), values.get("actual"),
+                                                       values.get("expected"), null))
                   .withNonnullFields("fieldLocation")
                   .withIgnoredFields("hashCode")
+                  .withIgnoredFields("parentDualValue")
                   .verify();
   }
 

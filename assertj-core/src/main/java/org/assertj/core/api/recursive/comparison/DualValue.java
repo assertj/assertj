@@ -17,7 +17,6 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
 import static java.lang.System.identityHashCode;
-import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.internal.RecursiveHelper.isContainer;
@@ -51,20 +50,22 @@ public final class DualValue {
   final FieldLocation fieldLocation;
   final Object actual;
   final Object expected;
+  private final DualValue parentDualValue;
   private final int hashCode;
 
   public DualValue(List<String> path, Object actual, Object expected) {
-    this(new FieldLocation(path), actual, expected);
+    this(new FieldLocation(path), actual, expected, null);
   }
 
   static DualValue rootDualValue(Object actual, Object expected) {
-    return new DualValue(rootFieldLocation(), actual, expected);
+    return new DualValue(rootFieldLocation(), actual, expected, null);
   }
 
-  public DualValue(FieldLocation fieldLocation, Object actualFieldValue, Object expectedFieldValue) {
+  public DualValue(FieldLocation fieldLocation, Object actualFieldValue, Object expectedFieldValue, DualValue parentDualValue) {
     this.fieldLocation = requireNonNull(fieldLocation, "fieldLocation must not be null");
     actual = actualFieldValue;
     expected = expectedFieldValue;
+    this.parentDualValue = parentDualValue;
     hashCode = computeHashCode();
   }
 
@@ -105,7 +106,7 @@ public final class DualValue {
   }
 
   public List<String> getDecomposedPath() {
-    return unmodifiableList(fieldLocation.getDecomposedPath());
+    return fieldLocation.getDecomposedPath();
   }
 
   public String getConcatenatedPath() {
@@ -346,4 +347,12 @@ public final class DualValue {
     return !canonicalName.startsWith("java.lang");
   }
 
+  boolean hasAncestor(DualValue dualValue) {
+    DualValue ancestorDualValue = parentDualValue;
+    while (ancestorDualValue != null) {
+      if (ancestorDualValue.sameValues(dualValue)) return true;
+      else ancestorDualValue = ancestorDualValue.parentDualValue;
+    }
+    return false;
+  }
 }

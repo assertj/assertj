@@ -41,9 +41,9 @@ class DualValue_sameValues_Test {
   static Stream<Arguments> sameValues_should_return_true_when_dual_values_refer_to_the_same_instances() {
     Object value1 = new Object();
     Object value2 = new Object();
-    DualValue dualValue1 = new DualValue(rootFieldLocation(), value1, value2);
-    DualValue dualValue2 = new DualValue(rootFieldLocation(), value1, value2);
-    DualValue dualValue3 = new DualValue(rootFieldLocation().field("foo"), value1, value2);
+    DualValue dualValue1 = new DualValue(rootFieldLocation(), value1, value2, null);
+    DualValue dualValue2 = new DualValue(rootFieldLocation(), value1, value2, null);
+    DualValue dualValue3 = new DualValue(rootFieldLocation().field("foo"), value1, value2, null);
     return Stream.of(arguments(dualValue1, dualValue2),
                      arguments(dualValue1, dualValue1),
                      arguments(dualValue2, dualValue1),
@@ -61,10 +61,10 @@ class DualValue_sameValues_Test {
     Object value1 = new Object();
     Object value2 = new Object();
     Object value3 = new Object();
-    DualValue dualValue1 = new DualValue(rootFieldLocation(), value1, value2);
-    DualValue dualValue2 = new DualValue(rootFieldLocation(), value1, value3);
-    DualValue dualValue3 = new DualValue(rootFieldLocation().field("foo"), value1, value3);
-    DualValue dualValue4 = new DualValue(rootFieldLocation(), new Object(), value2);
+    DualValue dualValue1 = new DualValue(rootFieldLocation(), value1, value2, null);
+    DualValue dualValue2 = new DualValue(rootFieldLocation(), value1, value3, null);
+    DualValue dualValue3 = new DualValue(rootFieldLocation().field("foo"), value1, value3, null);
+    DualValue dualValue4 = new DualValue(rootFieldLocation(), new Object(), value2, null);
     return Stream.of(arguments(dualValue1, dualValue2),
                      arguments(dualValue2, dualValue1),
                      arguments(dualValue1, dualValue3),
