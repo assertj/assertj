@@ -1,4 +1,4 @@
-name: Post Mutation Testing Result to PR
+name: Mutation Testing - Post Result to PR
 
 # Runs after the Mutation Testing workflow completes. Uses workflow_run so
 # the GITHUB_TOKEN is scoped to the base repo and can write PR comments
@@ -10,6 +10,8 @@ on:
 
 permissions:
   actions: read
+  checks: write
+  pull-requests: write
 
 env:
   MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always

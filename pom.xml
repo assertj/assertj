@@ -121,6 +121,7 @@
     <rootDirectory>${project.basedir}</rootDirectory>
     <spotless.skip>true</spotless.skip>
     <!-- Plugin versions -->
+    <arcmutate-pitest.version>2.3.3</arcmutate-pitest.version>
     <central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
     <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
     <license-maven-plugin.version>5.0.0</license-maven-plugin.version>
@@ -147,6 +148,14 @@
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>com.arcmutate</groupId>
+          <artifactId>pitest-github-maven-plugin</artifactId>
+          <version>${arcmutate-pitest.version}</version>
+          <configuration>
+            <deleteOldSummaries>true</deleteOldSummaries>
+          </configuration>
+        </plugin>
         <plugin>
           <groupId>com.diffplug.spotless</groupId>
           <artifactId>spotless-maven-plugin</artifactId>
