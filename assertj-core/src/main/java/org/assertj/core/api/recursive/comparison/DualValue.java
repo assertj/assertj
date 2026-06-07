@@ -49,20 +49,22 @@ public final class DualValue {
   final FieldLocation fieldLocation;
   final Object actual;
   final Object expected;
+  private final DualValue parentDualValue;
   private final int hashCode;
 
   public DualValue(List<String> path, Object actual, Object expected) {
-    this(new FieldLocation(path), actual, expected);
+    this(new FieldLocation(path), actual, expected, null);
   }
 
   static DualValue rootDualValue(Object actual, Object expected) {
-    return new DualValue(rootFieldLocation(), actual, expected);
+    return new DualValue(rootFieldLocation(), actual, expected, null);
   }
 
-  public DualValue(FieldLocation fieldLocation, Object actualFieldValue, Object expectedFieldValue) {
+  public DualValue(FieldLocation fieldLocation, Object actualFieldValue, Object expectedFieldValue, DualValue parentDualValue) {
     this.fieldLocation = requireNonNull(fieldLocation, "fieldLocation must not be null");
     actual = actualFieldValue;
     expected = expectedFieldValue;
+    this.parentDualValue = parentDualValue;
     hashCode = computeHashCode();
   }
 
@@ -357,5 +359,14 @@ public final class DualValue {
     // enums can refer back to other object but since they are constants it is very unlikely that they generate cycles.
     if (object.getClass().isEnum()) return false;
     return !canonicalName.startsWith("java.lang");
+  }
+
+  boolean hasAncestor(DualValue dualValue) {
+    DualValue ancestorDualValue = parentDualValue;
+    while (ancestorDualValue != null) {
+      if (ancestorDualValue.sameValues(dualValue)) return true;
+      else ancestorDualValue = ancestorDualValue.parentDualValue;
+    }
+    return false;
   }
 }

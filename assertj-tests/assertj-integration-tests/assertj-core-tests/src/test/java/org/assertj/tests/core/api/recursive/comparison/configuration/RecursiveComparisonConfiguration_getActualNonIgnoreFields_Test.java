@@ -148,7 +148,7 @@ class RecursiveComparisonConfiguration_getActualFieldNamesToCompare_Test {
     Person p1b = new Person("Anders");
     p1b.neighbour = p2;
 
-    DualValue dualValue = new DualValue(rootFieldLocation(), p1, p2);
+    DualValue dualValue = new DualValue(rootFieldLocation(), p1, p2, null);
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(".*id");
     // WHEN
     Stopwatch stopwatch = Stopwatch.createStarted();
@@ -162,7 +162,7 @@ class RecursiveComparisonConfiguration_getActualFieldNamesToCompare_Test {
   void should_return_all_fields_when_some_compared_types_are_specified_as_a_value_not_to_compare_could_have_a_field_to_compare() {
     // GIVEN
     Company microsoft = new Company(new Person("Bill"));
-    DualValue dualValue = new DualValue(rootFieldLocation(), microsoft, microsoft);
+    DualValue dualValue = new DualValue(rootFieldLocation(), microsoft, microsoft, null);
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(Person.class);
     recursiveComparisonConfiguration.compareOnlyFields("ceo");
     // WHEN

@@ -30,10 +30,13 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.tests.core.api.recursive.data.Color;
 import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
+import org.assertj.tests.core.api.recursive.data.Person;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -522,24 +525,29 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
   }
 
   // related to https://github.com/assertj/assertj/issues/3598
-  @Test
-  public void should_fix_3598() {
+  public static Stream<Arguments> should_fix_3598() {
+    return Stream.of(arguments(new Inner<>(1), new Inner<>(2), new Inner<>(3)),
+                     arguments(new Inner<>(Color.BLUE), new Inner<>(Color.RED), new Inner<>(Color.GREEN)),
+                     arguments(new Inner<>(Optional.of("a")), new Inner<>(Optional.of("b")), new Inner<>(Optional.of("c"))),
+                     arguments(new Inner<>(new Person("a")), new Inner<>(new Person("b")), new Inner<>(new Person("c"))),
+                     arguments(new Inner<>("a"), new Inner<>("b"), new Inner<>("c")));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  public void should_fix_3598(Inner<?> i1, Inner<?> i2, Inner<?> i3) {
     // GIVEN
-    Inner i1 = new Inner(1);
-    Inner i2 = new Inner(2);
-    Inner i3 = new Inner(3);
+    Outer<?> o1A = new Outer<>(i1);
+    Outer<?> o2A = new Outer<>(i2);
+    Outer<?> o3A = new Outer<>(i3);
+    Outer<?> o1B = new Outer<>(i1);
+    Outer<?> o2B = new Outer<>(i2);
+    Outer<?> o3B = new Outer<>(i3);
 
-    Outer o1A = new Outer(i1);
-    Outer o2A = new Outer(i2);
-    Outer o3A = new Outer(i3);
-    Outer o1B = new Outer(i1);
-    Outer o2B = new Outer(i2);
-    Outer o3B = new Outer(i3);
-
-    List<Outer> listA = list(o1A, o2A, o3A);
-    List<Outer> listB = list(o2B, o1B, o3B);
-    List<Outer> listACopy = list(o1A, o2A, o3A);
-    List<Outer> listBCopy = list(o2B, o1B, o3B);
+    List<Outer<?>> listA = list(o1A, o2A, o3A);
+    List<Outer<?>> listB = list(o2B, o1B, o3B);
+    List<Outer<?>> listACopy = list(o1A, o2A, o3A);
+    List<Outer<?>> listBCopy = list(o2B, o1B, o3B);
 
     // WHEN/THEN
     then(list(listA, listACopy)).usingRecursiveComparison(recursiveComparisonConfiguration)
@@ -547,10 +555,10 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
                                 .isEqualTo(list(listB, listBCopy));
   }
 
-  static class Outer {
-    public Inner inner;
+  static class Outer<T> {
+    public Inner<T> inner;
 
-    public Outer(Inner inner) {
+    public Outer(Inner<T> inner) {
       this.inner = inner;
     }
 
@@ -559,10 +567,10 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     }
   }
 
-  static class Inner {
-    public int val;
+  static class Inner<T> {
+    public T val;
 
-    public Inner(int val) {
+    public Inner(T val) {
       this.val = val;
     }
 
