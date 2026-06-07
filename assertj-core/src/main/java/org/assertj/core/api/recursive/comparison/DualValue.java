@@ -61,6 +61,10 @@ public final class DualValue {
     return new DualValue(rootFieldLocation(), actual, expected, null);
   }
 
+  public DualValue(FieldLocation fieldLocation, Object actualFieldValue, Object expectedFieldValue) {
+    this(fieldLocation, actualFieldValue, expectedFieldValue, null);
+  }
+
   public DualValue(FieldLocation fieldLocation, Object actualFieldValue, Object expectedFieldValue, DualValue parentDualValue) {
     this.fieldLocation = requireNonNull(fieldLocation, "fieldLocation must not be null");
     actual = actualFieldValue;
