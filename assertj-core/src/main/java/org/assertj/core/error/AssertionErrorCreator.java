@@ -18,6 +18,7 @@ package org.assertj.core.error;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Throwables.describeErrors;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import java.util.Optional;
 import org.assertj.core.api.SoftAssertionError;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.FileContent;
 import org.assertj.core.internal.UnambiguousRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
@@ -38,6 +40,7 @@ public class AssertionErrorCreator {
 
   private static final Class<?>[] MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES = array(String.class, List.class);
   private Method valueWrapperCreateMethod;
+  private Constructor<?> fileInfoConstructor;
 
   @VisibleForTesting
   ConstructorInvoker constructorInvoker;
@@ -53,6 +56,12 @@ public class AssertionErrorCreator {
       valueWrapperCreateMethod = valueWrapperClass.getMethod("create", Object.class, String.class);
     } catch (Exception e) {
       valueWrapperCreateMethod = null;
+    }
+    try {
+      Class<?> fileInfoClass = Class.forName("org.opentest4j.FileInfo");
+      fileInfoConstructor = fileInfoClass.getConstructor(String.class, byte[].class);
+    } catch (Exception e) {
+      fileInfoConstructor = null;
     }
   }
 
@@ -82,6 +91,14 @@ public class AssertionErrorCreator {
   }
 
   private Object valueWrapper(Object value, Representation representation) {
+    if (value instanceof FileContent && fileInfoConstructor != null) {
+      try {
+        FileContent fileContent = (FileContent) value;
+        return fileInfoConstructor.newInstance(fileContent.path(), fileContent.contents());
+      } catch (Exception e) {
+        return value; // best effort
+      }
+    }
     if (valueWrapperCreateMethod == null) return value;
     try {
       return valueWrapperCreateMethod.invoke(null, value, representation.toStringOf(value));
