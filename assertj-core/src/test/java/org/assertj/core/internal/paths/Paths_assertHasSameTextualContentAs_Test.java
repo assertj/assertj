@@ -17,6 +17,7 @@ package org.assertj.core.internal.paths;
 
 import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.Files.createFile;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
@@ -40,6 +41,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.opentest4j.AssertionFailedError;
+import org.opentest4j.FileInfo;
 
 class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
 
@@ -167,6 +170,29 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(exception);
+  }
+
+  @Test
+  void should_fail_with_file_info_actual_and_expected() throws IOException {
+    // GIVEN
+    Path actual = Files.write(tempDir.resolve("actual"), "actual".getBytes());
+    Path expected = Files.write(tempDir.resolve("expected"), "expected".getBytes());
+    byte[] actualBytes = Files.readAllBytes(actual);
+    byte[] expectedBytes = Files.readAllBytes(expected);
+    // WHEN
+    AssertionError error = expectAssertionError(() -> underTest.assertHasSameTextualContentAs(INFO, actual, CHARSET, expected,
+                                                                                              CHARSET));
+    // THEN
+    then(error).isInstanceOf(AssertionFailedError.class);
+    AssertionFailedError assertionFailedError = (AssertionFailedError) error;
+    then(assertionFailedError.getActual().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+      assertThat(fileInfo.getPath()).isEqualTo(actual.toAbsolutePath().toString());
+      assertThat(fileInfo.getContents()).isEqualTo(actualBytes);
+    });
+    then(assertionFailedError.getExpected().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+      assertThat(fileInfo.getPath()).isEqualTo(expected.toAbsolutePath().toString());
+      assertThat(fileInfo.getContents()).isEqualTo(expectedBytes);
+    });
   }
 
 }
