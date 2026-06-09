@@ -30,6 +30,7 @@ import static org.mockito.BDDMockito.willThrow;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -39,6 +40,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.opentest4j.AssertionFailedError;
+import org.opentest4j.FileInfo;
 
 class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
 
@@ -166,6 +169,29 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(exception);
+  }
+
+  @Test
+  void should_fail_with_file_info_actual_and_expected() throws IOException {
+    // GIVEN
+    Charset charset = StandardCharsets.UTF_8;
+    Path actual = Files.write(tempDir.resolve("actual"), "actual".getBytes(charset));
+    Path expected = Files.write(tempDir.resolve("expected"), "expected".getBytes(charset));
+    byte[] actualBytes = Files.readAllBytes(actual);
+    byte[] expectedBytes = Files.readAllBytes(expected);
+    // WHEN
+    var error = expectAssertionError(() -> underTest.assertHasSameTextualContentAs(INFO, actual, charset, expected, charset));
+    // THEN
+    then(error).isInstanceOfSatisfying(AssertionFailedError.class, failedError -> {
+      then(failedError.getActual().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+        then(fileInfo.getPath()).isEqualTo(actual.toAbsolutePath().toString());
+        then(fileInfo.getContents()).isEqualTo(actualBytes);
+      });
+      then(failedError.getExpected().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+        then(fileInfo.getPath()).isEqualTo(expected.toAbsolutePath().toString());
+        then(fileInfo.getContents()).isEqualTo(expectedBytes);
+      });
+    });
   }
 
 }

@@ -17,18 +17,21 @@ package org.assertj.core.error;
 
 import static org.assertj.core.util.Arrays.array;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.FileContent;
 import org.assertj.core.presentation.Representation;
 
 public class AssertionErrorCreator {
 
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class, Object.class);
   private Method valueWrapperCreateMethod;
+  private Constructor<?> fileInfoConstructor;
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ConstructorInvoker constructorInvoker;
@@ -44,6 +47,12 @@ public class AssertionErrorCreator {
       valueWrapperCreateMethod = valueWrapperClass.getMethod("create", Object.class, String.class);
     } catch (Exception e) {
       valueWrapperCreateMethod = null;
+    }
+    try {
+      Class<?> fileInfoClass = Class.forName("org.opentest4j.FileInfo");
+      fileInfoConstructor = fileInfoClass.getConstructor(String.class, byte[].class);
+    } catch (Exception e) {
+      fileInfoConstructor = null;
     }
   }
 
@@ -69,6 +78,13 @@ public class AssertionErrorCreator {
   }
 
   private Object valueWrapper(Object value, Representation representation) {
+    if (value instanceof FileContent fileContent && fileInfoConstructor != null) {
+      try {
+        return fileInfoConstructor.newInstance(fileContent.path(), fileContent.contents());
+      } catch (Exception e) {
+        return value; // best effort
+      }
+    }
     if (valueWrapperCreateMethod == null) return value;
     try {
       return valueWrapperCreateMethod.invoke(null, value, representation.toStringOf(value));

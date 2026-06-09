@@ -274,7 +274,9 @@ public class Paths {
     assertIsReadable(info, actual);
     try {
       BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected));
-      if (binaryDiffResult.hasDiff()) throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
+      if (binaryDiffResult.hasDiff())
+        throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult),
+                               FileContent.of(actual), FileContent.of(expected));
     } catch (IOException ioe) {
       throw new UncheckedIOException(UNABLE_TO_COMPARE_PATH_CONTENTS.formatted(actual, expected), ioe);
     }
@@ -288,7 +290,8 @@ public class Paths {
     assertIsReadable(info, actual);
     try {
       List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
-      if (!diffs.isEmpty()) throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
+      if (!diffs.isEmpty()) throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs),
+                                                   FileContent.of(actual), FileContent.of(expected));
     } catch (IOException e) {
       throw new UncheckedIOException(UNABLE_TO_COMPARE_PATH_CONTENTS.formatted(actual, expected), e);
     }
