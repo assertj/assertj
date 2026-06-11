@@ -17,7 +17,7 @@ package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
 import static java.util.Objects.hash;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.rootDualValue;
 
 import java.util.Objects;
 
@@ -69,8 +69,8 @@ class DualValue_Test {
     // GIVEN
     MutableType actual = new MutableType("One");
     MutableType expected = new MutableType("One");
-    DualValue dualValue1 = new DualValue(list(), actual, expected);
-    DualValue dualValue2 = new DualValue(list(), actual, expected);
+    DualValue dualValue1 = rootDualValue(actual, expected);
+    DualValue dualValue2 = rootDualValue(actual, expected);
     int hashCodeBeforeMutation = dualValue1.hashCode();
     // WHEN
     actual.setChangeMe("Another value");

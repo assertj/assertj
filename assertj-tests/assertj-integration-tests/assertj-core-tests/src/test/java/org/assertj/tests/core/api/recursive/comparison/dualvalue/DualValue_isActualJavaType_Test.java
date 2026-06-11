@@ -16,17 +16,15 @@
 package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.net.InetAddress;
-import java.util.List;
 import java.util.stream.Stream;
 import javax.servlet.ServletException;
 import javax.xml.datatype.DatatypeFactory;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -34,13 +32,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class DualValue_isActualJavaType_Test {
 
-  private static final List<String> PATH = list("foo", "bar");
-
   @ParameterizedTest(name = "type: {1}")
   @MethodSource("java_types")
   void isActualJavaType_should_return_true_when_actual_is_a_java_type(Object actual, @SuppressWarnings("unused") String type) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, Pair.of(1, "a"));
+    var dualValue = dualValue(actual, Pair.of(1, "a"));
     // WHEN
     boolean isActualJavaType = dualValue.isActualJavaType();
     // THEN
@@ -58,7 +54,7 @@ class DualValue_isActualJavaType_Test {
   @Test
   void isActualJavaType_should_return_false_when_actual_is_not_a_java_type() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), "");
+    var dualValue = dualValue(Pair.of(1, "a"), "");
     // WHEN
     boolean isActualJavaType = dualValue.isActualJavaType();
     // THEN
@@ -68,7 +64,7 @@ class DualValue_isActualJavaType_Test {
   @Test
   void isActualJavaType_should_return_false_when_actual_is_null() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, null, "");
+    var dualValue = dualValue(null, "");
     // WHEN
     boolean isActualJavaType = dualValue.isActualJavaType();
     // THEN

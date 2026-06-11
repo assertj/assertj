@@ -16,26 +16,22 @@
 package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class DualValue_isExpectedAThrowable_Test {
 
-  private static final List<String> PATH = list("foo", "bar");
-
   @ParameterizedTest
   @MethodSource
   void isExpectedAThrowable_should_return_true_when_expected_is_a_throwable(Throwable expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "unused", expected);
+    var dualValue = dualValue("unused", expected);
     // WHEN
     boolean isExpectedAThrowable = dualValue.isExpectedAThrowable();
     // THEN
@@ -50,7 +46,7 @@ class DualValue_isExpectedAThrowable_Test {
   @Test
   void isExpectedAThrowable_should_return_false_when_expected_is_not_a_throwable() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "unused", Pair.of(1, "a"));
+    var dualValue = dualValue("unused", Pair.of(1, "a"));
     // WHEN
     boolean isExpectedAThrowable = dualValue.isExpectedAThrowable();
     // THEN
@@ -60,7 +56,7 @@ class DualValue_isExpectedAThrowable_Test {
   @Test
   void isExpectedAThrowable_should_return_false_when_expected_is_null() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "unused", null);
+    var dualValue = dualValue("unused", null);
     // WHEN
     boolean isExpectedAThrowable = dualValue.isExpectedAThrowable();
     // THEN

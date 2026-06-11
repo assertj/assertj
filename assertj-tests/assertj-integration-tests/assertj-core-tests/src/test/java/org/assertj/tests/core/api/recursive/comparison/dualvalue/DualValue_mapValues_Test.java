@@ -19,13 +19,12 @@ import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
 import static org.assertj.tests.core.testkit.Maps.mapOf;
 import static org.assertj.tests.core.testkit.Maps.treeMapOf;
 
-import java.util.List;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -34,13 +33,11 @@ import com.google.common.collect.ImmutableSortedMap;
 
 class DualValue_mapValues_Test {
 
-  private static final List<String> PATH = list("foo", "bar");
-
   @ParameterizedTest
   @MethodSource("maps")
   void isActualAMap_should_return_true_when_actual_is_a_map(Object actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, "");
+    var dualValue = dualValue(actual, "");
     // WHEN
     boolean haveMapValues = dualValue.isActualAMap();
     // THEN
@@ -51,7 +48,7 @@ class DualValue_mapValues_Test {
   @MethodSource("maps")
   void isExpectedAMap_should_return_true_when_expected_is_a_map(Object expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", expected);
+    var dualValue = dualValue("", expected);
     // WHEN
     boolean haveMapValues = dualValue.isExpectedAMap();
     // THEN
@@ -70,7 +67,7 @@ class DualValue_mapValues_Test {
   @MethodSource("nonMaps")
   void isActualAMap_should_return_false_when_actual_is_not_a_map(Object actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, singletonMap("a", "b"));
+    var dualValue = dualValue(actual, singletonMap("a", "b"));
     // WHEN
     boolean haveMapValues = dualValue.isActualAMap();
     // THEN
@@ -81,7 +78,7 @@ class DualValue_mapValues_Test {
   @MethodSource("nonMaps")
   void isExpectedAMap_should_return_false_when_expected_is_not_a_map(Object expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, singletonMap("a", "b"), expected);
+    var dualValue = dualValue(singletonMap("a", "b"), expected);
     // WHEN
     boolean haveMapValues = dualValue.isExpectedAMap();
     // THEN

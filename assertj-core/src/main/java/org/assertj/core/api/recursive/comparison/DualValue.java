@@ -52,10 +52,6 @@ public final class DualValue {
   private final DualValue parentDualValue;
   private final int hashCode;
 
-  public DualValue(List<String> path, Object actual, Object expected) {
-    this(new FieldLocation(path), actual, expected, null);
-  }
-
   static DualValue rootDualValue(Object actual, Object expected) {
     return new DualValue(rootFieldLocation(), actual, expected, null);
   }

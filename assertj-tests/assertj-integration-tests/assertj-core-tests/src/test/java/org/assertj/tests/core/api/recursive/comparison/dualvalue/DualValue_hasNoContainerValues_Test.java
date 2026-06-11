@@ -19,8 +19,8 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -31,21 +31,18 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class DualValue_hasNoContainerValues_Test {
 
-  private static final List<String> PATH = list("foo", "bar");
-
   @ParameterizedTest(name = "actual {0} / expected {1}")
   @MethodSource("values")
   void should_return_false_when_actual_or_expected_is_a_container_value_and_true_otherwise(Object actual, Object expected,
                                                                                            boolean expectedResult) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, expected);
+    var dualValue = dualValue(actual, expected);
     // WHEN
     boolean hasNoContainerTypes = dualValue.hasNoContainerValues();
     // THEN

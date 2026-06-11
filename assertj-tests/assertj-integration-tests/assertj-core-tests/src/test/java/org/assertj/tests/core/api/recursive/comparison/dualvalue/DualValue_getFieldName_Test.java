@@ -15,11 +15,10 @@
  */
 package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
-import static java.util.Collections.emptyList;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.rootDualValue;
 
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.api.Test;
 
 class DualValue_getFieldName_Test {
@@ -27,7 +26,7 @@ class DualValue_getFieldName_Test {
   @Test
   void should_return_top_level_field_name() {
     // GIVEN
-    DualValue dualValue = new DualValue(list("foo"), "", "");
+    var dualValue = dualValue("foo", "", "");
     // WHEN
     String expectedFieldName = dualValue.getFieldName();
     // THEN
@@ -37,7 +36,7 @@ class DualValue_getFieldName_Test {
   @Test
   void should_return_nested_field_name() {
     // GIVEN
-    DualValue dualValue = new DualValue(list("foo", "bar"), "", "");
+    var dualValue = dualValue("foo.bar", "", "");
     // WHEN
     String expectedFieldName = dualValue.getFieldName();
     // THEN
@@ -47,7 +46,7 @@ class DualValue_getFieldName_Test {
   @Test
   void should_return_empty_for_root_objects() {
     // GIVEN
-    DualValue dualValue = new DualValue(emptyList(), "", "");
+    var dualValue = rootDualValue("", "");
     // WHEN
     String expectedFieldName = dualValue.getFieldName();
     // THEN

@@ -16,23 +16,18 @@
 package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Lists.list;
 import static org.assertj.tests.core.api.recursive.data.Color.BLUE;
 import static org.assertj.tests.core.api.recursive.data.Color.RED;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
 
-import java.util.List;
-
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.api.Test;
 
 class DualValue_enumValues_Test {
 
-  private static final List<String> PATH = list("foo", "bar");
-
   @Test
   void isExpectedAnEnum_should_return_true_when_expected_is_an_enum() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", BLUE);
+    var dualValue = dualValue("", BLUE);
     // WHEN
     boolean isExpectedAnEnum = dualValue.isExpectedAnEnum();
     // THEN
@@ -42,7 +37,7 @@ class DualValue_enumValues_Test {
   @Test
   void isExpectedAnEnum_should_return_false_when_expected_is_not_an_enum() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, RED, "");
+    var dualValue = dualValue(RED, "");
     // WHEN
     boolean isExpectedAnEnum = dualValue.isExpectedAnEnum();
     // THEN
@@ -52,7 +47,7 @@ class DualValue_enumValues_Test {
   @Test
   void isExpectedAnEnum_should_return_false_when_expected_is_null() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, RED, null);
+    var dualValue = dualValue(RED, null);
     // WHEN
     boolean isExpectedAnEnum = dualValue.isExpectedAnEnum();
     // THEN
@@ -62,7 +57,7 @@ class DualValue_enumValues_Test {
   @Test
   void isActualAnEnum_should_return_true_when_actual_is_an_enum() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, BLUE, "");
+    var dualValue = dualValue(BLUE, "");
     // WHEN
     boolean isActualAnEnum = dualValue.isActualAnEnum();
     // THEN
@@ -72,7 +67,7 @@ class DualValue_enumValues_Test {
   @Test
   void isActualAnEnum_should_return_false_when_actual_is_not_an_enum() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", RED);
+    var dualValue = dualValue("", RED);
     // WHEN
     boolean isActualAnEnum = dualValue.isActualAnEnum();
     // THEN
@@ -82,7 +77,7 @@ class DualValue_enumValues_Test {
   @Test
   void isActualAnEnum_should_return_false_when_actual_is_null() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, null, "");
+    var dualValue = dualValue(null, "");
     // WHEN
     boolean actualIsEnum = dualValue.isActualAnEnum();
     // THEN

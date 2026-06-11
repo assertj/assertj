@@ -15,22 +15,41 @@
  */
 package org.assertj.tests.core.api.recursive.data;
 
+import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.util.Lists.list;
-
-import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.assertj.core.api.recursive.comparison.DualValue;
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 
 public class DualValueUtil {
 
-  public static DualValue dualValueWithPath(String... pathElements) {
-    return new DualValue(list(pathElements), "foo", "bar");
+  private static final FieldLocation FIELD_LOCATION = new FieldLocation("foo.bar");
+
+  public static DualValue dualValue(Object value1, Object value2) {
+    return new DualValue(FIELD_LOCATION, value1, value2, null);
   }
 
-  public static List<String> randomPath() {
-    return list(RandomStringUtils.random(RandomUtils.nextInt(1, 10), true, false));
+  public static DualValue rootDualValue(Object actual, Object expected) {
+    return new DualValue(rootFieldLocation(), actual, expected, null);
+  }
+
+  public static DualValue dualValueWithPath(String... pathElements) {
+    return new DualValue(new FieldLocation(list(pathElements)), "foo", "bar", null);
+  }
+
+  public static DualValue dualValue(String fieldLocation, Object value1, Object value2) {
+    return new DualValue(new FieldLocation(fieldLocation), value1, value2, null);
+  }
+
+  public static DualValue dualValueWithRandomFieldLocation(Object value1, Object value2) {
+    return new DualValue(randomFieldLocation(), value1, value2, null);
+  }
+
+  public static FieldLocation randomFieldLocation() {
+    String path = RandomStringUtils.secure().next(RandomUtils.secure().randomInt(1, 10), true, false);
+    return new FieldLocation(list(path));
   }
 
 }

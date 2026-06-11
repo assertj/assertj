@@ -16,22 +16,17 @@
 package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Lists.list;
-
-import java.util.List;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.api.Test;
 
 class DualValue_hasSomeJavaTypeValue_Test {
 
-  private static final List<String> PATH = list("foo", "bar");
-
   @Test
   void hasSomeJavaTypeValue_should_return_true_when_actual_is_a_java_type() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", Pair.of(1, "a"));
+    var dualValue = dualValue("", Pair.of(1, "a"));
     // WHEN
     boolean hasSomeJavaTypeValue = dualValue.hasSomeJavaTypeValue();
     // THEN
@@ -41,7 +36,7 @@ class DualValue_hasSomeJavaTypeValue_Test {
   @Test
   void hasSomeJavaTypeValue_should_return_true_when_expected_is_a_java_type() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), "");
+    var dualValue = dualValue(Pair.of(1, "a"), "");
     // WHEN
     boolean hasSomeJavaTypeValue = dualValue.hasSomeJavaTypeValue();
     // THEN
@@ -51,7 +46,7 @@ class DualValue_hasSomeJavaTypeValue_Test {
   @Test
   void hasSomeJavaTypeValue_should_return_true_when_both_values_are_java_type() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "1", "2");
+    var dualValue = dualValue("1", "2");
     // WHEN
     boolean hasSomeJavaTypeValue = dualValue.hasSomeJavaTypeValue();
     // THEN
@@ -61,7 +56,7 @@ class DualValue_hasSomeJavaTypeValue_Test {
   @Test
   void hasSomeJavaTypeValue_should_return_true_when_no_values_are_java_type() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), Pair.of(1, "b"));
+    var dualValue = dualValue(Pair.of(1, "a"), Pair.of(1, "b"));
     // WHEN
     boolean hasSomeJavaTypeValue = dualValue.hasSomeJavaTypeValue();
     // THEN
@@ -71,7 +66,7 @@ class DualValue_hasSomeJavaTypeValue_Test {
   @Test
   void hasSomeJavaTypeValue_should_return_false_when_both_values_are_null() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, null, null);
+    var dualValue = dualValue(null, null);
     // WHEN
     boolean hasSomeJavaTypeValue = dualValue.hasSomeJavaTypeValue();
     // THEN

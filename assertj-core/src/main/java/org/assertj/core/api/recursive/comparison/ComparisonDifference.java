@@ -53,11 +53,11 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   final String template;
 
   public ComparisonDifference(DualValue dualValue) {
-    this(dualValue.getDecomposedPath(), dualValue.actual, dualValue.expected, null, DEFAULT_TEMPLATE);
+    this(dualValue, null);
   }
 
   public ComparisonDifference(DualValue dualValue, String additionalInformation) {
-    this(dualValue.getDecomposedPath(), dualValue.actual, dualValue.expected, additionalInformation, DEFAULT_TEMPLATE);
+    this(dualValue, additionalInformation, DEFAULT_TEMPLATE);
   }
 
   public ComparisonDifference(DualValue dualValue, String additionalInformation, String template) {

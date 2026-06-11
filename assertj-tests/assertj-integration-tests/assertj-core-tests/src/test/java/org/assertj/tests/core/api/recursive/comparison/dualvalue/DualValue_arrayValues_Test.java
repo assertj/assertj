@@ -17,11 +17,8 @@ package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
 
-import java.util.List;
-
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
@@ -29,12 +26,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class DualValue_arrayValues_Test {
 
-  private static final List<String> PATH = list("foo", "bar");
-
   @Test
   void isActualAnArray_should_return_true_when_actual_is_an_array() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, array("a", "b"), "");
+    var dualValue = dualValue(array("a", "b"), "");
     // WHEN
     boolean actualIsAnArray = dualValue.isActualAnArray();
     // THEN
@@ -46,7 +41,7 @@ class DualValue_arrayValues_Test {
   @ValueSource(strings = { "abc" })
   void isActualAnArray_should_return_false_when_actual_is_not_an_array(String actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, "");
+    var dualValue = dualValue(actual, "");
     // WHEN
     boolean actualIsAnArray = dualValue.isActualAnArray();
     // THEN
@@ -56,7 +51,7 @@ class DualValue_arrayValues_Test {
   @Test
   void isExpectedAnArray_should_return_true_when_expected_is_an_array() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", array("a", "b"));
+    var dualValue = dualValue("", array("a", "b"));
     // WHEN
     boolean expectedIsAnArray = dualValue.isExpectedAnArray();
     // THEN
@@ -68,7 +63,7 @@ class DualValue_arrayValues_Test {
   @ValueSource(strings = { "abc" })
   void isExpectedAnArray_should_return_false_when_expected_is_not_an_array(String expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", expected);
+    var dualValue = dualValue("", expected);
     // WHEN
     boolean expectedIsAnArray = dualValue.isExpectedAnArray();
     // THEN

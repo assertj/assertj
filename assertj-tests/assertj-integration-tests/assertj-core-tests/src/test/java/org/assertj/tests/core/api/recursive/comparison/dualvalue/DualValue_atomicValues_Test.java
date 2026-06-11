@@ -17,9 +17,8 @@ package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
 
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
@@ -28,7 +27,6 @@ import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
@@ -36,14 +34,12 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class DualValue_atomicValues_Test {
 
-  private static final List<String> PATH = list("foo", "bar");
-
   // AtomicReference
 
   @Test
   void isActualAnAtomicReference_should_return_true_when_actual_is_an_AtomicReference() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, new AtomicReference<>("a"), "");
+    var dualValue = dualValue(new AtomicReference<>("a"), "");
     // WHEN
     boolean isActualAnAtomicReference = dualValue.isActualAnAtomicReference();
     // THEN
@@ -55,7 +51,7 @@ class DualValue_atomicValues_Test {
   @ValueSource(strings = { "abc" })
   void isActualAnAtomicReference_should_return_false_when_actual_is_not_an_AtomicReference(String actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, "");
+    var dualValue = dualValue(actual, "");
     // WHEN
     boolean isActualAnAtomicReference = dualValue.isActualAnAtomicReference();
     // THEN
@@ -65,7 +61,7 @@ class DualValue_atomicValues_Test {
   @Test
   void isExpectedAnAtomicReference_should_return_true_when_expected_is_an_AtomicReference() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", new AtomicReference<>("a"));
+    var dualValue = dualValue("", new AtomicReference<>("a"));
     // WHEN
     boolean isExpectedAnAtomicReference = dualValue.isExpectedAnAtomicReference();
     // THEN
@@ -77,7 +73,7 @@ class DualValue_atomicValues_Test {
   @ValueSource(strings = { "abc" })
   void isExpectedAnAtomicReference_should_return_false_when_expected_is_not_an_AtomicReference(String expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", expected);
+    var dualValue = dualValue("", expected);
     // WHEN
     boolean isExpectedAnAtomicReference = dualValue.isExpectedAnAtomicReference();
     // THEN
@@ -89,7 +85,7 @@ class DualValue_atomicValues_Test {
   @Test
   void isActualAnAtomicReferenceArray_should_return_true_when_actual_is_an_AtomicReferenceArray() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, new AtomicReferenceArray<>(array("a")), "");
+    var dualValue = dualValue(new AtomicReferenceArray<>(array("a")), "");
     // WHEN
     boolean isActualAnAtomicReferenceArray = dualValue.isActualAnAtomicReferenceArray();
     // THEN
@@ -101,7 +97,7 @@ class DualValue_atomicValues_Test {
   @ValueSource(strings = { "abc" })
   void isActualAnAtomicReferenceArray_should_return_false_when_actual_is_not_an_AtomicReferenceArray(String actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, "");
+    var dualValue = dualValue(actual, "");
     // WHEN
     boolean isActualAnAtomicReferenceArray = dualValue.isActualAnAtomicReferenceArray();
     // THEN
@@ -111,7 +107,7 @@ class DualValue_atomicValues_Test {
   @Test
   void isExpectedAnAtomicReferenceArray_should_return_true_when_expected_is_an_AtomicReferenceArray() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", new AtomicReferenceArray<>(array("a")));
+    var dualValue = dualValue("", new AtomicReferenceArray<>(array("a")));
     // WHEN
     boolean isExpectedAnAtomicReferenceArray = dualValue.isExpectedAnAtomicReferenceArray();
     // THEN
@@ -123,7 +119,7 @@ class DualValue_atomicValues_Test {
   @ValueSource(strings = { "abc" })
   void isExpectedAnAtomicReferenceArray_should_return_false_when_expected_is_not_an_AtomicReferenceArray(String expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", expected);
+    var dualValue = dualValue("", expected);
     // WHEN
     boolean isExpectedAnAtomicReferenceArray = dualValue.isExpectedAnAtomicReferenceArray();
     // THEN
@@ -135,7 +131,7 @@ class DualValue_atomicValues_Test {
   @Test
   void isActualAnAtomicInteger_should_return_true_when_actual_is_an_AtomicInteger() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, new AtomicInteger(123), "");
+    var dualValue = dualValue(new AtomicInteger(123), "");
     // WHEN
     boolean isActualAnAtomicInteger = dualValue.isActualAnAtomicInteger();
     // THEN
@@ -147,7 +143,7 @@ class DualValue_atomicValues_Test {
   @ValueSource(strings = { "abc" })
   void isActualAnAtomicInteger_should_return_false_when_actual_is_not_an_AtomicInteger(String actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, "");
+    var dualValue = dualValue(actual, "");
     // WHEN
     boolean isActualAnAtomicInteger = dualValue.isActualAnAtomicInteger();
     // THEN
@@ -157,7 +153,7 @@ class DualValue_atomicValues_Test {
   @Test
   void isExpectedAnAtomicInteger_should_return_true_when_expected_is_an_AtomicInteger() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", new AtomicInteger(123));
+    var dualValue = dualValue("", new AtomicInteger(123));
     // WHEN
     boolean isExpectedAnAtomicInteger = dualValue.isExpectedAnAtomicInteger();
     // THEN
@@ -169,7 +165,7 @@ class DualValue_atomicValues_Test {
   @ValueSource(strings = { "abc" })
   void isExpectedAnAtomicInteger_should_return_false_when_expected_is_not_an_AtomicInteger(String expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", expected);
+    var dualValue = dualValue("", expected);
     // WHEN
     boolean isExpectedAnAtomicInteger = dualValue.isExpectedAnAtomicInteger();
     // THEN
@@ -181,7 +177,7 @@ class DualValue_atomicValues_Test {
   @Test
   void isActualAnAtomicIntegerArray_should_return_true_when_actual_is_an_AtomicIntegerArray() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, new AtomicIntegerArray(new int[] { 1, 2, 3 }), "");
+    var dualValue = dualValue(new AtomicIntegerArray(new int[] { 1, 2, 3 }), "");
     // WHEN
     boolean isActualAnAtomicIntegerArray = dualValue.isActualAnAtomicIntegerArray();
     // THEN
@@ -193,7 +189,7 @@ class DualValue_atomicValues_Test {
   @ValueSource(strings = { "abc" })
   void isActualAnAtomicIntegerArray_should_return_false_when_actual_is_not_an_AtomicIntegerArray(String actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, "");
+    var dualValue = dualValue(actual, "");
     // WHEN
     boolean isActualAnAtomicIntegerArray = dualValue.isActualAnAtomicIntegerArray();
     // THEN
@@ -203,7 +199,7 @@ class DualValue_atomicValues_Test {
   @Test
   void isExpectedAnAtomicIntegerArray_should_return_true_when_expected_is_an_AtomicIntegerArray() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", new AtomicIntegerArray(new int[] { 1, 2, 3 }));
+    var dualValue = dualValue("", new AtomicIntegerArray(new int[] { 1, 2, 3 }));
     // WHEN
     boolean isExpectedAnAtomicIntegerArray = dualValue.isExpectedAnAtomicIntegerArray();
     // THEN
@@ -215,7 +211,7 @@ class DualValue_atomicValues_Test {
   @ValueSource(strings = { "abc" })
   void isExpectedAnAtomicIntegerArray_should_return_false_when_expected_is_not_an_AtomicIntegerArray(String expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", expected);
+    var dualValue = dualValue("", expected);
     // WHEN
     boolean isExpectedAnAtomicIntegerArray = dualValue.isExpectedAnAtomicIntegerArray();
     // THEN
@@ -227,7 +223,7 @@ class DualValue_atomicValues_Test {
   @Test
   void isActualAnAtomicLong_should_return_true_when_actual_is_an_AtomicLong() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, new AtomicLong(123), "");
+    var dualValue = dualValue(new AtomicLong(123), "");
     // WHEN
     boolean isActualAnAtomicLong = dualValue.isActualAnAtomicLong();
     // THEN
@@ -239,7 +235,7 @@ class DualValue_atomicValues_Test {
   @ValueSource(strings = { "abc" })
   void isActualAnAtomicLong_should_return_false_when_actual_is_not_an_AtomicLong(String actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, "");
+    var dualValue = dualValue(actual, "");
     // WHEN
     boolean isActualAnAtomicLong = dualValue.isActualAnAtomicLong();
     // THEN
@@ -249,7 +245,7 @@ class DualValue_atomicValues_Test {
   @Test
   void isExpectedAnAtomicLong_should_return_true_when_expected_is_an_AtomicLong() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", new AtomicLong(123));
+    var dualValue = dualValue("", new AtomicLong(123));
     // WHEN
     boolean isExpectedAnAtomicLong = dualValue.isExpectedAnAtomicLong();
     // THEN
@@ -261,7 +257,7 @@ class DualValue_atomicValues_Test {
   @ValueSource(strings = { "abc" })
   void isExpectedAnAtomicLong_should_return_false_when_expected_is_not_an_AtomicLong(String expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", expected);
+    var dualValue = dualValue("", expected);
     // WHEN
     boolean isExpectedAnAtomicLong = dualValue.isExpectedAnAtomicLong();
     // THEN
@@ -273,7 +269,7 @@ class DualValue_atomicValues_Test {
   @Test
   void isActualAnAtomicLongArray_should_return_true_when_actual_is_an_AtomicLongArray() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, new AtomicLongArray(new long[] { 1, 2, 3 }), "");
+    var dualValue = dualValue(new AtomicLongArray(new long[] { 1, 2, 3 }), "");
     // WHEN
     boolean isActualAnAtomicLongArray = dualValue.isActualAnAtomicLongArray();
     // THEN
@@ -285,7 +281,7 @@ class DualValue_atomicValues_Test {
   @ValueSource(strings = { "abc" })
   void isActualAnAtomicLongArray_should_return_false_when_actual_is_not_an_AtomicLongArray(String actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, "");
+    var dualValue = dualValue(actual, "");
     // WHEN
     boolean isActualAnAtomicLongArray = dualValue.isActualAnAtomicLongArray();
     // THEN
@@ -295,7 +291,7 @@ class DualValue_atomicValues_Test {
   @Test
   void isExpectedAnAtomicLongArray_should_return_true_when_expected_is_an_AtomicLongArray() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", new AtomicLongArray(new long[] { 1, 2, 3 }));
+    var dualValue = dualValue("", new AtomicLongArray(new long[] { 1, 2, 3 }));
     // WHEN
     boolean isExpectedAnAtomicLongArray = dualValue.isExpectedAnAtomicLongArray();
     // THEN
@@ -307,7 +303,7 @@ class DualValue_atomicValues_Test {
   @ValueSource(strings = { "abc" })
   void isExpectedAnAtomicLongArray_should_return_false_when_expected_is_not_an_AtomicLongArray(String expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", expected);
+    var dualValue = dualValue("", expected);
     // WHEN
     boolean isExpectedAnAtomicLongArray = dualValue.isExpectedAnAtomicLongArray();
     // THEN
@@ -319,7 +315,7 @@ class DualValue_atomicValues_Test {
   @Test
   void isActualAnAtomicBoolean_should_return_true_when_actual_is_an_AtomicBoolean() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, new AtomicBoolean(true), "");
+    var dualValue = dualValue(new AtomicBoolean(true), "");
     // WHEN
     boolean isActualAnAtomicBoolean = dualValue.isActualAnAtomicBoolean();
     // THEN
@@ -331,7 +327,7 @@ class DualValue_atomicValues_Test {
   @ValueSource(strings = { "abc" })
   void isActualAnAtomicBoolean_should_return_false_when_actual_is_not_an_AtomicBoolean(String actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, "");
+    var dualValue = dualValue(actual, "");
     // WHEN
     boolean isActualAnAtomicBoolean = dualValue.isActualAnAtomicBoolean();
     // THEN
@@ -341,7 +337,7 @@ class DualValue_atomicValues_Test {
   @Test
   void isExpectedAnAtomicBoolean_should_return_true_when_expected_is_an_AtomicBoolean() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", new AtomicBoolean(true));
+    var dualValue = dualValue("", new AtomicBoolean(true));
     // WHEN
     boolean isExpectedAnAtomicBoolean = dualValue.isExpectedAnAtomicBoolean();
     // THEN
@@ -353,11 +349,10 @@ class DualValue_atomicValues_Test {
   @ValueSource(strings = { "abc" })
   void isExpectedAnAtomicBoolean_should_return_false_when_expected_is_not_an_AtomicBoolean(String expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", expected);
+    var dualValue = dualValue("", expected);
     // WHEN
     boolean isExpectedAnAtomicBoolean = dualValue.isExpectedAnAtomicBoolean();
     // THEN
     then(isExpectedAnAtomicBoolean).isFalse();
   }
-
 }

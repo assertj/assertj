@@ -16,13 +16,11 @@
 package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -30,14 +28,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class DualValue_isExpectedJavaType_Test {
 
-  private static final List<String> PATH = list("foo", "bar");
-
   @ParameterizedTest(name = "type: {1}")
   @MethodSource("java_types")
   void isExpectedJavaType_should_return_true_when_expected_is_a_java_type(Object expected,
                                                                           @SuppressWarnings("unused") String type) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), expected);
+    var dualValue = dualValue(Pair.of(1, "a"), expected);
     // WHEN
     boolean isExpectedJavaType = dualValue.isExpectedJavaType();
     // THEN
@@ -51,7 +47,7 @@ class DualValue_isExpectedJavaType_Test {
   @Test
   void isExpectedJavaType_should_return_false_when_expected_is_not_a_java_type() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", Pair.of(1, "a"));
+    var dualValue = dualValue("", Pair.of(1, "a"));
     // WHEN
     boolean isExpectedJavaType = dualValue.isExpectedJavaType();
     // THEN
@@ -61,7 +57,7 @@ class DualValue_isExpectedJavaType_Test {
   @Test
   void isExpectedJavaType_should_return_false_when_expected_is_null() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", null);
+    var dualValue = dualValue("", null);
     // WHEN
     boolean isExpectedJavaType = dualValue.isExpectedJavaType();
     // THEN
