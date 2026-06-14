@@ -1,0 +1,57 @@
+/*
+ * Copyright 2012-2026 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.assertj.tests.core.api.recursive.assertion;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.IterableAssertionPolicy.ELEMENTS_ONLY;
+import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.IterableAssertionPolicy.ITERABLE_OBJECT_ONLY;
+
+import org.assertj.core.api.RecursiveAssertionAssert;
+import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
+import org.junit.jupiter.api.Test;
+
+class RecursiveAssertionAssert_withIterablePolicy_Test {
+
+  @Test
+  void should_use_given_IterableAssertionPolicy() {
+    // GIVEN
+    Object object = "foo";
+    RecursiveAssertionConfiguration.IterableAssertionPolicy iterableAssertionPolicy = ITERABLE_OBJECT_ONLY;
+    // WHEN
+    RecursiveAssertionAssert recursiveAssertionAssert = assertThat(object).usingRecursiveAssertion()
+                                                                          .withIterableAssertionPolicy(iterableAssertionPolicy);
+    // THEN
+    RecursiveAssertionConfiguration expectedConfig = RecursiveAssertionConfiguration.builder()
+                                                                                    .withIterableAssertionPolicy(iterableAssertionPolicy)
+                                                                                    .build();
+    then(recursiveAssertionAssert).hasFieldOrPropertyWithValue("recursiveAssertionConfiguration", expectedConfig);
+  }
+
+  @Test
+  void should_use_given_ELEMENTS_ONLY_IterableAssertionPolicy_by_default() {
+    // GIVEN
+    Object object = "foo";
+    // WHEN
+    RecursiveAssertionAssert recursiveAssertionAssert = assertThat(object).usingRecursiveAssertion();
+    // THEN
+    RecursiveAssertionConfiguration expectedConfig = RecursiveAssertionConfiguration.builder()
+                                                                                    .withIterableAssertionPolicy(ELEMENTS_ONLY)
+                                                                                    .build();
+    then(recursiveAssertionAssert).hasFieldOrPropertyWithValue("recursiveAssertionConfiguration", expectedConfig);
+  }
+
+}

@@ -18,7 +18,7 @@ package org.assertj.tests.core.api.recursive.assertion;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenNoException;
-import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_AND_ELEMENTS;
+import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.IterableAssertionPolicy.ITERABLE_OBJECT_AND_ELEMENTS;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_OBJECT_AND_ENTRIES;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.OptionalAssertionPolicy.OPTIONAL_OBJECT_AND_VALUE;
 import static org.assertj.core.util.Arrays.array;
@@ -54,7 +54,7 @@ class RecursiveAssertionAssert_hasNoNullFields_Test {
 
   Object objectGraphNoNulls() {
     Author root = (Author) objectGraphWithNullValue();
-    root.books.get(0).authors[1].books.get(1).authors[1].email = "k.beck@recursive.test";
+    root.books.getFirst().authors[1].books.get(1).authors[1].email = "k.beck@recursive.test";
     return root;
   }
 
@@ -96,13 +96,13 @@ class RecursiveAssertionAssert_hasNoNullFields_Test {
   }
 
   @SuppressWarnings("unused")
-  class OuterWithArray {
+  static class OuterWithArray {
     InnerWithArray inner = new InnerWithArray();
     byte[] arrayOuter = null;
   }
 
   @SuppressWarnings("unused")
-  class InnerWithArray {
+  static class InnerWithArray {
     byte[] array = null;
   }
 
@@ -112,7 +112,7 @@ class RecursiveAssertionAssert_hasNoNullFields_Test {
     Object testObject = new OuterWithArray();
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(testObject).usingRecursiveAssertion()
-                                                                            .withCollectionAssertionPolicy(COLLECTION_OBJECT_AND_ELEMENTS)
+                                                                            .withIterableAssertionPolicy(ITERABLE_OBJECT_AND_ELEMENTS)
                                                                             .hasNoNullFields());
     // THEN
     then(error).hasMessageContainingAll("arrayOuter", "inner.array");
@@ -122,13 +122,13 @@ class RecursiveAssertionAssert_hasNoNullFields_Test {
   }
 
   @SuppressWarnings("unused")
-  class OuterWithCollection {
+  static class OuterWithCollection {
     InnerWithCollection inner = new InnerWithCollection();
     Collection<String> collectionOuter = null;
   }
 
   @SuppressWarnings("unused")
-  class InnerWithCollection {
+  static class InnerWithCollection {
     Collection<String> collectionInner = null;
   }
 
@@ -138,20 +138,20 @@ class RecursiveAssertionAssert_hasNoNullFields_Test {
     Object testObject = new OuterWithCollection();
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(testObject).usingRecursiveAssertion()
-                                                                            .withCollectionAssertionPolicy(COLLECTION_OBJECT_AND_ELEMENTS)
+                                                                            .withIterableAssertionPolicy(ITERABLE_OBJECT_AND_ELEMENTS)
                                                                             .hasNoNullFields());
     // THEN
     then(error).hasMessageContainingAll("collectionOuter", "inner.collection");
   }
 
   @SuppressWarnings("unused")
-  class OuterWithMap {
+  static class OuterWithMap {
     InnerWithMap inner = new InnerWithMap();
     Map<String, String> mapOuter = null;
   }
 
   @SuppressWarnings("unused")
-  class InnerWithMap {
+  static class InnerWithMap {
     Map<String, String> mapInner = null;
   }
 
@@ -168,13 +168,13 @@ class RecursiveAssertionAssert_hasNoNullFields_Test {
   }
 
   @SuppressWarnings("unused")
-  class OuterWithOptional {
+  static class OuterWithOptional {
     InnerWithOptional inner = new InnerWithOptional();
     Optional<String> optionalOuter = null;
   }
 
   @SuppressWarnings("unused")
-  class InnerWithOptional {
+  static class InnerWithOptional {
     Optional<String> optionalInner = null;
   }
 

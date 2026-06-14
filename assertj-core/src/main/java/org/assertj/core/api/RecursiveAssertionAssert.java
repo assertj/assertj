@@ -62,7 +62,7 @@ public class RecursiveAssertionAssert extends AbstractAssert<RecursiveAssertionA
    *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Map} values but not the map itself or its keys</li>
    *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Optional} and primitive optional values</li>
    * </ul>
-   * <p>You can change how the recursive assertion deals with arrays, collections, maps and optionals, see:</p>
+   * <p>You can change how the recursive assertion deals with arrays, iterables/collections, maps and optionals, see:</p>
    * <ul>
    *   <li>{@link RecursiveAssertionAssert#withCollectionAssertionPolicy(RecursiveAssertionConfiguration.CollectionAssertionPolicy)} for collections and arrays</li>
    *   <li>{@link RecursiveAssertionAssert#withMapAssertionPolicy(RecursiveAssertionConfiguration.MapAssertionPolicy)} for maps</li>
@@ -368,6 +368,22 @@ public class RecursiveAssertionAssert extends AbstractAssert<RecursiveAssertionA
   }
 
   /**
+   * Makes the recursive assertion to use the specified {@link RecursiveAssertionConfiguration.IterableAssertionPolicy}.
+   * <p>
+   * See {@link RecursiveAssertionConfiguration.IterableAssertionPolicy} for the different possible policies, by default
+   * {@link RecursiveAssertionConfiguration.IterableAssertionPolicy#ELEMENTS_ONLY} is used.
+   *
+   * @param iterableAssertionPolicy the {@link RecursiveAssertionConfiguration.IterableAssertionPolicy} to use.
+   * @return this {@link RecursiveAssertionAssert} to chain other methods.
+   */
+  public RecursiveAssertionAssert withIterableAssertionPolicy(RecursiveAssertionConfiguration.IterableAssertionPolicy iterableAssertionPolicy) {
+    recursiveAssertionConfiguration.setIterableAssertionPolicy(iterableAssertionPolicy);
+    return this;
+  }
+
+  /**
+   *
+   * <p>
    * Makes the recursive assertion to use the specified {@link RecursiveAssertionConfiguration.CollectionAssertionPolicy}.
    * <p>
    * See {@link RecursiveAssertionConfiguration.CollectionAssertionPolicy} for the different possible policies, by default
@@ -375,7 +391,9 @@ public class RecursiveAssertionAssert extends AbstractAssert<RecursiveAssertionA
    *
    * @param collectionAssertionPolicy the {@link RecursiveAssertionConfiguration.CollectionAssertionPolicy} to use.
    * @return this {@link RecursiveAssertionAssert} to chain other methods.
+   * @deprecated use {@link #withIterableAssertionPolicy(RecursiveAssertionConfiguration.IterableAssertionPolicy)} instead.
    */
+  @Deprecated
   public RecursiveAssertionAssert withCollectionAssertionPolicy(RecursiveAssertionConfiguration.CollectionAssertionPolicy collectionAssertionPolicy) {
     recursiveAssertionConfiguration.setCollectionAssertionPolicy(collectionAssertionPolicy);
     return this;
