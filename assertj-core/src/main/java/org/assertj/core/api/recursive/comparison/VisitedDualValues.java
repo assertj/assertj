@@ -81,5 +81,6 @@ class VisitedDualValues {
     public String toString() {
       return "VisitedDualValue[dualValue=%s, comparisonDifferences=%s]".formatted(this.dualValue, this.comparisonDifferences);
     }
+
   }
 }

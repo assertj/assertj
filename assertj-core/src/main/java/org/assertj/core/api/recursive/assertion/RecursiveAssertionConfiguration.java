@@ -452,8 +452,8 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
     }
 
     /**
-     * <p>Choose whether or not, while recursively applying a {@link Predicate} to an object tree, the recursion will dive into 
-     * types defined in the Java Class Library. That is to say, whether or not to recurse into objects whose classes are 
+     * <p>Choose whether or not, while recursively applying a {@link Predicate} to an object tree, the recursion will dive into
+     * types defined in the Java Class Library. That is to say, whether or not to recurse into objects whose classes are
      * declared in a package starting with java.* or javax.* .</p>
      * <p>Consider the following example:</p>
      * <pre><code style='java'> class Example {
@@ -463,11 +463,11 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
      * assertThat(new Example()).usingRecursiveAssertion(...).allFieldsSatisfy(o -> myPredicate(o)); </code></pre>
      *
      * <p>With no recursion into Java Class Library types, <code>myPredicate()</code> is applied to the field <code>s</code>
-     * but not to the internal fields of {@link String}. With recursion into Java standard types active, the internal 
+     * but not to the internal fields of {@link String}. With recursion into Java standard types active, the internal
      * fields of String will be examined as well.</p>
-     * <p>By default, recursion into Java Class Library types is <em>disabled</em>. 
+     * <p>By default, recursion into Java Class Library types is <em>disabled</em>.
      *
-     * @param recursionIntoJavaClassLibraryTypes <code>true</code> to enable recursion into Java Class Library types, <code>false</code> to disable it. Defaults to <code>false</code>.  
+     * @param recursionIntoJavaClassLibraryTypes <code>true</code> to enable recursion into Java Class Library types, <code>false</code> to disable it. Defaults to <code>false</code>.
      * @return This builder.
      */
     public Builder withRecursionIntoJavaClassLibraryTypes(final boolean recursionIntoJavaClassLibraryTypes) {
@@ -518,7 +518,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
     }
 
     /**
-     * <p>Selects the {@link IterableAssertionPolicy} to use for recursive application of a {@link Predicate} to an object tree. 
+     * <p>Selects the {@link IterableAssertionPolicy} to use for recursive application of a {@link Predicate} to an object tree.
      * If not set, defaults to {@link IterableAssertionPolicy#ELEMENTS_ONLY}.</p>
      * <p>Note that for the purposes of recursive asserting, an array counts as an iterable, so this policy is applied to
      * arrays as well as children of {@link Iterable}.
@@ -532,7 +532,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
     }
 
     /**
-     * <p>Selects the {@link MapAssertionPolicy} to use for recursive application of a {@link Predicate} to an object tree. 
+     * <p>Selects the {@link MapAssertionPolicy} to use for recursive application of a {@link Predicate} to an object tree.
      * If not set, defaults to {@link MapAssertionPolicy#MAP_VALUES_ONLY}.</p>
      *
      * @param policy The policy to use for maps in recursive asserting.
@@ -561,7 +561,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
      * Defines how objects are introspected in the recursive assertion.
      * <p>
      * Default to {@link DefaultRecursiveAssertionIntrospectionStrategy} that introspects all fields (including inherited ones).
-     * 
+     *
      * @param introspectionStrategy the {@link RecursiveAssertionIntrospectionStrategy} to use
      * @return This builder.
      */
@@ -577,6 +577,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
 
   /**
    * Possible policies to use regarding iterables (including arrays) when recursively asserting over the fields of an object tree.
+   *
    * @author bzt
    */
   public enum IterableAssertionPolicy {
@@ -594,7 +595,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
      *
      * assertThat(parent).usingRecursiveAssertion()
      *                   .allFieldsSatisfy(field -> myPredicate(field));</code></pre>
-     *
+     * <p>
      * With this policy, <code>myPredicate(field)</code> is applied to the two strings {@code "Hello"} and {@code "Salut"} but
      * not to the {@code greetings} field.
      */
@@ -614,7 +615,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
      *
      * assertThat(parent).usingRecursiveAssertion()
      *                   .allFieldsSatisfy(field -> myPredicate(field));</code></pre>
-     *
+     * <p>
      * With this policy, <code>myPredicate(field)</code> is applied to the {@code greetings} ArrayList field
      * but not to the two strings {@code "Hello"} and {@code "Salut"}.
      */
@@ -634,7 +635,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
      *
      * assertThat(parent).usingRecursiveAssertion()
      *                   .allFieldsSatisfy(field -> myPredicate(field));</code></pre>
-     *
+     * <p>
      * With this policy, <code>myPredicate(field)</code> is applied to the {@code greetings} ArrayList field and
      * to the two strings {@code "Hello"} and {@code "Salut"}.
      */
@@ -643,6 +644,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
 
   /**
    * Possible policies to use regarding maps when recursively asserting over the fields of an object tree.
+   *
    * @author bzt
    */
   public enum MapAssertionPolicy {
@@ -660,7 +662,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
      *
      * assertThat(parent).usingRecursiveAssertion()
      *                   .allFieldsSatisfy(field -> myPredicate(field)); </code></pre>
-     *
+     * <p>
      * With this policy, <code>myPredicate(field)</code> is applied to the {@code greetings} field
      * but not to the objects contained in the {@code greetings} map entries.
      */
@@ -679,7 +681,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
      *
      * assertThat(parent).usingRecursiveAssertion()
      *                   .allFieldsSatisfy(field -> myPredicate(field)); </code></pre>
-     *
+     * <p>
      * With this policy, <code>myPredicate(field)</code> is applied to the {@code greetings} map values {@code "Hi"}
      * and {@code "Salut"} but not to the {@code greetings} field itself or its keys.
      */
@@ -699,7 +701,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
      *
      * assertThat(parent).usingRecursiveAssertion()
      *                   .allFieldsSatisfy(field -> myPredicate(field)); </code></pre>
-     *
+     * <p>
      * With this policy, <code>myPredicate(field)</code> is applied to the {@code greetings} field and also to
      * the keys and values of the {@code greetings} map: {@code "english", "Hi", "french"} and {@code "Salut"}.
      */
@@ -722,7 +724,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
      *
      * assertThat(parent).usingRecursiveAssertion()
      *                   .allFieldsSatisfy(field -> myPredicate(field));</code></pre>
-     *
+     * <p>
      * With this policy, <code>myPredicate(field)</code> is applied to the optional value "Hi" but not to the {@code greeting} Optional field.
      */
     OPTIONAL_VALUE_ONLY,
@@ -739,7 +741,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
      *
      * assertThat(parent).usingRecursiveAssertion()
      *                   .allFieldsSatisfy(field -> myPredicate(field));</code></pre>
-     *
+     * <p>
      * With this policy, <code>myPredicate(field)</code> is applied to the {@code greeting} Optional field but not to the optional value "Hi".
      */
     OPTIONAL_OBJECT_ONLY,
@@ -758,7 +760,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
      *
      * assertThat(parent).usingRecursiveAssertion()
      *                   .allFieldsSatisfy(field -> myPredicate(field));</code></pre>
-     *
+     * <p>
      * With this policy, <code>myPredicate(field)</code> is applied to the {@code greeting} Optional field and its value "Hi".
      */
     OPTIONAL_OBJECT_AND_VALUE
