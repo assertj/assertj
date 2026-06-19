@@ -150,6 +150,11 @@
       <plugins>
         <plugin>
           <groupId>com.arcmutate</groupId>
+          <artifactId>pitest-git-maven-plugin</artifactId>
+          <version>${arcmutate-pitest.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>com.arcmutate</groupId>
           <artifactId>pitest-github-maven-plugin</artifactId>
           <version>${arcmutate-pitest.version}</version>
           <configuration>
@@ -330,6 +335,28 @@ limitations under the License.
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>flatten-maven-plugin</artifactId>
           <version>${flatten-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.pitest</groupId>
+          <artifactId>pitest-maven</artifactId>
+          <version>1.25.3</version>
+          <configuration>
+            <features>
+              <feature>+auto_threads</feature>
+            </features>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.arcmutate</groupId>
+              <artifactId>pitest-git-plugin</artifactId>
+              <version>${arcmutate-pitest.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.pitest</groupId>
+              <artifactId>pitest-junit5-plugin</artifactId>
+              <version>1.2.3</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>

@@ -109,4 +109,16 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <configuration combine.children="append">
+          <crossModule>true</crossModule>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>

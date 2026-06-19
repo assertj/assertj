@@ -134,17 +134,6 @@
           </execution>
         </executions>
       </plugin>
-      <!-- generate jacoco report -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <!-- exclude deprecated classes -->
-            <exclude>org/assertj/guava/data/MapEntry*</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -185,6 +174,16 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- exclude deprecated classes -->
+            <exclude>org/assertj/guava/data/MapEntry*</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.sonatype.central</groupId>
