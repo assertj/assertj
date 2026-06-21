@@ -32,9 +32,9 @@ public class TableShouldContainCell extends BasicErrorMessageFactory {
   /// @param expectedValue the expected value of the cell.
   /// @param actualValue the expected actual value of the cell.
   ///
-  /// @param R the type of the table row keys
-  /// @param C the type of the table column keys
-  /// @param V the type of the mapped values
+  /// @param <R> the type of the table row keys
+  /// @param <C> the type of the table column keys
+  /// @param <V> the type of the mapped values
   /// @return the created `ErrorMessageFactory`.
   public static <R, C, V> ErrorMessageFactory tableShouldContainCell(Table<R, C, V> actual, R row, C column, V expectedValue,
                                                                      V actualValue) {

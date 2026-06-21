@@ -34,8 +34,8 @@ public final class MapEntry<K, V> {
 
   /// Creates a new [MapEntry].
   ///
-  /// @param K key type
-  /// @param V value type
+  /// @param <K> key type
+  /// @param <V> value type
   /// @param key the key of the entry to create.
   /// @param value the value of the entry to create.
   /// @return the created `MapEntry`.

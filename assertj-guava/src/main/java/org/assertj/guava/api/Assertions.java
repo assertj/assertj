@@ -87,8 +87,8 @@ public class Assertions implements InstanceOfAssertFactories {
   /// assertThat(actual).contains(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Tim Duncan"));
   /// ```
   ///
-  /// @param K the type of the key of this entry.
-  /// @param V the type of the value of this entry.
+  /// @param <K> the type of the key of this entry.
+  /// @param <V> the type of the value of this entry.
   /// @param key the key of the entry to create.
   /// @param value the value of the entry to create.
   ///
