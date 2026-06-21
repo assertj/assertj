@@ -30,7 +30,7 @@ import com.google.common.collect.Multiset;
 ///
 /// To create an instance of this class, invoke `[Assertions#assertThat(Multiset)]`
 ///
-/// @param T the type of elements contained in the tested Multiset value
+/// @param <T> the type of elements contained in the tested Multiset value
 ///
 /// @author Max Daniline
 public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>, Multiset<? extends T>, T, ObjectAssert<T>> {

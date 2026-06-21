@@ -38,8 +38,8 @@ import com.google.common.collect.RangeMap;
 ///
 /// To create an instance of this class, invoke `[org.assertj.guava.api.Assertions#assertThat(com.google.common.collect.RangeMap)]`
 ///
-/// @param K the type of keys of the tested RangeMap value
-/// @param V the type of values of the tested RangeMap value
+/// @param <K> the type of keys of the tested RangeMap value
+/// @param <V> the type of values of the tested RangeMap value
 /// @author Marcin Kwaczyński
 public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<RangeMapAssert<K, V>, RangeMap<K, V>> {
 

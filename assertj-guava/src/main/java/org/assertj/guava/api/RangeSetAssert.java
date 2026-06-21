@@ -45,7 +45,7 @@ import com.google.common.collect.RangeSet;
 ///
 /// To create an instance of this class, invoke `[Assertions#assertThat(RangeSet)]`.
 ///
-/// @param T the type of the tested RangeSet elements
+/// @param <T> the type of the tested RangeSet elements
 /// @author Ilya Koshaleu
 public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<RangeSetAssert<T>, RangeSet<T>> {
 

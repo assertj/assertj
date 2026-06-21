@@ -30,7 +30,7 @@ import com.google.common.base.Optional;
 ///
 /// To create an instance of this class, invoke `[Assertions#assertThat(Optional)]`
 ///
-/// @param T the type of elements of the tested Optional value
+/// @param <T> the type of elements of the tested Optional value
 ///
 /// @author Kornel Kiełczewski
 public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optional<T>> {

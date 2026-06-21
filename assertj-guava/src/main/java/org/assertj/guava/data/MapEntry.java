@@ -22,8 +22,8 @@ import static org.assertj.core.util.Strings.quote;
 
 /// This is generic version of [org.assertj.core.data.MapEntry]
 ///
-/// @param K key type
-/// @param V value type
+/// @param <K> key type
+/// @param <V> value type
 ///
 /// @deprecated use [org.assertj.core.data.MapEntry][org.assertj.core.data.MapEntry] instead.
 @Deprecated
