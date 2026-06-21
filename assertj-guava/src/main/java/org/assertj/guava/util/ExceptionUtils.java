@@ -20,7 +20,7 @@ import static java.lang.String.format;
 public class ExceptionUtils {
 
   /// Throws a [IllegalArgumentException] if given condition is true with message formatted with given arguments
-  /// using [String#format(String, Object)].
+  /// using [String#format(String, Object...)].
   ///
   /// @param condition condition that will trigger the [IllegalArgumentException] if true
   /// @param exceptionMessage message set in thrown IllegalArgumentException
