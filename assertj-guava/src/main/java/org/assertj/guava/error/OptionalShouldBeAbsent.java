@@ -20,12 +20,10 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 import com.google.common.base.Optional;
 
-/**
- * Creates an error message indicating that an Optional which should be absent is actually present
- * 
- * @author Kornel Kiełczewski
- * @author Joel Costigliola
- */
+/// Creates an error message indicating that an Optional which should be absent is actually present
+///
+/// @author Kornel Kiełczewski
+/// @author Joel Costigliola
 public final class OptionalShouldBeAbsent extends BasicErrorMessageFactory {
 
   public static <T> ErrorMessageFactory shouldBeAbsent(final Optional<T> actual) {

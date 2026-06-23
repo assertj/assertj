@@ -26,151 +26,125 @@ import com.google.common.collect.RangeSet;
 import com.google.common.collect.Table;
 import com.google.common.io.ByteSource;
 
-/**
- * {@link InstanceOfAssertFactory} instances for Guava types.
- *
- * @author Stefano Cordio
- * @since 3.3.0
- * @see org.assertj.core.api.InstanceOfAssertFactories
- */
+/// [InstanceOfAssertFactory] instances for Guava types.
+///
+/// @author Stefano Cordio
+/// @since 3.3.0
+/// @see org.assertj.core.api.InstanceOfAssertFactories
 public interface InstanceOfAssertFactories {
 
-  /**
-   * {@link InstanceOfAssertFactory} for a {@link ByteSource}.
-   */
+  /// [InstanceOfAssertFactory] for a [ByteSource].
   InstanceOfAssertFactory<ByteSource, ByteSourceAssert> BYTE_SOURCE = new InstanceOfAssertFactory<>(ByteSource.class,
                                                                                                     Assertions::assertThat);
 
-  /**
-   * {@link InstanceOfAssertFactory} for a {@link Multimap}, assuming {@code Object} as key and value types.
-   *
-   * @see #multimap(Class, Class)
-   */
+  /// [InstanceOfAssertFactory] for a [Multimap], assuming `Object` as key and value types.
+  ///
+  /// @see #multimap(Class, Class)
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
   InstanceOfAssertFactory<Multimap, MultimapAssert<Object, Object>> MULTIMAP = multimap(Object.class, Object.class);
 
-  /**
-   * {@link InstanceOfAssertFactory} for a {@link Multimap}.
-   *
-   * @param <K>       the {@code Multimap} key type.
-   * @param <V>       the {@code Multimap} value type.
-   * @param keyType   the key type instance.
-   * @param valueType the value type instance.
-   * @return the factory instance.
-   *
-   * @see #MULTIMAP
-   */
+  /// [InstanceOfAssertFactory] for a [Multimap].
+  ///
+  /// @param K       the `Multimap` key type.
+  /// @param V       the `Multimap` value type.
+  /// @param keyType   the key type instance.
+  /// @param valueType the value type instance.
+  /// @return the factory instance.
+  ///
+  /// @see #MULTIMAP
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <K, V> InstanceOfAssertFactory<Multimap, MultimapAssert<K, V>> multimap(Class<K> keyType, Class<V> valueType) {
     return new InstanceOfAssertFactory<>(Multimap.class, Assertions::<K, V> assertThat);
   }
 
-  /**
-   * {@link InstanceOfAssertFactory} for an {@link Optional}, assuming {@code Object} as value type.
-   *
-   * @see #optional(Class)
-   */
+  /// [InstanceOfAssertFactory] for an [Optional], assuming `Object` as value type.
+  ///
+  /// @see #optional(Class)
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
   InstanceOfAssertFactory<Optional, OptionalAssert<Object>> OPTIONAL = optional(Object.class);
 
-  /**
-   * {@link InstanceOfAssertFactory} for an {@link Optional}.
-   *
-   * @param <VALUE>    the {@code Optional} value type.
-   * @param resultType the value type instance.
-   * @return the factory instance.
-   *
-   * @see #OPTIONAL
-   */
+  /// [InstanceOfAssertFactory] for an [Optional].
+  ///
+  /// @param VALUE    the `Optional` value type.
+  /// @param resultType the value type instance.
+  /// @return the factory instance.
+  ///
+  /// @see #OPTIONAL
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <VALUE> InstanceOfAssertFactory<Optional, OptionalAssert<VALUE>> optional(Class<VALUE> resultType) {
     return new InstanceOfAssertFactory<>(Optional.class, Assertions::<VALUE> assertThat);
   }
 
-  /**
-   * {@link InstanceOfAssertFactory} for a {@link Range}.
-   *
-   * @param <C>            the {@code Comparable} type.
-   * @param comparableType the comparable type instance.
-   * @return the factory instance.
-   */
+  /// [InstanceOfAssertFactory] for a [Range].
+  ///
+  /// @param C            the `Comparable` type.
+  /// @param comparableType the comparable type instance.
+  /// @return the factory instance.
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <C extends Comparable<C>> InstanceOfAssertFactory<Range, RangeAssert<C>> range(Class<C> comparableType) {
     return new InstanceOfAssertFactory<>(Range.class, Assertions::<C> assertThat);
   }
 
-  /**
-   * {@link InstanceOfAssertFactory} for a {@link RangeMap}.
-   *
-   * @param <K>       the {@code RangeMap} key type.
-   * @param <V>       the {@code RangeMap} value type.
-   * @param keyType   the key type instance.
-   * @param valueType the value type instance.
-   * @return the factory instance.
-   */
+  /// [InstanceOfAssertFactory] for a [RangeMap].
+  ///
+  /// @param K       the `RangeMap` key type.
+  /// @param V       the `RangeMap` value type.
+  /// @param keyType   the key type instance.
+  /// @param valueType the value type instance.
+  /// @return the factory instance.
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <K extends Comparable<K>, V> InstanceOfAssertFactory<RangeMap, RangeMapAssert<K, V>> rangeMap(Class<K> keyType,
                                                                                                        Class<V> valueType) {
     return new InstanceOfAssertFactory<>(RangeMap.class, Assertions::<K, V> assertThat);
   }
 
-  /**
-   * {@link InstanceOfAssertFactory} for a {@link RangeSet}.
-   *
-   * @param comparableType the comparable type instance.
-   * @param <T> the {@code Comparable} type.
-   * @return the factory instance
-   */
+  /// [InstanceOfAssertFactory] for a [RangeSet].
+  ///
+  /// @param comparableType the comparable type instance.
+  /// @param T the `Comparable` type.
+  /// @return the factory instance
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <T extends Comparable<T>> InstanceOfAssertFactory<RangeSet, RangeSetAssert<T>> rangeSet(Class<T> comparableType) {
     return new InstanceOfAssertFactory<>(RangeSet.class, Assertions::<T> assertThat);
   }
 
-  /**
-   * {@link InstanceOfAssertFactory} for a {@link Table}, assuming {@code Object} as row key type, column key type and
-   * value type.
-   *
-   * @see #table(Class, Class, Class)
-   */
+  /// [InstanceOfAssertFactory] for a [Table], assuming `Object` as row key type, column key type and
+  /// value type.
+  ///
+  /// @see #table(Class, Class, Class)
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
   InstanceOfAssertFactory<Table, TableAssert<Object, Object, Object>> TABLE = table(Object.class, Object.class, Object.class);
 
-  /**
-   * {@link InstanceOfAssertFactory} for a {@link Table}.
-   *
-   * @param <R>           the {@code Table} row key type.
-   * @param <C>           the {@code Table} column key type.
-   * @param <V>           the {@code Table} value type.
-   * @param rowKeyType    the row key type instance.
-   * @param columnKeyType the column key type instance.
-   * @param valueType     the value type instance.
-   * @return the factory instance.
-   *
-   * @see #TABLE
-   */
+  /// [InstanceOfAssertFactory] for a [Table].
+  ///
+  /// @param R           the `Table` row key type.
+  /// @param C           the `Table` column key type.
+  /// @param V           the `Table` value type.
+  /// @param rowKeyType    the row key type instance.
+  /// @param columnKeyType the column key type instance.
+  /// @param valueType     the value type instance.
+  /// @return the factory instance.
+  ///
+  /// @see #TABLE
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <R, C, V> InstanceOfAssertFactory<Table, TableAssert<R, C, V>> table(Class<R> rowKeyType, Class<C> columnKeyType,
                                                                               Class<V> valueType) {
     return new InstanceOfAssertFactory<>(Table.class, Assertions::<R, C, V> assertThat);
   }
 
-  /**
-   * {@link InstanceOfAssertFactory} for a {@link Multiset}, assuming {@code Object} as element type.
-   *
-   * @see #multiset(Class)
-   */
+  /// [InstanceOfAssertFactory] for a [Multiset], assuming `Object` as element type.
+  ///
+  /// @see #multiset(Class)
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
   InstanceOfAssertFactory<Multiset, MultisetAssert<Object>> MULTISET = multiset(Object.class);
 
-  /**
-   * {@link InstanceOfAssertFactory} for a {@link Multiset}.
-   *
-   * @param <ELEMENT>   the {@code Multiset} element type.
-   * @param elementType the element type instance.
-   * @return the factory instance.
-   *
-   * @see #MULTISET
-   */
+  /// [InstanceOfAssertFactory] for a [Multiset].
+  ///
+  /// @param ELEMENT   the `Multiset` element type.
+  /// @param elementType the element type instance.
+  /// @return the factory instance.
+  ///
+  /// @see #MULTISET
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <ELEMENT> InstanceOfAssertFactory<Multiset, MultisetAssert<ELEMENT>> multiset(Class<ELEMENT> elementType) {
     return new InstanceOfAssertFactory<>(Multiset.class, Assertions::<ELEMENT> assertThat);

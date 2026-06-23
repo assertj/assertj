@@ -20,20 +20,16 @@ import static java.lang.String.format;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
-/**
- * Creates an error message indicating that an assertion that verifies that a value have certain size failed.
- * 
- * @author Joel Costigliola
- */
+/// Creates an error message indicating that an assertion that verifies that a value have certain size failed.
+///
+/// @author Joel Costigliola
 public class ShouldHaveSize extends BasicErrorMessageFactory {
 
-  /**
-   * Creates a new <code>{@link org.assertj.guava.error.ShouldHaveSize}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @param actualSize the size of {@code actual}.
-   * @param expectedSize the expected size.
-   * @return the created {@code ErrorMessageFactory}.
-   */
+  /// Creates a new `[org.assertj.guava.error.ShouldHaveSize]`.
+  /// @param actual the actual value in the failed assertion.
+  /// @param actualSize the size of `actual`.
+  /// @param expectedSize the expected size.
+  /// @return the created `ErrorMessageFactory`.
   public static ErrorMessageFactory shouldHaveSize(Object actual, long actualSize, long expectedSize) {
     return new ShouldHaveSize(actual, actualSize, expectedSize);
   }
