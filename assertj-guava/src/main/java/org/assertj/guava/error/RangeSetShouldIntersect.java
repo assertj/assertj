@@ -18,11 +18,10 @@ package org.assertj.guava.error;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
-import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
 
 /// Creates an error message indicating that the given [RangeSet] does not intersect
-/// either another one [RangeSet] or some set of [Range].
+/// either another one [RangeSet] or some set of [`Range`][com.google.common.collect.Range].
 ///
 /// @author Ilya Koshaleu
 public class RangeSetShouldIntersect extends BasicErrorMessageFactory {
