@@ -34,7 +34,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
     super(actual, ByteSourceAssert.class);
   }
 
-  /// Verifies that the actual [ByteSource] has the same content as the provided one.<br>
+  /// Verifies that the actual [ByteSource] has the same content as the provided one.
   ///
   /// Example :
   /// ```java

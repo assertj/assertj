@@ -54,7 +54,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     return actual;
   }
 
-  /// Verifies that the actual [Multimap] contains the given keys.<br>
+  /// Verifies that the actual [Multimap] contains the given keys.
   ///
   /// Example :
   ///
@@ -92,7 +92,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     return myself;
   }
 
-  /// Verifies that the actual [Multimap] contains the given entries.<br>
+  /// Verifies that the actual [Multimap] contains the given entries.
   ///
   /// Example :
   ///
@@ -132,7 +132,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     return myself;
   }
 
-  /// Verifies that the actual [Multimap] contains the given values for any key.<br>
+  /// Verifies that the actual [Multimap] contains the given values for any key.
   ///
   /// Example :
   ///
@@ -238,7 +238,8 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     throw assertionError(shouldHaveSize(actual, sizeOfActual, expectedSize));
   }
 
-  /// Verifies that the actual [Multimap] has the same entries as the given one.<br>
+  /// Verifies that the actual [Multimap] has the same entries as the given one.
+  ///
   /// It allows to compare two multimaps having the same content but who are not equal because being of different types
   /// like [`SetMultimap`][com.google.common.collect.SetMultimap]
   /// and [`ListMultimap`][com.google.common.collect.ListMultimap].

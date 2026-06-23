@@ -52,7 +52,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return actual;
   }
 
-  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given keys.<br>
+  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given keys.
   ///
   /// Example :
   ///
@@ -96,7 +96,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
 
   /// @deprecated use [#contains(MapEntry...)] instead (same method but using [org.assertj.core.data.MapEntry][MapEntry] in place of [org.assertj.guava.data.MapEntry].
   ///
-  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given entries.<br>
+  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given entries.
   ///
   /// Example :
   ///
@@ -141,7 +141,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given entries.<br>
+  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given entries.
   ///
   /// Example :
   ///
@@ -185,7 +185,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given values.<br>
+  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given values.
   ///
   /// Example :
   ///

@@ -47,7 +47,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     super(actual, RangeAssert.class);
   }
 
-  /// Verifies that the actual [com.google.common.collect.Range] contains the given values.<br>
+  /// Verifies that the actual [com.google.common.collect.Range] contains the given values.
   ///
   /// Example :
   ///
@@ -82,7 +82,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.Range] does not contain the given values.<br>
+  /// Verifies that the actual [com.google.common.collect.Range] does not contain the given values.
   ///
   /// Example :
   ///
@@ -112,7 +112,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.Range] lower bound is closed.<br>
+  /// Verifies that the actual [com.google.common.collect.Range] lower bound is closed.
   ///
   /// Example :
   ///
@@ -135,7 +135,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.Range] upper bound is closed.<br>
+  /// Verifies that the actual [com.google.common.collect.Range] upper bound is closed.
   ///
   /// Example :
   ///
@@ -158,7 +158,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.Range] lower endpoint is equal to the given value.<br>
+  /// Verifies that the actual [com.google.common.collect.Range] lower endpoint is equal to the given value.
   ///
   /// Example :
   ///
@@ -183,7 +183,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.Range] lower bound is opened.<br>
+  /// Verifies that the actual [com.google.common.collect.Range] lower bound is opened.
   ///
   /// Example :
   ///
@@ -206,7 +206,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.Range] upper bound is opened.<br>
+  /// Verifies that the actual [com.google.common.collect.Range] upper bound is opened.
   ///
   /// Example :
   ///
@@ -229,7 +229,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.Range] upper endpoint is equal to the given value.<br>
+  /// Verifies that the actual [com.google.common.collect.Range] upper endpoint is equal to the given value.
   ///
   /// Example :
   ///
@@ -254,7 +254,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.Range] is empty.<br>
+  /// Verifies that the actual [com.google.common.collect.Range] is empty.
   ///
   /// Example :
   ///
@@ -277,7 +277,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.Range] is not empty.<br>
+  /// Verifies that the actual [com.google.common.collect.Range] is not empty.
   ///
   /// Example :
   ///

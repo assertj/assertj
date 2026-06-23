@@ -44,7 +44,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
     return actual;
   }
 
-  /// Verifies that the actual [Optional] contains the given value.<br>
+  /// Verifies that the actual [Optional] contains the given value.
   ///
   /// Example :
   ///
@@ -71,7 +71,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
     return this;
   }
 
-  /// Verifies that the actual [Optional] contained instance is absent/null (ie. not [Optional#isPresent()]).<br>
+  /// Verifies that the actual [Optional] contained instance is absent/null (ie. not [Optional#isPresent()]).
   ///
   /// Example :
   ///
@@ -93,7 +93,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
     return this;
   }
 
-  /// Verifies that the actual [Optional] contains a (non-null) instance.<br>
+  /// Verifies that the actual [Optional] contains a (non-null) instance.
   ///
   /// Example :
   ///
