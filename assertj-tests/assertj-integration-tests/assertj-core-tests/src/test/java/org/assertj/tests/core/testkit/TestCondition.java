@@ -17,14 +17,12 @@ package org.assertj.tests.core.testkit;
 
 import org.assertj.core.api.Condition;
 
-/**
- * A <code>{@link Condition}</code> for testing.
- *
- * @param <T> the type of object this condition accepts.
- * @author Yvonne Wang
- * @author Alex Ruiz
- * @author Mikhail Mazursky
- */
+/// A [Condition] for testing.
+///
+/// @param T the type of object this condition accepts.
+/// @author Yvonne Wang
+/// @author Alex Ruiz
+/// @author Mikhail Mazursky
 public class TestCondition<T> extends Condition<T> {
 
   private boolean matches;

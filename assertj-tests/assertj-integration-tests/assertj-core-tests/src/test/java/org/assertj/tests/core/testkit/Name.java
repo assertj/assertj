@@ -20,10 +20,8 @@ import static java.util.Comparator.comparing;
 import java.util.Comparator;
 import java.util.Objects;
 
-/**
- * @author Yvonne Wang
- * @author Joel Costigliola
- */
+/// @author Yvonne Wang
+/// @author Joel Costigliola
 public class Name implements Comparable<Name> {
 
   public static final Comparator<Name> lastNameComparator = comparing(Name::getLast);

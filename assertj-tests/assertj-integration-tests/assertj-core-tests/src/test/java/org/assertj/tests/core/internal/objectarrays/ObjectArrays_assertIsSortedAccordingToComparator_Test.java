@@ -27,10 +27,8 @@ import java.util.Comparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Joel Costigliola
- * @author Mikhail Mazursky
- */
+/// @author Joel Costigliola
+/// @author Mikhail Mazursky
 class ObjectArrays_assertIsSortedAccordingToComparator_Test extends ObjectArraysBaseTest {
 
   private Comparator<String> byDescendingOrderComparator;

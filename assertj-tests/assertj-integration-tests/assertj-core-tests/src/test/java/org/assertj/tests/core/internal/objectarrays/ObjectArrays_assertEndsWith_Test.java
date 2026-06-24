@@ -27,11 +27,9 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- * @author Joel Costigliola
- * @author Florent Biville
- */
+/// @author Alex Ruiz
+/// @author Joel Costigliola
+/// @author Florent Biville
 class ObjectArrays_assertEndsWith_Test extends ObjectArraysBaseTest {
 
   @Test

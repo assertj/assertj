@@ -24,9 +24,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alexander Bischof
- */
+/// @author Alexander Bischof
 class Assertions_assertThat_with_URI_Test {
 
   private static URI uri;

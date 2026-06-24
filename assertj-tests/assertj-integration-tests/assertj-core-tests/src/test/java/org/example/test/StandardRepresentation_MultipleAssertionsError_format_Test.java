@@ -30,10 +30,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * this is not in a org.assertj package to avoid assertj packages in the stack trace that is handled specifically and
- * does not reflect real users code.
- */
+/// this is not in a org.assertj package to avoid assertj packages in the stack trace that is handled specifically and
+/// does not reflect real users code.
 class StandardRepresentation_MultipleAssertionsError_format_Test {
 
   private static final StandardRepresentation REPRESENTATION = new StandardRepresentation();

@@ -31,9 +31,7 @@ import org.junit.jupiter.api.Test;
 import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.RangeSet;
 
-/**
- * @author Ilya Koshaleu
- */
+/// @author Ilya Koshaleu
 class RangeSetAssert_containsAll_Test {
 
   @Test

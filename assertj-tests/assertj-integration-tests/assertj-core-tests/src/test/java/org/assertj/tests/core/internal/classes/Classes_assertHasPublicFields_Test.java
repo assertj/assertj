@@ -27,13 +27,9 @@ import org.assertj.tests.core.internal.ClassesBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for
- * <code>{@link org.assertj.core.internal.Classes#assertHasPublicFields(org.assertj.core.api.AssertionInfo, Class, String...)}</code>
- * .
- * 
- * @author William Delanoue
- */
+/// Tests for [org.assertj.core.internal.Classes#assertHasPublicFields(org.assertj.core.api.AssertionInfo, Class, String)].
+///
+/// @author William Delanoue
 class Classes_assertHasPublicFields_Test extends ClassesBaseTest {
 
   @BeforeEach

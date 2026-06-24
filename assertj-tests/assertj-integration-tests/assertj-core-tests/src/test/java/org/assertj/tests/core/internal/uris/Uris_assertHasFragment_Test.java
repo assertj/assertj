@@ -26,13 +26,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-/**
- * Tests for
- * <code>{@link org.assertj.core.internal.Uris#assertHasFragment(org.assertj.core.api.AssertionInfo, java.net.URI, String)}  </code>
- * .
- *
- * @author Alexander Bischof
- */
+/// Tests for [org.assertj.core.internal.Uris#assertHasFragment(org.assertj.core.api.AssertionInfo, java.net.URI, String)].
+///
+/// @author Alexander Bischof
 class Uris_assertHasFragment_Test extends UrisBaseTest {
 
   @ParameterizedTest

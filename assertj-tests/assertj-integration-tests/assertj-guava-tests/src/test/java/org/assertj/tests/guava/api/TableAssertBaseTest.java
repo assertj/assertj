@@ -20,9 +20,7 @@ import org.junit.jupiter.api.BeforeEach;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 
-/**
- * @author Jan Gorman
- */
+/// @author Jan Gorman
 public class TableAssertBaseTest {
 
   protected Table<Integer, Integer, String> actual;

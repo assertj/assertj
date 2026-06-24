@@ -30,10 +30,8 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class ObjectArrays_assertDoesNotContain_Test extends ObjectArraysBaseTest {
 
   @Test

@@ -30,23 +30,18 @@ import java.util.Set;
 
 import com.google.common.reflect.TypeResolver;
 
-/**
- * A Type canonizar that helps with the resolving of a {@link Type} so it can be compared to a similar one
- * considering generics.
- *
- * @author Filip Hrisafov
- * @author Clement Mathieu
- */
+/// A Type canonizar that helps with the resolving of a [Type] so it can be compared to a similar one
+/// considering generics.
+///
+/// @author Filip Hrisafov
+/// @author Clement Mathieu
 public class TypeCanonizer {
 
-  /**
-   * Returns a canonical form of {@code initialType} by replacing all {@link TypeVariable} by {@link Class}
-   * instances.
-   * <p>
-   * Such a canonical form allows to compare {@link ParameterizedType}s, {@link WildcardType}(s),
-   * {@link GenericArrayType}(s), {@link TypeVariable}(s).
-   * </p>
-   */
+  /// Returns a canonical form of `initialType` by replacing all [TypeVariable] by [Class]
+  /// instances.
+  ///
+  /// Such a canonical form allows to compare [ParameterizedType]s, [WildcardType](s),
+  /// [GenericArrayType](s), [TypeVariable](s).
   public static Type canonize(Type initialType) {
     if (doesNotNeedCanonization(initialType)) {
       return initialType;
@@ -71,22 +66,18 @@ public class TypeCanonizer {
              || type instanceof TypeVariable);
   }
 
-  /**
-   * @param type the type for which all type variables need to be extracted
-   * @return all {@code type}'s {@link TypeVariable}
-   */
+  /// @param type the type for which all type variables need to be extracted
+  /// @return all `type`'s [TypeVariable]
   private static Set<TypeVariable<?>> findAllTypeVariables(Type type) {
     Set<TypeVariable<?>> typeVariables = new LinkedHashSet<>();
     populateAllTypeVariables(typeVariables, type);
     return typeVariables;
   }
 
-  /**
-   * Adds all {@code type}'s {@link TypeVariable} to {@code typeVariables}
-   *
-   * @param typeVariables that need to be populated
-   * @param types         the types for which the {@link TypeVariable}(s) need to be extracted
-   */
+  /// Adds all `type`'s [TypeVariable] to `typeVariables`
+  ///
+  /// @param typeVariables that need to be populated
+  /// @param types the types for which the [TypeVariable](s) need to be extracted
   private static void populateAllTypeVariables(Set<TypeVariable<?>> typeVariables, Type... types) {
     for (Type type : types) {
       if (type instanceof ParameterizedType parameterizedType) {
@@ -102,15 +93,11 @@ public class TypeCanonizer {
     }
   }
 
-  /**
-   * Class that is used to supply replacement types for the canonization. The classes that are actually used have no
-   * meaning. Any random classes can be used to do the canonization. Only the order of the classes is important.
-   */
+  /// Class that is used to supply replacement types for the canonization. The classes that are actually used have no
+  /// meaning. Any random classes can be used to do the canonization. Only the order of the classes is important.
   private static class ReplacementClassSupplier {
 
-    /**
-     * Classes used as replacement types. The classes picked here are random classes, any class can be used.
-     */
+    /// Classes used as replacement types. The classes picked here are random classes, any class can be used.
     static List<Class<?>> REPLACEMENT_TYPES = List.of(String.class, Integer.class, Exception.class, InputStream.class,
                                                       System.class);
 
@@ -124,10 +111,8 @@ public class TypeCanonizer {
       this.classPool = new ArrayDeque<>(classPool);
     }
 
-    /**
-     * @return a class which has not yet been returned
-     * @throws IllegalStateException If the replacement class poll is exhausted
-     */
+    /// @return a class which has not yet been returned
+    /// @throws IllegalStateException If the replacement class poll is exhausted
     Class<?> get() {
       Class<?> clazz = classPool.poll();
       if (clazz == null) {

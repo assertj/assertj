@@ -26,11 +26,9 @@ import org.junit.jupiter.api.Test;
 
 import com.google.common.io.ByteSource;
 
-/**
- * Tests for <code>{@link ByteSource#isEmpty()}</code>.
- *
- * @author Andrew Gaul
- */
+/// Tests for [ByteSource#isEmpty()].
+///
+/// @author Andrew Gaul
 public class ByteSourceAssert_isEmpty_Test {
 
   @Test

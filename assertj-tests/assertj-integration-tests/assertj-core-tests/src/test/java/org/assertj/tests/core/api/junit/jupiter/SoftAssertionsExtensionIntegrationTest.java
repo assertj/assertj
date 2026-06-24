@@ -33,14 +33,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-/**
- * Integration tests for {@link SoftAssertionsExtension} with {@link SoftAssertions}.
- *
- * @author Sam Brannen
- * @since 3.13
- * @see BDDSoftAssertionsExtensionIntegrationTest
- * @see CustomSoftAssertionsExtensionIntegrationTest
- */
+/// Integration tests for [SoftAssertionsExtension] with [SoftAssertions].
+///
+/// @author Sam Brannen
+/// @since 3.13
+/// @see BDDSoftAssertionsExtensionIntegrationTest
+/// @see CustomSoftAssertionsExtensionIntegrationTest
 @DisplayName("JUnit Jupiter Soft Assertions extension integration tests (standard)")
 class SoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsExtensionIntegrationTests {
 

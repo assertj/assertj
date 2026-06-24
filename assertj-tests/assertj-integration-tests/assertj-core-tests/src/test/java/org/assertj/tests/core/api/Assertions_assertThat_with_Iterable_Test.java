@@ -22,10 +22,8 @@ import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.ObjectAssert;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class Assertions_assertThat_with_Iterable_Test {
 
   @Test

@@ -24,9 +24,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alexander Bischof
- */
+/// @author Alexander Bischof
 class Assertions_assertThat_with_OffsetTime_Test {
 
   private OffsetTime actual;

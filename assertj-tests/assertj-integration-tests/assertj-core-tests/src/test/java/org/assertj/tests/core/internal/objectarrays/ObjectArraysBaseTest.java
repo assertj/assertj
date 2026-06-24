@@ -32,20 +32,16 @@ import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
 import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.BeforeEach;
 
-/**
- * Base class for testing <code>{@link ObjectArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and
- * another with {@link ComparatorBasedComparisonStrategy}.
- *
- * @author Joel Costigliola
- * @author Mikhail Mazursky
- */
+/// Base class for testing [ObjectArrays], set up an instance with [StandardComparisonStrategy] and
+/// another with [ComparatorBasedComparisonStrategy].
+///
+/// @author Joel Costigliola
+/// @author Mikhail Mazursky
 public class ObjectArraysBaseTest {
 
   protected static final AssertionInfo INFO = TestData.someInfo();
 
-  /**
-   * is initialized with {@link #initActualArray()}
-   */
+  /// is initialized with [#initActualArray()]
   protected String[] actual;
   protected Failures failures;
   protected ObjectArrays arrays;

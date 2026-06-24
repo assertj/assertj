@@ -20,15 +20,11 @@ import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Int2DArrays;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Int2DArrays#assertNullOrEmpty(AssertionInfo, int[][])}</code>.
- *
- * @author Maciej Wajcht
- */
+/// Tests for [Int2DArrays#assertNullOrEmpty(AssertionInfo, int[].
+///
+/// @author Maciej Wajcht
 class Arrays2D_assertNullOrEmpty_Test extends Arrays2D_BaseTest {
 
   @Test

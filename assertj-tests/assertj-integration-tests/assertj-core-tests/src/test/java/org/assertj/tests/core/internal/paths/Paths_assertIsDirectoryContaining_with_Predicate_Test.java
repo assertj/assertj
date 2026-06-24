@@ -37,9 +37,7 @@ import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Valeriy Vyrva
- */
+/// @author Valeriy Vyrva
 class Paths_assertIsDirectoryContaining_with_Predicate_Test extends PathsBaseTest {
 
   @Test

@@ -24,10 +24,8 @@ import org.assertj.core.api.AbstractMapAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- * @author Nicolas François
- */
+/// @author Alex Ruiz
+/// @author Nicolas François
 class Assertions_assertThat_with_Map_Test {
 
   @Test

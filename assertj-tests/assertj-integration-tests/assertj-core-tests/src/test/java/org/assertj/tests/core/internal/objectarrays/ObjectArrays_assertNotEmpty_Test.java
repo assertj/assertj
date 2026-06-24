@@ -24,10 +24,8 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class ObjectArrays_assertNotEmpty_Test extends ObjectArraysBaseTest {
 
   @Test

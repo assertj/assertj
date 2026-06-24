@@ -27,16 +27,12 @@ import static org.assertj.tests.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
-import org.assertj.core.internal.ObjectArrays;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ObjectArrays#assertContainsSubsequence(AssertionInfo, Object[], Object[])}</code>.
- *
- * @author Marcin Mikosik
- */
+/// Tests for [ObjectArrays#assertContainsSubsequence(AssertionInfo, Object[].
+///
+/// @author Marcin Mikosik
 class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBaseTest {
 
   @Override

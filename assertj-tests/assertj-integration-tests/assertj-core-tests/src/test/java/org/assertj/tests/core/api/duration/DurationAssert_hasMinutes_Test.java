@@ -25,9 +25,7 @@ import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Filip Hrisafov
- */
+/// @author Filip Hrisafov
 class DurationAssert_hasMinutes_Test {
 
   @Test

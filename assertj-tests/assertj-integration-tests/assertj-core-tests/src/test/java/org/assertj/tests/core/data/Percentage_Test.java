@@ -27,11 +27,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
-/**
- * Tests for {@link Percentage}.
- *
- * @author Alexander Bischof
- */
+/// Tests for [Percentage].
+///
+/// @author Alexander Bischof
 class Percentage_Test {
 
   @Test

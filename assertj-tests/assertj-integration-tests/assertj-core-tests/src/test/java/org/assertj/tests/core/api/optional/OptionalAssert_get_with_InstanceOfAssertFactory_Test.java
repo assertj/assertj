@@ -29,16 +29,13 @@ import java.util.Optional;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractStringAssert;
-import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.OptionalAssert;
 import org.assertj.tests.core.testkit.NavigationMethodBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link OptionalAssert#get(InstanceOfAssertFactory)}</code>.
- *
- * @author Stefano Cordio
- */
+/// Tests for [OptionalAssert#get(InstanceOfAssertFactory)].
+///
+/// @author Stefano Cordio
 class OptionalAssert_get_with_InstanceOfAssertFactory_Test implements NavigationMethodBaseTest<OptionalAssert<String>> {
 
   private final Optional<String> optional = Optional.of("Frodo");

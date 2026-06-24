@@ -26,14 +26,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.parallel.Isolated;
 
-/**
- * An annotation for any test class that mutates the global configuration.
- *
- * <p>By using this annotation, any tests that mutate this configuration will have the configuration
- * reset to the default values after each test case runs.
- *
- * @author Ashley Scopes
- */
+/// An annotation for any test class that mutates the global configuration.
+///
+/// By using this annotation, any tests that mutate this configuration will have the configuration
+/// reset to the default values after each test case runs.
+///
+/// @author Ashley Scopes
 @ExtendWith(MutatesGlobalConfiguration.AssumptionMutatingExtension.class)
 @Isolated("Mutates global state")
 @Target(ElementType.TYPE)

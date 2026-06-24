@@ -22,9 +22,7 @@ import static org.mockito.Mockito.mock;
 import org.assertj.core.description.Description;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Yvonne Wang
- */
+/// @author Yvonne Wang
 class Description_toString_Test {
 
   @Test

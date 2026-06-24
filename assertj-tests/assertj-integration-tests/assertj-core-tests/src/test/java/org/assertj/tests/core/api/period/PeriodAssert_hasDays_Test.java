@@ -25,9 +25,7 @@ import java.time.Period;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Hayden Meloche
- */
+/// @author Hayden Meloche
 class PeriodAssert_hasDays_Test {
 
   @Test

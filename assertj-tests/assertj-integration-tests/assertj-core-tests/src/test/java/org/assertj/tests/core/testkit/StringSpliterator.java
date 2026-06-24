@@ -18,11 +18,9 @@ package org.assertj.tests.core.testkit;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
-/**
- * Dummy spliterator for testing purpose
- *
- * @author William Bakker
- */
+/// Dummy spliterator for testing purpose
+///
+/// @author William Bakker
 public class StringSpliterator implements Spliterator<String> {
   private final int characteristics;
 

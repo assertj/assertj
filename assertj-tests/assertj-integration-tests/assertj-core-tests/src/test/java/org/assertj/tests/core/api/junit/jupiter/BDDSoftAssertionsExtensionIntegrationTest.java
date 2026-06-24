@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_METHOD;
 
 import org.assertj.core.api.BDDSoftAssertions;
-import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -34,17 +33,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-/**
- * Integration tests for {@link SoftAssertionsExtension} with {@link BDDSoftAssertions}.
- *
- * <p>This class is effectively a copy of {@link SoftAssertionsExtensionIntegrationTest}
- * with {@link SoftAssertions} replaced by {@link BDDSoftAssertions}.
- *
- * @author Sam Brannen
- * @since 3.13
- * @see SoftAssertionsExtensionIntegrationTest
- * @see CustomSoftAssertionsExtensionIntegrationTest
- */
+/// Integration tests for [SoftAssertionsExtension] with [BDDSoftAssertions].
+///
+/// This class is effectively a copy of [SoftAssertionsExtensionIntegrationTest]
+/// with [SoftAssertions] replaced by [BDDSoftAssertions].
+///
+/// @author Sam Brannen
+/// @since 3.13
+/// @see SoftAssertionsExtensionIntegrationTest
+/// @see CustomSoftAssertionsExtensionIntegrationTest
 @DisplayName("JUnit Jupiter BDD Soft Assertions extension integration tests (BDD)")
 class BDDSoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsExtensionIntegrationTests {
 

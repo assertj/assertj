@@ -27,11 +27,9 @@ import org.junit.jupiter.api.Test;
 
 import com.google.common.io.ByteSource;
 
-/**
- * Tests for <code>{@link org.assertj.guava.api.ByteSourceAssert#hasSize(long)}</code>.
- *
- * @author Andrew Gaul
- */
+/// Tests for [org.assertj.guava.api.ByteSourceAssert#hasSize(long)].
+///
+/// @author Andrew Gaul
 public class ByteSourceAssert_hasSize_Test {
 
   @Test

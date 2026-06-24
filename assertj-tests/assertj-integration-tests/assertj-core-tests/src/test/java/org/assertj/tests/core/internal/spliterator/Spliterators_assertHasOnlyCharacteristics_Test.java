@@ -29,9 +29,7 @@ import org.assertj.tests.core.internal.SpliteratorsBaseTest;
 import org.assertj.tests.core.testkit.StringSpliterator;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author William Bakker
- */
+/// @author William Bakker
 class Spliterators_assertHasOnlyCharacteristics_Test extends SpliteratorsBaseTest {
 
   @Test

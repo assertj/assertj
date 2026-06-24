@@ -21,18 +21,14 @@ import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Arrays;
-import org.assertj.core.internal.ShortArrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ShortArrays#assertContains(AssertionInfo, short[], short[])}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// Tests for [ShortArrays#assertContains(AssertionInfo, short[].
+///
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class ShortArrays_assertContains_Test extends ShortArraysBaseTest {
 
   private Arrays internalArrays;

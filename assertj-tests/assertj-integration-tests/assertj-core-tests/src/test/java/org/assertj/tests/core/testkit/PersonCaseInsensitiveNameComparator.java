@@ -17,11 +17,9 @@ package org.assertj.tests.core.testkit;
 
 import java.util.Comparator;
 
-/**
- * A {@link Person} comparator comparing name case insensitively.
- * 
- * @author Joel Costigliola
- */
+/// A [Person] comparator comparing name case insensitively.
+///
+/// @author Joel Costigliola
 public class PersonCaseInsensitiveNameComparator implements Comparator<Person> {
 
   @Override

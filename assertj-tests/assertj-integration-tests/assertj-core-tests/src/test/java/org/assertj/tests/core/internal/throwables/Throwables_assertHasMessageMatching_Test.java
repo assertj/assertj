@@ -26,9 +26,7 @@ import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Libor Ondrusek
- */
+/// @author Libor Ondrusek
 class Throwables_assertHasMessageMatching_Test extends ThrowablesBaseTest {
 
   public static final String REGEX = "Given id='\\d{2,4}' not exists";

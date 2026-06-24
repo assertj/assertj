@@ -26,9 +26,7 @@ import org.junit.jupiter.params.converter.ArgumentConversionException;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.converter.TypedArgumentConverter;
 
-/**
-* Annotation that allows converting string parameters of hexadecimal values into byte arrays.
-*/
+/// Annotation that allows converting string parameters of hexadecimal values into byte arrays.
 @Target(PARAMETER)
 @Retention(RUNTIME)
 @ConvertWith(Hex.HexArgumentConverter.class)

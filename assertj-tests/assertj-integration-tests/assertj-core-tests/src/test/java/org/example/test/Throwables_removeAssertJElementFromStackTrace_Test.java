@@ -23,9 +23,7 @@ import static org.assertj.tests.core.testkit.StackTraceUtils.hasAssertJStackTrac
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Joel Costigliola
- */
+/// @author Joel Costigliola
 class Throwables_removeAssertJElementFromStackTrace_Test {
 
   @Test

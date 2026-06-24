@@ -22,19 +22,16 @@ import static org.junit.platform.testkit.engine.EventConditions.test;
 import static org.junit.platform.testkit.engine.TestExecutionResultConditions.instanceOf;
 import static org.junit.platform.testkit.engine.TestExecutionResultConditions.message;
 
-import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.assertj.core.error.MultipleAssertionsError;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.testkit.engine.EngineTestKit;
 
-/**
- * Abstract base class for integration tests involving the {@link SoftAssertionsExtension}.
- *
- * @author Sam Brannen
- * @since 3.13
- * @see SoftAssertionsExtensionIntegrationTest
- * @see BDDSoftAssertionsExtensionIntegrationTest
- */
+/// Abstract base class for integration tests involving the [SoftAssertionsExtension].
+///
+/// @author Sam Brannen
+/// @since 3.13
+/// @see SoftAssertionsExtensionIntegrationTest
+/// @see BDDSoftAssertionsExtensionIntegrationTest
 abstract class AbstractSoftAssertionsExtensionIntegrationTests {
 
   @Test

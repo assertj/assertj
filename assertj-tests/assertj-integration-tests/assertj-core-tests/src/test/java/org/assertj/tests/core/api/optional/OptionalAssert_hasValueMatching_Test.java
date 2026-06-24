@@ -28,11 +28,9 @@ import java.util.function.Predicate;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link org.assertj.core.api.OptionalAssert#hasValueMatching(java.util.function.Predicate)}.
- *
- * @author JongJun Kim
- */
+/// Tests for [org.assertj.core.api.OptionalAssert#hasValueMatching(java.util.function.Predicate)].
+///
+/// @author JongJun Kim
 class OptionalAssert_hasValueMatching_Test {
 
   private static final Predicate<String> ALWAYS_TRUE = s -> true;

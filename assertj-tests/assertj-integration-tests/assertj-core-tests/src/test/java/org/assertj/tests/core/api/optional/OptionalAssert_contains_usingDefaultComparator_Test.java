@@ -25,11 +25,9 @@ import java.util.Optional;
 import org.assertj.core.api.OptionalAssert;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link OptionalAssert#usingDefaultComparator()}</code>.
- *
- * @author Sára Juhošová
- */
+/// Tests for [OptionalAssert#usingDefaultComparator()].
+///
+/// @author Sára Juhošová
 class OptionalAssert_contains_usingDefaultComparator_Test {
 
   private final Comparator<String> STRING_COMPARATOR = Comparator.comparing(String::toLowerCase);

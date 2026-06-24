@@ -25,11 +25,10 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link org.assertj.core.internal.Strings#assertHasSameSizeAs(org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)}</code>.
- *
- * @author Joel Costigliola
- */
+/// Tests for [org.assertj.core.internal.Strings#assertHasSameSizeAs(org.assertj.core.api.AssertionInfo, CharSequence,
+/// CharSequence)].
+///
+/// @author Joel Costigliola
 class Strings_assertHasSameSizeAs_with_CharSequence_Test extends StringsBaseTest {
 
   private String actual = "Luke";

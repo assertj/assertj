@@ -17,9 +17,7 @@ package org.assertj.tests.core.testkit;
 
 import org.assertj.core.api.AbstractAssert;
 
-/**
- * The constructor is wrong, it must be public for reflection.
- */
+/// The constructor is wrong, it must be public for reflection.
 public class IllegalVehicleAssert extends AbstractAssert<IllegalVehicleAssert, Vehicle> {
 
   protected IllegalVehicleAssert(Vehicle actual) {

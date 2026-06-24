@@ -41,9 +41,7 @@ import org.assertj.core.internal.DigestDiff;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 
-/**
- * @author Valeriy Vyrva
- */
+/// @author Valeriy Vyrva
 class Paths_assertHasDigest_with_MessageDigest_and_String_Test extends PathsBaseTest {
 
   @Test

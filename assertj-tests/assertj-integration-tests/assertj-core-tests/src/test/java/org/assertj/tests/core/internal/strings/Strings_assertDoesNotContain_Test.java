@@ -28,9 +28,7 @@ import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- */
+/// @author Alex Ruiz
 class Strings_assertDoesNotContain_Test extends StringsBaseTest {
 
   @Test

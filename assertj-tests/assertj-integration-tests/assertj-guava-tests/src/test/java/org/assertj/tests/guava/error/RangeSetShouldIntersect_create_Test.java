@@ -27,15 +27,12 @@ import static org.assertj.guava.error.RangeSetShouldIntersect.shouldIntersect;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.guava.error.RangeSetShouldIntersect;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for
- * <code>{@link RangeSetShouldIntersect#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
- *
- * @author Ilya_Koshaleu
- */
+/// Tests for [RangeSetShouldIntersect#create(org.assertj.core.description.Description,
+/// org.assertj.core.presentation.Representation)]
+///
+/// @author Ilya_Koshaleu
 public class RangeSetShouldIntersect_create_Test {
 
   @Test

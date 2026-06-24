@@ -25,16 +25,12 @@ import static org.assertj.tests.core.testkit.TestData.someInfo;
 
 import java.util.regex.PatternSyntaxException;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Strings#assertDoesNotMatch(AssertionInfo, CharSequence, CharSequence)}</code>.
- * 
- * @author Alex Ruiz
- */
+/// Tests for [Strings#assertDoesNotMatch(AssertionInfo, CharSequence, CharSequence)].
+///
+/// @author Alex Ruiz
 class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTest {
 
   private String actual = "Yoda";

@@ -19,16 +19,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AssertProvider;
-import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.Strings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link Assertions#assertThat(AssertProvider)}.
- * 
- * @author Tobias Liefke
- */
+/// Tests for [Assertions#assertThat(AssertProvider)].
+///
+/// @author Tobias Liefke
 class Assertions_assertThat_with_AssertProvider_Test {
 
   private TestedObject object;

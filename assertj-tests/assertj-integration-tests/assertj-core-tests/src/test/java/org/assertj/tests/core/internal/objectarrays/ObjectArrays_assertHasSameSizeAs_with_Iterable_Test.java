@@ -28,10 +28,8 @@ import java.util.List;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Nicolas François
- * @author Joel Costigliola
- */
+/// @author Nicolas François
+/// @author Joel Costigliola
 class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test extends ObjectArraysBaseTest {
 
   @Test

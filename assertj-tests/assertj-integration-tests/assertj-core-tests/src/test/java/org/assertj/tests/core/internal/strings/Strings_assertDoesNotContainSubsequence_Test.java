@@ -25,14 +25,10 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link Strings#assertDoesNotContainSubsequence(AssertionInfo, CharSequence, CharSequence[])}.
- */
+/// Tests for [Strings#assertDoesNotContainSubsequence(AssertionInfo, CharSequence, CharSequence[])].
 class Strings_assertDoesNotContainSubsequence_Test extends StringsBaseTest {
 
   @Test

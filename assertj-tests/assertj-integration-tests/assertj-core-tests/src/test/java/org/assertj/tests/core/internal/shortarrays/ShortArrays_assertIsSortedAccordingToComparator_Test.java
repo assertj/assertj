@@ -28,15 +28,12 @@ import static org.mockito.Mockito.verify;
 import java.util.Comparator;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ShortArrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ShortArrays#assertIsSortedAccordingToComparator(AssertionInfo, short[], Comparator)}</code>
- * 
- * @author Joel Costigliola
- */
+/// Tests for [ShortArrays#assertIsSortedAccordingToComparator(AssertionInfo, short[]
+///
+/// @author Joel Costigliola
 class ShortArrays_assertIsSortedAccordingToComparator_Test extends ShortArraysBaseTest {
 
   private Comparator<Short> shortDescendingOrderComparator;

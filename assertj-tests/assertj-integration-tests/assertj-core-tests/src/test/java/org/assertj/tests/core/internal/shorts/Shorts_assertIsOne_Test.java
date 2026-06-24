@@ -19,15 +19,11 @@ import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualM
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Shorts;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Shorts#assertIsOne(AssertionInfo, Short)}</code>.
- *
- * @author Drummond Dawson
- */
+/// Tests for [Shorts#assertIsOne(AssertionInfo, Short)].
+///
+/// @author Drummond Dawson
 class Shorts_assertIsOne_Test extends ShortsBaseTest {
 
   @Test

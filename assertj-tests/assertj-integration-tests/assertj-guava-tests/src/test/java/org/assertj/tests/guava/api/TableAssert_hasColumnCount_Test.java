@@ -23,9 +23,7 @@ import static org.assertj.guava.error.TableShouldHaveColumnCount.tableShouldHave
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author David Harris
- */
+/// @author David Harris
 public class TableAssert_hasColumnCount_Test extends TableAssertBaseTest {
 
   @Test

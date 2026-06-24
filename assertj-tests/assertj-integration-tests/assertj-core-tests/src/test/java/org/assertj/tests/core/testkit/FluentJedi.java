@@ -15,14 +15,9 @@
  */
 package org.assertj.tests.core.testkit;
 
-import org.assertj.core.api.AbstractIterableAssert;
-
-/**
- * Helper class for testing <code>{@link AbstractIterableAssert#extractingResultOf(String)}</code>.
- * 
- * @author Michał Piotrkowski
- *
- */
+/// Helper class for testing [AbstractIterableAssert#extractingResultOf(String)].
+///
+/// @author Michał Piotrkowski
 public class FluentJedi {
 
   private final Name name;

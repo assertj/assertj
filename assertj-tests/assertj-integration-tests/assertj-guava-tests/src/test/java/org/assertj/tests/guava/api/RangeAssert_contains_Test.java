@@ -26,9 +26,7 @@ import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Range;
 
-/**
- * @author Marcin Kwaczyński
- */
+/// @author Marcin Kwaczyński
 class RangeAssert_contains_Test {
 
   @Test

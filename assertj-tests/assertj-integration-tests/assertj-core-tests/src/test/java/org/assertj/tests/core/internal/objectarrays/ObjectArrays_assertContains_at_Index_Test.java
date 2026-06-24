@@ -31,10 +31,8 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.data.Index;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseTest {
 
   @Override

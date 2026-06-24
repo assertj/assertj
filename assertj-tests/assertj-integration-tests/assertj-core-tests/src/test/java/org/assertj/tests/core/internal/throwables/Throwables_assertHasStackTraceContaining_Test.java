@@ -23,9 +23,7 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Daniel Zlotin
- */
+/// @author Daniel Zlotin
 class Throwables_assertHasStackTraceContaining_Test extends ThrowablesBaseTest {
 
   @Test

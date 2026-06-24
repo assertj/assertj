@@ -29,11 +29,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-/**
- * Tests for <code>{@link org.assertj.core.internal.Strings#normalizePunctuationAndWhitespace(org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)} </code>.
- *
- * @author Harisha Talanki
- */
+/// Tests for [org.assertj.core.internal.Strings#normalizePunctuationAndWhitespace(org.assertj.core.api.AssertionInfo,
+/// CharSequence, CharSequence)].
+///
+/// @author Harisha Talanki
 class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test extends StringsBaseTest {
 
   @Test

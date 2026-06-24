@@ -25,16 +25,12 @@ import static org.assertj.tests.core.testkit.TestData.someInfo;
 
 import java.util.regex.PatternSyntaxException;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Strings#assertContainsPattern(AssertionInfo, CharSequence, CharSequence)}</code>.
- * 
- * @author Pierre Templier
- */
+/// Tests for [Strings#assertContainsPattern(AssertionInfo, CharSequence, CharSequence)].
+///
+/// @author Pierre Templier
 class Strings_assertContainsPattern_CharSequence_Test extends StringsBaseTest {
 
   private static final String CONTAINED_PATTERN = "dark";

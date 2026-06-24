@@ -20,13 +20,10 @@ import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDi
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link org.assertj.core.internal.Strings#assertContainsOnlyDigits(AssertionInfo info, CharSequence actual)}</code>.
- */
+/// Tests for [org.assertj.core.internal.Strings#assertContainsOnlyDigits(AssertionInfo, CharSequence)].
 class Strings_assertContainsOnlyDigits_Test extends StringsBaseTest {
 
   @Test
