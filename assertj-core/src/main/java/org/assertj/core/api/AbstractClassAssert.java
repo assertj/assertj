@@ -56,7 +56,6 @@ import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Stream;
-
 import org.assertj.core.internal.Classes;
 
 /**
@@ -729,6 +728,47 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   private boolean hasAnnotationByType(Class<? extends Annotation> annotation) {
     return actual.getAnnotationsByType(annotation).length > 0;
+  }
+
+  /**
+   * Verifies that the {@code Class} has the given {@code Annotation} and returns a new {@link Assert} narrowed to that type.
+   * <p>
+   * This is useful to perform a group of assertions on an annotation after checking for its presence.
+   * <p>
+   * Example:
+   * <pre><code class='java'> &#64;Target(ElementType.TYPE)
+   * &#64;Retention(RetentionPolicy.RUNTIME)
+   * public &#64;interface Droid {
+   *     String model() default "Unknown";
+   *     String function() default "Unknown";
+   * }
+   *
+   * &#64;Droid(model = "R2 unit", function = "Astromech")
+   * public class R2D2 {}
+   *
+   * // This assertion succeeds:
+   * assertThat(R2D2.class)
+   *     .annotation(Droid.class)
+   *         .extracting(Droid::model, Droid::function)
+   *         .containsExactly("R2 unit", "Astromech"));
+   *
+   * // These assertions fail:
+   * assertThat(R2D2.class)
+   *     .annotation(SpaceShip.class);
+   *
+   * assertThat(R2D2.class)
+   *     .annotation(Droid.class)
+   *         .extracting(Droid::function)
+   *         .isEqualTo("Protocol"));</code></pre>
+   *
+   * @param annotation annotation type which must be attached to the class
+   * @return an {@link Assert} narrowed to the annotation type
+   * @throws NullPointerException if the given annotation is {@code null}.
+   */
+  public <T extends Annotation> AbstractObjectAssert<?, T> annotation(Class<T> annotation) {
+    requireNonNull(annotation, () -> shouldNotBeNull("annotation").create());
+    classes.assertContainsAnnotations(info, actual, array(annotation));
+    return new ObjectAssert<>(actual.getAnnotation(annotation)).withAssertionState(myself);
   }
 
   /**
