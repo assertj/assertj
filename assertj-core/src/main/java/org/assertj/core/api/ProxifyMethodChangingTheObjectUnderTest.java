@@ -87,6 +87,7 @@ public class ProxifyMethodChangingTheObjectUnderTest {
   private AbstractAssert<?, ?> createAssertProxy(AbstractAssert<?, ?> currentAssert) {
     if (currentAssert instanceof IterableSizeAssert) return createIterableSizeAssertProxy(currentAssert);
     if (currentAssert instanceof FileSizeAssert) return createFileSizeAssertProxy(currentAssert);
+    if (currentAssert instanceof PathSizeAssert) return createPathSizeAssertProxy(currentAssert);
     if (currentAssert instanceof BigDecimalScaleAssert) return createBigDecimalScaleAssertProxy(currentAssert);
     if (currentAssert instanceof MapSizeAssert) return createMapSizeAssertProxy(currentAssert);
     if (currentAssert instanceof SuppressedExceptionsAssert) return createSuppressedExceptionsAssertProxy(currentAssert);
@@ -113,6 +114,11 @@ public class ProxifyMethodChangingTheObjectUnderTest {
   private FileSizeAssert<?> createFileSizeAssertProxy(Object currentAssert) {
     FileSizeAssert<?> fileSizeAssert = (FileSizeAssert<?>) currentAssert;
     return proxies.createFileSizeAssertProxy(fileSizeAssert);
+  }
+
+  private PathSizeAssert<?> createPathSizeAssertProxy(Object currentAssert) {
+    PathSizeAssert<?> pathSizeAssert = (PathSizeAssert<?>) currentAssert;
+    return proxies.createPathSizeAssertProxy(pathSizeAssert);
   }
 
   private BigDecimalScaleAssert<?> createBigDecimalScaleAssertProxy(Object currentAssert) {

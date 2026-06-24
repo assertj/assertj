@@ -1677,6 +1677,7 @@ public class Assumptions {
     if (assertion instanceof OptionalIntAssert) return asAssumption(OptionalIntAssert.class, OptionalInt.class, actual);
     if (assertion instanceof OptionalLongAssert) return asAssumption(OptionalLongAssert.class, OptionalLong.class, actual);
     if (assertion instanceof PathAssert) return asAssumption(PathAssert.class, Path.class, actual);
+    if (assertion instanceof PathSizeAssert) return asPathSizeAssumption(assertion);
     if (assertion instanceof PeriodAssert) return asAssumption(PeriodAssert.class, Period.class, actual);
     if (assertion instanceof PredicateAssert) return asAssumption(PredicateAssert.class, Predicate.class, actual);
     if (assertion instanceof RecursiveComparisonAssert) return asRecursiveComparisonAssumption(assertion);
@@ -1719,6 +1720,12 @@ public class Assumptions {
     FileSizeAssert<?> fileSizeAssert = (FileSizeAssert<?>) assertion;
     Class<?>[] constructorTypes = array(AbstractFileAssert.class);
     return asAssumption(FileSizeAssert.class, constructorTypes, fileSizeAssert.returnToFile());
+  }
+
+  private static AbstractAssert<?, ?> asPathSizeAssumption(AbstractAssert<?, ?> assertion) {
+    PathSizeAssert<?> pathSizeAssert = (PathSizeAssert<?>) assertion;
+    Class<?>[] constructorTypes = array(AbstractPathAssert.class);
+    return asAssumption(PathSizeAssert.class, constructorTypes, pathSizeAssert.returnToPath());
   }
 
   private static AbstractAssert<?, ?> asBigDecimalScaleAssumption(AbstractAssert<?, ?> assertion) {
