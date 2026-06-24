@@ -2716,6 +2716,25 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  void path_soft_assertions_should_work_with_size() {
+    // GIVEN
+    Path path = resourcePath("actual_file.txt");
+    // WHEN
+    softly.assertThat(path)
+          .size()
+          .overridingErrorMessage("size error message")
+          .isGreaterThan(0)
+          .isLessThan(1)
+          .returnToPath()
+          .overridingErrorMessage("isNull error message")
+          .isNull();
+    // THEN
+    var errorsCollected = softly.errorsCollected();
+    then(errorsCollected.get(0)).hasMessageContaining("size error message");
+    then(errorsCollected.get(1)).hasMessageContaining("isNull error message");
+  }
+
+  @Test
   void throwable_soft_assertions_should_work_with_message_navigation_method() {
     // GIVEN
     Throwable throwable = new Throwable("Boom!");

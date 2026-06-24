@@ -1861,6 +1861,39 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     }, StringAssert::nullStringAssert);
   }
 
+  /**
+   * Returns an {@code Assert} object that allows performing assertions on the size of the {@link Path} under test.
+   * <p>
+   * Once this method is called, the object under test is no longer the {@link Path} but its size;
+   * to perform further assertions on the {@link Path}, call {@link AbstractPathSizeAssert#returnToPath()}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Path path = Files.write(Files.createTempFile(&quot;tmp&quot;, &quot;bin&quot;), new byte[] {1, 1});
+   *
+   * // assertions succeed
+   * assertThat(path).size().isGreaterThan(1L).isLessThan(5L)
+   *                 .returnToPath().hasBinaryContent(new byte[] {1, 1});
+   *
+   * // assertion fails
+   * assertThat(path).size().isBetween(5L, 10L);</code></pre>
+   *
+   * @return AbstractPathSizeAssert built with the {@code Path}'s size.
+   * @throws NullPointerException if the given {@code Path} is {@code null}.
+   * @throws UncheckedIOException when failing to read the size of the actual {@code Path}.
+   * @since 3.28.0
+   */
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @CheckReturnValue
+  public AbstractPathSizeAssert<SELF> size() {
+    requireNonNull(actual, "Can not perform assertions on the size of a null path.");
+    PathSizeAssert result = new PathSizeAssert(this);
+    result.withAssertionState(myself);
+    if (!result.info.hasDescription()) {
+      result.info.description("check size of path: %s", actual);
+    }
+    return result;
+  }
+
   private byte[] readPath() {
     try {
       return readAllBytes(actual);
