@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package org.assertj.tests.protobuf;
+
+option java_package = "org.assertj.tests.protobuf";
+option java_outer_classname = "TestProtos";
+
+// Simple test message
+message TestMessage {
+  string foo = 1;
+  int32 bar = 2;
+  repeated int32 numbers = 3;
+  NestedMessage nested = 4;
+}
+
+// Nested message for testing
+message NestedMessage {
+  string value = 1;
+  int32 count = 2;
+}
+
+// Message with only repeated fields
+message RepeatedFieldMessage {
+  repeated string items = 1;
+  repeated int32 values = 2;
+}
