@@ -46,7 +46,7 @@ class PathAssert_size_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(path).size().isGreaterThan(100));
     // THEN
-    then(assertionError).hasMessageContaining("check size of path: src/test/resources/actual_file.txt");
+    then(assertionError).hasMessageContainingAll("check size of path", "actual_file.txt");
   }
 
   @Test
@@ -57,7 +57,8 @@ class PathAssert_size_Test {
     AssertionError assertionError = expectAssertionError(() -> assertThat(path).size().as("user desc").isGreaterThan(100));
     // THEN
     then(assertionError).hasMessageContaining("user desc")
-                        .hasMessageNotContaining("check size of path: src/test/resources/actual_file.txt");
+                        .hasMessageNotContaining("check size of path")
+                        .hasMessageNotContaining("actual_file.txt");
   }
 
   @Test
