@@ -18,24 +18,20 @@ package org.assertj.guava.error;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
-/**
- * Creates an error message indicating that the given {@link com.google.common.collect.RangeSet} does not enclose
- * at lease one element of expected objects.
- *
- * @author Ilya Koshaleu
- */
+/// Creates an error message indicating that the given [com.google.common.collect.RangeSet] does not enclose
+/// at lease one element of expected objects.
+///
+/// @author Ilya Koshaleu
 public class RangeSetShouldEncloseAnyOf extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldEncloseAnyOf(Object actual, Object expected) {
     return new RangeSetShouldEncloseAnyOf(actual, expected);
   }
 
-  /**
-   * Creates a new <code>{@link BasicErrorMessageFactory}</code>.
-   *
-   * @param actual actual {@code RangeSet}.
-   * @param expected expected range to check for enclosing
-   */
+  /// Creates a new `[BasicErrorMessageFactory]`.
+  ///
+  /// @param actual actual `RangeSet`.
+  /// @param expected expected range to check for enclosing
   private RangeSetShouldEncloseAnyOf(Object actual, Object expected) {
     super("%nExpecting:%n  %s%nto enclose any of%n  %s%n", actual, expected);
   }
