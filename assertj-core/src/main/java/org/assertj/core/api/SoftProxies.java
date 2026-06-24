@@ -158,6 +158,18 @@ class SoftProxies {
     }
   }
 
+  PathSizeAssert<?> createPathSizeAssertProxy(PathSizeAssert<?> pathSizeAssert) {
+    Class<?> proxyClass = createSoftAssertionProxyClass(PathSizeAssert.class);
+    try {
+      Constructor<?> constructor = proxyClass.getConstructor(AbstractPathAssert.class);
+      PathSizeAssert<?> proxiedAssert = (PathSizeAssert<?>) constructor.newInstance(pathSizeAssert.returnToPath());
+      ((AssertJProxySetup) proxiedAssert).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
+      return proxiedAssert;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   BigDecimalScaleAssert<?> createBigDecimalScaleAssertProxy(BigDecimalScaleAssert<?> bigDecimalScaleAssert) {
     Class<?> proxyClass = createSoftAssertionProxyClass(BigDecimalScaleAssert.class);
     try {

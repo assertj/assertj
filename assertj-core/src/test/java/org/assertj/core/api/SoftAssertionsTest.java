@@ -56,6 +56,7 @@ import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalTime;
@@ -2665,6 +2666,24 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
                                   .containsExactly("[binaryContent()] error message");
+  }
+
+  @Test
+  void path_soft_assertions_should_work_with_size() {
+    // GIVEN
+    Path path = Paths.get("src/test/resources/actual_file.txt");
+    // WHEN
+    softly.assertThat(path)
+          .size()
+          .overridingErrorMessage("size error message")
+          .isGreaterThan(0)
+          .isLessThan(1)
+          .returnToPath()
+          .overridingErrorMessage("isNull error message")
+          .isNull();
+    // THEN
+    then(softly.errorsCollected()).extracting(Throwable::getMessage)
+                                  .containsExactly("size error message", "isNull error message");
   }
 
   @Test

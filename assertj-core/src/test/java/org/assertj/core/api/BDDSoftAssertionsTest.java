@@ -1966,6 +1966,24 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  void path_soft_assertions_should_work_with_size() {
+    // GIVEN
+    Path path = Paths.get("src/test/resources/actual_file.txt");
+    // WHEN
+    softly.then(path)
+          .size()
+          .overridingErrorMessage("size error message")
+          .isGreaterThan(0)
+          .isLessThan(1)
+          .returnToPath()
+          .overridingErrorMessage("isNull error message")
+          .isNull();
+    // THEN
+    then(softly.errorsCollected()).extracting(Throwable::getMessage)
+                                  .containsExactly("size error message", "isNull error message");
+  }
+
+  @Test
   void throwable_soft_assertions_should_work_with_message_navigation_method() {
     // GIVEN
     Throwable throwable = new Throwable("Boom!");
