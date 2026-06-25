@@ -24,11 +24,13 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
+import org.assertj.core.internal.FileContent;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.ComparisonFailure;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
+import org.opentest4j.FileInfo;
 
 class AssertionErrorCreator_assertionError_Test {
 
@@ -108,6 +110,26 @@ class AssertionErrorCreator_assertionError_Test {
     AssertionFailedError assertionFailedError = (AssertionFailedError) assertionError;
     then(assertionFailedError.getActual().toString()).contains("actual");
     then(assertionFailedError.getExpected().toString()).contains("expected");
+  }
+
+  @Test
+  void should_use_FileInfo_as_actual_and_expected_for_FileContent_values() {
+    // GIVEN
+    FileContent actual = new FileContent("/tmp/actual.txt", "actual".getBytes());
+    FileContent expected = new FileContent("/tmp/expected.txt", "expected".getBytes());
+    // WHEN
+    AssertionError assertionError = assertionErrorCreator.assertionError("boom", actual, expected, STANDARD_REPRESENTATION);
+    // THEN
+    then(assertionError).isInstanceOf(AssertionFailedError.class);
+    AssertionFailedError assertionFailedError = (AssertionFailedError) assertionError;
+    then(assertionFailedError.getActual().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+      then(fileInfo.getPath()).isEqualTo("/tmp/actual.txt");
+      then(fileInfo.getContents()).isEqualTo("actual".getBytes());
+    });
+    then(assertionFailedError.getExpected().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+      then(fileInfo.getPath()).isEqualTo("/tmp/expected.txt");
+      then(fileInfo.getContents()).isEqualTo("expected".getBytes());
+    });
   }
 
   static class Item {
