@@ -43,7 +43,6 @@ import java.util.function.Function;
 
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
-import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.Dates;
 
@@ -2426,39 +2425,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   public SELF withDateFormat(String userCustomDateFormatPattern) {
     requireNonNull(userCustomDateFormatPattern, DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL);
     return withDateFormat(new SimpleDateFormat(userCustomDateFormatPattern));
-  }
-
-  /**
-   * Instead of using default strict date/time parsing, it is possible to use lenient parsing mode for default date
-   * formats parser to interpret inputs that do not precisely match supported date formats (lenient parsing).
-   * <p>
-   * With strict parsing, inputs must match exactly date/time formats.
-   * <p>
-   * Example:
-   * <pre><code class='java'> Date date = Dates.parse("2001-02-03");
-   * final Date dateTime = parseDatetime("2001-02-03T04:05:06");
-   * final Date dateTimeWithMs = parseDatetimeWithMs("2001-02-03T04:05:06.700");
-   *
-   * AbstractDateAssert.setLenientDateParsing(true);
-   *
-   * // assertions will pass
-   * assertThat(date).isEqualTo("2001-02-03");
-   * assertThat(date).isEqualTo("2001-02-02T24:00:00");
-   * assertThat(date).isEqualTo("2001-02-04T-24:00:00.000");
-   * assertThat(dateTime).isEqualTo("2001-02-03T04:05:05.1000");
-   * assertThat(dateTime).isEqualTo("2001-02-03T04:04:66");
-   * assertThat(dateTimeWithMs).isEqualTo("2001-02-03T04:05:07.-300");
-   *
-   * // assertions will fail
-   * assertThat(date).hasSameTimeAs("2001-02-04"); // different date
-   * assertThat(dateTime).hasSameTimeAs("2001-02-03 04:05:06"); // leniency does not help here</code></pre>
-   *
-   * To revert to default strict date parsing, call {@code setLenientDateParsing(false)}.
-   *
-   * @param lenientDateParsing whether lenient parsing mode should be enabled or not
-   */
-  public static void setLenientDateParsing(boolean lenientDateParsing) {
-    lenientParsing = lenientDateParsing;
   }
 
   /**

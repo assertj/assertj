@@ -170,12 +170,12 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
     var error = expectAssertionError(() -> assertThat(new Date()).isEqualTo(dateAsString));
     // THEN
     then(error).hasMessage(format("Failed to parse 2003/04/26 with any of these date formats:%n" +
-                                    "   [yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
-                                    "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
-                                    "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
-                                    "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
-                                    "    yyyy-MM-dd'T'HH:mm:ss,%n" +
-                                    "    yyyy-MM-dd]"));
+                                  "   [yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
+                                  "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
+                                  "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                  "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
+                                  "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                  "    yyyy-MM-dd]"));
   }
 
   @Test
@@ -196,14 +196,14 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
     var error = expectAssertionError(() -> assertThat(date).withDateFormat("yyyy/MM/dd").isEqualTo("2003 04 26"));
     // THEN
     then(error).hasMessage(format("Failed to parse 2003 04 26 with any of these date formats:%n" +
-                                    "   [yyyy/MM/dd'T'HH:mm:ss,%n" +
-                                    "    yyyy/MM/dd,%n" +
-                                    "    yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
-                                    "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
-                                    "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
-                                    "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
-                                    "    yyyy-MM-dd'T'HH:mm:ss,%n" +
-                                    "    yyyy-MM-dd]"));
+                                  "   [yyyy/MM/dd'T'HH:mm:ss,%n" +
+                                  "    yyyy/MM/dd,%n" +
+                                  "    yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
+                                  "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
+                                  "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                  "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
+                                  "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                  "    yyyy-MM-dd]"));
   }
 
   @Test
@@ -229,13 +229,13 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
 
     // THEN
     then(error).hasMessage(format("Failed to parse 2003/04/26 with any of these date formats:%n" +
-                                    "   [yyyy/MM/dd'T'HH:mm:ss,%n" +
-                                    "    yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
-                                    "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
-                                    "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
-                                    "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
-                                    "    yyyy-MM-dd'T'HH:mm:ss,%n" +
-                                    "    yyyy-MM-dd]"));
+                                  "   [yyyy/MM/dd'T'HH:mm:ss,%n" +
+                                  "    yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
+                                  "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
+                                  "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                  "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
+                                  "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                  "    yyyy-MM-dd]"));
 
     // register the expected custom formats, they are used in the order they have been registered.
     registerCustomDateFormat("yyyy/MM/dd");
@@ -264,12 +264,12 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
 
     // THEN
     assertThat(error).hasMessage(format("Failed to parse 2003/04/26 with any of these date formats:%n" +
-                                          "   [yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
-                                          "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
-                                          "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
-                                          "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
-                                          "    yyyy-MM-dd'T'HH:mm:ss,%n" +
-                                          "    yyyy-MM-dd]"));
+                                        "   [yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
+                                        "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                        "    yyyy-MM-dd]"));
 
     // registering a custom date format to make the assertion pass
     registerCustomDateFormat("yyyy/MM/dd");
@@ -284,13 +284,13 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
 
     // THEN
     assertThat(error).hasMessage(format("Failed to parse 2003 04 26 with any of these date formats:%n" +
-                                          "   [yyyy/MM/dd,%n" +
-                                          "    yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
-                                          "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
-                                          "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
-                                          "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
-                                          "    yyyy-MM-dd'T'HH:mm:ss,%n" +
-                                          "    yyyy-MM-dd]"));
+                                        "   [yyyy/MM/dd,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
+                                        "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                        "    yyyy-MM-dd]"));
 
     // register a new custom format should work
     registerCustomDateFormat("yyyy MM dd");

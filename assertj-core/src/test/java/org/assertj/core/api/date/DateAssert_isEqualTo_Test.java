@@ -119,7 +119,7 @@ class DateAssert_isEqualTo_Test {
 
     Stream<Arguments> should_fail() {
       return Stream.of(arguments(Date.from(parse("1970-01-01T00:00:00.01Z")), "1970-01-01T00:00:00.000Z"),
-        // Timestamps vs Date
+                       // Timestamps vs Date
                        arguments(Timestamp.from(parse("1970-01-01T00:00:00.000000001Z")), "1970-01-01T00:00:00.000000001Z"));
     }
 

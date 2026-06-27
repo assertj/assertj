@@ -66,11 +66,6 @@ class NonDefaultConfiguration extends Configuration {
   }
 
   @Override
-  public boolean lenientDateParsingEnabled() {
-    return !super.lenientDateParsingEnabled();
-  }
-
-  @Override
   public int maxStackTraceElementsDisplayed() {
     return super.maxStackTraceElementsDisplayed() + 1;
   }
