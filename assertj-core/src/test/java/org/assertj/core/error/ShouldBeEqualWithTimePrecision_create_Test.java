@@ -18,7 +18,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqualWithTimePrecision.shouldBeEqual;
-import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
+import static org.assertj.core.internal.DatesBaseTest.parseDatetime;
 
 import java.util.concurrent.TimeUnit;
 
@@ -37,8 +37,8 @@ class ShouldBeEqualWithTimePrecision_create_Test {
 
   @Test
   void should_create_error_message_ignoring_milliseconds() {
-    ErrorMessageFactory factory = shouldBeEqual(parseDatetimeWithMs("2011-01-01T05:00:00.000"),
-                                                parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.MILLISECONDS);
+    ErrorMessageFactory factory = shouldBeEqual(parseDatetime("2011-01-01T05:00:00.000"),
+                                                parseDatetime("2011-01-01T06:05:17.003"), TimeUnit.MILLISECONDS);
 
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
@@ -50,8 +50,8 @@ class ShouldBeEqualWithTimePrecision_create_Test {
 
   @Test
   void should_create_error_message_ignoring_seconds() {
-    ErrorMessageFactory factory = shouldBeEqual(parseDatetimeWithMs("2011-01-01T05:00:00.000"),
-                                                parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.SECONDS);
+    ErrorMessageFactory factory = shouldBeEqual(parseDatetime("2011-01-01T05:00:00.000"),
+                                                parseDatetime("2011-01-01T06:05:17.003"), TimeUnit.SECONDS);
 
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
@@ -63,8 +63,8 @@ class ShouldBeEqualWithTimePrecision_create_Test {
 
   @Test
   void should_create_error_message_ignoring_minutes() {
-    ErrorMessageFactory factory = shouldBeEqual(parseDatetimeWithMs("2011-01-01T05:00:00.000"),
-                                                parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.MINUTES);
+    ErrorMessageFactory factory = shouldBeEqual(parseDatetime("2011-01-01T05:00:00.000"),
+                                                parseDatetime("2011-01-01T06:05:17.003"), TimeUnit.MINUTES);
 
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
@@ -76,8 +76,8 @@ class ShouldBeEqualWithTimePrecision_create_Test {
 
   @Test
   void should_create_error_message_ignoring_hours() {
-    ErrorMessageFactory factory = shouldBeEqual(parseDatetimeWithMs("2011-01-01T05:00:00.000"),
-                                                parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.HOURS);
+    ErrorMessageFactory factory = shouldBeEqual(parseDatetime("2011-01-01T05:00:00.000"),
+                                                parseDatetime("2011-01-01T06:05:17.003"), TimeUnit.HOURS);
 
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +

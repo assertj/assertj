@@ -20,10 +20,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.registerCustomDateFormat;
 import static org.assertj.core.api.Assertions.useDefaultDateFormatsOnly;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.internal.DatesBaseTest.parseDate;
+import static org.assertj.core.internal.DatesBaseTest.parseDatetime;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.DateUtil.parseDatetime;
-import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -38,7 +38,6 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.DateAssertBaseTest;
-import org.assertj.core.util.DateUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -69,7 +68,7 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
   @Test
   void date_assertion_using_default_date_string_representation() {
     // datetime with ms
-    final Date date1timeWithMS = parseDatetimeWithMs("2003-04-26T03:01:02.999");
+    final Date date1timeWithMS = parseDatetime("2003-04-26T03:01:02.999");
     assertThat(date1timeWithMS).isEqualTo("2003-04-26T03:01:02.999")
                                .isEqualTo("2003-04-26 03:01:02.999")
                                .isEqualTo("2003-04-26T03:01:02.999000000");
@@ -80,13 +79,20 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
                         .isEqualTo("2003-04-26T03:01:02")
                         .isEqualTo("2003-04-26 03:01:02")
                         .isEqualTo("2003-04-26T03:01:02.000000000");
+    final Date datetimeWithoutSeconds = parseDatetime("2003-04-26T03:01:07");
+    assertThat(datetimeWithoutSeconds).isEqualTo("2003-04-26T03:01:07.000")
+                                      .isEqualTo("2003-04-26T03:01:07.")
+                                      .isEqualTo("2003-04-26T03:01:07")
+                                      .isEqualTo("2003-04-26 03:01:07")
+                                      .isEqualTo("2003-04-26T03:01:07.000000000");
     // date with nanos
     assertThat(Date.from(Instant.parse("2003-04-26T03:01:02.000000001Z"))).isEqualTo("2003-04-26T03:01:02.000000001Z");
     // date with offset
-    assertThat(Date.from(Instant.parse("2003-04-26T03:01:02.758+00:00"))).isEqualTo("2003-04-26T03:01:02.758+00:00");
-    assertThat(Date.from(Instant.parse("2003-04-26T03:01:02+00:00"))).isEqualTo("2003-04-26T03:01:02+00:00");
+    assertThat(Date.from(Instant.parse("2003-04-26T03:01:02.758+02:00"))).isEqualTo("2003-04-26T03:01:02.758+02:00");
+    assertThat(Date.from(Instant.parse("2003-04-26T03:01:02+02:00"))).isEqualTo("2003-04-26T03:01:02+02:00");
+    assertThat(Date.from(Instant.parse("2003-04-26T03:01:02+02:00"))).isEqualTo("2003-04-26T03:01:02+02:00");
     // date only
-    final Date date = DateUtil.parse("2003-04-26");
+    final Date date = parseDate("2003-04-26");
     assertThat(date).isEqualTo("2003-04-26")
                     .isEqualTo("2003-04-26T00:00:00")
                     .isEqualTo("2003-04-26T00:00:00.000")
@@ -175,12 +181,13 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
                                   "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
                                   "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
                                   "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                  "    yyyy-MM-dd HH:mm:ss,%n" +
                                   "    yyyy-MM-dd]"));
   }
 
   @Test
   void date_assertion_using_custom_date_string_representation() {
-    final Date date = DateUtil.parse("2003-04-26");
+    final Date date = parseDate("2003-04-26");
     assertThat(date).withDateFormat("yyyy/MM/dd").isEqualTo("2003/04/26");
     assertThat(date).isEqualTo("2003/04/26");
   }
@@ -188,7 +195,7 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
   @Test
   void should_fail_if_given_date_string_representation_cant_be_parsed_with_any_custom_date_formats() {
     // GIVEN
-    final Date date = DateUtil.parse("2003-04-26");
+    final Date date = parseDate("2003-04-26");
     registerCustomDateFormat("yyyy/MM/dd'T'HH:mm:ss");
     // registering again has no effect
     registerCustomDateFormat("yyyy/MM/dd'T'HH:mm:ss");
@@ -203,12 +210,13 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
                                   "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
                                   "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
                                   "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                  "    yyyy-MM-dd HH:mm:ss,%n" +
                                   "    yyyy-MM-dd]"));
   }
 
   @Test
   void date_assertion_using_custom_date_string_representation_then_switching_back_to_defaults_date_formats() {
-    final Date date = DateUtil.parse("2003-04-26");
+    final Date date = parseDate("2003-04-26");
     // chained assertions
     assertThat(date).withDateFormat("yyyy/MM/dd").isEqualTo("2003/04/26")
                     .withDefaultDateFormatsOnly().isEqualTo("2003-04-26");
@@ -220,7 +228,7 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
   @Test
   void use_custom_date_formats_set_from_Assertions_entry_point() {
     // GIVEN
-    final Date date = DateUtil.parse("2003-04-26");
+    final Date date = parseDate("2003-04-26");
     registerCustomDateFormat("yyyy/MM/dd'T'HH:mm:ss");
 
     // WHEN
@@ -235,6 +243,7 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
                                   "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
                                   "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
                                   "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                  "    yyyy-MM-dd HH:mm:ss,%n" +
                                   "    yyyy-MM-dd]"));
 
     // register the expected custom formats, they are used in the order they have been registered.
@@ -255,7 +264,7 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
   void use_custom_date_formats_first_then_defaults_to_parse_a_date() {
     // GIVEN
     // using default formats should work
-    final Date date = DateUtil.parse("2003-04-26");
+    final Date date = parseDate("2003-04-26");
     assertThat(date).isEqualTo("2003-04-26");
 
     // WHEN
@@ -269,6 +278,7 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
                                         "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
                                         "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
                                         "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                        "    yyyy-MM-dd HH:mm:ss,%n" +
                                         "    yyyy-MM-dd]"));
 
     // registering a custom date format to make the assertion pass
@@ -290,6 +300,7 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
                                         "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
                                         "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
                                         "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                        "    yyyy-MM-dd HH:mm:ss,%n" +
                                         "    yyyy-MM-dd]"));
 
     // register a new custom format should work

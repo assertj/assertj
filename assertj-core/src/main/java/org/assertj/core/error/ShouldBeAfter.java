@@ -15,8 +15,7 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.util.DateUtil.parse;
-
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
@@ -31,8 +30,9 @@ public class ShouldBeAfter extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldBeAfter}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @param other the value used in the failed assertion to compare the actual value to.
+   *
+   * @param actual             the actual value in the failed assertion.
+   * @param other              the value used in the failed assertion to compare the actual value to.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
@@ -42,8 +42,9 @@ public class ShouldBeAfter extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldBeAfter}</code>.
+   *
    * @param actual the actual value in the failed assertion.
-   * @param other the value used in the failed assertion to compare the actual value to.
+   * @param other  the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeAfter(Object actual, Object other) {
@@ -52,13 +53,13 @@ public class ShouldBeAfter extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldBeAfter}</code>.
+   *
    * @param actual the actual value in the failed assertion.
-   * @param year the year to compare the actual date's year to.
+   * @param year   the year to compare the actual date's year to.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeAfter(Date actual, int year) {
-    Date januaryTheFirstOfGivenYear = parse(year + "-01-01");
-    return new ShouldBeAfter(actual, januaryTheFirstOfGivenYear, StandardComparisonStrategy.instance());
+    return new ShouldBeAfter(actual, LocalDate.of(year, 1, 1), StandardComparisonStrategy.instance());
   }
 
   private ShouldBeAfter(Object actual, Object other, ComparisonStrategy comparisonStrategy) {

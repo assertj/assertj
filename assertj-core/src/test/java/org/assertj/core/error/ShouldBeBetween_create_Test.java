@@ -18,8 +18,8 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
+import static org.assertj.core.internal.DatesBaseTest.parseDate;
 import static org.assertj.core.testkit.NeverEqualComparator.NEVER_EQUALS;
-import static org.assertj.core.util.DateUtil.parse;
 
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.description.Description;
@@ -36,7 +36,8 @@ class ShouldBeBetween_create_Test {
   @Test
   void should_create_error_message_with_period_boundaries_included() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeBetween(parse("2010-01-01"), parse("2011-01-01"), parse("2012-01-01"), true, true);
+    ErrorMessageFactory factory = shouldBeBetween(parseDate("2010-01-01"), parseDate("2011-01-01"), parseDate("2012-01-01"), true,
+                                                  true);
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
@@ -50,7 +51,8 @@ class ShouldBeBetween_create_Test {
   @Test
   void should_create_error_message_with_period_lower_boundary_included() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeBetween(parse("2010-01-01"), parse("2011-01-01"), parse("2012-01-01"), true, false);
+    ErrorMessageFactory factory = shouldBeBetween(parseDate("2010-01-01"), parseDate("2011-01-01"), parseDate("2012-01-01"), true,
+                                                  false);
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
@@ -64,7 +66,8 @@ class ShouldBeBetween_create_Test {
   @Test
   void should_create_error_message_with_period_upper_boundary_included() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeBetween(parse("2010-01-01"), parse("2011-01-01"), parse("2012-01-01"), false, true);
+    ErrorMessageFactory factory = shouldBeBetween(parseDate("2010-01-01"), parseDate("2011-01-01"), parseDate("2012-01-01"),
+                                                  false, true);
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
@@ -78,7 +81,8 @@ class ShouldBeBetween_create_Test {
   @Test
   void should_create_error_message_with_period_boundaries_excluded() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeBetween(parse("2010-01-01"), parse("2011-01-01"), parse("2012-01-01"), false, false);
+    ErrorMessageFactory factory = shouldBeBetween(parseDate("2010-01-01"), parseDate("2011-01-01"), parseDate("2012-01-01"),
+                                                  false, false);
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
@@ -93,7 +97,8 @@ class ShouldBeBetween_create_Test {
   void should_create_error_message_with_comparison_strategy() {
     // GIVEN
     ComparatorBasedComparisonStrategy comparisonStrategy = new ComparatorBasedComparisonStrategy(NEVER_EQUALS);
-    ErrorMessageFactory factory = shouldBeBetween(parse("2010-01-01"), parse("2011-01-01"), parse("2012-01-01"), false, false,
+    ErrorMessageFactory factory = shouldBeBetween(parseDate("2010-01-01"), parseDate("2011-01-01"), parseDate("2012-01-01"),
+                                                  false, false,
                                                   comparisonStrategy);
     // WHEN
     String message = factory.create(new TextDescription("Test"));

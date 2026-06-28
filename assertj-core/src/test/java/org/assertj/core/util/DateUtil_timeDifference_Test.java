@@ -17,7 +17,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
+import static org.assertj.core.internal.DatesBaseTest.parseDatetime;
 import static org.assertj.core.util.DateUtil.timeDifference;
 
 import java.util.Date;
@@ -33,8 +33,8 @@ class DateUtil_timeDifference_Test {
 
   @Test
   void should_return_dates_time_difference() {
-    final Date date1 = parseDatetimeWithMs("2003-04-26T03:01:02.999");
-    final Date date2 = parseDatetimeWithMs("2003-04-26T03:01:02.888");
+    final Date date1 = parseDatetime("2003-04-26T03:01:02.999");
+    final Date date2 = parseDatetime("2003-04-26T03:01:02.888");
     assertThat(timeDifference(date1, date2)).isEqualTo(111);
     assertThat(timeDifference(date2, date1)).isEqualTo(timeDifference(date1, date2));
   }

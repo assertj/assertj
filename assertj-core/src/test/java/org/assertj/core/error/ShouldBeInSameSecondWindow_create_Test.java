@@ -18,7 +18,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeInSameSecondWindow.shouldBeInSameSecondWindow;
-import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
+import static org.assertj.core.internal.DatesBaseTest.parseDatetime;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -37,8 +37,8 @@ class ShouldBeInSameSecondWindow_create_Test {
   @Test
   void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeInSameSecondWindow(parseDatetimeWithMs("2011-01-01T05:00:01.000"),
-                                                             parseDatetimeWithMs("2011-01-01T05:00:02.001"));
+    ErrorMessageFactory factory = shouldBeInSameSecondWindow(parseDatetime("2011-01-01T05:00:01.000"),
+                                                             parseDatetime("2011-01-01T05:00:02.001"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN

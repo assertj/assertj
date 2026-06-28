@@ -21,8 +21,6 @@ import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
 import static org.assertj.core.util.Arrays.isObjectArray;
 import static org.assertj.core.util.Arrays.notAnArrayOfPrimitives;
-import static org.assertj.core.util.DateUtil.formatAsDatetime;
-import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
@@ -116,6 +114,9 @@ public class StandardRepresentation implements Representation {
   private static final Map<Class<?>, Function<?, ? extends CharSequence>> customFormatterByType = new HashMap<>();
   private static final Class<?>[] TYPE_WITH_UNAMBIGUOUS_REPRESENTATION = { Date.class, LocalDateTime.class, ZonedDateTime.class,
       OffsetDateTime.class, Calendar.class };
+
+  private static final ThreadLocal<SimpleDateFormat> ISO_DATE_FORMAT_WITH_MS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS"));
+  private static final ThreadLocal<SimpleDateFormat> ISO_DATE_FORMAT_WITHOUT_MS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
 
   // Iterable types that should be considered to be unsafe to dereference and iterate across (e.g. they may have
   // visible side effects).
@@ -405,10 +406,6 @@ public class StandardRepresentation implements Representation {
         : quote(comparatorDescription);
   }
 
-  protected String toStringOf(Calendar calendar) {
-    return formatAsDatetime(calendar) + classNameDisambiguation(calendar);
-  }
-
   protected String toStringOf(Class<?> c) {
     String canonicalName = c.getCanonicalName();
     if (canonicalName != null) return canonicalName;
@@ -442,8 +439,20 @@ public class StandardRepresentation implements Representation {
     return p.isDefault() ? "%s".formatted(p.description) : "'%s'".formatted(p.description);
   }
 
+  protected String toStringOf(Calendar calendar) {
+    return formatCalendar(calendar) + classNameDisambiguation(calendar);
+  }
+
+  private static String formatDate(Date date) {
+    return ISO_DATE_FORMAT_WITH_MS.get().format(date);
+  }
+
+  private static String formatCalendar(Calendar calendar) {
+    return ISO_DATE_FORMAT_WITHOUT_MS.get().format(calendar.getTime());
+  }
+
   protected String toStringOf(Date date) {
-    return formatAsDatetimeWithMs(date) + classNameDisambiguation(date);
+    return formatDate(date) + classNameDisambiguation(date);
   }
 
   protected String toStringOf(LocalDateTime localDateTime) {

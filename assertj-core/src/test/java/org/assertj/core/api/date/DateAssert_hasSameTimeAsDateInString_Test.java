@@ -18,8 +18,8 @@ package org.assertj.core.api.date;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.internal.DatesBaseTest.parseDatetime;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
-import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.sql.Timestamp;

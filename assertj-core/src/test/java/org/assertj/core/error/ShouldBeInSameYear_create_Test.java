@@ -18,7 +18,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeInSameYear.shouldBeInSameYear;
-import static org.assertj.core.util.DateUtil.parse;
+import static org.assertj.core.internal.DatesBaseTest.parseDate;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -36,7 +36,7 @@ class ShouldBeInSameYear_create_Test {
   @Test
   void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeInSameYear(parse("2010-01-01"), parse("2011-01-01"));
+    ErrorMessageFactory factory = shouldBeInSameYear(parseDate("2010-01-01"), parseDate("2011-01-01"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN

@@ -18,12 +18,15 @@ package org.assertj.core.internal;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.Date;
 
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
-import org.assertj.core.util.DateUtil;
 import org.assertj.core.util.YearAndMonthComparator;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -31,7 +34,7 @@ import org.junit.jupiter.api.BeforeEach;
  * Base class for {@link Dates} unit tests
  * <p>
  * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Dates#failures} appropriately.
- * 
+ *
  * @author Joel Costigliola
  */
 public abstract class DatesBaseTest {
@@ -44,7 +47,9 @@ public abstract class DatesBaseTest {
   protected Dates datesWithCustomComparisonStrategy;
   protected Date actual;
 
-  private YearAndMonthComparator yearAndMonthComparator = new YearAndMonthComparator();
+  private static final ThreadLocal<SimpleDateFormat> SIMPLE_DATE_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd"));
+
+  private final YearAndMonthComparator yearAndMonthComparator = new YearAndMonthComparator();
 
   @BeforeEach
   public void setUp() {
@@ -61,31 +66,16 @@ public abstract class DatesBaseTest {
     actual = parseDate("2011-01-01");
   }
 
-  /**
-   * Simply delegate to {@link org.assertj.core.util.DateUtil#parse(String)}
-   * @param dateAsString see {@link org.assertj.core.util.DateUtil#parse(String)}
-   * @return see {@link org.assertj.core.util.DateUtil#parse(String)}
-   */
-  protected static Date parseDate(String dateAsString) {
-    return DateUtil.parse(dateAsString);
+  public static Date parseDate(String dateAsString) {
+    try {
+      return SIMPLE_DATE_FORMAT.get().parse(dateAsString);
+    } catch (ParseException e) {
+      throw new RuntimeException(e);
+    }
   }
 
-  /**
-   * Simply delegate to {@link org.assertj.core.util.DateUtil#parseDatetime(String)}
-   * @param dateAsString see {@link org.assertj.core.util.DateUtil#parseDatetime(String)}
-   * @return see {@link org.assertj.core.util.DateUtil#parseDatetime(String)}
-   */
-  protected static Date parseDatetime(String dateAsString) {
-    return DateUtil.parseDatetime(dateAsString);
-  }
-
-  /**
-   * Simply delegate to {@link org.assertj.core.util.DateUtil#parseDatetimeWithMs(String)}}
-   * @param dateAsString see {@link org.assertj.core.util.DateUtil#parseDatetimeWithMs(String)} }
-   * @return see {@link org.assertj.core.util.DateUtil#parseDatetimeWithMs(String)}}
-   */
-  protected static Date parseDatetimeWithMs(String dateAsString) {
-    return DateUtil.parseDatetimeWithMs(dateAsString);
+  public static Date parseDatetime(String dateAsString) {
+    return Date.from(LocalDateTime.parse(dateAsString).atZone(ZoneId.systemDefault()).toInstant());
   }
 
   protected Comparator<?> comparatorForCustomComparisonStrategy() {

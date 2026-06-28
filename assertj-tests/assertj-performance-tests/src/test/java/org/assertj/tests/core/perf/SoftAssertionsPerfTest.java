@@ -20,13 +20,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.setRemoveAssertJRelatedElementsFromStackTrace;
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
@@ -201,7 +201,7 @@ class SoftAssertionsPerfTest {
     softly.assertThat(new char[] { 69 }).isEqualTo(new char[] { 70 });
     softly.assertThat(new StringBuilder("a")).isEqualTo(new StringBuilder("b"));
     softly.assertThat(Object.class).isEqualTo(String.class);
-    softly.assertThat(parseDatetime("1999-12-31T23:59:59")).isEqualTo(parseDatetime("2000-01-01T00:00:01"));
+    softly.assertThat(LocalDate.of(1999, 12, 31)).isEqualTo(LocalDate.of(2000, 01, 01));
     softly.assertThat(Double.valueOf(6.0)).isEqualTo(Double.valueOf(7.0));
     softly.assertThat(8.0d).isEqualTo(9.0d);
     softly.assertThat(new double[] { 10.0d }).isEqualTo(new double[] { 11.0d });
