@@ -24,28 +24,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.util.Iterator;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.IteratorAssert;
 import org.junit.jupiter.api.Test;
 
 class Assertions_assertThatIterator_Test {
 
-  private final StringIterator stringIterator = new StringIterator();
-
-  private static final class StringIterator implements Iterator<String> {
-    @Override
-    public boolean hasNext() {
-      return true;
-    }
-
-    @Override
-    public String next() {
-      return "";
-    }
-
-    @Override
-    public void remove() {}
-  }
+  private final StringIterator actual = new StringIterator();
 
   @Test
   void should_create_Assert() {
@@ -97,7 +83,7 @@ class Assertions_assertThatIterator_Test {
 
   @Test
   void isOfAnyClassIn_should_check_the_original_iterator_without_consuming_it() {
-    assertThatIterator(stringIterator).isOfAnyClassIn(Iterator.class, StringIterator.class);
+    assertThatIterator(actual).isOfAnyClassIn(Iterator.class, StringIterator.class);
   }
 
   @Test
@@ -108,24 +94,24 @@ class Assertions_assertThatIterator_Test {
   @Test
   void isNotExactlyInstanceOf_should_check_the_original_iterator() {
     // WHEN
-    assertThatIterator(stringIterator).isNotExactlyInstanceOf(Iterator.class);
+    assertThatIterator(actual).isNotExactlyInstanceOf(Iterator.class);
     // THEN
-    expectAssertionError(() -> then(stringIterator).isNotExactlyInstanceOf(StringIterator.class));
+    expectAssertionError(() -> then(actual).isNotExactlyInstanceOf(StringIterator.class));
   }
 
   @Test
   void isNotInstanceOf_should_check_the_original_iterator() {
-    assertThatIterator(stringIterator).isNotInstanceOf(Long.class);
+    assertThatIterator(actual).isNotInstanceOf(Long.class);
   }
 
   @Test
   void isNotInstanceOfAny_should_check_the_original_iterator() {
-    assertThatIterator(stringIterator).isNotInstanceOfAny(Long.class, String.class);
+    assertThatIterator(actual).isNotInstanceOfAny(Long.class, String.class);
   }
 
   @Test
   void isNotOfAnyClassIn_should_check_the_original_iterator() {
-    assertThatIterator(stringIterator).isNotOfAnyClassIn(Long.class, String.class);
+    assertThatIterator(actual).isNotOfAnyClassIn(Long.class, String.class);
   }
 
   @Test
@@ -154,6 +140,48 @@ class Assertions_assertThatIterator_Test {
     Iterator<String> names = asList("Luke", "Leia").iterator();
     // WHEN/THEN
     assertThatIterator(names).hasNext().hasNext();
+  }
+
+  @Test
+  void should_provide_iterator_assertions() {
+    // GIVEN
+    IteratorPredicate<String> actual = new IteratorPredicate<>();
+    // WHEN/THEN
+    assertThatIterator(actual).isExhausted();
+  }
+
+  private static final class StringIterator implements Iterator<String> {
+    @Override
+    public boolean hasNext() {
+      return true;
+    }
+
+    @Override
+    public String next() {
+      return "";
+    }
+
+    @Override
+    public void remove() {}
+  }
+
+  private static class IteratorPredicate<T> implements Iterator<T>, Predicate<T> {
+
+    @Override
+    public boolean test(T t) {
+      return false;
+    }
+
+    @Override
+    public boolean hasNext() {
+      return false;
+    }
+
+    @Override
+    public T next() {
+      return null;
+    }
+
   }
 
 }

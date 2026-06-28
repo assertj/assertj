@@ -15,7 +15,7 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Duration;
 import java.util.concurrent.CancellationException;
