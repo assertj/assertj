@@ -26,6 +26,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -3553,19 +3554,21 @@ public class BDDAssertions extends Assertions {
    * <p>
    * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSSX</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link java.sql.Timestamp} String representation support)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
-   * Example of valid string date representations:
+   * Examples of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    *

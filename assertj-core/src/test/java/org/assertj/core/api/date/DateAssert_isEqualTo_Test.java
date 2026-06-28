@@ -15,11 +15,11 @@
  */
 package org.assertj.core.api.date;
 
+import static java.time.Instant.parse;
 import static java.time.ZoneId.systemDefault;
 import static java.util.stream.IntStream.range;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -35,7 +35,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.opentest4j.AssertionFailedError;
 
 /**
  * @author Joel Costigliola
@@ -55,24 +54,23 @@ class DateAssert_isEqualTo_Test {
     }
 
     Stream<Arguments> should_pass() {
-      return Stream.of(arguments(Date.from(Instant.parse("1970-01-01T00:00:00.000000001Z")),
-                                 Date.from(Instant.parse("1970-01-01T00:00:00.000000001Z"))),
-                       arguments(Date.from(Instant.parse("1970-01-01T00:00:00.000000001Z")),
-                                 Timestamp.from(Instant.parse("1970-01-01T00:00:00.000000001Z"))));
+      return Stream.of(arguments(Date.from(parse("1970-01-01T00:00:00.000000001Z")),
+                                 Date.from(parse("1970-01-01T00:00:00.000000001Z"))),
+                       arguments(Date.from(parse("1970-01-01T00:00:00.000000001Z")),
+                                 Timestamp.from(parse("1970-01-01T00:00:00.000000001Z"))));
     }
 
     @ParameterizedTest
     @MethodSource
     void should_fail(Date actual, Object expected) {
-      // WHEN
-      var error = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
-      // THEN
-      then(error).isInstanceOf(AssertionFailedError.class);
+      assertThatAssertionErrorIsThrownBy(() -> assertThat(actual).isEqualTo(expected));
     }
 
     Stream<Arguments> should_fail() {
-      return Stream.of(arguments(Timestamp.from(Instant.parse("1970-01-01T00:00:00.000000001Z")),
-                                 Date.from(Instant.parse("1970-01-01T00:00:00.000000001Z"))));
+      return Stream.of(arguments(Date.from(parse("1970-01-01T00:00:00.01Z")),
+                                 Date.from(parse("1970-01-01T00:00:00.00Z"))),
+                       arguments(Timestamp.from(parse("1970-01-01T00:00:00.000000001Z")),
+                                 Date.from(parse("1970-01-01T00:00:00.000000001Z"))));
     }
 
   }
@@ -89,10 +87,10 @@ class DateAssert_isEqualTo_Test {
     }
 
     Stream<Arguments> should_pass() {
-      return Stream.of(arguments(Date.from(Instant.parse("1970-01-01T00:00:00.000000001Z")),
-                                 Instant.parse("1970-01-01T00:00:00.000000001Z")),
-                       arguments(Timestamp.from(Instant.parse("1970-01-01T00:00:00.000000001Z")),
-                                 Instant.parse("1970-01-01T00:00:00.000000001Z")));
+      return Stream.of(arguments(Date.from(parse("1970-01-01T00:00:00.000000001Z")),
+                                 parse("1970-01-01T00:00:00.000000001Z")),
+                       arguments(Timestamp.from(parse("1970-01-01T00:00:00.000000001Z")),
+                                 parse("1970-01-01T00:00:00.000000001Z")));
     }
 
   }
@@ -109,23 +107,20 @@ class DateAssert_isEqualTo_Test {
     }
 
     Stream<Arguments> should_pass() {
-      return Stream.of(arguments(Date.from(Instant.parse("1970-01-01T00:00:00.000000001Z")), "1970-01-01T00:00:00.000Z"));
+      return Stream.of(arguments(Date.from(parse("1970-01-01T00:00:00.000000001Z")), "1970-01-01T00:00:00.000Z"),
+                       arguments(Date.from(parse("1970-01-01T00:00:00.000000001Z")), "1970-01-01T00:00:00.000000001Z"));
     }
 
     @ParameterizedTest
     @MethodSource
     void should_fail(Date actual, String expected) {
-      // WHEN
-      var error = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
-      // THEN
-      then(error).isInstanceOf(AssertionFailedError.class);
+      assertThatAssertionErrorIsThrownBy(() -> assertThat(actual).isEqualTo(expected));
     }
 
     Stream<Arguments> should_fail() {
-      return Stream.of(arguments(Date.from(Instant.parse("1970-01-01T00:00:00.000000001Z")),
-                                 "1970-01-01T00:00:00.000000001Z"),
-                       arguments(Timestamp.from(Instant.parse("1970-01-01T00:00:00.000000001Z")),
-                                 "1970-01-01T00:00:00.000000001Z"));
+      return Stream.of(arguments(Date.from(parse("1970-01-01T00:00:00.01Z")), "1970-01-01T00:00:00.000Z"),
+        // Timestamps vs Date
+                       arguments(Timestamp.from(parse("1970-01-01T00:00:00.000000001Z")), "1970-01-01T00:00:00.000000001Z"));
     }
 
     // https://github.com/assertj/assertj/issues/3873
@@ -138,5 +133,4 @@ class DateAssert_isEqualTo_Test {
     }
 
   }
-
 }
