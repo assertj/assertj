@@ -2504,6 +2504,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * @deprecated won't support lenient date parsing in 4.x (it was not a good idea in the first place, who wants to parse date like 2001-01-34 ?)
+   *
    * Instead of using default strict date/time parsing, it is possible to use lenient parsing mode for default date
    * formats parser to interpret inputs that do not precisely match supported date formats (lenient parsing).
    * <p>
@@ -2534,6 +2536,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param value whether lenient parsing mode should be enabled or not
    * @since 3.9.0
    */
+  @Deprecated
   default void setLenientDateParsing(boolean value) {
     Assertions.setLenientDateParsing(value);
   }

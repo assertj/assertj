@@ -200,6 +200,8 @@ public class Configuration {
   }
 
   /**
+   * @deprecated won't support lenient date parsing in 4.x (it was not a good idea in the first place, who wants to parse date like 2001-01-34 ?)
+   *
    * Returns whether AssertJ will use lenient parsing mode for default date formats.
    * Default is {@value #LENIENT_DATE_PARSING}.
    * <p>
@@ -207,11 +209,14 @@ public class Configuration {
    *
    * @return whether AssertJ will use lenient parsing mode for default date formats.
    */
+  @Deprecated
   public boolean lenientDateParsingEnabled() {
     return lenientDateParsing;
   }
 
   /**
+   * @deprecated won't support lenient date parsing in 4.x (it was not a good idea in the first place, who wants to parse date like 2001-01-34 ?)
+   *
    * Returns whether AssertJ will use lenient parsing mode for default date formats.
    * <p>
    * See {@link Assertions#setLenientDateParsing(boolean)} for a detailed description.
@@ -220,6 +225,7 @@ public class Configuration {
    *
    * @param lenientDateParsing whether AssertJ will use lenient parsing mode for default date formats.
    */
+  @Deprecated
   public void setLenientDateParsing(boolean lenientDateParsing) {
     this.lenientDateParsing = lenientDateParsing;
   }
