@@ -26,11 +26,9 @@ import org.assertj.core.internal.Spliterators;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-/**
- * Base class for {@link Spliterators} tests.
- *
- * @author William Bakker
- */
+/// Base class for [Spliterators] tests.
+///
+/// @author William Bakker
 public class SpliteratorsBaseTest {
 
   protected static final AssertionInfo INFO = someInfo();

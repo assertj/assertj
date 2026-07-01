@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_METHOD;
 
 import java.util.Arrays;
 
-import org.assertj.core.api.SoftAssertionsProvider;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -34,15 +33,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-/**
- * Integration tests for {@link SoftAssertionsExtension} with a custom implementation of {@link SoftAssertionsProvider}.
- *
- * @author Sam Brannen
- * @author Fr Jeremy Krieg
- * @since 3.16
- * @see SoftAssertionsExtensionIntegrationTest
- * @see BDDSoftAssertionsExtensionIntegrationTest
- */
+/// Integration tests for [SoftAssertionsExtension] with a custom implementation of [SoftAssertionsProvider].
+///
+/// @author Sam Brannen
+/// @author Fr Jeremy Krieg
+/// @since 3.16
+/// @see SoftAssertionsExtensionIntegrationTest
+/// @see BDDSoftAssertionsExtensionIntegrationTest
 @DisplayName("JUnit Jupiter Soft Assertions extension integration tests (custom)")
 class CustomSoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsExtensionIntegrationTests {
 

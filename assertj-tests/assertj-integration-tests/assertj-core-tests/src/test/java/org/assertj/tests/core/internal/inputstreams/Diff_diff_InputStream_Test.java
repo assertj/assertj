@@ -29,9 +29,7 @@ import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Matthieu Baechler
- */
+/// @author Matthieu Baechler
 class Diff_diff_InputStream_Test {
 
   private static Diff diff;

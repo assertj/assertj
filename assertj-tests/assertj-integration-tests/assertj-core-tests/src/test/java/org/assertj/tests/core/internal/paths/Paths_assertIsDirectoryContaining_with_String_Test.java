@@ -37,9 +37,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-/**
- * @author Valeriy Vyrva
- */
+/// @author Valeriy Vyrva
 class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
 
   @Test

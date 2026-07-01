@@ -24,9 +24,7 @@ import org.assertj.core.api.IntPredicateAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Filip Hrisafov
- */
+/// @author Filip Hrisafov
 class Assertions_assertThat_with_IntPredicate_Test {
 
   private IntPredicate actual;

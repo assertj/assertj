@@ -15,11 +15,9 @@
  */
 package org.assertj.tests.core.testkit;
 
-/**
- * same as {@link JediCondition}, only the description is different, it works better on error message
- *
- * @author Nicolas François
- */
+/// same as [JediCondition], only the description is different, it works better on error message
+///
+/// @author Nicolas François
 public class JediPowerCondition extends JediCondition {
 
   public JediPowerCondition() {

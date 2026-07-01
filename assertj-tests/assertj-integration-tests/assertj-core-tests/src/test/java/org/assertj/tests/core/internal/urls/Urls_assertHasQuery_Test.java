@@ -25,13 +25,9 @@ import java.net.URL;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for
- * <code>{@link org.assertj.core.internal.Urls#assertHasQuery(org.assertj.core.api.AssertionInfo, java.net.URL, String)}  </code>
- * .
- *
- * @author Alexander Bischof
- */
+/// Tests for [org.assertj.core.internal.Urls#assertHasQuery(org.assertj.core.api.AssertionInfo, java.net.URL, String)].
+///
+/// @author Alexander Bischof
 class Urls_assertHasQuery_Test extends UrlsBaseTest {
 
   @Test

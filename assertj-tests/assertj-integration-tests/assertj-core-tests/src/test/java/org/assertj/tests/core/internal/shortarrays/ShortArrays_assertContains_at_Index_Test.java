@@ -30,15 +30,12 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
-import org.assertj.core.internal.ShortArrays;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ShortArrays#assertContains(AssertionInfo, short[], short, Index)}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// Tests for [ShortArrays#assertContains(AssertionInfo, short[].
+///
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class ShortArrays_assertContains_at_Index_Test extends ShortArraysBaseTest {
 
   @Test

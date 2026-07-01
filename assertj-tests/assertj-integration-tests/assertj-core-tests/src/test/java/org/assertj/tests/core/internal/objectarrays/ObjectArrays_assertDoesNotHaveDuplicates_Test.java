@@ -26,9 +26,7 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- */
+/// @author Alex Ruiz
 class ObjectArrays_assertDoesNotHaveDuplicates_Test extends ObjectArraysBaseTest {
 
   @Test

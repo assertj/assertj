@@ -15,9 +15,7 @@
  */
 package org.assertj.tests.core.testkit;
 
-/**
- * @author Joel Costigliola
- */
+/// @author Joel Costigliola
 public class Player {
 
   private Name name;

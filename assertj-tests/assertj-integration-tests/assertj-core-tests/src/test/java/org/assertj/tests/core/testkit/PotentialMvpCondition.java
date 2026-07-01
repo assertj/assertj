@@ -17,12 +17,9 @@ package org.assertj.tests.core.testkit;
 
 import org.assertj.core.api.Condition;
 
-/**
- * 
- * A {@code Condition} checking if a {@link Player} is a potential MVP.
- * 
- * @author Joel Costigliola
- */
+/// A `Condition` checking if a [Player] is a potential MVP.
+///
+/// @author Joel Costigliola
 public class PotentialMvpCondition extends Condition<Player> {
 
   public PotentialMvpCondition() {

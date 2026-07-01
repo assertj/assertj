@@ -17,9 +17,7 @@ package org.assertj.tests.core.testkit;
 
 import java.util.Comparator;
 
-/**
- * @author Mikhail Mazursky
- */
+/// @author Mikhail Mazursky
 public class CaseInsensitiveCharSequenceComparator implements Comparator<CharSequence> {
 
   public static final CaseInsensitiveCharSequenceComparator INSTANCE = new CaseInsensitiveCharSequenceComparator();

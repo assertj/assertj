@@ -18,10 +18,8 @@ package org.assertj.tests.core.testkit;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author Yvonne Wang
- * @author Joel Costigliola
- */
+/// @author Yvonne Wang
+/// @author Joel Costigliola
 public class Employee {
 
   // intentionally public to test retrieval of a public field that is not a property

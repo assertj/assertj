@@ -44,11 +44,9 @@ class AssertionMatcher_matches_Test {
 
   private boolean removeAssertJRelatedElementsFromStackTrace;
 
-  /**
-   * Stacktrace filtering must be disabled in order to check frames in
-   * {@link this#matcher_should_fill_description_when_assertion_fails()}.
-   * I use setUp and tearDown methods to ensure that it is set to original value after a test.
-   */
+  /// Stacktrace filtering must be disabled in order to check frames in
+  /// [#matcher_should_fill_description_when_assertion_fails()].
+  /// I use setUp and tearDown methods to ensure that it is set to original value after a test.
   @BeforeEach
   public void setUp() {
     removeAssertJRelatedElementsFromStackTrace = Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace();
@@ -80,10 +78,8 @@ class AssertionMatcher_matches_Test {
     assertThat(isZeroMatcher.matches(ONE)).isFalse();
   }
 
-  /**
-   * {@link Failures#removeAssertJRelatedElementsFromStackTrace} must be set to true
-   * in order for this test to pass. It is in {@link this#setUp()}.
-   */
+  /// [Failures#removeAssertJRelatedElementsFromStackTrace] must be set to true
+  /// in order for this test to pass. It is in [#setUp()].
   @Test
   void matcher_should_fill_description_when_assertion_fails() {
     // WHEN

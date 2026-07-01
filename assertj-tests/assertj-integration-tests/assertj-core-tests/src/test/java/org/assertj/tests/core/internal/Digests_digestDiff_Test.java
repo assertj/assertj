@@ -30,9 +30,7 @@ import org.assertj.core.internal.DigestDiff;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Valeriy Vyrva
- */
+/// @author Valeriy Vyrva
 class Digests_digestDiff_Test {
 
   private static final byte[] EXPECTED_MD5_DIGEST = { 58, -63, -81, -94, -88, -101, 126, 79, 24, 102, 80, 40, 119, -65, 29, -59 };

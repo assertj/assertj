@@ -23,11 +23,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- * @author Mikhail Mazursky
- * @author Alexander Bischof
- */
+/// @author Alex Ruiz
+/// @author Mikhail Mazursky
+/// @author Alexander Bischof
 class Assertions_assertThat_with_OptionalDouble_Test {
 
   private OptionalDouble actual;

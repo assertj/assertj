@@ -25,9 +25,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Matthieu Baechler
- */
+/// @author Matthieu Baechler
 class Assertions_assertThat_with_InputStream_Test {
 
   private static InputStream actual;

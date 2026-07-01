@@ -26,11 +26,9 @@ import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.api.ObjectAssert;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Yvonne Wang
- * @author Alex Ruiz
- * @author Mikhail Mazursky
- */
+/// @author Yvonne Wang
+/// @author Alex Ruiz
+/// @author Mikhail Mazursky
 class Assertions_assertThat_with_List_Test {
 
   private static class Person {

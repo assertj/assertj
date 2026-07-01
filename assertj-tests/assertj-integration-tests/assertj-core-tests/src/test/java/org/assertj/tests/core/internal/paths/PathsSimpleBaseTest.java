@@ -30,9 +30,7 @@ import org.assertj.core.internal.Paths;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 
-/**
- * @author David Haccoun
- */
+/// @author David Haccoun
 public abstract class PathsSimpleBaseTest {
 
   protected static final AssertionInfo INFO = someInfo();

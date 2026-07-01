@@ -26,10 +26,8 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Joel Costigliola
- * @author Mikhail Mazursky
- */
+/// @author Joel Costigliola
+/// @author Mikhail Mazursky
 class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
 
   @Override

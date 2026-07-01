@@ -25,10 +25,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class IterableAssert_isEmpty_Test {
 
   @Test

@@ -24,9 +24,7 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author David Haccoun
- */
+/// @author David Haccoun
 class Throwables_assertHasMessageFindingMatch_Test extends ThrowablesBaseTest {
 
   private static final String REGEX = "waiting for Foo";

@@ -26,9 +26,7 @@ import org.assertj.core.internal.BinaryDiffResult;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Olivier Michallat
- */
+/// @author Olivier Michallat
 class BinaryDiff_diff_InputStream_Test {
 
   private static BinaryDiff binaryDiff;

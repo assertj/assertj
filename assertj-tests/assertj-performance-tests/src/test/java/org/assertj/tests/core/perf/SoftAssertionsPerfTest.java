@@ -54,14 +54,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-/**
- * results in 3.9.0  : ~3000ms
- * results in 3.9.1+ : ~9300ms
- * results in 3.10.0 : ~6000ms
- * results in 3.10.0 with Raphael changes < 1.8.10: ~5500ms
- * results in 3.10.0 with 1.8.10: ~5100ms
- * results in 3.10.0 with 1.8.11: ~5000ms
- */
+/// results in 3.9.0 : ~3000ms
+/// results in 3.9.1+ : ~9300ms
+/// results in 3.10.0 : ~6000ms
+/// results in 3.10.0 with Raphael changes < 1.8.10: ~5500ms
+/// results in 3.10.0 with 1.8.10: ~5100ms
+/// results in 3.10.0 with 1.8.11: ~5000ms
 @Disabled
 class SoftAssertionsPerfTest {
 

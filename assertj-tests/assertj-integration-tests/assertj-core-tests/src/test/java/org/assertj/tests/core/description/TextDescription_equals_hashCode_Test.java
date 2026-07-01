@@ -25,9 +25,7 @@ import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- */
+/// @author Alex Ruiz
 class TextDescription_equals_hashCode_Test {
 
   private static TextDescription description;

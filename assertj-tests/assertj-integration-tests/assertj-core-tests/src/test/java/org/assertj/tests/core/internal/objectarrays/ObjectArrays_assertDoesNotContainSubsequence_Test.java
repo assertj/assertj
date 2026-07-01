@@ -29,9 +29,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.internal.ObjectArrays;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Marcin Mikosik
- */
+/// @author Marcin Mikosik
 class ObjectArrays_assertDoesNotContainSubsequence_Test extends ObjectArraysBaseTest {
 
   @Override

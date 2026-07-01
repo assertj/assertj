@@ -23,9 +23,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests navigating a generated Assert class with a List property
- */
+/// Tests navigating a generated Assert class with a List property
 class ClassBasedNavigableList_withDefault_Test {
 
   @Test

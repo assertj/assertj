@@ -26,9 +26,7 @@ import org.assertj.core.internal.Short2DArrays;
 import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.BeforeEach;
 
-/**
- * @author Maciej Wajcht
- */
+/// @author Maciej Wajcht
 class Short2DArraysBaseTest {
 
   protected short[][] actual;

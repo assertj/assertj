@@ -29,14 +29,11 @@ import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ShortArrays;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ShortArrays#assertContainsOnlyOnce(AssertionInfo, short[], short[])}</code>.
- * 
- * @author William Delanoue
- */
+/// Tests for [ShortArrays#assertContainsOnlyOnce(AssertionInfo, short[].
+///
+/// @author William Delanoue
 class ShortArrays_assertContainsOnlyOnce_Test extends ShortArraysBaseTest {
 
   @Test

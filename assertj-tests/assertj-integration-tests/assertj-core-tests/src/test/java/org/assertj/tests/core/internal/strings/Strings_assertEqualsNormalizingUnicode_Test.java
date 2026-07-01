@@ -31,11 +31,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-/**
- * Tests for <code>{@link org.assertj.core.internal.Strings#assertEqualsToNormalizingUnicode(AssertionInfo, CharSequence, CharSequence)} (org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)} </code>.
- *
- * @author Julieta Navarro
- */
+/// Tests for [org.assertj.core.internal.Strings#assertEqualsToNormalizingUnicode(AssertionInfo, CharSequence, CharSequence)].
+///
+/// @author Julieta Navarro
 class Strings_assertEqualsNormalizingUnicode_Test extends StringsBaseTest {
   @Test
   void should_fail_if_actual_is_not_null_and_expected_is_null() {

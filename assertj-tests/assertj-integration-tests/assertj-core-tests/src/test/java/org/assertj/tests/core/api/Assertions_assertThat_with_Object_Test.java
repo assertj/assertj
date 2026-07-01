@@ -21,10 +21,8 @@ import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- * @author Mikhail Mazursky
- */
+/// @author Alex Ruiz
+/// @author Mikhail Mazursky
 class Assertions_assertThat_with_Object_Test {
 
   @Test

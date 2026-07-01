@@ -23,9 +23,7 @@ import org.junit.jupiter.api.Test;
 
 import com.google.common.base.Optional;
 
-/**
- * @author Joel Costigliola
- */
+/// @author Joel Costigliola
 @SuppressWarnings("Guava")
 class Assertions_assertThat_with_Optional_Test {
 

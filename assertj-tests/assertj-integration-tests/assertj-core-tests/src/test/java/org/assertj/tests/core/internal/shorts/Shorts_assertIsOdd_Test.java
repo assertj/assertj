@@ -20,17 +20,13 @@ import static org.assertj.core.error.ShouldBeOdd.shouldBeOdd;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Shorts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-/**
- * Tests for <code>{@link Shorts#assertIsOdd(AssertionInfo, Number)}</code>.
- *
- * @author Cal027
- */
+/// Tests for [Shorts#assertIsOdd(AssertionInfo, Number)].
+///
+/// @author Cal027
 @DisplayName("Shorts assertIsOdd")
 class Shorts_assertIsOdd_Test extends ShortsBaseTest {
 

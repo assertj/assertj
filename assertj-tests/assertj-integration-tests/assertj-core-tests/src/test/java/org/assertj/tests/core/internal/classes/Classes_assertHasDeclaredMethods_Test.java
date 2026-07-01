@@ -22,16 +22,12 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newTreeSet;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.Strings;
 import org.assertj.tests.core.internal.ClassesBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for
- * <code>{@link org.assertj.core.internal.Classes#assertHasDeclaredMethods(AssertionInfo, Class, String...)}</code>
- */
+/// Tests for [org.assertj.core.internal.Classes#assertHasDeclaredMethods(AssertionInfo, Class, String)]
 class Classes_assertHasDeclaredMethods_Test extends ClassesBaseTest {
 
   @BeforeEach

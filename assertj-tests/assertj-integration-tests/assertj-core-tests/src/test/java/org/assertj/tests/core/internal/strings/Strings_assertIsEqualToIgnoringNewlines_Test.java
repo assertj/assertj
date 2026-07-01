@@ -23,9 +23,7 @@ import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-/**
- * @author Daniel Weber
- */
+/// @author Daniel Weber
 class Strings_assertIsEqualToIgnoringNewlines_Test extends StringsBaseTest {
 
   private static final String ACTUAL_WITHOUT_NEW_LINES = "Some textWith new lines";

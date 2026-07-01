@@ -17,9 +17,7 @@ package org.assertj.tests.core.testkit;
 
 import java.util.List;
 
-/**
- * @author Alex Ruiz
- */
+/// @author Alex Ruiz
 public final class ObjectArrays {
   private static final Object[] EMPTY = {};
 

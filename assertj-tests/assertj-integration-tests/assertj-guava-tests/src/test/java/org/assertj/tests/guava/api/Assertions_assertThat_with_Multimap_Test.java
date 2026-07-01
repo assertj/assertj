@@ -24,9 +24,7 @@ import org.junit.jupiter.api.Test;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
-/**
- * @author Joel Costigliola
- */
+/// @author Joel Costigliola
 class Assertions_assertThat_with_Multimap_Test {
 
   @Test

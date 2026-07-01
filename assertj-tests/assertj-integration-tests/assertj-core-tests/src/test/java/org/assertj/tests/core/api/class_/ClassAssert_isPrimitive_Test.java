@@ -25,9 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-/**
- * @author Manuel Gutierrez
- */
+/// @author Manuel Gutierrez
 class ClassAssert_isPrimitive_Test {
 
   @Test

@@ -22,11 +22,9 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link org.assertj.core.presentation.UnicodeRepresentation#toStringOf(Object)}.
- *
- * @author Mariusz Smykula
- */
+/// Tests for [org.assertj.core.presentation.UnicodeRepresentation#toStringOf(Object)].
+///
+/// @author Mariusz Smykula
 class Assertions_assertThat_inUnicode_Test {
 
   @Test

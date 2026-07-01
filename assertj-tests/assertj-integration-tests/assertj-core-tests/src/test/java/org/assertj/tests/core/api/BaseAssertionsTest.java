@@ -31,9 +31,7 @@ import org.assertj.core.api.AssertDelegateTarget;
 import org.assertj.core.api.FactoryBasedNavigableIterableAssert;
 import org.assertj.core.api.FactoryBasedNavigableListAssert;
 
-/**
- * @author Filip Hrisafov
- */
+/// @author Filip Hrisafov
 public abstract class BaseAssertionsTest {
 
   {
@@ -79,13 +77,11 @@ public abstract class BaseAssertionsTest {
     };
   }
 
-  /**
-   * Checks if the methods have same generic parameter types.
-   *
-   * @param method1 the first method
-   * @param method2 the second method
-   * @return {@code true} if the methods have same generic parameters, {@code false} otherwise
-   */
+  /// Checks if the methods have same generic parameter types.
+  ///
+  /// @param method1 the first method
+  /// @param method2 the second method
+  /// @return `true` if the methods have same generic parameters, `false` otherwise
   private static boolean sameGenericParameterTypes(Method method1, Method method2) {
     Type[] pTypes1 = method1.getGenericParameterTypes();
     Type[] pTypes2 = method2.getGenericParameterTypes();
@@ -101,35 +97,29 @@ public abstract class BaseAssertionsTest {
     return true;
   }
 
-  /**
-   * Checks if the methods have the same name.
-   *
-   * @param method1 the first method
-   * @param method2 the second method
-   * @return {@code true} if the methods have the same name, {@code false} otherwise
-   */
+  /// Checks if the methods have the same name.
+  ///
+  /// @param method1 the first method
+  /// @param method2 the second method
+  /// @return `true` if the methods have the same name, `false` otherwise
   private static boolean sameMethodName(Method method1, Method method2) {
     return method1.getName().equals(method2.getName());
   }
 
-  /**
-   * Checks if the methods have same generic return type.
-   *
-   * @param method1 the first method
-   * @param method2 the second method
-   * @return {@code true} if the methods have same generic return type, {@code false} otherwise.
-   */
+  /// Checks if the methods have same generic return type.
+  ///
+  /// @param method1 the first method
+  /// @param method2 the second method
+  /// @return `true` if the methods have same generic return type, `false` otherwise.
   private static boolean sameGenericReturnType(Method method1, Method method2) {
     return sameType(method1.getGenericReturnType(), method2.getGenericReturnType());
   }
 
-  /**
-   * Checks if the types are equal.
-   *
-   * @param type1 the first type
-   * @param type2 the second type
-   * @return {@code true} if the types are equal, {@code false} otherwise
-   */
+  /// Checks if the types are equal.
+  ///
+  /// @param type1 the first type
+  /// @param type2 the second type
+  /// @return `true` if the types are equal, `false` otherwise
   private static boolean sameType(Type type1, Type type2) {
     return canonize(type1).equals(canonize(type2));
   }

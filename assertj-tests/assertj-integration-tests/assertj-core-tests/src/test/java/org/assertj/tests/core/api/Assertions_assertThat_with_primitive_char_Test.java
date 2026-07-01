@@ -21,11 +21,9 @@ import org.assertj.core.api.AbstractCharacterAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Assertions#assertThat(char)}</code>.
- * 
- * @author Alex Ruiz
- */
+/// Tests for [Assertions#assertThat(char)].
+///
+/// @author Alex Ruiz
 class Assertions_assertThat_with_primitive_char_Test {
 
   @Test

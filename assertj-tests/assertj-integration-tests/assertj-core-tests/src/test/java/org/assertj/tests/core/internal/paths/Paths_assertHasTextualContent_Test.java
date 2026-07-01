@@ -38,10 +38,8 @@ import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 
-/**
- * @author Olivier Michallat
- * @author Joel Costigliola
- */
+/// @author Olivier Michallat
+/// @author Joel Costigliola
 class Paths_assertHasTextualContent_Test extends PathsBaseTest {
 
   private static final Charset CHARSET = defaultCharset();

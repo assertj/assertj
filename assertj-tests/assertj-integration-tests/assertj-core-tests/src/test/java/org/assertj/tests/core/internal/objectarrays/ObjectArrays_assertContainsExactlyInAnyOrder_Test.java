@@ -30,9 +30,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Lovro Pandzic
- */
+/// @author Lovro Pandzic
 class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArraysBaseTest {
 
   @Test

@@ -23,11 +23,9 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Nicolas François
- * @author Mikhail Mazursky
- * @author Joel Costigliola
- */
+/// @author Nicolas François
+/// @author Mikhail Mazursky
+/// @author Joel Costigliola
 class ObjectArrays_assertAreAtMost_Test extends ObjectArraysWithConditionBaseTest {
 
   @Test

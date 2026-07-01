@@ -27,9 +27,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Billy Yuan
- */
+/// @author Billy Yuan
 class ObjectArrays_assertContainsOnlyNulls_Test extends ObjectArraysBaseTest {
   private Object[] actual = array();
 

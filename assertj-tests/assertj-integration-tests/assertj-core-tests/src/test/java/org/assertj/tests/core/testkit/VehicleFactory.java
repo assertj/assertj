@@ -18,11 +18,9 @@ package org.assertj.tests.core.testkit;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Used for testing property access of inner classes.
- * 
- * @author Marcus Klimstra (CGI)
- */
+/// Used for testing property access of inner classes.
+///
+/// @author Marcus Klimstra (CGI)
 public class VehicleFactory {
 
   public List<Vehicle> getVehicles() {

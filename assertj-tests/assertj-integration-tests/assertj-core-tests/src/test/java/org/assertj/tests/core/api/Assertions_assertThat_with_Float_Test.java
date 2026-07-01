@@ -18,14 +18,11 @@ package org.assertj.tests.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AbstractFloatAssert;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Assertions#assertThat(Float)}</code>.
- * 
- * @author Alex Ruiz
- */
+/// Tests for [Assertions#assertThat(Float)].
+///
+/// @author Alex Ruiz
 class Assertions_assertThat_with_Float_Test {
 
   @Test

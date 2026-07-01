@@ -23,17 +23,13 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.stream.Stream;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Int2DArrays;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-/**
- * Tests for <code>{@link Int2DArrays#assertNotEmpty(AssertionInfo, int[][])}</code>.
- *
- * @author Maciej Wajcht
- */
+/// Tests for [Int2DArrays#assertNotEmpty(AssertionInfo, int[].
+///
+/// @author Maciej Wajcht
 class Arrays2D_assertNotEmpty_Test extends Arrays2D_BaseTest {
 
   @Test

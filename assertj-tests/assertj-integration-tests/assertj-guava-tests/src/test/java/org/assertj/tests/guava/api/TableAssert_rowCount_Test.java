@@ -25,9 +25,7 @@ import org.assertj.guava.api.TableAssert;
 import org.assertj.guava.api.TableIntegerAssert;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Maciej Kucharczyk
- */
+/// @author Maciej Kucharczyk
 class TableAssert_rowCount_Test extends TableAssertBaseTest {
 
   @Test

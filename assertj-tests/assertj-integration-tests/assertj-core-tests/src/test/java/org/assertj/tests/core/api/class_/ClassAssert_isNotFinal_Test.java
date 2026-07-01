@@ -23,9 +23,7 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Michal Kordas
- */
+/// @author Michal Kordas
 class ClassAssert_isNotFinal_Test {
 
   @Test

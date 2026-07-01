@@ -23,9 +23,7 @@ import static org.assertj.guava.api.Assertions.assertThat;
 import org.assertj.guava.api.TableAssert;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Maciej Kucharczyk
- */
+/// @author Maciej Kucharczyk
 class TableAssert_isNotEmpty_Test extends TableAssertBaseTest {
 
   @Test

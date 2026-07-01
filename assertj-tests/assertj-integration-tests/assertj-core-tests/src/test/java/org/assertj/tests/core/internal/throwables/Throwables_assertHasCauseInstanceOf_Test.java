@@ -24,9 +24,7 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Jean-Christophe Gay
- */
+/// @author Jean-Christophe Gay
 class Throwables_assertHasCauseInstanceOf_Test extends ThrowablesBaseTest {
 
   private final Throwable throwableWithCause = new Throwable(new IllegalArgumentException());

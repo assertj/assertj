@@ -20,10 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Yvonne Wang
- * @author Alex Ruiz
- */
+/// @author Yvonne Wang
+/// @author Alex Ruiz
 class TextDescription_toString_Test {
 
   @Test

@@ -25,9 +25,7 @@ import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Eric Rizzo
- */
+/// @author Eric Rizzo
 class DurationAssert_withFormatter_Test {
 
   @Test
