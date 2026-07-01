@@ -19,13 +19,12 @@ import java.util.Set;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldContainValue;
 
-/// Creates an error message indicating that an assertion that verifies a map contains some values failed. TODO : move to
-/// assertj-core to replace [ShouldContainValue]
+/// Creates an error message indicating that an assertion that verifies a map contains some values failed.
 ///
 /// @author Joel Costigliola
 public class ShouldContainValues extends BasicErrorMessageFactory {
+  // TODO: move to assertj-core to replace org.assertj.core.error.ShouldContainValue
 
   public static ErrorMessageFactory shouldContainValues(Object actual, Object[] values, Set<?> valuesNotFound) {
     return values.length == 1 ? new ShouldContainValues(actual, values[0])
