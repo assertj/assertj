@@ -20,13 +20,10 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 import com.google.common.base.Optional;
 
-/**
- * 
- * Creates an error message indicating that an Optional should contain an expected value
- * 
- * @author Kornel Kiełczewski
- * @author Joel Costigliola
- */
+/// Creates an error message indicating that an Optional should contain an expected value
+///
+/// @author Kornel Kiełczewski
+/// @author Joel Costigliola
 public final class OptionalShouldBePresentWithValue extends BasicErrorMessageFactory {
 
   public static <T> ErrorMessageFactory shouldBePresentWithValue(final Optional<T> actual, final Object value) {
