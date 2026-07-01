@@ -26,46 +26,42 @@ import org.assertj.core.api.ObjectAssert;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
-/**
- *
- * Assertions for guava {@link Multiset}.
- * <p>
- * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Multiset)}</code>
- * <p>
- *
- * @param <T> the type of elements contained in the tested Multiset value
- *
- * @author Max Daniline
- */
+/// Assertions for guava [Multiset].
+///
+/// To create an instance of this class, invoke `[Assertions#assertThat(Multiset)]`
+///
+/// @param <T> the type of elements contained in the tested Multiset value
+///
+/// @author Max Daniline
 public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>, Multiset<? extends T>, T, ObjectAssert<T>> {
 
   protected MultisetAssert(Multiset<? extends T> actual) {
     super(actual, MultisetAssert.class);
   }
 
-  /**
-   * Verifies the actual {@link Multiset} contains the given value <b>exactly</b> the given number of times.
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Multiset&lt;String&gt; actual = HashMultiset.create();
-   * actual.add("shoes", 2);
-   *
-   * // assertion succeeds
-   * assertThat(actual).contains(2, "shoes");
-   *
-   * // assertions fail
-   * assertThat(actual).contains(1, "shoes");
-   * assertThat(actual).contains(3, "shoes");</code></pre>
-   *
-   * @param expectedCount the exact number of times the given value should appear in the set
-   * @param expected the value which to expect
-   *
-   * @return this {@link MultisetAssert} for fluent chaining
-   *
-   * @throws AssertionError if the actual {@link Multiset} is null
-   * @throws AssertionError if the actual {@link Multiset} contains the given value a number of times different to the given count
-   */
+  /// Verifies the actual [Multiset] contains the given value **exactly** the given number of times.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Multiset<String> actual = HashMultiset.create();
+  /// actual.add("shoes", 2);
+  ///
+  /// // assertion succeeds
+  /// assertThat(actual).contains(2, "shoes");
+  ///
+  /// // assertions fail
+  /// assertThat(actual).contains(1, "shoes");
+  /// assertThat(actual).contains(3, "shoes");
+  /// ```
+  ///
+  /// @param expectedCount the exact number of times the given value should appear in the set
+  /// @param expected the value which to expect
+  ///
+  /// @return this [MultisetAssert] for fluent chaining
+  ///
+  /// @throws AssertionError if the actual [Multiset] is null
+  /// @throws AssertionError if the actual [Multiset] contains the given value a number of times different to the given count
   public MultisetAssert<T> contains(int expectedCount, T expected) {
     isNotNull();
     checkArgument(expectedCount >= 0, "The expected count should not be negative.");
@@ -76,29 +72,29 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
     return myself;
   }
 
-  /**
-   * Verifies the actual {@link Multiset} contains the given value <b>at least</b> the given number of times.
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Multiset&lt;String&gt; actual = HashMultiset.create();
-   * actual.add("shoes", 2);
-   *
-   * // assertions succeed
-   * assertThat(actual).containsAtLeast(1, "shoes");
-   * assertThat(actual).containsAtLeast(2, "shoes");
-   *
-   * // assertion fails
-   * assertThat(actual).containsAtLeast(3, "shoes");</code></pre>
-   *
-   * @param minimumCount the minimum number of times the given value should appear in the set
-   * @param expected the value which to expect
-   *
-   * @return this {@link MultisetAssert} for fluent chaining
-   *
-   * @throws AssertionError if the actual {@link Multiset} is null
-   * @throws AssertionError if the actual {@link Multiset} contains the given value fewer times than the given count
-   */
+  /// Verifies the actual [Multiset] contains the given value **at least** the given number of times.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Multiset<String> actual = HashMultiset.create();
+  /// actual.add("shoes", 2);
+  ///
+  /// // assertions succeed
+  /// assertThat(actual).containsAtLeast(1, "shoes");
+  /// assertThat(actual).containsAtLeast(2, "shoes");
+  ///
+  /// // assertion fails
+  /// assertThat(actual).containsAtLeast(3, "shoes");
+  /// ```
+  ///
+  /// @param minimumCount the minimum number of times the given value should appear in the set
+  /// @param expected the value which to expect
+  ///
+  /// @return this [MultisetAssert] for fluent chaining
+  ///
+  /// @throws AssertionError if the actual [Multiset] is null
+  /// @throws AssertionError if the actual [Multiset] contains the given value fewer times than the given count
   public MultisetAssert<T> containsAtLeast(int minimumCount, T expected) {
     isNotNull();
     checkArgument(minimumCount >= 0, "The minimum count should not be negative.");
@@ -109,30 +105,29 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
     return myself;
   }
 
-  /**
-   * Verifies the actual {@link Multiset} contains the given value <b>at most</b> the given number of times.
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Multiset&lt;String&gt; actual = HashMultiset.create();
-   * actual.add("shoes", 2);
-   *
-   * // assertions succeed
-   * assertThat(actual).containsAtMost(3, "shoes");
-   * assertThat(actual).containsAtMost(2, "shoes");
-   *
-   * // assertion fails
-   * assertThat(actual).containsAtMost(1, "shoes");</code></pre>
-   *
-   *
-   * @param maximumCount the maximum number of times the given value should appear in the set
-   *
-   * @param expected the value which to expect
-   * @return this {@link MultisetAssert} for fluent chaining
-   *
-   * @throws AssertionError if the actual {@link Multiset} is null
-   * @throws AssertionError if the actual {@link Multiset} contains the given value more times than the given count
-   */
+  /// Verifies the actual [Multiset] contains the given value **at most** the given number of times.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Multiset<String> actual = HashMultiset.create();
+  /// actual.add("shoes", 2);
+  ///
+  /// // assertions succeed
+  /// assertThat(actual).containsAtMost(3, "shoes");
+  /// assertThat(actual).containsAtMost(2, "shoes");
+  ///
+  /// // assertion fails
+  /// assertThat(actual).containsAtMost(1, "shoes");
+  /// ```
+  ///
+  /// @param maximumCount the maximum number of times the given value should appear in the set
+  ///
+  /// @param expected the value which to expect
+  /// @return this [MultisetAssert] for fluent chaining
+  ///
+  /// @throws AssertionError if the actual [Multiset] is null
+  /// @throws AssertionError if the actual [Multiset] contains the given value more times than the given count
   public MultisetAssert<T> containsAtMost(int maximumCount, T expected) {
     isNotNull();
     checkArgument(maximumCount >= 0, "The maximum count should not be negative.");

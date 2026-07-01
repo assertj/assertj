@@ -34,17 +34,13 @@ import org.assertj.core.data.MapEntry;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 
-/**
- * Assertions for guava {@link com.google.common.collect.RangeMap}.
- * <p>
- * To create an instance of this class, invoke <code>{@link
- * org.assertj.guava.api.Assertions#assertThat(com.google.common.collect.RangeMap)}</code>
- * <p>
- *
- * @param <K> the type of keys of the tested RangeMap value
- * @param <V> the type of values of the tested RangeMap value
- * @author Marcin Kwaczyński
- */
+/// Assertions for guava [com.google.common.collect.RangeMap].
+///
+/// To create an instance of this class, invoke `[org.assertj.guava.api.Assertions#assertThat(com.google.common.collect.RangeMap)]`
+///
+/// @param <K> the type of keys of the tested RangeMap value
+/// @param <V> the type of values of the tested RangeMap value
+/// @author Marcin Kwaczyński
 public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<RangeMapAssert<K, V>, RangeMap<K, V>> {
 
   protected RangeMapAssert(final RangeMap<K, V> actual) {
@@ -56,31 +52,30 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return actual;
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.RangeMap} contains the given keys.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
-   *
-   * spectralColors.put(Range.closedOpen(380, 450), "violet");
-   * spectralColors.put(Range.closedOpen(450, 495), "blue");
-   * spectralColors.put(Range.closedOpen(495, 570), "green");
-   * spectralColors.put(Range.closedOpen(570, 590), "yellow");
-   * spectralColors.put(Range.closedOpen(590, 620), "orange");
-   * spectralColors.put(Range.closedOpen(620, 750), "red");
-   *
-   * assertThat(spectralColors).containsKeys(380, 600, 700);</code></pre>
-   *
-   * If the <code>keys</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
-   * <p>
-   *
-   * @param keys the keys to look for in actual {@link com.google.common.collect.RangeMap}.
-   * @return this {@link RangeMapAssert} for assertions chaining.
-   * @throws IllegalArgumentException if no param keys have been set.
-   * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} does not contain the given keys.
-   */
+  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given keys.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// RangeMap<Integer, String> spectralColors = TreeRangeMap.create();
+  ///
+  /// spectralColors.put(Range.closedOpen(380, 450), "violet");
+  /// spectralColors.put(Range.closedOpen(450, 495), "blue");
+  /// spectralColors.put(Range.closedOpen(495, 570), "green");
+  /// spectralColors.put(Range.closedOpen(570, 590), "yellow");
+  /// spectralColors.put(Range.closedOpen(590, 620), "orange");
+  /// spectralColors.put(Range.closedOpen(620, 750), "red");
+  ///
+  /// assertThat(spectralColors).containsKeys(380, 600, 700);
+  /// ```
+  ///
+  /// If the `keys` argument is null or empty, an [IllegalArgumentException] is thrown.
+  ///
+  /// @param keys the keys to look for in actual [com.google.common.collect.RangeMap].
+  /// @return this [RangeMapAssert] for assertions chaining.
+  /// @throws IllegalArgumentException if no param keys have been set.
+  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] does not contain the given keys.
   public RangeMapAssert<K, V> containsKeys(@SuppressWarnings("unchecked") K... keys) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(keys == null, "The keys to look for should not be null");
@@ -99,34 +94,33 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return myself;
   }
 
-  /**
-   * @deprecated use {@link #contains(MapEntry...)} instead (same method but using {@link MapEntry org.assertj.core.data.MapEntry} in place of {@link org.assertj.guava.data.MapEntry}.
-   * <p>
-   * Verifies that the actual {@link com.google.common.collect.RangeMap} contains the given entries.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
-   *
-   * spectralColors.put(Range.closedOpen(380, 450), "violet");
-   * spectralColors.put(Range.closedOpen(450, 495), "blue");
-   * spectralColors.put(Range.closedOpen(495, 570), "green");
-   * spectralColors.put(Range.closedOpen(570, 590), "yellow");
-   * spectralColors.put(Range.closedOpen(590, 620), "orange");
-   * spectralColors.put(Range.closedOpen(620, 750), "red");
-   *
-   * // entry can be statically imported from {@link org.assertj.guava.data.MapEntry}
-   * assertThat(spectralColors).contains(entry("400", "violet"), entry("650", "red"));</code></pre>
-   *
-   * If the <code>entries</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
-   * <p>
-   *
-   * @param entries the entries to look for in actual {@link com.google.common.collect.RangeMap}.
-   * @return this {@link RangeMapAssert} for assertions chaining.
-   * @throws IllegalArgumentException if no param entries have been set.
-   * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} does not contain the given entries.
-   */
+  /// @deprecated use [#contains(MapEntry...)] instead (same method but using [org.assertj.core.data.MapEntry][MapEntry] in place of [org.assertj.guava.data.MapEntry].
+  ///
+  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given entries.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// RangeMap<Integer, String> spectralColors = TreeRangeMap.create();
+  ///
+  /// spectralColors.put(Range.closedOpen(380, 450), "violet");
+  /// spectralColors.put(Range.closedOpen(450, 495), "blue");
+  /// spectralColors.put(Range.closedOpen(495, 570), "green");
+  /// spectralColors.put(Range.closedOpen(570, 590), "yellow");
+  /// spectralColors.put(Range.closedOpen(590, 620), "orange");
+  /// spectralColors.put(Range.closedOpen(620, 750), "red");
+  ///
+  /// // entry can be statically imported from [org.assertj.guava.data.MapEntry]
+  /// assertThat(spectralColors).contains(entry("400", "violet"), entry("650", "red"));
+  /// ```
+  ///
+  /// If the `entries` argument is null or empty, an [IllegalArgumentException] is thrown.
+  ///
+  /// @param entries the entries to look for in actual [com.google.common.collect.RangeMap].
+  /// @return this [RangeMapAssert] for assertions chaining.
+  /// @throws IllegalArgumentException if no param entries have been set.
+  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] does not contain the given entries.
   @SafeVarargs
   @Deprecated
   public final RangeMapAssert<K, V> contains(org.assertj.guava.data.MapEntry<K, V>... entries) {
@@ -147,32 +141,31 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.RangeMap} contains the given entries.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
-   *
-   * spectralColors.put(Range.closedOpen(380, 450), "violet");
-   * spectralColors.put(Range.closedOpen(450, 495), "blue");
-   * spectralColors.put(Range.closedOpen(495, 570), "green");
-   * spectralColors.put(Range.closedOpen(570, 590), "yellow");
-   * spectralColors.put(Range.closedOpen(590, 620), "orange");
-   * spectralColors.put(Range.closedOpen(620, 750), "red");
-   *
-   * // entry can be statically imported from {@link org.assertj.core.data.MapEntry}
-   * assertThat(spectralColors).contains(entry("400", "violet"), entry("650", "red"));</code></pre>
-   *
-   * If the <code>entries</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
-   * <p>
-   *
-   * @param entries the entries to look for in actual {@link com.google.common.collect.RangeMap}.
-   * @return this {@link RangeMapAssert} for assertions chaining.
-   * @throws IllegalArgumentException if no param entries have been set.
-   * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} does not contain the given entries.
-   */
+  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given entries.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// RangeMap<Integer, String> spectralColors = TreeRangeMap.create();
+  ///
+  /// spectralColors.put(Range.closedOpen(380, 450), "violet");
+  /// spectralColors.put(Range.closedOpen(450, 495), "blue");
+  /// spectralColors.put(Range.closedOpen(495, 570), "green");
+  /// spectralColors.put(Range.closedOpen(570, 590), "yellow");
+  /// spectralColors.put(Range.closedOpen(590, 620), "orange");
+  /// spectralColors.put(Range.closedOpen(620, 750), "red");
+  ///
+  /// // entry can be statically imported from [org.assertj.core.data.MapEntry]
+  /// assertThat(spectralColors).contains(entry("400", "violet"), entry("650", "red"));
+  /// ```
+  ///
+  /// If the `entries` argument is null or empty, an [IllegalArgumentException] is thrown.
+  ///
+  /// @param entries the entries to look for in actual [com.google.common.collect.RangeMap].
+  /// @return this [RangeMapAssert] for assertions chaining.
+  /// @throws IllegalArgumentException if no param entries have been set.
+  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] does not contain the given entries.
   @SafeVarargs
   public final RangeMapAssert<K, V> contains(MapEntry<K, V>... entries) {
     isNotNull();
@@ -192,31 +185,30 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.RangeMap} contains the given values.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
-   *
-   * spectralColors.put(Range.closedOpen(380, 450), "violet");
-   * spectralColors.put(Range.closedOpen(450, 495), "blue");
-   * spectralColors.put(Range.closedOpen(495, 570), "green");
-   * spectralColors.put(Range.closedOpen(570, 590), "yellow");
-   * spectralColors.put(Range.closedOpen(590, 620), "orange");
-   * spectralColors.put(Range.closedOpen(620, 750), "red");
-   *
-   * assertThat(actual).containsValues(&quot;violet&quot;, &quot;orange&quot;);</code></pre>
-   *
-   * If the <code>values</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
-   * <p>
-   *
-   * @param values the values to look for in actual {@link com.google.common.collect.RangeMap}.
-   * @return this {@link RangeMapAssert} for assertions chaining.
-   * @throws IllegalArgumentException if no param values have been set.
-   * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} does not contain the given values.
-   */
+  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given values.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// RangeMap<Integer, String> spectralColors = TreeRangeMap.create();
+  ///
+  /// spectralColors.put(Range.closedOpen(380, 450), "violet");
+  /// spectralColors.put(Range.closedOpen(450, 495), "blue");
+  /// spectralColors.put(Range.closedOpen(495, 570), "green");
+  /// spectralColors.put(Range.closedOpen(570, 590), "yellow");
+  /// spectralColors.put(Range.closedOpen(590, 620), "orange");
+  /// spectralColors.put(Range.closedOpen(620, 750), "red");
+  ///
+  /// assertThat(actual).containsValues("violet", "orange");
+  /// ```
+  ///
+  /// If the `values` argument is null or empty, an [IllegalArgumentException] is thrown.
+  ///
+  /// @param values the values to look for in actual [com.google.common.collect.RangeMap].
+  /// @return this [RangeMapAssert] for assertions chaining.
+  /// @throws IllegalArgumentException if no param values have been set.
+  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] does not contain the given values.
   public RangeMapAssert<K, V> containsValues(@SuppressWarnings("unchecked") V... values) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
@@ -235,20 +227,19 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.RangeMap} is empty.
-   *
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
-   *
-   * assertThat(actual).isEmpty();</code></pre>
-   *
-   * @return this {@link RangeMapAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is not empty.
-   */
+  /// Verifies that the actual [com.google.common.collect.RangeMap] is empty.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// RangeMap<Integer, String> spectralColors = TreeRangeMap.create();
+  ///
+  /// assertThat(actual).isEmpty();
+  /// ```
+  ///
+  /// @return this [RangeMapAssert] for assertions chaining.
+  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is not empty.
   public RangeMapAssert<K, V> isEmpty() {
     isNotNull();
     if (!actual.asMapOfRanges().isEmpty()) {
@@ -257,27 +248,26 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.RangeMap} is not empty.
-   *
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
-   * spectralColors.put(Range.closedOpen(380, 450), "violet");
-   * spectralColors.put(Range.closedOpen(450, 495), "blue");
-   * spectralColors.put(Range.closedOpen(495, 570), "green");
-   * spectralColors.put(Range.closedOpen(570, 590), "yellow");
-   * spectralColors.put(Range.closedOpen(590, 620), "orange");
-   * spectralColors.put(Range.closedOpen(620, 750), "red");
-   *
-   * assertThat(spectralColors).isNotEmpty();</code></pre>
-   *
-   * @return this {@link RangeMapAssert} for assertions chaining.
-   *
-   * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is empty.
-   */
+  /// Verifies that the actual [com.google.common.collect.RangeMap] is not empty.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// RangeMap<Integer, String> spectralColors = TreeRangeMap.create();
+  /// spectralColors.put(Range.closedOpen(380, 450), "violet");
+  /// spectralColors.put(Range.closedOpen(450, 495), "blue");
+  /// spectralColors.put(Range.closedOpen(495, 570), "green");
+  /// spectralColors.put(Range.closedOpen(570, 590), "yellow");
+  /// spectralColors.put(Range.closedOpen(590, 620), "orange");
+  /// spectralColors.put(Range.closedOpen(620, 750), "red");
+  ///
+  /// assertThat(spectralColors).isNotEmpty();
+  /// ```
+  ///
+  /// @return this [RangeMapAssert] for assertions chaining.
+  ///
+  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is empty.
   public RangeMapAssert<K, V> isNotEmpty() {
     isNotNull();
     if (actual.asMapOfRanges().isEmpty()) {

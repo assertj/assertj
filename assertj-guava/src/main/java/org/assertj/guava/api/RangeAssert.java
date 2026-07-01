@@ -35,36 +35,32 @@ import org.assertj.core.api.AbstractAssert;
 import com.google.common.collect.BoundType;
 import com.google.common.collect.Range;
 
-/**
- * Assertions for guava {@link com.google.common.collect.Range}.
- * <p>
- * To create an instance of this class, invoke <code>{@link
- * org.assertj.guava.api.Assertions#assertThat(com.google.common.collect.Range)}</code>
- * <p>
- *
- * @param <T> the type of elements of the tested Range value
- * @author Marcin Kwaczyński
- */
+/// Assertions for guava [com.google.common.collect.Range].
+///
+/// To create an instance of this class, invoke `[org.assertj.guava.api.Assertions#assertThat(com.google.common.collect.Range)]`
+///
+/// @param <T> the type of elements of the tested Range value
+/// @author Marcin Kwaczyński
 public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAssert<T>, Range<T>> {
 
   protected RangeAssert(final Range<T> actual) {
     super(actual, RangeAssert.class);
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} contains the given values.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(10, 12);
-   *
-   * assertThat(range).contains(10, 11, 12);</code></pre>
-   *
-   * @param values the values to look for in actual {@link com.google.common.collect.Range}.
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} does not contain the given values.
-   */
+  /// Verifies that the actual [com.google.common.collect.Range] contains the given values.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Range<Integer> range = Range.closed(10, 12);
+  ///
+  /// assertThat(range).contains(10, 11, 12);
+  /// ```
+  ///
+  /// @param values the values to look for in actual [com.google.common.collect.Range].
+  /// @return this [RangeAssert] for assertions chaining.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] does not contain the given values.
   public RangeAssert<T> contains(@SuppressWarnings("unchecked") final T... values) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
@@ -86,20 +82,20 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} does not contain the given values.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(10, 12);
-   *
-   * assertThat(range).doesNotContain(13);</code></pre>
-   *
-   * @param values the values that should not be present in actual {@link com.google.common.collect.Range}.
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} contains the given values.
-   */
+  /// Verifies that the actual [com.google.common.collect.Range] does not contain the given values.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Range<Integer> range = Range.closed(10, 12);
+  ///
+  /// assertThat(range).doesNotContain(13);
+  /// ```
+  ///
+  /// @param values the values that should not be present in actual [com.google.common.collect.Range].
+  /// @return this [RangeAssert] for assertions chaining.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] contains the given values.
   public RangeAssert<T> doesNotContain(@SuppressWarnings("unchecked") final T... values) {
     isNotNull();
 
@@ -116,19 +112,19 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} lower bound is closed.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(10, 12);
-   *
-   * assertThat(range).hasClosedLowerBound();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} lower bound is opened.
-   */
+  /// Verifies that the actual [com.google.common.collect.Range] lower bound is closed.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Range<Integer> range = Range.closed(10, 12);
+  ///
+  /// assertThat(range).hasClosedLowerBound();
+  /// ```
+  ///
+  /// @return this [RangeAssert] for assertions chaining.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] lower bound is opened.
   public RangeAssert<T> hasClosedLowerBound() throws AssertionError {
     isNotNull();
 
@@ -139,19 +135,19 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} upper bound is closed.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(10, 12);
-   *
-   * assertThat(range).hasClosedUpperBound();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} upper bound is opened.
-   */
+  /// Verifies that the actual [com.google.common.collect.Range] upper bound is closed.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Range<Integer> range = Range.closed(10, 12);
+  ///
+  /// assertThat(range).hasClosedUpperBound();
+  /// ```
+  ///
+  /// @return this [RangeAssert] for assertions chaining.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] upper bound is opened.
   public RangeAssert<T> hasClosedUpperBound() throws AssertionError {
     isNotNull();
 
@@ -162,21 +158,21 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} lower endpoint is equal to the given value.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(10, 12);
-   *
-   * assertThat(range).hasLowerEndpointEqualTo(10);</code></pre>
-   *
-   * @param value {@link com.google.common.collect.Range} expected lower bound value.
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} does not have lower endpoint equal to
-   *           the given values.
-   */
+  /// Verifies that the actual [com.google.common.collect.Range] lower endpoint is equal to the given value.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Range<Integer> range = Range.closed(10, 12);
+  ///
+  /// assertThat(range).hasLowerEndpointEqualTo(10);
+  /// ```
+  ///
+  /// @param value [com.google.common.collect.Range] expected lower bound value.
+  /// @return this [RangeAssert] for assertions chaining.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] does not have lower endpoint equal to
+  ///           the given values.
   public RangeAssert<T> hasLowerEndpointEqualTo(final T value) throws AssertionError {
     isNotNull();
 
@@ -187,19 +183,19 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} lower bound is opened.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.open(1, 2);
-   *
-   * assertThat(range).hasOpenedLowerBound();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} lower bound is closed.
-   */
+  /// Verifies that the actual [com.google.common.collect.Range] lower bound is opened.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Range<Integer> range = Range.open(1, 2);
+  ///
+  /// assertThat(range).hasOpenedLowerBound();
+  /// ```
+  ///
+  /// @return this [RangeAssert] for assertions chaining.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] lower bound is closed.
   public RangeAssert<T> hasOpenedLowerBound() throws AssertionError {
     isNotNull();
 
@@ -210,19 +206,19 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} upper bound is opened.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.open(10, 12);
-   *
-   * assertThat(range).hasOpenedUpperBound();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} upper bound is closed.
-   */
+  /// Verifies that the actual [com.google.common.collect.Range] upper bound is opened.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Range<Integer> range = Range.open(10, 12);
+  ///
+  /// assertThat(range).hasOpenedUpperBound();
+  /// ```
+  ///
+  /// @return this [RangeAssert] for assertions chaining.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] upper bound is closed.
   public RangeAssert<T> hasOpenedUpperBound() throws AssertionError {
     isNotNull();
 
@@ -233,21 +229,21 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} upper endpoint is equal to the given value.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.open(10, 12);
-   *
-   * assertThat(range).hasUpperEndpointEqualTo(12);</code></pre>
-   *
-   * @param value {@link com.google.common.collect.Range} expected upper bound value.
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} does not have upper endpoint equal to
-   *           the given values.
-   */
+  /// Verifies that the actual [com.google.common.collect.Range] upper endpoint is equal to the given value.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Range<Integer> range = Range.open(10, 12);
+  ///
+  /// assertThat(range).hasUpperEndpointEqualTo(12);
+  /// ```
+  ///
+  /// @param value [com.google.common.collect.Range] expected upper bound value.
+  /// @return this [RangeAssert] for assertions chaining.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] does not have upper endpoint equal to
+  ///           the given values.
   public RangeAssert<T> hasUpperEndpointEqualTo(final T value) throws AssertionError {
     isNotNull();
 
@@ -258,19 +254,19 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} is empty.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closedOpen(0, 0);
-   *
-   * assertThat(range).isEmpty();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is not empty.
-   */
+  /// Verifies that the actual [com.google.common.collect.Range] is empty.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Range<Integer> range = Range.closedOpen(0, 0);
+  ///
+  /// assertThat(range).isEmpty();
+  /// ```
+  ///
+  /// @return this [RangeAssert] for assertions chaining.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] is not empty.
   public RangeAssert<T> isEmpty() throws AssertionError {
     isNotNull();
 
@@ -281,19 +277,19 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link com.google.common.collect.Range} is not empty.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Range&lt;Integer&gt; range = Range.closed(0, 0);
-   *
-   * assertThat(range).isNotEmpty();</code></pre>
-   *
-   * @return this {@link RangeAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.Range} is empty.
-   */
+  /// Verifies that the actual [com.google.common.collect.Range] is not empty.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Range<Integer> range = Range.closed(0, 0);
+  ///
+  /// assertThat(range).isNotEmpty();
+  /// ```
+  ///
+  /// @return this [RangeAssert] for assertions chaining.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] is `null`.
+  /// @throws AssertionError if the actual [com.google.common.collect.Range] is empty.
   public RangeAssert<T> isNotEmpty() throws AssertionError {
     isNotNull();
 

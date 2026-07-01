@@ -20,12 +20,10 @@ import java.util.Set;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
-/**
- * Creates an error message indicating that an assertion that verifies a map contains some keys failed. TODO : move to
- * assertj-core to replace {@link org.assertj.core.error.ShouldContainKeys}.
- *
- * @author Joel Costigliola
- */
+/// Creates an error message indicating that an assertion that verifies a map contains some keys failed. TODO : move to
+/// assertj-core to replace [org.assertj.core.error.ShouldContainKeys].
+///
+/// @author Joel Costigliola
 public class ShouldContainKeys extends BasicErrorMessageFactory {
 
   private ShouldContainKeys(Object actual, Object key) {
@@ -36,14 +34,12 @@ public class ShouldContainKeys extends BasicErrorMessageFactory {
     super("%nExpecting:%n  %s%nto contain keys:%n  %s%nbut could not find:%n  %s", actual, keys, keysNotFound);
   }
 
-  /**
-   * Creates a new <code>{@link ShouldContainKeys}</code>.
-   *
-   * @param actual the actual value in the failed assertion.
-   * @param keys the expected keys.
-   * @param keysNotFound the missing keys.
-   * @return the created {@code ErrorMessageFactory}.
-   */
+  /// Creates a new `[ShouldContainKeys]`.
+  ///
+  /// @param actual the actual value in the failed assertion.
+  /// @param keys the expected keys.
+  /// @param keysNotFound the missing keys.
+  /// @return the created `ErrorMessageFactory`.
   public static ErrorMessageFactory shouldContainKeys(Object actual, Object[] keys, Set<?> keysNotFound) {
     return keys.length == 1 ? new ShouldContainKeys(actual, keys[0]) : new ShouldContainKeys(actual, keys, keysNotFound);
   }

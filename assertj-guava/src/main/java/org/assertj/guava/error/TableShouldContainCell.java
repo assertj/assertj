@@ -22,24 +22,20 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 import com.google.common.collect.Table;
 
-/**
- * @author David Harris
- */
+/// @author David Harris
 public class TableShouldContainCell extends BasicErrorMessageFactory {
 
-  /**
-   * Creates a new <code>{@link TableShouldContainCell}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @param row the row where actualValue was read.
-   * @param column the column where actualValue was read.
-   * @param expectedValue the expected value of the cell.
-   * @param actualValue the expected actual value of the cell.
-   *
-  * @param <R> the type of the table row keys
-  * @param <C> the type of the table column keys
-  * @param <V> the type of the mapped values
-   * @return the created {@code ErrorMessageFactory}.
-   */
+  /// Creates a new `[TableShouldContainCell]`.
+  /// @param actual the actual value in the failed assertion.
+  /// @param row the row where actualValue was read.
+  /// @param column the column where actualValue was read.
+  /// @param expectedValue the expected value of the cell.
+  /// @param actualValue the expected actual value of the cell.
+  ///
+  /// @param <R> the type of the table row keys
+  /// @param <C> the type of the table column keys
+  /// @param <V> the type of the mapped values
+  /// @return the created `ErrorMessageFactory`.
   public static <R, C, V> ErrorMessageFactory tableShouldContainCell(Table<R, C, V> actual, R row, C column, V expectedValue,
                                                                      V actualValue) {
     return new TableShouldContainCell(actual, row, column, expectedValue, actualValue);
