@@ -1716,7 +1716,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * The recursive comparison is documented here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    * <p>
    *
-   * @param fields the field names to exclude in the elements comparison.
+   * @param fields the field names to exclude in the element's comparison.
    * @return {@code this} assertion object.
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
@@ -1766,7 +1766,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * The recursive comparison is documented here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    * <p>
    *
-   * @param fields the field names to exclude in the elements comparison.
+   * @param fields the field names to exclude in the element's comparison.
    * @return {@code this} assertion object.
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
@@ -2721,6 +2721,13 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // assertion will fail
    * assertThat(abcc).allMatch(s -&gt; s.length() == 1);</code></pre>
    * <p>
+   * This assertion fails if given an empty array as the predicate would never be evaluated, this is to avoid
+   * confusing behavior as in the example below:
+   * <pre><code class='java'> String[] emptyArray = new String[0];
+   * // assertion fails, it would be confusing if it succeeded as it actually does not perform any check.
+   * assertThat(emptyArray).allMatch(s -&gt; s.contains(“error”))
+   *                       .allMatch(s -&gt; s.doesNotContain(“error”));</code></pre>
+   * <p>
    * Note that you can achieve the same result with {@link #are(Condition) are(Condition)} or {@link #have(Condition) have(Condition)}.
    *
    * @param predicate the given {@link Predicate}.
@@ -2775,7 +2782,11 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // assertion fails as XYZ.txt does not start with 'A':
    * assertThat(readers).allSatisfy(startsWithA);</code></pre>
    * <p>
-   * If the actual array is empty, this assertion succeeds as there is nothing to check.
+   * This assertion fails if given an empty array as the requirements would never be evaluated, this is to avoid
+   * confusing behavior as in the example below:
+   * <pre><code class='java'> String[] emptyArray = new String[0];
+   * // assertion fails, it would be confusing if it succeeded as it actually does not perform any check.
+   * assertThat(emptyArray).allSatisfy(s -&gt; assertThat(s).contains(“error”).doesNotContain(“error”));</code></pre>
    *
    * @param requirements the given {@link ThrowingConsumer}.
    * @return {@code this} object.
@@ -3438,7 +3449,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @Beta
   public RecursiveComparisonAssert<?> usingRecursiveComparison() {
-    // overridden for javadoc and to make this method public
+    // overridden for Javadoc and to make this method public
     return super.usingRecursiveComparison();
   }
 

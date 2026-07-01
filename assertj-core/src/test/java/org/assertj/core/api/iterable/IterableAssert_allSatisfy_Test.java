@@ -18,8 +18,10 @@ package org.assertj.core.api.iterable;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -62,4 +64,14 @@ class IterableAssert_allSatisfy_Test extends IterableAssertBaseTest {
     then(errors).singleElement(THROWABLE).hasMessage("error message");
   }
 
+  @Test
+  public void should_fail_if_actual_is_empty() {
+    // GIVEN
+    List<String> emptyIterable = new ArrayList<>();
+    Consumer<String> impossibleRequirements = s -> assertThat(s).contains("error").doesNotContain("error");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(emptyIterable).allSatisfy(impossibleRequirements));
+    // THEN
+    then(assertionError).hasMessageContaining("Expecting actual not to be empty");
+  }
 }

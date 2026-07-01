@@ -1163,6 +1163,7 @@ public class Iterables {
 
   public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
+    assertNotEmpty(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
 
     List<UnsatisfiedRequirement> unsatisfiedRequirements = stream(actual).map(element -> failsRequirements(requirements, element))
@@ -1303,6 +1304,7 @@ public class Iterables {
                                  PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
+    assertNotEmpty(info, actual);
     List<? extends E> nonMatches = stream(actual).filter(predicate.negate()).collect(toList());
 
     if (!nonMatches.isEmpty()) {

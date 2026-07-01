@@ -18,9 +18,12 @@ package org.assertj.core.api.atomic.referencearray;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.ThrowingConsumerFactory.throwingConsumer;
 import static org.mockito.Mockito.verify;
+
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
@@ -66,6 +69,17 @@ class AtomicReferenceArrayAssert_allSatisfy_with_ThrowingConsumer_Test extends A
     Throwable throwable = catchThrowable(() -> assertThat(atomicArrayOf("foo")).allSatisfy(throwingConsumer(runtimeException)));
     // THEN
     then(throwable).isSameAs(runtimeException);
+  }
+
+  @Test
+  public void should_fail_if_actual_is_empty() {
+    // GIVEN
+    AtomicReferenceArray<String> emptyArray = atomicArrayOf();
+    ThrowingConsumer<String> impossibleRequirements = s -> assertThat(s).contains("error").doesNotContain("error");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(emptyArray).allSatisfy(impossibleRequirements));
+    // THEN
+    then(assertionError).hasMessageContaining("Expecting actual not to be empty");
   }
 
 }
