@@ -17,6 +17,9 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.BDDAssertions.then;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -28,4 +31,40 @@ class PathNaturalOrderComparatorTest {
     then(PathNaturalOrderComparator.INSTANCE).hasToString("lexicographic comparator (Path natural order)");
   }
 
+  @Test
+  public void should_return_zero_when_comparing_equal_paths() {
+    Path a = Paths.get("/foo/bar");
+    then(PathNaturalOrderComparator.INSTANCE.compare(a, a)).isZero();
+  }
+
+  @Test
+  public void should_return_negative_when_first_path_is_less_than_second() {
+    Path a = Paths.get("/aaa");
+    Path b = Paths.get("/zzz");
+    then(PathNaturalOrderComparator.INSTANCE.compare(a, b)).isNegative();
+  }
+
+  @Test
+  public void should_return_positive_when_first_path_is_greater_than_second() {
+    Path a = Paths.get("/zzz");
+    Path b = Paths.get("/aaa");
+    then(PathNaturalOrderComparator.INSTANCE.compare(a, b)).isPositive();
+  }
+
+  @Test
+  public void should_return_negative_when_first_argument_is_null() {
+    Path p = Paths.get("/foo");
+    then(PathNaturalOrderComparator.INSTANCE.compare(null, p)).isEqualTo(-1);
+  }
+
+  @Test
+  public void should_return_positive_when_second_argument_is_null() {
+    Path p = Paths.get("/foo");
+    then(PathNaturalOrderComparator.INSTANCE.compare(p, null)).isEqualTo(1);
+  }
+
+  @Test
+  public void should_return_zero_when_both_arguments_are_null() {
+    then(PathNaturalOrderComparator.INSTANCE.compare(null, null)).isZero();
+  }
 }
