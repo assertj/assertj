@@ -36,9 +36,7 @@ import java.util.Set;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.data.MapEntry;
 
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.SetMultimap;
 
 /// Assertions for guava [Multimap].
 ///
@@ -242,7 +240,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
 
   /// Verifies that the actual [Multimap] has the same entries as the given one.
   /// It allows to compare two multimaps having the same content but who are not equal because being of different types
-  /// like [SetMultimap] and [ListMultimap].
+  /// like [com.google.common.collect.SetMultimap] and [com.google.common.collect.ListMultimap].
   ///
   /// Example :
   ///
