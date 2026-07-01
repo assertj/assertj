@@ -25,6 +25,8 @@ import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -42,6 +44,8 @@ import org.assertj.core.util.Files;
 import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
+import org.opentest4j.FileInfo;
 
 /**
  * Tests for <code>{@link org.assertj.core.internal.Files#assertSameContentAs(org.assertj.core.api.AssertionInfo, java.io.File, java.nio.charset.Charset, java.io.File,  java.nio.charset.Charset)}</code>.
@@ -125,7 +129,50 @@ class Files_assertSameContentAs_Test extends FilesBaseTest {
     // WHEN
     expectAssertionError(() -> unMockedFiles.assertSameContentAs(INFO, actual, defaultCharset(), expected, defaultCharset()));
     // THEN
-    verify(failures).failure(INFO, shouldHaveSameContent(actual, expected, diffs));
+    verify(failures).failure(eq(INFO), eq(shouldHaveSameContent(actual, expected, diffs)), any(), any());
+  }
+
+  @Test
+  void should_fail_with_file_info_actual_and_expected() throws IOException {
+    // GIVEN
+    byte[] actualBytes = java.nio.file.Files.readAllBytes(actual.toPath());
+    byte[] expectedBytes = java.nio.file.Files.readAllBytes(expected.toPath());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> unMockedFiles.assertSameContentAs(INFO, actual, defaultCharset(),
+                                                                                        expected, defaultCharset()));
+    // THEN
+    then(error).isInstanceOfSatisfying(AssertionFailedError.class, failedError -> {
+      then(failedError.getActual().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+        then(fileInfo.getPath()).isEqualTo(actual.getAbsolutePath());
+        then(fileInfo.getContents()).isEqualTo(actualBytes);
+      });
+      then(failedError.getExpected().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+        then(fileInfo.getPath()).isEqualTo(expected.getAbsolutePath());
+        then(fileInfo.getContents()).isEqualTo(expectedBytes);
+      });
+    });
+  }
+
+  @Test
+  void should_fail_with_file_info_actual_and_expected_for_binary_fallback() throws IOException {
+    // GIVEN
+    File actual = createFileWithNonUTF8Character();
+    byte[] actualBytes = java.nio.file.Files.readAllBytes(actual.toPath());
+    byte[] expectedBytes = java.nio.file.Files.readAllBytes(expected.toPath());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> unMockedFiles.assertSameContentAs(INFO, actual, StandardCharsets.UTF_8,
+                                                                                        expected, StandardCharsets.UTF_8));
+    // THEN
+    then(error).isInstanceOfSatisfying(AssertionFailedError.class, failedError -> {
+      then(failedError.getActual().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+        then(fileInfo.getPath()).isEqualTo(actual.getAbsolutePath());
+        then(fileInfo.getContents()).isEqualTo(actualBytes);
+      });
+      then(failedError.getExpected().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+        then(fileInfo.getPath()).isEqualTo(expected.getAbsolutePath());
+        then(fileInfo.getContents()).isEqualTo(expectedBytes);
+      });
+    });
   }
 
   @Test

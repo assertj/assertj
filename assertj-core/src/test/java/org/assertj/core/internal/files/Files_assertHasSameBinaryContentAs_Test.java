@@ -24,6 +24,8 @@ import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryCon
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -36,6 +38,8 @@ import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
+import org.opentest4j.FileInfo;
 
 class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
 
@@ -125,6 +129,25 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
     // WHEN
     expectAssertionError(() -> unMockedFiles.assertSameBinaryContentAs(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO, shouldHaveBinaryContent(actual, diff));
+    verify(failures).failure(eq(INFO), eq(shouldHaveBinaryContent(actual, diff)), any(), any());
+  }
+
+  @Test
+  void should_fail_with_file_info_actual_and_expected() throws IOException {
+    // GIVEN
+    byte[] actualBytes = readAllBytes(actual.toPath());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> unMockedFiles.assertSameBinaryContentAs(INFO, actual, expected));
+    // THEN
+    then(error).isInstanceOfSatisfying(AssertionFailedError.class, failedError -> {
+      then(failedError.getActual().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+        then(fileInfo.getPath()).isEqualTo(actual.getAbsolutePath());
+        then(fileInfo.getContents()).isEqualTo(actualBytes);
+      });
+      then(failedError.getExpected().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+        then(fileInfo.getPath()).isEqualTo(expected.getAbsolutePath());
+        then(fileInfo.getContents()).isEqualTo(expectedBytes);
+      });
+    });
   }
 }
