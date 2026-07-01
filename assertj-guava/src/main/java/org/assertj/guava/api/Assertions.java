@@ -26,18 +26,16 @@ import com.google.common.collect.RangeSet;
 import com.google.common.collect.Table;
 import com.google.common.io.ByteSource;
 
-/**
- * The entry point for all Guava assertions.
- *
- * @author marcelfalliere
- * @author miralak
- * @author Kornel
- * @author Jan Gorman
- * @author Joel Costigliola
- * @author Marcin Kwaczyński
- * @author Max Daniline
- * @author Ilya Koshaleu
- */
+/// The entry point for all Guava assertions.
+///
+/// @author marcelfalliere
+/// @author miralak
+/// @author Kornel
+/// @author Jan Gorman
+/// @author Joel Costigliola
+/// @author Marcin Kwaczyński
+/// @author Max Daniline
+/// @author Ilya Koshaleu
 public class Assertions implements InstanceOfAssertFactories {
 
   public static ByteSourceAssert assertThat(final ByteSource actual) {
@@ -76,32 +74,30 @@ public class Assertions implements InstanceOfAssertFactories {
   // Data utility methods : not assertions but here to have a single entry point to all AssertJ Guava features.
   // ------------------------------------------------------------------------------------------------------
 
-  /**
-   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a fully featured entry point to all
-   * AssertJ Guava features (but you can use {@link MapEntry} if you prefer).
-   * <p>
-   * Typical usage is to call <code>entry</code> in MultimapAssert <code>contains</code> assertion as shown below :
-   *
-   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
-   * actual.putAll(&quot;Lakers&quot;, newArrayList(&quot;Kobe Bryant&quot;, &quot;Magic Johnson&quot;, &quot;Kareem Abdul Jabbar&quot;));
-   * actual.putAll(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
-   *
-   * assertThat(actual).contains(entry(&quot;Lakers&quot;, &quot;Kobe Bryant&quot;), entry(&quot;Spurs&quot;, &quot;Tim Duncan&quot;)); </code></pre>
-   *
-   * @param <K> the type of the key of this entry.
-   * @param <V> the type of the value of this entry.
-   * @param key the key of the entry to create.
-   * @param value the value of the entry to create.
-   *
-   * @return the built entry
-   */
+  /// Only delegate to [MapEntry#entry(Object, Object)] so that Assertions offers a fully featured entry point to all
+  /// AssertJ Guava features (but you can use [MapEntry] if you prefer).
+  ///
+  /// Typical usage is to call `entry` in MultimapAssert `contains` assertion as shown below :
+  ///
+  /// ```java
+  /// Multimap<String, String> actual = ArrayListMultimap.create();
+  /// actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+  /// actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+  ///
+  /// assertThat(actual).contains(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Tim Duncan"));
+  /// ```
+  ///
+  /// @param <K> the type of the key of this entry.
+  /// @param <V> the type of the value of this entry.
+  /// @param key the key of the entry to create.
+  /// @param value the value of the entry to create.
+  ///
+  /// @return the built entry
   public static <K, V> MapEntry<K, V> entry(K key, V value) {
     return MapEntry.entry(key, value);
   }
 
-  /**
-   * protected to avoid direct instantiation but allowing subclassing.
-   */
+  /// protected to avoid direct instantiation but allowing subclassing.
   protected Assertions() {
     // empty
   }
