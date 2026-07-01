@@ -20,18 +20,14 @@ import static java.lang.String.format;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
-/**
- * @author David Harris
- */
+/// @author David Harris
 public class TableShouldHaveRowCount extends BasicErrorMessageFactory {
 
-  /**
-   * Creates a new <code>{@link TableShouldHaveRowCount}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @param actualSize the number of row keys in {@code actual}.
-   * @param expectedSize the expected number of row keys.
-   * @return the created {@code ErrorMessageFactory}.
-   */
+  /// Creates a new `[TableShouldHaveRowCount]`.
+  /// @param actual the actual value in the failed assertion.
+  /// @param actualSize the number of row keys in `actual`.
+  /// @param expectedSize the expected number of row keys.
+  /// @return the created `ErrorMessageFactory`.
   public static ErrorMessageFactory tableShouldHaveRowCount(Object actual, int actualSize, int expectedSize) {
     return new TableShouldHaveRowCount(actual, actualSize, expectedSize);
   }

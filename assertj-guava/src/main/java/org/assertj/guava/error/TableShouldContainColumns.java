@@ -20,9 +20,7 @@ import java.util.Set;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
-/**
- * @author Jan Gorman
- */
+/// @author Jan Gorman
 public class TableShouldContainColumns extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory tableShouldContainColumns(Object actual, Object[] columns, Set<?> columnsNotFound) {

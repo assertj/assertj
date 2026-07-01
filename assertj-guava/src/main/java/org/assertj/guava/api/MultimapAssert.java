@@ -40,13 +40,11 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 
-/**
- * Assertions for guava {@link Multimap}.
- *
- * @author marcelfalliere
- * @author miralak
- * @author Joel Costigliola
- */
+/// Assertions for guava [Multimap].
+///
+/// @author marcelfalliere
+/// @author miralak
+/// @author Joel Costigliola
 public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, Multimap<K, V>> {
 
   protected MultimapAssert(Multimap<K, V> actual) {
@@ -58,28 +56,27 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     return actual;
   }
 
-  /**
-   * Verifies that the actual {@link Multimap} contains the given keys.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
-   *
-   * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-   * actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
-   * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-   *
-   * assertThat(actual).containsKeys(&quot;Lakers&quot;, &quot;Bulls&quot;);</code></pre>
-   * <p>
-   * If the <code>keys</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
-   * <p>
-   *
-   * @param keys the keys to look for in actual {@link Multimap}.
-   * @return this {@link MultimapAssert} for assertions chaining.
-   * @throws IllegalArgumentException if no param keys have been set.
-   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
-   * @throws AssertionError           if the actual {@link Multimap} does not contain the given keys.
-   */
+  /// Verifies that the actual [Multimap] contains the given keys.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Multimap<String, String> actual = ArrayListMultimap.create();
+  ///
+  /// actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+  /// actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+  /// actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+  ///
+  /// assertThat(actual).containsKeys("Lakers", "Bulls");
+  /// ```
+  ///
+  /// If the `keys` argument is null or empty, an [IllegalArgumentException] is thrown.
+  ///
+  /// @param keys the keys to look for in actual [Multimap].
+  /// @return this [MultimapAssert] for assertions chaining.
+  /// @throws IllegalArgumentException if no param keys have been set.
+  /// @throws AssertionError           if the actual [Multimap] is `null`.
+  /// @throws AssertionError           if the actual [Multimap] does not contain the given keys.
   public MultimapAssert<K, V> containsKeys(@SuppressWarnings("unchecked") K... keys) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(keys == null, "The keys to look for should not be null");
@@ -97,29 +94,28 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link Multimap} contains the given entries.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
-   *
-   * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-   * actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
-   * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-   *
-   * // entry can be statically imported from org.assertj.guava.api.Assertions or org.assertj.guava.data.MapEntry
-   * assertThat(actual).contains(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Tim Duncan"));</code></pre>
-   * <p>
-   * If the <code>entries</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
-   * <p>
-   *
-   * @param entries the entries to look for in actual {@link Multimap}.
-   * @return this {@link MultimapAssert} for assertions chaining.
-   * @throws IllegalArgumentException if no param entries have been set.
-   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
-   * @throws AssertionError           if the actual {@link Multimap} does not contain the given entries.
-   */
+  /// Verifies that the actual [Multimap] contains the given entries.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Multimap<String, String> actual = ArrayListMultimap.create();
+  ///
+  /// actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+  /// actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+  /// actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+  ///
+  /// // entry can be statically imported from org.assertj.guava.api.Assertions or org.assertj.guava.data.MapEntry
+  /// assertThat(actual).contains(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Tim Duncan"));
+  /// ```
+  ///
+  /// If the `entries` argument is null or empty, an [IllegalArgumentException] is thrown.
+  ///
+  /// @param entries the entries to look for in actual [Multimap].
+  /// @return this [MultimapAssert] for assertions chaining.
+  /// @throws IllegalArgumentException if no param entries have been set.
+  /// @throws AssertionError           if the actual [Multimap] is `null`.
+  /// @throws AssertionError           if the actual [Multimap] does not contain the given entries.
   @SafeVarargs
   public final MultimapAssert<K, V> contains(MapEntry<K, V>... entries) {
     isNotNull();
@@ -138,29 +134,28 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link Multimap} contains the given values for any key.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
-   *
-   * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-   * actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
-   * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-   *
-   * // note that given values are not linked to same key
-   * assertThat(actual).containsValues(&quot;Kobe Bryant&quot;, &quot;Michael Jordan&quot;);</code></pre>
-   * <p>
-   * If the <code>values</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
-   * <p>
-   *
-   * @param values the values to look for in actual {@link Multimap}.
-   * @return this {@link MultimapAssert} for assertions chaining.
-   * @throws IllegalArgumentException if no param values have been set.
-   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
-   * @throws AssertionError           if the actual {@link Multimap} does not contain the given values.
-   */
+  /// Verifies that the actual [Multimap] contains the given values for any key.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Multimap<String, String> actual = ArrayListMultimap.create();
+  ///
+  /// actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+  /// actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+  /// actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+  ///
+  /// // note that given values are not linked to same key
+  /// assertThat(actual).containsValues("Kobe Bryant", "Michael Jordan");
+  /// ```
+  ///
+  /// If the `values` argument is null or empty, an [IllegalArgumentException] is thrown.
+  ///
+  /// @param values the values to look for in actual [Multimap].
+  /// @return this [MultimapAssert] for assertions chaining.
+  /// @throws IllegalArgumentException if no param values have been set.
+  /// @throws AssertionError           if the actual [Multimap] is `null`.
+  /// @throws AssertionError           if the actual [Multimap] does not contain the given values.
   public MultimapAssert<K, V> containsValues(@SuppressWarnings("unchecked") V... values) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
@@ -178,19 +173,18 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@link Multimap} is empty.
-   *
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
-   *
-   * assertThat(actual).isEmpty();</code></pre>
-   *
-   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
-   * @throws AssertionError if the actual {@link Multimap} is not empty.
-   */
+  /// Verifies that the actual [Multimap] is empty.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Multimap<String, String> actual = ArrayListMultimap.create();
+  ///
+  /// assertThat(actual).isEmpty();
+  /// ```
+  ///
+  /// @throws AssertionError if the actual [Multimap] is `null`.
+  /// @throws AssertionError if the actual [Multimap] is not empty.
   public void isEmpty() {
     isNotNull();
     if (!actual.isEmpty()) {
@@ -198,21 +192,20 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     }
   }
 
-  /**
-   * Verifies that the actual {@link Multimap} is not empty.
-   *
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
-   * nba.put("Bulls", "Derrick Rose");
-   * nba.put("Bulls", "Joachim Noah");
-   *
-   * assertThat(nba).isNotEmpty();</code></pre>
-   *
-   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
-   * @throws AssertionError if the actual {@link Multimap} is empty.
-   */
+  /// Verifies that the actual [Multimap] is not empty.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Multimap<String, String> actual = ArrayListMultimap.create();
+  /// nba.put("Bulls", "Derrick Rose");
+  /// nba.put("Bulls", "Joachim Noah");
+  ///
+  /// assertThat(nba).isNotEmpty();
+  /// ```
+  ///
+  /// @throws AssertionError if the actual [Multimap] is `null`.
+  /// @throws AssertionError if the actual [Multimap] is empty.
   public void isNotEmpty() {
     isNotNull();
     if (actual.isEmpty()) {
@@ -220,25 +213,24 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     }
   }
 
-  /**
-   * Verifies that the number of values in the actual {@link Multimap} is equal to the given one.
-   *
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
-   *
-   * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-   * actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
-   * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-   *
-   * assertThat(actual).hasSize(9);</code></pre>
-   *
-   * @param expectedSize the expected size of actual {@link Multimap}.
-   * @return this {@link MultimapAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
-   * @throws AssertionError if the number of values of the actual {@link Multimap} is not equal to the given one.
-   */
+  /// Verifies that the number of values in the actual [Multimap] is equal to the given one.
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Multimap<String, String> actual = ArrayListMultimap.create();
+  ///
+  /// actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+  /// actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+  /// actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+  ///
+  /// assertThat(actual).hasSize(9);
+  /// ```
+  ///
+  /// @param expectedSize the expected size of actual [Multimap].
+  /// @return this [MultimapAssert] for assertions chaining.
+  /// @throws AssertionError if the actual [Multimap] is `null`.
+  /// @throws AssertionError if the number of values of the actual [Multimap] is not equal to the given one.
   public MultimapAssert<K, V> hasSize(int expectedSize) {
     isNotNull();
     int sizeOfActual = actual.size();
@@ -248,33 +240,33 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     throw assertionError(shouldHaveSize(actual, sizeOfActual, expectedSize));
   }
 
-  /**
-   * Verifies that the actual {@link Multimap} has the same entries as the given one.<br>
-   * It allows to compare two multimaps having the same content but who are not equal because being of different types
-   * like {@link SetMultimap} and {@link ListMultimap}.
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
-   * listMultimap.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
-   * listMultimap.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-   *
-   * Multimap&lt;String, String&gt; setMultimap = TreeMultimap.create();
-   * setMultimap.putAll("Spurs", newHashSet("Tony Parker", "Tim Duncan", "Manu Ginobili"));
-   * setMultimap.putAll("Bulls", newHashSet("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-   *
-   * // assertion will pass as listMultimap and setMultimap have the same content
-   * assertThat(listMultimap).hasSameEntriesAs(setMultimap);
-   *
-   * // this assertion FAILS even though both multimaps have the same content
-   * assertThat(listMultimap).isEqualTo(setMultimap);</code></pre>
-   *
-   * @param other {@link Multimap} to compare actual's entries with.
-   * @return this {@link MultimapAssert} for assertions chaining.
-   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
-   * @throws IllegalArgumentException if the other {@link Multimap} is {@code null}.
-   * @throws AssertionError           if actual {@link Multimap} does not have the same entries as the other {@link Multimap}.
-   */
+  /// Verifies that the actual [Multimap] has the same entries as the given one.
+  /// It allows to compare two multimaps having the same content but who are not equal because being of different types
+  /// like [SetMultimap] and [ListMultimap].
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Multimap<String, String> actual = ArrayListMultimap.create();
+  /// listMultimap.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+  /// listMultimap.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+  ///
+  /// Multimap<String, String> setMultimap = TreeMultimap.create();
+  /// setMultimap.putAll("Spurs", newHashSet("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+  /// setMultimap.putAll("Bulls", newHashSet("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+  ///
+  /// // assertion will pass as listMultimap and setMultimap have the same content
+  /// assertThat(listMultimap).hasSameEntriesAs(setMultimap);
+  ///
+  /// // this assertion FAILS even though both multimaps have the same content
+  /// assertThat(listMultimap).isEqualTo(setMultimap);
+  /// ```
+  ///
+  /// @param other [Multimap] to compare actual's entries with.
+  /// @return this [MultimapAssert] for assertions chaining.
+  /// @throws AssertionError           if the actual [Multimap] is `null`.
+  /// @throws IllegalArgumentException if the other [Multimap] is `null`.
+  /// @throws AssertionError           if actual [Multimap] does not have the same entries as the other [Multimap].
   public final MultimapAssert<K, V> hasSameEntriesAs(Multimap<? extends K, ? extends V> other) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(other == null, "The multimap to compare actual with should not be null");
@@ -285,31 +277,31 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     throw assertionError(shouldContainOnly(actual, other, entriesNotFoundInActual, entriesNotExpectedInActual));
   }
 
-  /**
-   * Verifies that the actual {@link Multimap} contains all entries of the given one (it might contain more entries).
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
-   * actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
-   * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-   *
-   * Multimap&lt;String, String&gt; other = TreeMultimap.create();
-   * other.putAll("Spurs", newHashSet("Tony Parker", "Tim Duncan"));
-   * other.putAll("Bulls", newHashSet("Michael Jordan", "Scottie Pippen"));
-   *
-   * // assertion will pass as other is a subset of actual.
-   * assertThat(actual).containsAllEntriesOf(other);
-   *
-   * // this assertion FAILS as other does not contain "Spurs -&gt; "Manu Ginobili" and "Bulls" -&gt; "Derrick Rose"
-   * assertThat(other).containsAllEntriesOf(actual);</code></pre>
-   *
-   * @param other {@link Multimap} to compare actual's entries with.
-   * @return this {@link MultimapAssert} for assertions chaining.
-   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
-   * @throws IllegalArgumentException if the other {@link Multimap} is {@code null}.
-   * @throws AssertionError           if actual {@link Multimap} does not have contain all the given {@link Multimap} entries.
-   */
+  /// Verifies that the actual [Multimap] contains all entries of the given one (it might contain more entries).
+  ///
+  /// Example :
+  ///
+  /// ```java
+  /// Multimap<String, String> actual = ArrayListMultimap.create();
+  /// actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+  /// actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+  ///
+  /// Multimap<String, String> other = TreeMultimap.create();
+  /// other.putAll("Spurs", newHashSet("Tony Parker", "Tim Duncan"));
+  /// other.putAll("Bulls", newHashSet("Michael Jordan", "Scottie Pippen"));
+  ///
+  /// // assertion will pass as other is a subset of actual.
+  /// assertThat(actual).containsAllEntriesOf(other);
+  ///
+  /// // this assertion FAILS as other does not contain "Spurs -> "Manu Ginobili" and "Bulls" -> "Derrick Rose"
+  /// assertThat(other).containsAllEntriesOf(actual);
+  /// ```
+  ///
+  /// @param other [Multimap] to compare actual's entries with.
+  /// @return this [MultimapAssert] for assertions chaining.
+  /// @throws AssertionError           if the actual [Multimap] is `null`.
+  /// @throws IllegalArgumentException if the other [Multimap] is `null`.
+  /// @throws AssertionError           if actual [Multimap] does not have contain all the given [Multimap] entries.
   public final MultimapAssert<K, V> containsAllEntriesOf(Multimap<? extends K, ? extends V> other) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(other == null, "The multimap to compare actual with should not be null");
@@ -319,54 +311,54 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     throw assertionError(shouldContain(actual, other, entriesNotFoundInActual));
   }
 
-  /**
-   * Verifies that the actual multimap does not contain the given key.
-   * <p>
-   * Examples:
-   * <pre><code class='java'> Multimap&lt;Ring, TolkienCharacter&gt; elvesRingBearers = HashMultimap.create();
-   * elvesRingBearers.put(nenya, galadriel);
-   * elvesRingBearers.put(narya, gandalf);
-   * elvesRingBearers.put(vilya, elrond);
-   *
-   * // assertion will pass
-   * assertThat(elvesRingBearers).doesNotContainKey(oneRing);
-   *
-   * // assertion will fail
-   * assertThat(elvesRingBearers).doesNotContainKey(vilya);</code></pre>
-   *
-   * @param key the given key
-   * @return {@code this} assertions object
-   * @throws AssertionError if the actual map is {@code null}.
-   * @throws AssertionError if the actual map contains the given key.
-   * @since 3.26.0
-   */
+  /// Verifies that the actual multimap does not contain the given key.
+  ///
+  /// Examples:
+  /// ```java
+  /// Multimap<Ring, TolkienCharacter> elvesRingBearers = HashMultimap.create();
+  /// elvesRingBearers.put(nenya, galadriel);
+  /// elvesRingBearers.put(narya, gandalf);
+  /// elvesRingBearers.put(vilya, elrond);
+  ///
+  /// // assertion will pass
+  /// assertThat(elvesRingBearers).doesNotContainKey(oneRing);
+  ///
+  /// // assertion will fail
+  /// assertThat(elvesRingBearers).doesNotContainKey(vilya);
+  /// ```
+  ///
+  /// @param key the given key
+  /// @return `this` assertions object
+  /// @throws AssertionError if the actual map is `null`.
+  /// @throws AssertionError if the actual map contains the given key.
+  /// @since 3.26.0
   public MultimapAssert<K, V> doesNotContainKey(K key) {
     return doesNotContainKeys(key);
   }
 
-  /**
-   * Verifies that the actual multimap does not contain any of the given keys.
-   * <p>
-   * Examples:
-   * <pre><code class='java'> Multimap&lt;Ring, TolkienCharacter&gt; elvesRingBearers = HashMultimap.create();
-   * elvesRingBearers.put(nenya, galadriel);
-   * elvesRingBearers.put(narya, gandalf);
-   * elvesRingBearers.put(vilya, elrond);
-   *
-   * // assertion will pass
-   * assertThat(elvesRingBearers).doesNotContainKeys(oneRing, someManRing);
-   *
-   * // assertions will fail
-   * assertThat(elvesRingBearers).doesNotContainKeys(vilya, nenya);
-   * assertThat(elvesRingBearers).doesNotContainKeys(vilya, oneRing);</code></pre>
-   *
-   * @param keys the given keys
-   * @return {@code this} assertions object
-   * @throws AssertionError if the actual map is {@code null}.
-   * @throws AssertionError if the actual map contains the given key.
-   * @throws NullPointerException if the varargs of keys is null
-   * @since 3.26.0
-   */
+  /// Verifies that the actual multimap does not contain any of the given keys.
+  ///
+  /// Examples:
+  /// ```java
+  /// Multimap<Ring, TolkienCharacter> elvesRingBearers = HashMultimap.create();
+  /// elvesRingBearers.put(nenya, galadriel);
+  /// elvesRingBearers.put(narya, gandalf);
+  /// elvesRingBearers.put(vilya, elrond);
+  ///
+  /// // assertion will pass
+  /// assertThat(elvesRingBearers).doesNotContainKeys(oneRing, someManRing);
+  ///
+  /// // assertions will fail
+  /// assertThat(elvesRingBearers).doesNotContainKeys(vilya, nenya);
+  /// assertThat(elvesRingBearers).doesNotContainKeys(vilya, oneRing);
+  /// ```
+  ///
+  /// @param keys the given keys
+  /// @return `this` assertions object
+  /// @throws AssertionError if the actual map is `null`.
+  /// @throws AssertionError if the actual map contains the given key.
+  /// @throws NullPointerException if the varargs of keys is null
+  /// @since 3.26.0
   public MultimapAssert<K, V> doesNotContainKeys(K... keys) {
     isNotNull();
     assertDoesNotContainKeys(keys);
