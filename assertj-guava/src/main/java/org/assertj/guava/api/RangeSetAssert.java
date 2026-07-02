@@ -566,7 +566,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   /// rangeSet.add(Range.closed(200, 300));
   /// rangeSet.add(Range.closed(500, 600));
   ///
-  /// assertThat(rangeSet).intersectsAnyRangesOf(ImmutableRangeSet.of(Range.close(50, 150)));
+  /// assertThat(rangeSet).intersectsAnyRangesOf(ImmutableRangeSet.of(Range.closed(50, 150)));
   /// ```
   ///
   /// @param rangeSet the range set with ranges to check whether the actual `RangeSet` intersects at least one of
@@ -642,7 +642,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   /// rangeSet.add(Range.closed(200, 300));
   /// rangeSet.add(Range.closed(500, 600));
   ///
-  /// assertThat(rangeSet).doesNotIntersectAnyRangeFrom(ImmutableRangeSet.of(Range.close(120, 170)));
+  /// assertThat(rangeSet).doesNotIntersectAnyRangeFrom(ImmutableRangeSet.of(Range.closed(120, 170)));
   /// ```
   ///
   /// @param rangeSet the range set to check whether the actual `RangeSet` does not intersect ranges from it.

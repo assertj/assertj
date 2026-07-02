@@ -21,7 +21,7 @@ import org.assertj.core.error.ErrorMessageFactory;
 import com.google.common.collect.RangeSet;
 
 /// Creates an error message indicating that the given [com.google.common.collect.RangeSet] does not intersect
-/// at lease one element of expected objects.
+/// at least one element of expected objects.
 ///
 /// @author Ilya Koshaleu
 public class RangeSetShouldIntersectAnyOf extends BasicErrorMessageFactory {
