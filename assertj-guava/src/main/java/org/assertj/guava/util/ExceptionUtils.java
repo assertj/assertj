@@ -33,7 +33,7 @@ public class ExceptionUtils {
     }
   }
 
-  /// protected to avoid direct instanciation but allowing subclassing.
+  /// protected to avoid direct instantiation but allowing subclassing.
   protected ExceptionUtils() {
     // empty
   }

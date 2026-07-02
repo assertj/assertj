@@ -54,7 +54,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
   /// assertThat(actual).hasRowCount(2);
   /// ```
   ///
-  /// @param expectedSize The columns to look for in the actual [Table]
+  /// @param expectedSize the expected number of rows in the actual [Table]
   /// @return this [TableAssert] for assertion chaining.
   /// @throws IllegalArgumentException if the expected size is negative
   /// @throws AssertionError           if the actual [Table] is `null`.
@@ -83,7 +83,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
   /// assertThat(actual).hasColumnCount(3);
   /// ```
   ///
-  /// @param expectedSize The columns to look for in the actual [Table]
+  /// @param expectedSize the expected number of columns in the actual [Table]
   /// @return this [TableAssert] for assertion chaining.
   /// @throws IllegalArgumentException if the expected size is negative
   /// @throws AssertionError           if the actual [Table] is `null`.
@@ -112,7 +112,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
   /// assertThat(actual).hasSize(3);
   /// ```
   ///
-  /// @param expectedSize The columns to look for in the actual [Table]
+  /// @param expectedSize the expected number of cells in the actual [Table]
   /// @return this [TableAssert] for assertion chaining.
   /// @throws IllegalArgumentException if the expected size is negative
   /// @throws AssertionError           if the actual [Table] is `null`.
@@ -141,7 +141,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
   /// assertThat(actual).containsRows(1, 2);
   /// ```
   ///
-  /// @param rows The columns to look for in the actual [Table]
+  /// @param rows The rows to look for in the actual [Table]
   /// @return this [TableAssert] for assertion chaining.
   /// @throws IllegalArgumentException if no param rows have been set.
   /// @throws AssertionError           if the actual [Table] is `null`.

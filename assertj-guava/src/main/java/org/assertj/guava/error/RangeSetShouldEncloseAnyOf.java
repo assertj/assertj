@@ -19,7 +19,7 @@ import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
 /// Creates an error message indicating that the given [com.google.common.collect.RangeSet] does not enclose
-/// at lease one element of expected objects.
+/// at least one element of expected objects.
 ///
 /// @author Ilya Koshaleu
 public class RangeSetShouldEncloseAnyOf extends BasicErrorMessageFactory {
