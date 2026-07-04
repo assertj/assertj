@@ -48,9 +48,7 @@ class AtomicReferenceArrayAssert_doesNotContainSequence_List_Test extends Atomic
 
   @Test
   void should_throw_error_if_sequence_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> {
-      List<Object> nullList = null;
-      assertions.doesNotContainSequence(nullList);
-    }).withMessage(nullSequence());
+    assertThatNullPointerException().isThrownBy(() -> assertions.doesNotContainSequence((List<Object>) null))
+                                    .withMessage(nullSequence());
   }
 }

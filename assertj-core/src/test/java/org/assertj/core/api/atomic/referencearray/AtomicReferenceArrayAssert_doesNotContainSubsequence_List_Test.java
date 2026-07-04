@@ -48,9 +48,7 @@ class AtomicReferenceArrayAssert_doesNotContainSubsequence_List_Test extends Ato
 
   @Test
   void should_throw_error_if_subsequence_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> {
-      List<Object> nullList = null;
-      assertions.doesNotContainSubsequence(nullList);
-    }).withMessage(nullSubsequence());
+    assertThatNullPointerException().isThrownBy(() -> assertions.doesNotContainSubsequence((List<Object>) null))
+                                    .withMessage(nullSubsequence());
   }
 }

@@ -559,14 +559,16 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   @SafeVarargs
   public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, ?>... extractors) {
+    return executeAssertionNavigation(() -> doExtracting(extractors), ListAssert::nullListAssert);
+  }
+
+  protected AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> doExtracting(Function<? super ACTUAL, ?>[] extractors) {
     requireNonNull(extractors, shouldNotBeNull("extractors")::create);
-    return executeAssertionNavigation(() -> {
-      isNotNull();
-      List<Object> values = Stream.of(extractors)
-                                  .map(extractor -> extractor.apply(actual))
-                                  .collect(toList());
-      return newListAssertInstance(values).withAssertionState(myself);
-    }, ListAssert::nullListAssert);
+    isNotNull();
+    List<Object> values = Stream.of(extractors)
+                                .map(extractor -> extractor.apply(actual))
+                                .collect(toList());
+    return newListAssertInstance(values).withAssertionState(myself);
   }
 
   /**

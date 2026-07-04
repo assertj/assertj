@@ -15,6 +15,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,6 +24,7 @@ import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod;
@@ -317,19 +319,31 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   @SafeVarargs
   public final SELF contains(ELEMENT... values) {
-    return executeAssertion(() -> iterables.assertContains(info, actual, values));
+    return executeAssertion(() -> assertContains(values));
+  }
+
+  protected void assertContains(ELEMENT[] values) {
+    iterables.assertContains(info, actual, values);
   }
 
   @Override
   @SafeVarargs
   public final SELF containsOnly(ELEMENT... values) {
-    return executeAssertion(() -> iterables.assertContainsOnly(info, actual, values));
+    return executeAssertion(() -> assertContainsOnly(values));
+  }
+
+  protected void assertContainsOnly(ELEMENT[] values) {
+    iterables.assertContainsOnly(info, actual, values);
   }
 
   @Override
   @SafeVarargs
   public final SELF containsOnlyOnce(ELEMENT... values) {
-    return executeAssertion(() -> iterables.assertContainsOnlyOnce(info, actual, values));
+    return executeAssertion(() -> assertContainsOnlyOnce(values));
+  }
+
+  protected void assertContainsOnlyOnce(ELEMENT[] values) {
+    iterables.assertContainsOnlyOnce(info, actual, values);
   }
 
   @Override
@@ -340,7 +354,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   @SafeVarargs
   public final SELF containsExactly(ELEMENT... values) {
-    return executeAssertion(() -> iterables.assertContainsExactly(info, actual, values));
+    return executeAssertion(() -> assertContainsExactly(values));
+  }
+
+  protected void assertContainsExactly(ELEMENT[] values) {
+    iterables.assertContainsExactly(info, actual, values);
   }
 
   /**
@@ -349,7 +367,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   @SafeVarargs
   public final SELF containsExactlyInAnyOrder(ELEMENT... values) {
-    return executeAssertion(() -> iterables.assertContainsExactlyInAnyOrder(info, actual, values));
+    return executeAssertion(() -> assertContainsExactlyInAnyOrder(values));
+  }
+
+  protected void assertContainsExactlyInAnyOrder(ELEMENT[] values) {
+    iterables.assertContainsExactlyInAnyOrder(info, actual, values);
   }
 
   @Override
@@ -359,23 +381,27 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @Override
   public SELF isSubsetOf(Iterable<? extends ELEMENT> values) {
-    return executeAssertion(() -> iterables.assertIsSubsetOf(info, actual, values));
+    return executeAssertion(() -> assertIsSubsetOf(values));
   }
 
   @Override
   @SafeVarargs
   public final SELF isSubsetOf(ELEMENT... values) {
-    return internalIsSubsetOf(values);
+    return isSubsetOf(asList(values));
   }
 
-  protected SELF internalIsSubsetOf(ELEMENT[] values) {
-    return executeAssertion(() -> iterables.assertIsSubsetOf(info, actual, Arrays.asList(values)));
+  protected void assertIsSubsetOf(Iterable<? extends ELEMENT> values) {
+    iterables.assertIsSubsetOf(info, actual, values);
   }
 
   @Override
   @SafeVarargs
   public final SELF containsSequence(ELEMENT... sequence) {
-    return executeAssertion(() -> iterables.assertContainsSequence(info, actual, sequence));
+    return executeAssertion(() -> assertContainsSequence(sequence));
+  }
+
+  protected void assertContainsSequence(ELEMENT[] sequence) {
+    iterables.assertContainsSequence(info, actual, sequence);
   }
 
   @Override
@@ -389,49 +415,65 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   @SafeVarargs
   public final SELF doesNotContainSequence(ELEMENT... sequence) {
-    return executeAssertion(() -> iterables.assertDoesNotContainSequence(info, actual, sequence));
+    return executeAssertion(() -> assertDoesNotContainSequence(sequence));
+  }
+
+  protected void assertDoesNotContainSequence(ELEMENT[] sequence) {
+    iterables.assertDoesNotContainSequence(info, actual, sequence);
   }
 
   @Override
   public SELF doesNotContainSequence(Iterable<? extends ELEMENT> sequence) {
     return executeAssertion(() -> {
       checkSequenceIsNotNull(sequence);
-      iterables.assertDoesNotContainSequence(info, actual, toArray(sequence));
+      assertDoesNotContainSequence(toArray(sequence));
     });
   }
 
   @Override
   @SafeVarargs
   public final SELF containsSubsequence(ELEMENT... subsequence) {
-    return executeAssertion(() -> iterables.assertContainsSubsequence(info, actual, subsequence));
+    return executeAssertion(() -> assertContainsSubsequence(subsequence));
+  }
+
+  protected void assertContainsSubsequence(ELEMENT[] subsequence) {
+    iterables.assertContainsSubsequence(info, actual, subsequence);
   }
 
   @Override
   public SELF containsSubsequence(Iterable<? extends ELEMENT> subsequence) {
     return executeAssertion(() -> {
       checkSubsequenceIsNotNull(subsequence);
-      iterables.assertContainsSubsequence(info, actual, toArray(subsequence));
+      assertContainsSubsequence(toArray(subsequence));
     });
   }
 
   @Override
   @SafeVarargs
   public final SELF doesNotContainSubsequence(ELEMENT... subsequence) {
-    return executeAssertion(() -> iterables.assertDoesNotContainSubsequence(info, actual, subsequence));
+    return executeAssertion(() -> assertDoesNotContainSubsequence(subsequence));
+  }
+
+  protected void assertDoesNotContainSubsequence(ELEMENT[] subsequence) {
+    iterables.assertDoesNotContainSubsequence(info, actual, subsequence);
   }
 
   @Override
   public SELF doesNotContainSubsequence(Iterable<? extends ELEMENT> subsequence) {
     return executeAssertion(() -> {
       checkSubsequenceIsNotNull(subsequence);
-      iterables.assertDoesNotContainSubsequence(info, actual, toArray(subsequence));
+      assertDoesNotContainSubsequence(toArray(subsequence));
     });
   }
 
   @Override
   @SafeVarargs
   public final SELF doesNotContain(ELEMENT... values) {
-    return executeAssertion(() -> iterables.assertDoesNotContain(info, actual, values));
+    return executeAssertion(() -> assertDoesNotContain(values));
+  }
+
+  protected void assertDoesNotContain(ELEMENT[] values) {
+    iterables.assertDoesNotContain(info, actual, values);
   }
 
   @Override
@@ -447,13 +489,21 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   @SafeVarargs
   public final SELF startsWith(ELEMENT... sequence) {
-    return executeAssertion(() -> iterables.assertStartsWith(info, actual, sequence));
+    return executeAssertion(() -> assertStartsWith(sequence));
+  }
+
+  protected void assertStartsWith(ELEMENT[] sequence) {
+    iterables.assertStartsWith(info, actual, sequence);
   }
 
   @Override
   @SafeVarargs
   public final SELF endsWith(ELEMENT first, ELEMENT... rest) {
-    return executeAssertion(() -> iterables.assertEndsWith(info, actual, first, rest));
+    return executeAssertion(() -> assertEndsWith(first, rest));
+  }
+
+  protected void assertEndsWith(ELEMENT first, ELEMENT[] rest) {
+    iterables.assertEndsWith(info, actual, first, rest);
   }
 
   @Override
@@ -684,7 +734,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   @SafeVarargs
   public final SELF containsAnyOf(ELEMENT... values) {
-    return executeAssertion(() -> iterables.assertContainsAnyOf(info, actual, values));
+    return executeAssertion(() -> assertContainsAnyOf(values));
+  }
+
+  protected void assertContainsAnyOf(ELEMENT[] values) {
+    iterables.assertContainsAnyOf(info, actual, values);
   }
 
   /**
@@ -1487,13 +1541,15 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   @SafeVarargs
   public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatMap(Function<? super ELEMENT, ?>... mappers) {
-    return executeAssertionNavigation(() -> {
-      isNotNull();
-      Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
-      List<Object> result = actualStream.flatMap(element -> Stream.of(mappers).map(extractor -> extractor.apply(element)))
-                                        .collect(toList());
-      return newListAssertInstanceForMethodsChangingElementType(result);
-    }, ListAssert::nullListAssert);
+    return executeAssertionNavigation(() -> doFlatExtracting(mappers), ListAssert::nullListAssert);
+  }
+
+  protected AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> doFlatExtracting(Function<? super ELEMENT, ?>[] extractors) {
+    if (actual == null) throwAssertionError(shouldNotBeNull());
+    Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
+    List<Object> result = actualStream.flatMap(element -> Stream.of(extractors).map(extractor -> extractor.apply(element)))
+                                      .collect(toList());
+    return newListAssertInstanceForMethodsChangingElementType(result);
   }
 
   /**
@@ -1739,15 +1795,17 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   @SafeVarargs
   public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> map(Function<? super ELEMENT, ?>... mappers) {
-    return executeAssertionNavigation(() -> {
-      isNotNull();
-      // combine all extractors into one function
-      Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(mappers)
-                                                                                            .map(extractor -> extractor.apply(objectToExtractValueFrom))
-                                                                                            .toArray());
-      List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor).toList();
-      return newListAssertInstanceForMethodsChangingElementType(tuples);
-    }, ListAssert::nullListAssert);
+    return executeAssertionNavigation(() -> doExtracting(mappers), ListAssert::nullListAssert);
+  }
+
+  protected AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> doExtracting(Function<? super ELEMENT, ?>[] extractors) {
+    isNotNull();
+    // combine all extractors into one function
+    Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
+                                                                                          .map(extractor -> extractor.apply(objectToExtractValueFrom))
+                                                                                          .toArray());
+    List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor).collect(toList());
+    return newListAssertInstanceForMethodsChangingElementType(tuples);
   }
 
   /**
@@ -3190,35 +3248,47 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   @SafeVarargs
   public final SELF satisfiesExactly(Consumer<? super ELEMENT>... requirements) {
-    return executeAssertion(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
+    return executeAssertion(() -> assertSatisfiesExactly(requirements));
   }
 
   @Override
   @SafeVarargs
   public final SELF satisfiesExactly(ThrowingConsumer<? super ELEMENT>... requirements) {
-    return satisfiesExactly((Consumer<? super ELEMENT>[]) requirements);
+    return executeAssertion(() -> assertSatisfiesExactly(requirements));
+  }
+
+  protected void assertSatisfiesExactly(Consumer<? super ELEMENT>[] requirements) {
+    iterables.assertSatisfiesExactly(info, actual, requirements);
   }
 
   @Override
   @SafeVarargs
   public final SELF satisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>... requirements) {
-    return executeAssertion(() -> iterables.assertSatisfiesExactlyInAnyOrder(info, actual, requirements));
+    return executeAssertion(() -> assertSatisfiesExactlyInAnyOrder(requirements));
   }
 
   @Override
   @SafeVarargs
   public final SELF satisfiesExactlyInAnyOrder(ThrowingConsumer<? super ELEMENT>... requirements) {
-    return satisfiesExactlyInAnyOrder((Consumer<? super ELEMENT>[]) requirements);
+    return executeAssertion(() -> assertSatisfiesExactlyInAnyOrder(requirements));
+  }
+
+  protected void assertSatisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>[] requirements) {
+    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, requirements);
   }
 
   @Override
   public SELF satisfiesOnlyOnce(Consumer<? super ELEMENT> requirements) {
-    return executeAssertion(() -> iterables.assertSatisfiesOnlyOnce(info, actual, requirements));
+    return executeAssertion(() -> assertSatisfiesOnlyOnce(requirements));
   }
 
   @Override
   public SELF satisfiesOnlyOnce(ThrowingConsumer<? super ELEMENT> requirements) {
-    return satisfiesOnlyOnce((Consumer<? super ELEMENT>) requirements);
+    return executeAssertion(() -> assertSatisfiesOnlyOnce(requirements));
+  }
+
+  protected void assertSatisfiesOnlyOnce(Consumer<? super ELEMENT> requirements) {
+    iterables.assertSatisfiesOnlyOnce(info, actual, requirements);
   }
 
   // override methods to avoid compilation error when chaining an AbstractAssert method with a AbstractIterableAssert

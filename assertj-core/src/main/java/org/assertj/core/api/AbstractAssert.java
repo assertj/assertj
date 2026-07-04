@@ -17,7 +17,6 @@ package org.assertj.core.api;
 
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
@@ -157,10 +156,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * dead-chain assertion built from {@code assertSupplier} (marked with {@link #skipAssertions} so
    * that subsequent chained assertions no-op instead of throwing a {@link RuntimeException}).
    *
-   * @param <T> the return type of the navigation method
+   * @param <T>            the return type of the navigation method
    * @param navigationCode the navigation method logic to execute
    * @param assertSupplier supplies a fresh assertion instance to mark as dead-chain when a soft
-   *        assertion error is collected; typically wraps {@code null} or empty actual as the value won't be used.
+   *                       assertion error is collected; typically wraps {@code null} or empty actual as the value won't be used.
    * @return the navigation result, or a dead-chain assertion if an assertion error was collected in soft mode
    */
   protected <T extends AbstractAssert<?, ?>> T executeAssertionNavigation(Supplier<T> navigationCode,
@@ -425,7 +424,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * org.opentest4j.AssertionFailedError:
    * expected: 0b00000000_00000000_00000000_00000010
-    *  but was: 0b00000000_00000000_00000000_00000001</code></pre>
+   *  but was: 0b00000000_00000000_00000000_00000001</code></pre>
    *
    * @return {@code this} assertion object.
    */
@@ -1001,15 +1000,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @SafeVarargs
   public final SELF satisfies(Consumer<? super ACTUAL>... requirements) {
-    return executeAssertion(() -> {
-      checkArgument(stream(requirements).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
-      List<AssertionError> assertionErrors = stream(requirements).map(this::catchOptionalAssertionError)
-                                                                 .flatMap(Optional::stream)
-                                                                 .collect(toList());
-      if (!assertionErrors.isEmpty()) {
-        throw multipleAssertionsError(actual, assertionErrors);
-      }
-    });
+    return executeAssertion(() -> assertSatisfies(requirements));
   }
 
   /**
@@ -1047,6 +1038,16 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @SafeVarargs
   public final SELF satisfies(ThrowingConsumer<? super ACTUAL>... assertions) {
     return satisfies((Consumer<? super ACTUAL>[]) assertions);
+  }
+
+  protected void assertSatisfies(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
+    checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
+    List<AssertionError> assertionErrors = stream(assertionsGroups).map(this::catchOptionalAssertionError)
+                                                                   .flatMap(Optional::stream)
+                                                                   .toList();
+    if (!assertionErrors.isEmpty()) {
+      throw multipleAssertionsError(actual, assertionErrors);
+    }
   }
 
   private Optional<AssertionError> catchOptionalAssertionError(Consumer<? super ACTUAL> assertions) {
@@ -1088,19 +1089,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @SafeVarargs
   public final SELF satisfiesAnyOf(Consumer<? super ACTUAL>... assertions) {
-    return executeAssertion(() -> {
-      checkArgument(stream(assertions).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
-      // use a for loop over stream to return as soon as one assertion is met
-      List<AssertionError> assertionErrors = list();
-      for (Consumer<? super ACTUAL> assertionsGroup : assertions) {
-        Optional<AssertionError> maybeError = catchOptionalAssertionError(assertionsGroup);
-        if (maybeError.isEmpty()) {
-          return;
-        }
-        assertionErrors.add(maybeError.get());
-      }
-      throw multipleAssertionsError(actual, assertionErrors);
-    });
+    return executeAssertion(() -> assertSatisfiesAnyOf(assertions));
   }
 
   /**
@@ -1137,6 +1126,20 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @SafeVarargs
   public final SELF satisfiesAnyOf(ThrowingConsumer<? super ACTUAL>... assertions) {
     return satisfiesAnyOf((Consumer<? super ACTUAL>[]) assertions);
+  }
+
+  protected void assertSatisfiesAnyOf(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
+    checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
+    // use a for loop over stream to return as soon as one assertion is met
+    List<AssertionError> assertionErrors = list();
+    for (Consumer<? super ACTUAL> assertionsGroup : assertionsGroups) {
+      Optional<AssertionError> maybeError = catchOptionalAssertionError(assertionsGroup);
+      if (maybeError.isEmpty()) {
+        return;
+      }
+      assertionErrors.add(maybeError.get());
+    }
+    throw multipleAssertionsError(actual, assertionErrors);
   }
 
   private AssertionError multipleAssertionsError(ACTUAL actual, List<AssertionError> assertionErrors) {

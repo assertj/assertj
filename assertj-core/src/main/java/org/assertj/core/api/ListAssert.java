@@ -37,7 +37,6 @@ import org.assertj.core.internal.Failures;
  * <p>
  *
  * @param <ELEMENT> the type of elements of the "actual" value.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -218,26 +217,24 @@ public class ListAssert<ELEMENT> extends
     });
   }
 
-  protected ListAssert<ELEMENT> internalStartsWith(ELEMENT[] sequence) {
-    return executeAssertion(() -> {
-      if (!(actual instanceof ListFromStream)) {
-        iterables.assertStartsWith(info, actual, sequence);
-        return;
-      }
-      objects.assertNotNull(info, actual);
-      checkIsNotNull(sequence);
-      Iterator<? extends ELEMENT> iterator = asListFromStream().stream().iterator();
-      if (sequence.length == 0 && iterator.hasNext()) throw new AssertionError("actual is not empty");
-      int i = 0;
-      while (iterator.hasNext()) {
-        if (i >= sequence.length) break;
-        if (iterables.getComparisonStrategy().areEqual(iterator.next(), sequence[i++])) continue;
-        throw actualDoesNotStartWithSequence(info, sequence);
-      }
-      if (sequence.length > i) {
-        throw actualDoesNotStartWithSequence(info, sequence);
-      }
-    });
+  protected void assertStartsWith(ELEMENT[] sequence) {
+    if (!(actual instanceof ListFromStream)) {
+      iterables.assertStartsWith(info, actual, sequence);
+      return;
+    }
+    objects.assertNotNull(info, actual);
+    checkIsNotNull(sequence);
+    Iterator<? extends ELEMENT> iterator = asListFromStream().stream().iterator();
+    if (sequence.length == 0 && iterator.hasNext()) throw new AssertionError("actual is not empty");
+    int i = 0;
+    while (iterator.hasNext()) {
+      if (i >= sequence.length) break;
+      if (iterables.getComparisonStrategy().areEqual(iterator.next(), sequence[i++])) continue;
+      throw actualDoesNotStartWithSequence(info, sequence);
+    }
+    if (sequence.length > i) {
+      throw actualDoesNotStartWithSequence(info, sequence);
+    }
   }
 
   private AssertionError actualDoesNotStartWithSequence(AssertionInfo info, Object[] sequence) {
@@ -265,12 +262,11 @@ public class ListAssert<ELEMENT> extends
       return list.stream();
     }
 
-    private List<ELEMENT> initList() {
+    private void initList() {
       if (list == null) {
         list = newArrayList(stream.iterator());
         stream.close();
       }
-      return list;
     }
 
     @Override

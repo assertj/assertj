@@ -15,6 +15,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.filter.Filters.filter;
@@ -178,7 +179,7 @@ public class AtomicReferenceArrayAssert<T>
    * @since 2.7.0 / 3.7.0
    */
   public AtomicReferenceArrayAssert<T> hasArray(T[] expected) {
-    return executeAssertion(() -> arrays.assertContainsExactly(info, array, expected));
+    return containsExactly(expected);
   }
 
   /**
@@ -391,7 +392,11 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> contains(T... values) {
-    return executeAssertion(() -> arrays.assertContains(info, array, values));
+    return executeAssertion(() -> assertContains(values));
+  }
+
+  protected void assertContains(T[] values) {
+    arrays.assertContains(info, array, values);
   }
 
   /**
@@ -421,7 +426,11 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> containsOnly(T... values) {
-    return executeAssertion(() -> arrays.assertContainsOnly(info, array, values));
+    return executeAssertion(() -> assertContainsOnly(values));
+  }
+
+  protected void assertContainsOnly(T[] values) {
+    arrays.assertContainsOnly(info, array, values);
   }
 
   /**
@@ -505,7 +514,11 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> containsOnlyOnce(T... values) {
-    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, array, values));
+    return executeAssertion(() -> assertContainsOnlyOnce(values));
+  }
+
+  protected void assertContainsOnlyOnce(T[] values) {
+    arrays.assertContainsOnlyOnce(info, array, values);
   }
 
   /**
@@ -540,7 +553,11 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> containsExactly(T... values) {
-    return executeAssertion(() -> arrays.assertContainsExactly(info, array, values));
+    return executeAssertion(() -> assertContainsExactly(values));
+  }
+
+  protected void assertContainsExactly(T[] values) {
+    arrays.assertContainsExactly(info, array, values);
   }
 
   /**
@@ -566,7 +583,11 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> containsExactlyInAnyOrder(T... values) {
-    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, array, values));
+    return executeAssertion(() -> assertContainsExactlyInAnyOrder(values));
+  }
+
+  protected void assertContainsExactlyInAnyOrder(T[] values) {
+    arrays.assertContainsExactlyInAnyOrder(info, array, values);
   }
 
   /**
@@ -643,7 +664,11 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> containsSequence(T... sequence) {
-    return executeAssertion(() -> arrays.assertContainsSequence(info, array, sequence));
+    return executeAssertion(() -> assertContainsSequence(sequence));
+  }
+
+  protected void assertContainsSequence(T[] sequence) {
+    arrays.assertContainsSequence(info, array, sequence);
   }
 
   /**
@@ -670,10 +695,8 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> containsSequence(Iterable<? extends T> sequence) {
-    return executeAssertion(() -> {
-      checkSequenceIsNotNull(sequence);
-      arrays.assertContainsSequence(info, array, toArray(sequence));
-    });
+    checkSequenceIsNotNull(sequence);
+    return containsSequence(toArray(sequence));
   }
 
   /**
@@ -701,7 +724,11 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> doesNotContainSequence(T... sequence) {
-    return executeAssertion(() -> arrays.assertDoesNotContainSequence(info, array, sequence));
+    return executeAssertion(() -> assertDoesNotContainSequence(sequence));
+  }
+
+  protected void assertDoesNotContainSequence(T[] sequence) {
+    arrays.assertDoesNotContainSequence(info, array, sequence);
   }
 
   /**
@@ -728,10 +755,8 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> doesNotContainSequence(Iterable<? extends T> sequence) {
-    return executeAssertion(() -> {
-      checkSequenceIsNotNull(sequence);
-      arrays.assertDoesNotContainSequence(info, array, toArray(sequence));
-    });
+    checkSequenceIsNotNull(sequence);
+    return doesNotContainSequence(toArray(sequence));
   }
 
   /**
@@ -756,7 +781,11 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> containsSubsequence(T... subsequence) {
-    return executeAssertion(() -> arrays.assertContainsSubsequence(info, array, subsequence));
+    return executeAssertion(() -> assertContainsSubsequence(subsequence));
+  }
+
+  protected void assertContainsSubsequence(T[] subsequence) {
+    arrays.assertContainsSubsequence(info, array, subsequence);
   }
 
   /**
@@ -780,10 +809,8 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> containsSubsequence(Iterable<? extends T> subsequence) {
-    return executeAssertion(() -> {
-      checkSubsequenceIsNotNull(subsequence);
-      arrays.assertContainsSubsequence(info, array, toArray(subsequence));
-    });
+    checkSubsequenceIsNotNull(subsequence);
+    return containsSubsequence(toArray(subsequence));
   }
 
   /**
@@ -809,7 +836,11 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> doesNotContainSubsequence(T... subsequence) {
-    return executeAssertion(() -> arrays.assertDoesNotContainSubsequence(info, array, subsequence));
+    return executeAssertion(() -> assertDoesNotContainSubsequence(subsequence));
+  }
+
+  protected void assertDoesNotContainSubsequence(T[] subsequence) {
+    arrays.assertDoesNotContainSubsequence(info, array, subsequence);
   }
 
   /**
@@ -834,10 +865,8 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> doesNotContainSubsequence(Iterable<? extends T> subsequence) {
-    return executeAssertion(() -> {
-      checkSubsequenceIsNotNull(subsequence);
-      arrays.assertDoesNotContainSubsequence(info, array, toArray(subsequence));
-    });
+    checkSubsequenceIsNotNull(subsequence);
+    return doesNotContainSubsequence(toArray(subsequence));
   }
 
   /**
@@ -979,7 +1008,11 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> doesNotContain(T... values) {
-    return executeAssertion(() -> arrays.assertDoesNotContain(info, array, values));
+    return executeAssertion(() -> assertDoesNotContain(values));
+  }
+
+  protected void assertDoesNotContain(T[] values) {
+    arrays.assertDoesNotContain(info, array, values);
   }
 
   /**
@@ -1053,7 +1086,11 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> startsWith(T... sequence) {
-    return executeAssertion(() -> arrays.assertStartsWith(info, array, sequence));
+    return executeAssertion(() -> assertStartsWith(sequence));
+  }
+
+  protected void assertStartsWith(T[] sequence) {
+    arrays.assertStartsWith(info, array, sequence);
   }
 
   /**
@@ -1080,7 +1117,11 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> endsWith(T first, T... sequence) {
-    return executeAssertion(() -> arrays.assertEndsWith(info, array, first, sequence));
+    return executeAssertion(() -> assertEndsWith(first, sequence));
+  }
+
+  protected void assertEndsWith(T first, T[] sequence) {
+    arrays.assertEndsWith(info, array, first, sequence);
   }
 
   /**
@@ -1130,7 +1171,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> isSubsetOf(Iterable<? extends T> values) {
-    return executeAssertion(() -> arrays.assertIsSubsetOf(info, array, values));
+    return executeAssertion(() -> assertIsSubsetOf(values));
   }
 
   /**
@@ -1155,7 +1196,11 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> isSubsetOf(T... values) {
-    return executeAssertion(() -> arrays.assertIsSubsetOf(info, array, Arrays.asList(values)));
+    return isSubsetOf(asList(values));
+  }
+
+  protected void assertIsSubsetOf(Iterable<?> values) {
+    arrays.assertIsSubsetOf(info, array, values);
   }
 
   /**
@@ -2239,7 +2284,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @CheckReturnValue
   public <U, C extends Collection<U>, EXCEPTION extends Exception> ObjectArrayAssert<U> flatExtracting(ThrowingExtractor<? super T, C, EXCEPTION> extractor) {
-    return doFlatExtracting(extractor);
+    return flatExtracting((Function<? super T, C>) extractor);
   }
 
   private <U, C extends Collection<U>> ObjectArrayAssert<U> doFlatExtracting(Function<? super T, C> extractor) {
@@ -3111,7 +3156,7 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> satisfiesExactly(Consumer<? super T>... requirements) {
-    return executeAssertion(() -> iterables.assertSatisfiesExactly(info, newArrayList(array), requirements));
+    return executeAssertion(() -> assertSatisfiesExactly(requirements));
   }
 
   /**
@@ -3164,6 +3209,10 @@ public class AtomicReferenceArrayAssert<T>
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> satisfiesExactly(ThrowingConsumer<? super T>... requirements) {
     return satisfiesExactly((Consumer<? super T>[]) requirements);
+  }
+
+  protected void assertSatisfiesExactly(Consumer<? super T>[] requirements) {
+    iterables.assertSatisfiesExactly(info, newArrayList(array), requirements);
   }
 
   /**
@@ -3219,7 +3268,7 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrder(Consumer<? super T>... requirements) {
-    return executeAssertion(() -> iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(array), requirements));
+    return executeAssertion(() -> assertSatisfiesExactlyInAnyOrder(requirements));
   }
 
   /**
@@ -3279,6 +3328,10 @@ public class AtomicReferenceArrayAssert<T>
     return satisfiesExactlyInAnyOrder((Consumer<? super T>[]) requirements);
   }
 
+  protected void assertSatisfiesExactlyInAnyOrder(Consumer<? super T>[] requirements) {
+    iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(array), requirements);
+  }
+
   /**
    * Verifies that there is exactly one element in the {@link AtomicReferenceArray} under test that satisfies the {@link Consumer}.
    * <p>
@@ -3304,7 +3357,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> satisfiesOnlyOnce(Consumer<? super T> requirements) {
-    return executeAssertion(() -> iterables.assertSatisfiesOnlyOnce(info, newArrayList(array), requirements));
+    return executeAssertion(() -> assertSatisfiesOnlyOnce(requirements));
   }
 
   /**
@@ -3336,6 +3389,10 @@ public class AtomicReferenceArrayAssert<T>
     return satisfiesOnlyOnce((Consumer<? super T>) requirements);
   }
 
+  protected void assertSatisfiesOnlyOnce(Consumer<? super T> requirements) {
+    iterables.assertSatisfiesOnlyOnce(info, newArrayList(array), requirements);
+  }
+
   /**
    * Verifies that the actual AtomicReferenceArray contains at least one of the given values.
    * <p>
@@ -3364,7 +3421,11 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> containsAnyOf(T... values) {
-    return executeAssertion(() -> arrays.assertContainsAnyOf(info, array, values));
+    return executeAssertion(() -> assertContainsAnyOf(values));
+  }
+
+  protected void assertContainsAnyOf(T[] values) {
+    arrays.assertContainsAnyOf(info, array, values);
   }
 
   /**

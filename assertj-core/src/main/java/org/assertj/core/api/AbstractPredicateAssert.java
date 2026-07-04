@@ -28,7 +28,6 @@ import org.assertj.core.presentation.PredicateDescription;
  * Assertions for {@link Predicate}.
  *
  * @param <T> type of the value contained in the {@link Predicate}.
- *
  * @author Filip Hrisafov
  */
 public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAssert<SELF, T>, T> extends
@@ -61,12 +60,16 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    */
   @SafeVarargs
   public final SELF accepts(T... values) {
-    return executeAssertion(() -> {
-      isNotNull();
-      if (values.length == 1) {
-        if (!actual.test(values[0])) throwAssertionError(shouldAccept(actual, values[0], PredicateDescription.GIVEN));
-      } else iterables.assertAllMatch(info, list(values), actual, PredicateDescription.GIVEN);
-    });
+    return executeAssertion(() -> assertAccepts(values));
+  }
+
+  protected void assertAccepts(T[] values) {
+    isNotNull();
+    if (values.length == 1) {
+      if (!actual.test(values[0])) throwAssertionError(shouldAccept(actual, values[0], PredicateDescription.GIVEN));
+    } else {
+      iterables.assertAllMatch(info, list(values), actual, PredicateDescription.GIVEN);
+    }
   }
 
   /**
@@ -89,12 +92,16 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    */
   @SafeVarargs
   public final SELF rejects(T... values) {
-    return executeAssertion(() -> {
-      isNotNull();
-      if (values.length == 1) {
-        if (actual.test(values[0])) throwAssertionError(shouldNotAccept(actual, values[0], PredicateDescription.GIVEN));
-      } else iterables.assertNoneMatch(info, list(values), actual, PredicateDescription.GIVEN);
-    });
+    return executeAssertion(() -> assertRejects(values));
+  }
+
+  protected void assertRejects(T[] values) {
+    isNotNull();
+    if (values.length == 1) {
+      if (actual.test(values[0])) throwAssertionError(shouldNotAccept(actual, values[0], PredicateDescription.GIVEN));
+    } else {
+      iterables.assertNoneMatch(info, list(values), actual, PredicateDescription.GIVEN);
+    }
   }
 
   /**
