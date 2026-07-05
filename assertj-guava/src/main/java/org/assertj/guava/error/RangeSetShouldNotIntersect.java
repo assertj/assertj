@@ -34,7 +34,7 @@ public class RangeSetShouldNotIntersect extends BasicErrorMessageFactory {
   ///
   /// @param actual actual `RangeSet`.
   /// @param unexpected ranges that should not be intersected.
-  /// @param intersected list of ranges that haven't be intersected, but they have.
+  /// @param intersected list of ranges that should not intersect, but they do.
   private RangeSetShouldNotIntersect(Object actual, Object unexpected, Object intersected) {
     super("%nExpecting:%n  %s%nnot to intersect%n  %s%nbut it intersects%n  %s%n",
           actual, unexpected, intersected);

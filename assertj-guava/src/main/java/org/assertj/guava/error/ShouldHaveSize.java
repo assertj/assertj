@@ -20,7 +20,7 @@ import static java.lang.String.format;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
-/// Creates an error message indicating that an assertion that verifies that a value have certain size failed.
+/// Creates an error message indicating that an assertion that verifies that a value has a certain size failed.
 ///
 /// @author Joel Costigliola
 public class ShouldHaveSize extends BasicErrorMessageFactory {
@@ -39,4 +39,5 @@ public class ShouldHaveSize extends BasicErrorMessageFactory {
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
     super(format("%nExpected size: %s but was: %s in:%n%s", expectedSize, actualSize, "%s"), actual);
   }
+
 }

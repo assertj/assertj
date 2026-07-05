@@ -29,7 +29,7 @@ public class RangeSetShouldNotEnclose extends BasicErrorMessageFactory {
   ///
   /// @param actual actual `RangeSet`.
   /// @param expected expected value.
-  /// @param enclosed list of values that haven't to be enclosed, but they have.
+  /// @param enclosed list of values that should not be enclosed, but they are.
   private RangeSetShouldNotEnclose(Object actual, Object expected, Object enclosed) {
     super("%nExpecting:%n  %s%nnot to enclose%n  %s%nbut it encloses%n  %s%n", actual, expected, enclosed);
   }

@@ -787,7 +787,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   /// rangeSet.add(Range.closed(200, 300));
   /// rangeSet.add(Range.closed(500, 600));
   ///
-  /// assertThat(rangeSet).enclosesAll(ImmutableRangeSet.of(Range.closed(0, 50));
+  /// assertThat(rangeSet).enclosesAll(ImmutableRangeSet.of(Range.closed(0, 50)));
   /// ```
   ///
   /// @param rangeSet the range set to check whether the actual `RangeSet` encloses all range from it.
