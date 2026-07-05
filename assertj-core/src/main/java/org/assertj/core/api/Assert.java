@@ -113,7 +113,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * accept that result without detecting the bug.
    * <p>
    * Additionally, the comparison strategy can be customized via
-   * {@link #usingComparator(Comparator)} or {@link #usingEquals(BiPredicate)}.
+   * {@link AssertWithComparator#usingComparator(Comparator)} or {@link AssertWithComparator#usingEquals(BiPredicate)}.
    * In these cases, {@code isNotEqualTo} bypasses {@code equals} entirely in favor of the provided
    * logic.
    * <p>
