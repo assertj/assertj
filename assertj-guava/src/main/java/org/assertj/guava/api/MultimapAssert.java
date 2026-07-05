@@ -196,10 +196,10 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   ///
   /// ```java
   /// Multimap<String, String> actual = ArrayListMultimap.create();
-  /// nba.put("Bulls", "Derrick Rose");
-  /// nba.put("Bulls", "Joachim Noah");
+  /// actual.put("Bulls", "Derrick Rose");
+  /// actual.put("Bulls", "Joachim Noah");
   ///
-  /// assertThat(nba).isNotEmpty();
+  /// assertThat(actual).isNotEmpty();
   /// ```
   ///
   /// @throws AssertionError if the actual [Multimap] is `null`.
@@ -239,13 +239,13 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   }
 
   /// Verifies that the actual [Multimap] has the same entries as the given one.
-  /// It allows to compare two multimaps having the same content but who are not equal because being of different types
-  /// like [com.google.common.collect.SetMultimap] and [com.google.common.collect.ListMultimap].
+  /// It allows to compare two multimaps having the same content but which are not equal because they are of different
+  /// types like [com.google.common.collect.SetMultimap] and [com.google.common.collect.ListMultimap].
   ///
   /// Example :
   ///
   /// ```java
-  /// Multimap<String, String> actual = ArrayListMultimap.create();
+  /// Multimap<String, String> listMultimap = ArrayListMultimap.create();
   /// listMultimap.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
   /// listMultimap.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
   ///
