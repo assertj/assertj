@@ -1,0 +1,9 @@
+name: assertj-guava
+title: AssertJ Guava
+nav:
+- modules/ROOT/nav.adoc
+asciidoc:
+  attributes:
+    project-description: 'Provide assertions for JDK types (String, Iterable, Stream, Path, File, Map, ...)'
+    assertj-core-javadoc-root: "{assertj-javadoc-root}/assertj-core/latest/"
+    assertj-guava-javadoc-root: "{assertj-javadoc-root}/assertj-guava/latest/"

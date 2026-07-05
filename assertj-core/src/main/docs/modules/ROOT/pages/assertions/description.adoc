@@ -1,0 +1,56 @@
+[[description]]
+= Assertion description
+
+It is often valuable to describe the assertion performed, especially for boolean assertions where the default error message just complains that it got `false` instead of `true` (or vice versa).
+
+You can set such a description with `as(String description, Object... args)` but remember to do it before calling the assertion otherwise it is simply ignored as a failing assertion breaks the chained calls.
+
+Example of a failing assertion with a description:
+[source,java,indent=0]
+----
+include::example$DescribingAssertionsExample.java[tags=user_guide]
+----
+
+The error message starts with the given description in `[]` :
+
+[source, text]
+----
+[check Frodo's age] expected:<100> but was:\<33>
+----
+
+[[description-consumer]]
+== Printing or consuming description
+
+AssertJ can print each assertion description (when it is set), to do so call `Assertions.setPrintAssertionsDescription(true);`.
+
+If printing assertion descriptions is not what you need, you can alternatively register a `Consumer<Description>` that will be called each time a description is set.
+
+Both options are exposed in AssertJ link:configuring.adoc#configuration[`Configuration`] class.
+
+Example: using a description consumer
+[source,java,indent=0]
+----
+// initialize the description consumer
+final StringBuilder descriptionReportBuilder = new StringBuilder(String.format("Assertions:%n"));
+Consumer<Description> descriptionConsumer = desc -> descriptionReportBuilder.append(String.format("-- %s%n", desc));
+
+// use the description consumer for any following assertions descriptions.
+Assertions.setDescriptionConsumer(descriptionConsumer);
+
+// execute some assertions
+TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, Race.HOBBIT);
+assertThat(frodo.getName()).as("check name")
+                          .isEqualTo("Frodo");
+assertThat(frodo.getAge()).as("check age")
+                          .isEqualTo(33);
+
+// get the report
+String descriptionReport = descriptionReportBuilder.toString();
+----
+resulting `descriptionReport`:
+[source, text]
+----
+Assertions:
+-- check name
+-- check age
+----

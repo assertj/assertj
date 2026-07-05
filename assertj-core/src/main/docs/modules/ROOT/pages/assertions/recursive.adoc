@@ -1,0 +1,56 @@
+[[recursive-assertion]]
+= Recursive assertions
+
+The recursive assertion `allFieldsSatisfy` lets you verify a `Predicate` is met for all the fields of the object under test graph recursively (but not the object itself).
+
+For example if the object under test is an instance of class A, A has a B field and B a C field then `allFieldsSatisfy` checks A's B field and B's C field and all C's fields.
+
+Example:
+[source,java,indent=0]
+----
+class Author {
+  String name;
+  String email;
+  List<Book> books = new ArrayList<>();
+
+  Author(String name, String email) {
+    this.name = name;
+    this.email = email;
+  }
+}
+
+class Book {
+  String title;
+  Author[] authors;
+
+  Book(String title, Author[] authors) {
+    this.title = title;
+    this.authors = authors;
+  }
+}
+
+Author pramodSadalage = new Author("Pramod Sadalage", "p.sadalage@recursive.test");
+Author martinFowler = new Author("Martin Fowler", "m.fowler@recursive.test");
+Author kentBeck = new Author("Kent Beck", "k.beck@recursive.test");
+
+Book noSqlDistilled = new Book("NoSql Distilled", new Author[] {pramodSadalage, martinFowler});
+pramodSadalage.books.add(noSqlDistilled);
+martinFowler.books.add(noSqlDistilled);
+
+Book refactoring = new Book("Refactoring", new Author[] {martinFowler, kentBeck});
+martinFowler.books.add(refactoring);
+kentBeck.books.add(refactoring);
+
+// assertion succeeds
+assertThat(pramodSadalage).usingRecursiveAssertion()
+                          .allFieldsSatisfy(field -> field != null);
+----
+
+The above example is best rewritten with `hasNoNullFields()` which is common enough that it is supported out of the box.
+
+The recursive assertion provides these methods to exclude fields, the predicate won't be applied on the excluded fields:
+
+* `ignoringFields(String...fieldsToIgnore)` - the assertion ignores the specified fields in the object under test
+* `ignoringFieldsMatchingRegexes(String...regexes)` - the assertion ignores the fields matching the specified regexes in the object under test
+* `ignoringFieldsOfTypes(Class<?>...typesToIgnore)` - the assertion ignores the object under test fields of the given types
+* `ignoringPrimitiveFields()` - avoid running the assertion on primitive fields

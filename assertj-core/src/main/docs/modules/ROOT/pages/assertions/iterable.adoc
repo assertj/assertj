@@ -1,0 +1,468 @@
+[[group-assertions]]
+= Iterable and array assertions
+
+[[group-assertions-reference]]
+== Reference
+
+All the available assertions are described in:
+
+* iterables: {assertj-core-javadoc-root}org/assertj/core/api/AbstractIterableAssert.html#method.summary
+* arrays: {assertj-core-javadoc-root}org/assertj/core/api/AbstractObjectArrayAssert.html#method.summary
+
+The next sections focus on some features worth knowing to get the best of AssertJ, notably:
+
+* Different ways of link:#group-contains[checking iterables/arrays content]
+* link:#group-satisfy[Running assertions on some elements (any, all, none)]
+* link:#group-navigation[Navigating] to a given element to check it
+* link:#group-filtering[Filtering]  elements before asserting]
+* link:#group-extracting[Extracting/mapping] elements before asserting
+* link:#group-comparator[Comparing elements] with a specific comparator
+
+[[group-contains]]
+== Checking iterables/arrays content
+
+There are different flavors of `contains` assertion, here's a table to help choose the most relevant one:
+
+[%autowidth]
+|===
+|Assertion |Description
+
+|{assertj-core-javadoc-root}org/assertj/core/api/AbstractIterableAssert.html#contains(ELEMENT&#46;&#46;&#46;)[`contains`]
+|Verifies that the actual iterable/array contains the given values in any order
+
+|{assertj-core-javadoc-root}org/assertj/core/api/AbstractIterableAssert.html#containsOnly(ELEMENT&#46;&#46;&#46;)[`containsOnly`]
+|Verifies that the actual group contains only the given values and nothing else in any order and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found)
+
+|{assertj-core-javadoc-root}org/assertj/core/api/AbstractIterableAssert.html#containsExactly(ELEMENT&#46;&#46;&#46;)[`containsExactly`]
+|Verifies that the actual iterable/array contains exactly the given values and nothing else **in order**
+
+|{assertj-core-javadoc-root}org/assertj/core/api/AbstractIterableAssert.html#containsExactlyInAnyOrder(ELEMENT&#46;&#46;&#46;)[`containsExactlyInAnyOrder`]
+|Verifies that the actual iterable/array contains exactly the given values and nothing else **in any order**
+
+|{assertj-core-javadoc-root}org/assertj/core/api/AbstractIterableAssert.html#containsSequence(ELEMENT&#46;&#46;&#46;)[`containsSequence`]
+|Verifies that the actual group contains the given sequence in the correct order and **without extra values between the sequence values**
+
+|{assertj-core-javadoc-root}org/assertj/core/api/AbstractIterableAssert.html#containsSubsequence(ELEMENT&#46;&#46;&#46;)[`containsSubsequence`]
+|Verifies that the actual group contains the given subsequence in the correct order **possibly with other values between them**
+
+|{assertj-core-javadoc-root}org/assertj/core/api/AbstractIterableAssert.html#containsOnlyOnce(ELEMENT&#46;&#46;&#46;)[`containsOnlyOnce`]
+|Verifies that the actual iterable/array contains the given values only once
+
+|{assertj-core-javadoc-root}org/assertj/core/api/AbstractIterableAssert.html#containsAnyOf(ELEMENT&#46;&#46;&#46;)[`containsAnyOf`]
+|Verifies that the actual iterable/array contains at least one of the given values (like an `or` operator on the given values)
+
+|===
+
+TIP: the assertions above have a variant accepting an iterable/array argument, ex: `containsExactly(E...)` and `containsExactlyElementsOf(Iterable)`
+
+[[group-satisfy]]
+== Verify assertions on some elements
+
+=== Satisfy
+
+You can assert that all or any elements verify the given assertions with `allSatisfy` and `anySatisfy`, conversely `noneSatisfy` lets you assert that no elements verify the given assertions.
+
+The given assertions are expressed with a `Consumer` (typically with a lambda).
+
+Examples:
+[source,java,indent=0]
+----
+List<TolkienCharacter> hobbits = list(frodo, sam, pippin);
+
+// all elements must satisfy the given assertions
+assertThat(hobbits).allSatisfy(character -> {
+  assertThat(character.getRace()).isEqualTo(HOBBIT);
+  assertThat(character.getName()).isNotEqualTo("Sauron");
+});
+
+// at least one element must satisfy the given assertions
+assertThat(hobbits).anySatisfy(character -> {
+  assertThat(character.getRace()).isEqualTo(HOBBIT);
+  assertThat(character.getName()).isEqualTo("Sam");
+});
+
+// no element must satisfy the given assertions
+assertThat(hobbits).noneSatisfy(character -> assertThat(character.getRace()).isEqualTo(ELF));
+----
+
+NOTE: if `allSatisfy` fails, all the elements and their failing the assertions are reported.
+
+=== Match
+
+You can assert that all or any elements match the given `Predicate` with `allMatch` and `anyMatch`, conversely `noneMatch` lets you assert that no elements verify the given predicate.
+
+Examples:
+[source,java,indent=0]
+----
+List<TolkienCharacter> hobbits = list(frodo, sam, pippin);
+
+assertThat(hobbits).allMatch(character -> character.getRace() == HOBBIT, "hobbits")
+                   .anyMatch(character -> character.getName().contains("pp"))
+                   .noneMatch(character -> character.getRace() == ORC);
+----
+
+TIP: You can pass a predicate description to make the error message more explicit if the assertion fails.
+
+[[group-navigation]]
+== Navigating to a given element
+
+The idea is to navigate to a given element in order to check it, you can navigate to the link:#group-navigation-fle[first, last or any element by index] or if you expect only one element use link:#group-navigation-singleElement[`singleElement`].
+
+NOTE: this is only available for iterables at the moment.
+
+[[group-navigation-fle]]
+=== First / last / element(index)
+
+Use `first`, `last` and `element(index)` to navigate to the corresponding element, after navigating you can only use object assertions unless you have specified an Assert class or preferrably an `InstanceOfAssertFactory` as shown in the following examples.
+
+Examples:
+[source,java,indent=0]
+----
+// only object assertions available after navigation
+Iterable<TolkienCharacter> hobbits = list(frodo, sam, pippin);
+assertThat(hobbits).first().isEqualTo(frodo);
+assertThat(hobbits).element(1).isEqualTo(sam);
+assertThat(hobbits).last().isEqualTo(pippin);
+
+// strongly typed String assertions after navigation
+Iterable<String> hobbitsName = list("frodo", "sam", "pippin");
+// STRING is an InstanceOfAssertFactory from org.assertj.core.api.InstanceOfAssertFactories.STRING
+// as() is just synthetic sugar for readability
+assertThat(hobbitsName).first(as(STRING))
+                       .startsWith("fro")
+                       .endsWith("do");
+assertThat(hobbitsName).element(1, as(STRING))
+                       .startsWith("sa")
+                       .endsWith("am");
+assertThat(hobbitsName).last(as(STRING))
+                       .startsWith("pip")
+                       .endsWith("pin");
+
+// alternative for strongly typed assertions
+assertThat(hobbitsName, StringAssert.class).first()
+                                           .startsWith("fro")
+                                           .endsWith("do");
+----
+
+[[group-navigation-singleElement]]
+=== Single element
+
+`singleElement` checks that the iterable has only one element and navigates to it, after navigating you can only use object assertions unless you have specified an Assert class or preferrably an `InstanceOfAssertFactory` as shown in the following examples.
+
+Examples:
+[source,java,indent=0]
+----
+Iterable<String> babySimpsons = list("Maggie");
+
+// only object assertions available
+assertThat(babySimpsons).singleElement()
+                        .isEqualTo("Maggie");
+
+// to get specific typed assertions, pass the corresponding InstanceOfAssertFactory from
+// org.assertj.core.api.InstanceOfAssertFactories.STRING), as() is just synthetic sugar for readability
+assertThat(babySimpsons).singleElement(as(STRING))
+                        .endsWith("gie");
+
+// alternative for strongly typed assertions
+assertThat(babySimpsons, StringAssert.class).singleElement()
+                                            .startsWith("Mag");
+----
+
+[[group-filtering]]
+== Filtering elements
+
+Filtering is handy to target assertions on some specific elements, the filter criteria can be expressed by:
+
+* a link:#filtering-with-a-predicate[java Predicate]
+* an link:#filtering-on-a-property-or-a-field[element property/field having a specific value (or not) or in a set of values (or not)]
+* an link:#filtering-on-null-value[element property/field having a null value]
+* an element link:#filtering-elements-matching-given-assertions[matching some assertions]
+* an element matching a link:#filtering-with-a-condition[Condition]
+
+Let's explore these options in some examples taken from {assertj-examples-repo}/tree/main/assertions-examples/src/test/java/org/assertj/examples/FilterExamples.java#L47[FilterExamples] from the {assertj-examples-repo}[assertions-examples] project.
+
+=== Filtering with a Predicate
+
+You specify the filter condition using simple predicate, best expressed with a lambda.
+
+Example:
+
+[source,java,indent=0]
+----
+assertThat(fellowshipOfTheRing).filteredOn( character -> character.getName().contains("o") )
+                               .containsOnly(aragorn, frodo, legolas, boromir);
+----
+
+=== Filtering on a property or a field
+
+First you specify the property/field name to filter on and then its expected value. The filter first tries to get the value from a property, then from a field. Reading private fields is supported by default, but can be disabled globally by calling `Assertions.setAllowExtractingPrivateFields(false)`.
+
+Filter supports nested properties/fields. Note that if an intermediate value is null the whole nested property/field is considered to be null, for example reading `"address.street.name"` will return null if `"address.street"` is null.
+
+Filters support these basic operations: `not`, `in`, `notIn`
+
+[source,java,indent=0]
+----
+import static org.assertj.core.api.Assertions.in;
+import static org.assertj.core.api.Assertions.not;
+import static org.assertj.core.api.Assertions.notIn;
+...
+
+// filters use introspection to get property/field values
+assertThat(fellowshipOfTheRing).filteredOn("race", HOBBIT)
+                               .containsOnly(sam, frodo, pippin, merry);
+
+// nested properties are supported
+assertThat(fellowshipOfTheRing).filteredOn("race.name", "Man")
+                               .containsOnly(aragorn, boromir);
+
+// you can apply different comparison
+assertThat(fellowshipOfTheRing).filteredOn("race", notIn(HOBBIT, MAN))
+                               .containsOnly(gandalf, gimli, legolas);
+
+assertThat(fellowshipOfTheRing).filteredOn("race", in(MAIA, MAN))
+                               .containsOnly(gandalf, boromir, aragorn);
+
+assertThat(fellowshipOfTheRing).filteredOn("race", not(HOBBIT))
+                               .containsOnly(gandalf, boromir, aragorn, gimli, legolas);
+
+// you can chain multiple filter criteria
+assertThat(fellowshipOfTheRing).filteredOn("race", MAN)
+                               .filteredOn("name", not("Boromir"))
+                               .containsOnly(aragorn);
+----
+
+=== Filtering on a function return value
+
+This is a more flexible way of getting the value to filter on but note that there is no support for operators like `not`, `in` and `notIn`.
+
+[source,java,indent=0]
+----
+assertThat(fellowshipOfTheRing).filteredOn(TolkienCharacter::getRace, HOBBIT)
+                               .containsOnly(sam, frodo, pippin, merry);
+----
+
+=== Filtering on null value
+
+Filters the elements whose specified property/field is null.
+
+Filter supports nested properties/fields. Note that if an intermediate value is null the whole nested property/field is considered to be null, for example reading `"address.street.name"` will return null if `"address.street"` is null.
+
+[source,java,indent=0]
+----
+TolkienCharacter pippin = new TolkienCharacter("Pippin", 28, HOBBIT);
+TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+TolkienCharacter merry = new TolkienCharacter("Merry", 36, HOBBIT);
+TolkienCharacter mysteriousHobbit = new TolkienCharacter(null, 38, HOBBIT);
+
+List<TolkienCharacter> hobbits = list(frodo, mysteriousHobbit, merry, pippin);
+
+assertThat(hobbits).filteredOnNull("name"))
+                   .singleElement()
+                   .isEqualTo(mysteriousHobbit);
+----
+
+=== Filtering elements matching given assertions
+
+Filters the iterable under test keeping only elements matching the given assertions specified with a `Consumer`.
+
+Example: check hobbits whose age < 34
+[source,java,indent=0]
+----
+TolkienCharacter pippin = new TolkienCharacter("Pippin", 28, HOBBIT);
+TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+TolkienCharacter merry = new TolkienCharacter("Merry", 36, HOBBIT);
+TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
+
+List<TolkienCharacter> hobbits = list(frodo, sam, merry, pippin);
+
+assertThat(hobbits).filteredOnAssertions(hobbit -> assertThat(hobbit.age).isLessThan(34))
+                   .containsOnly(frodo, pippin);
+----
+=== Filtering with a Condition
+
+Filter the iterable/array under test keeping only elements matching the given link:#conditions[`Condition`].
+
+Two methods are available: being(Condition) and having(Condition). They do the same job - pick the one that makes your code more readable!
+
+[source,java,indent=0]
+----
+import org.assertj.core.api.Condition;
+
+Condition<Player> mvpStats= new Condition<Player>(player -> {
+    return player.pointsPerGame() > 20 && (player.assistsPerGame() >= 8 || player.reboundsPerGame() >= 8);
+  }, "mvp");
+
+List<Player> players;
+players.add(rose); // Derrick Rose: 25 ppg - 8 assists - 5 rebounds
+players.add(lebron); // Lebron James: 27 ppg - 6 assists - 9 rebounds
+players.add(noah); // Joachim Noah: 8 ppg - 5 assists - 11 rebounds
+
+// noah does not have more than 20 ppg
+assertThat(players).filteredOn(mvpStats)
+                   .containsOnly(rose, lebron);
+----
+
+[[group-extracting]]
+== Extracting elements values
+
+=== What problem extracting solves
+
+Let's say you have called some service and got a list (or an array) of `TolkienCharacter`, to check the results you have to build the expected TolkienCharacters, that can be quite tedious!
+
+[source,java,indent=0]
+----
+List<TolkienCharacter> fellowshipOfTheRing = tolkienDao.findHeroes();  // frodo, sam, aragorn ...
+
+// requires creation of frodo and aragorn, the expected TolkienCharacters
+assertThat(fellowshipOfTheRing).contains(frodo, aragorn);
+----
+
+Instead, it is usually enough to check some fields or properties on the elements, for that you have to extract the fields/properties before performing your assertions, something like:
+
+[source,java,indent=0]
+----
+// extract the names ...
+List<String> names = fellowshipOfTheRing.stream().map(TolkienCharacter::getName).collect(toList());
+// ... and finally assert something
+assertThat(names).contains("Boromir", "Gandalf", "Frodo", "Legolas");
+----
+
+This is too much work (even with the stream API), instead AssertJ can help extracting values from the elements under tests, there are several ways of doing so:
+
+* Extracting a link:#extracting-single-value-per-element[single value] per element
+* Extracting a link:#extracting-multiple-values[multiple values] per element
+* Extracting and link:#group-flat-extracting[flattening multiple values] per element
+
+[[extracting-single-value-per-element]]
+=== Extracting single value per element
+
+Specify the field/property to extract (or pass a `Function`) from each elements and perform assertions on the extracted values.
+
+Extracting by name can access private fields/properties which is handy to check internals not exposed with public methods (lambda won't work here), it also supports nested field/property like `"race.name"`.
+
+Examples:
+[source,java,indent=0]
+----
+// "name" needs to be either a property or a field of the TolkienCharacter class
+assertThat(fellowshipOfTheRing).extracting("name")
+                               .contains("Boromir", "Gandalf", "Frodo", "Legolas")
+                               .doesNotContain("Sauron", "Elrond");
+
+// specifying nested field/property is supported
+assertThat(fellowshipOfTheRing).extracting("race.name")
+                               .contains("Man", "Maia", "Hobbit", "Elf");
+
+// same thing with a lambda which is type safe and refactoring friendly:
+assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName)
+                               .contains("Boromir", "Gandalf", "Frodo", "Legolas");
+
+// same thing map an alias of extracting:
+assertThat(fellowshipOfTheRing).map(TolkienCharacter::getName)
+                               .contains("Boromir", "Gandalf", "Frodo", "Legolas");
+----
+
+Note that extracting one property can be made strongly typed by giving the property type as the second argument.
+
+[source,java,indent=0]
+----
+// to have type safe extracting, use the second parameter to pass the expected property type:
+assertThat(fellowshipOfTheRing).extracting("name", String.class)
+                               .contains("Boromir", "Gandalf", "Frodo", "Legolas")
+                               .doesNotContain("Sauron", "Elrond");
+----
+
+[[extracting-multiple-values]]
+=== Extracting multiple values
+
+You can extract several values from the elements under test and check them using {assertj-core-javadoc-root}org/assertj/core/api/Assertions.html#tuple(java.lang.Object&#46;&#46;&#46;)[tuples].
+
+As an example, let's check the name, age and race's name of each TolkienCharacter element:
+
+[source,java,indent=0]
+----
+// when checking several properties/fields you have to use tuples:
+import static org.assertj.core.api.Assertions.tuple;
+
+// extracting name, age and race.name nested property
+assertThat(fellowshipOfTheRing).extracting("name", "age", "race.name")
+                               .contains(tuple("Boromir", 37, "Man"),
+                                         tuple("Sam", 38, "Hobbit"),
+                                         tuple("Legolas", 1000, "Elf"));
+
+// same assertion with functions for type safety:
+assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
+                                            tolkienCharacter -> tolkienCharacter.age,
+                                            tolkienCharacter -> tolkienCharacter.getRace().getName())
+                                .contains(tuple("Boromir", 37, "Man"),
+                                          tuple("Sam", 38, "Hobbit"),
+                                          tuple("Legolas", 1000, "Elf"));
+----
+
+The extracted name, age and race's name values of the current element are grouped in a tuple, thus you need to use tuples for specifying the expected values.
+
+More examples are available in link:{assertj-examples-base-package}IterableAssertionsExamples.java#L210[IterableAssertionsExamples.java] of the link:{assertj-examples-repo}[assertj-examples] project.
+
+[[group-flat-extracting]]
+=== Extracting and flattening multiple values per element
+
+Flat extracting is hard to explain but easy to understand with an example, so let's see how it works (in functional programming it is juts a flatMap).
+
+Let's assume we have a `Player` class with a `teamMates` property returning a `List<Player>` and we want to assert that it returns the expected players:
+[source,java,indent=0]
+----
+Player jordan = ... // initialized with Pippen and Kukoc team mates
+Player magic = ... // initialized with Jabbar and Worthy team mates
+List<Player> reallyGoodPlayers = list(jordan, magic);
+
+// check all team mates by specifying the teamMates property (Player has a getTeamMates() method):
+assertThat(reallyGoodPlayers).flatExtracting("teamMates")
+                             .contains(pippen, kukoc, jabbar, worthy);
+
+// alternatively, you can use a Function for type safety:
+assertThat(reallyGoodPlayers).flatExtracting(BasketBallPlayer::getTeamMates)
+                             .contains(pippen, kukoc, jabbar, worthy);
+
+// flatMap is an alias of flatExtracting:
+assertThat(reallyGoodPlayers).flatMap(BasketBallPlayer::getTeamMates)
+                             .contains(pippen, kukoc, jabbar, worthy);
+
+// if you use extracting instead of flatExtracting the result would be a list of list of players so the assertion becomes:
+assertThat(reallyGoodPlayers).extracting("teamMates")
+                             .contains(list(pippen, kukoc), list(jabbar, worthy));
+----
+
+TIP: You can use `flatMap` in place of `flatExtracting` (except for the variant taking a String)
+
+Flat extracting can be used to group multiple values if you don't want to use `extracting` and tuples:
+
+[source,java,indent=0]
+----
+// extract a list of values, flatten them and use contains assertion
+assertThat(fellowshipOfTheRing).flatExtracting("name", "race.name")
+                               .contains("Frodo", "Hobbit", "Legolas", "Elf");
+
+// same assertions with Functions:
+assertThat(fellowshipOfTheRing).flatExtracting(TolkienCharacter::getName,
+                                               tc -> tc.getRace().getName())
+                               .contains("Frodo", "Hobbit", "Legolas", "Elf");
+----
+
+[[group-comparator]]
+== Comparing elements with a specific comparator
+
+`usingElementComparator` allows you to change the way elements are compared (instead of using the elements `equals` method).
+
+Examples:
+[source,java,indent=0]
+----
+List<TolkienCharacter> fellowshipOfTheRing = list(frodo, sam, merry, pippin, gandald, legolas, boromir, aragorn, gimli);
+
+// the fellowshipOfTheRing includes Gandalf but not Sauron ...
+assertThat(fellowshipOfTheRing).contains(gandalf)
+                               .doesNotContain(sauron);
+
+// ... but if we compare only races, Sauron is in fellowshipOfTheRing since he's a Maia like Gandalf
+assertThat(fellowshipOfTheRing).usingElementComparator((t1, t2) -> t1.getRace().compareTo(t2.getRace()))
+                               .contains(sauron);
+----
