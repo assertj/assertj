@@ -76,7 +76,8 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
   /// @throws IllegalArgumentException if no param keys have been set.
   /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is `null`.
   /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] does not contain the given keys.
-  public RangeMapAssert<K, V> containsKeys(@SuppressWarnings("unchecked") K... keys) {
+  @SafeVarargs
+  public final RangeMapAssert<K, V> containsKeys(@SuppressWarnings("unchecked") K... keys) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(keys == null, "The keys to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(keys.length == 0, "The keys to look for should not be empty");
@@ -94,7 +95,8 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return myself;
   }
 
-  /// @deprecated use [#contains(MapEntry...)] instead (same method but using [org.assertj.core.data.MapEntry][MapEntry] in place of [org.assertj.guava.data.MapEntry].
+  /// @deprecated use [#contains(MapEntry...)] instead (similar method but accepting [org.assertj.core.data.MapEntry]
+  /// instead of [org.assertj.guava.data.MapEntry]).
   ///
   /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given entries.
   ///
