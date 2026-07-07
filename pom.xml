@@ -339,7 +339,7 @@ limitations under the License.
         <plugin>
           <groupId>org.pitest</groupId>
           <artifactId>pitest-maven</artifactId>
-          <version>1.25.5</version>
+          <version>1.25.6</version>
           <configuration>
             <features>
               <feature>+auto_threads</feature>
