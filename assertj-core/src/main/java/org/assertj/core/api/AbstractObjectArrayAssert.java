@@ -1877,9 +1877,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(String fieldOrProperty) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
-      Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
       String extractedDescription = extractedDescriptionOf(fieldOrProperty);
+      isNotNull(extractedDescription);
+      Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
       String description = mostRelevantDescription(info.description(), extractedDescription);
       return newListAssertInstance(newArrayList(values)).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);
@@ -1933,10 +1933,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extracting(String fieldOrProperty,
                                                                                      Class<P> extractingType) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      String extractedDescription = extractedDescriptionOf(fieldOrProperty);
+      isNotNull(extractedDescription);
       @SuppressWarnings("unchecked")
       List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(asList(actual), byName(fieldOrProperty));
-      String extractedDescription = extractedDescriptionOf(fieldOrProperty);
       String description = mostRelevantDescription(info.description(), extractedDescription);
       return newListAssertInstance(values).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);
@@ -1994,9 +1994,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(String... propertiesOrFields) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
-      List<Tuple> values = FieldsOrPropertiesExtractor.extract(asList(actual), byName(propertiesOrFields));
       String extractedDescription = extractedDescriptionOf(propertiesOrFields);
+      isNotNull(extractedDescription);
+      List<Tuple> values = FieldsOrPropertiesExtractor.extract(asList(actual), byName(propertiesOrFields));
       String description = mostRelevantDescription(info.description(), extractedDescription);
       return newListAssertInstance(values).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);
@@ -2036,7 +2036,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public <U> AbstractListAssert<?, List<? extends U>, U, ObjectAssert<U>> extracting(Function<? super ELEMENT, U> extractor) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      isNotNull("extracting");
       List<U> values = FieldsOrPropertiesExtractor.extract(asList(actual), extractor);
       return newListAssertInstance(values).withAssertionState(myself);
     }, ListAssert::nullListAssert);
@@ -2082,11 +2082,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
-    return executeAssertionNavigation(() -> {
-      isNotNull();
-      List<V> values = FieldsOrPropertiesExtractor.extract(newArrayList(actual), extractor);
-      return newListAssertInstance(values).withAssertionState(myself);
-    }, ListAssert::nullListAssert);
+    return extracting((Function<? super ELEMENT, V>) extractor);
   }
 
   /**
@@ -2144,7 +2140,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   protected AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> doExtracting(Function<? super ELEMENT, ?>[] extractors) {
-    isNotNull();
+    isNotNull("extracting");
     Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))
                                                                                           .toArray());
@@ -2185,7 +2181,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(Function<? super ELEMENT, C> extractor) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      isNotNull("flatExtracting");
       List<V> result = FieldsOrPropertiesExtractor.extract(asList(actual), extractor).stream()
                                                   .flatMap(Collection::stream).collect(toList());
       return newListAssertInstance(result).withAssertionState(myself);
@@ -2266,7 +2262,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(String propertyName) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      isNotNull("flatExtracting: " + propertyName);
       List<Object> extractedValues = newArrayList();
       List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(asList(actual), byName(propertyName));
       for (Object group : extractedGroups) {
@@ -2327,13 +2323,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingResultOf(String method) {
-    return executeAssertionNavigation(() -> {
-      isNotNull();
-      Object[] values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-      String extractedDescription = extractedDescriptionOfMethod(method);
-      String description = mostRelevantDescription(info.description(), extractedDescription);
-      return newListAssertInstance(newArrayList(values)).withAssertionState(myself).as(description);
-    }, ListAssert::nullListAssert);
+    return extractingResultOf(method, Object.class);
   }
 
   /**
@@ -2379,10 +2369,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extractingResultOf(String method,
                                                                                              Class<P> extractingType) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      String extractedDescription = extractedDescriptionOfMethod(method);
+      isNotNull(extractedDescription);
       @SuppressWarnings("unchecked")
       P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-      String extractedDescription = extractedDescriptionOfMethod(method);
       String description = mostRelevantDescription(info.description(), extractedDescription);
       return newListAssertInstance(newArrayList(values)).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);

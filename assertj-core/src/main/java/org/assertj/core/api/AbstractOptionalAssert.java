@@ -449,7 +449,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   @CheckReturnValue
   public <U> AbstractOptionalAssert<?, U> flatMap(Function<? super VALUE, Optional<U>> mapper) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      isNotNull("flatMap");
       return assertThat(actual.flatMap(mapper)).withAssertionState(myself);
     }, OptionalAssert::nullOptionalAssert);
   }
@@ -479,7 +479,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   @CheckReturnValue
   public <U> AbstractOptionalAssert<?, U> map(Function<? super VALUE, ? extends U> mapper) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      isNotNull("map");
       OptionalAssert<U> result = assertThat(actual.map(mapper));
       result.withAssertionState(myself);
       return result;

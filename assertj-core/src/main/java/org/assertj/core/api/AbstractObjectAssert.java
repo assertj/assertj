@@ -423,10 +423,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(String... propertiesOrFields) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      String extractedDescription = extractedDescriptionOf(propertiesOrFields);
+      isNotNull(extractedDescription);
       Tuple values = byName(propertiesOrFields).apply(actual);
-      String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
-      String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
+      String description = mostRelevantDescription(info.description(), extractedDescription);
       return newListAssertInstance(values.toList()).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);
   }
@@ -564,7 +564,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
   protected AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> doExtracting(Function<? super ACTUAL, ?>[] extractors) {
     requireNonNull(extractors, shouldNotBeNull("extractors")::create);
-    isNotNull();
+    isNotNull("extracting");
     List<Object> values = Stream.of(extractors)
                                 .map(extractor -> extractor.apply(actual))
                                 .collect(toList());

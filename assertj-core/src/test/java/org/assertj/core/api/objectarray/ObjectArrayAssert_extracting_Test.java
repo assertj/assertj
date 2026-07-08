@@ -18,6 +18,7 @@ package org.assertj.core.api.objectarray;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.firstNameFunction;
 import static org.assertj.core.api.GroupAssertTestHelper.lastNameFunction;
@@ -32,6 +33,9 @@ import static org.assertj.core.testkit.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.testkit.TolkienCharacter.Race.MAIA;
 import static org.assertj.core.testkit.TolkienCharacter.Race.MAN;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.List;
 import java.util.function.Function;
@@ -49,7 +53,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#extracting(String)}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mateusz Haligowski
  */
@@ -285,61 +289,60 @@ class ObjectArrayAssert_extracting_Test {
 
   @Test
   void should_use_property_field_names_as_description_when_extracting_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first").isEmpty())
-                                                   .withMessageContaining("[Extracted: name.first]");
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(jedis).extracting("name.first").isEmpty())
+                                                                                                  .withMessageContaining("[Extracted: name.first]");
   }
 
   @Test
   void should_use_property_field_names_as_description_when_extracting_typed_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first", String.class)
-                                                                                      .isEmpty())
-                                                   .withMessageContaining("[Extracted: name.first]");
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(jedis).extracting("name.first", String.class)
+                                                              .isEmpty())
+                                                                         .withMessageContaining("[Extracted: name.first]");
   }
 
   @Test
   void should_use_property_field_names_as_description_when_extracting_tuples_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first", "name.last")
-                                                                                      .isEmpty())
-                                                   .withMessageContaining("[Extracted: name.first, name.last]");
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(jedis).extracting("name.first", "name.last").isEmpty())
+                                                                                                               .withMessageContaining("[Extracted: name.first, name.last]");
   }
 
   @Test
   void should_keep_existing_description_if_set_when_extracting_typed_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
-                                                                                      .extracting("name.first", String.class)
-                                                                                      .isEmpty())
-                                                   .withMessageContaining("[check employees first name]");
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(jedis).as("check employees first name")
+                                                              .extracting("name.first", String.class)
+                                                              .isEmpty())
+                                                                         .withMessageContaining("[check employees first name]");
   }
 
   @Test
   void should_keep_existing_description_if_set_when_extracting_tuples_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees name")
-                                                                                      .extracting("name.first", "name.last")
-                                                                                      .isEmpty())
-                                                   .withMessageContaining("[check employees name]");
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(jedis).as("check employees name")
+                                                              .extracting("name.first", "name.last")
+                                                              .isEmpty())
+                                                                         .withMessageContaining("[check employees name]");
   }
 
   @Test
   void should_keep_existing_description_if_set_when_extracting_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
-                                                                                      .extracting("name.first").isEmpty())
-                                                   .withMessageContaining("[check employees first name]");
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(jedis).as("check employees first name")
+                                                              .extracting("name.first").isEmpty())
+                                                                                                  .withMessageContaining("[check employees first name]");
   }
 
   @Test
   void should_keep_existing_description_if_set_when_extracting_using_extractor() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
-                                                                                      .extracting(input -> input.getName()
-                                                                                                                .getFirst())
-                                                                                      .isEmpty())
-                                                   .withMessageContaining("[check employees first name]");
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(jedis).as("check employees first name")
+                                                              .extracting(input -> input.getName()
+                                                                                        .getFirst())
+                                                              .isEmpty())
+                                                                         .withMessageContaining("[check employees first name]");
   }
 
   @Test
   void should_keep_existing_description_if_set_when_extracting_using_throwing_extractor() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("expected exception")
-                                                                                      .extracting(THROWING_EXTRACTOR).isEmpty())
-                                                   .withMessageContaining("[expected exception]");
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(jedis).as("expected exception")
+                                                              .extracting(THROWING_EXTRACTOR).isEmpty())
+                                                                                                        .withMessageContaining("[expected exception]");
   }
 
   @Test
@@ -353,10 +356,10 @@ class ObjectArrayAssert_extracting_Test {
                                                                 .extracting(firstNameFunction, lastNameFunction)
                                                                 .contains(tuple("YODA", null), tuple("Luke", "Skywalker"));
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(Tuple.class)).isSameAs(ALWAYS_EQUALS_TUPLE);
+    then(assertion.descriptionText()).isEqualTo("test description");
+    then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    then(comparatorsByTypeOf(assertion).getComparatorForType(Tuple.class)).isSameAs(ALWAYS_EQUALS_TUPLE);
   }
 
   @Test
@@ -370,10 +373,10 @@ class ObjectArrayAssert_extracting_Test {
                                                                 .extracting("name.first")
                                                                 .contains("YODA", "Luke");
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
+    then(assertion.descriptionText()).isEqualTo("test description");
+    then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    then(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   @Test
@@ -387,10 +390,10 @@ class ObjectArrayAssert_extracting_Test {
                                                                 .extracting("name.first", String.class)
                                                                 .contains("YODA", "Luke");
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
+    then(assertion.descriptionText()).isEqualTo("test description");
+    then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    then(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   @Test
@@ -404,10 +407,10 @@ class ObjectArrayAssert_extracting_Test {
                                                                 .extracting("name.first", "name.last")
                                                                 .contains(tuple("YODA", null), tuple("Luke", "Skywalker"));
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(Tuple.class)).isSameAs(ALWAYS_EQUALS_TUPLE);
+    then(assertion.descriptionText()).isEqualTo("test description");
+    then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    then(comparatorsByTypeOf(assertion).getComparatorForType(Tuple.class)).isSameAs(ALWAYS_EQUALS_TUPLE);
   }
 
   @Test
@@ -421,10 +424,10 @@ class ObjectArrayAssert_extracting_Test {
                                                                 .extracting(byName("name.first"))
                                                                 .contains("YODA", "Luke");
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
+    then(assertion.descriptionText()).isEqualTo("test description");
+    then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    then(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   @Test
@@ -438,10 +441,84 @@ class ObjectArrayAssert_extracting_Test {
                                                                 .extracting(throwingFirstNameExtractor)
                                                                 .contains("YODA", "Luke");
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
+    then(assertion.descriptionText()).isEqualTo("test description");
+    then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    then(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
+  }
+
+  @Test
+  void extracting_with_string_should_fail_when_actual_is_null() {
+    // GIVEN
+    fellowshipOfTheRing = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(fellowshipOfTheRing).extracting("name").isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[Extracted: name]", actualIsNull());
+  }
+
+  @Test
+  void extracting_with_string_and_type_should_fail_when_actual_is_null() {
+    // GIVEN
+    fellowshipOfTheRing = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(fellowshipOfTheRing).extracting("name", String.class).isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[Extracted: name]", actualIsNull());
+  }
+
+  @Test
+  void extracting_with_strings_should_fail_when_actual_is_null() {
+    // GIVEN
+    fellowshipOfTheRing = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(fellowshipOfTheRing).extracting("name", "age").isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[Extracted: name, age]", actualIsNull());
+  }
+
+  @Test
+  void extracting_with_Extractor_should_fail_when_actual_is_null() {
+    // GIVEN
+    fellowshipOfTheRing = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName)
+                                                                                   .isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[extracting]", actualIsNull());
+  }
+
+  @Test
+  void extracting_with_Extractors_should_fail_when_actual_is_null() {
+    // GIVEN
+    fellowshipOfTheRing = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
+                                                                                               TolkienCharacter::getAge)
+                                                                                   .isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[extracting]", actualIsNull());
+  }
+
+  @Test
+  void extracting_with_ThrowingExtractor_should_fail_when_actual_is_null() {
+    // GIVEN
+    jedis = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(jedis).extracting(THROWING_EXTRACTOR).isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[extracting]", actualIsNull());
+  }
+
+  @Test
+  void extracting_with_ThrowingExtractors_should_fail_when_actual_is_null() {
+    // GIVEN
+    jedis = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(jedis).extracting(THROWING_EXTRACTOR, THROWING_EXTRACTOR)
+                                                                     .isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[extracting]", actualIsNull());
   }
 
 }

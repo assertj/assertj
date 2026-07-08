@@ -17,11 +17,16 @@ package org.assertj.core.api.iterable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
+
+import java.util.List;
 
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.testkit.AlwaysEqualComparator;
@@ -126,4 +131,15 @@ class IterableAssert_flatExtracting_with_String_parameter_Test {
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
   }
+
+  @Test
+  void should_fail_when_actual_is_null() {
+    // GIVEN
+    List<CartoonCharacter> characters = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(characters).flatExtracting("children").isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[flatExtracting: children]", actualIsNull());
+  }
+
 }

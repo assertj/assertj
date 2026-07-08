@@ -64,7 +64,7 @@ class IterableAssert_map_with_throwing_extractor_Test {
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(elves).map(nameThrowingExtractor));
     // THEN
-    then(assertionError).hasMessage(actualIsNull());
+    then(assertionError).hasMessageContainingAll("[map]", actualIsNull());;
   }
 
   @Test
@@ -75,7 +75,7 @@ class IterableAssert_map_with_throwing_extractor_Test {
     var assertionError = expectAssertionError(() -> assertThat(elves).map(nameThrowingExtractor,
                                                                           raceThrowingExtractor));
     // THEN
-    then(assertionError).hasMessage(actualIsNull());
+    then(assertionError).hasMessageContainingAll("[map]", actualIsNull());
   }
 
 }

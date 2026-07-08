@@ -18,16 +18,19 @@ package org.assertj.core.api.objectarray;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.assertj.core.testkit.FluentJedi;
 import org.assertj.core.testkit.Name;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -41,14 +44,12 @@ import org.junit.jupiter.api.Test;
  */
 class ObjectArrayAssert_extractingResultOf_Test {
 
-  private static FluentJedi yoda;
-  private static FluentJedi vader;
-  private static FluentJedi[] jedis;
+  private FluentJedi[] jedis;
 
-  @BeforeAll
-  static void setUpOnce() {
-    yoda = new FluentJedi(new Name("Yoda"), 800, false);
-    vader = new FluentJedi(new Name("Darth Vader"), 50, true);
+  @BeforeEach
+  public void setUp() {
+    FluentJedi yoda = new FluentJedi(new Name("Yoda"), 800, false);
+    FluentJedi vader = new FluentJedi(new Name("Darth Vader"), 50, true);
     jedis = array(yoda, vader);
   }
 
@@ -125,4 +126,25 @@ class ObjectArrayAssert_extractingResultOf_Test {
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(CaseInsensitiveStringComparator.INSTANCE);
   }
+
+  @Test
+  void extractingResultOf_with_string_should_fail_when_actual_is_null() {
+    // GIVEN
+    jedis = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(jedis).extractingResultOf("name").isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[Extracted: result of name()]", actualIsNull());
+  }
+
+  @Test
+  void extractingResultOf_with_string_and_type_should_fail_when_actual_is_null() {
+    // GIVEN
+    jedis = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(jedis).extractingResultOf("name", String.class).isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[Extracted: result of name()]", actualIsNull());
+  }
+
 }

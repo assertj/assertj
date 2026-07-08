@@ -77,6 +77,12 @@ public class Extractors {
     return extractedDescriptionOf(itemsDescription);
   }
 
+  public static String descriptionOf(Object... items) {
+    if (items == null) return "";
+    String[] itemsDescription = Stream.of(items).map(Object::toString).toArray(String[]::new);
+    return Strings.join(itemsDescription).with(", ");
+  }
+
   public static String extractedDescriptionOfMethod(String method) {
     return "Extracted: result of %s()".formatted(method);
   }

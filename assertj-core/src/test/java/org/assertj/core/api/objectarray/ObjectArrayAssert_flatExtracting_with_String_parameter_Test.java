@@ -17,10 +17,13 @@ package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.testkit.AlwaysEqualComparator;
@@ -95,9 +98,20 @@ class ObjectArrayAssert_flatExtracting_with_String_parameter_Test {
                                              .contains(bart, lisa, new CartoonCharacter("Unknown"));
     // @format:on
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
+    then(assertion.descriptionText()).isEqualTo("test description");
+    then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    then(comparatorsByTypeOf(assertion).getComparatorForType(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
   }
+
+  @Test
+  void should_fail_when_actual_is_null() {
+    // GIVEN
+    CartoonCharacter[] characters = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(characters).flatExtracting("children").isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[flatExtracting: children]", actualIsNull());
+  }
+
 }

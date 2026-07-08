@@ -19,8 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
@@ -75,13 +75,23 @@ class IterableAssert_flatMap_Test {
   }
 
   @Test
-  void should_throw_assertion_error_if_actual_is_null() {
+  void flatMap_with_function_should_throw_assertion_error_if_actual_is_null() {
     // GIVEN
     List<CartoonCharacter> simpsons = null;
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(simpsons).flatMap(children));
     // THEN
-    then(assertionError).hasMessage(shouldNotBeNull().create());
+    then(assertionError).hasMessageContainingAll("[flatMap]", actualIsNull());
+  }
+
+  @Test
+  void flatMap_with_functions_should_throw_assertion_error_if_actual_is_null() {
+    // GIVEN
+    List<CartoonCharacter> simpsons = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(simpsons).flatMap(children, children));
+    // THEN
+    then(assertionError).hasMessageContainingAll("[flatMap]", actualIsNull());
   }
 
   @Test

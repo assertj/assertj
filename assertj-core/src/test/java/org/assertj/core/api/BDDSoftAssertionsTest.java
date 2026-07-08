@@ -596,7 +596,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .isEmpty();
     // THEN
     assertThat(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                        .containsExactly("error 1", "error 2");
+                                        .containsExactly("[flatExtracting] error 1", "[flatExtracting] error 2");
   }
 
   @Test
@@ -1908,7 +1908,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
       List<Throwable> errorsCollected = softly.errorsCollected();
       assertThat(errorsCollected).hasSize(3);
       assertThat(errorsCollected.get(0)).hasMessageFindingMatch("not found:.*stranger.*not expected:.*david");
-      assertThat(errorsCollected.get(1)).hasMessage("overridingErrorMessage with extractingFromEntries");
+      assertThat(errorsCollected.get(1)).hasMessage("[extractingFromEntries] overridingErrorMessage with extractingFromEntries");
       assertThat(errorsCollected.get(2)).hasMessageFindingMatch("not found:.*10.*not expected:.*1");
     }
   }

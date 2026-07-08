@@ -22,7 +22,7 @@ import static org.assertj.core.api.MapSizeAssert.nullMapSizeAssert;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
 import static org.assertj.core.extractor.Extractors.byName;
-import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
+import static org.assertj.core.extractor.Extractors.descriptionOf;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toCollection;
@@ -50,6 +50,7 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguratio
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Maps;
+import org.assertj.core.util.Strings;
 
 /**
  * Base class for all implementations of assertions for {@link Map}s.
@@ -1693,10 +1694,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   protected AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doExtractingByKeys(K[] keys) {
-    isNotNull();
+    String extractingByKeysDescription = "extractingByKeys: " + descriptionOf(keys);
+    isNotNull(extractingByKeysDescription);
     List<V> extractedValues = Stream.of(keys).map(actual::get).collect(toList());
-    String extractedPropertiesOrFieldsDescription = extractedDescriptionOf((Object[]) keys);
-    String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
+    String description = mostRelevantDescription(info.description(), extractingByKeysDescription);
     return newListAssertInstance(extractedValues).withAssertionState(myself).as(description);
   }
 
@@ -1722,10 +1723,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @CheckReturnValue
   public AbstractObjectAssert<?, V> extractingByKey(K key) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      String extractingByKeyDescription = "extractingByKey: " + key;
+      isNotNull(extractingByKeyDescription);
       V extractedValue = actual.get(key);
-      String extractedPropertyOrFieldDescription = extractedDescriptionOf(key);
-      String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
+      String description = mostRelevantDescription(info.description(), extractingByKeyDescription);
       return new ObjectAssert<>(extractedValue).withAssertionState(myself).as(description);
     }, ObjectAssert::nullObjectAssert);
   }
@@ -1787,7 +1788,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingFromEntries(Function<? super Map.Entry<K, V>, Object> extractor) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      isNotNull("extractingFromEntries");
       List<Object> extractedObjects = actual.entrySet().stream()
                                             .map(extractor)
                                             .collect(toList());
@@ -1837,7 +1838,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   protected AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> doExtractingFromEntries(Function<? super Map.Entry<K, V>, Object>[] extractors) {
-    isNotNull();
+    isNotNull("extractingFromEntries");
     // combine all extractors into one function
     Function<Map.Entry<K, V>, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                                                                   .map(extractor -> extractor.apply(objectToExtractValueFrom))
@@ -1896,10 +1897,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(String... keys) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      String extractedPropertiesOrFieldsDescription = Strings.join(keys).with(", ");
+      isNotNull("flatExtracting: " + extractedPropertiesOrFieldsDescription);
       Tuple values = byName(keys).apply(actual);
       List<Object> valuesFlattened = flatten(values.toList());
-      String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
       String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
       return newListAssertInstance(valuesFlattened).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);

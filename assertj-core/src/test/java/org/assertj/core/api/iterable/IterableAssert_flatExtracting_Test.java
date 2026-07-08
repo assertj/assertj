@@ -20,10 +20,10 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
-import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
@@ -108,13 +108,23 @@ class IterableAssert_flatExtracting_Test {
   }
 
   @Test
-  void should_throw_assertion_error_if_actual_is_null() {
+  void flatExtracting_with_functions_should_throw_an_AssertionError_with_contextual_description_if_actual_is_null() {
     // GIVEN
     List<CartoonCharacter> simpsons = null;
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(simpsons).flatExtracting(childrenExtractor));
     // THEN
-    then(assertionError).hasMessage(shouldNotBeNull().create());
+    then(assertionError).hasMessageContainingAll("[flatExtracting]", actualIsNull());
+  }
+
+  @Test
+  void flatExtracting_with_strings_should_throw_an_AssertionError_with_contextual_description_if_actual_is_null() {
+    // GIVEN
+    List<CartoonCharacter> simpsons = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(simpsons).flatExtracting("foo", "bar"));
+    // THEN
+    then(assertionError).hasMessageContainingAll("[flatExtracting: foo, bar]", actualIsNull());
   }
 
   @Test
@@ -328,6 +338,26 @@ class IterableAssert_flatExtracting_Test {
     then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     then(comparatorsByTypeOf(assertion).getComparatorForType(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
+  }
+
+  @Test
+  void extracting_with_Extractor_should_fail_when_actual_is_null() {
+    // GIVEN
+    List<CartoonCharacter> characters = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(characters).flatExtracting(children).isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[flatExtracting]", actualIsNull());
+  }
+
+  @Test
+  void extracting_with_ThrowingExtractor_should_fail_when_actual_is_null() {
+    // GIVEN
+    List<CartoonCharacter> characters = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(characters).flatExtracting(childrenThrowingExtractor).isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[flatExtracting]", actualIsNull());
   }
 
 }

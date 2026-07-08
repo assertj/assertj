@@ -493,6 +493,15 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return executeAssertion(() -> objects.assertNotNull(info, actual));
   }
 
+  protected SELF isNotNull(String description) {
+    return executeAssertion(() -> {
+      if (!info.hasDescription()) {
+        info.description(description);
+      }
+      objects.assertNotNull(info, actual);
+    });
+  }
+
   /**
    * {@inheritDoc}
    */
@@ -1267,10 +1276,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return executeAssertionNavigation(() -> {
       requireNonNull(propertyOrField, shouldNotBeNull("propertyOrField")::create);
       requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
-      isNotNull();
+      String extractedDescription = extractedDescriptionOf(propertyOrField);
+      isNotNull(extractedDescription);
       Object value = byName(propertyOrField).apply(actual);
-      String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
-      String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
+      String description = mostRelevantDescription(info.description(), extractedDescription);
       // noinspection unchecked
       return (ASSERT) assertFactory.createAssert(value).withAssertionState(myself).as(description);
     }, () -> nullValueAssert(assertFactory));
@@ -1300,7 +1309,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return executeAssertionNavigation(() -> {
       requireNonNull(extractor, shouldNotBeNull("extractor")::create);
       requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
-      isNotNull();
+      isNotNull("extracting");
       T extractedValue = extractor.apply(actual);
       // noinspection unchecked
       return (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);

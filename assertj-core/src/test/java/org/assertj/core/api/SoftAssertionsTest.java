@@ -715,7 +715,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
                                   .containsExactly("[Extracted: name] error 1", "[Extracted: name, age] error 2",
-                                                   "[Extracted: name] error 3", "error 4", "error 5", "error 6");
+                                                   "[Extracted: name] error 3", "[extracting] error 4",
+                                                   "[extracting] error 5", "[extracting] error 6");
   }
 
   @Test
@@ -731,7 +732,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .isEmpty();
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                  .containsExactly("error 1", "error 2");
+                                  .containsExactly("[flatExtracting] error 1", "[flatExtracting] error 2");
   }
 
   @Test
@@ -2551,7 +2552,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       List<Throwable> errorsCollected = softly.errorsCollected();
       then(errorsCollected).hasSize(3);
       then(errorsCollected.get(0)).hasMessageFindingMatch("not found:.*stranger.*not expected:.*david");
-      then(errorsCollected.get(1)).hasMessage("overridingErrorMessage with extractingFromEntries");
+      then(errorsCollected.get(1)).hasMessage("[extractingFromEntries] overridingErrorMessage with extractingFromEntries");
       then(errorsCollected.get(2)).hasMessageFindingMatch("not found:.*10.*not expected:.*1");
     }
   }

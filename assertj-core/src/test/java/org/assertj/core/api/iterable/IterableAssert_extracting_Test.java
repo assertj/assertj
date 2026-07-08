@@ -63,7 +63,7 @@ class IterableAssert_extracting_Test {
   private Employee yoda;
   private Employee luke;
   private Iterable<Employee> jedis;
-  private final List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
+  private List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
   @SuppressWarnings("deprecation")
   private static final Function<Employee, String> firstName = input -> input.getName().getFirst();
@@ -120,13 +120,43 @@ class IterableAssert_extracting_Test {
   }
 
   @Test
-  void should_throw_assertion_error_if_actual_is_null() {
+  void extracting_with_function_should_throw_an_AssertionError_with_contextual_description_if_actual_is_null() {
     // GIVEN
     jedis = null;
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(jedis).extracting(firstNameFunction));
     // THEN
-    then(assertionError).hasMessage(actualIsNull());
+    then(assertionError).hasMessageContainingAll("[extracting]", actualIsNull());
+  }
+
+  @Test
+  void extracting_with_string_should_throw_an_AssertionError_with_contextual_description_if_actual_is_null() {
+    // GIVEN
+    jedis = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(jedis).extracting("foo"));
+    // THEN
+    then(assertionError).hasMessageContainingAll("[Extracted: foo]", actualIsNull());
+  }
+
+  @Test
+  void extracting_with_string_and_type_should_throw_an_AssertionError_with_contextual_description_if_actual_is_null() {
+    // GIVEN
+    jedis = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(jedis).extracting("foo", String.class));
+    // THEN
+    then(assertionError).hasMessageContainingAll("[Extracted: foo]", actualIsNull());
+  }
+
+  @Test
+  void extracting_with_multiple_strings_should_throw_an_AssertionError_with_contextual_description_if_actual_is_null() {
+    // GIVEN
+    jedis = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(jedis).extracting("foo", "bar"));
+    // THEN
+    then(assertionError).hasMessageContainingAll("[Extracted: foo, bar]", actualIsNull());
   }
 
   @Test
@@ -137,7 +167,7 @@ class IterableAssert_extracting_Test {
     var assertionError = expectAssertionError(() -> assertThat(elves).extracting(TolkienCharacter::getName,
                                                                                  TolkienCharacter::getRace));
     // THEN
-    then(assertionError).hasMessage(actualIsNull());
+    then(assertionError).hasMessageContainingAll("[extracting]", actualIsNull());
   }
 
   @Test
@@ -419,10 +449,10 @@ class IterableAssert_extracting_Test {
                                                                 .extracting(firstNameFunction, lastNameFunction)
                                                                 .contains(tuple("YODA", null), tuple("Luke", "Skywalker"));
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(Tuple.class)).isSameAs(ALWAYS_EQUALS_TUPLE);
+    then(assertion.descriptionText()).isEqualTo("test description");
+    then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    then(comparatorsByTypeOf(assertion).getComparatorForType(Tuple.class)).isSameAs(ALWAYS_EQUALS_TUPLE);
   }
 
   @SuppressWarnings("deprecation")
@@ -473,10 +503,10 @@ class IterableAssert_extracting_Test {
                                                                 .extracting("name.first", "name.last")
                                                                 .contains(tuple("YODA", null), tuple("Luke", "Skywalker"));
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(Tuple.class)).isSameAs(ALWAYS_EQUALS_TUPLE);
+    then(assertion.descriptionText()).isEqualTo("test description");
+    then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    then(comparatorsByTypeOf(assertion).getComparatorForType(Tuple.class)).isSameAs(ALWAYS_EQUALS_TUPLE);
   }
 
   @SuppressWarnings("deprecation")
@@ -491,10 +521,63 @@ class IterableAssert_extracting_Test {
                                                                 .extracting(byName("name.first"))
                                                                 .contains("YODA", "Luke");
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
+    then(assertion.descriptionText()).isEqualTo("test description");
+    then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    then(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
+  }
+
+  @Test
+  void extracting_with_string_should_fail_when_actual_is_null() {
+    // GIVEN
+    fellowshipOfTheRing = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(fellowshipOfTheRing).extracting("name").isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[Extracted: name]", actualIsNull());
+  }
+
+  @Test
+  void extracting_with_string_and_type_should_fail_when_actual_is_null() {
+    // GIVEN
+    fellowshipOfTheRing = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(fellowshipOfTheRing).extracting("name", String.class).isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[Extracted: name]", actualIsNull());
+  }
+
+  @Test
+  void extracting_with_strings_should_fail_when_actual_is_null() {
+    // GIVEN
+    fellowshipOfTheRing = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(fellowshipOfTheRing).extracting("name", "age").isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[Extracted: name, age]", actualIsNull());
+  }
+
+  @Test
+  void extracting_with_Extractor_should_fail_when_actual_is_null() {
+    // GIVEN
+    fellowshipOfTheRing = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName)
+                                                                                   .isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[extracting]", actualIsNull());
+  }
+
+  @Test
+  void extracting_with_Extractors_should_fail_when_actual_is_null() {
+    // GIVEN
+    fellowshipOfTheRing = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
+                                                                                               TolkienCharacter::getAge)
+                                                                                   .isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[extracting]", actualIsNull());
   }
 
 }
