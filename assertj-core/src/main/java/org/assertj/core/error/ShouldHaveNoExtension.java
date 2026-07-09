@@ -26,10 +26,24 @@ public class ShouldHaveNoExtension extends BasicErrorMessageFactory {
   private static final String PATH_HAS_EXTENSION = "%nExpected actual path:%n  %s%n not to have an extension, but extension was: %s";
   private static final String FILE_HAS_EXTENSION = "%nExpected actual file:%n  %s%n not to have an extension, but extension was: %s";
 
+  /**
+   * Creates an error for a path unexpectedly having an extension.
+   *
+   * @param actual the actual path
+   * @param extension the actual extension
+   * @return the error message factory
+   */
   public static ShouldHaveNoExtension shouldHaveNoExtension(Path actual, String extension) {
     return new ShouldHaveNoExtension(actual, extension);
   }
 
+  /**
+   * Creates an error for a file unexpectedly having an extension.
+   *
+   * @param actual the actual file
+   * @param extension the actual extension
+   * @return the error message factory
+   */
   public static ShouldHaveNoExtension shouldHaveNoExtension(File actual, String extension) {
     return new ShouldHaveNoExtension(actual, extension);
   }

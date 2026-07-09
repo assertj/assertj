@@ -2099,7 +2099,6 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * but had not been.
    * <p>
    * {@link Assertions#shouldHaveThrown(Class)} can be used as a replacement.
-   * <p>
    * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> failBecauseExceptionWasNotThrown(IOException.class)));}.
@@ -3261,6 +3260,13 @@ public interface WithAssertions extends InstanceOfAssertFactories {
     return Assertions.assertThat(component);
   }
 
+  /**
+   * Creates an assertion for a hash set.
+   *
+   * @param actual the actual hash set
+   * @param <ELEMENT> the element type
+   * @return the created assertion
+   */
   default <ELEMENT> HashSetAssert<ELEMENT> assertThat(HashSet<? extends ELEMENT> actual) {
     return Assertions.assertThat(actual);
   }

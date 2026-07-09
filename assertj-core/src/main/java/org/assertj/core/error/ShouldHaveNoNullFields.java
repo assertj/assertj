@@ -31,22 +31,56 @@ public class ShouldHaveNoNullFields extends BasicErrorMessageFactory {
   private static final String EXCLUDING = COMPARISON + " except: %s";
   private static final String DOT = ".";
 
+  /**
+   * Creates an error with null and ignored field lists.
+   *
+   * @param actual the actual object
+   * @param rejectedFields the null fields
+   * @param ignoredFields the ignored fields
+   */
   public ShouldHaveNoNullFields(Object actual, List<String> rejectedFields, List<String> ignoredFields) {
     super(EXPECTED_MULTIPLE + EXCLUDING, actual, rejectedFields, ignoredFields);
   }
 
+  /**
+   * Creates an error with null fields.
+   *
+   * @param actual the actual object
+   * @param rejectedFields the null fields
+   */
   public ShouldHaveNoNullFields(Object actual, List<String> rejectedFields) {
     super(EXPECTED_MULTIPLE + COMPARISON + DOT, actual, rejectedFields);
   }
 
+  /**
+   * Creates an error with one null field.
+   *
+   * @param actual the actual object
+   * @param rejectedField the null field
+   */
   public ShouldHaveNoNullFields(Object actual, String rejectedField) {
     super(EXPECTED_SINGLE + COMPARISON + DOT, actual, rejectedField);
   }
 
+  /**
+   * Creates an error with one null field and ignored fields.
+   *
+   * @param actual the actual object
+   * @param rejectedField the null field
+   * @param ignoredFields the ignored fields
+   */
   public ShouldHaveNoNullFields(Object actual, String rejectedField, List<String> ignoredFields) {
     super(EXPECTED_SINGLE + EXCLUDING, actual, rejectedField, ignoredFields);
   }
 
+  /**
+   * Creates an error for fields expected to be non-null.
+   *
+   * @param actual the actual object
+   * @param rejectedFields the null fields
+   * @param ignoredFields the ignored fields
+   * @return the error message factory
+   */
   public static ShouldHaveNoNullFields shouldHaveNoNullFieldsExcept(Object actual, List<String> rejectedFields,
                                                                     List<String> ignoredFields) {
     if (rejectedFields.size() == 1) {

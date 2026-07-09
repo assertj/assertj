@@ -35,7 +35,9 @@ import org.assertj.core.presentation.Representation;
  */
 public class BasicErrorMessageFactory implements ErrorMessageFactory {
 
+  /** The error message format. */
   protected final String format;
+  /** The error message arguments. */
   protected final Object[] arguments;
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting

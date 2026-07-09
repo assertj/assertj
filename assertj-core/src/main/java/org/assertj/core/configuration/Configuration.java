@@ -39,18 +39,29 @@ import org.assertj.core.presentation.Representation;
 public class Configuration {
 
   // default values
+  /** Default maximum length for a single-line description. */
   public static final int MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION = 80;
+  /** Default maximum number of elements to print. */
   public static final int MAX_ELEMENTS_FOR_PRINTING = 1000;
+  /** Default maximum number of indices to print. */
   public static final int MAX_INDICES_FOR_PRINTING = 50;
+  /** Default setting for removing AssertJ stack trace elements. */
   public static final boolean REMOVE_ASSERTJ_RELATED_ELEMENTS_FROM_STACK_TRACE = true;
+  /** Default setting for comparing private fields. */
   public static final boolean ALLOW_COMPARING_PRIVATE_FIELDS = true;
+  /** Default setting for extracting private fields. */
   public static final boolean ALLOW_EXTRACTING_PRIVATE_FIELDS = true;
+  /** Default setting for bare-name property extraction. */
   public static final boolean BARE_NAME_PROPERTY_EXTRACTION_ENABLED = true;
+  /** Default setting for printing assertion descriptions. */
   public static final boolean PRINT_ASSERTIONS_DESCRIPTION_ENABLED = false;
+  /** Default maximum number of stack trace elements to display. */
   public static final int MAX_STACKTRACE_ELEMENTS_DISPLAYED = 3;
+  /** Default preferred assumption exception. */
   public static final PreferredAssumptionException PREFERRED_ASSUMPTION_EXCEPTION = PreferredAssumptionException.AUTO_DETECT;
 
   // load default configuration after default values are initialized otherwise PREFERRED_ASSUMPTION_EXCEPTION is null
+  /** Shared default configuration. */
   public static final Configuration DEFAULT_CONFIGURATION = new Configuration();
 
   private boolean comparingPrivateFields;
@@ -65,6 +76,7 @@ public class Configuration {
   private int maxStackTraceElementsDisplayed;
   private PreferredAssumptionException preferredAssumptionException;
 
+  /** Creates a configuration initialized with default values. */
   public Configuration() {
     setDefaults();
   }
@@ -87,6 +99,8 @@ public class Configuration {
   }
 
   /**
+   * Returns the representation used by this configuration.
+   *
    * @return the default {@link Representation} that is used within AssertJ.
    */
   public Representation representation() {
@@ -283,18 +297,38 @@ public class Configuration {
     this.maxElementsForPrinting = maxElementsForPrinting;
   }
 
+  /**
+   * Returns whether assertion descriptions are printed.
+   *
+   * @return whether assertion descriptions are printed
+   */
   public boolean printAssertionsDescription() {
     return printAssertionsDescription;
   }
 
+  /**
+   * Sets whether assertion descriptions are printed.
+   *
+   * @param printAssertionsDescription whether to print assertion descriptions
+   */
   public void setPrintAssertionsDescriptionEnabled(boolean printAssertionsDescription) {
     this.printAssertionsDescription = printAssertionsDescription;
   }
 
+  /**
+   * Returns the configured description consumer.
+   *
+   * @return the description consumer
+   */
   public Consumer<Description> descriptionConsumer() {
     return descriptionConsumer;
   }
 
+  /**
+   * Sets the assertion description consumer.
+   *
+   * @param descriptionConsumer the description consumer
+   */
   public void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
     this.descriptionConsumer = descriptionConsumer;
   }
@@ -378,6 +412,11 @@ public class Configuration {
     System.out.println(describe());
   }
 
+  /**
+   * Returns a textual description of this configuration.
+   *
+   * @return the configuration description
+   */
   public String describe() {
     return format("Applying configuration %s%n" +
                   "- representation .................................. = %s%n" +

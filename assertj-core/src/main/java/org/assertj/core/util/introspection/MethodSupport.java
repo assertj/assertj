@@ -28,6 +28,9 @@ import java.lang.reflect.Method;
  */
 public class MethodSupport {
 
+  /** Creates a method introspection helper. */
+  public MethodSupport() {}
+
   private static final String METHOD_HAS_NO_RETURN_VALUE = "Method '%s' in class %s.class has to return a value!";
   private static final String METHOD_NOT_FOUND = "Can't find method '%s' in class %s.class. Make sure public method " +
                                                  "exists and accepts no arguments!";

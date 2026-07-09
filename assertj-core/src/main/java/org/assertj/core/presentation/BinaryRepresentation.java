@@ -24,9 +24,14 @@ import static org.assertj.core.util.Strings.concat;
  */
 public class BinaryRepresentation extends StandardRepresentation {
 
+  /** Shared binary representation instance. */
   public static final BinaryRepresentation BINARY_REPRESENTATION = new BinaryRepresentation();
 
+  /** Prefix used for binary byte values. */
   public static final String BYTE_PREFIX = "0b";
+
+  /** Creates a new binary representation. */
+  public BinaryRepresentation() {}
 
   /**
    * Returns binary the {@code toString} representation of the given object. It may or not the object's own
@@ -44,6 +49,13 @@ public class BinaryRepresentation extends StandardRepresentation {
     return super.toStringOf(object);
   }
 
+  /**
+   * Formats a string using the given representation for its characters.
+   *
+   * @param representation the character representation
+   * @param s the string to format
+   * @return the formatted string
+   */
   protected String toStringOf(Representation representation, String s) {
     return concat("\"", representation.toStringOf(s.toCharArray()), "\"");
   }
@@ -59,32 +71,59 @@ public class BinaryRepresentation extends StandardRepresentation {
     return number == null ? null : number.toString();
   }
 
+  /**
+   * Formats a byte in binary.
+   *
+   * @param b the byte to format
+   * @return the binary representation
+   */
   protected String toStringOf(Byte b) {
     return toGroupedBinary(Integer.toBinaryString(b & 0xFF), 8);
   }
 
+  /**
+   * Formats a short in binary.
+   *
+   * @param s the short to format
+   * @return the binary representation
+   */
   protected String toStringOf(Short s) {
     return toGroupedBinary(Integer.toBinaryString(s & 0xFFFF), 16);
   }
 
+  /**
+   * Formats an integer in binary.
+   *
+   * @param i the integer to format
+   * @return the binary representation
+   */
   protected String toStringOf(Integer i) {
     return toGroupedBinary(Integer.toBinaryString(i), 32);
   }
 
+  /** {@inheritDoc} */
   @Override
   protected String toStringOf(Long l) {
     return toGroupedBinary(Long.toBinaryString(l), 64);
   }
 
+  /** {@inheritDoc} */
   @Override
   protected String toStringOf(Float f) {
     return toGroupedBinary(Integer.toBinaryString(Float.floatToIntBits(f)), 32);
   }
 
+  /**
+   * Formats a double in binary.
+   *
+   * @param d the double to format
+   * @return the binary representation
+   */
   protected String toStringOf(Double d) {
     return toGroupedBinary(Long.toBinaryString(Double.doubleToRawLongBits(d)), 64);
   }
 
+  /** {@inheritDoc} */
   @Override
   protected String toStringOf(Character character) {
     return concat("'", toStringOf((short) (int) character), "'");

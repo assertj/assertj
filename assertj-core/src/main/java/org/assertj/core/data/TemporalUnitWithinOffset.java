@@ -25,6 +25,12 @@ import java.time.temporal.TemporalUnit;
  */
 public class TemporalUnitWithinOffset extends TemporalUnitOffset {
 
+  /**
+   * Creates an inclusive temporal offset.
+   *
+   * @param value the offset value
+   * @param unit the temporal unit
+   */
   public TemporalUnitWithinOffset(long value, TemporalUnit unit) {
     super(value, unit);
   }

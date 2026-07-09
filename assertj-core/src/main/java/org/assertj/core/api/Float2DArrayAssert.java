@@ -35,10 +35,16 @@ import org.assertj.core.internal.Float2DArrays;
 public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert, float[][], Float> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Assertion implementation for two-dimensional float arrays. */
   protected Float2DArrays float2dArrays = Float2DArrays.instance();
 
   private final Failures failures = Failures.instance();
 
+  /**
+   * Creates a new two-dimensional float array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public Float2DArrayAssert(float[][] actual) {
     super(actual, Float2DArrayAssert.class);
   }

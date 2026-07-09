@@ -15,8 +15,14 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for objects with a prohibited string representation. */
 public class ShouldNotHaveToString extends BasicErrorMessageFactory {
-
+  /**
+   * Creates an error for an object with a prohibited representation.
+   *
+   * @param other the prohibited representation
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldNotHaveToString(String other) {
     return new ShouldNotHaveToString(other);
   }

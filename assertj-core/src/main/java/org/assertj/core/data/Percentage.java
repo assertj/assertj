@@ -24,6 +24,7 @@ import static org.assertj.core.util.Preconditions.checkArgument;
  */
 public final class Percentage {
 
+  /** The percentage value. */
   public final double value;
 
   /**

@@ -16,14 +16,26 @@
 package org.assertj.core.util;
 
 /**
+ * Provides common assertion failure messages.
+ *
  * @author Alex Ruiz
  */
 public final class FailureMessages {
 
+  /**
+   * Returns the message for an unexpectedly empty actual value.
+   *
+   * @return the failure message
+   */
   public static String actualIsEmpty() {
     return "%nExpecting actual not to be empty".formatted();
   }
 
+  /**
+   * Returns the message for an unexpectedly null actual value.
+   *
+   * @return the failure message
+   */
   public static String actualIsNull() {
     return "%nExpecting actual not to be null".formatted();
   }

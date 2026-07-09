@@ -33,6 +33,7 @@ import org.assertj.core.internal.DescribableComparator;
  */
 public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrategy {
 
+  /** Comparison result used for values that are not equal. */
   public static final int NOT_EQUAL = -1;
 
   // A raw type is necessary because we can't make assumptions on object to be compared.
@@ -181,10 +182,20 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
     return CONFIGURATION_PROVIDER.representation().toStringOf(this);
   }
 
+  /**
+   * Returns the configured comparator.
+   *
+   * @return the comparator
+   */
   public Comparator<?> getComparator() {
     return comparator;
   }
 
+  /**
+   * Returns the configured comparator description.
+   *
+   * @return the comparator description
+   */
   public String getComparatorDescription() {
     return comparatorDescription;
   }

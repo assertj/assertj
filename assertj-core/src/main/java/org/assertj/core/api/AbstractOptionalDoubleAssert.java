@@ -32,6 +32,8 @@ import org.assertj.core.internal.Failures;
 /**
  * Assertions for {@link java.util.OptionalDouble}.
  *
+ * @param <SELF>  the "self" type of this assertion class.
+ *
  * @author Jean-Christophe Gay
  * @author Alexander Bischof
  * @author Grzegorz Piwowarek
@@ -42,6 +44,12 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Doubles doubles = Doubles.instance();
 
+  /**
+   * Creates a new {@link OptionalDouble} assertion.
+   *
+   * @param actual the actual optional to verify
+   * @param selfType the type of the concrete assertion
+   */
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   protected AbstractOptionalDoubleAssert(OptionalDouble actual, Class<?> selfType) {
     super(actual, selfType);
@@ -122,7 +130,6 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
   /**
    * Verifies that the actual {@link java.util.OptionalDouble} has the value in argument. The check is consistent
    * with {@link java.util.OptionalDouble#equals(Object)} since 3.26.0.
-   * <p>
    * <pre><code class='java'> // assertions succeed:
    * assertThat(OptionalDouble.of(8.0)).hasValue(8.0);
    * assertThat(OptionalDouble.of(8.0)).hasValue(Double.valueOf(8.0));

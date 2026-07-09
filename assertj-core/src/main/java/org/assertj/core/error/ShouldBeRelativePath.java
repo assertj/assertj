@@ -36,6 +36,12 @@ public class ShouldBeRelativePath extends BasicErrorMessageFactory {
     return new ShouldBeRelativePath(actual);
   }
 
+  /**
+   * Creates an error for a path expected to be relative.
+   *
+   * @param actual the actual path
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeRelativePath(final Path actual) {
     return new ShouldBeRelativePath(actual);
   }

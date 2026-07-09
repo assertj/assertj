@@ -34,14 +34,29 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class IntegerAssert extends AbstractIntegerAssert<IntegerAssert> {
 
+  /**
+   * Creates a new integer assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public IntegerAssert(Integer actual) {
     super(actual, IntegerAssert.class);
   }
 
+  /**
+   * Creates a new atomic integer assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public IntegerAssert(AtomicInteger actual) {
     this(actual == null ? null : actual.get());
   }
 
+  /**
+   * Creates an assertion whose actual value is {@code null}.
+   *
+   * @return a null integer assertion
+   */
   public static IntegerAssert nullIntegerAssert() {
     return new IntegerAssert((Integer) null);
   }

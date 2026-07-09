@@ -44,6 +44,12 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Longs longs = Longs.instance();
 
+  /**
+   * Creates a new {@link LongAdder} assertion.
+   *
+   * @param longAdder the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractLongAdderAssert(LongAdder longAdder, Class<?> selfType) {
     super(longAdder, selfType);
   }

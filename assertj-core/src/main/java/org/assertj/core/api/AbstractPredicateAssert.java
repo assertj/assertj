@@ -27,7 +27,9 @@ import org.assertj.core.presentation.PredicateDescription;
 /**
  * Assertions for {@link Predicate}.
  *
+ * @param <SELF>  the "self" type of this assertion class.
  * @param <T> type of the value contained in the {@link Predicate}.
+ *
  * @author Filip Hrisafov
  */
 public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAssert<SELF, T>, T> extends
@@ -36,6 +38,12 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
+  /**
+   * Creates a new {@link Predicate} assertion.
+   *
+   * @param actual the actual predicate to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractPredicateAssert(Predicate<T> actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -63,6 +71,11 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
     return executeAssertion(() -> assertAccepts(values));
   }
 
+  /**
+   * Verifies that the actual predicate accepts all the given values.
+   *
+   * @param values the values expected to be accepted
+   */
   protected void assertAccepts(T[] values) {
     isNotNull();
     if (values.length == 1) {
@@ -95,6 +108,11 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
     return executeAssertion(() -> assertRejects(values));
   }
 
+  /**
+   * Verifies that the actual predicate rejects all the given values.
+   *
+   * @param values the values expected to be rejected
+   */
   protected void assertRejects(T[] values) {
     isNotNull();
     if (values.length == 1) {

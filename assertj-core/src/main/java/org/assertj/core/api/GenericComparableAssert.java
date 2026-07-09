@@ -22,6 +22,11 @@ package org.assertj.core.api;
 public class GenericComparableAssert<ACTUAL extends Comparable<? super ACTUAL>>
     extends AbstractComparableAssert<GenericComparableAssert<ACTUAL>, ACTUAL> {
 
+  /**
+   * Creates a new comparable assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public GenericComparableAssert(ACTUAL actual) {
     super(actual, GenericComparableAssert.class);
   }

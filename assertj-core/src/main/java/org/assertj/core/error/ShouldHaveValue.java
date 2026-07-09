@@ -15,6 +15,7 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for atomic values with an unexpected value. */
 public class ShouldHaveValue extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_VALUE_BUT_DID_NOT = "%nExpecting %s to have value:%n  %s%nbut did not.";
@@ -28,11 +29,29 @@ public class ShouldHaveValue extends BasicErrorMessageFactory {
     super(SHOULD_HAVE_VALUE_BUT_DID_NOT, actual, expectedValue);
   }
 
+  /**
+   * Creates an error for an unexpected atomic value.
+   *
+   * @param <REF> the value type
+   * @param actual the actual atomic value
+   * @param actualValue the actual value
+   * @param expectedValue the expected value
+   * @param objectToUpdate the update target
+   * @return the error message factory
+   */
   public static <REF> ErrorMessageFactory shouldHaveValue(Object actual, REF actualValue, REF expectedValue,
                                                           Object objectToUpdate) {
     return new ShouldHaveValue(actual, actualValue, expectedValue, objectToUpdate);
   }
 
+  /**
+   * Creates an error for a missing atomic value.
+   *
+   * @param <REF> the value type
+   * @param actual the actual atomic value
+   * @param expectedValue the expected value
+   * @return the error message factory
+   */
   public static <REF> ErrorMessageFactory shouldHaveValue(Object actual, REF expectedValue) {
     return new ShouldHaveValue(actual, expectedValue);
   }

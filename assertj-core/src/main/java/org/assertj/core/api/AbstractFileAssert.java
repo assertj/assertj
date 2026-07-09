@@ -58,6 +58,12 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Charset charset = Charset.defaultCharset();
 
+  /**
+   * Creates a new {@link File} assertion.
+   *
+   * @param actual the actual file to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractFileAssert(File actual, Class<?> selfType) {
     super(actual, selfType);
   }

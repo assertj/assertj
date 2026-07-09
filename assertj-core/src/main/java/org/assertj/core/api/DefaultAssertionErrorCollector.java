@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Default in-memory assertion error collector.
+ */
 public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
 
   // Marking this field as volatile doesn't ensure complete thread safety
@@ -33,6 +36,7 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
 
   private AssertionErrorCollector delegate = null;
 
+  /** Creates a new assertion error collector. */
   public DefaultAssertionErrorCollector() {
     super();
     callbacks.add(this);

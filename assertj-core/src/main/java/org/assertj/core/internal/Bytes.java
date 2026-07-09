@@ -43,6 +43,11 @@ public class Bytes extends Numbers<Byte> implements WholeNumbers<Byte> {
     super();
   }
 
+  /**
+   * Creates byte assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy to use
+   */
   public Bytes(ComparisonStrategy comparisonStrategy) {
     super(comparisonStrategy);
   }

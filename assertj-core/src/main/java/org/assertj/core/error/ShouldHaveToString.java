@@ -15,8 +15,15 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for objects with an unexpected string representation. */
 public class ShouldHaveToString extends BasicErrorMessageFactory {
-
+  /**
+   * Creates an error for an object with the wrong string representation.
+   *
+   * @param actual the actual object
+   * @param expectedToString the expected representation
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveToString(Object actual, String expectedToString) {
     return new ShouldHaveToString(actual, expectedToString);
   }

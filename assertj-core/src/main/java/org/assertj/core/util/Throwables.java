@@ -99,6 +99,12 @@ public final class Throwables {
     return firstStackTraceElementFromTest == null ? 0 : List.of(stackTrace).indexOf(firstStackTraceElementFromTest);
   }
 
+  /**
+   * Returns descriptions of the given errors.
+   *
+   * @param errors the errors to describe
+   * @return the error descriptions
+   */
   public static List<String> describeErrors(List<? extends Throwable> errors) {
     return extract(errors, ERROR_DESCRIPTION_EXTRACTOR);
   }
@@ -251,12 +257,25 @@ public final class Throwables {
     }
   }
 
+  /**
+   * Adds source line numbers to the error messages.
+   *
+   * @param errors the errors to update
+   * @param <T> the error type
+   * @return the updated errors
+   */
   public static <T extends Throwable> List<T> addLineNumberToErrorMessages(List<? extends T> errors) {
     return errors.stream()
                  .map(Throwables::addLineNumberToErrorMessage)
                  .collect(toList());
   }
 
+  /**
+   * Finds the first stack trace element belonging to test code.
+   *
+   * @param stacktrace the stack trace
+   * @return the first test stack trace element, or {@code null}
+   */
   public static StackTraceElement getFirstStackTraceElementFromTest(StackTraceElement[] stacktrace) {
     for (StackTraceElement element : stacktrace) {
       String className = element.getClassName();

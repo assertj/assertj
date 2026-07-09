@@ -38,6 +38,7 @@ import java.util.function.Predicate;
 import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.util.Arrays;
 
+/** Traverses an object graph and applies a recursive assertion predicate. */
 public class RecursiveAssertionDriver {
 
   private static final String NULL = "null";
@@ -49,15 +50,28 @@ public class RecursiveAssertionDriver {
   private final List<FieldLocation> fieldsFailingTheAssertion = list();
   private final RecursiveAssertionConfiguration configuration;
 
+  /**
+   * Creates a recursive assertion driver.
+   *
+   * @param configuration the traversal configuration
+   */
   public RecursiveAssertionDriver(RecursiveAssertionConfiguration configuration) {
     this.configuration = configuration;
   }
 
+  /**
+   * Applies a predicate over the configured object graph.
+   *
+   * @param predicate the assertion predicate
+   * @param graphNode the object graph root
+   * @return locations that failed the predicate
+   */
   public List<FieldLocation> assertOverObjectGraph(Predicate<Object> predicate, Object graphNode) {
     assertRecursively(predicate, graphNode, graphNode.getClass(), rootFieldLocation());
     return fieldsFailingTheAssertion.stream().sorted().collect(toList());
   }
 
+  /** Clears traversal state so this driver can be reused. */
   public void reset() {
     visitedNodeIds.clear();
     fieldsFailingTheAssertion.clear();

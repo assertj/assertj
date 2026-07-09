@@ -20,11 +20,18 @@ import java.util.concurrent.CompletableFuture;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for futures expected to complete exceptionally. */
 public class ShouldBeCompletedExceptionally extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_COMPLETED_EXCEPTIONALLY = "%nExpecting%n  <%s>%nto be completed exceptionally.%n"
                                                                     + Warning.WARNING;
 
+  /**
+   * Creates an error for a future expected to complete exceptionally.
+   *
+   * @param actual the actual future
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveCompletedExceptionally(CompletableFuture<?> actual) {
     return new ShouldBeCompletedExceptionally(actual);
   }

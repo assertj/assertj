@@ -17,12 +17,27 @@ package org.assertj.core.error;
 
 import java.util.Set;
 
+/** Creates errors for classes expected to have no fields. */
 public class ShouldHaveNoFields extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for unexpected public fields.
+   *
+   * @param actual the actual class
+   * @param fields the unexpected fields
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveNoPublicFields(Class<?> actual, Set<String> fields) {
     return new ShouldHaveNoFields(actual, fields, true, false);
   }
 
+  /**
+   * Creates an error for unexpected declared fields.
+   *
+   * @param actual the actual class
+   * @param fields the unexpected fields
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveNoDeclaredFields(Class<?> actual, Set<String> fields) {
     return new ShouldHaveNoFields(actual, fields, false, true);
   }

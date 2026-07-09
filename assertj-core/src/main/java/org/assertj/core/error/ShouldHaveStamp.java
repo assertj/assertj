@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import java.util.concurrent.atomic.AtomicStampedReference;
 
+/** Creates errors for atomic references with an unexpected stamp. */
 public class ShouldHaveStamp extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_STAMP = "%nExpecting%n  %s%nto have stamp:%n  %s%nbut had:%n  %s";
@@ -25,6 +26,13 @@ public class ShouldHaveStamp extends BasicErrorMessageFactory {
     super(SHOULD_HAVE_STAMP, actual, expectedStamp, actual.getStamp());
   }
 
+  /**
+   * Creates an error for a reference with the wrong stamp.
+   *
+   * @param actual the actual reference
+   * @param expectedStamp the expected stamp
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveStamp(AtomicStampedReference<?> actual, int expectedStamp) {
     return new ShouldHaveStamp(actual, expectedStamp);
   }

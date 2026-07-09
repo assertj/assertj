@@ -31,8 +31,12 @@ import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.util.Strings;
 
+/**
+ * Base configuration for recursive operations.
+ */
 public abstract class AbstractRecursiveOperationConfiguration {
 
+  /** The default delimiter used in configuration descriptions. */
   protected static final String DEFAULT_DELIMITER = ", ";
 
   private final Set<String> ignoredFields = new LinkedHashSet<>();
@@ -40,12 +44,18 @@ public abstract class AbstractRecursiveOperationConfiguration {
   private final Set<Class<?>> ignoredTypes = new LinkedHashSet<>();
   private final List<Pattern> ignoredTypesRegexes = new ArrayList<>();
 
+  /**
+   * Creates a configuration from the given builder.
+   *
+   * @param builder the builder containing the configuration
+   */
   protected AbstractRecursiveOperationConfiguration(AbstractBuilder<?> builder) {
     ignoreFields(builder.ignoredFields);
     ignoreFieldsMatchingRegexes(builder.ignoredFieldsMatchingRegexes);
     ignoreFieldsOfTypes(builder.ignoredTypes);
   }
 
+  /** Creates an empty recursive operation configuration. */
   protected AbstractRecursiveOperationConfiguration() {}
 
   /**
@@ -83,6 +93,11 @@ public abstract class AbstractRecursiveOperationConfiguration {
     ignoredFieldsRegexes.addAll(patterns);
   }
 
+  /**
+   * Returns the regexes used to ignore fields.
+   *
+   * @return the ignored field regexes
+   */
   public List<Pattern> getIgnoredFieldsRegexes() {
     return ignoredFieldsRegexes;
   }
@@ -126,6 +141,12 @@ public abstract class AbstractRecursiveOperationConfiguration {
     ignoredTypesRegexes.addAll(patterns);
   }
 
+  /**
+   * Returns the wrapper type for a primitive type, or the type itself otherwise.
+   *
+   * @param type the type to convert
+   * @return the corresponding wrapper type or the original type
+   */
   protected static Class<?> asWrapperIfPrimitiveType(Class<?> type) {
     if (!type.isPrimitive()) return type;
     if (type.equals(boolean.class)) return Boolean.class;
@@ -157,17 +178,32 @@ public abstract class AbstractRecursiveOperationConfiguration {
     return ignoredTypesRegexes;
   }
 
+  /**
+   * Appends the ignored fields to the given description.
+   *
+   * @param description the description to update
+   */
   protected void describeIgnoredFields(StringBuilder description) {
     if (!getIgnoredFields().isEmpty())
       description.append("- the following fields were ignored in the comparison: %s%n".formatted(describeIgnoredFields()));
   }
 
+  /**
+   * Appends the ignored field regexes to the given description.
+   *
+   * @param description the description to update
+   */
   protected void describeIgnoredFieldsRegexes(StringBuilder description) {
     if (!getIgnoredFieldsRegexes().isEmpty())
       description.append("- the fields matching the following regexes were ignored in the comparison: %s%n".formatted(
                                                                                                                       describeRegexes(getIgnoredFieldsRegexes())));
   }
 
+  /**
+   * Describes the ignored field types.
+   *
+   * @return the ignored field types description
+   */
   protected String describeIgnoredTypes() {
     List<String> typesDescription = getIgnoredTypes().stream()
                                                      .map(Class::getName)
@@ -175,6 +211,12 @@ public abstract class AbstractRecursiveOperationConfiguration {
     return join(typesDescription);
   }
 
+  /**
+   * Describes the given regular expression patterns.
+   *
+   * @param regexes the patterns to describe
+   * @return the patterns description
+   */
   protected String describeRegexes(List<Pattern> regexes) {
     List<String> fieldsDescription = regexes.stream()
                                             .map(Pattern::pattern)
@@ -182,15 +224,33 @@ public abstract class AbstractRecursiveOperationConfiguration {
     return join(fieldsDescription);
   }
 
+  /**
+   * Joins the given description elements.
+   *
+   * @param typesDescription the elements to join
+   * @return the joined description
+   */
   protected static String join(Collection<String> typesDescription) {
     return Strings.join(typesDescription).with(DEFAULT_DELIMITER);
   }
 
+  /**
+   * Checks whether the given field location matches an ignored field regex.
+   *
+   * @param fieldLocation the field location to check
+   * @return whether the field matches an ignored regex
+   */
   public boolean matchesAnIgnoredFieldRegex(FieldLocation fieldLocation) {
     // checks parent fields as if a parent field is ignored all subfields (including this field location) should be too.
     return getIgnoredFieldsRegexes().stream().anyMatch(fieldLocation::hierarchyMatchesRegex);
   }
 
+  /**
+   * Checks whether the given field location matches an ignored field.
+   *
+   * @param fieldLocation the field location to check
+   * @return whether the field is ignored
+   */
   public boolean matchesAnIgnoredField(FieldLocation fieldLocation) {
     // checks parent fields as if a parent field is ignored all subfields (including this field location) should be too.
     return getIgnoredFields().stream().anyMatch(fieldLocation::hierarchyMatches);
@@ -200,6 +260,11 @@ public abstract class AbstractRecursiveOperationConfiguration {
     return join(getIgnoredFields());
   }
 
+  /**
+   * Base builder for recursive operation configurations.
+   *
+   * @param <BUILDER_TYPE> the concrete builder type
+   */
   protected static class AbstractBuilder<BUILDER_TYPE extends AbstractBuilder<BUILDER_TYPE>> {
     private final BUILDER_TYPE thisBuilder;
 
@@ -207,6 +272,11 @@ public abstract class AbstractRecursiveOperationConfiguration {
     private String[] ignoredFieldsMatchingRegexes = {};
     private Class<?>[] ignoredTypes = {};
 
+    /**
+     * Creates a new builder.
+     *
+     * @param selfType the concrete builder type
+     */
     @SuppressWarnings("unchecked")
     protected AbstractBuilder(Class<? extends AbstractBuilder<BUILDER_TYPE>> selfType) {
       thisBuilder = (BUILDER_TYPE) selfType.cast(this);

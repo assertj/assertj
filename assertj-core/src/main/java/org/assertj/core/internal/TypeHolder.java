@@ -46,6 +46,7 @@ abstract class TypeHolder<T> {
   private static final Comparator<DualClass<?, ?>> DEFAULT_DUAL_CLASS_COMPARATOR = new DualClassComparator(ClassNameComparator.INSTANCE,
                                                                                                            ClassNameComparator.INSTANCE);
 
+  /** The entities indexed by type pairs. */
   protected final Map<DualClass<?, ?>, T> typeHolder;
 
   public TypeHolder() {
@@ -138,6 +139,8 @@ abstract class TypeHolder<T> {
   }
 
   /**
+   * Checks whether no entities are registered.
+   *
    * @return {@code true} is there are registered entities, {@code false} otherwise
    */
   public boolean isEmpty() {

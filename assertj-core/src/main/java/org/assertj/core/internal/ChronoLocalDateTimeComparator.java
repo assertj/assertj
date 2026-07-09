@@ -17,10 +17,18 @@ package org.assertj.core.internal;
 
 import java.time.chrono.ChronoLocalDateTime;
 
+/**
+ * Compares chronological local date-time values on their time line.
+ */
 public class ChronoLocalDateTimeComparator extends DescribableComparator<ChronoLocalDateTime<?>> {
 
   private static final ChronoLocalDateTimeComparator INSTANCE = new ChronoLocalDateTimeComparator();
 
+  /**
+   * Returns the shared comparator instance.
+   *
+   * @return the comparator instance
+   */
   public static ChronoLocalDateTimeComparator getInstance() {
     return INSTANCE;
   }

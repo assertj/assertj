@@ -78,6 +78,9 @@ import org.assertj.core.annotation.CanIgnoreReturnValue;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
+/**
+ * Provides BDD-style proxied assertions that collect assertion errors.
+ */
 @CheckReturnValue
 public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
 

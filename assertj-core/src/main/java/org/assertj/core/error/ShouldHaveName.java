@@ -27,6 +27,13 @@ public class ShouldHaveName extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_NAME = "%nExpecting%n  %s%nto have name:%n  %s%nbut had:%n  %s";
 
+  /**
+   * Creates an error for a file with the wrong name.
+   *
+   * @param actual the actual file
+   * @param expectedName the expected name
+   * @return the error message factory
+   */
   public static ShouldHaveName shouldHaveName(File actual, String expectedName) {
     return new ShouldHaveName(actual, expectedName);
   }
@@ -35,6 +42,13 @@ public class ShouldHaveName extends BasicErrorMessageFactory {
     super(SHOULD_HAVE_NAME, actual, expectedName, actual.getName());
   }
 
+  /**
+   * Creates an error for a path with the wrong name.
+   *
+   * @param actual the actual path
+   * @param expectedName the expected name
+   * @return the error message factory
+   */
   public static ShouldHaveName shouldHaveName(Path actual, String expectedName) {
     return new ShouldHaveName(actual, expectedName);
   }

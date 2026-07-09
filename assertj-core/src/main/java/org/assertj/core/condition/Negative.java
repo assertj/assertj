@@ -19,7 +19,8 @@ import org.assertj.core.api.Condition;
 
 /**
  * Inverse the condition.
- * 
+ *
+ * @param <T> the type of object this condition accepts.
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
@@ -33,6 +34,11 @@ public abstract class Negative<T> extends Condition<T> {
     return !condition.matches(value);
   }
 
+  /**
+   * Creates the negation of the given condition.
+   *
+   * @param condition the condition to negate
+   */
   protected Negative(Condition<? super T> condition) {
     this.condition = condition;
   }

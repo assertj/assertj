@@ -164,6 +164,9 @@ import org.junit.platform.commons.support.ReflectionSupport;
 public class SoftAssertionsExtension
     implements TestInstancePostProcessor, BeforeEachCallback, ParameterResolver, AfterTestExecutionCallback {
 
+  /** Creates a soft assertions extension. */
+  public SoftAssertionsExtension() {}
+
   private static final Namespace SOFT_ASSERTIONS_EXTENSION_NAMESPACE = Namespace.create(SoftAssertionsExtension.class);
 
   static class ThreadLocalErrorCollector implements AssertionErrorCollector {

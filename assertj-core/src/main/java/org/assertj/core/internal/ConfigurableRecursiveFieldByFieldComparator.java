@@ -41,6 +41,11 @@ public class ConfigurableRecursiveFieldByFieldComparator implements Comparator<O
     this.recursiveComparisonDifferenceCalculator = recursiveComparisonDifferenceCalculator;
   }
 
+  /**
+   * Creates a comparator using the given recursive comparison configuration.
+   *
+   * @param configuration the recursive comparison configuration
+   */
   public ConfigurableRecursiveFieldByFieldComparator(RecursiveComparisonConfiguration configuration) {
     this(configuration, new RecursiveComparisonDifferenceCalculator());
   }
@@ -52,6 +57,13 @@ public class ConfigurableRecursiveFieldByFieldComparator implements Comparator<O
     return areEqual(actual, other) ? 0 : NOT_EQUAL;
   }
 
+  /**
+   * Checks whether two values are recursively equal.
+   *
+   * @param actual the actual value
+   * @param other the value to compare with
+   * @return whether the values are equal
+   */
   protected boolean areEqual(Object actual, Object other) {
     try {
       return recursiveComparisonDifferenceCalculator.determineDifferences(actual, other, configuration).isEmpty();

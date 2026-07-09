@@ -68,6 +68,11 @@ public class ObjectArrays {
     this(StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates object array assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy
+   */
   public ObjectArrays(ComparisonStrategy comparisonStrategy) {
     setArrays(new Arrays(comparisonStrategy));
   }
@@ -78,11 +83,21 @@ public class ObjectArrays {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns the comparator used by the comparison strategy.
+   *
+   * @return the configured comparator
+   */
   public Comparator<?> getComparator() {
     return arrays.getComparator();
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns the comparison strategy.
+   *
+   * @return the comparison strategy
+   */
   public ComparisonStrategy getComparisonStrategy() {
     return arrays.getComparisonStrategy();
   }
@@ -298,10 +313,24 @@ public class ObjectArrays {
     arrays.assertContainsOnly(info, failures, actual, values);
   }
 
+  /**
+   * Verifies that the array contains exactly the given values in order.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContainsExactly(AssertionInfo info, Object[] actual, Object[] values) {
     arrays.assertContainsExactly(info, failures, actual, values);
   }
 
+  /**
+   * Verifies that the array contains exactly the given values in any order.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, Object[] actual, Object[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
@@ -411,6 +440,14 @@ public class ObjectArrays {
     arrays.assertDoesNotContain(info, failures, actual, values);
   }
 
+  /**
+   * Verifies that the array contains no element from the given iterable.
+   *
+   * @param <T> the candidate element type
+   * @param info assertion information
+   * @param actual the actual array
+   * @param iterable the prohibited elements
+   */
   public <T> void assertDoesNotContainAnyElementsOf(AssertionInfo info, Object[] actual,
                                                     Iterable<? extends T> iterable) {
     checkIsNotNullAndNotEmpty(iterable);
@@ -482,6 +519,13 @@ public class ObjectArrays {
     arrays.assertEndsWith(info, failures, actual, sequence);
   }
 
+  /**
+   * Verifies that the array is a subset of the given values.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the allowed values
+   */
   public void assertIsSubsetOf(AssertionInfo info, Object actual, Iterable<?> values) {
     arrays.assertIsSubsetOf(info, failures, actual, values);
   }
@@ -659,6 +703,14 @@ public class ObjectArrays {
     arrays.assertHaveExactly(info, failures, conditions, actual, times, condition);
   }
 
+  /**
+   * Verifies that the array has at least one element of the given type.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param actual the actual array
+   * @param type the expected type
+   */
   public <E> void assertHasAtLeastOneElementOfType(AssertionInfo info, E[] actual, Class<?> type) {
     Objects.instance().assertNotNull(info, actual);
     boolean found = false;
@@ -670,6 +722,14 @@ public class ObjectArrays {
     if (!found) throw failures.failure(info, shouldHaveAtLeastOneElementOfType(actual, type));
   }
 
+  /**
+   * Verifies that every array element has the given type.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param actual the actual array
+   * @param type the expected type
+   */
   public <E> void assertHasOnlyElementsOfType(AssertionInfo info, E[] actual, Class<?> type) {
     Objects.instance().assertNotNull(info, actual);
     for (Object element : actual) {
@@ -679,10 +739,26 @@ public class ObjectArrays {
     }
   }
 
+  /**
+   * Verifies that every array element has one of the given types.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param actual the actual array
+   * @param types the allowed types
+   */
   public <E> void assertHasOnlyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... types) {
     arrays.assertHasOnlyElementsOfTypes(info, failures, actual, types);
   }
 
+  /**
+   * Verifies the exact sequence of array element types.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param actual the actual array
+   * @param expectedTypes the expected types
+   */
   public <E> void assertHasExactlyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... expectedTypes) {
     Objects.instance().assertNotNull(info, actual);
     List<Class<?>> actualTypeList = Stream.of(actual).map(Object::getClass).collect(toList());
@@ -700,6 +776,14 @@ public class ObjectArrays {
     }
   }
 
+  /**
+   * Verifies that no array element has any prohibited type.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param actual the actual array
+   * @param unexpectedTypes the prohibited types
+   */
   public <E> void assertDoesNotHaveAnyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... unexpectedTypes) {
     Objects.instance().assertNotNull(info, actual);
     Map<Class<?>, List<Object>> nonMatchingElementsByType = new LinkedHashMap<>();
@@ -757,6 +841,13 @@ public class ObjectArrays {
     arrays.assertcontainsAll(info, failures, actual, other);
   }
 
+  /**
+   * Verifies that the array contains at least one of the given values.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContainsAnyOf(AssertionInfo info, Object[] actual, Object[] values) {
     arrays.assertContainsAnyOf(info, failures, actual, values);
   }

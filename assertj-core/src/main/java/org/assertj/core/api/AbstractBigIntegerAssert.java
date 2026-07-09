@@ -27,6 +27,7 @@ import org.assertj.core.internal.BigIntegers;
 /**
  * Base class for all implementations of assertions for {@link BigInteger}s.
  *
+ * @param <SELF> the "self" type of this assertion class.
  * @since 2.7.0 / 3.7.0
  */
 public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF>> extends
@@ -35,6 +36,12 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BigIntegers bigIntegers = BigIntegers.instance();
 
+  /**
+   * Creates a new {@link BigInteger} assertion.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractBigIntegerAssert(BigInteger actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -196,12 +203,11 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    * assertThat(eight).isCloseTo(ten, byLessThan(BigInteger.ONE));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param offset the given positive offset.
+   * @param offset   the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not close to the given one.
-   *
+   * @throws AssertionError       if the actual value is not close to the given one.
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -241,13 +247,12 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    * assertThat(eight).isNotCloseTo(ten, byLessThan(new BigInteger("3")));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param offset the given positive offset.
+   * @param offset   the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is close to the given one within the offset value.
+   * @throws AssertionError       if the actual value is close to the given one within the offset value.
    * @see Assertions#byLessThan(BigInteger)
-   *
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -271,13 +276,12 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    * // assertion will fail
    * assertThat(new BigInteger("11")).isCloseTo(BigInteger.TEN, withinPercentage(5));</code></pre>
    *
-   * @param expected the given number to compare the actual value to.
+   * @param expected   the given number to compare the actual value to.
    * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not close to the given one.
-   *
+   * @throws AssertionError       if the actual value is not close to the given one.
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -303,13 +307,12 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    * // assertion will fail
    * assertThat(eleven).isNotCloseTo(BigInteger.TEN, withinPercentage(20));</code></pre>
    *
-   * @param expected the given number to compare the actual value to.
+   * @param expected   the given number to compare the actual value to.
    * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is close to the given one.
-   *
+   * @throws AssertionError       if the actual value is close to the given one.
    * @since 2.7.0 / 3.7.0
    */
   @Override

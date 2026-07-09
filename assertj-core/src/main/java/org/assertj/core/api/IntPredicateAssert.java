@@ -28,10 +28,21 @@ import java.util.stream.IntStream;
  */
 public class IntPredicateAssert extends AbstractPredicateLikeAssert<IntPredicateAssert, IntPredicate, Integer> {
 
+  /**
+   * Creates a new int predicate assertion.
+   *
+   * @param actual the actual predicate to verify
+   * @return the created assertion
+   */
   public static IntPredicateAssert assertThatIntPredicate(IntPredicate actual) {
     return new IntPredicateAssert(actual);
   }
 
+  /**
+   * Creates a new int predicate assertion.
+   *
+   * @param actual the actual predicate to verify
+   */
   public IntPredicateAssert(IntPredicate actual) {
     super(actual, toPredicate(actual), IntPredicateAssert.class);
   }

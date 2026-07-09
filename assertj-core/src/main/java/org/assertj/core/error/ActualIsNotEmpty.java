@@ -15,8 +15,17 @@
  */
 package org.assertj.core.error;
 
+/**
+ * Creates an error message indicating that the actual value is not empty.
+ */
 public class ActualIsNotEmpty extends BasicErrorMessageFactory {
 
+  /**
+   * Creates the error message factory.
+   *
+   * @param actual the actual value
+   * @return the error message factory
+   */
   public static ErrorMessageFactory actualIsNotEmpty(Object actual) {
     return new ActualIsNotEmpty(actual);
   }

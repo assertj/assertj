@@ -86,6 +86,9 @@ import org.assertj.core.util.Throwables;
 @CheckReturnValue
 public class Assumptions {
 
+  /** Creates a new assumptions entry point. */
+  public Assumptions() {}
+
   private static final AssertionErrorHandler ASSUMPTION_ERROR_HANDLER = new AssertionErrorHandler() {
     @Override
     public void handleError(AssertionError error) {

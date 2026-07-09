@@ -37,14 +37,19 @@ public interface ErrorMessageFactory {
   String create(Description description, Representation representation);
 
   /**
-   * {@inheritDoc}
+   * Creates an error message using the configured representation.
+   *
+   * @param d the assertion description
+   * @return the created error message
    */
   default String create(Description d) {
     return create(d, CONFIGURATION_PROVIDER.representation());
   }
 
   /**
-   * {@inheritDoc}
+   * Creates an error message without an assertion description.
+   *
+   * @return the created error message
    */
   default String create() {
     return create(emptyDescription());

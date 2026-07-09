@@ -20,10 +20,27 @@ import static org.assertj.core.error.ShouldBeOdd.shouldBeOdd;
 
 import org.assertj.core.api.AssertionInfo;
 
+/**
+ * Assertions and predicates for whole numbers.
+ *
+ * @param <NUMBER> the number type
+ */
 public interface WholeNumbers<NUMBER extends Number> {
 
+  /**
+   * Checks whether the given number is even.
+   *
+   * @param number the number to check
+   * @return whether the number is even
+   */
   boolean isEven(NUMBER number);
 
+  /**
+   * Checks whether the given number is odd.
+   *
+   * @param number the number to check
+   * @return whether the number is odd
+   */
   default boolean isOdd(NUMBER number) {
     return !isEven(number);
   }

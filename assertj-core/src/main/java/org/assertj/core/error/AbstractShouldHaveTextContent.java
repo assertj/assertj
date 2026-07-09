@@ -28,8 +28,15 @@ import org.assertj.core.util.diff.Delta;
  */
 public class AbstractShouldHaveTextContent extends BasicErrorMessageFactory {
 
+  /** The textual representation of the content differences. */
   protected String diffs;
 
+  /**
+   * Creates a new text content error message.
+   *
+   * @param format the message format
+   * @param arguments the message arguments
+   */
   public AbstractShouldHaveTextContent(String format, Object... arguments) {
     super(format, arguments);
   }
@@ -53,6 +60,12 @@ public class AbstractShouldHaveTextContent extends BasicErrorMessageFactory {
     return super.create(description, representation) + diffs;
   }
 
+  /**
+   * Converts the given differences to text.
+   *
+   * @param diffsList the differences to convert
+   * @return the differences as text
+   */
   protected static String diffsAsString(List<Delta<String>> diffsList) {
     return diffsList.stream().map(Delta::toString).collect(joining(System.lineSeparator()));
   }

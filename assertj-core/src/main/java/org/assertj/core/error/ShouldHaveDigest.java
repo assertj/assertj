@@ -28,14 +28,35 @@ import org.assertj.core.internal.DigestDiff;
  */
 public class ShouldHaveDigest extends BasicErrorMessageFactory {
 
+  /**
+   * Creates a digest error for a path.
+   *
+   * @param actualSource the actual path
+   * @param diff the digest difference
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveDigest(Path actualSource, DigestDiff diff) {
     return new ShouldHaveDigest(actualSource, diff);
   }
 
+  /**
+   * Creates a digest error for a file.
+   *
+   * @param actualSource the actual file
+   * @param diff the digest difference
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveDigest(File actualSource, DigestDiff diff) {
     return new ShouldHaveDigest(actualSource, diff);
   }
 
+  /**
+   * Creates a digest error for an input stream.
+   *
+   * @param actualSource the actual stream
+   * @param diff the digest difference
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveDigest(InputStream actualSource, DigestDiff diff) {
     return new ShouldHaveDigest(actualSource, diff);
   }

@@ -50,6 +50,16 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
     return shouldContainOnly(actual, expected, notFound, notExpected, comparisonStrategy, groupTypeDescription);
   }
 
+  /**
+   * Creates an error using an explicit group type description.
+   *
+   * @param actual the actual group
+   * @param expected the expected elements
+   * @param notFound the missing elements
+   * @param notExpected the unexpected elements
+   * @param groupTypeDescription the group type description
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
                                                       Iterable<?> notExpected, GroupTypeDescription groupTypeDescription) {
     return shouldContainOnly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance(),
@@ -108,8 +118,12 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
     // @format:on
   }
 
+  /** Difference categories used to select the error format. */
   public enum ErrorType {
-    NOT_FOUND_ONLY, NOT_EXPECTED_ONLY
+    /** Only expected elements were missing. */
+    NOT_FOUND_ONLY,
+    /** Only unexpected elements were present. */
+    NOT_EXPECTED_ONLY
   }
 
 }

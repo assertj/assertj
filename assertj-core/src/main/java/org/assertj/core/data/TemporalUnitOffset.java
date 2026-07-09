@@ -30,7 +30,9 @@ import java.util.Objects;
  */
 public abstract class TemporalUnitOffset implements TemporalOffset<Temporal> {
 
+  /** The temporal unit. */
   protected final TemporalUnit unit;
+  /** The offset value. */
   protected final long value;
 
   /**
@@ -85,6 +87,11 @@ public abstract class TemporalUnitOffset implements TemporalOffset<Temporal> {
     return Duration.between(temporal1, temporal2).abs();
   }
 
+  /**
+   * Returns the temporal unit.
+   *
+   * @return the temporal unit
+   */
   public TemporalUnit getUnit() {
     return unit;
   }

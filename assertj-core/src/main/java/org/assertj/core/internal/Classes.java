@@ -56,6 +56,9 @@ public class Classes {
 
   private static final Classes INSTANCE = new Classes();
 
+  /** Creates class assertions. */
+  public Classes() {}
+
   /**
    * Returns the singleton instance of this class.
    * 

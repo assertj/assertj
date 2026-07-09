@@ -33,11 +33,25 @@ public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtom
 
   private final boolean expectedNullAllowed;
 
+  /**
+   * Creates a new atomic field updater assertion.
+   *
+   * @param actual the actual atomic field updater
+   * @param selfType the type of the concrete assertion
+   * @param expectedNullAllowed whether {@code null} is an allowed expected value
+   */
   protected AbstractAtomicFieldUpdaterAssert(ATOMIC actual, Class<?> selfType, boolean expectedNullAllowed) {
     super(actual, selfType);
     this.expectedNullAllowed = expectedNullAllowed;
   }
 
+  /**
+   * Verifies that the updated field of the given object has the expected value.
+   *
+   * @param expectedValue the expected field value
+   * @param obj the object holding the updated field
+   * @return this assertion object
+   */
   public SELF hasValue(VALUE expectedValue, final OBJECT obj) {
     return executeAssertion(() -> {
       validate(expectedValue);
@@ -48,8 +62,19 @@ public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtom
     });
   }
 
+  /**
+   * Returns the current value of the updated field in the given object.
+   *
+   * @param obj the object holding the updated field
+   * @return the current field value
+   */
   protected abstract VALUE getActualValue(OBJECT obj);
 
+  /**
+   * Validates the expected value.
+   *
+   * @param expectedValue the expected value to validate
+   */
   protected void validate(VALUE expectedValue) {
     isNotNull();
     if (!expectedNullAllowed) {

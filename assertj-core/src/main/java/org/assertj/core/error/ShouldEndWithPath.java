@@ -17,10 +17,18 @@ package org.assertj.core.error;
 
 import java.nio.file.Path;
 
+/** Creates errors for paths expected to end with another path. */
 public class ShouldEndWithPath extends BasicErrorMessageFactory {
 
   private static final String PATH_SHOULD_END_WITH = "%nExpected path:%n  %s%nto end with:%n  %s%nbut it did not.";
 
+  /**
+   * Creates an error for a path with the wrong ending.
+   *
+   * @param actual the actual path
+   * @param other the expected ending
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldEndWith(final Path actual, final Path other) {
     return new ShouldEndWithPath(actual, other);
   }

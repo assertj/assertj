@@ -91,11 +91,21 @@ public class Dates {
 
   private final ComparisonStrategy comparisonStrategy;
 
+  /**
+   * Creates date assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy to use
+   */
   public Dates(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns the configured comparator, if any.
+   *
+   * @return the configured comparator or {@code null}
+   */
   public Comparator<?> getComparator() {
     return comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy ? strategy.getComparator() : null;
   }

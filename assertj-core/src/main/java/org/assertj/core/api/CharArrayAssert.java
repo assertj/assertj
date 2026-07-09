@@ -29,6 +29,11 @@ package org.assertj.core.api;
  */
 public class CharArrayAssert extends AbstractCharArrayAssert<CharArrayAssert> {
 
+  /**
+   * Creates a new character array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public CharArrayAssert(char[] actual) {
     super(actual, CharArrayAssert.class);
   }

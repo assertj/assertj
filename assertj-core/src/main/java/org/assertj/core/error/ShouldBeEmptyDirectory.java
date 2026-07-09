@@ -19,14 +19,29 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
+/** Creates errors for directories expected to be empty. */
 public class ShouldBeEmptyDirectory extends BasicErrorMessageFactory {
 
   private static final String SHOULD_BE_EMPTY_DIRECTORY = "%nExpecting actual:%n  %s%nto be an empty directory but it contained:%n  %s";
 
+  /**
+   * Creates an error for a non-empty path directory.
+   *
+   * @param actual the actual path
+   * @param directoryContent the directory content
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeEmptyDirectory(final Path actual, List<Path> directoryContent) {
     return new ShouldBeEmptyDirectory(actual, directoryContent);
   }
 
+  /**
+   * Creates an error for a non-empty file directory.
+   *
+   * @param actual the actual file
+   * @param directoryContent the directory content
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeEmptyDirectory(final File actual, List<File> directoryContent) {
     return new ShouldBeEmptyDirectory(actual, directoryContent);
   }

@@ -24,6 +24,12 @@ import java.time.temporal.TemporalUnit;
  */
 public class TemporalUnitLessThanOffset extends TemporalUnitOffset {
 
+  /**
+   * Creates an exclusive temporal offset.
+   *
+   * @param value the offset value
+   * @param unit the temporal unit
+   */
   public TemporalUnitLessThanOffset(long value, TemporalUnit unit) {
     super(value, unit);
   }

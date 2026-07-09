@@ -87,6 +87,14 @@ public class Maps {
 
   private static final Maps INSTANCE = new Maps();
 
+  /** Creates reusable map assertions. */
+  public Maps() {}
+
+  /**
+   * Returns the shared map assertions instance.
+   *
+   * @return the shared instance
+   */
   public static Maps instance() {
     return INSTANCE;
   }
@@ -97,6 +105,15 @@ public class Maps {
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Conditions conditions = Conditions.instance();
 
+  /**
+   * Verifies that every entry satisfies the requirements.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param entryRequirements the entry requirements
+   */
   public <K, V> void assertAllSatisfy(AssertionInfo info, Map<K, V> actual,
                                       BiConsumer<? super K, ? super V> entryRequirements) {
     requireNonNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
@@ -120,6 +137,15 @@ public class Maps {
     return Optional.empty();
   }
 
+  /**
+   * Verifies that at least one entry satisfies the requirements.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param entryRequirements the entry requirements
+   */
   public <K, V> void assertAnySatisfy(AssertionInfo info, Map<K, V> actual,
                                       BiConsumer<? super K, ? super V> entryRequirements) {
     requireNonNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
@@ -135,6 +161,15 @@ public class Maps {
     throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements, info));
   }
 
+  /**
+   * Verifies that no entry satisfies the requirements.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param entryRequirements the entry requirements
+   */
   public <K, V> void assertNoneSatisfy(AssertionInfo info, Map<K, V> actual, BiConsumer<? super K, ? super V> entryRequirements) {
     requireNonNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
     assertNotNull(info, actual);
@@ -159,66 +194,158 @@ public class Maps {
     return Optional.of(entry);
   }
 
+  /**
+   * Verifies that the map is {@code null} or empty.
+   *
+   * @param info assertion information
+   * @param actual the actual map
+   */
   public void assertNullOrEmpty(AssertionInfo info, Map<?, ?> actual) {
     if (actual != null && !actual.isEmpty()) throw failures.failure(info, shouldBeNullOrEmpty(actual));
   }
 
+  /**
+   * Verifies that the map is empty.
+   *
+   * @param info assertion information
+   * @param actual the actual map
+   */
   public void assertEmpty(AssertionInfo info, Map<?, ?> actual) {
     assertNotNull(info, actual);
     if (!actual.isEmpty()) throw failures.failure(info, shouldBeEmpty(actual));
   }
 
+  /**
+   * Verifies that the map is not empty.
+   *
+   * @param info assertion information
+   * @param actual the actual map
+   */
   public void assertNotEmpty(AssertionInfo info, Map<?, ?> actual) {
     assertNotNull(info, actual);
     if (actual.isEmpty()) throw failures.failure(info, shouldNotBeEmpty());
   }
 
+  /**
+   * Verifies the map size.
+   *
+   * @param info assertion information
+   * @param actual the actual map
+   * @param expectedSize the expected size
+   */
   public void assertHasSize(AssertionInfo info, Map<?, ?> actual, int expectedSize) {
     assertNotNull(info, actual);
     checkSizes(actual, actual.size(), expectedSize, info);
   }
 
+  /**
+   * Verifies that the map size is greater than the boundary.
+   *
+   * @param info assertion information
+   * @param actual the actual map
+   * @param boundary the exclusive lower boundary
+   */
   public void assertHasSizeGreaterThan(AssertionInfo info, Map<?, ?> actual, int boundary) {
     assertNotNull(info, actual);
     checkSizeGreaterThan(actual, boundary, actual.size(), info);
   }
 
+  /**
+   * Verifies that the map size is at least the boundary.
+   *
+   * @param info assertion information
+   * @param actual the actual map
+   * @param boundary the inclusive lower boundary
+   */
   public void assertHasSizeGreaterThanOrEqualTo(AssertionInfo info, Map<?, ?> actual, int boundary) {
     assertNotNull(info, actual);
     checkSizeGreaterThanOrEqualTo(actual, boundary, actual.size(), info);
   }
 
+  /**
+   * Verifies that the map size is less than the boundary.
+   *
+   * @param info assertion information
+   * @param actual the actual map
+   * @param boundary the exclusive upper boundary
+   */
   public void assertHasSizeLessThan(AssertionInfo info, Map<?, ?> actual, int boundary) {
     assertNotNull(info, actual);
     checkSizeLessThan(actual, boundary, actual.size(), info);
   }
 
+  /**
+   * Verifies that the map size is at most the boundary.
+   *
+   * @param info assertion information
+   * @param actual the actual map
+   * @param boundary the inclusive upper boundary
+   */
   public void assertHasSizeLessThanOrEqualTo(AssertionInfo info, Map<?, ?> actual, int boundary) {
     assertNotNull(info, actual);
     checkSizeLessThanOrEqualTo(actual, boundary, actual.size(), info);
   }
 
+  /**
+   * Verifies that the map size is between the boundaries.
+   *
+   * @param info assertion information
+   * @param actual the actual map
+   * @param lowerBoundary the inclusive lower boundary
+   * @param higherBoundary the inclusive upper boundary
+   */
   public void assertHasSizeBetween(AssertionInfo info, Map<?, ?> actual, int lowerBoundary, int higherBoundary) {
     assertNotNull(info, actual);
     checkSizeBetween(actual, lowerBoundary, higherBoundary, actual.size(), info);
   }
 
+  /**
+   * Verifies that the map and iterable have the same size.
+   *
+   * @param info assertion information
+   * @param map the actual map
+   * @param other the iterable to compare
+   */
   public void assertHasSameSizeAs(AssertionInfo info, Map<?, ?> map, Iterable<?> other) {
     assertNotNull(info, map);
     hasSameSizeAsCheck(info, map, other, map.size());
   }
 
+  /**
+   * Verifies that the map and array have the same size.
+   *
+   * @param info assertion information
+   * @param map the actual map
+   * @param other the array to compare
+   */
   public void assertHasSameSizeAs(AssertionInfo info, Map<?, ?> map, Object other) {
     assertNotNull(info, map);
     assertIsArray(info, other);
     hasSameSizeAsCheck(info, map, other, map.size());
   }
 
+  /**
+   * Verifies that two maps have the same size.
+   *
+   * @param info assertion information
+   * @param map the actual map
+   * @param other the map to compare
+   */
   public void assertHasSameSizeAs(AssertionInfo info, Map<?, ?> map, Map<?, ?> other) {
     assertNotNull(info, map);
     hasSameSizeAsCheck(info, map, other, map.size());
   }
 
+  /**
+   * Verifies that the map contains the given entries.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param entries the expected entries
+   * @param valueEquals the value equality predicate
+   */
   public <K, V> void assertContains(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries,
                                     BiPredicate<? super V, ? super V> valueEquals) {
     failIfNull(entries);
@@ -229,6 +356,16 @@ public class Maps {
     failIfAnyEntryNotFoundInActualMap(info, actual, entries, valueEquals);
   }
 
+  /**
+   * Verifies that the map contains all entries from another map.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param other the expected entries
+   * @param valueEquals the value equality predicate
+   */
   @SuppressWarnings("unchecked")
   public <K, V> void assertContainsAllEntriesOf(AssertionInfo info, Map<K, V> actual, Map<? extends K, ? extends V> other,
                                                 BiPredicate<? super V, ? super V> valueEquals) {
@@ -239,6 +376,16 @@ public class Maps {
     failIfAnyEntryNotFoundInActualMap(info, actual, other.entrySet().toArray(new Entry[0]), valueEquals);
   }
 
+  /**
+   * Verifies that the map contains at least one expected entry.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param entries the expected entries
+   * @param valueEquals the value equality predicate
+   */
   public <K, V> void assertContainsAnyOf(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries,
                                          BiPredicate<? super V, ? super V> valueEquals) {
     failIfNull(entries);
@@ -252,6 +399,16 @@ public class Maps {
     throw failures.failure(info, shouldContainAnyOf(actual, entries));
   }
 
+  /**
+   * Verifies that the value for a key satisfies a condition.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param key the entry key
+   * @param valueCondition the value condition
+   */
   public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key, Condition<? super V> valueCondition) {
     assertContainsKey(info, actual, key);
     conditions.assertIsNotNull(valueCondition);
@@ -259,6 +416,16 @@ public class Maps {
     if (!valueCondition.matches(value)) throw failures.failure(info, elementsShouldBe(actual, value, valueCondition));
   }
 
+  /**
+   * Verifies requirements against the value for a key.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param key the entry key
+   * @param valueRequirements the value requirements
+   */
   public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key,
                                               Consumer<? super V> valueRequirements) {
     assertContainsKey(info, actual, key);
@@ -267,6 +434,15 @@ public class Maps {
     valueRequirements.accept(value);
   }
 
+  /**
+   * Verifies that an entry satisfies a condition.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param entryCondition the entry condition
+   */
   public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual,
                                               Condition<? super Entry<K, V>> entryCondition) {
     assertNotNull(info, actual);
@@ -278,6 +454,16 @@ public class Maps {
     throw failures.failure(info, shouldContainEntry(actual, entryCondition));
   }
 
+  /**
+   * Verifies that an entry satisfies key and value conditions.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param keyCondition the key condition
+   * @param valueCondition the value condition
+   */
   public <K, V> void assertHasEntrySatisfyingConditions(AssertionInfo info, Map<K, V> actual, Condition<? super K> keyCondition,
                                                         Condition<? super V> valueCondition) {
     assertNotNull(info, actual);
@@ -291,6 +477,14 @@ public class Maps {
     throw failures.failure(info, shouldContainEntry(actual, keyCondition, valueCondition));
   }
 
+  /**
+   * Verifies that a key satisfies a condition.
+   *
+   * @param <K> the key type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param keyCondition the key condition
+   */
   public <K> void assertHasKeySatisfying(AssertionInfo info, Map<K, ?> actual, Condition<? super K> keyCondition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(keyCondition);
@@ -302,6 +496,14 @@ public class Maps {
     throw failures.failure(info, shouldContainKey(actual, keyCondition));
   }
 
+  /**
+   * Verifies that a value satisfies a condition.
+   *
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param valueCondition the value condition
+   */
   public <V> void assertHasValueSatisfying(AssertionInfo info, Map<?, V> actual, Condition<? super V> valueCondition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(valueCondition);
@@ -313,6 +515,16 @@ public class Maps {
     throw failures.failure(info, shouldContainValue(actual, valueCondition));
   }
 
+  /**
+   * Verifies that the map contains none of the given entries.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param entries the prohibited entries
+   * @param valueEquals the value equality predicate
+   */
   public <K, V> void assertDoesNotContain(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries,
                                           BiPredicate<? super V, ? super V> valueEquals) {
     failIfNullOrEmpty(entries);
@@ -326,6 +538,15 @@ public class Maps {
     if (!found.isEmpty()) throw failures.failure(info, shouldNotContain(actual, entries, found));
   }
 
+  /**
+   * Verifies that the map contains the given keys.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param keys the expected keys
+   */
   public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertNotNull(info, actual);
     requireNonNull(keys, () -> keysToLookForIsNull("array of keys"));
@@ -336,15 +557,42 @@ public class Maps {
     if (!notFound.isEmpty()) throw failures.failure(info, shouldContainKeys(actual, notFound));
   }
 
+  /**
+   * Verifies that the map contains the given key.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param key the expected key
+   */
   public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual, K key) {
     assertContainsKeys(info, actual, array(key));
   }
 
+  /**
+   * Verifies that the map does not contain the given key.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param key the prohibited key
+   */
   public <K, V> void assertDoesNotContainKey(AssertionInfo info, Map<K, V> actual, K key) {
     assertNotNull(info, actual);
     if (containsKey(actual, key)) throw failures.failure(info, shouldNotContainKey(actual, key));
   }
 
+  /**
+   * Verifies that the map contains none of the given keys.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param keys the prohibited keys
+   */
   public <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertNotNull(info, actual);
     requireNonNull(keys, () -> keysToLookForIsNull("array of keys"));
@@ -352,10 +600,28 @@ public class Maps {
     if (!found.isEmpty()) throw failures.failure(info, shouldNotContainKeys(actual, found));
   }
 
+  /**
+   * Verifies that the map contains only the given keys.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param keys the expected keys
+   */
   public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertContainsOnlyKeys(info, actual, "array of keys", keys);
   }
 
+  /**
+   * Verifies that the map contains only the given keys.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param keys the expected keys
+   */
   public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual, Iterable<? extends K> keys) {
     assertContainsOnlyKeys(info, actual, "keys iterable", toArray(keys));
   }
@@ -456,12 +722,32 @@ public class Maps {
     }
   }
 
+  /**
+   * Verifies that the map contains the given value.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param value the expected value
+   * @param valueEquals the value equality predicate
+   */
   public <K, V> void assertContainsValue(AssertionInfo info, Map<K, V> actual, V value,
                                          BiPredicate<? super V, ? super V> valueEquals) {
     assertNotNull(info, actual);
     if (!containsValue(actual, value, valueEquals)) throw failures.failure(info, shouldContainValue(actual, value));
   }
 
+  /**
+   * Verifies that the map contains the given values.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param values the expected values
+   * @param valueEquals the value equality predicate
+   */
   public <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual, V[] values,
                                           BiPredicate<? super V, ? super V> valueEquals) {
     assertNotNull(info, actual);
@@ -473,6 +759,16 @@ public class Maps {
     if (!notFound.isEmpty()) throw failures.failure(info, shouldContainValues(actual, notFound));
   }
 
+  /**
+   * Verifies that the map does not contain the given value.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param value the prohibited value
+   * @param valueEquals the value equality predicate
+   */
   public <K, V> void assertDoesNotContainValue(AssertionInfo info, Map<K, V> actual, V value,
                                                BiPredicate<? super V, ? super V> valueEquals) {
     assertNotNull(info, actual);
@@ -503,6 +799,16 @@ public class Maps {
     return actual.values().stream().anyMatch(actualValue -> valueEquals.test(value, actualValue));
   }
 
+  /**
+   * Verifies that the map contains only the given entries.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param entries the expected entries
+   * @param valueEquals the value equality predicate
+   */
   public <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries,
                                         BiPredicate<? super V, ? super V> valueEquals) {
     doCommonContainsCheck(info, actual, entries);
@@ -562,6 +868,16 @@ public class Maps {
     }
   }
 
+  /**
+   * Verifies that the map contains exactly the given entries in order.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param info assertion information
+   * @param actual the actual map
+   * @param entries the expected entries
+   * @param valueEquals the value equality predicate
+   */
   public <K, V> void assertContainsExactly(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries,
                                            BiPredicate<? super V, ? super V> valueEquals) {
     doCommonContainsCheck(info, actual, entries);

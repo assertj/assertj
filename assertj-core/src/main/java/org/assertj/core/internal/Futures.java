@@ -41,6 +41,9 @@ public class Futures {
 
   private static final Futures INSTANCE = new Futures();
 
+  /** Creates reusable future assertions. */
+  public Futures() {}
+
   /**
    * Returns the singleton instance of this class.
    *
@@ -97,6 +100,16 @@ public class Futures {
       throw failures.failure(info, shouldNotBeDone(actual));
   }
 
+  /**
+   * Verifies that the future succeeds within the given timeout.
+   *
+   * @param <RESULT> the future result type
+   * @param info assertion information
+   * @param actual the actual future
+   * @param timeout the timeout value
+   * @param unit the timeout unit
+   * @return the future result
+   */
   public <RESULT> RESULT assertSucceededWithin(AssertionInfo info, Future<RESULT> actual, long timeout, TimeUnit unit) {
     assertNotNull(info, actual);
     try {
@@ -106,6 +119,15 @@ public class Futures {
     }
   }
 
+  /**
+   * Verifies that the future succeeds within the given timeout.
+   *
+   * @param <RESULT> the future result type
+   * @param info assertion information
+   * @param actual the actual future
+   * @param timeout the timeout duration
+   * @return the future result
+   */
   public <RESULT> RESULT assertSucceededWithin(AssertionInfo info, Future<RESULT> actual, Duration timeout) {
     assertNotNull(info, actual);
     try {
@@ -115,6 +137,14 @@ public class Futures {
     }
   }
 
+  /**
+   * Verifies that the future fails within the given timeout.
+   *
+   * @param info assertion information
+   * @param actual the actual future
+   * @param timeout the timeout duration
+   * @return the exception raised by the future
+   */
   public Exception assertFailedWithin(AssertionInfo info, Future<?> actual, Duration timeout) {
     assertNotNull(info, actual);
     try {
@@ -125,6 +155,15 @@ public class Futures {
     }
   }
 
+  /**
+   * Verifies that the future fails within the given timeout.
+   *
+   * @param info assertion information
+   * @param actual the actual future
+   * @param timeout the timeout value
+   * @param unit the timeout unit
+   * @return the exception raised by the future
+   */
   public Exception assertFailedWithin(AssertionInfo info, Future<?> actual, long timeout, TimeUnit unit) {
     assertNotNull(info, actual);
     try {
@@ -135,6 +174,14 @@ public class Futures {
     }
   }
 
+  /**
+   * Verifies that the future completes exceptionally within the given timeout.
+   *
+   * @param info assertion information
+   * @param actual the actual future
+   * @param timeout the timeout duration
+   * @return the exceptional completion cause
+   */
   public Exception assertCompletedExceptionallyWithin(AssertionInfo info, Future<?> actual, Duration timeout) {
     assertNotNull(info, actual);
     try {
@@ -147,6 +194,15 @@ public class Futures {
     }
   }
 
+  /**
+   * Verifies that the future completes exceptionally within the given timeout.
+   *
+   * @param info assertion information
+   * @param actual the actual future
+   * @param timeout the timeout value
+   * @param unit the timeout unit
+   * @return the exceptional completion cause
+   */
   public Exception assertCompletedExceptionallyWithin(AssertionInfo info, Future<?> actual, long timeout, TimeUnit unit) {
     assertNotNull(info, actual);
     try {

@@ -60,6 +60,12 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   private final Diff diff = new Diff();
   private final BinaryDiff binaryDiff = new BinaryDiff();
 
+  /**
+   * Creates a new {@link InputStream} assertion.
+   *
+   * @param actual the actual input stream to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractInputStreamAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }

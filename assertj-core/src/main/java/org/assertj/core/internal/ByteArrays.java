@@ -52,16 +52,31 @@ public class ByteArrays {
     this(StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates byte array assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy to use
+   */
   public ByteArrays(ComparisonStrategy comparisonStrategy) {
     setArrays(new Arrays(comparisonStrategy));
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Sets the underlying array assertions.
+   *
+   * @param arrays the array assertions
+   */
   public void setArrays(Arrays arrays) {
     this.arrays = arrays;
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns the configured comparator, if any.
+   *
+   * @return the configured comparator or {@code null}
+   */
   public Comparator<?> getComparator() {
     return arrays.getComparator();
   }
@@ -307,18 +322,46 @@ public class ByteArrays {
     arrays.assertContainsOnly(info, failures, actual, toByteArray(values));
   }
 
+  /**
+   * Verifies that the actual array contains exactly the given values.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContainsExactly(AssertionInfo info, byte[] actual, byte[] values) {
     arrays.assertContainsExactly(info, failures, actual, values);
   }
 
+  /**
+   * Verifies that the actual array contains exactly the given integer values.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContainsExactly(AssertionInfo info, byte[] actual, int[] values) {
     arrays.assertContainsExactly(info, failures, actual, toByteArray(values));
   }
 
+  /**
+   * Verifies that the actual array contains exactly the given values in any order.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, byte[] actual, byte[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
 
+  /**
+   * Verifies that the actual array contains exactly the given integer values in any order.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, byte[] actual, int[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, toByteArray(values));
   }
@@ -540,6 +583,12 @@ public class ByteArrays {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 
+  /**
+   * Converts integer values to bytes.
+   *
+   * @param ints the integer values
+   * @return the byte array
+   */
   public byte[] toByteArray(int[] ints) {
     if (ints == null) {
       return null;
@@ -551,6 +600,13 @@ public class ByteArrays {
     return bytes;
   }
 
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the values of which at least one is expected
+   */
   public void assertContainsAnyOf(AssertionInfo info, byte[] actual, byte[] values) {
     arrays.assertContainsAnyOf(info, failures, actual, values);
   }

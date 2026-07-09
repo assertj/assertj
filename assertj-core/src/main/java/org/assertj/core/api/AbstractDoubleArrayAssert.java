@@ -24,12 +24,24 @@ import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
 import org.assertj.core.internal.DoubleArrays;
 
+/**
+ * Base class for assertions on {@code double} arrays.
+ *
+ * @param <SELF> the "self" type of this assertion class
+ */
 public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, double[], Double> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Internal assertions for {@code double} arrays. */
   protected DoubleArrays arrays = DoubleArrays.instance();
 
+  /**
+   * Creates a new {@code double} array assertion.
+   *
+   * @param actual the actual array to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractDoubleArrayAssert(double[] actual, Class<?> selfType) {
     super(actual, selfType);
   }

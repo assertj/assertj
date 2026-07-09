@@ -67,6 +67,9 @@ import java.util.stream.Stream;
  */
 public class RecursiveComparisonDifferenceCalculator {
 
+  /** Creates a recursive comparison difference calculator. */
+  public RecursiveComparisonDifferenceCalculator() {}
+
   private static final String ACTUAL_FIELD_TYPE_DIFFERENT_FROM_EXPECTED_FIELD_TYPE = "actual field is a %s but expected field is not (%s)";
   private static final String DIFFERENT_ACTUAL_AND_EXPECTED_FIELD_TYPES = "expected field is %s but actual field is not (%s)";
   private static final String ACTUAL_IS_AN_ENUM_WHILE_EXPECTED_IS_NOT = "expected field is a %s but actual field is an enum";

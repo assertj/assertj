@@ -15,28 +15,61 @@
  */
 package org.assertj.core.internal;
 
+/**
+ * Creates common validation exceptions.
+ */
 public final class CommonErrors {
 
+  /**
+   * Creates an exception for a null array of values.
+   *
+   * @return the exception
+   */
   public static NullPointerException arrayOfValuesToLookForIsNull() {
     return new NullPointerException(ErrorMessages.arrayOfValuesToLookForIsNull());
   }
 
+  /**
+   * Creates an exception for a null iterable.
+   *
+   * @return the exception
+   */
   public static NullPointerException iterableToLookForIsNull() {
     return new NullPointerException(ErrorMessages.iterableToLookForIsNull());
   }
 
+  /**
+   * Creates an exception for a null iterable of values.
+   *
+   * @return the exception
+   */
   public static NullPointerException iterableOfValuesToLookForIsNull() {
     return new NullPointerException(ErrorMessages.iterableValuesToLookForIsNull());
   }
 
+  /**
+   * Creates an exception for an empty array of values.
+   *
+   * @return the exception
+   */
   public static IllegalArgumentException arrayOfValuesToLookForIsEmpty() {
     return new IllegalArgumentException(ErrorMessages.arrayOfValuesToLookForIsEmpty());
   }
 
+  /**
+   * Creates an exception for an empty iterable of values.
+   *
+   * @return the exception
+   */
   public static IllegalArgumentException iterableOfValuesToLookForIsEmpty() {
     return new IllegalArgumentException(ErrorMessages.iterableValuesToLookForIsEmpty());
   }
 
+  /**
+   * Throws an exception for a value that cannot be flat-extracted.
+   *
+   * @param group the invalid extracted value
+   */
   public static void wrongElementTypeForFlatExtracting(Object group) {
     throw new IllegalArgumentException("Flat extracting expects extracted values to be Iterables or arrays but was a "
                                        + group.getClass().getSimpleName());

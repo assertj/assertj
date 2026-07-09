@@ -15,8 +15,15 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for boolean values expected to be false. */
 public class ShouldBeFalse extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for a value expected to be false.
+   *
+   * @param actual the actual value
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeFalse(boolean actual) {
     return new ShouldBeFalse(actual);
   }

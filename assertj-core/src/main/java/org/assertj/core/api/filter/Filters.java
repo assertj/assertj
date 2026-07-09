@@ -324,6 +324,7 @@ public class Filters<E> {
    *
    * filter(employees).with("age").matching(minor).get();</code></pre>
    *
+   * @param <T> the condition input type
    * @param condition the condition to match
    * @return this {@link Filters} to chain other filter operation.
    * @throws IllegalArgumentException if the property name to filter on has not been set.

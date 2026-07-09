@@ -15,12 +15,19 @@
  */
 package org.assertj.core.api.filter;
 
+/** Filter selecting values contained in a set of candidates. */
 public class InFilter extends FilterOperator<Object[]> {
 
   private InFilter(Object... filterParameter) {
     super(filterParameter);
   }
 
+  /**
+   * Creates an inclusion filter for the given values.
+   *
+   * @param values the accepted values
+   * @return the inclusion filter
+   */
   public static InFilter in(Object... values) {
     return new InFilter(values);
   }

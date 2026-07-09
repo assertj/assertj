@@ -41,6 +41,12 @@ public class RecursiveAssertionAssert extends AbstractAssertWithComparator<Recur
   private final RecursiveAssertionConfiguration recursiveAssertionConfiguration;
   private final RecursiveAssertionDriver recursiveAssertionDriver;
 
+  /**
+   * Creates a recursive assertion.
+   *
+   * @param o the object graph root
+   * @param recursiveAssertionConfiguration the recursive assertion configuration
+   */
   public RecursiveAssertionAssert(Object o, RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
     super(o, RecursiveAssertionAssert.class);
     this.recursiveAssertionConfiguration = recursiveAssertionConfiguration;
@@ -323,7 +329,6 @@ public class RecursiveAssertionAssert extends AbstractAssertWithComparator<Recur
 
   /**
    * Makes the recursive assertion to ignore all null fields.
-   * <p>
    * <pre><code class='java'> class Person {
    *   String name;
    *   String occupation;

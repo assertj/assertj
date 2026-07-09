@@ -46,6 +46,9 @@ public class Arrays2D {
 
   private static final Arrays2D INSTANCE = new Arrays2D();
 
+  /** Creates two-dimensional array assertions. */
+  public Arrays2D() {}
+
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
    *
@@ -56,12 +59,26 @@ public class Arrays2D {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Verifies that the array is {@code null} or empty.
+   *
+   * @param info assertion information
+   * @param failures failure handler
+   * @param array the actual array
+   */
   public void assertNullOrEmpty(AssertionInfo info, Failures failures, Object array) {
     if (array == null) return;
     if (countArrayElements(array) > 0) throw failures.failure(info, shouldBeNullOrEmpty(array));
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Verifies that the array is empty.
+   *
+   * @param info assertion information
+   * @param failures failure handler
+   * @param array the actual array
+   */
   public void assertEmpty(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
     // need to check that all rows are empty
@@ -73,6 +90,15 @@ public class Arrays2D {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Verifies both dimensions of the array.
+   *
+   * @param info assertion information
+   * @param failures failure handler
+   * @param array2d the actual array
+   * @param expectedNumberOfRows the expected row count
+   * @param expectedRowSize the expected row size
+   */
   public void assertHasDimensions(AssertionInfo info, Failures failures, Object array2d, int expectedNumberOfRows,
                                   int expectedRowSize) {
     assertNumberOfRows(info, failures, array2d, expectedNumberOfRows);
@@ -83,6 +109,14 @@ public class Arrays2D {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Verifies the number of rows in the array.
+   *
+   * @param info assertion information
+   * @param failures failure handler
+   * @param array the actual array
+   * @param expectedSize the expected row count
+   */
   public void assertNumberOfRows(AssertionInfo info, Failures failures, Object array, int expectedSize) {
     assertNotNull(info, array);
     int sizeOfActual = sizeOf(array);
@@ -103,6 +137,13 @@ public class Arrays2D {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Verifies that two arrays have the same dimensions.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param other the array to compare with
+   */
   public void assertHasSameDimensionsAs(AssertionInfo info, Object actual, Object other) {
     assertNotNull(info, actual);
     assertIsArray(info, actual);
@@ -134,6 +175,15 @@ public class Arrays2D {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Verifies that the array contains the value at the given row index.
+   *
+   * @param info assertion information
+   * @param failures failure handler
+   * @param array the actual array
+   * @param value the expected row value
+   * @param index the row index
+   */
   public void assertContains(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
     assertNotNull(info, array);
     assertNotEmpty(info, failures, array);
@@ -145,6 +195,13 @@ public class Arrays2D {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Verifies that the array is not empty.
+   *
+   * @param info assertion information
+   * @param failures failure handler
+   * @param array the actual array
+   */
   public void assertNotEmpty(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
     if (countArrayElements(array) == 0) throw failures.failure(info, shouldNotBeEmpty());
@@ -163,6 +220,15 @@ public class Arrays2D {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Verifies that the array does not contain the value at the given row index.
+   *
+   * @param info assertion information
+   * @param failures failure handler
+   * @param array the actual array
+   * @param value the value expected to be absent
+   * @param index the row index
+   */
   public void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
     assertNotNull(info, array);
     checkIndexValueIsValid(index, Integer.MAX_VALUE);

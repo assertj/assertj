@@ -27,6 +27,15 @@ import java.util.Map;
  */
 public class Maps {
 
+  /**
+   * Creates a hash map containing one entry.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param key the entry key
+   * @param value the entry value
+   * @return the created map
+   */
   public static <K, V> Map<K, V> newHashMap(K key, V value) {
     Map<K, V> map = new HashMap<>();
     map.put(key, value);

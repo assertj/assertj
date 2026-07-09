@@ -20,7 +20,8 @@ import org.assertj.core.description.Description;
 
 /**
  * ThrowableTypeAssert for soft assertions.
- * 
+ *
+ * @param <T> the type of Throwable.
  * @since 3.23.0
  */
 public class SoftThrowableTypeAssert<T extends Throwable> extends ThrowableTypeAssert<T> {

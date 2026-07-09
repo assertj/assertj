@@ -17,8 +17,18 @@ package org.assertj.core.api;
 
 import org.assertj.core.annotation.CheckReturnValue;
 
+/**
+ * Assertions for a path size.
+ *
+ * @param <T> retained for source compatibility
+ */
 public class PathSizeAssert<T> extends AbstractPathSizeAssert<PathAssert> {
 
+  /**
+   * Creates a path size assertion.
+   *
+   * @param originAssert the origin path assertion
+   */
   public PathSizeAssert(AbstractPathAssert<PathAssert> originAssert) {
     super(originAssert);
   }

@@ -45,6 +45,11 @@ public class Doubles extends RealNumbers<Double> {
     super();
   }
 
+  /**
+   * Creates double assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy to use
+   */
   public Doubles(ComparisonStrategy comparisonStrategy) {
     super(comparisonStrategy);
   }

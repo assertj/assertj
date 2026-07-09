@@ -31,6 +31,7 @@ public class MatcherShouldHaveGroup extends BasicErrorMessageFactory {
    * Indicates that the provided {@link Matcher} was expected to have a named or numbered group.
    *
    * @param matcher the actual {@link Matcher} to test.
+   * @param groupIdentifier the group name or index
    * @return an error message factory.
    */
   public static MatcherShouldHaveGroup shouldHaveGroup(Matcher matcher, Object groupIdentifier) {

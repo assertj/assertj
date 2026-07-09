@@ -19,8 +19,18 @@ import java.math.BigDecimal;
 
 import org.assertj.core.annotation.CheckReturnValue;
 
+/**
+ * Assertions for a {@link BigDecimal} scale.
+ *
+ * @param <T> retained for source compatibility
+ */
 public class BigDecimalScaleAssert<T> extends AbstractBigDecimalScaleAssert<BigDecimalAssert> {
 
+  /**
+   * Creates a scale assertion from the given origin assertion.
+   *
+   * @param originAssert the origin decimal assertion
+   */
   public BigDecimalScaleAssert(AbstractBigDecimalAssert<BigDecimalAssert> originAssert) {
     super(originAssert);
   }
@@ -31,6 +41,11 @@ public class BigDecimalScaleAssert<T> extends AbstractBigDecimalScaleAssert<BigD
     return super.returnToBigDecimal();
   }
 
+  /**
+   * Creates a scale assertion used for null navigation.
+   *
+   * @return the null-navigation scale assertion
+   */
   public static BigDecimalScaleAssert<?> nullBigDecimalScaleAssert() {
     return new BigDecimalScaleAssert<>(new BigDecimalAssert(BigDecimal.ZERO));
   }

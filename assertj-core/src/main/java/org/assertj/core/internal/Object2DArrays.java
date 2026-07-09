@@ -27,6 +27,9 @@ import org.assertj.core.data.Index;
  */
 public class Object2DArrays<ELEMENT> {
 
+  /** Creates reusable two-dimensional object array assertions. */
+  public Object2DArrays() {}
+
   /**
    * Returns the singleton instance of this class.
    *

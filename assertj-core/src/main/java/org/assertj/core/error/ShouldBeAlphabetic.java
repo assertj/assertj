@@ -15,7 +15,14 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for values expected to contain only alphabetic characters. */
 public class ShouldBeAlphabetic extends BasicErrorMessageFactory {
+  /**
+   * Creates an alphabetic-content error.
+   *
+   * @param actual the actual value
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeAlphabetic(Object actual) {
     return new ShouldBeAlphabetic(actual);
   }

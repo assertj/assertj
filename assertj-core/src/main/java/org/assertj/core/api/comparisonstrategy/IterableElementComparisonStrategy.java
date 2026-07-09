@@ -21,10 +21,20 @@ import static org.assertj.core.util.IterableUtil.sizeOf;
 import java.util.Comparator;
 import java.util.Iterator;
 
+/**
+ * Comparison strategy applying a comparator to iterable elements.
+ *
+ * @param <T> the element type
+ */
 public class IterableElementComparisonStrategy<T> extends StandardComparisonStrategy {
 
   private final Comparator<? super T> elementComparator;
 
+  /**
+   * Creates a strategy using the given element comparator.
+   *
+   * @param elementComparator the element comparator
+   */
   public IterableElementComparisonStrategy(Comparator<? super T> elementComparator) {
     this.elementComparator = elementComparator;
   }

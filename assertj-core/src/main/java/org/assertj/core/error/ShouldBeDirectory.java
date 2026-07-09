@@ -30,10 +30,22 @@ public class ShouldBeDirectory extends BasicErrorMessageFactory {
   private static final String PATH_SHOULD_BE_DIRECTORY = "%nExpecting path:%n  %s%nto be a directory.";
   private static final String FILE_SHOULD_BE_DIRECTORY = "%nExpecting file:%n  %s%nto be an existing directory.";
 
+  /**
+   * Creates an error for a path expected to be a directory.
+   *
+   * @param actual the actual path
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeDirectory(final Path actual) {
     return new ShouldBeDirectory(actual);
   }
 
+  /**
+   * Creates an error for a file expected to be a directory.
+   *
+   * @param actual the actual file
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeDirectory(final File actual) {
     return new ShouldBeDirectory(actual);
   }

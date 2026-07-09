@@ -46,6 +46,11 @@ public class Characters extends Comparables {
     super();
   }
 
+  /**
+   * Creates character assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy to use
+   */
   public Characters(ComparisonStrategy comparisonStrategy) {
     super(comparisonStrategy);
   }

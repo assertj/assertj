@@ -23,6 +23,8 @@ import java.util.Map;
  * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(Map)}</code>.
  * </p>
  *
+ * @param <KEY>>      the type of keys in the map.
+ * @param <VALUE>>      the type of values in the map.
  * @author David DIDIER
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -31,10 +33,23 @@ import java.util.Map;
  */
 public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> {
 
+  /**
+   * Creates a new map assertion.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param actual the actual map to verify
+   * @return the created assertion
+   */
   public static <K, V> MapAssert<K, V> assertThatMap(Map<K, V> actual) {
     return new MapAssert<>(actual);
   }
 
+  /**
+   * Creates a new map assertion.
+   *
+   * @param actual the actual map to verify
+   */
   public MapAssert(Map<KEY, VALUE> actual) {
     super(actual, MapAssert.class);
   }

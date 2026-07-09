@@ -1737,7 +1737,6 @@ public class Assertions implements InstanceOfAssertFactories {
    * but had not been.
    * <p>
    * {@link Assertions#shouldHaveThrown(Class)} can be used as a replacement.
-   * <p>
    * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> failBecauseExceptionWasNotThrown(IOException.class)));}.

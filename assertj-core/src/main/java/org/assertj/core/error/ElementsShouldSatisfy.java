@@ -24,8 +24,19 @@ import java.util.Map.Entry;
 
 import org.assertj.core.api.AssertionInfo;
 
+/**
+ * Creates error messages for elements that do not satisfy requirements.
+ */
 public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message when no element satisfies any requirement.
+   *
+   * @param actual the actual elements
+   * @param elementsNotSatisfyingRequirements the unsatisfied requirements
+   * @param info assertion information
+   * @return the error message factory
+   */
   public static ErrorMessageFactory elementsShouldSatisfyAny(Object actual,
                                                              List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements,
                                                              AssertionInfo info) {
@@ -36,6 +47,14 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
                                      actual, elementsNotSatisfyingRequirements, info);
   }
 
+  /**
+   * Creates an error message when elements do not satisfy all requirements.
+   *
+   * @param actual the actual elements
+   * @param elementsNotSatisfyingRestrictions the unsatisfied restrictions
+   * @param info assertion information
+   * @return the error message factory
+   */
   public static ErrorMessageFactory elementsShouldSatisfy(Object actual,
                                                           List<UnsatisfiedRequirement> elementsNotSatisfyingRestrictions,
                                                           AssertionInfo info) {
@@ -46,6 +65,14 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
                                      actual, elementsNotSatisfyingRestrictions, info);
   }
 
+  /**
+   * Creates an error message when elements do not satisfy requirements at their indices.
+   *
+   * @param actual the actual elements
+   * @param unsatisfiedRequirements the unsatisfied requirements by index
+   * @param info assertion information
+   * @return the error message factory
+   */
   public static ErrorMessageFactory elementsShouldSatisfyExactly(Object actual,
                                                                  Map<Integer, UnsatisfiedRequirement> unsatisfiedRequirements,
                                                                  AssertionInfo info) {

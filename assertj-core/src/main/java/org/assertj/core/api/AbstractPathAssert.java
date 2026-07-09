@@ -89,11 +89,18 @@ import org.assertj.core.internal.Paths;
 public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> extends AbstractComparableAssert<SELF, Path> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Internal assertions for paths. */
   protected Paths paths = Paths.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Charset charset = Charset.defaultCharset();
 
+  /**
+   * Creates a new {@link Path} assertion.
+   *
+   * @param actual the actual path to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractPathAssert(final Path actual, final Class<?> selfType) {
     super(actual, selfType);
   }

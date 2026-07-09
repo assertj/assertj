@@ -35,6 +35,13 @@ public class ShouldContainOnlyNulls extends BasicErrorMessageFactory {
     return new ShouldContainOnlyNulls(actual, EMPTY, null);
   }
 
+  /**
+   * Creates an error for a group containing non-null elements.
+   *
+   * @param actual the actual group
+   * @param nonNullElements the non-null elements
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldContainOnlyNulls(Object actual, Iterable<?> nonNullElements) {
     return new ShouldContainOnlyNulls(actual, NON_NULL_ELEMENTS, nonNullElements);
   }
@@ -57,7 +64,11 @@ public class ShouldContainOnlyNulls extends BasicErrorMessageFactory {
     }
   }
 
+  /** Failure categories used to select the error format. */
   public enum ErrorType {
-    EMPTY, NON_NULL_ELEMENTS
+    /** The actual group was empty. */
+    EMPTY,
+    /** The actual group contained non-null elements. */
+    NON_NULL_ELEMENTS
   }
 }

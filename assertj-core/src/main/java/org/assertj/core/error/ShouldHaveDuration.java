@@ -18,6 +18,8 @@ package org.assertj.core.error;
 import java.time.Duration;
 
 /**
+ * Creates error messages for assertions that verify a {@link Duration}.
+ *
  * @author Filip Hrisafov
  */
 public class ShouldHaveDuration extends BasicErrorMessageFactory {
@@ -27,6 +29,14 @@ public class ShouldHaveDuration extends BasicErrorMessageFactory {
                                                 + "  %s%n"
                                                 + "to have %s ";
 
+  /**
+   * Creates an error for an unexpected nanosecond count.
+   *
+   * @param actual the actual duration
+   * @param actualNanos the actual count
+   * @param expectedNanos the expected count
+   * @return the error message factory
+   */
   public static ShouldHaveDuration shouldHaveNanos(Duration actual, long actualNanos, long expectedNanos) {
     String metric;
     if (expectedNanos == 1 || expectedNanos == -1) {
@@ -37,6 +47,14 @@ public class ShouldHaveDuration extends BasicErrorMessageFactory {
     return new ShouldHaveDuration(actual, actualNanos, expectedNanos, metric);
   }
 
+  /**
+   * Creates an error for an unexpected millisecond count.
+   *
+   * @param actual the actual duration
+   * @param actualMillis the actual count
+   * @param expectedMillis the expected count
+   * @return the error message factory
+   */
   public static ShouldHaveDuration shouldHaveMillis(Duration actual, long actualMillis, long expectedMillis) {
     String metric;
     if (expectedMillis == 1 || expectedMillis == -1) {
@@ -47,6 +65,14 @@ public class ShouldHaveDuration extends BasicErrorMessageFactory {
     return new ShouldHaveDuration(actual, actualMillis, expectedMillis, metric);
   }
 
+  /**
+   * Creates an error for an unexpected second count.
+   *
+   * @param actual the actual duration
+   * @param actualSeconds the actual count
+   * @param expectedSeconds the expected count
+   * @return the error message factory
+   */
   public static ShouldHaveDuration shouldHaveSeconds(Duration actual, long actualSeconds, long expectedSeconds) {
     String metric;
     if (expectedSeconds == 1 || expectedSeconds == -1) {
@@ -57,6 +83,14 @@ public class ShouldHaveDuration extends BasicErrorMessageFactory {
     return new ShouldHaveDuration(actual, actualSeconds, expectedSeconds, metric);
   }
 
+  /**
+   * Creates an error for an unexpected minute count.
+   *
+   * @param actual the actual duration
+   * @param actualMinutes the actual count
+   * @param expectedMinutes the expected count
+   * @return the error message factory
+   */
   public static ShouldHaveDuration shouldHaveMinutes(Duration actual, long actualMinutes, long expectedMinutes) {
     String metric;
     if (expectedMinutes == 1 || expectedMinutes == -1) {
@@ -67,6 +101,14 @@ public class ShouldHaveDuration extends BasicErrorMessageFactory {
     return new ShouldHaveDuration(actual, actualMinutes, expectedMinutes, metric);
   }
 
+  /**
+   * Creates an error for an unexpected hour count.
+   *
+   * @param actual the actual duration
+   * @param actualHours the actual count
+   * @param expectedHours the expected count
+   * @return the error message factory
+   */
   public static ShouldHaveDuration shouldHaveHours(Duration actual, long actualHours, long expectedHours) {
     String metric;
     if (expectedHours == 1 || expectedHours == -1) {
@@ -77,6 +119,14 @@ public class ShouldHaveDuration extends BasicErrorMessageFactory {
     return new ShouldHaveDuration(actual, actualHours, expectedHours, metric);
   }
 
+  /**
+   * Creates an error for an unexpected day count.
+   *
+   * @param actual the actual duration
+   * @param actualDays the actual count
+   * @param expectedDays the expected count
+   * @return the error message factory
+   */
   public static ShouldHaveDuration shouldHaveDays(Duration actual, long actualDays, long expectedDays) {
     String metric;
     if (expectedDays == 1 || expectedDays == -1) {

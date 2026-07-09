@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 
+/** Creates errors for arrays expected to have matching dimensions. */
 public class ShouldHaveSameDimensionsAs extends BasicErrorMessageFactory {
 
   /**
@@ -32,6 +33,18 @@ public class ShouldHaveSameDimensionsAs extends BasicErrorMessageFactory {
     return new ShouldHaveSameDimensionsAs(actual, expected, actualSize, expectedSize);
   }
 
+  /**
+   * Creates an error for rows with different sizes.
+   *
+   * @param rowIndex the row index
+   * @param actualRowSize the actual row size
+   * @param expectedRowSize the expected row size
+   * @param actualRow the actual row
+   * @param expectedRow the expected row
+   * @param actual the actual array
+   * @param expected the expected array
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveSameDimensionsAs(int rowIndex, int actualRowSize, int expectedRowSize,
                                                                Object actualRow, Object expectedRow, Object actual,
                                                                Object expected) {

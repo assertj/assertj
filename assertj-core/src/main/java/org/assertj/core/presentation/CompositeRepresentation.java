@@ -22,10 +22,18 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Delegates value formatting to representations ordered by priority.
+ */
 public class CompositeRepresentation implements Representation {
 
   private final List<Representation> representations;
 
+  /**
+   * Creates a composite from the given representations.
+   *
+   * @param representations the representations to compose
+   */
   public CompositeRepresentation(List<Representation> representations) {
     if (representations == null) throw new IllegalArgumentException("The given representations should not be null");
     this.representations = representations.stream()
@@ -58,6 +66,11 @@ public class CompositeRepresentation implements Representation {
     return representations.isEmpty() ? STANDARD_REPRESENTATION.toString() : representations.toString();
   }
 
+  /**
+   * Returns all representations ordered by priority, including the standard representation.
+   *
+   * @return the ordered representations
+   */
   public List<Representation> getAllRepresentationsOrderedByPriority() {
     List<Representation> representationsOrderedByPriority = new ArrayList<>(representations);
     representationsOrderedByPriority.add(STANDARD_REPRESENTATION);

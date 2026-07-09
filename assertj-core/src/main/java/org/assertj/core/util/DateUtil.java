@@ -32,6 +32,9 @@ import java.util.Date;
  */
 public class DateUtil {
 
+  /** Creates a new date utility instance. */
+  public DateUtil() {}
+
   /**
    * Converts the given Date to Calendar, returns null if the given Date is null.
    *
@@ -167,16 +170,31 @@ public class DateUtil {
     return cal.getTime();
   }
 
+  /**
+   * Returns the current date and time.
+   *
+   * @return the current date and time
+   */
   public static Date now() {
     return new Date();
   }
 
+  /**
+   * Returns the date one day before today.
+   *
+   * @return yesterday's date
+   */
   public static Date yesterday() {
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.DAY_OF_MONTH, -1);
     return cal.getTime();
   }
 
+  /**
+   * Returns the date one day after today.
+   *
+   * @return tomorrow's date
+   */
   public static Date tomorrow() {
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.DAY_OF_MONTH, 1);

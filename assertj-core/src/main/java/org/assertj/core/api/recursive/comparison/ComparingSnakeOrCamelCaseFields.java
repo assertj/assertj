@@ -28,7 +28,11 @@ import static org.assertj.core.util.introspection.CaseFormatUtils.toCamelCase;
  */
 public class ComparingSnakeOrCamelCaseFields extends ComparingNormalizedFields {
 
+  /** Shared snake-or-camel-case field introspection strategy instance. */
   public static final ComparingSnakeOrCamelCaseFields COMPARING_SNAKE_OR_CAMEL_CASE_FIELDS = new ComparingSnakeOrCamelCaseFields();
+
+  /** Creates a new snake-or-camel-case field introspection strategy. */
+  public ComparingSnakeOrCamelCaseFields() {}
 
   /**
    * Transforms snake case field names into camel case (leave camel case fields as is).

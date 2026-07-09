@@ -40,8 +40,14 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
   private final Failures failures = Failures.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Assertion implementation for two-dimensional short arrays. */
   protected Short2DArrays short2dArrays = Short2DArrays.instance();
 
+  /**
+   * Creates a new two-dimensional short array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public Short2DArrayAssert(short[][] actual) {
     super(actual, Short2DArrayAssert.class);
   }

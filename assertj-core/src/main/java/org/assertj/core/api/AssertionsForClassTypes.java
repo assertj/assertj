@@ -606,6 +606,13 @@ public class AssertionsForClassTypes {
     return new StringAssert(actual);
   }
 
+  /**
+   * Creates a new {@link HashSetAssert}.
+   *
+   * @param <ELEMENT> the set element type
+   * @param actual the actual set
+   * @return the created assertion object
+   */
   public static <ELEMENT> HashSetAssert<ELEMENT> assertThat(HashSet<? extends ELEMENT> actual) {
     return new HashSetAssert<>(actual);
   }

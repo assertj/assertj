@@ -53,6 +53,15 @@ public class ShouldBeCloseTo extends BasicErrorMessageFactory {
     return new ShouldBeCloseTo(actual, other, differenceDescription);
   }
 
+  /**
+   * Creates an error for temporal amounts expected to be close.
+   *
+   * @param actual the actual amount
+   * @param other the expected amount
+   * @param allowedDifference the allowed difference
+   * @param difference the actual difference
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeCloseTo(TemporalAmount actual, TemporalAmount other, TemporalAmount allowedDifference,
                                                     TemporalAmount difference) {
     return new ShouldBeCloseTo(actual, other, allowedDifference, difference);

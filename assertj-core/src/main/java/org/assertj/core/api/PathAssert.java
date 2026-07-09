@@ -22,6 +22,12 @@ import java.nio.file.Path;
  */
 public class PathAssert extends AbstractPathAssert<PathAssert> {
 
+  /**
+   * Creates a new path assertion.
+   *
+   * @param actual the actual path to verify
+   * @return the created assertion
+   */
   public static AbstractPathAssert<?> assertThatPath(Path actual) {
     return new PathAssert(actual);
   }

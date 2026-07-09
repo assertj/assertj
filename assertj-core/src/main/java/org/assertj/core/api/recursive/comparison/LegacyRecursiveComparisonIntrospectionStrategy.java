@@ -32,6 +32,9 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
  */
 public class LegacyRecursiveComparisonIntrospectionStrategy extends AbstractRecursiveComparisonIntrospectionStrategy {
 
+  /** Creates the legacy recursive comparison introspection strategy. */
+  public LegacyRecursiveComparisonIntrospectionStrategy() {}
+
   // use ConcurrentHashMap in case this strategy instance is used in a multi-thread context
   private final Map<Class<?>, Set<String>> fieldNamesPerClass = new ConcurrentHashMap<>();
 

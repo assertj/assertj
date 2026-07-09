@@ -21,8 +21,16 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.util.Objects;
 
+/** Creates errors for throwables with an unexpected cause. */
 public class ShouldHaveCause extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for a throwable with the wrong cause.
+   *
+   * @param actual the actual throwable
+   * @param expectedCause the expected cause
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveCause(Throwable actual, Throwable expectedCause) {
     checkArgument(expectedCause != null, "expected cause should not be null");
     // actual has no cause
@@ -36,6 +44,12 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
     return new ShouldHaveCause(actual, expectedCause);
   }
 
+  /**
+   * Creates an error describing the actual cause.
+   *
+   * @param actualCause the actual cause
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveCause(Throwable actualCause) {
     return new BasicErrorMessageFactory("Expecting actual throwable to have a cause but it did not, actual was:%n%s",
                                         actualCause);

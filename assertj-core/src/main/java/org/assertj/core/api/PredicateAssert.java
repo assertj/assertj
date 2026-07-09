@@ -27,10 +27,22 @@ import java.util.function.Predicate;
  */
 public class PredicateAssert<T> extends AbstractPredicateAssert<PredicateAssert<T>, T> {
 
+  /**
+   * Creates a new predicate assertion.
+   *
+   * @param <T> the predicate input type
+   * @param actual the actual predicate to verify
+   * @return the created assertion
+   */
   public static <T> PredicateAssert<T> assertThatPredicate(Predicate<T> actual) {
     return new PredicateAssert<>(actual);
   }
 
+  /**
+   * Creates a new predicate assertion.
+   *
+   * @param actual the actual predicate to verify
+   */
   protected PredicateAssert(Predicate<T> actual) {
     super(actual, PredicateAssert.class);
   }

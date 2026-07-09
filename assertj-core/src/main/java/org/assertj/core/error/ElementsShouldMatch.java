@@ -17,11 +17,23 @@ package org.assertj.core.error;
 
 import org.assertj.core.presentation.PredicateDescription;
 
+/**
+ * Creates error messages for elements that do not match a predicate.
+ */
 public class ElementsShouldMatch extends BasicErrorMessageFactory {
 
   private static final String SINGLE_NON_MATCHING_ELEMENT = "%nExpecting all elements of:%n  %s%nto match %s predicate but this element did not:%n  %s";
   private static final String MULTIPLE_NON_MATCHING_ELEMENT = "%nExpecting all elements of:%n  %s%nto match %s predicate but these elements did not:%n  %s";
 
+  /**
+   * Creates the error message factory.
+   *
+   * @param <T> the non-matching elements type
+   * @param actual the actual elements
+   * @param elementsNotMatchingPredicate the non-matching elements
+   * @param predicateDescription the predicate description
+   * @return the error message factory
+   */
   public static <T> ErrorMessageFactory elementsShouldMatch(Object actual, T elementsNotMatchingPredicate,
                                                             PredicateDescription predicateDescription) {
     return elementsNotMatchingPredicate instanceof Iterable<?> iterable

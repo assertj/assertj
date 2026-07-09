@@ -41,6 +41,7 @@ import java.util.Objects;
 
 import org.assertj.core.api.AssertionInfo;
 
+/** Reusable assertions for {@link URI} values. */
 public class Uris {
 
   private static final String UTF_8 = "UTF-8";
@@ -53,54 +54,121 @@ public class Uris {
 
   private final Failures failures = Failures.instance();
 
+  /**
+   * Returns the shared URI assertions.
+   *
+   * @return the shared instance
+   */
   public static Uris instance() {
     return INSTANCE;
   }
 
   Uris() {}
 
+  /**
+   * Verifies the URI scheme.
+   *
+   * @param info assertion information
+   * @param actual the actual URI
+   * @param scheme the expected scheme
+   */
   public void assertHasScheme(final AssertionInfo info, final URI actual, final String scheme) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getScheme(), scheme)) throw failures.failure(info, shouldHaveScheme(actual, scheme));
   }
 
+  /**
+   * Verifies the URI path.
+   *
+   * @param info assertion information
+   * @param actual the actual URI
+   * @param path the expected path
+   */
   public void assertHasPath(AssertionInfo info, URI actual, String path) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getPath(), path)) throw failures.failure(info, shouldHavePath(actual, path));
   }
 
+  /**
+   * Verifies the URI port.
+   *
+   * @param info assertion information
+   * @param actual the actual URI
+   * @param expected the expected port
+   */
   public void assertHasPort(AssertionInfo info, URI actual, Integer expected) {
     assertNotNull(info, actual);
     if (actual.getPort() != expected) throw failures.failure(info, shouldHavePort(actual, expected));
   }
 
+  /**
+   * Verifies the URI host.
+   *
+   * @param info assertion information
+   * @param actual the actual URI
+   * @param expected the expected host
+   */
   public void assertHasHost(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
     requireNonNull(expected, "The expected host should not be null");
     if (!Objects.equals(actual.getHost(), expected)) throw failures.failure(info, shouldHaveHost(actual, expected));
   }
 
+  /**
+   * Verifies that the URI has no host.
+   *
+   * @param info assertion information
+   * @param actual the actual URI
+   */
   public void assertHasNoHost(AssertionInfo info, URI actual) {
     assertNotNull(info, actual);
     if (actual.getHost() != null) throw failures.failure(info, shouldHaveNoHost(actual));
   }
 
+  /**
+   * Verifies the URI authority.
+   *
+   * @param info assertion information
+   * @param actual the actual URI
+   * @param expected the expected authority
+   */
   public void assertHasAuthority(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getAuthority(), expected))
       throw failures.failure(info, shouldHaveAuthority(actual, expected));
   }
 
+  /**
+   * Verifies the URI fragment.
+   *
+   * @param info assertion information
+   * @param actual the actual URI
+   * @param expected the expected fragment
+   */
   public void assertHasFragment(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getFragment(), expected)) throw failures.failure(info, shouldHaveFragment(actual, expected));
   }
 
+  /**
+   * Verifies the URI query.
+   *
+   * @param info assertion information
+   * @param actual the actual URI
+   * @param expected the expected query
+   */
   public void assertHasQuery(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getQuery(), expected)) throw failures.failure(info, shouldHaveQuery(actual, expected));
   }
 
+  /**
+   * Verifies the URI user information.
+   *
+   * @param info assertion information
+   * @param actual the actual URI
+   * @param expected the expected user information
+   */
   public void assertHasUserInfo(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getUserInfo(), expected)) throw failures.failure(info, shouldHaveUserInfo(actual, expected));
@@ -140,6 +208,13 @@ public class Uris {
     return parameters;
   }
 
+  /**
+   * Verifies that the URI has a named query parameter.
+   *
+   * @param info assertion information
+   * @param actual the actual URI
+   * @param name the parameter name
+   */
   public void assertHasParameter(AssertionInfo info, URI actual, String name) {
     assertNotNull(info, actual);
 
@@ -147,6 +222,14 @@ public class Uris {
     if (!parameters.containsKey(name)) throw failures.failure(info, shouldHaveParameter(actual, name));
   }
 
+  /**
+   * Verifies that the URI has a query parameter with the expected value.
+   *
+   * @param info assertion information
+   * @param actual the actual URI
+   * @param expectedParameterName the parameter name
+   * @param expectedParameterValue the parameter value
+   */
   public void assertHasParameter(AssertionInfo info, URI actual, String expectedParameterName,
                                  String expectedParameterValue) {
     assertNotNull(info, actual);
@@ -161,6 +244,12 @@ public class Uris {
       throw failures.failure(info, shouldHaveParameter(actual, expectedParameterName, expectedParameterValue, values));
   }
 
+  /**
+   * Verifies that the URI has no query parameters.
+   *
+   * @param info assertion information
+   * @param actual the actual URI
+   */
   public void assertHasNoParameters(AssertionInfo info, URI actual) {
     assertNotNull(info, actual);
 
@@ -168,6 +257,13 @@ public class Uris {
     if (!parameters.isEmpty()) throw failures.failure(info, shouldHaveNoParameters(actual, parameters.keySet()));
   }
 
+  /**
+   * Verifies that the URI has no query parameter with the given name.
+   *
+   * @param info assertion information
+   * @param actual the actual URI
+   * @param name the prohibited parameter name
+   */
   public void assertHasNoParameter(AssertionInfo info, URI actual, String name) {
     assertNotNull(info, actual);
 
@@ -176,6 +272,14 @@ public class Uris {
       throw failures.failure(info, shouldHaveNoParameter(actual, name, parameters.get(name)));
   }
 
+  /**
+   * Verifies that the URI has no query parameter with the given value.
+   *
+   * @param info assertion information
+   * @param actual the actual URI
+   * @param name the parameter name
+   * @param unwantedValue the prohibited parameter value
+   */
   public void assertHasNoParameter(AssertionInfo info, URI actual, String name, String unwantedValue) {
     assertNotNull(info, actual);
 

@@ -43,6 +43,8 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 
 /**
+ * Provides validation helpers shared by internal assertion implementations.
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -79,6 +81,11 @@ public final class CommonValidations {
     if (!iterable.iterator().hasNext()) throw iterableOfValuesToLookForIsEmpty();
   }
 
+  /**
+   * Checks that the values array is not {@code null}.
+   *
+   * @param values the values to check
+   */
   public static void checkIsNotNull(Object[] values) {
     if (values == null) throw arrayOfValuesToLookForIsNull();
   }
@@ -97,21 +104,53 @@ public final class CommonValidations {
     checkIsNotEmpty(iterable);
   }
 
+  /**
+   * Fails when values are empty while the actual value is not.
+   *
+   * @param info assertion information
+   * @param failures failure handler
+   * @param actual the actual value
+   * @param values the values to check
+   */
   public static void failIfEmptySinceActualIsNotEmpty(AssertionInfo info, Failures failures, Object actual,
                                                       Object values) {
     if (isArrayEmpty(values)) throw failures.failure(info, actualIsNotEmpty(actual));
   }
 
+  /**
+   * Verifies that two arrays have the same size.
+   *
+   * @param info assertion information
+   * @param actual the actual value
+   * @param other the value to compare with
+   * @param sizeOfActual the actual size
+   */
   public static void hasSameSizeAsCheck(AssertionInfo info, Object actual, Object other, int sizeOfActual) {
     checkOtherIsNotNull(other, "Array");
     checkSameSizes(info, actual, other, sizeOfActual, Array.getLength(other));
   }
 
+  /**
+   * Verifies that an actual value and an iterable have the same size.
+   *
+   * @param info assertion information
+   * @param actual the actual value
+   * @param other the iterable to compare with
+   * @param sizeOfActual the actual size
+   */
   public static void hasSameSizeAsCheck(AssertionInfo info, Object actual, Iterable<?> other, int sizeOfActual) {
     checkOtherIsNotNull(other, "Iterable");
     checkSameSizes(info, actual, other, sizeOfActual, sizeOf(other));
   }
 
+  /**
+   * Verifies that an actual value and a map have the same size.
+   *
+   * @param info assertion information
+   * @param actual the actual value
+   * @param other the map to compare with
+   * @param sizeOfActual the actual size
+   */
   public static void hasSameSizeAsCheck(AssertionInfo info, Object actual, Map<?, ?> other, int sizeOfActual) {
     checkOtherIsNotNull(other, "Map");
     checkSameSizes(info, actual, other, sizeOfActual, other.size());
@@ -126,34 +165,83 @@ public final class CommonValidations {
       throw FAILURES.failure(info, shouldHaveSameSizeAs(actual, other, sizeOfActual, sizeOfOther));
   }
 
+  /**
+   * Verifies that two sizes are equal.
+   *
+   * @param actual the actual value
+   * @param sizeOfActual the actual size
+   * @param sizeOfOther the expected size
+   * @param info assertion information
+   */
   public static void checkSizes(Object actual, int sizeOfActual, int sizeOfOther, AssertionInfo info) {
     if (sizeOfActual != sizeOfOther) throw FAILURES.failure(info, shouldHaveSize(actual, sizeOfActual, sizeOfOther));
   }
 
+  /**
+   * Verifies that the actual size is greater than the boundary.
+   *
+   * @param actual the actual value
+   * @param boundary the size boundary
+   * @param sizeOfActual the actual size
+   * @param info assertion information
+   */
   public static void checkSizeGreaterThan(Object actual, int boundary, int sizeOfActual,
                                           AssertionInfo info) {
     if (!(sizeOfActual > boundary))
       throw FAILURES.failure(info, shouldHaveSizeGreaterThan(actual, sizeOfActual, boundary));
   }
 
+  /**
+   * Verifies that the actual size is at least the boundary.
+   *
+   * @param actual the actual value
+   * @param boundary the size boundary
+   * @param sizeOfActual the actual size
+   * @param info assertion information
+   */
   public static void checkSizeGreaterThanOrEqualTo(Object actual, int boundary, int sizeOfActual,
                                                    AssertionInfo info) {
     if (!(sizeOfActual >= boundary))
       throw FAILURES.failure(info, shouldHaveSizeGreaterThanOrEqualTo(actual, sizeOfActual, boundary));
   }
 
+  /**
+   * Verifies that the actual size is less than the boundary.
+   *
+   * @param actual the actual value
+   * @param boundary the size boundary
+   * @param sizeOfActual the actual size
+   * @param info assertion information
+   */
   public static void checkSizeLessThan(Object actual, int boundary, int sizeOfActual,
                                        AssertionInfo info) {
     if (!(sizeOfActual < boundary))
       throw FAILURES.failure(info, shouldHaveSizeLessThan(actual, sizeOfActual, boundary));
   }
 
+  /**
+   * Verifies that the actual size is at most the boundary.
+   *
+   * @param actual the actual value
+   * @param boundary the size boundary
+   * @param sizeOfActual the actual size
+   * @param info assertion information
+   */
   public static void checkSizeLessThanOrEqualTo(Object actual, int boundary, int sizeOfActual,
                                                 AssertionInfo info) {
     if (!(sizeOfActual <= boundary))
       throw FAILURES.failure(info, shouldHaveSizeLessThanOrEqualTo(actual, sizeOfActual, boundary));
   }
 
+  /**
+   * Verifies that the actual size is between the given boundaries.
+   *
+   * @param actual the actual value
+   * @param lowerBoundary the lower size boundary
+   * @param higherBoundary the higher size boundary
+   * @param sizeOfActual the actual size
+   * @param info assertion information
+   */
   public static void checkSizeBetween(Object actual, int lowerBoundary, int higherBoundary,
                                       int sizeOfActual, AssertionInfo info) {
     if (!(higherBoundary >= lowerBoundary))
@@ -165,23 +253,51 @@ public final class CommonValidations {
       throw FAILURES.failure(info, shouldHaveSizeBetween(actual, sizeOfActual, lowerBoundary, higherBoundary));
   }
 
+  /**
+   * Verifies that two line counts are equal.
+   *
+   * @param actual the actual value
+   * @param lineCountOfActual the actual line count
+   * @param lineCountOfOther the expected line count
+   * @param info assertion information
+   */
   public static void checkLineCounts(Object actual, int lineCountOfActual, int lineCountOfOther, AssertionInfo info) {
     if (lineCountOfActual != lineCountOfOther)
       throw FAILURES.failure(info, shouldHaveLinesCount(actual, lineCountOfActual, lineCountOfOther));
   }
 
+  /**
+   * Checks that the expected type is not {@code null}.
+   *
+   * @param expectedType the type to check
+   */
   public static void checkTypeIsNotNull(Class<?> expectedType) {
     requireNonNull(expectedType, "The given type should not be null");
   }
 
+  /**
+   * Checks that the iterable is not {@code null}.
+   *
+   * @param set the iterable to check
+   */
   public static void checkIterableIsNotNull(Iterable<?> set) {
     requireNonNull(set, "The iterable to look for should not be null");
   }
 
+  /**
+   * Checks that the sequence is not {@code null}.
+   *
+   * @param sequence the sequence to check
+   */
   public static void checkSequenceIsNotNull(Object sequence) {
     requireNonNull(sequence, nullSequence());
   }
 
+  /**
+   * Checks that the subsequence is not {@code null}.
+   *
+   * @param subsequence the subsequence to check
+   */
   public static void checkSubsequenceIsNotNull(Object subsequence) {
     requireNonNull(subsequence, nullSubsequence());
   }

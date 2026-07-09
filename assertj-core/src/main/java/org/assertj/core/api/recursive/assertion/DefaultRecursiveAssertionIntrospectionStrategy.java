@@ -24,7 +24,13 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Default field-based introspection strategy for recursive assertions.
+ */
 public class DefaultRecursiveAssertionIntrospectionStrategy implements RecursiveAssertionIntrospectionStrategy {
+
+  /** Creates a new default recursive assertion introspection strategy. */
+  public DefaultRecursiveAssertionIntrospectionStrategy() {}
 
   @Override
   public List<RecursiveAssertionNode> getChildNodesOf(Object node) {

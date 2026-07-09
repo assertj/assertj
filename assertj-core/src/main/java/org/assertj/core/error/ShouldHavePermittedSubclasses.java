@@ -17,8 +17,17 @@ package org.assertj.core.error;
 
 import java.util.Collection;
 
+/** Creates errors for sealed classes with unexpected permitted subclasses. */
 public class ShouldHavePermittedSubclasses extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for unexpected permitted subclasses.
+   *
+   * @param actual the actual class
+   * @param permittedSubclasses the expected subclasses
+   * @param missingSubclasses the missing subclasses
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHavePermittedSubclasses(Class<?> actual,
                                                                   Class<?>[] permittedSubclasses,
                                                                   Collection<Class<?>> missingSubclasses) {

@@ -25,15 +25,31 @@ public class GroupTypeDescription {
   private String groupTypeName;
   private String elementTypeName;
 
+  /**
+   * Creates a group type description.
+   *
+   * @param groupTypeName the group type name
+   * @param elementTypeName the element type name
+   */
   public GroupTypeDescription(String groupTypeName, String elementTypeName) {
     this.groupTypeName = groupTypeName;
     this.elementTypeName = elementTypeName;
   }
 
+  /**
+   * Returns the element type name.
+   *
+   * @return the element type name
+   */
   public String getElementTypeName() {
     return elementTypeName;
   }
 
+  /**
+   * Returns the group type name.
+   *
+   * @return the group type name
+   */
   public String getGroupTypeName() {
     return groupTypeName;
   }

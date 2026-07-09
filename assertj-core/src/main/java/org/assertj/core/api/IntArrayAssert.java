@@ -33,10 +33,20 @@ import java.util.concurrent.atomic.AtomicIntegerArray;
  */
 public class IntArrayAssert extends AbstractIntArrayAssert<IntArrayAssert> {
 
+  /**
+   * Creates a new int array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public IntArrayAssert(int[] actual) {
     super(actual, IntArrayAssert.class);
   }
 
+  /**
+   * Creates a new atomic integer array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public IntArrayAssert(AtomicIntegerArray actual) {
     this(array(actual));
   }

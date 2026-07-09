@@ -25,6 +25,9 @@ import org.assertj.core.data.Index;
  */
 public class Long2DArrays {
 
+  /** Creates reusable two-dimensional long array assertions. */
+  public Long2DArrays() {}
+
   private static final Long2DArrays INSTANCE = new Long2DArrays();
 
   /**
@@ -42,6 +45,11 @@ public class Long2DArrays {
   Failures failures = Failures.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Sets the delegate used for common two-dimensional array assertions.
+   *
+   * @param arrays the delegate to use
+   */
   public void setArrays(Arrays2D arrays) {
     this.arrays = arrays;
   }

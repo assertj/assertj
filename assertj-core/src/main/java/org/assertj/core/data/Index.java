@@ -24,6 +24,7 @@ import static org.assertj.core.util.Preconditions.checkArgument;
  */
 public final class Index {
 
+  /** The zero-based index value. */
   public final int value;
 
   /**

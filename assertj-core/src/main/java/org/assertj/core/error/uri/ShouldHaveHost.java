@@ -21,10 +21,18 @@ import java.net.URL;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for URIs and URLs with an unexpected host. */
 public class ShouldHaveHost extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_HOST = "%nExpecting host of%n  <%s>%nto be:%n  <%s>%nbut was:%n  <%s>";
 
+  /**
+   * Creates an error for a URI with the wrong host.
+   *
+   * @param actual the actual URI
+   * @param expectedHost the expected host
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveHost(URI actual, String expectedHost) {
     return new ShouldHaveHost(actual, expectedHost);
   }
@@ -33,6 +41,13 @@ public class ShouldHaveHost extends BasicErrorMessageFactory {
     super(SHOULD_HAVE_HOST, actual, expectedHost, actual.getHost());
   }
 
+  /**
+   * Creates an error for a URL with the wrong host.
+   *
+   * @param actual the actual URL
+   * @param expectedHost the expected host
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveHost(URL actual, String expectedHost) {
     return new ShouldHaveHost(actual, expectedHost);
   }

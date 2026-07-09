@@ -24,10 +24,20 @@ package org.assertj.core.api;
  */
 public class StringAssert extends AbstractStringAssert<StringAssert> {
 
+  /**
+   * Creates a new string assertion.
+   *
+   * @param actual the actual string
+   */
   public StringAssert(String actual) {
     super(actual, StringAssert.class);
   }
 
+  /**
+   * Creates a string assertion whose actual value is {@code null}.
+   *
+   * @return a null string assertion
+   */
   public static StringAssert nullStringAssert() {
     return new StringAssert(null);
   }

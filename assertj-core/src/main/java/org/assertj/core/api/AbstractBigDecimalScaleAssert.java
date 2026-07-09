@@ -19,6 +19,7 @@ import org.assertj.core.annotation.CheckReturnValue;
 
 /**
  * Base class for BigDecimal scale assertions.
+ * @param <ORIGIN> originating big decimal assertion
  */
 public abstract class AbstractBigDecimalScaleAssert<ORIGIN extends AbstractBigDecimalAssert<ORIGIN>>
     extends AbstractIntegerAssert<AbstractBigDecimalScaleAssert<ORIGIN>> {
@@ -37,6 +38,8 @@ public abstract class AbstractBigDecimalScaleAssert<ORIGIN extends AbstractBigDe
   }
 
   /**
+   * @param actualScale the scale
+   * @param selfType the self type
    * @deprecated use {@link #AbstractBigDecimalScaleAssert(AbstractBigDecimalAssert)} instead.
    */
   @Deprecated

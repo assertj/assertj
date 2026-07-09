@@ -21,6 +21,7 @@ import java.net.URL;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for URIs and URLs expected to have no host. */
 public class ShouldHaveNoHost extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_NO_HOST = "%n" +
@@ -29,10 +30,22 @@ public class ShouldHaveNoHost extends BasicErrorMessageFactory {
                                                     "but found:%n" +
                                                     "  %s";
 
+  /**
+   * Creates an error for a URI unexpectedly having a host.
+   *
+   * @param actual the actual URI
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveNoHost(URI actual) {
     return new ShouldHaveNoHost(actual, actual.getHost());
   }
 
+  /**
+   * Creates an error for a URL unexpectedly having a host.
+   *
+   * @param actual the actual URL
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveNoHost(URL actual) {
     return new ShouldHaveNoHost(actual, actual.getHost());
   }

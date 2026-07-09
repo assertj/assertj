@@ -73,6 +73,12 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   Classes classes = Classes.instance();
 
+  /**
+   * Creates a new {@link Class} assertion.
+   *
+   * @param actual the actual class to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractClassAssert(Class<?> actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -671,6 +677,11 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     return executeAssertion(() -> assertHasAnnotations(annotations));
   }
 
+  /**
+   * Verifies that the actual class has all the given annotations.
+   *
+   * @param annotations the annotations expected on the actual class
+   */
   protected void assertHasAnnotations(Class<? extends Annotation>[] annotations) {
     requireNonNull(annotations, shouldNotBeNull("annotations")::create);
     isNotNull();

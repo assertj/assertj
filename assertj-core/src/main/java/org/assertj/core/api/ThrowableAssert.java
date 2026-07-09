@@ -27,6 +27,8 @@ import org.assertj.core.util.Throwables;
  * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(Throwable)}</code>.
  * </p>
  *
+ * @param <ACTUAL> the type of the "actual" value.
+ *                
  * @author David DIDIER
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -34,16 +36,34 @@ import org.assertj.core.util.Throwables;
  */
 public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowableAssert<ThrowableAssert<ACTUAL>, ACTUAL> {
 
+  /** Uppercase vowels used to choose the correct indefinite article. */
   public static final String VOWEL = "AEIOU";
 
+  /** A callable that may throw any throwable. */
   public interface ThrowingCallable {
+    /**
+     * Invokes the callable.
+     *
+     * @throws Throwable if invocation fails
+     */
     void call() throws Throwable;
   }
 
+  /**
+   * Creates a throwable assertion.
+   *
+   * @param actual the actual throwable
+   */
   public ThrowableAssert(ACTUAL actual) {
     super(actual, ThrowableAssert.class);
   }
 
+  /**
+   * Creates an assertion by invoking a callable.
+   *
+   * @param runnable the callable to invoke
+   * @param <V> the callable result type
+   */
   public <V> ThrowableAssert(Callable<V> runnable) {
     super(buildThrowableAssertFromCallable(runnable), ThrowableAssert.class);
   }
@@ -153,6 +173,11 @@ public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowable
     return VOWEL.indexOf(typeSimpleName.charAt(0)) != -1;
   }
 
+  /**
+   * Returns an assertion containing no throwable.
+   *
+   * @return an assertion containing no throwable
+   */
   public static ThrowableAssert<?> nullThrowableAssert() {
     return new ThrowableAssert<>((Throwable) null);
   }

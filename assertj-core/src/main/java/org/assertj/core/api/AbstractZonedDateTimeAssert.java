@@ -34,9 +34,15 @@ import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
+/**
+ * Base class for assertions on {@link ZonedDateTime} values.
+ *
+ * @param <SELF> the "self" type of this assertion class
+ */
 public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDateTimeAssert<SELF>> extends
     AbstractTemporalAssert<SELF, ZonedDateTime> {
 
+  /** Error message used when the date-time to compare is {@code null}. */
   public static final String NULL_DATE_TIME_PARAMETER_MESSAGE = "The ZonedDateTime to compare actual with should not be null";
 
   /**
@@ -891,6 +897,12 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
     return actual.getYear() == other.getYear();
   }
 
+  /**
+   * Creates a new {@link ZonedDateTime} assertion.
+   *
+   * @param actual the actual date-time to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractZonedDateTimeAssert(ZonedDateTime actual, Class<?> selfType) {
     super(actual, selfType);
     comparables = buildDefaultComparables();

@@ -42,6 +42,9 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.stream.Stream;
 
 // logically immutable
+/**
+ * Holds actual and expected values together with their location in an object graph.
+ */
 public final class DualValue {
 
   static final Class<?>[] DEFAULT_ORDERED_COLLECTION_TYPES = array(List.class, SortedSet.class, LinkedHashSet.class);
@@ -56,6 +59,14 @@ public final class DualValue {
     return new DualValue(rootFieldLocation(), actual, expected, null);
   }
 
+  /**
+   * Creates a dual value.
+   *
+   * @param fieldLocation the field location
+   * @param actualFieldValue the actual field value
+   * @param expectedFieldValue the expected field value
+   * @param parentDualValue the parent dual value
+   */
   public DualValue(FieldLocation fieldLocation, Object actualFieldValue, Object expectedFieldValue, DualValue parentDualValue) {
     this.fieldLocation = requireNonNull(fieldLocation, "fieldLocation must not be null");
     actual = actualFieldValue;
@@ -99,34 +110,74 @@ public final class DualValue {
     return "DualValue [fieldLocation=%s, actual=%s, expected=%s]".formatted(fieldLocation, actual, expected);
   }
 
+  /**
+   * Returns the expected value type description.
+   *
+   * @return the expected type description
+   */
   public String getExpectedTypeDescription() {
     return expected == null ? "" : expected.getClass().getCanonicalName();
   }
 
+  /**
+   * Returns the actual value type description.
+   *
+   * @return the actual type description
+   */
   public String getActualTypeDescription() {
     return actual == null ? "" : actual.getClass().getCanonicalName();
   }
 
+  /**
+   * Returns the decomposed field path.
+   *
+   * @return the decomposed path
+   */
   public List<String> getDecomposedPath() {
     return fieldLocation.getDecomposedPath();
   }
 
+  /**
+   * Returns the concatenated field path.
+   *
+   * @return the concatenated path
+   */
   public String getConcatenatedPath() {
     return fieldLocation.getPathToUseInRules();
   }
 
+  /**
+   * Returns the field name.
+   *
+   * @return the field name
+   */
   public String getFieldName() {
     return fieldLocation.getFieldName();
   }
 
+  /**
+   * Checks whether the actual value has a Java type.
+   *
+   * @return whether the actual value has a Java type
+   */
   public boolean isActualJavaType() {
     return isJavaType(actual);
   }
 
+  /**
+   * Checks whether the expected value has a Java type.
+   *
+   * @return whether the expected value has a Java type
+   */
   public boolean isExpectedJavaType() {
     return isJavaType(expected);
   }
 
+  /**
+   * Checks whether either value has a Java type.
+   *
+   * @return whether either value has a Java type
+   */
   public boolean hasSomeJavaTypeValue() {
     return isActualJavaType() || isExpectedJavaType();
   }
@@ -140,30 +191,65 @@ public final class DualValue {
            || className.startsWith("com.sun.");
   }
 
+  /**
+   * Checks whether the expected value is an array.
+   *
+   * @return whether the expected value is an array
+   */
   public boolean isExpectedAnArray() {
     return isArray(expected);
   }
 
+  /**
+   * Checks whether the actual value is an array.
+   *
+   * @return whether the actual value is an array
+   */
   public boolean isActualAnArray() {
     return isArray(actual);
   }
 
+  /**
+   * Checks whether the actual value is an optional.
+   *
+   * @return whether the actual value is an optional
+   */
   public boolean isActualAnOptional() {
     return actual instanceof Optional;
   }
 
+  /**
+   * Checks whether the actual value is an optional integer.
+   *
+   * @return whether the actual value is an optional integer
+   */
   public boolean isActualAnOptionalInt() {
     return actual instanceof OptionalInt;
   }
 
+  /**
+   * Checks whether the actual value is an optional long.
+   *
+   * @return whether the actual value is an optional long
+   */
   public boolean isActualAnOptionalLong() {
     return actual instanceof OptionalLong;
   }
 
+  /**
+   * Checks whether the actual value is an optional double.
+   *
+   * @return whether the actual value is an optional double
+   */
   public boolean isActualAnOptionalDouble() {
     return actual instanceof OptionalDouble;
   }
 
+  /**
+   * Checks whether the actual value is an empty optional of any supported type.
+   *
+   * @return whether the actual value is an empty optional
+   */
   public boolean isActualAnEmptyOptionalOfAnyType() {
     return isActualAnEmptyOptional()
            || isActualAnEmptyOptionalInt()
@@ -187,94 +273,209 @@ public final class DualValue {
     return isActualAnOptionalDouble() && ((OptionalDouble) actual).isEmpty();
   }
 
+  /**
+   * Checks whether the expected value is an optional.
+   *
+   * @return whether the expected value is an optional
+   */
   public boolean isExpectedAnOptional() {
     return expected instanceof Optional;
   }
 
+  /**
+   * Checks whether the expected value is an atomic reference.
+   *
+   * @return whether the expected value is an atomic reference
+   */
   public boolean isExpectedAnAtomicReference() {
     return expected instanceof AtomicReference;
   }
 
+  /**
+   * Checks whether the actual value is an atomic reference.
+   *
+   * @return whether the actual value is an atomic reference
+   */
   public boolean isActualAnAtomicReference() {
     return actual instanceof AtomicReference;
   }
 
+  /**
+   * Checks whether the expected value is an atomic reference array.
+   *
+   * @return whether the expected value is an atomic reference array
+   */
   public boolean isExpectedAnAtomicReferenceArray() {
     return expected instanceof AtomicReferenceArray;
   }
 
+  /**
+   * Checks whether the actual value is an atomic reference array.
+   *
+   * @return whether the actual value is an atomic reference array
+   */
   public boolean isActualAnAtomicReferenceArray() {
     return actual instanceof AtomicReferenceArray;
   }
 
+  /**
+   * Checks whether the expected value is an atomic integer.
+   *
+   * @return whether the expected value is an atomic integer
+   */
   public boolean isExpectedAnAtomicInteger() {
     return expected instanceof AtomicInteger;
   }
 
+  /**
+   * Checks whether the actual value is an atomic integer.
+   *
+   * @return whether the actual value is an atomic integer
+   */
   public boolean isActualAnAtomicInteger() {
     return actual instanceof AtomicInteger;
   }
 
+  /**
+   * Checks whether the expected value is an atomic integer array.
+   *
+   * @return whether the expected value is an atomic integer array
+   */
   public boolean isExpectedAnAtomicIntegerArray() {
     return expected instanceof AtomicIntegerArray;
   }
 
+  /**
+   * Checks whether the actual value is an atomic integer array.
+   *
+   * @return whether the actual value is an atomic integer array
+   */
   public boolean isActualAnAtomicIntegerArray() {
     return actual instanceof AtomicIntegerArray;
   }
 
+  /**
+   * Checks whether the expected value is an atomic long.
+   *
+   * @return whether the expected value is an atomic long
+   */
   public boolean isExpectedAnAtomicLong() {
     return expected instanceof AtomicLong;
   }
 
+  /**
+   * Checks whether the actual value is an atomic long.
+   *
+   * @return whether the actual value is an atomic long
+   */
   public boolean isActualAnAtomicLong() {
     return actual instanceof AtomicLong;
   }
 
+  /**
+   * Checks whether the expected value is an atomic long array.
+   *
+   * @return whether the expected value is an atomic long array
+   */
   public boolean isExpectedAnAtomicLongArray() {
     return expected instanceof AtomicLongArray;
   }
 
+  /**
+   * Checks whether the actual value is an atomic long array.
+   *
+   * @return whether the actual value is an atomic long array
+   */
   public boolean isActualAnAtomicLongArray() {
     return actual instanceof AtomicLongArray;
   }
 
+  /**
+   * Checks whether the expected value is an atomic boolean.
+   *
+   * @return whether the expected value is an atomic boolean
+   */
   public boolean isExpectedAnAtomicBoolean() {
     return expected instanceof AtomicBoolean;
   }
 
+  /**
+   * Checks whether the actual value is an atomic boolean.
+   *
+   * @return whether the actual value is an atomic boolean
+   */
   public boolean isActualAnAtomicBoolean() {
     return actual instanceof AtomicBoolean;
   }
 
+  /**
+   * Checks whether the actual value is a map.
+   *
+   * @return whether the actual value is a map
+   */
   public boolean isActualAMap() {
     return actual instanceof Map;
   }
 
+  /**
+   * Checks whether the expected value is a map.
+   *
+   * @return whether the expected value is a map
+   */
   public boolean isExpectedAMap() {
     return expected instanceof Map;
   }
 
+  /**
+   * Checks whether the actual value is a sorted map.
+   *
+   * @return whether the actual value is a sorted map
+   */
   public boolean isActualASortedMap() {
     return actual instanceof SortedMap;
   }
 
+  /**
+   * Checks whether the expected value is a sorted map.
+   *
+   * @return whether the expected value is a sorted map
+   */
   public boolean isExpectedASortedMap() {
     return expected instanceof SortedMap;
   }
 
+  /**
+   * Checks whether the actual value is an ordered collection.
+   *
+   * @return whether the actual value is an ordered collection
+   */
   public boolean isActualAnOrderedCollection() {
     return isAnOrderedCollection(actual);
   }
 
+  /**
+   * Checks whether the expected value is an ordered collection.
+   *
+   * @return whether the expected value is an ordered collection
+   */
   public boolean isExpectedAnOrderedCollection() {
     return isAnOrderedCollection(expected);
   }
 
+  /**
+   * Checks whether the actual value is iterable.
+   *
+   * @return whether the actual value is iterable
+   */
   public boolean isActualAnIterable() {
     return isAnIterable(actual);
   }
 
+  /**
+   * Checks whether the expected value is iterable.
+   *
+   * @return whether the expected value is iterable
+   */
   public boolean isExpectedAnIterable() {
     return isAnIterable(expected);
   }
@@ -289,34 +490,74 @@ public final class DualValue {
     return value instanceof Iterable && !(value instanceof Path || isAJsonValueNode(value) || isAnObjectNode(value));
   }
 
+  /**
+   * Checks whether the actual value is a throwable.
+   *
+   * @return whether the actual value is a throwable
+   */
   public boolean isActualAThrowable() {
     return actual != null && actual instanceof Throwable;
   }
 
+  /**
+   * Checks whether the expected value is a throwable.
+   *
+   * @return whether the expected value is a throwable
+   */
   public boolean isExpectedAThrowable() {
     return expected != null && expected instanceof Throwable;
   }
 
+  /**
+   * Checks whether the expected value is an enum.
+   *
+   * @return whether the expected value is an enum
+   */
   public boolean isExpectedAnEnum() {
     return expected != null && expected.getClass().isEnum();
   }
 
+  /**
+   * Checks whether the actual value is an enum.
+   *
+   * @return whether the actual value is an enum
+   */
   public boolean isActualAnEnum() {
     return actual != null && actual.getClass().isEnum();
   }
 
+  /**
+   * Checks whether neither value is a container.
+   *
+   * @return whether neither value is a container
+   */
   public boolean hasNoContainerValues() {
     return !isContainer(actual) && !isExpectedAContainer();
   }
 
+  /**
+   * Checks whether the expected value is a container.
+   *
+   * @return whether the expected value is a container
+   */
   public boolean isExpectedAContainer() {
     return isContainer(expected);
   }
 
+  /**
+   * Checks whether neither value is {@code null}.
+   *
+   * @return whether neither value is {@code null}
+   */
   public boolean hasNoNullValues() {
     return actual != null && expected != null;
   }
 
+  /**
+   * Checks whether the values may form a comparison cycle.
+   *
+   * @return whether the values may cycle
+   */
   public boolean hasPotentialCyclingValues() {
     return isPotentialCyclingValue(actual) && isPotentialCyclingValue(expected);
   }

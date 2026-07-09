@@ -24,18 +24,31 @@ import java.util.List;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.presentation.Representation;
 
+/** Describes an element that did not satisfy an assertion requirement. */
 public class UnsatisfiedRequirement {
 
   private final Object elementNotSatisfyingRequirements;
   private final String errorMessage;
   private final AssertionError error;
 
+  /**
+   * Creates an unsatisfied requirement.
+   *
+   * @param elementNotSatisfyingRequirements the failing element
+   * @param error the assertion error
+   */
   public UnsatisfiedRequirement(Object elementNotSatisfyingRequirements, AssertionError error) {
     this.elementNotSatisfyingRequirements = elementNotSatisfyingRequirements;
     this.errorMessage = error.getMessage();
     this.error = error;
   }
 
+  /**
+   * Describes this failure.
+   *
+   * @param info assertion information
+   * @return the failure description
+   */
   public String describe(AssertionInfo info) {
     Representation representation = info.representation();
     return "%s%nerror: %s".formatted(representation.toStringOf(elementNotSatisfyingRequirements), describeError(representation));
@@ -46,6 +59,13 @@ public class UnsatisfiedRequirement {
     return "%s %s".formatted(elementNotSatisfyingRequirements, errorMessage);
   }
 
+  /**
+   * Describes this failure at the given index.
+   *
+   * @param index the element index
+   * @param info assertion information
+   * @return the failure description
+   */
   public String describe(int index, AssertionInfo info) {
     Representation representation = info.representation();
     return format("%s%n" +
@@ -54,6 +74,13 @@ public class UnsatisfiedRequirement {
                   representation.toStringOf(elementNotSatisfyingRequirements), index, describeError(representation));
   }
 
+  /**
+   * Describes all unsatisfied requirements.
+   *
+   * @param unsatisfiedRequirements the unsatisfied requirements
+   * @param info assertion information
+   * @return the combined description
+   */
   public static String describeErrors(List<UnsatisfiedRequirement> unsatisfiedRequirements, AssertionInfo info) {
     return escapePercent(unsatisfiedRequirements.stream()
                                                 .map(unsatisfiedRequirement -> unsatisfiedRequirement.describe(info))

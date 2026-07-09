@@ -101,6 +101,12 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Dates dates = Dates.instance();
 
+  /**
+   * Creates a new {@link Date} assertion.
+   *
+   * @param actual the actual date to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractDateAssert(Date actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -1740,8 +1746,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(date1).isInSameDayAs(date2);</code></pre>
    * <p>
    * Note that using a {@link #usingComparator(Comparator) custom comparator}  has no effect on this assertion.
-   * <p>
-   *
    * @param other the given {@code Date} to compare actual {@code Date} to.
    * @return this assertion object.
    * @throws NullPointerException if {@code Date} parameter is {@code null}.
@@ -1762,8 +1766,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(date).isInSameDayAs(instant);</code></pre>
    *
    * Note that using a {@link #usingComparator(Comparator) custom comparator}  has no effect on this assertion.
-   * <p>
-   *
    * @param other the given {@code Date} to compare actual {@code Date} to.
    * @return this assertion object.
    * @throws NullPointerException if {@code Instant} parameter is {@code null}.
@@ -1809,8 +1811,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
    * you can explicitly specify the date format to use so that the default ones are bypassed.
-   * <p>
-   *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
    * @throws NullPointerException if dateAsString parameter is {@code null}.
@@ -2526,7 +2526,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * User custom date format take precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
-   * <p>
    * <p>
    * Defaults date format are:
    * <ul>

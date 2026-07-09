@@ -17,8 +17,16 @@ package org.assertj.core.error;
 
 import static org.assertj.core.util.Throwables.getStackTrace;
 
+/** Creates errors for unexpected throwable types. */
 public class ShouldNotHaveThrownExcept extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for a throwable not among the allowed types.
+   *
+   * @param throwable the unexpected throwable
+   * @param throwableClasses the allowed throwable types
+   * @return the error message factory
+   */
   @SafeVarargs
   public static ErrorMessageFactory shouldNotHaveThrownExcept(Throwable throwable,
                                                               Class<? extends Throwable>... throwableClasses) {

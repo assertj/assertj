@@ -23,8 +23,11 @@ package org.assertj.core.internal;
 public class BinaryDiffResult {
   private static final int EOF = -1;
 
+  /** The offset of the first difference. */
   public final int offset;
+  /** The expected byte description. */
   public final String expected;
+  /** The actual byte description. */
   public final String actual;
 
   /**
@@ -40,14 +43,29 @@ public class BinaryDiffResult {
     this.actual = describe(actual);
   }
 
+  /**
+   * Checks whether no difference was found.
+   *
+   * @return whether no difference was found
+   */
   public boolean hasNoDiff() {
     return offset == EOF;
   }
 
+  /**
+   * Checks whether a difference was found.
+   *
+   * @return whether a difference was found
+   */
   public boolean hasDiff() {
     return !hasNoDiff();
   }
 
+  /**
+   * Creates a result indicating no difference.
+   *
+   * @return a no-difference result
+   */
   public static BinaryDiffResult noDiff() {
     return new BinaryDiffResult(EOF, 0, 0);
   }

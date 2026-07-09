@@ -42,12 +42,18 @@ import java.util.Objects;
 
 import org.assertj.core.api.AssertionInfo;
 
+/** Reusable assertions for {@link URL} values. */
 public class Urls {
 
   private static final Urls INSTANCE = new Urls();
 
   private final Failures failures = Failures.instance();
 
+  /**
+   * Returns the shared URL assertions.
+   *
+   * @return the shared instance
+   */
   public static Urls instance() {
     return INSTANCE;
   }
@@ -65,54 +71,123 @@ public class Urls {
     return queryParams;
   }
 
+  /**
+   * Verifies the URL protocol.
+   *
+   * @param info assertion information
+   * @param actual the actual URL
+   * @param protocol the expected protocol
+   */
   public void assertHasProtocol(final AssertionInfo info, final URL actual, final String protocol) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getProtocol(), protocol)) throw failures.failure(info, shouldHaveProtocol(actual, protocol));
   }
 
+  /**
+   * Verifies the URL path.
+   *
+   * @param info assertion information
+   * @param actual the actual URL
+   * @param path the expected path
+   */
   public void assertHasPath(AssertionInfo info, URL actual, String path) {
     assertNotNull(info, actual);
     checkArgument(path != null, "Expecting given path not to be null");
     if (!Objects.equals(actual.getPath(), path)) throw failures.failure(info, shouldHavePath(actual, path));
   }
 
+  /**
+   * Verifies the URL port.
+   *
+   * @param info assertion information
+   * @param actual the actual URL
+   * @param expected the expected port
+   */
   public void assertHasPort(AssertionInfo info, URL actual, int expected) {
     assertNotNull(info, actual);
     if (actual.getPort() != expected) throw failures.failure(info, shouldHavePort(actual, expected));
   }
 
+  /**
+   * Verifies the URL host.
+   *
+   * @param info assertion information
+   * @param actual the actual URL
+   * @param expected the expected host
+   */
   public void assertHasHost(AssertionInfo info, URL actual, String expected) {
     assertNotNull(info, actual);
     requireNonNull(expected, "The expected host should not be null");
     if (!Objects.equals(actual.getHost(), expected)) throw failures.failure(info, shouldHaveHost(actual, expected));
   }
 
+  /**
+   * Verifies that the URL has no host.
+   *
+   * @param info assertion information
+   * @param actual the actual URL
+   */
   public void assertHasNoHost(AssertionInfo info, URL actual) {
     assertNotNull(info, actual);
     if (actual.getHost() != null && !actual.getHost().isEmpty()) throw failures.failure(info, shouldHaveNoHost(actual));
   }
 
+  /**
+   * Verifies the URL authority.
+   *
+   * @param info assertion information
+   * @param actual the actual URL
+   * @param expected the expected authority
+   */
   public void assertHasAuthority(AssertionInfo info, URL actual, String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getAuthority(), expected))
       throw failures.failure(info, shouldHaveAuthority(actual, expected));
   }
 
+  /**
+   * Verifies the URL query.
+   *
+   * @param info assertion information
+   * @param actual the actual URL
+   * @param expected the expected query
+   */
   public void assertHasQuery(AssertionInfo info, URL actual, String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getQuery(), expected)) throw failures.failure(info, shouldHaveQuery(actual, expected));
   }
 
+  /**
+   * Verifies the URL anchor.
+   *
+   * @param info assertion information
+   * @param actual the actual URL
+   * @param expected the expected anchor
+   */
   public void assertHasAnchor(AssertionInfo info, URL actual, String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getRef(), expected)) throw failures.failure(info, shouldHaveAnchor(actual, expected));
   }
 
+  /**
+   * Verifies the URL user information.
+   *
+   * @param info assertion information
+   * @param actual the actual URL
+   * @param expected the expected user information
+   */
   public void assertHasUserInfo(AssertionInfo info, URL actual, String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getUserInfo(), expected)) throw failures.failure(info, shouldHaveUserInfo(actual, expected));
   }
 
+  /**
+   * Verifies that the URL has a named query parameter.
+   *
+   * @param info assertion information
+   * @param actual the actual URL
+   * @param name the parameter name
+   */
   public void assertHasParameter(AssertionInfo info, URL actual, String name) {
     assertNotNull(info, actual);
 
@@ -120,6 +195,14 @@ public class Urls {
     if (!parameters.containsKey(name)) throw failures.failure(info, shouldHaveParameter(actual, name));
   }
 
+  /**
+   * Verifies that the URL has a query parameter with the expected value.
+   *
+   * @param info assertion information
+   * @param actual the actual URL
+   * @param expectedParameterName the parameter name
+   * @param expectedParameterValue the parameter value
+   */
   public void assertHasParameter(AssertionInfo info, URL actual, String expectedParameterName,
                                  String expectedParameterValue) {
     assertNotNull(info, actual);
@@ -134,6 +217,12 @@ public class Urls {
       throw failures.failure(info, shouldHaveParameter(actual, expectedParameterName, expectedParameterValue, values));
   }
 
+  /**
+   * Verifies that the URL has no query parameters.
+   *
+   * @param info assertion information
+   * @param actual the actual URL
+   */
   public void assertHasNoParameters(AssertionInfo info, URL actual) {
     assertNotNull(info, actual);
 
@@ -141,6 +230,13 @@ public class Urls {
     if (!parameters.isEmpty()) throw failures.failure(info, shouldHaveNoParameters(actual, parameters.keySet()));
   }
 
+  /**
+   * Verifies that the URL has no query parameter with the given name.
+   *
+   * @param info assertion information
+   * @param actual the actual URL
+   * @param name the prohibited parameter name
+   */
   public void assertHasNoParameter(AssertionInfo info, URL actual, String name) {
     assertNotNull(info, actual);
 
@@ -149,6 +245,14 @@ public class Urls {
       throw failures.failure(info, shouldHaveNoParameter(actual, name, parameters.get(name)));
   }
 
+  /**
+   * Verifies that the URL has no query parameter with the given value.
+   *
+   * @param info assertion information
+   * @param actual the actual URL
+   * @param name the parameter name
+   * @param unwantedValue the prohibited parameter value
+   */
   public void assertHasNoParameter(AssertionInfo info, URL actual, String name, String unwantedValue) {
     assertNotNull(info, actual);
 
@@ -161,6 +265,13 @@ public class Urls {
     }
   }
 
+  /**
+   * Verifies URL equality after sorting query parameters.
+   *
+   * @param info assertion information
+   * @param actual the actual URL
+   * @param expected the expected URL
+   */
   public void assertIsEqualToWithSortedQueryParameters(AssertionInfo info, URL actual, URL expected) {
     assertNotNull(info, actual);
     boolean differentNonQueryParams = !extractNonQueryParams(expected).equals(extractNonQueryParams(actual));

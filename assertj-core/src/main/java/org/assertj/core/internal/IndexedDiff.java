@@ -21,8 +21,11 @@ import java.util.Objects;
  * Immutable class modeling the actual and expected elements at a given index.
  */
 public class IndexedDiff {
+  /** The actual differing value. */
   public final Object actual;
+  /** The expected differing value. */
   public final Object expected;
+  /** The index where the difference occurred. */
   public final int index;
 
   /**

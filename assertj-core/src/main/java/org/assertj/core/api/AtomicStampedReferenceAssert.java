@@ -25,12 +25,18 @@ import java.util.concurrent.atomic.AtomicStampedReference;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicStampedReference)}</code>.
  * </p>
  *
+ * @param <VALUE> the reference value type
  * @author epeee
  * @since 2.7.0 / 3.7.0
  */
 public class AtomicStampedReferenceAssert<VALUE>
     extends AbstractAtomicReferenceAssert<AtomicStampedReferenceAssert<VALUE>, VALUE, AtomicStampedReference<VALUE>> {
 
+  /**
+   * Creates a new atomic stamped reference assertion.
+   *
+   * @param actual the actual atomic reference
+   */
   public AtomicStampedReferenceAssert(AtomicStampedReference<VALUE> actual) {
     super(actual, AtomicStampedReferenceAssert.class);
   }

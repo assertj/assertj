@@ -24,10 +24,16 @@ import static org.assertj.core.util.Strings.concat;
  */
 public class HexadecimalRepresentation extends StandardRepresentation {
 
+  /** Shared hexadecimal representation instance. */
   public static final HexadecimalRepresentation HEXA_REPRESENTATION = new HexadecimalRepresentation();
 
+  /** Prefix used for hexadecimal values. */
   public static final String PREFIX = "0x";
+  /** Number of bits in a hexadecimal digit. */
   public static final int NIBBLE_SIZE = 4;
+
+  /** Creates a hexadecimal representation. */
+  public HexadecimalRepresentation() {}
 
   /**
    * Returns hexadecimal the {@code toString} representation of the given object. It may or not the object's own
@@ -56,14 +62,32 @@ public class HexadecimalRepresentation extends StandardRepresentation {
     else return number.toString();
   }
 
+  /**
+   * Returns the hexadecimal representation of a byte.
+   *
+   * @param b the byte to represent
+   * @return the hexadecimal representation
+   */
   protected String toStringOf(Byte b) {
     return toGroupedHex(b, 8);
   }
 
+  /**
+   * Returns the hexadecimal representation of a short.
+   *
+   * @param s the short to represent
+   * @return the hexadecimal representation
+   */
   protected String toStringOf(Short s) {
     return toGroupedHex(s, 16);
   }
 
+  /**
+   * Returns the hexadecimal representation of an integer.
+   *
+   * @param i the integer to represent
+   * @return the hexadecimal representation
+   */
   protected String toStringOf(Integer i) {
     return toGroupedHex(i, 32);
   }
@@ -78,6 +102,12 @@ public class HexadecimalRepresentation extends StandardRepresentation {
     return toGroupedHex(Float.floatToIntBits(f), 32);
   }
 
+  /**
+   * Returns the hexadecimal representation of a double.
+   *
+   * @param d the double to represent
+   * @return the hexadecimal representation
+   */
   protected String toStringOf(Double d) {
     return toGroupedHex(Double.doubleToRawLongBits(d), 64);
   }
@@ -87,6 +117,13 @@ public class HexadecimalRepresentation extends StandardRepresentation {
     return concat("'", toStringOf((short) (int) character), "'");
   }
 
+  /**
+   * Returns a hexadecimal representation of a string.
+   *
+   * @param representation the representation for the character array
+   * @param s the string to represent
+   * @return the hexadecimal representation
+   */
   protected String toStringOf(Representation representation, String s) {
     return concat("\"", representation.toStringOf(s.toCharArray()), "\"");
   }

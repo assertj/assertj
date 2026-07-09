@@ -26,6 +26,13 @@ import static org.assertj.core.util.Throwables.getStackTrace;
  */
 public class ShouldHaveMessageFindingMatchRegex extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for a throwable message lacking a regex match.
+   *
+   * @param actual the actual throwable
+   * @param regex the expected regular expression
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveMessageFindingMatchRegex(Throwable actual, CharSequence regex) {
     return new ShouldHaveMessageFindingMatchRegex(actual, regex);
   }

@@ -32,6 +32,7 @@ public class SoftAssertionError extends AssertionError {
   @Serial
   private static final long serialVersionUID = 5034494920024670595L;
 
+  /** The aggregated assertion error messages. */
   private final List<String> errors;
 
   /**

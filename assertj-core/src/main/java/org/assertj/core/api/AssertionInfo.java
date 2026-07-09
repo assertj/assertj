@@ -38,5 +38,10 @@ public interface AssertionInfo {
    */
   Description description();
 
+  /**
+   * Returns the representation used to format values.
+   *
+   * @return the value representation
+   */
   Representation representation();
 }

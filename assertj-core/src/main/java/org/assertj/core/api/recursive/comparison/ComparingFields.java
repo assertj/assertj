@@ -28,7 +28,11 @@ import org.assertj.core.util.introspection.FieldSupport;
  */
 public class ComparingFields extends AbstractRecursiveComparisonIntrospectionStrategy {
 
+  /** Shared field introspection strategy instance. */
   public static final ComparingFields COMPARING_FIELDS = new ComparingFields();
+
+  /** Creates a new field introspection strategy. */
+  public ComparingFields() {}
 
   // use ConcurrentHashMap in case this strategy instance is used in a multi-thread context
   private final Map<Class<?>, Set<String>> fieldNamesPerClass = new ConcurrentHashMap<>();

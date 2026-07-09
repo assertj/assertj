@@ -31,6 +31,13 @@ import java.util.List;
  */
 public final class Lists {
 
+  /**
+   * Creates a list containing the given elements.
+   *
+   * @param <T> the element type
+   * @param elements the elements
+   * @return the created list
+   */
   @SafeVarargs
   public static <T> List<T> list(T... elements) {
     return newArrayList(elements);

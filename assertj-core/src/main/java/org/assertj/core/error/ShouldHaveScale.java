@@ -17,8 +17,15 @@ package org.assertj.core.error;
 
 import java.math.BigDecimal;
 
+/** Creates errors for decimals with an unexpected scale. */
 public class ShouldHaveScale extends BasicErrorMessageFactory {
-
+  /**
+   * Creates an error for a decimal with the wrong scale.
+   *
+   * @param actual the actual decimal
+   * @param expectedScale the expected scale
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveScale(BigDecimal actual, int expectedScale) {
     return new ShouldHaveScale(actual, expectedScale);
   }

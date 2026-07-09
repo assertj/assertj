@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for futures expected to complete exceptionally within a timeout. */
 public class ShouldHaveCompletedExceptionallyWithin extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_COMPLETED_EXCEPTIONALLY_WITHIN_DURATION = "%n" +
@@ -36,10 +37,25 @@ public class ShouldHaveCompletedExceptionallyWithin extends BasicErrorMessageFac
                                                                            "to have completed exceptionally within %s %s.%n" +
                                                                            Warning.WARNING;
 
+  /**
+   * Creates an exceptional-completion timeout error.
+   *
+   * @param actual the actual future
+   * @param timeout the timeout duration
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveCompletedExceptionallyWithin(Future<?> actual, Duration timeout) {
     return new ShouldHaveCompletedExceptionallyWithin(actual, timeout);
   }
 
+  /**
+   * Creates an exceptional-completion timeout error.
+   *
+   * @param actual the actual future
+   * @param timeout the timeout value
+   * @param unit the timeout unit
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveCompletedExceptionallyWithin(Future<?> actual, long timeout, TimeUnit unit) {
     return new ShouldHaveCompletedExceptionallyWithin(actual, timeout, unit);
   }

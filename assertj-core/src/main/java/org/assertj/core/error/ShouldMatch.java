@@ -29,6 +29,7 @@ import org.assertj.core.presentation.PredicateDescription;
 public class ShouldMatch extends BasicErrorMessageFactory {
 
   // @format:off
+  /** Advice appended when a matcher assertion fails. */
   public static final String ADVICE = format("%n%n"+
 	                                         "You can use 'matches(Predicate p, String description)' to have a better error message%n" +
 	                                         "For example:%n" +

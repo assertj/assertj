@@ -25,6 +25,18 @@ import java.lang.reflect.Constructor;
  */
 public class ConstructorInvoker {
 
+  /** Creates a new constructor invoker. */
+  public ConstructorInvoker() {}
+
+  /**
+   * Creates an instance of the named class using the given constructor arguments.
+   *
+   * @param className the class name
+   * @param parameterTypes the constructor parameter types
+   * @param parameterValues the constructor arguments
+   * @return the created instance
+   * @throws Exception if the class or constructor cannot be accessed or invoked
+   */
   public Object newInstance(String className, Class<?>[] parameterTypes, Object... parameterValues) throws Exception {
     Class<?> targetType = Class.forName(className);
     Constructor<?> constructor = targetType.getConstructor(parameterTypes);

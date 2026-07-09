@@ -62,6 +62,12 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   private Map<String, Comparator<?>> comparatorsByPropertyOrField = new TreeMap<>();
   private TypeComparators comparatorsByType;
 
+  /**
+   * Creates a new object assertion.
+   *
+   * @param actual the actual object to verify
+   * @param selfType the type of the concrete assertion
+   */
   public AbstractObjectAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -194,6 +200,11 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   // lazy init TypeComparators
+  /**
+   * Returns the comparators registered by property or field type.
+   *
+   * @return the registered comparators
+   */
   protected TypeComparators getComparatorsByType() {
     if (comparatorsByType == null) comparatorsByType = defaultTypeComparators();
     return comparatorsByType;
@@ -562,6 +573,12 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     return executeAssertionNavigation(() -> doExtracting(extractors), ListAssert::nullListAssert);
   }
 
+  /**
+   * Applies the given extractors to the actual object.
+   *
+   * @param extractors the extractors to apply
+   * @return assertions on the extracted values
+   */
   protected AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> doExtracting(Function<? super ACTUAL, ?>[] extractors) {
     requireNonNull(extractors, shouldNotBeNull("extractors")::create);
     isNotNull("extracting");
@@ -921,6 +938,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   // override for proxyable friendly AbstractObjectAssert
+  /**
+   * Creates an object assertion for the given value.
+   *
+   * @param <T> the value type
+   * @param objectUnderTest the value to assert on
+   * @return the new object assertion
+   */
   protected <T> AbstractObjectAssert<?, T> newObjectAssert(T objectUnderTest) {
     return new ObjectAssert<>(objectUnderTest);
   }

@@ -26,12 +26,28 @@ import java.util.Objects;
  */
 public class ShouldHaveExtension extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for a file with the wrong extension.
+   *
+   * @param actual the actual file
+   * @param actualExtension the actual extension
+   * @param expectedExtension the expected extension
+   * @return the error message factory
+   */
   public static ShouldHaveExtension shouldHaveExtension(File actual, String actualExtension, String expectedExtension) {
     return actualExtension == null
         ? new ShouldHaveExtension(actual, expectedExtension)
         : new ShouldHaveExtension(actual, actualExtension, expectedExtension);
   }
 
+  /**
+   * Creates an error for a path with the wrong extension.
+   *
+   * @param actual the actual path
+   * @param actualExtension the actual extension
+   * @param expectedExtension the expected extension
+   * @return the error message factory
+   */
   public static ShouldHaveExtension shouldHaveExtension(Path actual, String actualExtension, String expectedExtension) {
     Objects.requireNonNull(actualExtension);
     return new ShouldHaveExtension(actual, actualExtension, expectedExtension);
@@ -42,10 +58,24 @@ public class ShouldHaveExtension extends BasicErrorMessageFactory {
           actualExtension);
   }
 
+  /**
+   * Creates an error for a path missing an expected extension.
+   *
+   * @param actual the actual path
+   * @param expectedExtension the expected extension
+   * @return the error message factory
+   */
   public static ShouldHaveExtension shouldHaveExtension(Path actual, String expectedExtension) {
     return new ShouldHaveExtension(actual, expectedExtension);
   }
 
+  /**
+   * Creates an error for a file missing an expected extension.
+   *
+   * @param actual the actual file
+   * @param expectedExtension the expected extension
+   * @return the error message factory
+   */
   public static ShouldHaveExtension shouldHaveExtension(File actual, String expectedExtension) {
     return new ShouldHaveExtension(actual, expectedExtension);
   }

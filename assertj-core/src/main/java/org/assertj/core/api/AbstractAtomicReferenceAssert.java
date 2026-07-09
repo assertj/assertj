@@ -29,10 +29,22 @@ import static org.assertj.core.error.ShouldHaveReference.shouldHaveReference;
 public abstract class AbstractAtomicReferenceAssert<SELF extends AbstractAtomicReferenceAssert<SELF, VALUE, ATOMIC>, VALUE, ATOMIC>
     extends AbstractObjectAssert<SELF, ATOMIC> {
 
+  /**
+   * Creates a new atomic reference assertion.
+   *
+   * @param actual the actual atomic reference
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractAtomicReferenceAssert(ATOMIC actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
+  /**
+   * Verifies that the atomic object holds the expected reference.
+   *
+   * @param expectedReference the expected reference
+   * @return this assertion object
+   */
   public SELF hasReference(VALUE expectedReference) {
     return executeAssertion(() -> {
       isNotNull();
@@ -42,6 +54,11 @@ public abstract class AbstractAtomicReferenceAssert<SELF extends AbstractAtomicR
     });
   }
 
+  /**
+   * Returns the reference held by the actual atomic object.
+   *
+   * @return the held reference
+   */
   protected abstract VALUE getReference();
 
 }

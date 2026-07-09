@@ -34,6 +34,7 @@ import org.assertj.core.presentation.StandardRepresentation;
  */
 public final class ConfigurationProvider {
 
+  /** Shared configuration provider instance. */
   public static final ConfigurationProvider CONFIGURATION_PROVIDER = new ConfigurationProvider();
   private final Configuration configuration;
   private final CompositeRepresentation compositeRepresentation;
@@ -69,7 +70,6 @@ public final class ConfigurationProvider {
    * <li>the {@link Representation} with highest priority loaded from the classpath by the {@link ServiceLoader}</li>
    * </ul>
    * If no custom representation was registered or overridden in a specific {@link Configuration}, the {@link StandardRepresentation} is used.
-   * <p>
    * @return the default {@link Representation} that needs to be used within AssertJ
    * @since 2.9.0 / 3.9.0
    * @since 3.22.0 support for registered multiple {@link Representation}s with priority. 

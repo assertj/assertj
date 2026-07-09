@@ -31,10 +31,20 @@ package org.assertj.core.api;
  */
 public class ByteAssert extends AbstractByteAssert<ByteAssert> {
 
+  /**
+   * Creates a new byte assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public ByteAssert(Byte actual) {
     super(actual, ByteAssert.class);
   }
 
+  /**
+   * Creates a byte assertion used for null navigation.
+   *
+   * @return the null-navigation assertion
+   */
   public static ByteAssert nullByteAssert() {
     return new ByteAssert(null);
   }

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/** Extracts values from properties, fields, arrays, lists, and maps. */
 public class PropertyOrFieldSupport {
   private static final String SEPARATOR = ".";
   private static final String ARRAY_INDEX_START = "[";
@@ -29,7 +30,9 @@ public class PropertyOrFieldSupport {
   private PropertySupport propertySupport;
   private FieldSupport fieldSupport;
 
+  /** Support instance for value extraction. */
   public static final PropertyOrFieldSupport EXTRACTION = new PropertyOrFieldSupport();
+  /** Support instance for object comparison. */
   public static final PropertyOrFieldSupport COMPARISON = new PropertyOrFieldSupport(PropertySupport.instance(),
                                                                                      FieldSupport.COMPARISON);
 
@@ -44,10 +47,22 @@ public class PropertyOrFieldSupport {
     this.fieldSupport = fieldSupport;
   }
 
+  /**
+   * Configures whether private fields may be read.
+   *
+   * @param allowUsingPrivateFields whether private fields may be read
+   */
   public void setAllowUsingPrivateFields(boolean allowUsingPrivateFields) {
     fieldSupport.setAllowUsingPrivateFields(allowUsingPrivateFields);
   }
 
+  /**
+   * Extracts a possibly nested property or field value.
+   *
+   * @param propertyOrFieldName the property or field path
+   * @param input the source object
+   * @return the extracted value
+   */
   public Object getValueOf(String propertyOrFieldName, Object input) {
     checkArgument(propertyOrFieldName != null, "The name of the property/field to read should not be null");
     checkArgument(!propertyOrFieldName.isEmpty(), "The name of the property/field to read should not be empty");
@@ -70,6 +85,13 @@ public class PropertyOrFieldSupport {
     return getSimpleValue(propertyOrFieldName, input);
   }
 
+  /**
+   * Extracts a simple property or field value.
+   *
+   * @param name the property or field name
+   * @param input the source object
+   * @return the extracted value
+   */
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public Object getSimpleValue(String name, Object input) {
     // if input is an optional and name is "value", let's get the optional value directly
@@ -107,6 +129,13 @@ public class PropertyOrFieldSupport {
     }
   }
 
+  /**
+   * Extracts an indexed array or list value.
+   *
+   * @param name the indexed property or field name
+   * @param input the source object
+   * @return the extracted value
+   */
   @SuppressWarnings("rawtypes")
   public Object getArrayOrListValue(String name, Object input) {
     // we could still have a map that has 'name[indexvalue]' as an actual key so we fall back

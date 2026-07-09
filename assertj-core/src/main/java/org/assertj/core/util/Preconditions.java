@@ -27,6 +27,7 @@ import org.assertj.core.api.filter.FilterOperator;
  * @author alruiz@google.com (Alex Ruiz)
  */
 public final class Preconditions {
+  /** Message used when an argument is unexpectedly empty. */
   public static final String ARGUMENT_EMPTY = "Argument expected not to be empty!";
 
   /**

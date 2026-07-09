@@ -45,6 +45,12 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Bytes bytes = Bytes.instance();
 
+  /**
+   * Creates a new {@link Byte} assertion.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractByteAssert(Byte actual, Class<?> selfType) {
     super(actual, selfType);
   }

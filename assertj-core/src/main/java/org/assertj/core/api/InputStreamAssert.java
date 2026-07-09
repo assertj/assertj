@@ -27,6 +27,11 @@ import java.io.InputStream;
  */
 public class InputStreamAssert extends AbstractInputStreamAssert<InputStreamAssert, InputStream> {
 
+  /**
+   * Creates a new input stream assertion.
+   *
+   * @param actual the actual input stream to verify
+   */
   public InputStreamAssert(InputStream actual) {
     super(actual, InputStreamAssert.class);
   }

@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for futures expected to fail within a timeout. */
 public class ShouldHaveFailedWithin extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_FAILED_WITHIN_DURATION = "%n" +
@@ -37,10 +38,25 @@ public class ShouldHaveFailedWithin extends BasicErrorMessageFactory {
                                                           "to have failed within %s %s.%n" +
                                                           WARNING;
 
+  /**
+   * Creates a failure timeout error.
+   *
+   * @param actual the actual future
+   * @param timeout the timeout duration
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveFailedWithin(Future<?> actual, Duration timeout) {
     return new ShouldHaveFailedWithin(actual, timeout);
   }
 
+  /**
+   * Creates a failure timeout error.
+   *
+   * @param actual the actual future
+   * @param timeout the timeout value
+   * @param unit the timeout unit
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveFailedWithin(Future<?> actual, long timeout, TimeUnit unit) {
     return new ShouldHaveFailedWithin(actual, timeout, unit);
   }

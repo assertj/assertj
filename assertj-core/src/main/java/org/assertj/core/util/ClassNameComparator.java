@@ -17,9 +17,16 @@ package org.assertj.core.util;
 
 import java.util.Comparator;
 
+/**
+ * Compares classes by fully qualified name.
+ */
 public class ClassNameComparator implements Comparator<Class<?>> {
 
+  /** Shared class name comparator instance. */
   public static final ClassNameComparator INSTANCE = new ClassNameComparator();
+
+  /** Creates a new class name comparator. */
+  public ClassNameComparator() {}
 
   @Override
   public int compare(Class<?> class1, Class<?> class2) {

@@ -23,7 +23,6 @@ import java.util.Collection;
  * Assertion methods for {@link Collection}s.
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Collection)}</code>.
- * <p>
  *
  * @param <ELEMENT> the type of elements of the "actual" value.
  *
@@ -32,10 +31,22 @@ import java.util.Collection;
 public class CollectionAssert<ELEMENT> extends
     AbstractCollectionAssert<CollectionAssert<ELEMENT>, Collection<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
+  /**
+   * Creates a collection assertion.
+   *
+   * @param <E> the collection element type
+   * @param actual the actual collection
+   * @return the created assertion object
+   */
   public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assertThatCollection(Collection<? extends E> actual) {
     return new CollectionAssert<>(actual);
   }
 
+  /**
+   * Creates a new collection assertion.
+   *
+   * @param actual the actual collection to verify
+   */
   public CollectionAssert(Collection<? extends ELEMENT> actual) {
     super(actual, CollectionAssert.class);
   }
@@ -50,6 +61,12 @@ public class CollectionAssert<ELEMENT> extends
     return new CollectionAssert<>(newArrayList(iterable));
   }
 
+  /**
+   * Creates a collection assertion used for null navigation.
+   *
+   * @param <ELEMENT> the collection element type
+   * @return the null-navigation assertion
+   */
   public static <ELEMENT> CollectionAssert<ELEMENT> nullCollectionAssert() {
     return new CollectionAssert<>(null);
   }

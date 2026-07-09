@@ -32,7 +32,9 @@ import org.assertj.core.configuration.ConfigurationProvider;
  */
 public abstract class Delta<T> {
 
+  /** Default suffix used when formatting a delta. */
   public static final String DEFAULT_END = "]";
+  /** Default prefix used when formatting a delta. */
   public static final String DEFAULT_START = "[";
 
   /** The original chunk. */
@@ -90,6 +92,8 @@ public abstract class Delta<T> {
   public abstract TYPE getType();
 
   /**
+   * Returns the original text chunk.
+   *
    * @return The Chunk describing the original text.
    */
   public Chunk<T> getOriginal() {
@@ -97,6 +101,8 @@ public abstract class Delta<T> {
   }
 
   /**
+   * Returns the revised text chunk.
+   *
    * @return The Chunk describing the revised text.
    */
   public Chunk<T> getRevised() {
@@ -117,6 +123,11 @@ public abstract class Delta<T> {
     return Objects.equals(original, other.original) && Objects.equals(revised, other.revised);
   }
 
+  /**
+   * Returns the one-based original line number.
+   *
+   * @return the original line number
+   */
   public int lineNumber() {
     return getOriginal().getPosition() + 1;
   }

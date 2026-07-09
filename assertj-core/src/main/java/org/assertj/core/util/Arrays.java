@@ -184,18 +184,44 @@ public class Arrays {
     return array.length == 0;
   }
 
+  /**
+   * Checks whether the given value is an object array.
+   *
+   * @param o the value to check
+   * @return whether the value is an object array
+   */
   public static boolean isObjectArray(Object o) {
     return isArray(o) && !isArrayTypePrimitive(o);
   }
 
+  /**
+   * Checks whether the given value is an array of primitives.
+   *
+   * @param o the value to check
+   * @return whether the value is an array of primitives
+   */
   public static boolean isArrayTypePrimitive(Object o) {
     return isArray(o) && o.getClass().getComponentType().isPrimitive();
   }
 
+  /**
+   * Creates an exception indicating that the given value is not an array of primitives.
+   *
+   * @param o the invalid value
+   * @return the exception
+   */
   public static IllegalArgumentException notAnArrayOfPrimitives(Object o) {
     return new IllegalArgumentException("<%s> is not an array of primitives".formatted(o));
   }
 
+  /**
+   * Prepends an element to an array.
+   *
+   * @param <T> the element type
+   * @param first the element to prepend
+   * @param rest the remaining elements
+   * @return the resulting array
+   */
   @SuppressWarnings("unchecked")
   public static <T> T[] prepend(T first, T... rest) {
     T[] result = (T[]) new Object[1 + rest.length];
@@ -204,12 +230,24 @@ public class Arrays {
     return result;
   }
 
+  /**
+   * Returns the size of the given array.
+   *
+   * @param array the array
+   * @return the array size
+   */
   public static int sizeOf(Object array) {
     if (!isArray(array)) throw new IllegalArgumentException("expecting %s to be an array".formatted(array));
     if (array instanceof Object[] objects) return objects.length;
     return getLength(array);
   }
 
+  /**
+   * Checks whether the given array is empty.
+   *
+   * @param array the array
+   * @return whether the array is empty
+   */
   public static boolean isArrayEmpty(Object array) {
     return sizeOf(array) == 0;
   }

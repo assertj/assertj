@@ -45,6 +45,12 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
     extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
 //@format:on
 
+  /**
+   * Creates a new collection assertion.
+   *
+   * @param actual the actual collection to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractCollectionAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }

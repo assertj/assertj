@@ -40,8 +40,14 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
   private final Failures failures = Failures.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Internal assertions for two-dimensional boolean arrays. */
   protected Boolean2DArrays boolean2dArrays = Boolean2DArrays.instance();
 
+  /**
+   * Creates a new two-dimensional boolean array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public Boolean2DArrayAssert(boolean[][] actual) {
     super(actual, Boolean2DArrayAssert.class);
   }

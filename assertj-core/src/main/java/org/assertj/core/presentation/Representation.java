@@ -50,12 +50,12 @@ import org.assertj.core.configuration.Configuration;
  * independently register representations for their respective domain. AssertJ aggregate them in a {@link CompositeRepresentation} which loops over
  * the different representations and use the first non null representation value of the variable to display. If multiples representations overlap the highest priority one wins (see {@link #getPriority()}).
  * The {@link StandardRepresentation} is the fallback option when all the registered representations returned a null representation of the value to display (meaning they did not know how to represent the value).
- * <p>
  *
  * @author Mariusz Smykula
  */
 public interface Representation {
 
+  /** Default representation priority. */
   int DEFAULT_PRIORITY = 1;
 
   /**

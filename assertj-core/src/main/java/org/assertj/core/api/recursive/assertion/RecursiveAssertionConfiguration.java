@@ -69,6 +69,8 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
    * <p>
    * If you elect to assert over primitives then it is your own responsibility as a developer to ensure that your
    * {@link Predicate} can handle (boxed) primitive arguments.</p>
+   *
+   * @param ignorePrimitiveFields whether primitive fields should be ignored
    */
   public void ignorePrimitiveFields(boolean ignorePrimitiveFields) {
     this.ignorePrimitiveFields = ignorePrimitiveFields;
@@ -285,6 +287,8 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
   }
 
   /**
+   * Creates a recursive assertion configuration builder.
+   *
    * @return A {@link Builder} that will assist the developer in creating a valid instance of {@link RecursiveAssertionConfiguration}.
    */
   public static Builder builder() {
@@ -570,6 +574,11 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
       return this;
     }
 
+    /**
+     * Builds the recursive assertion configuration.
+     *
+     * @return the configured recursive assertion settings
+     */
     public RecursiveAssertionConfiguration build() {
       return new RecursiveAssertionConfiguration(this);
     }
@@ -651,7 +660,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
     /**
      * Apply the {@link Predicate} to the map but not to its entries.
      * <p>
-     * Consider the following example:<p>
+     * Consider the following example:
      * <pre><code style='java'> class Parent {
      *   Map&lt;String, String&gt; greetings = new HashMap&lt;&gt;();
      * }
@@ -670,7 +679,6 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
 
     /**
      * Apply the {@link Predicate} (recursively) to the map values but not to the map itself or its keys.
-     * <p>
      * <pre><code style='java'> class Parent {
      *   Map&lt;String, String&gt; greetings = new HashMap&lt;&gt;();
      * }
@@ -690,7 +698,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
     /**
      * Apply the {@link Predicate} to the map as well as (recursively) to its keys and values.
      * <p>
-     * Consider the following example:<p>
+     * Consider the following example:
      * <pre><code style='java'> class Parent {
      *   Map&lt;String, String&gt; greetings = new HashMap&lt;&gt;();
      * }

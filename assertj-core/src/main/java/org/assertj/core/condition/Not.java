@@ -19,7 +19,8 @@ import org.assertj.core.api.Condition;
 
 /**
  * Returns {@code true} if the condition is not satisfied.
- * 
+ *
+ * @param <T> the type of object this condition accepts.
  * @author Nicolas François
  * @author Mikhail Mazursky
  */

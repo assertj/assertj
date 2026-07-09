@@ -34,6 +34,8 @@ import org.hamcrest.StringDescription;
  *
  * By static-importing the {@link #matching(Matcher)} method you can do:
  * <pre><code class='java'> assertThat(&quot;abc&quot;).is(matching(containsString(&quot;a&quot;)));</code></pre>
+ *
+ * @param <T> the type of object this condition accepts.
  * @since 2.9.0 / 3.9.0
  */
 public class HamcrestCondition<T> extends Condition<T> {

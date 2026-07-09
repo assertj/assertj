@@ -34,7 +34,11 @@ import java.util.stream.Stream;
  */
 public class FieldComparators extends FieldHolder<Comparator<?>> {
 
+  /** Comparators registered for regex field patterns. */
   protected final LinkedList<ComparatorForPatterns> comparatorByPatterns = new LinkedList<>();
+
+  /** Creates an empty field comparator registry. */
+  public FieldComparators() {}
 
   /**
    * Registers the {@code comparator} for the given {@code fieldLocation}.
@@ -100,6 +104,11 @@ public class FieldComparators extends FieldHolder<Comparator<?>> {
     return super.entryByField();
   }
 
+  /**
+   * Returns comparators registered for regex field patterns.
+   *
+   * @return the regex field comparator entries
+   */
   public Stream<Entry<List<Pattern>, Comparator<?>>> comparatorByRegexFields() {
     return comparatorByPatterns.stream().map(comparatorForPatterns -> entry(comparatorForPatterns.fieldPatterns,
                                                                             comparatorForPatterns.comparator));
@@ -110,10 +119,20 @@ public class FieldComparators extends FieldHolder<Comparator<?>> {
     return super.isEmpty() && comparatorByPatterns.isEmpty();
   }
 
+  /**
+   * Checks whether exact field comparators are registered.
+   *
+   * @return whether exact field comparators are registered
+   */
   public boolean hasFieldComparators() {
     return !super.isEmpty();
   }
 
+  /**
+   * Checks whether regex field comparators are registered.
+   *
+   * @return whether regex field comparators are registered
+   */
   public boolean hasRegexFieldComparators() {
     return !comparatorByPatterns.isEmpty();
   }

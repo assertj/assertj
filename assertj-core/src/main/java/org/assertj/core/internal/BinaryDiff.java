@@ -31,12 +31,31 @@ import java.nio.file.Path;
 // TODO reduce the visibility of the fields annotated with @VisibleForTesting
 public class BinaryDiff {
 
+  /** Creates a new binary content comparator. */
+  public BinaryDiff() {}
+
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Compares a file with the expected bytes.
+   *
+   * @param actual the actual file
+   * @param expected the expected bytes
+   * @return the comparison result
+   * @throws IOException if the file cannot be read
+   */
   public BinaryDiffResult diff(File actual, byte[] expected) throws IOException {
     return diff(actual.toPath(), expected);
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Compares a path with the expected bytes.
+   *
+   * @param actual the actual path
+   * @param expected the expected bytes
+   * @return the comparison result
+   * @throws IOException if the path cannot be read
+   */
   public BinaryDiffResult diff(Path actual, byte[] expected) throws IOException {
     try (InputStream actualStream = new BufferedInputStream(Files.newInputStream(actual))) {
       return diff(actualStream, expected);
@@ -44,11 +63,27 @@ public class BinaryDiff {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Compares an input stream with the expected bytes.
+   *
+   * @param actualStream the actual stream
+   * @param expected the expected bytes
+   * @return the comparison result
+   * @throws IOException if a stream cannot be read
+   */
   public BinaryDiffResult diff(InputStream actualStream, byte[] expected) throws IOException {
     return diff(actualStream, new ByteArrayInputStream(expected));
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Compares two input streams.
+   *
+   * @param actualStream the actual stream
+   * @param expectedStream the expected stream
+   * @return the comparison result
+   * @throws IOException if a stream cannot be read
+   */
   public BinaryDiffResult diff(InputStream actualStream, InputStream expectedStream) throws IOException {
     int index = 0;
     while (true) {

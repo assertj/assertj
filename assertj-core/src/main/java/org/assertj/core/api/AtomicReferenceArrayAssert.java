@@ -69,6 +69,11 @@ import org.assertj.core.util.introspection.IntrospectionError;
 
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 // Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
+/**
+ * Assertions for {@link AtomicReferenceArray} values.
+ *
+ * @param <T> the array element type
+ */
 @SuppressWarnings({ "deprecation", "RedundantSuppression" })
 public class AtomicReferenceArrayAssert<T>
     extends AbstractAssertWithComparator<AtomicReferenceArrayAssert<T>, AtomicReferenceArray<T>>
@@ -84,6 +89,11 @@ public class AtomicReferenceArrayAssert<T>
   private TypeComparators comparatorsByType;
   private TypeComparators comparatorsForElementPropertyOrFieldTypes;
 
+  /**
+   * Creates a new atomic reference array assertion.
+   *
+   * @param actual the actual atomic reference array
+   */
   public AtomicReferenceArrayAssert(AtomicReferenceArray<T> actual) {
     super(actual, AtomicReferenceArrayAssert.class);
     array = array(actual);
@@ -395,6 +405,11 @@ public class AtomicReferenceArrayAssert<T>
     return executeAssertion(() -> assertContains(values));
   }
 
+  /**
+   * Verifies that the actual array contains the given values.
+   *
+   * @param values the expected values
+   */
   protected void assertContains(T[] values) {
     arrays.assertContains(info, array, values);
   }
@@ -429,6 +444,11 @@ public class AtomicReferenceArrayAssert<T>
     return executeAssertion(() -> assertContainsOnly(values));
   }
 
+  /**
+   * Verifies that the actual array contains only the given values.
+   *
+   * @param values the expected values
+   */
   protected void assertContainsOnly(T[] values) {
     arrays.assertContainsOnly(info, array, values);
   }
@@ -517,6 +537,11 @@ public class AtomicReferenceArrayAssert<T>
     return executeAssertion(() -> assertContainsOnlyOnce(values));
   }
 
+  /**
+   * Verifies that the actual array contains each given value only once.
+   *
+   * @param values the values expected once
+   */
   protected void assertContainsOnlyOnce(T[] values) {
     arrays.assertContainsOnlyOnce(info, array, values);
   }
@@ -556,6 +581,11 @@ public class AtomicReferenceArrayAssert<T>
     return executeAssertion(() -> assertContainsExactly(values));
   }
 
+  /**
+   * Verifies that the actual array contains exactly the given values in order.
+   *
+   * @param values the expected values
+   */
   protected void assertContainsExactly(T[] values) {
     arrays.assertContainsExactly(info, array, values);
   }
@@ -586,6 +616,11 @@ public class AtomicReferenceArrayAssert<T>
     return executeAssertion(() -> assertContainsExactlyInAnyOrder(values));
   }
 
+  /**
+   * Verifies that the actual array contains exactly the given values in any order.
+   *
+   * @param values the expected values
+   */
   protected void assertContainsExactlyInAnyOrder(T[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, array, values);
   }
@@ -667,6 +702,11 @@ public class AtomicReferenceArrayAssert<T>
     return executeAssertion(() -> assertContainsSequence(sequence));
   }
 
+  /**
+   * Verifies that the actual array contains the given sequence.
+   *
+   * @param sequence the expected sequence
+   */
   protected void assertContainsSequence(T[] sequence) {
     arrays.assertContainsSequence(info, array, sequence);
   }
@@ -727,6 +767,11 @@ public class AtomicReferenceArrayAssert<T>
     return executeAssertion(() -> assertDoesNotContainSequence(sequence));
   }
 
+  /**
+   * Verifies that the actual array does not contain the given sequence.
+   *
+   * @param sequence the sequence expected to be absent
+   */
   protected void assertDoesNotContainSequence(T[] sequence) {
     arrays.assertDoesNotContainSequence(info, array, sequence);
   }
@@ -784,6 +829,11 @@ public class AtomicReferenceArrayAssert<T>
     return executeAssertion(() -> assertContainsSubsequence(subsequence));
   }
 
+  /**
+   * Verifies that the actual array contains the given subsequence.
+   *
+   * @param subsequence the expected subsequence
+   */
   protected void assertContainsSubsequence(T[] subsequence) {
     arrays.assertContainsSubsequence(info, array, subsequence);
   }
@@ -839,6 +889,11 @@ public class AtomicReferenceArrayAssert<T>
     return executeAssertion(() -> assertDoesNotContainSubsequence(subsequence));
   }
 
+  /**
+   * Verifies that the actual array does not contain the given subsequence.
+   *
+   * @param subsequence the subsequence expected to be absent
+   */
   protected void assertDoesNotContainSubsequence(T[] subsequence) {
     arrays.assertDoesNotContainSubsequence(info, array, subsequence);
   }
@@ -1011,6 +1066,11 @@ public class AtomicReferenceArrayAssert<T>
     return executeAssertion(() -> assertDoesNotContain(values));
   }
 
+  /**
+   * Verifies that the actual array does not contain the given values.
+   *
+   * @param values the values expected to be absent
+   */
   protected void assertDoesNotContain(T[] values) {
     arrays.assertDoesNotContain(info, array, values);
   }
@@ -1089,6 +1149,11 @@ public class AtomicReferenceArrayAssert<T>
     return executeAssertion(() -> assertStartsWith(sequence));
   }
 
+  /**
+   * Verifies that the actual array starts with the given sequence.
+   *
+   * @param sequence the expected starting sequence
+   */
   protected void assertStartsWith(T[] sequence) {
     arrays.assertStartsWith(info, array, sequence);
   }
@@ -1120,6 +1185,12 @@ public class AtomicReferenceArrayAssert<T>
     return executeAssertion(() -> assertEndsWith(first, sequence));
   }
 
+  /**
+   * Verifies that the actual array ends with the given elements.
+   *
+   * @param first the first expected ending element
+   * @param sequence the remaining expected ending elements
+   */
   protected void assertEndsWith(T first, T[] sequence) {
     arrays.assertEndsWith(info, array, first, sequence);
   }
@@ -1199,6 +1270,11 @@ public class AtomicReferenceArrayAssert<T>
     return isSubsetOf(asList(values));
   }
 
+  /**
+   * Verifies that the actual array is a subset of the given values.
+   *
+   * @param values the values that may be present
+   */
   protected void assertIsSubsetOf(Iterable<?> values) {
     arrays.assertIsSubsetOf(info, array, values);
   }
@@ -1875,8 +1951,6 @@ public class AtomicReferenceArrayAssert<T>
    * assertThat(atomicArray(derrickRose)).usingRecursiveFieldByFieldElementComparator(configuration)
    *                                     .contains(jalenRose);</code></pre>
    * The recursive comparison is documented here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   * <p>
-   *
    * @param fields the field names to exclude in the elements comparison.
    * @return {@code this} assertion object.
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
@@ -1925,8 +1999,6 @@ public class AtomicReferenceArrayAssert<T>
    * assertThat(atomicArray(derrickRose)).usingRecursiveFieldByFieldElementComparator(configuration)
    *                                     .contains(jalenRose);</code></pre>
    * The recursive comparison is documented here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   * <p>
-   *
    * @param fields the field names to exclude in the elements comparison.
    * @return {@code this} assertion object.
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
@@ -2502,7 +2574,6 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
-   * <p>
    * <p>
    * As an example, let's check all employees 800 years old (yes, special employees):
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
@@ -3211,6 +3282,11 @@ public class AtomicReferenceArrayAssert<T>
     return satisfiesExactly((Consumer<? super T>[]) requirements);
   }
 
+  /**
+   * Verifies that elements satisfy the given requirements in order.
+   *
+   * @param requirements the requirements to satisfy
+   */
   protected void assertSatisfiesExactly(Consumer<? super T>[] requirements) {
     iterables.assertSatisfiesExactly(info, newArrayList(array), requirements);
   }
@@ -3328,6 +3404,11 @@ public class AtomicReferenceArrayAssert<T>
     return satisfiesExactlyInAnyOrder((Consumer<? super T>[]) requirements);
   }
 
+  /**
+   * Verifies that elements satisfy the given requirements in any order.
+   *
+   * @param requirements the requirements to satisfy
+   */
   protected void assertSatisfiesExactlyInAnyOrder(Consumer<? super T>[] requirements) {
     iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(array), requirements);
   }
@@ -3389,6 +3470,11 @@ public class AtomicReferenceArrayAssert<T>
     return satisfiesOnlyOnce((Consumer<? super T>) requirements);
   }
 
+  /**
+   * Verifies that exactly one element satisfies the given requirement.
+   *
+   * @param requirements the requirement to satisfy once
+   */
   protected void assertSatisfiesOnlyOnce(Consumer<? super T> requirements) {
     iterables.assertSatisfiesOnlyOnce(info, newArrayList(array), requirements);
   }
@@ -3424,6 +3510,11 @@ public class AtomicReferenceArrayAssert<T>
     return executeAssertion(() -> assertContainsAnyOf(values));
   }
 
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   *
+   * @param values the values of which at least one is expected
+   */
   protected void assertContainsAnyOf(T[] values) {
     arrays.assertContainsAnyOf(info, array, values);
   }
@@ -3518,12 +3609,22 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   // lazy init TypeComparators
+  /**
+   * Returns the comparators registered by element type.
+   *
+   * @return the registered comparators
+   */
   protected TypeComparators getComparatorsByType() {
     if (comparatorsByType == null) comparatorsByType = defaultTypeComparators();
     return comparatorsByType;
   }
 
   // lazy init TypeComparators
+  /**
+   * Returns the comparators registered by element property or field type.
+   *
+   * @return the registered comparators
+   */
   protected TypeComparators getComparatorsForElementPropertyOrFieldTypes() {
     if (comparatorsForElementPropertyOrFieldTypes == null)
       comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();

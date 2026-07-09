@@ -30,14 +30,29 @@ package org.assertj.core.api;
  */
 public class FloatAssert extends AbstractFloatAssert<FloatAssert> {
 
+  /**
+   * Creates a new float assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public FloatAssert(Float actual) {
     super(actual, FloatAssert.class);
   }
 
+  /**
+   * Creates a new float assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public FloatAssert(float actual) {
     super(actual, FloatAssert.class);
   }
 
+  /**
+   * Creates an assertion whose actual value is {@code null}.
+   *
+   * @return a null float assertion
+   */
   public static FloatAssert nullFloatAssert() {
     return new FloatAssert(null);
   }

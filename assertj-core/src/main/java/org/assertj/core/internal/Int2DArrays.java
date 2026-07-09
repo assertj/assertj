@@ -25,6 +25,9 @@ import org.assertj.core.data.Index;
  */
 public class Int2DArrays {
 
+  /** Creates reusable two-dimensional int array assertions. */
+  public Int2DArrays() {}
+
   private static final Int2DArrays INSTANCE = new Int2DArrays();
 
   /**
@@ -42,6 +45,11 @@ public class Int2DArrays {
   Failures failures = Failures.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Sets the delegate used for common two-dimensional array assertions.
+   *
+   * @param arrays the delegate to use
+   */
   public void setArrays(Arrays2D arrays) {
     this.arrays = arrays;
   }

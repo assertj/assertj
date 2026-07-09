@@ -41,10 +41,16 @@ public class Object2DArrayAssert<ELEMENT> extends
     Abstract2DArrayAssert<Object2DArrayAssert<ELEMENT>, ELEMENT[][], ELEMENT> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Assertion implementation for two-dimensional object arrays. */
   protected Object2DArrays<ELEMENT> object2dArrays = Object2DArrays.instance();
 
   private final Failures failures = Failures.instance();
 
+  /**
+   * Creates a new two-dimensional object array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public Object2DArrayAssert(ELEMENT[][] actual) {
     super(actual, Object2DArrayAssert.class);
   }

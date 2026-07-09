@@ -41,6 +41,12 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Characters characters = Characters.instance();
 
+  /**
+   * Creates a new {@link Character} assertion.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractCharacterAssert(Character actual, Class<?> selfType) {
     super(actual, selfType);
   }

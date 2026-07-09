@@ -21,7 +21,7 @@ import java.util.Comparator;
 
 /**
  * Copy from https://code.google.com/p/java-diff-utils/.
- * <p>
+ *
  * @author mksenzov
  */
 public class DeltaComparator implements Comparator<Delta<?>>, Serializable {
@@ -29,6 +29,7 @@ public class DeltaComparator implements Comparator<Delta<?>>, Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
 
+  /** Shared delta comparator instance. */
   public static final Comparator<Delta<?>> INSTANCE = new DeltaComparator();
 
   private DeltaComparator() {}

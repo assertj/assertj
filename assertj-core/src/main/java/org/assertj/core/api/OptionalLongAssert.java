@@ -25,6 +25,11 @@ import java.util.OptionalLong;
  */
 public class OptionalLongAssert extends AbstractOptionalLongAssert<OptionalLongAssert> {
 
+  /**
+   * Creates a new optional long assertion.
+   *
+   * @param actual the actual optional to verify
+   */
   protected OptionalLongAssert(OptionalLong actual) {
     super(actual, OptionalLongAssert.class);
   }

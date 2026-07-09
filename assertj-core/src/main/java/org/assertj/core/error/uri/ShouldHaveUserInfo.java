@@ -21,11 +21,19 @@ import java.net.URL;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for URIs and URLs with unexpected user information. */
 public class ShouldHaveUserInfo extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_NO_USER_INFO = "%nExpecting actual:%n  <%s>%nnot to have user info but had:%n  <%s>";
   private static final String SHOULD_HAVE_USER_INFO = "%nExpecting user info of%n  <%s>%nto be:%n  <%s>%nbut was:%n  <%s>";
 
+  /**
+   * Creates an error for a URI with the wrong user information.
+   *
+   * @param actual the actual URI
+   * @param expectedUserInfo the expected user information
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveUserInfo(URI actual, String expectedUserInfo) {
     return expectedUserInfo == null ? new ShouldHaveUserInfo(actual) : new ShouldHaveUserInfo(actual, expectedUserInfo);
   }
@@ -38,6 +46,13 @@ public class ShouldHaveUserInfo extends BasicErrorMessageFactory {
     super(SHOULD_HAVE_NO_USER_INFO, actual, actual.getUserInfo());
   }
 
+  /**
+   * Creates an error for a URL with the wrong user information.
+   *
+   * @param actual the actual URL
+   * @param expectedUserInfo the expected user information
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveUserInfo(URL actual, String expectedUserInfo) {
     return expectedUserInfo == null ? new ShouldHaveUserInfo(actual) : new ShouldHaveUserInfo(actual, expectedUserInfo);
   }

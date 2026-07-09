@@ -20,11 +20,19 @@ import java.net.URL;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for URLs with an unexpected anchor. */
 public class ShouldHaveAnchor extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_ANCHOR = "%nExpecting anchor of%n  <%s>%nto be:%n  <%s>%nbut was:%n  <%s>";
   private static final String SHOULD_NOT_HAVE_ANCHOR = "%nExpecting actual:%n  <%s>%nnot to have an anchor but had:%n  <%s>";
 
+  /**
+   * Creates an error for a URL with the wrong anchor.
+   *
+   * @param actual the actual URL
+   * @param expectedAnchor the expected anchor
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveAnchor(URL actual, String expectedAnchor) {
     return expectedAnchor == null ? new ShouldHaveAnchor(actual) : new ShouldHaveAnchor(actual, expectedAnchor);
   }

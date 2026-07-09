@@ -118,8 +118,15 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
   private TypeComparators comparatorsForElementPropertyOrFieldTypes;
 
+  /** Internal assertions for iterable values. */
   protected Iterables iterables = Iterables.instance();
 
+  /**
+   * Creates a new iterable assertion.
+   *
+   * @param actual the actual iterable to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractIterableAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
 
@@ -322,6 +329,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertContains(values));
   }
 
+  /**
+   * Verifies that the actual iterable contains the given values.
+   *
+   * @param values the values expected in the actual iterable
+   */
   protected void assertContains(ELEMENT[] values) {
     iterables.assertContains(info, actual, values);
   }
@@ -332,6 +344,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertContainsOnly(values));
   }
 
+  /**
+   * Verifies that the actual iterable contains only the given values.
+   *
+   * @param values the values expected in the actual iterable
+   */
   protected void assertContainsOnly(ELEMENT[] values) {
     iterables.assertContainsOnly(info, actual, values);
   }
@@ -342,6 +359,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertContainsOnlyOnce(values));
   }
 
+  /**
+   * Verifies that the actual iterable contains each given value only once.
+   *
+   * @param values the values expected once in the actual iterable
+   */
   protected void assertContainsOnlyOnce(ELEMENT[] values) {
     iterables.assertContainsOnlyOnce(info, actual, values);
   }
@@ -357,6 +379,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertContainsExactly(values));
   }
 
+  /**
+   * Verifies that the actual iterable contains exactly the given values in order.
+   *
+   * @param values the values expected in the actual iterable
+   */
   protected void assertContainsExactly(ELEMENT[] values) {
     iterables.assertContainsExactly(info, actual, values);
   }
@@ -370,6 +397,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertContainsExactlyInAnyOrder(values));
   }
 
+  /**
+   * Verifies that the actual iterable contains exactly the given values in any order.
+   *
+   * @param values the values expected in the actual iterable
+   */
   protected void assertContainsExactlyInAnyOrder(ELEMENT[] values) {
     iterables.assertContainsExactlyInAnyOrder(info, actual, values);
   }
@@ -390,6 +422,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return isSubsetOf(asList(values));
   }
 
+  /**
+   * Verifies that the actual iterable is a subset of the given values.
+   *
+   * @param values the values that may be present
+   */
   protected void assertIsSubsetOf(Iterable<? extends ELEMENT> values) {
     iterables.assertIsSubsetOf(info, actual, values);
   }
@@ -400,6 +437,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertContainsSequence(sequence));
   }
 
+  /**
+   * Verifies that the actual iterable contains the given sequence.
+   *
+   * @param sequence the expected sequence
+   */
   protected void assertContainsSequence(ELEMENT[] sequence) {
     iterables.assertContainsSequence(info, actual, sequence);
   }
@@ -418,6 +460,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertDoesNotContainSequence(sequence));
   }
 
+  /**
+   * Verifies that the actual iterable does not contain the given sequence.
+   *
+   * @param sequence the sequence expected to be absent
+   */
   protected void assertDoesNotContainSequence(ELEMENT[] sequence) {
     iterables.assertDoesNotContainSequence(info, actual, sequence);
   }
@@ -436,6 +483,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertContainsSubsequence(subsequence));
   }
 
+  /**
+   * Verifies that the actual iterable contains the given subsequence.
+   *
+   * @param subsequence the expected subsequence
+   */
   protected void assertContainsSubsequence(ELEMENT[] subsequence) {
     iterables.assertContainsSubsequence(info, actual, subsequence);
   }
@@ -454,6 +506,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertDoesNotContainSubsequence(subsequence));
   }
 
+  /**
+   * Verifies that the actual iterable does not contain the given subsequence.
+   *
+   * @param subsequence the subsequence expected to be absent
+   */
   protected void assertDoesNotContainSubsequence(ELEMENT[] subsequence) {
     iterables.assertDoesNotContainSubsequence(info, actual, subsequence);
   }
@@ -472,6 +529,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertDoesNotContain(values));
   }
 
+  /**
+   * Verifies that the actual iterable does not contain the given values.
+   *
+   * @param values the values expected to be absent
+   */
   protected void assertDoesNotContain(ELEMENT[] values) {
     iterables.assertDoesNotContain(info, actual, values);
   }
@@ -492,6 +554,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertStartsWith(sequence));
   }
 
+  /**
+   * Verifies that the actual iterable starts with the given sequence.
+   *
+   * @param sequence the expected starting sequence
+   */
   protected void assertStartsWith(ELEMENT[] sequence) {
     iterables.assertStartsWith(info, actual, sequence);
   }
@@ -502,6 +569,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertEndsWith(first, rest));
   }
 
+  /**
+   * Verifies that the actual iterable ends with the given elements.
+   *
+   * @param first the first expected ending element
+   * @param rest the remaining expected ending elements
+   */
   protected void assertEndsWith(ELEMENT first, ELEMENT[] rest) {
     iterables.assertEndsWith(info, actual, first, rest);
   }
@@ -737,6 +810,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertContainsAnyOf(values));
   }
 
+  /**
+   * Verifies that the actual iterable contains at least one of the given values.
+   *
+   * @param values the values of which at least one is expected
+   */
   protected void assertContainsAnyOf(ELEMENT[] values) {
     iterables.assertContainsAnyOf(info, actual, values);
   }
@@ -1547,10 +1625,22 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertionNavigation(() -> doFlatMap(mappers), ListAssert::nullListAssert);
   }
 
+  /**
+   * Applies the given extractors and flattens the extracted values.
+   *
+   * @param extractors the extractors to apply
+   * @return assertions on the flattened values
+   */
   protected AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> doFlatExtracting(Function<? super ELEMENT, ?>[] extractors) {
     return internalFlatMap(extractors, "flatExtracting");
   }
 
+  /**
+   * Applies the given extractors and flattens the extracted values.
+   *
+   * @param extractors the extractors to apply
+   * @return assertions on the flattened values
+   */
   protected AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> doFlatMap(Function<? super ELEMENT, ?>[] extractors) {
     return internalFlatMap(extractors, "flatMap");
   }
@@ -1810,10 +1900,22 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertionNavigation(() -> doMap(mappers), ListAssert::nullListAssert);
   }
 
+  /**
+   * Applies the given extractors to each element.
+   *
+   * @param extractors the extractors to apply
+   * @return assertions on tuples of extracted values
+   */
   protected AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> doMap(Function<? super ELEMENT, ?>[] extractors) {
     return internalMap(extractors, "map");
   }
 
+  /**
+   * Applies the given extractors to each element.
+   *
+   * @param extractors the extractors to apply
+   * @return assertions on tuples of extracted values
+   */
   protected AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> doExtracting(Function<? super ELEMENT, ?>[] extractors) {
     return internalMap(extractors, "extracting");
   }
@@ -2259,8 +2361,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(list(derrickRose)).usingRecursiveFieldByFieldElementComparator(configuration)
    *                              .contains(jalenRose);</code></pre>
    * The recursive comparison is documented here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   * <p>
-   *
    * @param fields the field names to exclude in the elements comparison.
    * @return {@code this} assertion object.
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
@@ -2275,6 +2375,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return usingRecursiveFieldByFieldElementComparator(recursiveComparisonConfiguration);
   }
 
+  /**
+   * Uses the given comparison strategy for iterable assertions.
+   *
+   * @param comparisonStrategy the comparison strategy to use
+   * @return this assertion object
+   */
   protected SELF usingComparisonStrategy(ComparisonStrategy comparisonStrategy) {
     iterables = new Iterables(comparisonStrategy);
     return myself;
@@ -2314,8 +2420,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(list(derrickRose)).usingRecursiveFieldByFieldElementComparator(configuration)
    *                              .contains(jalenRose);</code></pre>
    * The recursive comparison is documented here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   * <p>
-   *
    * @param fields the field names to exclude in the elements comparison.
    * @return {@code this} assertion object.
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
@@ -2945,8 +3049,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * // assertion fails
    * assertThat(hobbits).element(1, 2)
    *                    .containsExactly(frodo, pippin);</code></pre>
-   * <p>
-   *
    * @param indices the elements indices
    * @return the assertion on the given elements
    * @throws IllegalArgumentException if indices array is null or empty
@@ -3145,8 +3247,20 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return toAssert(value).withAssertionState(myself).as(description);
   }
 
+  /**
+   * Creates an assertion for the given element.
+   *
+   * @param value the element value
+   * @return the element assertion
+   */
   protected abstract ELEMENT_ASSERT toAssert(ELEMENT value);
 
+  /**
+   * Builds the description used for a navigation assertion.
+   *
+   * @param propertyName the navigated property name
+   * @return the navigation description
+   */
   protected String navigationDescription(String propertyName) {
     String text = descriptionText();
     if (Strings.isNullOrEmpty(text)) {
@@ -3280,6 +3394,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertSatisfiesExactly(requirements));
   }
 
+  /**
+   * Verifies that elements satisfy the given requirements in order.
+   *
+   * @param requirements the requirements to satisfy
+   */
   protected void assertSatisfiesExactly(Consumer<? super ELEMENT>[] requirements) {
     iterables.assertSatisfiesExactly(info, actual, requirements);
   }
@@ -3296,6 +3415,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertSatisfiesExactlyInAnyOrder(requirements));
   }
 
+  /**
+   * Verifies that elements satisfy the given requirements in any order.
+   *
+   * @param requirements the requirements to satisfy
+   */
   protected void assertSatisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>[] requirements) {
     iterables.assertSatisfiesExactlyInAnyOrder(info, actual, requirements);
   }
@@ -3310,6 +3434,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> assertSatisfiesOnlyOnce(requirements));
   }
 
+  /**
+   * Verifies that exactly one element satisfies the given requirement.
+   *
+   * @param requirements the requirement to satisfy once
+   */
   protected void assertSatisfiesOnlyOnce(Consumer<? super ELEMENT> requirements) {
     iterables.assertSatisfiesOnlyOnce(info, actual, requirements);
   }
@@ -3541,12 +3670,22 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   // lazy init TypeComparators
+  /**
+   * Returns the comparators registered by element type.
+   *
+   * @return the registered comparators
+   */
   protected TypeComparators getComparatorsByType() {
     if (comparatorsByType == null) comparatorsByType = defaultTypeComparators();
     return comparatorsByType;
   }
 
   // lazy init TypeComparators
+  /**
+   * Returns the comparators registered by element property or field type.
+   *
+   * @return the registered comparators
+   */
   protected TypeComparators getComparatorsForElementPropertyOrFieldTypes() {
     if (comparatorsForElementPropertyOrFieldTypes == null)
       comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();

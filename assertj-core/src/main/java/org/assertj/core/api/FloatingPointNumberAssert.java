@@ -155,12 +155,32 @@ public interface FloatingPointNumberAssert<SELF extends FloatingPointNumberAsser
    */
   SELF isNotNaN();
 
+  /**
+   * Verifies that the actual value is finite.
+   *
+   * @return this assertion object
+   */
   SELF isFinite();
 
+  /**
+   * Verifies that the actual value is not finite.
+   *
+   * @return this assertion object
+   */
   SELF isNotFinite();
 
+  /**
+   * Verifies that the actual value is infinite.
+   *
+   * @return this assertion object
+   */
   SELF isInfinite();
 
+  /**
+   * Verifies that the actual value is not infinite.
+   *
+   * @return this assertion object
+   */
   SELF isNotInfinite();
 
 }

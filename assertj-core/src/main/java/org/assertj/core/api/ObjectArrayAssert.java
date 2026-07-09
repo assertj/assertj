@@ -35,10 +35,20 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
  */
 public class ObjectArrayAssert<ELEMENT> extends AbstractObjectArrayAssert<ObjectArrayAssert<ELEMENT>, ELEMENT> {
 
+  /**
+   * Creates a new object array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public ObjectArrayAssert(ELEMENT[] actual) {
     super(actual, ObjectArrayAssert.class);
   }
 
+  /**
+   * Creates a new atomic reference array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public ObjectArrayAssert(AtomicReferenceArray<ELEMENT> actual) {
     this(array(actual));
   }

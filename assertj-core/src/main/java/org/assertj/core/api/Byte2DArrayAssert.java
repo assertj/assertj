@@ -40,8 +40,14 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
   private final Failures failures = Failures.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Internal assertions for two-dimensional byte arrays. */
   protected Byte2DArrays byte2dArrays = Byte2DArrays.instance();
 
+  /**
+   * Creates a new two-dimensional byte array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public Byte2DArrayAssert(byte[][] actual) {
     super(actual, Byte2DArrayAssert.class);
   }

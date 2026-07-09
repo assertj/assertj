@@ -17,8 +17,18 @@ package org.assertj.core.api;
 
 import org.assertj.core.annotation.CheckReturnValue;
 
+/**
+ * Assertions for a file size.
+ *
+ * @param <T> retained for source compatibility
+ */
 public class FileSizeAssert<T> extends AbstractFileSizeAssert<FileAssert> {
 
+  /**
+   * Creates a file size assertion from the given origin assertion.
+   *
+   * @param originAssert the origin file assertion
+   */
   public FileSizeAssert(AbstractFileAssert<FileAssert> originAssert) {
     super(originAssert);
   }

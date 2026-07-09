@@ -15,12 +15,19 @@
  */
 package org.assertj.core.api.filter;
 
+/** Filter excluding a given value. */
 public class NotFilter extends FilterOperator<Object> {
 
   private NotFilter(Object filterParameter) {
     super(filterParameter);
   }
 
+  /**
+   * Creates a filter excluding the given value.
+   *
+   * @param valueNotToMatch the value to exclude
+   * @return the exclusion filter
+   */
   public static NotFilter not(Object valueNotToMatch) {
     return new NotFilter(valueNotToMatch);
   }

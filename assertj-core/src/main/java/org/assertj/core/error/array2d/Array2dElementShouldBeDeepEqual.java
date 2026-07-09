@@ -34,6 +34,15 @@ public class Array2dElementShouldBeDeepEqual extends BasicErrorMessageFactory {
                                         "while expected[%s, %s] was:%n" +
                                         "  %s";
 
+  /**
+   * Creates an error message for differing elements in two-dimensional arrays.
+   *
+   * @param actualElement the actual element
+   * @param expectedElement the expected element
+   * @param rowIndex the row index
+   * @param columnIndex the column index
+   * @return the error message factory
+   */
   public static ErrorMessageFactory elementShouldBeEqual(Object actualElement, Object expectedElement, int rowIndex,
                                                          int columnIndex) {
     return new Array2dElementShouldBeDeepEqual(actualElement, expectedElement, rowIndex, columnIndex);

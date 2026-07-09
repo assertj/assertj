@@ -23,11 +23,19 @@ import java.net.URL;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for URIs and URLs with an unexpected path. */
 public class ShouldHavePath extends BasicErrorMessageFactory {
 
   private static final String SHOULD_NOT_HAVE_PATH = "%nExpecting actual:%n  <%s>%nnot to have a path but had:%n  <%s>";
   private static final String SHOULD_HAVE_PATH = "%nExpecting path of%n  <%s>%nto be:%n  <%s>%nbut was:%n  <%s>";
 
+  /**
+   * Creates an error for a URI with the wrong path.
+   *
+   * @param actual the actual URI
+   * @param expectedPath the expected path
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHavePath(URI actual, String expectedPath) {
     return expectedPath == null ? new ShouldHavePath(actual) : new ShouldHavePath(actual, expectedPath);
   }
@@ -40,6 +48,13 @@ public class ShouldHavePath extends BasicErrorMessageFactory {
     super(SHOULD_NOT_HAVE_PATH, actual, actual.getPath());
   }
 
+  /**
+   * Creates an error for a URL with the wrong path.
+   *
+   * @param actual the actual URL
+   * @param expectedPath the expected path
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHavePath(URL actual, String expectedPath) {
     return isNullOrEmpty(expectedPath) ? new ShouldHavePath(actual) : new ShouldHavePath(actual, expectedPath);
   }

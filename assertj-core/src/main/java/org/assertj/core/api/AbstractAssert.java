@@ -69,20 +69,35 @@ import org.assertj.core.presentation.Representation;
 public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, ACTUAL> implements Assert<SELF, ACTUAL> {
 
   // https://github.com/assertj/assertj/issues/1128
+  /**
+   * Controls whether invoking {@link #equals(Object)} throws an {@link UnsupportedOperationException}.
+   */
   public static boolean throwUnsupportedExceptionOnEquals = true;
 
   private static final String ORG_ASSERTJ = "org.assert";
 
+  /**
+   * Objects instance
+   */
   protected Objects objects = Objects.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Conditions conditions = Conditions.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * the assertion info
+   */
   public WritableAssertionInfo info;
 
   // visibility is protected to allow us write custom assertions that need access to actual
+  /**
+   * the actual value
+   */
   protected final ACTUAL actual;
+  /**
+   * the current assertion
+   */
   protected final SELF myself;
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -113,6 +128,12 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
   // let's keep compiler warning internal (when we can) and not expose them to our end users.
+  /**
+   * Creates a new assertion.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   @SuppressWarnings("unchecked")
   protected AbstractAssert(ACTUAL actual, Class<?> selfType) {
     myself = (SELF) selfType.cast(this);
@@ -204,6 +225,11 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return info;
   }
 
+  /**
+   * Returns the comparison strategy used by this assertion.
+   *
+   * @return the comparison strategy
+   */
   protected ComparisonStrategy getComparisonStrategy() {
     return objects.getComparisonStrategy();
   }
@@ -355,6 +381,12 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     throw assertionError(errorMessageFactory);
   }
 
+  /**
+   * Creates an assertion error from the given error message factory.
+   *
+   * @param errorMessageFactory the factory used to create the error message
+   * @return the assertion error
+   */
   protected AssertionError assertionError(ErrorMessageFactory errorMessageFactory) {
     AssertionError failure = Failures.instance().failure(info, errorMessageFactory);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(failure);
@@ -375,6 +407,12 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return getClass().getName().startsWith(ORG_ASSERTJ);
   }
 
+  /**
+   * Checks whether the given stack trace element belongs to this custom assertion hierarchy.
+   *
+   * @param stackTraceElement the stack trace element to check
+   * @return whether the element belongs to the custom assertion hierarchy
+   */
   protected boolean isElementOfCustomAssert(StackTraceElement stackTraceElement) {
     Class<?> currentAssertClass = getClass();
     while (currentAssertClass != AbstractAssert.class) {
@@ -493,6 +531,12 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return executeAssertion(() -> objects.assertNotNull(info, actual));
   }
 
+  /**
+   * Verifies that the actual value is not {@code null}, using the given description if none is set.
+   *
+   * @param description the fallback assertion description
+   * @return this assertion object
+   */
   protected SELF isNotNull(String description) {
     return executeAssertion(() -> {
       if (!info.hasDescription()) {
@@ -1049,6 +1093,12 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return satisfies((Consumer<? super ACTUAL>[]) assertions);
   }
 
+  /**
+   * Runs all the given assertion groups against the actual value.
+   *
+   * @param assertionsGroups the assertion groups to run
+   * @throws AssertionError if any assertion group fails
+   */
   protected void assertSatisfies(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
     checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
     List<AssertionError> assertionErrors = stream(assertionsGroups).map(this::catchOptionalAssertionError)
@@ -1137,6 +1187,12 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return satisfiesAnyOf((Consumer<? super ACTUAL>[]) assertions);
   }
 
+  /**
+   * Runs the given assertion groups until one succeeds.
+   *
+   * @param assertionsGroups the assertion groups to run
+   * @throws AssertionError if every assertion group fails
+   */
   protected void assertSatisfiesAnyOf(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
     checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
     // use a for loop over stream to return as soon as one assertion is met
@@ -1166,16 +1222,31 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     });
   }
 
+  /**
+   * Sets the representation used by newly created assertions.
+   *
+   * @param customRepresentation the representation to use
+   */
   public static void setCustomRepresentation(Representation customRepresentation) {
     ConfigurationProvider.loadRegisteredConfiguration();
     AbstractAssert.customRepresentation = customRepresentation;
   }
 
+  /**
+   * Controls whether assertion descriptions are printed before assertions are evaluated.
+   *
+   * @param printAssertionsDescription whether to print assertion descriptions
+   */
   public static void setPrintAssertionsDescription(boolean printAssertionsDescription) {
     ConfigurationProvider.loadRegisteredConfiguration();
     AbstractAssert.printAssertionsDescription = printAssertionsDescription;
   }
 
+  /**
+   * Sets the consumer invoked for assertion descriptions.
+   *
+   * @param descriptionConsumer the description consumer
+   */
   public static void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
     AbstractAssert.descriptionConsumer = descriptionConsumer;
   }
@@ -1223,26 +1294,48 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     this.info.overridingErrorMessage(assertInstance.info.overridingErrorMessage());
   }
 
-  // this method is meant to be overridden and made public in subclasses that want to expose it
-  // this would avoid duplicating this code in all subclasses
+  /**
+   * Creates a recursive comparison assertion with the given configuration.
+   * <p>
+   * this method is meant to be overridden and made public in subclasses that want to expose it
+   *
+   * @param recursiveComparisonConfiguration the recursive comparison configuration
+   * @return the recursive comparison assertion
+   */
   protected RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     return new RecursiveComparisonAssert<>(actual, recursiveComparisonConfiguration).withAssertionState(myself);
   }
 
-  // this method is meant to be overridden and made public in subclasses that want to expose it
-  // this would avoid duplicating this code in all subclasses
+  /**
+   * Creates a recursive comparison assertion with the default configuration.
+   * <p>
+   * this method is meant to be overridden and made public in subclasses that want to expose it
+   *
+   * @return the recursive comparison assertion
+   */
   protected RecursiveComparisonAssert<?> usingRecursiveComparison() {
     return usingRecursiveComparison(new RecursiveComparisonConfiguration(info.representation()));
   }
 
-  // this method is meant to be overridden and made public in subclasses that want to expose it
-  // this would avoid duplicating this code in all subclasses
+  /**
+   * Creates a recursive field-by-field assertion with the given configuration.
+   * <p>
+   * this method is meant to be overridden and made public in subclasses that want to expose it
+   *
+   * @param recursiveAssertionConfiguration the recursive assertion configuration
+   * @return the recursive assertion
+   */
   protected RecursiveAssertionAssert usingRecursiveAssertion(RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
     return new RecursiveAssertionAssert(actual, recursiveAssertionConfiguration);
   }
 
-  // this method is meant to be overridden and made public in subclasses that want to expose it
-  // this would avoid duplicating this code in all subclasses
+  /**
+   * Creates a recursive field-by-field assertion with the default configuration.
+   * <p>
+   * this method is meant to be overridden and made public in subclasses that want to expose it
+   *
+   * @return the recursive assertion
+   */
   protected RecursiveAssertionAssert usingRecursiveAssertion() {
     return new RecursiveAssertionAssert(actual, RecursiveAssertionConfiguration.builder().build());
   }
@@ -1285,6 +1378,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     }, () -> nullValueAssert(assertFactory));
   }
 
+  /**
+   * Creates an assertion for a {@code null} value using the given factory.
+   *
+   * @param <ASSERT> the assertion type
+   * @param assertFactory the assertion factory
+   * @return the assertion created for a {@code null} value
+   */
   protected static <ASSERT extends AbstractAssert<?, ?>> ASSERT nullValueAssert(AssertFactory<Object, ASSERT> assertFactory) {
     return assertFactory.createAssert((Object) null);
   }

@@ -46,6 +46,12 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Longs longs = Longs.instance();
 
+  /**
+   * Creates a new {@link Long} assertion.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractLongAssert(Long actual, Class<?> selfType) {
     super(actual, selfType);
   }

@@ -38,10 +38,16 @@ import org.assertj.core.internal.Int2DArrays;
 public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, int[][], Integer> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Assertion implementation for two-dimensional int arrays. */
   protected Int2DArrays int2dArrays = Int2DArrays.instance();
 
   private final Failures failures = Failures.instance();
 
+  /**
+   * Creates a new two-dimensional int array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public Int2DArrayAssert(int[][] actual) {
     super(actual, Int2DArrayAssert.class);
   }

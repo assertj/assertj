@@ -48,32 +48,89 @@ import org.assertj.core.util.diff.Patch;
 // TODO reduce the visibility of the fields annotated with @VisibleForTesting
 public class Diff {
 
+  /** Creates a new text difference calculator. */
+  public Diff() {}
+
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Compares two input streams as text.
+   *
+   * @param actual the actual stream
+   * @param expected the expected stream
+   * @return the text differences
+   * @throws IOException if a stream cannot be read
+   */
   public List<Delta<String>> diff(InputStream actual, InputStream expected) throws IOException {
     return diff(readerFor(actual), readerFor(expected));
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Compares an input stream with expected text.
+   *
+   * @param actual the actual stream
+   * @param expected the expected text
+   * @return the text differences
+   * @throws IOException if the stream cannot be read
+   */
   public List<Delta<String>> diff(InputStream actual, String expected) throws IOException {
     return diff(readerFor(actual), readerFor(expected));
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Compares two files as text.
+   *
+   * @param actual the actual file
+   * @param actualCharset the actual file charset
+   * @param expected the expected file
+   * @param expectedCharset the expected file charset
+   * @return the text differences
+   * @throws IOException if a file cannot be read
+   */
   public List<Delta<String>> diff(File actual, Charset actualCharset, File expected, Charset expectedCharset) throws IOException {
     return diff(actual.toPath(), actualCharset, expected.toPath(), expectedCharset);
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Compares two paths as text.
+   *
+   * @param actual the actual path
+   * @param actualCharset the actual path charset
+   * @param expected the expected path
+   * @param expectedCharset the expected path charset
+   * @return the text differences
+   * @throws IOException if a path cannot be read
+   */
   public List<Delta<String>> diff(Path actual, Charset actualCharset, Path expected, Charset expectedCharset) throws IOException {
     return diff(newBufferedReader(actual, actualCharset), newBufferedReader(expected, expectedCharset));
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Compares a file with expected text.
+   *
+   * @param actual the actual file
+   * @param expected the expected text
+   * @param charset the file charset
+   * @return the text differences
+   * @throws IOException if the file cannot be read
+   */
   public List<Delta<String>> diff(File actual, String expected, Charset charset) throws IOException {
     return diff(actual.toPath(), expected, charset);
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Compares a path with expected text.
+   *
+   * @param actual the actual path
+   * @param expected the expected text
+   * @param charset the path charset
+   * @return the text differences
+   * @throws IOException if the path cannot be read
+   */
   public List<Delta<String>> diff(Path actual, String expected, Charset charset) throws IOException {
     return diff(newBufferedReader(actual, charset), readerFor(expected));
   }

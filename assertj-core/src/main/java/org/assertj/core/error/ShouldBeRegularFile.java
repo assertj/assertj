@@ -24,6 +24,12 @@ import java.nio.file.Path;
 public class ShouldBeRegularFile extends BasicErrorMessageFactory {
   private static final String SHOULD_BE_REGULAR_FILE = "%nExpecting path:%n  %s%nto be a regular file.";
 
+  /**
+   * Creates an error for a path expected to be a regular file.
+   *
+   * @param actual the actual path
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeRegularFile(final Path actual) {
     return new ShouldBeRegularFile(actual);
   }

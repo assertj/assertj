@@ -15,7 +15,14 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for values expected to contain only ASCII characters. */
 public class ShouldBeASCII extends BasicErrorMessageFactory {
+  /**
+   * Creates an ASCII-content error.
+   *
+   * @param actual the actual value
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeASCII(Object actual) {
     return new ShouldBeASCII(actual);
   }

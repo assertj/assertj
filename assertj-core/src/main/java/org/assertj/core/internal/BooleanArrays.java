@@ -53,6 +53,11 @@ public class BooleanArrays {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Sets the underlying array assertions.
+   *
+   * @param arrays the array assertions
+   */
   public void setArrays(Arrays arrays) {
     this.arrays = arrays;
   }
@@ -262,10 +267,24 @@ public class BooleanArrays {
     arrays.assertContainsOnly(info, failures, actual, values);
   }
 
+  /**
+   * Verifies that the actual array contains exactly the given values.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContainsExactly(AssertionInfo info, boolean[] actual, boolean[] values) {
     arrays.assertContainsExactly(info, failures, actual, values);
   }
 
+  /**
+   * Verifies that the actual array contains exactly the given values in any order.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, boolean[] actual, boolean[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
@@ -401,6 +420,13 @@ public class BooleanArrays {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the values of which at least one is expected
+   */
   public void assertContainsAnyOf(AssertionInfo info, boolean[] actual, boolean[] values) {
     arrays.assertContainsAnyOf(info, failures, actual, values);
   }

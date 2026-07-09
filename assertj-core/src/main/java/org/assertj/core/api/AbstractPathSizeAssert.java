@@ -27,6 +27,7 @@ import org.assertj.core.annotation.CheckReturnValue;
 /**
  * Base class for path size assertions.
  *
+ * @param <ORIGIN> originating path assertion
  * @since 3.28.0
  */
 public abstract class AbstractPathSizeAssert<ORIGIN extends AbstractPathAssert<ORIGIN>>

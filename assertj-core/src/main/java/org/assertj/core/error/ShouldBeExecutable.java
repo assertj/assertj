@@ -46,6 +46,12 @@ public class ShouldBeExecutable extends BasicErrorMessageFactory {
     return new ShouldBeExecutable(actual);
   }
 
+  /**
+   * Creates an error for a path expected to be executable.
+   *
+   * @param actual the actual path
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeExecutable(Path actual) {
     return new ShouldBeExecutable(actual);
   }

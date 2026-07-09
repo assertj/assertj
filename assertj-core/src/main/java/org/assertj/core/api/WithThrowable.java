@@ -18,6 +18,7 @@ package org.assertj.core.api;
 import org.assertj.core.annotation.CheckReturnValue;
 
 // extends AbstractAssert just for skipping assertion when a soft assertion precondition fails
+/** Intermediate assertion providing access to a captured throwable. */
 @SuppressWarnings("rawtypes")
 public class WithThrowable extends AbstractAssert { //
   private final Throwable throwable;

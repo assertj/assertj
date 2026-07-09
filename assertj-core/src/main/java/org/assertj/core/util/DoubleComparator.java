@@ -15,10 +15,18 @@
  */
 package org.assertj.core.util;
 
+/**
+ * Compares double values using an epsilon.
+ */
 public class DoubleComparator extends NullSafeComparator<Double> {
 
   private double precision;
 
+  /**
+   * Creates a comparator using the given epsilon.
+   *
+   * @param epsilon the comparison epsilon
+   */
   public DoubleComparator(double epsilon) {
     this.precision = epsilon;
   }
@@ -29,6 +37,11 @@ public class DoubleComparator extends NullSafeComparator<Double> {
     return x < y ? -1 : 1;
   }
 
+  /**
+   * Returns the comparison epsilon.
+   *
+   * @return the epsilon
+   */
   public double getEpsilon() {
     return precision;
   }

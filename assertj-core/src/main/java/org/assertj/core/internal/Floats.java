@@ -42,10 +42,16 @@ public class Floats extends RealNumbers<Float> {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Creates float assertions using the standard comparison strategy. */
   Floats() {
     super();
   }
 
+  /**
+   * Creates float assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy
+   */
   public Floats(ComparisonStrategy comparisonStrategy) {
     super(comparisonStrategy);
   }

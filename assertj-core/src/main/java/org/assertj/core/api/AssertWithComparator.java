@@ -18,6 +18,12 @@ package org.assertj.core.api;
 import java.util.Comparator;
 import java.util.function.BiPredicate;
 
+/**
+ * Assertion contract supporting custom comparison strategies.
+ *
+ * @param <SELF> the "self" type of the assertion
+ * @param <ACTUAL> the type of the actual value
+ */
 public interface AssertWithComparator<SELF extends Assert<SELF, ACTUAL>, ACTUAL> {
   /**
    * Use the given custom comparator instead of relying on actual type A equals method for incoming assertion checks.

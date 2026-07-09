@@ -29,6 +29,11 @@ public class ExtendedByTypesComparator implements Comparator<Object> {
   private final Comparator<Object> comparator;
   private final TypeComparators comparatorsByType;
 
+  /**
+   * Creates a comparator using deep equality and the given type comparators.
+   *
+   * @param comparatorsByType the type-specific comparators
+   */
   public ExtendedByTypesComparator(TypeComparators comparatorsByType) {
     this(
          new Comparator<Object>() {
@@ -44,6 +49,12 @@ public class ExtendedByTypesComparator implements Comparator<Object> {
          }, comparatorsByType);
   }
 
+  /**
+   * Creates a comparator extending the given comparator with type-specific comparators.
+   *
+   * @param comparator the fallback comparator
+   * @param comparatorsByType the type-specific comparators
+   */
   public ExtendedByTypesComparator(Comparator<Object> comparator, TypeComparators comparatorsByType) {
     this.comparator = comparator;
     this.comparatorsByType = comparatorsByType;
@@ -65,6 +76,11 @@ public class ExtendedByTypesComparator implements Comparator<Object> {
     return comparator.compare(actual, other);
   }
 
+  /**
+   * Returns the fallback comparator.
+   *
+   * @return the comparator
+   */
   public Comparator<Object> getComparator() {
     return comparator;
   }

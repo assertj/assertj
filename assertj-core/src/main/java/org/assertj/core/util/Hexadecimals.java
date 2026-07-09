@@ -16,17 +16,32 @@
 package org.assertj.core.util;
 
 /**
+ * Hexadecimals utilities.
+ *
  * @author Mariusz Smykula
  */
 public class Hexadecimals {
 
+  /** Characters used to encode hexadecimal digits. */
   protected static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
+  /**
+   * Converts a byte to a two-digit hexadecimal string.
+   *
+   * @param b the byte to convert
+   * @return the hexadecimal string
+   */
   public static String byteToHexString(byte b) {
     int v = b & 0xFF;
     return new String(new char[] { HEX_ARRAY[v >>> 4], HEX_ARRAY[v & 0x0F] });
   }
 
+  /**
+   * Converts bytes to a hexadecimal string.
+   *
+   * @param bytes the bytes to convert
+   * @return the hexadecimal string
+   */
   public static String toHexString(byte... bytes) {
     StringBuilder stringBuilder = new StringBuilder();
     for (byte b : bytes)

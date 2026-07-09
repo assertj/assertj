@@ -30,7 +30,9 @@ import java.util.Objects;
  */
 public final class MapEntry<K, V> implements Map.Entry<K, V> {
 
+  /** The entry key. */
   public final K key;
+  /** The entry value. */
   public final V value;
 
   /**

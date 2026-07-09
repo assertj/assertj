@@ -18,6 +18,9 @@ package org.assertj.core.api;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Collects assertion errors for soft assertions.
+ */
 public interface AssertionErrorCollector extends AfterAssertionErrorCollected, AssertionErrorHandler {
 
   /**
@@ -30,6 +33,11 @@ public interface AssertionErrorCollector extends AfterAssertionErrorCollected, A
    */
   default void setDelegate(AssertionErrorCollector delegate) {}
 
+  /**
+   * Returns the optional delegate collector.
+   *
+   * @return the delegate collector, if set
+   */
   default Optional<AssertionErrorCollector> getDelegate() {
     return Optional.empty();
   }
@@ -48,6 +56,11 @@ public interface AssertionErrorCollector extends AfterAssertionErrorCollected, A
    */
   void collectAssertionError(AssertionError error);
 
+  /**
+   * Returns the collected assertion errors.
+   *
+   * @return the collected assertion errors
+   */
   List<AssertionError> assertionErrorsCollected();
 
   @Override

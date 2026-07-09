@@ -33,6 +33,10 @@ import org.assertj.core.util.Strings;
  *
  */
 public class Extractors {
+
+  /** Creates a new extractor utility instance. */
+  public Extractors() {}
+
   /**
    * Provides extractor for extracting {@link java.lang.Object#toString} from any object
    * @return the built {@link Function}
@@ -68,21 +72,45 @@ public class Extractors {
     return new ResultOfExtractor(methodName);
   }
 
+  /**
+   * Creates an extraction description from item descriptions.
+   *
+   * @param itemsDescription the item descriptions
+   * @return the extraction description
+   */
   public static String extractedDescriptionOf(String... itemsDescription) {
     return "Extracted: %s".formatted(Strings.join(itemsDescription).with(", "));
   }
 
+  /**
+   * Creates an extraction description from items.
+   *
+   * @param items the extracted items
+   * @return the extraction description
+   */
   public static String extractedDescriptionOf(Object... items) {
     String[] itemsDescription = Stream.of(items).map(Object::toString).toArray(String[]::new);
     return extractedDescriptionOf(itemsDescription);
   }
 
+  /**
+   * Creates a comma-separated description of items.
+   *
+   * @param items the items to describe
+   * @return the items description
+   */
   public static String descriptionOf(Object... items) {
     if (items == null) return "";
     String[] itemsDescription = Stream.of(items).map(Object::toString).toArray(String[]::new);
     return Strings.join(itemsDescription).with(", ");
   }
 
+  /**
+   * Creates an extraction description for a method result.
+   *
+   * @param method the method name
+   * @return the extraction description
+   */
   public static String extractedDescriptionOfMethod(String method) {
     return "Extracted: result of %s()".formatted(method);
   }

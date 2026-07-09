@@ -27,6 +27,8 @@ import org.assertj.core.internal.Integers;
 /**
  * Assertions for {@link java.util.OptionalInt}.
  *
+ * @param <SELF>  the "self" type of this assertion class.
+ *
  * @author Jean-Christophe Gay
  * @author Alexander Bischof
  * @author Grzegorz Piwowarek
@@ -37,6 +39,12 @@ public abstract class AbstractOptionalIntAssert<SELF extends AbstractOptionalInt
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Integers integers = Integers.instance();
 
+  /**
+   * Creates a new {@link OptionalInt} assertion.
+   *
+   * @param actual the actual optional to verify
+   * @param selfType the type of the concrete assertion
+   */
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   protected AbstractOptionalIntAssert(OptionalInt actual, Class<?> selfType) {
     super(actual, selfType);

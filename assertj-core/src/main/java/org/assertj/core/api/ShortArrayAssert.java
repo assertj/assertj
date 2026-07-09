@@ -29,6 +29,11 @@ package org.assertj.core.api;
  */
 public class ShortArrayAssert extends AbstractShortArrayAssert<ShortArrayAssert> {
 
+  /**
+   * Creates a new short array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public ShortArrayAssert(short[] actual) {
     super(actual, ShortArrayAssert.class);
   }

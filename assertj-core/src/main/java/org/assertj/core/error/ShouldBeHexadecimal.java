@@ -15,7 +15,14 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for values expected to contain only hexadecimal characters. */
 public class ShouldBeHexadecimal extends BasicErrorMessageFactory {
+  /**
+   * Creates a hexadecimal-content error.
+   *
+   * @param actual the actual value
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeHexadecimal(Object actual) {
     return new ShouldBeHexadecimal(actual);
   }

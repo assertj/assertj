@@ -25,6 +25,11 @@ import java.util.OptionalDouble;
  */
 public class OptionalDoubleAssert extends AbstractOptionalDoubleAssert<OptionalDoubleAssert> {
 
+  /**
+   * Creates a new optional double assertion.
+   *
+   * @param actual the actual optional to verify
+   */
   protected OptionalDoubleAssert(OptionalDouble actual) {
     super(actual, OptionalDoubleAssert.class);
   }

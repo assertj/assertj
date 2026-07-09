@@ -52,6 +52,8 @@ import org.assertj.core.internal.Comparables;
  * // it works with the concrete type too
  * assertThatComparable(name).isEqualByComparingTo(name);</code></pre>
  *
+ * @param <SELF>  the "self" type of this assertion class.
+ * @param <T>  the comparable type
  * @see Assertions#assertThatComparable(Comparable)
  * @since 3.23.0
  */
@@ -61,6 +63,12 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Comparables comparables = new Comparables();
 
+  /**
+   * Creates a new comparable assertion.
+   *
+   * @param actual the actual comparable value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractUniversalComparableAssert(Comparable<T> actual, Class<?> selfType) {
     super(actual, selfType);
   }

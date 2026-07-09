@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 
+/** Creates errors for groups missing all candidate values. */
 public class ShouldContainAnyOf extends BasicErrorMessageFactory {
 
   private static final String DEFAULT_FORMAT = "%nExpecting actual:%n" +
@@ -27,11 +28,26 @@ public class ShouldContainAnyOf extends BasicErrorMessageFactory {
 
   private static final String FORMAT_WITH_COMPARISON_STRATEGY = DEFAULT_FORMAT + " %s";
 
+  /**
+   * Creates an error using a custom comparison strategy.
+   *
+   * @param actual the actual group
+   * @param expected the candidate values
+   * @param comparisonStrategy the comparison strategy
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldContainAnyOf(Object actual, Object expected,
                                                        ComparisonStrategy comparisonStrategy) {
     return new ShouldContainAnyOf(actual, expected, comparisonStrategy);
   }
 
+  /**
+   * Creates an error using standard comparison.
+   *
+   * @param actual the actual group
+   * @param expected the candidate values
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldContainAnyOf(Object actual, Object expected) {
     return new ShouldContainAnyOf(actual, expected);
   }

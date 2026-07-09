@@ -35,8 +35,10 @@ import org.assertj.core.internal.Objects;
  */
 public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<ThrowableTypeAssert<T>> {
 
+  /** The expected throwable type. */
   protected final Class<? extends T> expectedThrowableType;
 
+  /** The assertion description. */
   protected Description description;
 
   /**
@@ -65,6 +67,12 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
     return buildThrowableTypeAssert(castThrowable).as(description);
   }
 
+  /**
+   * Verifies the throwable type.
+   *
+   * @param throwable the throwable to check
+   * @return the checked throwable
+   */
   protected Throwable checkThrowableType(Throwable throwable) {
     if (throwable == null) {
       throwAssertionError("%nExpecting code to throw a " + expectedThrowableType.getName() + ", but no throwable was thrown.");
@@ -101,6 +109,12 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
     throw Failures.instance().failure(info, new BasicErrorMessageFactory(message));
   }
 
+  /**
+   * Creates an assertion for a throwable of the expected type.
+   *
+   * @param throwable the throwable
+   * @return the throwable assertion
+   */
   protected ThrowableAssertAlternative<T> buildThrowableTypeAssert(T throwable) {
     return new ThrowableAssertAlternative<>(throwable);
   }

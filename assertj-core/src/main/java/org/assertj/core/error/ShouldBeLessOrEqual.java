@@ -39,6 +39,7 @@ public class ShouldBeLessOrEqual extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldBeLessOrEqual}</code>.
+   * @param <T> the compared value type
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.

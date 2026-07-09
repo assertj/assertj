@@ -36,7 +36,11 @@ import org.assertj.core.util.introspection.PropertySupport;
  */
 public class ComparingProperties extends AbstractRecursiveComparisonIntrospectionStrategy {
 
+  /** Shared property introspection strategy instance. */
   public static final ComparingProperties COMPARING_PROPERTIES = new ComparingProperties();
+
+  /** Creates a new property introspection strategy. */
+  public ComparingProperties() {}
 
   private static final String GET_PREFIX = "get";
   private static final String IS_PREFIX = "is";
@@ -79,6 +83,12 @@ public class ComparingProperties extends AbstractRecursiveComparisonIntrospectio
     return propertyWithCapitalLetter.toLowerCase().charAt(0) + propertyWithCapitalLetter.substring(1);
   }
 
+  /**
+   * Returns public getters declared by the given class or inherited from its superclasses.
+   *
+   * @param clazz the class to inspect
+   * @return the getter methods
+   */
   public static Set<Method> gettersIncludingInheritedOf(Class<?> clazz) {
     return gettersOf(clazz);
   }

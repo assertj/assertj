@@ -17,9 +17,19 @@ package org.assertj.core.error;
 
 import org.assertj.core.presentation.PredicateDescription;
 
+/**
+ * Creates an error message indicating that no element matched a predicate.
+ */
 public class AnyElementShouldMatch extends BasicErrorMessageFactory {
   private static final String NON_MATCHING_ELEMENT = "%nExpecting any elements of:%n  %s%nto match %s predicate but none did.";
 
+  /**
+   * Creates the error message factory.
+   *
+   * @param actual the actual elements
+   * @param predicateDescription the predicate description
+   * @return the error message factory
+   */
   public static ErrorMessageFactory anyElementShouldMatch(Object actual, PredicateDescription predicateDescription) {
     return new AnyElementShouldMatch(actual, predicateDescription);
   }

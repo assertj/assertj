@@ -53,6 +53,12 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Lists lists = Lists.instance();
 
+  /**
+   * Creates a new list assertion.
+   *
+   * @param actual the actual list to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractListAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }

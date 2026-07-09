@@ -206,6 +206,13 @@ public class PropertySupport {
     return propertyValues(fieldOrPropertyName, Object.class, target);
   }
 
+  /**
+   * Checks whether a public getter exists for the named field.
+   *
+   * @param fieldName the field name
+   * @param actual the object to inspect
+   * @return whether a public getter exists
+   */
   public boolean publicGetterExistsFor(String fieldName, Object actual) {
     try {
       getPropertyGetter(fieldName, actual);

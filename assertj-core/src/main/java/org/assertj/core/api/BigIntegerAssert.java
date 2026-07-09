@@ -26,6 +26,11 @@ import java.math.BigInteger;
  */
 public class BigIntegerAssert extends AbstractBigIntegerAssert<BigIntegerAssert> {
 
+  /**
+   * Creates a new {@link BigInteger} assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public BigIntegerAssert(BigInteger actual) {
     super(actual, BigIntegerAssert.class);
   }

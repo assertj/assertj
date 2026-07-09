@@ -50,6 +50,11 @@ public class HashSetAssert<ELEMENT>
 
   private final Iterables originalIterables;
 
+  /**
+   * Creates a new hash set assertion.
+   *
+   * @param elements the actual elements to verify
+   */
   public HashSetAssert(HashSet<? extends ELEMENT> elements) {
     super(elements, HashSetAssert.class);
     originalIterables = iterables;

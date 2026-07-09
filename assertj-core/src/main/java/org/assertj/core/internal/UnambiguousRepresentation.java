@@ -32,6 +32,13 @@ public class UnambiguousRepresentation {
 
   private final String expected;
 
+  /**
+   * Creates distinct representations of the actual and expected values.
+   *
+   * @param representation the representation to use
+   * @param actual the actual value
+   * @param expected the expected value
+   */
   public UnambiguousRepresentation(Representation representation, Object actual, Object expected) {
     String actualRepresentation = representation.toStringOf(actual);
     String expectedRepresentation = representation.toStringOf(expected);

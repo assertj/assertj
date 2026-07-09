@@ -29,6 +29,10 @@ import org.assertj.core.api.AssertionInfo;
  * @author William Bakker
  */
 public class Spliterators {
+
+  /** Creates reusable spliterator assertions. */
+  public Spliterators() {}
+
   /**
    * Name for constant {@link Spliterator#DISTINCT}
    */

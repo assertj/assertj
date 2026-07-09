@@ -39,6 +39,12 @@ public interface ThrowingConsumer<T> extends Consumer<T> {
     }
   }
 
+  /**
+   * Consumes the input and may throw an exception.
+   *
+   * @param input the input
+   * @throws Throwable if consumption fails
+   */
   void acceptThrows(T input) throws Throwable;
 
 }

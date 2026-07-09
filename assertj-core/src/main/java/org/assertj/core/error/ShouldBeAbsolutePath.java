@@ -39,6 +39,12 @@ public class ShouldBeAbsolutePath extends BasicErrorMessageFactory {
     return new ShouldBeAbsolutePath(actual);
   }
 
+  /**
+   * Creates an error for a path expected to be absolute.
+   *
+   * @param actual the actual path
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeAbsolutePath(final Path actual) {
     return new ShouldBeAbsolutePath(actual);
   }

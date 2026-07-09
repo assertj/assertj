@@ -58,6 +58,12 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
 
   private ComparisonStrategy optionalValueComparisonStrategy;
 
+  /**
+   * Creates a new {@link Optional} assertion.
+   *
+   * @param actual the actual optional to verify
+   * @param selfType the type of the concrete assertion
+   */
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   protected AbstractOptionalAssert(Optional<VALUE> actual, Class<?> selfType) {
     super(actual, selfType);

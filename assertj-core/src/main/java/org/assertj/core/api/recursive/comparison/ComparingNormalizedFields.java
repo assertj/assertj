@@ -37,6 +37,9 @@ import org.assertj.core.util.introspection.IntrospectionError;
  */
 public abstract class ComparingNormalizedFields extends AbstractRecursiveComparisonIntrospectionStrategy {
 
+  /** Creates a new normalized-field introspection strategy. */
+  public ComparingNormalizedFields() {}
+
   private static final String NO_FIELD_FOUND = "Unable to find field in %s, fields tried: %s and %s";
 
   // original field name <-> normalized field name by type

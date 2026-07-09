@@ -15,8 +15,24 @@
  */
 package org.assertj.core.util;
 
+/**
+ * A function accepting three arguments.
+ *
+ * @param <A> the first argument type
+ * @param <B> the second argument type
+ * @param <C> the third argument type
+ * @param <R> the result type
+ */
 @FunctionalInterface
 public interface TriFunction<A, B, C, R> {
 
+  /**
+   * Applies this function.
+   *
+   * @param a the first argument
+   * @param b the second argument
+   * @param c the third argument
+   * @return the function result
+   */
   R apply(A a, B b, C c);
 }

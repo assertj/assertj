@@ -27,8 +27,21 @@ import java.util.Set;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.presentation.Representation;
 
+/** Creates errors for maps missing expected entries. */
 public class ShouldContainEntries extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error describing missing keys and wrong values.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @param actual the actual map
+   * @param expectedEntries the expected entries
+   * @param entriesWithWrongValue entries with incorrect values
+   * @param entriesWithKeyNotFound entries whose keys are missing
+   * @param representation the value representation
+   * @return the error message factory
+   */
   public static <K, V> ErrorMessageFactory shouldContainEntries(Map<? extends K, ? extends V> actual,
                                                                 Entry<? extends K, ? extends V>[] expectedEntries,
                                                                 Set<Entry<? extends K, ? extends V>> entriesWithWrongValue,

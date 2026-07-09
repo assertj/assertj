@@ -22,11 +22,19 @@ import java.util.List;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.FieldLocation;
 
+/** Creates errors for recursive predicate assertion failures. */
 public class ShouldNotSatisfyPredicateRecursively extends BasicErrorMessageFactory {
 
   private static final String INDENT = "  ";
   private static final String NEW_LINE = "%n".formatted();
 
+  /**
+   * Creates an error describing fields that failed a recursive predicate.
+   *
+   * @param recursiveAssertionConfiguration the recursive assertion configuration
+   * @param failedFields the failing field locations
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldNotSatisfyRecursively(RecursiveAssertionConfiguration recursiveAssertionConfiguration,
                                                                 List<FieldLocation> failedFields) {
     List<String> fieldsDescription = failedFields.stream().map(FieldLocation::getPathToUseInErrorReport).collect(toList());

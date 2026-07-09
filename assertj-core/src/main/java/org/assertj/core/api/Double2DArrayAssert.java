@@ -40,8 +40,14 @@ public class Double2DArrayAssert extends Abstract2DArrayAssert<Double2DArrayAsse
   private final Failures failures = Failures.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Internal assertions for two-dimensional double arrays. */
   protected Double2DArrays double2dArrays = Double2DArrays.instance();
 
+  /**
+   * Creates a new two-dimensional double array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public Double2DArrayAssert(double[][] actual) {
     super(actual, Double2DArrayAssert.class);
   }

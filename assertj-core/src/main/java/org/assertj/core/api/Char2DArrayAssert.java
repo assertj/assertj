@@ -41,8 +41,14 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
   private final Failures failures = Failures.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Internal assertions for two-dimensional character arrays. */
   protected Char2DArrays char2dArrays = Char2DArrays.instance();
 
+  /**
+   * Creates a new two-dimensional character array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public Char2DArrayAssert(char[][] actual) {
     super(actual, Char2DArrayAssert.class);
   }

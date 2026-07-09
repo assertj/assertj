@@ -15,6 +15,9 @@
  */
 package org.assertj.core.api;
 
+/**
+ * Callback invoked after a soft assertion error is collected.
+ */
 @FunctionalInterface
 public interface AfterAssertionErrorCollected {
 

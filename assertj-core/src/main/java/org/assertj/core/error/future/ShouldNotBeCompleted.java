@@ -20,10 +20,17 @@ import java.util.concurrent.CompletableFuture;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for futures expected not to be completed. */
 public class ShouldNotBeCompleted extends BasicErrorMessageFactory {
 
   private static final String SHOULD_NOT_BE_COMPLETED = "%nExpecting%n  <%s>%nnot to be completed.%n" + Warning.WARNING;
 
+  /**
+   * Creates an error for a future expected not to be completed.
+   *
+   * @param actual the actual future
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldNotBeCompleted(CompletableFuture<?> actual) {
     return new ShouldNotBeCompleted(actual);
   }

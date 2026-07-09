@@ -47,6 +47,11 @@ public class ShortArrays {
 
   private final Failures failures = Failures.instance();
 
+  /**
+   * Creates short array assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy
+   */
   public ShortArrays(ComparisonStrategy comparisonStrategy) {
     arrays = new Arrays(comparisonStrategy);
   }
@@ -256,10 +261,24 @@ public class ShortArrays {
     arrays.assertContainsOnly(info, failures, actual, values);
   }
 
+  /**
+   * Verifies that the array contains exactly the given values in order.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContainsExactly(AssertionInfo info, short[] actual, short[] values) {
     arrays.assertContainsExactly(info, failures, actual, values);
   }
 
+  /**
+   * Verifies that the array contains exactly the given values in any order.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, short[] actual, short[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
@@ -395,6 +414,13 @@ public class ShortArrays {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 
+  /**
+   * Verifies that the array contains at least one of the given values.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContainsAnyOf(AssertionInfo info, short[] actual, short[] values) {
     arrays.assertContainsAnyOf(info, failures, actual, values);
   }
