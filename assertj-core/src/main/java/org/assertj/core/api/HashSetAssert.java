@@ -92,6 +92,10 @@ public class HashSetAssert<ELEMENT>
 
     @Override
     public boolean iterableContains(Iterable<?> iterable, Object value) {
+      // When checking membership in the HashSet under test, HashSet#contains already answers in O(1)
+      // using hashCode, so scanning the set again with super.iterableContains is redundant and turns
+      // contains/containsAll into O(n^2) on large sets (see https://github.com/assertj/assertj/issues/4233).
+      if (iterable == originalSet) return originalSet.contains(value);
       return originalSet.contains(value) && super.iterableContains(iterable, value);
     }
 

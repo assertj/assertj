@@ -1095,11 +1095,14 @@ public class Iterables {
    *                              {@code Iterable}, in any order.
    */
   public void assertContainsAll(AssertionInfo info, Iterable<?> actual, Iterable<?> other) {
-    final List<?> actualAsList = newArrayList(actual);
+    // reuse actual as-is when it is already a Collection (like assertContains does) instead of copying it to a
+    // List: this preserves the original reference so comparison strategies backed by an efficient contains (e.g.
+    // HashSetAssert) can answer membership in O(1) instead of scanning, see https://github.com/assertj/assertj/issues/4233
+    final Collection<?> actualAsCollection = ensureActualCanBeReadMultipleTimes(actual);
     checkIterableIsNotNull(other);
-    assertNotNull(info, actualAsList);
+    assertNotNull(info, actualAsCollection);
     Object[] values = newArrayList(other).toArray();
-    assertIterableContainsGivenValues(actual.getClass(), actualAsList, values, info);
+    assertIterableContainsGivenValues(actual.getClass(), actualAsCollection, values, info);
   }
 
   /**
