@@ -18,22 +18,18 @@ package org.assertj.guava.error;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
-/**
- * @author Ilya Koshaleu
- */
+/// @author Ilya Koshaleu
 public class RangeSetShouldNotEnclose extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldNotEnclose(Object actual, Object expected, Iterable<?> enclosed) {
     return new RangeSetShouldNotEnclose(actual, expected, enclosed);
   }
 
-  /**
-   * Creates a new <code>{@link BasicErrorMessageFactory}</code>.
-   * 
-   * @param actual actual {@code RangeSet}.
-   * @param expected expected value.
-   * @param enclosed list of values that haven't to be enclosed, but they have. 
-   */
+  /// Creates a new `[BasicErrorMessageFactory]`.
+  ///
+  /// @param actual actual `RangeSet`.
+  /// @param expected expected value.
+  /// @param enclosed list of values that should not be enclosed, but they are.
   private RangeSetShouldNotEnclose(Object actual, Object expected, Object enclosed) {
     super("%nExpecting:%n  %s%nnot to enclose%n  %s%nbut it encloses%n  %s%n", actual, expected, enclosed);
   }

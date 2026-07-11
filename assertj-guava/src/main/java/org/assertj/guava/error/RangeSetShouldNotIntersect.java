@@ -18,9 +18,7 @@ package org.assertj.guava.error;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
-/**
- * @author Ilya Koshaleu
- */
+/// @author Ilya Koshaleu
 public class RangeSetShouldNotIntersect extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldNotIntersect(Object actual, Object unexpected, Iterable<?> intersected) {
@@ -32,13 +30,11 @@ public class RangeSetShouldNotIntersect extends BasicErrorMessageFactory {
     return new RangeSetShouldNotIntersect(actual, unexpected, intersected);
   }
 
-  /**
-   * Creates a new <code>{@link BasicErrorMessageFactory}</code>.
-   * 
-   * @param actual actual {@code RangeSet}.
-   * @param unexpected ranges that should not be intersected.
-   * @param intersected list of ranges that haven't be intersected, but they have.
-   */
+  /// Creates a new `[BasicErrorMessageFactory]`.
+  ///
+  /// @param actual actual `RangeSet`.
+  /// @param unexpected ranges that should not be intersected.
+  /// @param intersected list of ranges that should not intersect, but they do.
   private RangeSetShouldNotIntersect(Object actual, Object unexpected, Object intersected) {
     super("%nExpecting:%n  %s%nnot to intersect%n  %s%nbut it intersects%n  %s%n",
           actual, unexpected, intersected);

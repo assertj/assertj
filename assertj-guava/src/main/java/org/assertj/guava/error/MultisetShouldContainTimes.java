@@ -20,11 +20,9 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 import com.google.common.collect.Multiset;
 
-/**
- * Creates an error message stating that a given value appears in a {@link Multiset} a different number of to the expected value
- *
- * @author Max Daniline
- */
+/// Creates an error message stating that a given value appears in a [Multiset] a different number of times than expected
+///
+/// @author Max Daniline
 public class MultisetShouldContainTimes extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldContainTimes(final Multiset<?> actual, final Object expected,
