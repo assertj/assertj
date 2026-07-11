@@ -29,11 +29,26 @@ import com.google.common.base.Optional;
  */
 public final class OptionalShouldBePresentWithValue extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message for an optional that does not contain the expected value.
+   *
+   * @param <T> the type of the optional value
+   * @param actual the actual optional
+   * @param value the expected value
+   * @return the created error message factory
+   */
   public static <T> ErrorMessageFactory shouldBePresentWithValue(final Optional<T> actual, final Object value) {
     return new OptionalShouldBePresentWithValue("%nExpecting Optional to contain value %n  %s%n but contained %n  %s",
                                                 value, actual.get());
   }
 
+  /**
+   * Creates an error message for an absent optional that should contain the expected value.
+   *
+   * @param <T> the type of the optional value
+   * @param value the expected value
+   * @return the created error message factory
+   */
   public static <T> ErrorMessageFactory shouldBePresentWithValue(final Object value) {
     return new OptionalShouldBePresentWithValue(
                                                 "Expecting Optional to contain %s but contained nothing (absent Optional)",

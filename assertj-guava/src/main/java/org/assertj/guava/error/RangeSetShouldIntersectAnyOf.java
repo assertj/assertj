@@ -28,6 +28,13 @@ import com.google.common.collect.RangeSet;
  */
 public class RangeSetShouldIntersectAnyOf extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message for a range set that does not intersect any expected range.
+   *
+   * @param actual the actual range set
+   * @param expected the expected ranges
+   * @return the created error message factory
+   */
   public static ErrorMessageFactory shouldIntersectAnyOf(RangeSet<?> actual, Object expected) {
     return new RangeSetShouldIntersectAnyOf(actual, expected);
   }

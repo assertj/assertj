@@ -30,8 +30,7 @@ import com.google.common.base.Optional;
  *
  * Assertions for guava {@link Optional}.
  * <p>
- * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Optional)}</code>
- * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Optional)}</code>.
  *
  * @param <T> the type of elements of the tested Optional value
  *
@@ -39,11 +38,20 @@ import com.google.common.base.Optional;
  */
 public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optional<T>> {
 
+  /**
+   * Creates a new assertion for the given {@link Optional}.
+   *
+   * @param actual the actual value
+   */
   protected OptionalAssert(final Optional<T> actual) {
     super(actual, OptionalAssert.class);
   }
 
-  // visible for test
+  /**
+   * Returns the actual optional.
+   *
+   * @return the actual optional
+   */
   protected Optional<T> getActual() {
     return actual;
   }

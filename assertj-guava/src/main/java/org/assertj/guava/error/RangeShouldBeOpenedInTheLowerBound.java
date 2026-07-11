@@ -20,8 +20,18 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 import com.google.common.collect.Range;
 
+/**
+ * Creates an error message indicating that a range should have an open lower bound.
+ */
 public class RangeShouldBeOpenedInTheLowerBound extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message for a range without an open lower bound.
+   *
+   * @param <T> the type of values in the range
+   * @param actual the actual range
+   * @return the created error message factory
+   */
   public static <T extends Comparable<T>> ErrorMessageFactory shouldHaveOpenedLowerBound(final Range<T> actual) {
     return new RangeShouldBeOpenedInTheLowerBound(
                                                   "%nExpecting:%n  %s%nto be opened in the lower bound but was closed", actual);

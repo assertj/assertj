@@ -27,6 +27,15 @@ import com.google.common.collect.Multiset;
  */
 public class MultisetShouldContainAtLeastTimes extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message for a multiset containing a value fewer times than expected.
+   *
+   * @param actual the actual multiset
+   * @param expected the expected value
+   * @param expectedTimes the minimum expected number of occurrences
+   * @param actualTimes the actual number of occurrences
+   * @return the created error message factory
+   */
   public static ErrorMessageFactory shouldContainAtLeastTimes(final Multiset<?> actual, final Object expected,
                                                               final int expectedTimes, final int actualTimes) {
     return new MultisetShouldContainAtLeastTimes("%n" +

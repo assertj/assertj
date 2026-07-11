@@ -15,6 +15,9 @@
  */
 package org.assertj.guava.util;
 
+/**
+ * Utility methods for throwing exceptions.
+ */
 public class ExceptionUtils {
 
   /**

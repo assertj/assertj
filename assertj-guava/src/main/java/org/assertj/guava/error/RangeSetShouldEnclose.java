@@ -27,6 +27,14 @@ import org.assertj.core.error.ErrorMessageFactory;
  */
 public class RangeSetShouldEnclose extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message for a range set that does not enclose all expected ranges.
+   *
+   * @param actual the actual range set
+   * @param expected the expected ranges
+   * @param notEnclosed the ranges that were not enclosed
+   * @return the created error message factory
+   */
   public static ErrorMessageFactory shouldEnclose(Object actual, Object expected, Iterable<?> notEnclosed) {
     return new RangeSetShouldEnclose(actual, expected, notEnclosed);
   }

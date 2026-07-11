@@ -20,8 +20,18 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 import com.google.common.io.ByteSource;
 
+/**
+ * Creates an error message indicating that two byte sources should have the same content.
+ */
 public class ShouldHaveSameContent extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message for byte sources with different content.
+   *
+   * @param actual the actual byte source
+   * @param expected the expected byte source
+   * @return the created error message factory
+   */
   public static ErrorMessageFactory shouldHaveSameContent(ByteSource actual, ByteSource expected) {
     return new ShouldHaveSameContent(actual, expected);
   }

@@ -32,6 +32,11 @@ import com.google.common.io.ByteSource;
  */
 public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSource> {
 
+  /**
+   * Creates a new assertion for the given {@link ByteSource}.
+   *
+   * @param actual the actual value
+   */
   protected ByteSourceAssert(ByteSource actual) {
     super(actual, ByteSourceAssert.class);
   }

@@ -46,14 +46,25 @@ import com.google.common.collect.SetMultimap;
  * @author marcelfalliere
  * @author miralak
  * @author Joel Costigliola
+ * @param <K> the type of keys in the tested multimap
+ * @param <V> the type of values in the tested multimap
  */
 public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, Multimap<K, V>> {
 
+  /**
+   * Creates a new assertion for the given {@link Multimap}.
+   *
+   * @param actual the actual value
+   */
   protected MultimapAssert(Multimap<K, V> actual) {
     super(actual, MultimapAssert.class);
   }
 
-  // visible for test
+  /**
+   * Returns the actual multimap.
+   *
+   * @return the actual multimap
+   */
   protected Multimap<K, V> getActual() {
     return actual;
   }
@@ -72,7 +83,6 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * assertThat(actual).containsKeys(&quot;Lakers&quot;, &quot;Bulls&quot;);</code></pre>
    * <p>
    * If the <code>keys</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
-   * <p>
    *
    * @param keys the keys to look for in actual {@link Multimap}.
    * @return this {@link MultimapAssert} for assertions chaining.
@@ -112,7 +122,6 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * assertThat(actual).contains(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Tim Duncan"));</code></pre>
    * <p>
    * If the <code>entries</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
-   * <p>
    *
    * @param entries the entries to look for in actual {@link Multimap}.
    * @return this {@link MultimapAssert} for assertions chaining.
@@ -153,7 +162,6 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * assertThat(actual).containsValues(&quot;Kobe Bryant&quot;, &quot;Michael Jordan&quot;);</code></pre>
    * <p>
    * If the <code>values</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
-   * <p>
    *
    * @param values the values to look for in actual {@link Multimap}.
    * @return this {@link MultimapAssert} for assertions chaining.

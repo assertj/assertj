@@ -29,6 +29,14 @@ import org.assertj.core.error.ShouldContainValue;
  */
 public class ShouldContainValues extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message for an actual value that does not contain all expected values.
+   *
+   * @param actual the actual value
+   * @param values the expected values
+   * @param valuesNotFound the missing values
+   * @return the created error message factory
+   */
   public static ErrorMessageFactory shouldContainValues(Object actual, Object[] values, Set<?> valuesNotFound) {
     return values.length == 1 ? new ShouldContainValues(actual, values[0])
         : new ShouldContainValues(actual, values,

@@ -21,10 +21,20 @@ import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
 /**
+ * Creates an error message indicating that a table does not contain all expected columns.
+ *
  * @author Jan Gorman
  */
 public class TableShouldContainColumns extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message for a table that does not contain all expected columns.
+   *
+   * @param actual the actual table
+   * @param columns the expected columns
+   * @param columnsNotFound the missing columns
+   * @return the created error message factory
+   */
   public static ErrorMessageFactory tableShouldContainColumns(Object actual, Object[] columns, Set<?> columnsNotFound) {
     return columns.length == 1 ? new TableShouldContainColumns(actual, columns[0])
         : new TableShouldContainColumns(actual, columns,
@@ -35,6 +45,13 @@ public class TableShouldContainColumns extends BasicErrorMessageFactory {
     super("%nExpecting:%n  %s%nto contain column:%n  %s", actual, row);
   }
 
+  /**
+   * Creates an error message for a table that does not contain all expected columns.
+   *
+   * @param actual the actual table
+   * @param rows the expected columns
+   * @param columnsNotFound the missing columns
+   */
   public TableShouldContainColumns(Object actual, Object[] rows, Set<?> columnsNotFound) {
     super("%nExpecting:%n  %s%nto contain columns:%n  %s%nbut could not find:%n  %s", actual, rows, columnsNotFound);
   }
