@@ -284,6 +284,7 @@ limitations under the License.
             </addStylesheets>
             <!-- Explicitly set Javadoc locale to English -->
             <locale>en_US</locale>
+            <failOnWarnings>true</failOnWarnings>
             <nohelp>true</nohelp>
             <bottom><![CDATA[
               Copyright &#169; {currentYear} {organizationName}. All rights reserved.
