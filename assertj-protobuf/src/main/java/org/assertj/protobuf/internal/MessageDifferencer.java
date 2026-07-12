@@ -216,14 +216,12 @@ public class MessageDifferencer {
       }
     }
 
-    // in PARTIAL scope, keys missing from the expected map are not compared
-    if (scope == Scope.FULL) {
-      for (Object key : actualMap.keySet()) {
-        if (!expectedMap.containsKey(key)) {
-          differences.append(String.format("Map field <%s>: did not expect key <%s> but it was set to <%s>%n",
-                                           fieldPath, key, actualMap.get(key)));
-          isEqual = false;
-        }
+    // a map field is compared as a whole, entries only found in actual are unexpected
+    for (Object key : actualMap.keySet()) {
+      if (!expectedMap.containsKey(key)) {
+        differences.append(String.format("Map field <%s>: did not expect key <%s> but it was set to <%s>%n",
+                                         fieldPath, key, actualMap.get(key)));
+        isEqual = false;
       }
     }
 

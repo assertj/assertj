@@ -167,8 +167,8 @@ public class MessageAssert<T extends Message> extends AbstractAssert<MessageAsse
    * // This will pass because we only compare fields set in expected
    * assertThat(actual).comparingExpectedFieldsOnly().isEqualTo(expected);</code></pre>
    * <p>
-   * Map fields follow the same rule: only the entries whose key is present in the expected message
-   * are compared, the other entries of the actual map are ignored.
+   * A map field set in the expected message is compared as a whole: its entries must match the ones
+   * of the actual map, an entry only found in the actual map is reported as unexpected.
    *
    * @return {@code this} assertion object
    */

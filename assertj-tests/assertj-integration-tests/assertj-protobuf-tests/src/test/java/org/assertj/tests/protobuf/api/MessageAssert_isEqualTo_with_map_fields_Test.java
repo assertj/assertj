@@ -112,15 +112,18 @@ class MessageAssert_isEqualTo_with_map_fields_Test {
   }
 
   @Test
-  void should_pass_when_expected_declares_a_subset_of_keys_and_comparing_expected_fields_only() {
+  void should_fail_when_actual_has_an_unexpected_key_and_comparing_expected_fields_only() {
     // GIVEN
     MapFieldMessage actual = MapFieldMessage.newBuilder()
                                             .putLabels("env", "prod")
                                             .putLabels("team", "backend")
                                             .build();
     MapFieldMessage expected = MapFieldMessage.newBuilder().putLabels("env", "prod").build();
-    // WHEN/THEN
-    assertThat(actual).comparingExpectedFieldsOnly().isEqualTo(expected);
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(actual).comparingExpectedFieldsOnly()
+                                                                        .isEqualTo(expected));
+    // THEN a map field is compared as a whole, extra entries are not ignored
+    then(error).hasMessageContaining("Map field <labels>: did not expect key <team> but it was set to <backend>");
   }
 
   @Test
