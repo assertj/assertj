@@ -24,3 +24,10 @@ message RepeatedFieldMessage {
   repeated string items = 1;
   repeated int32 values = 2;
 }
+
+// Message with map fields
+message MapFieldMessage {
+  map<string, string> labels = 1;
+  map<string, NestedMessage> nested_by_key = 2;
+  map<int32, int32> scores = 3;
+}

@@ -17,7 +17,9 @@ package org.assertj.protobuf.internal;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.protobuf.Descriptors.FieldDescriptor;
@@ -165,11 +167,77 @@ public class MessageDifferencer {
     @SuppressWarnings("unchecked")
     List<Object> expectedList = (List<Object>) expectedValue;
 
-    if (repeatedFieldComparison == RepeatedFieldComparison.AS_SET) {
+    if (field.isMapField()) {
+      return compareMapField(actualList, expectedList, field, fieldPath, differences);
+    } else if (repeatedFieldComparison == RepeatedFieldComparison.AS_SET) {
       return compareRepeatedFieldAsSet(actualList, expectedList, field, fieldPath, differences);
     } else {
       return compareRepeatedFieldAsList(actualList, expectedList, field, fieldPath, differences);
     }
+  }
+
+  /**
+   * Compares map fields by key, as the iteration order of their entries is not significant.
+   */
+  private boolean compareMapField(List<Object> actualList, List<Object> expectedList,
+                                  FieldDescriptor field, String fieldPath,
+                                  StringBuilder differences) {
+    // a map entry always declares its key as field 1 and its value as field 2
+    FieldDescriptor keyField = field.getMessageType().findFieldByNumber(1);
+    FieldDescriptor valueField = field.getMessageType().findFieldByNumber(2);
+
+    Map<Object, Object> actualMap = toMap(actualList, keyField, valueField);
+    Map<Object, Object> expectedMap = toMap(expectedList, keyField, valueField);
+
+    boolean isEqual = true;
+
+    for (Map.Entry<Object, Object> expectedEntry : expectedMap.entrySet()) {
+      Object key = expectedEntry.getKey();
+      String entryPath = fieldPath + "[" + key + "]";
+
+      if (!actualMap.containsKey(key)) {
+        differences.append(String.format("Map field <%s>: expected to contain key <%s> but it was missing%n",
+                                         fieldPath, key));
+        isEqual = false;
+        continue;
+      }
+
+      Object expectedEntryValue = expectedEntry.getValue();
+      Object actualEntryValue = actualMap.get(key);
+
+      if (valueField.getJavaType() == FieldDescriptor.JavaType.MESSAGE) {
+        if (!compareMessages((Message) actualEntryValue, (Message) expectedEntryValue, entryPath, differences)) {
+          isEqual = false;
+        }
+      } else if (!actualEntryValue.equals(expectedEntryValue)) {
+        differences.append(String.format("Map field <%s>: expected <%s> but was <%s>%n",
+                                         entryPath, expectedEntryValue, actualEntryValue));
+        isEqual = false;
+      }
+    }
+
+    // in PARTIAL scope, keys missing from the expected map are not compared
+    if (scope == Scope.FULL) {
+      for (Object key : actualMap.keySet()) {
+        if (!expectedMap.containsKey(key)) {
+          differences.append(String.format("Map field <%s>: did not expect key <%s> but it was set to <%s>%n",
+                                           fieldPath, key, actualMap.get(key)));
+          isEqual = false;
+        }
+      }
+    }
+
+    return isEqual;
+  }
+
+  private static Map<Object, Object> toMap(List<Object> entries, FieldDescriptor keyField,
+                                           FieldDescriptor valueField) {
+    Map<Object, Object> map = new LinkedHashMap<>();
+    for (Object entry : entries) {
+      Message mapEntry = (Message) entry;
+      map.put(mapEntry.getField(keyField), mapEntry.getField(valueField));
+    }
+    return map;
   }
 
   private boolean compareRepeatedFieldAsList(List<Object> actualList, List<Object> expectedList,
