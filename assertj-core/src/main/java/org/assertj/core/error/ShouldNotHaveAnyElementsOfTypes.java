@@ -18,6 +18,7 @@ package org.assertj.core.error;
 import java.util.List;
 import java.util.Map;
 
+/** Creates errors for groups containing elements of prohibited types. */
 public class ShouldNotHaveAnyElementsOfTypes extends BasicErrorMessageFactory {
 
   private ShouldNotHaveAnyElementsOfTypes(Object actual, Class<?>[] unexpectedTypes,

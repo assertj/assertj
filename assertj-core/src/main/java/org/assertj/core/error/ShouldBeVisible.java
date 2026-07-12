@@ -15,7 +15,14 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for values expected to be visible. */
 public class ShouldBeVisible extends BasicErrorMessageFactory {
+  /**
+   * Creates an error for a value expected to be visible.
+   *
+   * @param actual the actual value
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeVisible(Object actual) {
     return new ShouldBeVisible(actual);
   }

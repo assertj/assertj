@@ -25,6 +25,9 @@ import org.assertj.core.data.Index;
  */
 public class Float2DArrays {
 
+  /** Creates reusable two-dimensional float array assertions. */
+  public Float2DArrays() {}
+
   private static final Float2DArrays INSTANCE = new Float2DArrays();
 
   /**
@@ -38,9 +41,15 @@ public class Float2DArrays {
   private Arrays2D arrays = Arrays2D.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Assertion failure provider. */
   Failures failures = Failures.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Sets the delegate used for common two-dimensional array assertions.
+   *
+   * @param arrays the delegate to use
+   */
   public void setArrays(Arrays2D arrays) {
     this.arrays = arrays;
   }

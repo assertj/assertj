@@ -29,6 +29,11 @@ package org.assertj.core.api;
  */
 public class DoubleArrayAssert extends AbstractDoubleArrayAssert<DoubleArrayAssert> {
 
+  /**
+   * Creates a new double array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public DoubleArrayAssert(double[] actual) {
     super(actual, DoubleArrayAssert.class);
   }

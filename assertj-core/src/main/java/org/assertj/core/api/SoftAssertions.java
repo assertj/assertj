@@ -174,6 +174,10 @@ import org.opentest4j.MultipleFailuresError;
  * @see <a href="https://www.beust.com/weblog/reinventing-assertions/">Reinventing Assertions (inspired this feature)</a>
  */
 public class SoftAssertions extends AbstractSoftAssertions implements StandardSoftAssertionsProvider {
+
+  /** Creates a soft assertions instance. */
+  public SoftAssertions() {}
+
   /**
    * Convenience method for calling {@link SoftAssertionsProvider#assertSoftly} for these assertion types.
    * Equivalent to {@code SoftAssertion.assertSoftly(SoftAssertions.class, softly)}.

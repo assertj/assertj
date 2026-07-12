@@ -34,11 +34,14 @@ import org.assertj.core.internal.Objects;
 /**
  * Assertions for {@link java.time.OffsetTime} type from new Date &amp; Time API introduced in Java 8.
  *
+ * @param <SELF>  the "self" type of this assertion class.
+ *
  * @author Alexander Bischof
  */
 public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAssert<SELF>>
     extends AbstractTemporalAssert<SELF, OffsetTime> {
 
+  /** Error message used when the offset time to compare is {@code null}. */
   public static final String NULL_OFFSET_TIME_PARAMETER_MESSAGE = "The OffsetTime to compare actual with should not be null";
 
   /**

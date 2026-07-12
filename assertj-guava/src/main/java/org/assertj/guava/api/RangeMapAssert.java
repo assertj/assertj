@@ -38,8 +38,7 @@ import com.google.common.collect.RangeMap;
  * Assertions for guava {@link com.google.common.collect.RangeMap}.
  * <p>
  * To create an instance of this class, invoke <code>{@link
- * org.assertj.guava.api.Assertions#assertThat(com.google.common.collect.RangeMap)}</code>
- * <p>
+ * org.assertj.guava.api.Assertions#assertThat(com.google.common.collect.RangeMap)}</code>.
  *
  * @param <K> the type of keys of the tested RangeMap value
  * @param <V> the type of values of the tested RangeMap value
@@ -47,11 +46,20 @@ import com.google.common.collect.RangeMap;
  */
 public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<RangeMapAssert<K, V>, RangeMap<K, V>> {
 
+  /**
+   * Creates a new assertion for the given {@link RangeMap}.
+   *
+   * @param actual the actual value
+   */
   protected RangeMapAssert(final RangeMap<K, V> actual) {
     super(actual, RangeMapAssert.class);
   }
 
-  // visible for test
+  /**
+   * Returns the actual range map.
+   *
+   * @return the actual range map
+   */
   protected RangeMap<K, V> getActual() {
     return actual;
   }
@@ -73,7 +81,6 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * assertThat(spectralColors).containsKeys(380, 600, 700);</code></pre>
    *
    * If the <code>keys</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
-   * <p>
    *
    * @param keys the keys to look for in actual {@link com.google.common.collect.RangeMap}.
    * @return this {@link RangeMapAssert} for assertions chaining.
@@ -117,7 +124,6 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * assertThat(spectralColors).contains(entry("400", "violet"), entry("650", "red"));</code></pre>
    *
    * If the <code>entries</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
-   * <p>
    *
    * @param entries the entries to look for in actual {@link com.google.common.collect.RangeMap}.
    * @return this {@link RangeMapAssert} for assertions chaining.
@@ -161,7 +167,6 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * assertThat(actual).containsValues(&quot;violet&quot;, &quot;orange&quot;);</code></pre>
    *
    * If the <code>values</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
-   * <p>
    *
    * @param values the values to look for in actual {@link com.google.common.collect.RangeMap}.
    * @return this {@link RangeMapAssert} for assertions chaining.

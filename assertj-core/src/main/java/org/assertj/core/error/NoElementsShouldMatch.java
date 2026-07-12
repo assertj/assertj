@@ -17,8 +17,18 @@ package org.assertj.core.error;
 
 import org.assertj.core.presentation.PredicateDescription;
 
+/** Creates errors for iterables containing an element matching a forbidden predicate. */
 public class NoElementsShouldMatch extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for an element matching a forbidden predicate.
+   *
+   * @param <T> the matching element type
+   * @param actual the actual iterable
+   * @param elementMatchingPredicate the matching element
+   * @param predicateDescription the predicate description
+   * @return the error message factory
+   */
   public static <T> ErrorMessageFactory noElementsShouldMatch(Object actual, T elementMatchingPredicate,
                                                               PredicateDescription predicateDescription) {
     return new NoElementsShouldMatch(actual, elementMatchingPredicate, predicateDescription);

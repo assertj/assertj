@@ -18,8 +18,8 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
+import static org.assertj.core.internal.DatesBaseTest.parseDatetime;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -38,17 +38,17 @@ class ShouldBeCloseTo_create_Test {
   @Test
   void should_create_error_message_with_period_boundaries_included() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeCloseTo(parseDatetimeWithMs("2011-01-01T00:00:00.000"),
-                                                  parseDatetimeWithMs("2011-01-01T00:00:00.101"),
+    ErrorMessageFactory factory = shouldBeCloseTo(parseDatetime("2011-01-01T00:00:00.000"),
+                                                  parseDatetime("2011-01-01T00:00:00.101"),
                                                   100, 101);
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting actual:%n" +
-                                   "  2011-01-01T00:00:00.000%n" +
+                                   "  2011-01-01T00:00:00.000 (java.util.Date)%n" +
                                    "to be close to:%n" +
-                                   "  2011-01-01T00:00:00.101%n" +
+                                   "  2011-01-01T00:00:00.101 (java.util.Date)%n" +
                                    "by less than 100ms but difference was 101ms"));
   }
 

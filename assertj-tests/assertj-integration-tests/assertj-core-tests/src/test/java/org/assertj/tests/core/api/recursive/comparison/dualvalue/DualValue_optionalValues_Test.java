@@ -16,9 +16,8 @@
 package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -26,19 +25,16 @@ import java.util.OptionalLong;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class DualValue_optionalValues_Test {
 
-  private static final List<String> PATH = list("foo", "bar");
-
   @Test
   void isActualAnOptional_should_return_true_when_actual_is_an_optional() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, Optional.empty(), "abc");
+    var dualValue = dualValue(Optional.empty(), "abc");
     // WHEN
     boolean actualIsAnOptional = dualValue.isActualAnOptional();
     // THEN
@@ -49,7 +45,7 @@ class DualValue_optionalValues_Test {
   @MethodSource("nonOptional")
   void isActualAnOptional_should_return_false_when_actual_is_not_an_optional(Object actualField) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), actualField);
+    var dualValue = dualValue(Pair.of(1, "a"), actualField);
     // WHEN
     boolean actualIsAnOptional = dualValue.isActualAnOptional();
     // THEN
@@ -59,7 +55,7 @@ class DualValue_optionalValues_Test {
   @Test
   void isActualAnOptionalInt_should_return_true_when_actual_is_an_optionalInt() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, OptionalInt.empty(), "abc");
+    var dualValue = dualValue(OptionalInt.empty(), "abc");
     // WHEN
     boolean actualIsAnOptionalInt = dualValue.isActualAnOptionalInt();
     // THEN
@@ -70,7 +66,7 @@ class DualValue_optionalValues_Test {
   @MethodSource("nonOptional")
   void isActualAnOptionalInt_should_return_false_when_actual_is_not_an_optionalInt(Object actualField) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), actualField);
+    var dualValue = dualValue(Pair.of(1, "a"), actualField);
     // WHEN
     boolean actualIsAnOptionalInt = dualValue.isActualAnOptionalInt();
     // THEN
@@ -80,7 +76,7 @@ class DualValue_optionalValues_Test {
   @Test
   void isActualAnOptionalLong_should_return_true_when_actual_is_an_optionalLong() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, OptionalLong.empty(), "abc");
+    var dualValue = dualValue(OptionalLong.empty(), "abc");
     // WHEN
     boolean actualIsAnOptionalLong = dualValue.isActualAnOptionalLong();
     // THEN
@@ -91,7 +87,7 @@ class DualValue_optionalValues_Test {
   @MethodSource("nonOptional")
   void isActualAnOptionalLong_should_return_false_when_actual_is_not_an_optionalLong(Object actualField) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), actualField);
+    var dualValue = dualValue(Pair.of(1, "a"), actualField);
     // WHEN
     boolean actualIsAnOptionalLong = dualValue.isActualAnOptionalLong();
     // THEN
@@ -101,7 +97,7 @@ class DualValue_optionalValues_Test {
   @Test
   void isActualAnOptionalDouble_should_return_true_when_actual_is_an_optionalDouble() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, OptionalDouble.empty(), "abc");
+    var dualValue = dualValue(OptionalDouble.empty(), "abc");
     // WHEN
     boolean actualIsAnOptionalDouble = dualValue.isActualAnOptionalDouble();
     // THEN
@@ -112,7 +108,7 @@ class DualValue_optionalValues_Test {
   @MethodSource("nonOptional")
   void isActualAnOptionalDouble_should_return_false_when_actual_is_not_an_optionalDouble(Object actualField) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), actualField);
+    var dualValue = dualValue(Pair.of(1, "a"), actualField);
     // WHEN
     boolean actualIsAnOptionalDouble = dualValue.isActualAnOptionalDouble();
     // THEN
@@ -122,7 +118,7 @@ class DualValue_optionalValues_Test {
   @Test
   void isExpectedAnOptional_should_return_true_when_expected_is_an_optional() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "abc", Optional.of(""));
+    var dualValue = dualValue("abc", Optional.of(""));
     // WHEN
     boolean expectedIsOptional = dualValue.isExpectedAnOptional();
     // THEN
@@ -133,7 +129,7 @@ class DualValue_optionalValues_Test {
   @MethodSource("nonOptional")
   void isExpectedAnOptional_should_return_false_when_expected_is_not_an_optional(Object expectedField) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), expectedField);
+    var dualValue = dualValue(Pair.of(1, "a"), expectedField);
     // WHEN
     boolean expectedIsAnOptional = dualValue.isExpectedAnOptional();
     // THEN
@@ -148,7 +144,7 @@ class DualValue_optionalValues_Test {
   @MethodSource("emptyOptionals")
   void isActualAnEmptyOptionalOfAnyType_should_return_true_when_actual_is_an_empty_optional(Object optional) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, optional, "abc");
+    var dualValue = dualValue(optional, "abc");
     // WHEN
     boolean actualIsAnOptional = dualValue.isActualAnEmptyOptionalOfAnyType();
     // THEN
@@ -159,7 +155,7 @@ class DualValue_optionalValues_Test {
   @MethodSource("populatedOptionals")
   void isActualAnEmptyOptionalOfAnyType_should_return_false_when_actual_is_a_populated_optional(Object optional) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, optional, "abc");
+    var dualValue = dualValue(optional, "abc");
     // WHEN
     boolean actualIsAnOptional = dualValue.isActualAnEmptyOptionalOfAnyType();
     // THEN

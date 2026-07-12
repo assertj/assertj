@@ -27,6 +27,9 @@ import org.assertj.core.internal.Failures;
 
 /**
  * Assertions for {@link Period} type.
+ *
+ * @param <SELF>  the "self" type of this assertion class.
+ *
  * @author Hayden Meloche
  * @since 3.17.0
  */

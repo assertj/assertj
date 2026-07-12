@@ -15,8 +15,16 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for text differing only after newline normalization rules are applied. */
 public class ShouldBeEqualIgnoringNewLineDifferences extends BasicErrorMessageFactory {
 
+  /**
+   * Creates a newline-difference error.
+   *
+   * @param actual the actual text
+   * @param expected the expected text
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeEqualIgnoringNewLineDifferences(CharSequence actual, CharSequence expected) {
     return new ShouldBeEqualIgnoringNewLineDifferences(actual, expected);
   }

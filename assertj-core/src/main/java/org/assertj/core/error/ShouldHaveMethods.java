@@ -38,16 +38,43 @@ public class ShouldHaveMethods extends BasicErrorMessageFactory {
     return new ShouldHaveMethods(actual, expected, missing, declared);
   }
 
+  /**
+   * Creates an error for methods with incorrect modifiers.
+   *
+   * @param actual the actual class
+   * @param declared whether declared methods are checked
+   * @param expected the expected methods
+   * @param modifier the expected modifier
+   * @param nonMatching the methods with incorrect modifiers
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveMethods(Class<?> actual, boolean declared, SortedSet<String> expected,
                                                       String modifier, Map<String, String> nonMatching) {
     return new ShouldHaveMethods(actual, expected, modifier, nonMatching, declared);
   }
 
+  /**
+   * Creates an error for methods unexpectedly having a modifier.
+   *
+   * @param actual the actual class
+   * @param modifier the prohibited modifier
+   * @param declared whether declared methods are checked
+   * @param actualMethodsHavingModifier the offending methods
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldNotHaveMethods(Class<?> actual, String modifier, boolean declared,
                                                          SortedSet<String> actualMethodsHavingModifier) {
     return new ShouldHaveMethods(actual, modifier, declared, actualMethodsHavingModifier);
   }
 
+  /**
+   * Creates an error for unexpectedly present methods.
+   *
+   * @param actual the actual class
+   * @param declared whether declared methods are checked
+   * @param actualMethodsHavingModifier the offending methods
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldNotHaveMethods(Class<?> actual, boolean declared,
                                                          SortedSet<String> actualMethodsHavingModifier) {
     return new ShouldHaveMethods(actual, null, declared, actualMethodsHavingModifier);

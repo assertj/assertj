@@ -82,12 +82,22 @@ public final class Introspection {
     return getter;
   }
 
+  /**
+   * Configures whether bare-name property methods may be extracted.
+   *
+   * @param bareNamePropertyMethods whether bare-name methods may be extracted
+   */
   public static void setExtractBareNamePropertyMethods(boolean bareNamePropertyMethods) {
     ConfigurationProvider.loadRegisteredConfiguration();
     Introspection.bareNamePropertyMethods = bareNamePropertyMethods;
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns whether bare-name property methods may be extracted.
+   *
+   * @return whether bare-name methods may be extracted
+   */
   public static boolean canExtractBareNamePropertyMethods() {
     return bareNamePropertyMethods;
   }

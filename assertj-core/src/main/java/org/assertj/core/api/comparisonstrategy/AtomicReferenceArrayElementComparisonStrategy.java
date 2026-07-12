@@ -21,10 +21,20 @@ import static org.assertj.core.util.Arrays.isArray;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
+/**
+ * Comparison strategy using a comparator for atomic reference array elements.
+ *
+ * @param <T> the array element type
+ */
 public class AtomicReferenceArrayElementComparisonStrategy<T> extends StandardComparisonStrategy {
 
   private final Comparator<? super T> elementComparator;
 
+  /**
+   * Creates a comparison strategy using the given element comparator.
+   *
+   * @param elementComparator the element comparator
+   */
   public AtomicReferenceArrayElementComparisonStrategy(Comparator<? super T> elementComparator) {
     this.elementComparator = elementComparator;
   }

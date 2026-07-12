@@ -17,8 +17,21 @@ package org.assertj.core.internal;
 
 import java.util.Comparator;
 
+/**
+ * Comparator providing a human-readable description.
+ *
+ * @param <T> the compared type
+ */
 public abstract class DescribableComparator<T> implements Comparator<T> {
 
+  /** Creates a new describable comparator. */
+  public DescribableComparator() {}
+
+  /**
+   * Returns this comparator's description.
+   *
+   * @return the comparator description
+   */
   public abstract String description();
 
   @Override

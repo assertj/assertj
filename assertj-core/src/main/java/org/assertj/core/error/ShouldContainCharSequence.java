@@ -45,6 +45,13 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
                                          StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates an error for a throwable message missing text.
+   *
+   * @param actual the actual throwable
+   * @param sequence the expected text
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldContain(Throwable actual, CharSequence sequence) {
     String format = "%n" +
                     "Expecting throwable message:%n" +
@@ -59,6 +66,14 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
     return new ShouldContainCharSequence(format, actual.getMessage(), sequence, StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates an error for a throwable message missing expected text.
+   *
+   * @param actual the actual throwable
+   * @param sequence the expected text values
+   * @param notFound the missing values
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldContain(Throwable actual, CharSequence[] sequence,
                                                   Set<? extends CharSequence> notFound) {
     String format = "%n" +

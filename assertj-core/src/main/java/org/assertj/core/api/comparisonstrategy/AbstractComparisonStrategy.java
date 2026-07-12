@@ -30,6 +30,9 @@ import java.util.Set;
  */
 public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
 
+  /** Creates a new comparison strategy. */
+  public AbstractComparisonStrategy() {}
+
   @Override
   public Iterable<?> duplicatesFrom(Iterable<?> iterable) {
     if (isNullOrEmpty(iterable)) return EMPTY_SET;

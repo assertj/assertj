@@ -69,6 +69,8 @@ public class Chunk<T> {
   }
 
   /**
+   * Returns the start position of this chunk.
+   *
    * @return the start position of chunk in the text
    */
   public int getPosition() {
@@ -76,6 +78,8 @@ public class Chunk<T> {
   }
 
   /**
+   * Returns the lines affected by this chunk.
+   *
    * @return the affected lines
    */
   public List<T> getLines() {

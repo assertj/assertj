@@ -266,6 +266,12 @@ public class Files {
     checkArgument(Charset.isSupported(charsetName), "Charset:<'%s'> is not supported on this system", charsetName);
   }
 
+  /**
+   * Returns the extension of the given file name.
+   *
+   * @param fileName the file name
+   * @return the file name extension, if present
+   */
   public static Optional<String> getFileNameExtension(String fileName) {
     int dotAt = fileName.lastIndexOf('.');
     if (dotAt == -1) return Optional.empty();

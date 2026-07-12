@@ -41,6 +41,11 @@ public class Shorts extends Numbers<Short> implements WholeNumbers<Short> {
     return INSTANCE;
   }
 
+  /**
+   * Creates short assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy
+   */
   public Shorts(ComparisonStrategy comparisonStrategy) {
     super(comparisonStrategy);
   }

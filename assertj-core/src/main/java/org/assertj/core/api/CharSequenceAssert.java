@@ -25,10 +25,21 @@ package org.assertj.core.api;
  */
 public class CharSequenceAssert extends AbstractCharSequenceAssert<CharSequenceAssert, CharSequence> {
 
+  /**
+   * Creates a character sequence assertion.
+   *
+   * @param actual the actual character sequence
+   * @return the created assertion object
+   */
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThatCharSequence(CharSequence actual) {
     return new CharSequenceAssert(actual);
   }
 
+  /**
+   * Creates a new character sequence assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public CharSequenceAssert(CharSequence actual) {
     super(actual, CharSequenceAssert.class);
   }

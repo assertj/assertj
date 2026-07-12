@@ -28,6 +28,9 @@ import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Integers;
 
+/**
+ * Assertions for {@link AtomicInteger} values.
+ */
 public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicIntegerAssert, AtomicInteger> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -36,6 +39,11 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Integers integers = Integers.instance();
 
+  /**
+   * Creates a new atomic integer assertion.
+   *
+   * @param actual the actual atomic integer
+   */
   public AtomicIntegerAssert(AtomicInteger actual) {
     super(actual, AtomicIntegerAssert.class);
   }

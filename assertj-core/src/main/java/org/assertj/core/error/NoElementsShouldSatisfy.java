@@ -15,8 +15,16 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for iterables containing elements satisfying forbidden requirements. */
 public class NoElementsShouldSatisfy extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for an element satisfying forbidden requirements.
+   *
+   * @param actual the actual iterable
+   * @param faultyElement the element satisfying the requirements
+   * @return the error message factory
+   */
   public static ErrorMessageFactory noElementsShouldSatisfy(Object actual, Object faultyElement) {
     return new NoElementsShouldSatisfy(actual, faultyElement);
   }

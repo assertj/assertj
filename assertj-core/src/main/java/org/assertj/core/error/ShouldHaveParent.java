@@ -30,12 +30,26 @@ public class ShouldHaveParent extends BasicErrorMessageFactory {
   private static final String FILE_NO_PARENT = "%nExpecting file%n  %s%nto have parent:%n  %s%nbut did not have one.";
   private static final String FILE_NOT_EXPECTED_PARENT = "%nExpecting file%n  %s%nto have parent:%n  %s%nbut had:%n  %s.";
 
+  /**
+   * Creates an error for a file with the wrong parent.
+   *
+   * @param actual the actual file
+   * @param expected the expected parent
+   * @return the error message factory
+   */
   public static ShouldHaveParent shouldHaveParent(File actual, File expected) {
     return actual.getParentFile() == null ? new ShouldHaveParent(actual, expected)
         : new ShouldHaveParent(actual,
                                actual.getParentFile(), expected);
   }
 
+  /**
+   * Creates an error for a path with the wrong parent.
+   *
+   * @param actual the actual path
+   * @param expected the expected parent
+   * @return the error message factory
+   */
   public static ShouldHaveParent shouldHaveParent(Path actual, Path expected) {
     final Path actualParent = actual.getParent();
     return actualParent == null
@@ -43,6 +57,14 @@ public class ShouldHaveParent extends BasicErrorMessageFactory {
         : new ShouldHaveParent(actual, actualParent, expected);
   }
 
+  /**
+   * Creates an error describing the actual and expected parent.
+   *
+   * @param actual the actual path
+   * @param actualParent the actual parent
+   * @param expected the expected parent
+   * @return the error message factory
+   */
   public static ShouldHaveParent shouldHaveParent(Path actual, Path actualParent, Path expected) {
     return new ShouldHaveParent(actual, actualParent, expected);
   }

@@ -36,17 +36,28 @@ import java.util.regex.Pattern;
 // TODO rename to FieldPath?
 public final class FieldLocation implements Comparable<FieldLocation> {
 
+  /** Separator used between field path components. */
   public static final String FIELD_SEPARATOR = ".";
   private final String pathToUseInRules;
   private final List<String> decomposedPath;
   private final Set<String> pathsHierarchyToUseInRules;
 
+  /**
+   * Creates a field location from path components.
+   *
+   * @param path the field path components
+   */
   public FieldLocation(List<String> path) {
     decomposedPath = unmodifiableList(requireNonNull(path, "path cannot be null"));
     pathToUseInRules = pathToUseInRules(decomposedPath);
     pathsHierarchyToUseInRules = pathsHierarchyToUseInRules();
   }
 
+  /**
+   * Creates a field location from a dot-separated path.
+   *
+   * @param s the field path
+   */
   public FieldLocation(String s) {
     this(list(s.split("\\.")));
   }
@@ -74,6 +85,11 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     return "<%s>".formatted(pathToUseInRules);
   }
 
+  /**
+   * Returns the field path used in comparison rules.
+   *
+   * @return the short field description
+   */
   public String shortDescription() {
     return pathToUseInRules;
   }
@@ -86,10 +102,22 @@ public final class FieldLocation implements Comparable<FieldLocation> {
                .collect(joining(FIELD_SEPARATOR));
   }
 
+  /**
+   * Checks whether this location exactly matches another location.
+   *
+   * @param field the field location to compare
+   * @return whether the locations match
+   */
   public boolean exactlyMatches(FieldLocation field) {
     return exactlyMatches(field.pathToUseInRules);
   }
 
+  /**
+   * Checks whether this location exactly matches the given path.
+   *
+   * @param fieldPath the field path to compare
+   * @return whether the paths match
+   */
   public boolean exactlyMatches(String fieldPath) {
     return pathToUseInRules.equals(fieldPath);
   }
@@ -149,32 +177,69 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     return pathsHierarchyToUseInRules.stream().anyMatch(path -> regex.matcher(path).matches());
   }
 
+  /**
+   * Returns the field path components.
+   *
+   * @return the decomposed path
+   */
   public List<String> getDecomposedPath() {
     return decomposedPath;
   }
 
+  /**
+   * Returns the path used in comparison rules.
+   *
+   * @return the rule path
+   */
   public String getPathToUseInRules() {
     return pathToUseInRules;
   }
 
+  /**
+   * Returns the rule path for the given child field.
+   *
+   * @param fieldName the child field name
+   * @return the child rule path
+   */
   public String getPathToUseInRulesForChildField(String fieldName) {
     return pathToUseInRules.isEmpty() ? fieldName : pathToUseInRules + FIELD_SEPARATOR + fieldName;
   }
 
+  /**
+   * Creates a child field location.
+   *
+   * @param field the child field name
+   * @return the child location
+   */
   public FieldLocation field(String field) {
     List<String> decomposedPathWithField = new ArrayList<>(decomposedPath);
     decomposedPathWithField.add(field);
     return new FieldLocation(decomposedPathWithField);
   }
 
+  /**
+   * Returns the field path used in error reports.
+   *
+   * @return the error report path
+   */
   public String getPathToUseInErrorReport() {
     return String.join(FIELD_SEPARATOR, decomposedPath);
   }
 
+  /**
+   * Returns the last field name in the path.
+   *
+   * @return the field name
+   */
   public String getFieldName() {
     return decomposedPath.isEmpty() ? "" : decomposedPath.get(decomposedPath.size() - 1);
   }
 
+  /**
+   * Checks whether this is a root location.
+   *
+   * @return whether this is a root location
+   */
   public boolean isRoot() {
     // Root is the top level object compared or in case of the top level is an iterable/array the elements are
     // considered as roots.
@@ -186,10 +251,20 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     return pathToUseInRules.isEmpty();
   }
 
+  /**
+   * Checks whether this is a top-level field.
+   *
+   * @return whether this is a top-level field
+   */
   public boolean isTopLevelField() {
     return !isRoot() && !pathToUseInRules.contains(FIELD_SEPARATOR);
   }
 
+  /**
+   * Creates the root field location.
+   *
+   * @return the root location
+   */
   public static FieldLocation rootFieldLocation() {
     return new FieldLocation(emptyList());
   }

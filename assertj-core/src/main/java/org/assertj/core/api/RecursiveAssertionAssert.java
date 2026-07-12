@@ -41,6 +41,12 @@ public class RecursiveAssertionAssert extends AbstractAssertWithComparator<Recur
   private final RecursiveAssertionConfiguration recursiveAssertionConfiguration;
   private final RecursiveAssertionDriver recursiveAssertionDriver;
 
+  /**
+   * Creates a recursive assertion.
+   *
+   * @param o the object graph root
+   * @param recursiveAssertionConfiguration the recursive assertion configuration
+   */
   public RecursiveAssertionAssert(Object o, RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
     super(o, RecursiveAssertionAssert.class);
     this.recursiveAssertionConfiguration = recursiveAssertionConfiguration;
@@ -58,13 +64,13 @@ public class RecursiveAssertionAssert extends AbstractAssertWithComparator<Recur
    * {@link java.util.function.Predicate} applied to them (including primitive fields), no fields are excluded, but:
    * <ul>
    *   <li>The recursion does not enter into Java Class Library types (java.*, javax.*)</li>
-   *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Collection} and array elements (but not the collection/array itself)</li>
+   *   <li>The {@link java.util.function.Predicate} is applied to {@link Iterable} and array elements (but not the iterable/array itself)</li>
    *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Map} values but not the map itself or its keys</li>
    *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Optional} and primitive optional values</li>
    * </ul>
-   * <p>You can change how the recursive assertion deals with arrays, collections, maps and optionals, see:</p>
+   * <p>You can change how the recursive assertion deals with arrays, iterables, maps and optionals, see:</p>
    * <ul>
-   *   <li>{@link RecursiveAssertionAssert#withCollectionAssertionPolicy(RecursiveAssertionConfiguration.CollectionAssertionPolicy)} for collections and arrays</li>
+   *   <li>{@link RecursiveAssertionAssert#withIterableAssertionPolicy(RecursiveAssertionConfiguration.IterableAssertionPolicy)} for iterables and arrays</li>
    *   <li>{@link RecursiveAssertionAssert#withMapAssertionPolicy(RecursiveAssertionConfiguration.MapAssertionPolicy)} for maps</li>
    *   <li>{@link RecursiveAssertionAssert#withOptionalAssertionPolicy(RecursiveAssertionConfiguration.OptionalAssertionPolicy)} for optionals</li>
    * </ul>
@@ -323,7 +329,6 @@ public class RecursiveAssertionAssert extends AbstractAssertWithComparator<Recur
 
   /**
    * Makes the recursive assertion to ignore all null fields.
-   * <p>
    * <pre><code class='java'> class Person {
    *   String name;
    *   String occupation;
@@ -369,16 +374,16 @@ public class RecursiveAssertionAssert extends AbstractAssertWithComparator<Recur
   }
 
   /**
-   * Makes the recursive assertion to use the specified {@link RecursiveAssertionConfiguration.CollectionAssertionPolicy}.
+   * Makes the recursive assertion to use the specified {@link RecursiveAssertionConfiguration.IterableAssertionPolicy}.
    * <p>
-   * See {@link RecursiveAssertionConfiguration.CollectionAssertionPolicy} for the different possible policies, by default
-   * {@link RecursiveAssertionConfiguration.CollectionAssertionPolicy#ELEMENTS_ONLY} is used.
+   * See {@link RecursiveAssertionConfiguration.IterableAssertionPolicy} for the different possible policies, by default
+   * {@link RecursiveAssertionConfiguration.IterableAssertionPolicy#ELEMENTS_ONLY} is used.
    *
-   * @param collectionAssertionPolicy the {@link RecursiveAssertionConfiguration.CollectionAssertionPolicy} to use.
+   * @param iterableAssertionPolicy the {@link RecursiveAssertionConfiguration.IterableAssertionPolicy} to use.
    * @return this {@link RecursiveAssertionAssert} to chain other methods.
    */
-  public RecursiveAssertionAssert withCollectionAssertionPolicy(RecursiveAssertionConfiguration.CollectionAssertionPolicy collectionAssertionPolicy) {
-    recursiveAssertionConfiguration.setCollectionAssertionPolicy(collectionAssertionPolicy);
+  public RecursiveAssertionAssert withIterableAssertionPolicy(RecursiveAssertionConfiguration.IterableAssertionPolicy iterableAssertionPolicy) {
+    recursiveAssertionConfiguration.setIterableAssertionPolicy(iterableAssertionPolicy);
     return this;
   }
 

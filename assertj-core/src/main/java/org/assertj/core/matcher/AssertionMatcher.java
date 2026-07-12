@@ -46,6 +46,9 @@ import org.hamcrest.Matcher;
 public abstract class AssertionMatcher<T> extends BaseMatcher<T> {
   private AssertionError firstError;
 
+  /** Creates a new assertion matcher. */
+  public AssertionMatcher() {}
+
   /**
    * {@inheritDoc}
    */

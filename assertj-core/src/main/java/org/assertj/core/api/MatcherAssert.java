@@ -24,6 +24,11 @@ import java.util.regex.Matcher;
  */
 public class MatcherAssert extends AbstractMatcherAssert<MatcherAssert> {
 
+  /**
+   * Creates a new matcher assertion.
+   *
+   * @param actual the actual matcher to verify
+   */
   protected MatcherAssert(Matcher actual) {
     super(actual, MatcherAssert.class);
   }

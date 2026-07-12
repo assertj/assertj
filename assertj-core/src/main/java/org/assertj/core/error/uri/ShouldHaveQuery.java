@@ -21,11 +21,19 @@ import java.net.URL;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for URIs and URLs with an unexpected query. */
 public class ShouldHaveQuery extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_QUERY = "%nExpecting query of%n  <%s>%nto be:%n  <%s>%nbut was:%n  <%s>";
   private static final String SHOULD_NOT_HAVE_QUERY = "%nExpecting actual:%n  <%s>%nnot to have a query but had:%n  <%s>";
 
+  /**
+   * Creates an error for a URI with the wrong query.
+   *
+   * @param actual the actual URI
+   * @param expectedQuery the expected query
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveQuery(URI actual, String expectedQuery) {
     return expectedQuery == null ? new ShouldHaveQuery(actual) : new ShouldHaveQuery(actual, expectedQuery);
   }
@@ -38,6 +46,13 @@ public class ShouldHaveQuery extends BasicErrorMessageFactory {
     super(SHOULD_NOT_HAVE_QUERY, actual, actual.getQuery());
   }
 
+  /**
+   * Creates an error for a URL with the wrong query.
+   *
+   * @param actual the actual URL
+   * @param expectedQuery the expected query
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveQuery(URL actual, String expectedQuery) {
     return expectedQuery == null ? new ShouldHaveQuery(actual) : new ShouldHaveQuery(actual, expectedQuery);
   }

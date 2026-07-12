@@ -65,6 +65,11 @@ public class IntrospectionError extends RuntimeException {
     this.getterInvocationException = getterInvocationException;
   }
 
+  /**
+   * Returns the exception thrown while invoking the getter, if any.
+   *
+   * @return the getter invocation exception
+   */
   public Optional<Throwable> getterInvocationException() {
     return Optional.ofNullable(getterInvocationException);
   }

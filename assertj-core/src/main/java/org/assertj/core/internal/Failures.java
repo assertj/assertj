@@ -84,6 +84,13 @@ public class Failures {
 
   private Failures() {}
 
+  /**
+   * Creates an assertion error for an equality failure.
+   *
+   * @param info assertion information
+   * @param shouldBeEqual the equality error message
+   * @return the assertion error
+   */
   public AssertionError failure(AssertionInfo info, ShouldBeEqual shouldBeEqual) {
     AssertionError error = failureIfErrorMessageIsOverridden(info);
     if (error != null) return error;
@@ -115,6 +122,15 @@ public class Failures {
     return assertionError;
   }
 
+  /**
+   * Creates an assertion error with actual and expected values.
+   *
+   * @param info assertion information
+   * @param messageFactory the error message factory
+   * @param actual the actual value
+   * @param expected the expected value
+   * @return the assertion error
+   */
   public AssertionError failure(AssertionInfo info, ErrorMessageFactory messageFactory, Object actual, Object expected) {
     String assertionErrorMessage = assertionErrorMessage(info, messageFactory);
     AssertionError assertionError = assertionErrorCreator.assertionError(assertionErrorMessage, actual, expected,
@@ -124,6 +140,13 @@ public class Failures {
     return assertionError;
   }
 
+  /**
+   * Creates the assertion error message.
+   *
+   * @param info assertion information
+   * @param messageFactory the error message factory
+   * @return the assertion error message
+   */
   protected String assertionErrorMessage(AssertionInfo info, ErrorMessageFactory messageFactory) {
     String overridingErrorMessage = info.overridingErrorMessage();
     return isNullOrEmpty(overridingErrorMessage)
@@ -131,6 +154,12 @@ public class Failures {
         : MessageFormatter.instance().format(info.description(), info.representation(), overridingErrorMessage);
   }
 
+  /**
+   * Creates an assertion error when an overriding message is configured.
+   *
+   * @param info assertion information
+   * @return the assertion error or {@code null}
+   */
   public AssertionError failureIfErrorMessageIsOverridden(AssertionInfo info) {
     String overridingErrorMessage = info.overridingErrorMessage();
     return isNullOrEmpty(overridingErrorMessage) ? null
@@ -164,6 +193,7 @@ public class Failures {
     return failure(format("%s should have been thrown", throwableClass.getSimpleName()));
   }
 
+  /** Prints a thread dump when configured. */
   public void printThreadDumpIfNeeded() {
     if (printThreadDump) System.err.println(threadDumpDescription());
   }
@@ -211,6 +241,11 @@ public class Failures {
     printThreadDump = true;
   }
 
+  /**
+   * Returns a description of all current threads.
+   *
+   * @return the thread dump description
+   */
   public static String threadDumpDescription() {
     StringBuilder threadDumpDescription = new StringBuilder();
     ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();

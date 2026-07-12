@@ -15,35 +15,34 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
+import static java.time.ZoneId.systemDefault;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.util.DateUtil.newIsoDateFormat;
-import static org.assertj.core.util.DateUtil.newIsoDateTimeFormat;
-import static org.assertj.core.util.DateUtil.newIsoDateTimeWithIsoTimeZoneFormat;
-import static org.assertj.core.util.DateUtil.newIsoDateTimeWithMsAndIsoTimeZoneFormat;
-import static org.assertj.core.util.DateUtil.newIsoDateTimeWithMsFormat;
-import static org.assertj.core.util.DateUtil.newTimestampDateFormat;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Lists.newArrayList;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
-import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.Dates;
 
@@ -73,31 +72,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   private static final String DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL = "Given date format pattern should not be null";
   private static final String DATE_FORMAT_SHOULD_NOT_BE_NULL = "Given date format should not be null";
 
-  private static boolean lenientParsing = Configuration.LENIENT_DATE_PARSING;
+  private static final List<Function<String, Date>> DEFAULT_DATE_PARSERS = list(s -> Date.from(OffsetDateTime.parse(s)
+                                                                                                             .toInstant()),
+                                                                                s -> Date.from(LocalDateTime.parse(s)
+                                                                                                            .atZone(systemDefault())
+                                                                                                            .toInstant()),
+                                                                                s -> Date.from(LocalDate.parse(s)
+                                                                                                        .atStartOfDay(systemDefault())
+                                                                                                        .toInstant()),
+                                                                                s -> new Date(Timestamp.valueOf(s).getTime()));
 
-  /**
-   * the default DateFormat used to parse any String date representation.
-   */
-  private static final ThreadLocal<List<DateFormat>> DEFAULT_DATE_FORMATS = ThreadLocal.withInitial(() -> list(newIsoDateTimeWithMsAndIsoTimeZoneFormat(lenientParsing),
-                                                                                                               newIsoDateTimeWithMsFormat(lenientParsing),
-                                                                                                               newTimestampDateFormat(lenientParsing),
-                                                                                                               newIsoDateTimeWithIsoTimeZoneFormat(lenientParsing),
-                                                                                                               newIsoDateTimeFormat(lenientParsing),
-                                                                                                               newIsoDateFormat(lenientParsing)));
-
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  static List<DateFormat> defaultDateFormats() {
-    if (defaultDateFormatMustBeRecreated()) {
-      DEFAULT_DATE_FORMATS.remove();
-    }
-    return DEFAULT_DATE_FORMATS.get();
-  }
-
-  private static boolean defaultDateFormatMustBeRecreated() {
-    // check default timezone or lenient flag changes, only check one date format since all are configured the same way
-    DateFormat dateFormat = DEFAULT_DATE_FORMATS.get().get(0);
-    return !dateFormat.getTimeZone().getID().equals(TimeZone.getDefault().getID()) || dateFormat.isLenient() != lenientParsing;
-  }
+  static final List<String> DEFAULT_DATE_PARSERS_REPRESENTATION = list("yyyy-MM-dd'T'HH:mm:ss.SSSX",
+                                                                       "yyyy-MM-dd'T'HH:mm:ss.SSS",
+                                                                       "yyyy-MM-dd HH:mm:ss.SSS",
+                                                                       "yyyy-MM-dd'T'HH:mm:ssX",
+                                                                       "yyyy-MM-dd'T'HH:mm:ss",
+                                                                       "yyyy-MM-dd HH:mm:ss",
+                                                                       "yyyy-MM-dd");
 
   /**
    * Used in String based Date assertions - like {@link #isAfter(String)} - to convert input date represented as string
@@ -110,6 +101,12 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Dates dates = Dates.instance();
 
+  /**
+   * Creates a new {@link Date} assertion.
+   *
+   * @param actual the actual date to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractDateAssert(Date actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -131,23 +128,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isEqualTo("2002-12-19");</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -197,23 +194,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isNotEqualTo("2002-12-18")</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -263,23 +260,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isIn("2002-12-17", "2002-12-19", "2002-12-20")</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -330,23 +327,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isInWithStringDateCollection(asList("2002-12-17", "2002-12-19", "2002-12-20"))</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -381,23 +378,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isNotIn("2002-12-17", "2002-12-18")</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -449,23 +446,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isNotInWithStringDateCollection(Arrays.asList("2002-12-17", "2002-12-18"))</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -544,23 +541,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(theTwoTowers.getReleaseDate()).isBefore("2002-12-17");
    * assertThat(theTwoTowers.getReleaseDate()).isBefore("2002-12-18")</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -642,23 +639,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isBeforeOrEqualTo("2002-12-17")</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -738,23 +735,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(theTwoTowers.getReleaseDate()).isAfter("2002-12-18");
    * assertThat(theTwoTowers.getReleaseDate()).isAfter("2002-12-19")</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -835,23 +832,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualTo("2002-12-19")</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -909,23 +906,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isBetween("2002-12-15", "2002-12-17")</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -1014,23 +1011,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isBetween("2002-12-17", "2002-12-18", false, false)</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -1154,23 +1151,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(theTwoTowers.getReleaseDate()).isNotBetween("2002-12-17", "2002-12-18", false, true);
    * assertThat(theTwoTowers.getReleaseDate()).isNotBetween("2002-12-18", "2002-12-19", true, false)</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -1260,23 +1257,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * // assertion will fail
    * assertThat(theFellowshipOfTheRing.getReleaseDate()).isNotBetween("2002-12-01", "2002-12-19")</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -1617,23 +1614,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <pre><code class='java'> Date date1 = parse("2003-04-26");
    * assertThat(date1).isInSameYearAs("2003-05-27")</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -1706,23 +1703,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <pre><code class='java'> Date date1 = parse("2003-04-26");
    * assertThat(date1).isInSameMonthAs("2003-04-27")</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -1749,8 +1746,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(date1).isInSameDayAs(date2);</code></pre>
    * <p>
    * Note that using a {@link #usingComparator(Comparator) custom comparator}  has no effect on this assertion.
-   * <p>
-   *
    * @param other the given {@code Date} to compare actual {@code Date} to.
    * @return this assertion object.
    * @throws NullPointerException if {@code Date} parameter is {@code null}.
@@ -1771,8 +1766,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(date).isInSameDayAs(instant);</code></pre>
    *
    * Note that using a {@link #usingComparator(Comparator) custom comparator}  has no effect on this assertion.
-   * <p>
-   *
    * @param other the given {@code Date} to compare actual {@code Date} to.
    * @return this assertion object.
    * @throws NullPointerException if {@code Instant} parameter is {@code null}.
@@ -1796,30 +1789,28 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T23:17:00");
    * assertThat(date1).isInSameDayAs("2003-04-26")</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
    * you can explicitly specify the date format to use so that the default ones are bypassed.
-   * <p>
-   *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
    * @throws NullPointerException if dateAsString parameter is {@code null}.
@@ -1907,23 +1898,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -2020,23 +2011,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -2145,23 +2136,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -2249,23 +2240,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
-   * Default date formats (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
-   * Example of valid string date representations:
+   * Examples of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -2347,23 +2338,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(date).hasSameTimeAs("2003-04-26T12:00:01");
    * assertThat(date).hasSameTimeAs("2003-04-27T12:00:00")</code></pre>
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -2434,39 +2425,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   public SELF withDateFormat(String userCustomDateFormatPattern) {
     requireNonNull(userCustomDateFormatPattern, DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL);
     return withDateFormat(new SimpleDateFormat(userCustomDateFormatPattern));
-  }
-
-  /**
-   * Instead of using default strict date/time parsing, it is possible to use lenient parsing mode for default date
-   * formats parser to interpret inputs that do not precisely match supported date formats (lenient parsing).
-   * <p>
-   * With strict parsing, inputs must match exactly date/time formats.
-   * <p>
-   * Example:
-   * <pre><code class='java'> Date date = Dates.parse("2001-02-03");
-   * final Date dateTime = parseDatetime("2001-02-03T04:05:06");
-   * final Date dateTimeWithMs = parseDatetimeWithMs("2001-02-03T04:05:06.700");
-   *
-   * AbstractDateAssert.setLenientDateParsing(true);
-   *
-   * // assertions will pass
-   * assertThat(date).isEqualTo("2001-02-03");
-   * assertThat(date).isEqualTo("2001-02-02T24:00:00");
-   * assertThat(date).isEqualTo("2001-02-04T-24:00:00.000");
-   * assertThat(dateTime).isEqualTo("2001-02-03T04:05:05.1000");
-   * assertThat(dateTime).isEqualTo("2001-02-03T04:04:66");
-   * assertThat(dateTimeWithMs).isEqualTo("2001-02-03T04:05:07.-300");
-   *
-   * // assertions will fail
-   * assertThat(date).hasSameTimeAs("2001-02-04"); // different date
-   * assertThat(dateTime).hasSameTimeAs("2001-02-03 04:05:06"); // leniency does not help here</code></pre>
-   *
-   * To revert to default strict date parsing, call {@code setLenientDateParsing(false)}.
-   *
-   * @param lenientDateParsing whether lenient parsing mode should be enabled or not
-   */
-  public static void setLenientDateParsing(boolean lenientDateParsing) {
-    lenientParsing = lenientDateParsing;
   }
 
   /**
@@ -2569,23 +2527,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
-   * Example of valid string date representations:
+   * Examples of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    * <p>
@@ -2603,23 +2561,23 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    *
@@ -2632,7 +2590,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Thread safe utility method to parse a Date with {@link #userDateFormats} first, then {@link #defaultDateFormats()}.
+   * Thread safe utility method to parse a Date with {@link #userDateFormats} first, then {@link #DEFAULT_DATE_PARSERS}.
    * <p>
    * Returns <code>null</code> if dateAsString parameter is <code>null</code>.
    *
@@ -2647,23 +2605,40 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     // no synchronization needed as userCustomDateFormat is thread local
     Date date = parseDateWith(dateAsString, userDateFormats.get());
     if (date != null) return date;
-    // no matching user date format, let's try default format
-    date = parseDateWithDefaultDateFormats(dateAsString);
+    // no matching user date format, let's try default formats
+    date = parseDateWithDefaultDateParsers(dateAsString);
     if (date != null) return date;
     // no matching date format, throw an error
-    throw new AssertionError("Failed to parse %s with any of these date formats:%n   %s".formatted(dateAsString,
-                                                                                                   info.representation()
-                                                                                                       .toStringOf(dateFormatsInOrderOfUsage())));
+    throw new AssertionError(format("Failed to parse %s with any of these date formats:%n   %s", dateAsString, usedFormats()));
   }
 
-  private Date parseDateWithDefaultDateFormats(final String dateAsString) {
-    return parseDateWith(dateAsString, defaultDateFormats());
+  private String usedFormats() {
+    List<String> allDateFormatsInOrderOfUsage = userDateFormats.get().stream()
+                                                               .map(STANDARD_REPRESENTATION::toStringOf)
+                                                               .collect(toList());
+    allDateFormatsInOrderOfUsage.addAll(DEFAULT_DATE_PARSERS_REPRESENTATION);
+    // increment all elements except the first
+    List<String> formattedDateFormats = allDateFormatsInOrderOfUsage.stream().skip(1).map(s -> "    " + s).collect(toList());
+    formattedDateFormats.add(0, allDateFormatsInOrderOfUsage.get(0));
+    return formattedDateFormats.stream().collect(joining(format(",%n"), "[", "]"));
   }
 
-  private List<DateFormat> dateFormatsInOrderOfUsage() {
-    List<DateFormat> allDateFormatsInOrderOfUsage = newArrayList(userDateFormats.get());
-    allDateFormatsInOrderOfUsage.addAll(defaultDateFormats());
-    return allDateFormatsInOrderOfUsage;
+  private Date parseDateWithDefaultDateParsers(final String dateAsString) {
+    // try from more specific to less specific ISO formats, then try timestamp
+    return parseDateWithDateParsers(dateAsString, DEFAULT_DATE_PARSERS);
+  }
+
+  private Date parseDateWithDateParsers(final String dateAsString, final Collection<Function<String, Date>> dateParsers) {
+    for (Function<String, Date> dateParser : dateParsers) {
+      try {
+        return dateParser.apply(dateAsString);
+      } catch (@SuppressWarnings("unused") DateTimeParseException e) {
+        // ignore and try next date format
+      } catch (@SuppressWarnings("unused") IllegalArgumentException e) {
+        // ignore (it's from Timestamp.valueOf)
+      }
+    }
+    return null;
   }
 
   private Date parseDateWith(final String dateAsString, final Collection<DateFormat> dateFormats) {

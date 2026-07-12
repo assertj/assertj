@@ -122,7 +122,8 @@
     <rootDirectory>${project.basedir}</rootDirectory>
     <spotless.skip>true</spotless.skip>
     <!-- Plugin versions -->
-    <central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
+    <arcmutate-pitest.version>2.3.3</arcmutate-pitest.version>
+    <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
     <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
     <license-maven-plugin.version>5.0.0</license-maven-plugin.version>
     <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
@@ -142,12 +143,25 @@
     <maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
     <maven-surefire-report-plugin.version>3.5.6</maven-surefire-report-plugin.version>
     <sonar-maven-plugin.version>5.7.0.6970</sonar-maven-plugin.version>
-    <spotless-maven-plugin.version>3.6.0</spotless-maven-plugin.version>
+    <spotless-maven-plugin.version>3.8.0</spotless-maven-plugin.version>
   </properties>
 
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>com.arcmutate</groupId>
+          <artifactId>pitest-git-maven-plugin</artifactId>
+          <version>${arcmutate-pitest.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>com.arcmutate</groupId>
+          <artifactId>pitest-github-maven-plugin</artifactId>
+          <version>${arcmutate-pitest.version}</version>
+          <configuration>
+            <deleteOldSummaries>true</deleteOldSummaries>
+          </configuration>
+        </plugin>
         <plugin>
           <groupId>com.diffplug.spotless</groupId>
           <artifactId>spotless-maven-plugin</artifactId>
@@ -271,6 +285,7 @@ limitations under the License.
             </addStylesheets>
             <!-- Explicitly set Javadoc locale to English -->
             <locale>en_US</locale>
+            <failOnWarnings>true</failOnWarnings>
             <nohelp>true</nohelp>
             <bottom><![CDATA[
               Copyright &#169; {currentYear} {organizationName}. All rights reserved.
@@ -322,6 +337,28 @@ limitations under the License.
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>flatten-maven-plugin</artifactId>
           <version>${flatten-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.pitest</groupId>
+          <artifactId>pitest-maven</artifactId>
+          <version>1.25.7</version>
+          <configuration>
+            <features>
+              <feature>+auto_threads</feature>
+            </features>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.arcmutate</groupId>
+              <artifactId>pitest-git-plugin</artifactId>
+              <version>${arcmutate-pitest.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.pitest</groupId>
+              <artifactId>pitest-junit5-plugin</artifactId>
+              <version>1.2.3</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>

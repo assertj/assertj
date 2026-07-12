@@ -33,6 +33,7 @@ import java.util.stream.Stream;
  */
 abstract class FieldHolder<T> {
 
+  /** Entities registered by field path. */
   protected final Map<String, T> fieldHolder;
 
   public FieldHolder() {
@@ -71,6 +72,8 @@ abstract class FieldHolder<T> {
   }
 
   /**
+   * Checks whether no entities are registered.
+   *
    * @return {@code true} is there are registered entities, {@code false} otherwise
    */
   public boolean isEmpty() {

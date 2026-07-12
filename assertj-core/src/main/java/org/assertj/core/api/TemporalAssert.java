@@ -19,8 +19,14 @@ import java.time.temporal.Temporal;
 
 import org.assertj.core.data.TemporalOffset;
 
+/** Assertions for temporal values. */
 public class TemporalAssert extends AbstractTemporalAssert<TemporalAssert, Temporal> {
 
+  /**
+   * Creates a new temporal assertion.
+   *
+   * @param actual the actual temporal
+   */
   public TemporalAssert(Temporal actual) {
     super(actual, TemporalAssert.class);
   }

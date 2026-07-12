@@ -48,6 +48,14 @@ public class ShouldBeSorted extends BasicErrorMessageFactory {
                               i, groupAsList.get(i), i + 1, groupAsList.get(i + 1), groupAsList);
   }
 
+  /**
+   * Creates an error for a group not sorted by the given comparator.
+   *
+   * @param i the index of the out-of-order element
+   * @param group the actual group
+   * @param comparator the comparator
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeSortedAccordingToGivenComparator(int i, Object group,
                                                                              Comparator<?> comparator) {
     List<?> arrayWrapper = groupAsList(group);
@@ -56,10 +64,23 @@ public class ShouldBeSorted extends BasicErrorMessageFactory {
                               comparator, i, arrayWrapper.get(i), i + 1, arrayWrapper.get(i + 1), arrayWrapper);
   }
 
+  /**
+   * Creates an error for elements that are not mutually comparable.
+   *
+   * @param actual the actual group
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveMutuallyComparableElements(Object actual) {
     return new ShouldBeSorted("%nsome elements are not mutually comparable in group:%n  %s", actual);
   }
 
+  /**
+   * Creates an error for elements incomparable by the given comparator.
+   *
+   * @param actual the actual group
+   * @param comparator the comparator
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveComparableElementsAccordingToGivenComparator(Object actual,
                                                                                            Comparator<?> comparator) {
     return new ShouldBeSorted("%nsome elements are not mutually comparable according to %s comparator in group:%n<%s>",

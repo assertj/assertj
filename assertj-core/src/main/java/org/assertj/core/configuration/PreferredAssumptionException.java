@@ -18,6 +18,7 @@ package org.assertj.core.configuration;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/** Supported assumption exception implementations. */
 public enum PreferredAssumptionException {
 
   /**
@@ -37,6 +38,11 @@ public enum PreferredAssumptionException {
    * If none are available, AssertJ throws an {@link IllegalStateException}.
    */
   AUTO_DETECT(null) {
+    /**
+     * Returns the configured assumption exception class.
+     *
+     * @return the assumption exception class
+     */
     @Override
     public Class<?> getAssumptionExceptionClass() {
       return autoDetectAssumptionExceptionClass();
@@ -63,6 +69,11 @@ public enum PreferredAssumptionException {
     this.assumptionExceptionClassName = assumptionExceptionClassName;
   }
 
+  /**
+   * Returns the configured assumption exception class.
+   *
+   * @return the assumption exception class
+   */
   public Class<?> getAssumptionExceptionClass() {
     return loadAssumptionExceptionClass().orElseThrow(this::assumptionExceptionClassNotFound);
   }

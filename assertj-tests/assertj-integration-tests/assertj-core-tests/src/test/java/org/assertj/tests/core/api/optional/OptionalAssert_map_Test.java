@@ -34,7 +34,8 @@ class OptionalAssert_map_Test {
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(actual).map(String::length));
     // THEN
-    then(assertionError).hasMessage(actualIsNull());
+    then(assertionError).hasMessageContainingAll("[map]", actualIsNull());
+
   }
 
   @Test

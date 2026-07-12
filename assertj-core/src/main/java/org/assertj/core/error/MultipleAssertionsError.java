@@ -21,16 +21,28 @@ import java.util.List;
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.StandardRepresentation;
 
+/** Error aggregating multiple assertion failures. */
 public class MultipleAssertionsError extends AssertionError {
 
   @Serial
   private static final long serialVersionUID = -5547434453993413952L;
 
+  /** The assertion description. */
   private final Description description;
+  /** The object under test. */
   private final Object objectUnderTest;
+  /** The aggregated assertion failures. */
   private final List<AssertionError> errors;
+  /** The aggregated error message. */
   private final String message;
 
+  /**
+   * Creates an aggregated assertion error.
+   *
+   * @param description the assertion description
+   * @param objectUnderTest the object under test
+   * @param errors the assertion failures
+   */
   public MultipleAssertionsError(Description description, Object objectUnderTest, List<AssertionError> errors) {
     this.description = description;
     this.objectUnderTest = objectUnderTest;
@@ -43,10 +55,20 @@ public class MultipleAssertionsError extends AssertionError {
     return message;
   }
 
+  /**
+   * Returns the object under test.
+   *
+   * @return the object under test
+   */
   public Object getObjectUnderTest() {
     return objectUnderTest;
   }
 
+  /**
+   * Returns the assertion description.
+   *
+   * @return the assertion description
+   */
   public Description getDescription() {
     return description;
   }

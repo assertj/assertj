@@ -21,8 +21,6 @@ import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
 import static org.assertj.core.util.Arrays.isObjectArray;
 import static org.assertj.core.util.Arrays.notAnArrayOfPrimitives;
-import static org.assertj.core.util.DateUtil.formatAsDatetime;
-import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
@@ -87,10 +85,14 @@ import org.assertj.core.util.diff.InsertDelta;
  */
 public class StandardRepresentation implements Representation {
 
+  /** Creates a standard representation. */
+  public StandardRepresentation() {}
+
   private static final String NULL = "null";
   private static final String LINE_SEPARATOR = System.lineSeparator();
 
   // can share this as StandardRepresentation has no state
+  /** Shared standard representation instance. */
   public static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   private static final String TUPLE_START = "(";
@@ -106,7 +108,9 @@ public class StandardRepresentation implements Representation {
   // used when formatting iterables to a single line
   static final String INDENTATION_FOR_SINGLE_LINE = " ";
 
+  /** Separator used between collection elements. */
   public static final String ELEMENT_SEPARATOR = ",";
+  /** Element separator followed by the platform newline. */
   public static final String ELEMENT_SEPARATOR_WITH_NEWLINE = ELEMENT_SEPARATOR + System.lineSeparator();
 
   private static int maxLengthForSingleLineDescription = Configuration.MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION;
@@ -117,6 +121,9 @@ public class StandardRepresentation implements Representation {
   private static final Class<?>[] TYPE_WITH_UNAMBIGUOUS_REPRESENTATION = { Date.class, LocalDateTime.class, ZonedDateTime.class,
       OffsetDateTime.class, Calendar.class };
 
+  private static final ThreadLocal<SimpleDateFormat> ISO_DATE_FORMAT_WITH_MS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS"));
+  private static final ThreadLocal<SimpleDateFormat> ISO_DATE_FORMAT_WITHOUT_MS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
+
   // Iterable types that should be considered to be unsafe to dereference and iterate across (e.g. they may have
   // visible side effects).
   private static final Class<?>[] BLACKLISTED_ITERABLE_CLASSES = {
@@ -126,9 +133,12 @@ public class StandardRepresentation implements Representation {
       DirectoryStream.class,
   };
 
+  /** Group categories used when formatting values. */
   protected enum GroupType {
-
-    ITERABLE("iterable"), ARRAY("array");
+    /** Iterable group. */
+    ITERABLE("iterable"),
+    /** Array group. */
+    ARRAY("array");
 
     private final String description;
 
@@ -136,6 +146,11 @@ public class StandardRepresentation implements Representation {
       this.description = value;
     }
 
+    /**
+     * Returns the group description.
+     *
+     * @return the group description
+     */
     public String description() {
       return description;
     }
@@ -156,32 +171,62 @@ public class StandardRepresentation implements Representation {
     maxElementsForPrinting = Configuration.MAX_ELEMENTS_FOR_PRINTING;
   }
 
+  /**
+   * Sets the maximum length for single-line descriptions.
+   *
+   * @param value the maximum length
+   */
   public static void setMaxLengthForSingleLineDescription(int value) {
     ConfigurationProvider.loadRegisteredConfiguration();
     checkArgument(value > 0, "maxLengthForSingleLineDescription must be > 0 but was %s", value);
     maxLengthForSingleLineDescription = value;
   }
 
+  /**
+   * Returns the maximum length for single-line descriptions.
+   *
+   * @return the maximum length
+   */
   public static int getMaxLengthForSingleLineDescription() {
     return maxLengthForSingleLineDescription;
   }
 
+  /**
+   * Sets the maximum number of elements to print.
+   *
+   * @param value the maximum element count
+   */
   public static void setMaxElementsForPrinting(int value) {
     ConfigurationProvider.loadRegisteredConfiguration();
     checkArgument(value >= 1, "maxElementsForPrinting must be >= 1, but was %s", value);
     maxElementsForPrinting = value;
   }
 
+  /**
+   * Returns the maximum number of stack trace elements displayed.
+   *
+   * @return the maximum element count
+   */
   public static int getMaxStackTraceElementsDisplayed() {
     return maxStackTraceElementsDisplayed;
   }
 
+  /**
+   * Sets the maximum number of stack trace elements to display.
+   *
+   * @param value the maximum element count
+   */
   public static void setMaxStackTraceElementsDisplayed(int value) {
     ConfigurationProvider.loadRegisteredConfiguration();
     checkArgument(value >= 0, "maxStackTraceElementsDisplayed  must be >= 0, but was %s", value);
     maxStackTraceElementsDisplayed = value;
   }
 
+  /**
+   * Returns the maximum number of elements to print.
+   *
+   * @return the maximum element count
+   */
   public static int getMaxElementsForPrinting() {
     return maxElementsForPrinting;
   }
@@ -330,6 +375,13 @@ public class StandardRepresentation implements Representation {
     return this.getClass().getSimpleName();
   }
 
+  /**
+   * Formats an object using a registered custom formatter.
+   *
+   * @param <T> the object type
+   * @param object the object to format
+   * @return the custom representation
+   */
   protected <T> String customFormat(T object) {
     if (object == null) return null;
     @SuppressWarnings("unchecked")
@@ -337,6 +389,12 @@ public class StandardRepresentation implements Representation {
     return formatted != null ? formatted.toString() : null;
   }
 
+  /**
+   * Checks whether a custom formatter supports the object.
+   *
+   * @param object the object to check
+   * @return whether a custom formatter is available
+   */
   protected boolean hasCustomFormatterFor(Object object) {
     if (object == null) return false;
     return customFormatterByType.containsKey(object.getClass());
@@ -367,6 +425,12 @@ public class StandardRepresentation implements Representation {
     return object.toString();
   }
 
+  /**
+   * Formats a number.
+   *
+   * @param number the number to format
+   * @return the formatted number
+   */
   protected String toStringOf(Number number) {
     if (number instanceof Float f) return toStringOf(f);
     if (number instanceof Long l) return toStringOf(l);
@@ -374,22 +438,52 @@ public class StandardRepresentation implements Representation {
     return number.toString();
   }
 
+  /**
+   * Formats an atomic boolean.
+   *
+   * @param atomicBoolean the value to format
+   * @return the formatted value
+   */
   protected String toStringOf(AtomicBoolean atomicBoolean) {
     return "AtomicBoolean(%s)".formatted(atomicBoolean.get());
   }
 
+  /**
+   * Formats an atomic integer.
+   *
+   * @param atomicInteger the value to format
+   * @return the formatted value
+   */
   protected String toStringOf(AtomicInteger atomicInteger) {
     return "AtomicInteger(%s)".formatted(atomicInteger.get());
   }
 
+  /**
+   * Formats an atomic long.
+   *
+   * @param atomicLong the value to format
+   * @return the formatted value
+   */
   protected String toStringOf(AtomicLong atomicLong) {
     return "AtomicLong(%s)".formatted(atomicLong.get());
   }
 
+  /**
+   * Formats a long adder.
+   *
+   * @param longAdder the value to format
+   * @return the formatted value
+   */
   protected String toStringOf(LongAdder longAdder) {
     return "LongAdder(%s)".formatted(longAdder.sum());
   }
 
+  /**
+   * Formats a comparator.
+   *
+   * @param comparator the comparator to format
+   * @return the formatted comparator
+   */
   protected String toStringOf(Comparator<?> comparator) {
     if (!comparator.toString().contains("@")) return comparator.toString();
     String comparatorSimpleClassName = comparator.getClass().getSimpleName();
@@ -399,16 +493,24 @@ public class StandardRepresentation implements Representation {
     return comparator.toString();
   }
 
+  /**
+   * Formats a comparator-based comparison strategy.
+   *
+   * @param comparatorBasedComparisonStrategy the strategy to format
+   * @return the formatted strategy
+   */
   protected String toStringOf(ComparatorBasedComparisonStrategy comparatorBasedComparisonStrategy) {
     String comparatorDescription = comparatorBasedComparisonStrategy.getComparatorDescription();
     return comparatorDescription == null ? toStringOf(comparatorBasedComparisonStrategy.getComparator())
         : quote(comparatorDescription);
   }
 
-  protected String toStringOf(Calendar calendar) {
-    return formatAsDatetime(calendar) + classNameDisambiguation(calendar);
-  }
-
+  /**
+   * Formats a class.
+   *
+   * @param c the class to format
+   * @return the formatted class
+   */
   protected String toStringOf(Class<?> c) {
     String canonicalName = c.getCanonicalName();
     if (canonicalName != null) return canonicalName;
@@ -417,14 +519,32 @@ public class StandardRepresentation implements Representation {
     return "local class %s".formatted(c.getSimpleName());
   }
 
+  /**
+   * Formats a string.
+   *
+   * @param s the string to format
+   * @return the formatted string
+   */
   protected String toStringOf(String s) {
     return concatWithDoubleQuotes(s);
   }
 
+  /**
+   * Formats an object without quotes.
+   *
+   * @param s the object to format
+   * @return the unquoted representation
+   */
   protected String toUnquotedStringOf(Object s) {
     return s.toString();
   }
 
+  /**
+   * Formats a character sequence.
+   *
+   * @param s the sequence to format
+   * @return the formatted sequence
+   */
   protected String toStringOf(CharSequence s) {
     return concatWithDoubleQuotes(s);
   }
@@ -433,59 +553,161 @@ public class StandardRepresentation implements Representation {
     return concat("\"", s, "\"");
   }
 
+  /**
+   * Formats a character.
+   *
+   * @param c the character to format
+   * @return the formatted character
+   */
   protected String toStringOf(Character c) {
     return concat("'", c, "'");
   }
 
+  /**
+   * Formats a predicate description.
+   *
+   * @param p the predicate description
+   * @return the formatted value
+   */
   protected String toStringOf(PredicateDescription p) {
     // don't enclose default description with ''
     return p.isDefault() ? "%s".formatted(p.description) : "'%s'".formatted(p.description);
   }
 
-  protected String toStringOf(Date date) {
-    return formatAsDatetimeWithMs(date) + classNameDisambiguation(date);
+  /**
+   * Formats a calendar.
+   *
+   * @param calendar the calendar
+   * @return the formatted value
+   */
+  protected String toStringOf(Calendar calendar) {
+    return formatCalendar(calendar) + classNameDisambiguation(calendar);
   }
 
+  private static String formatDate(Date date) {
+    return ISO_DATE_FORMAT_WITH_MS.get().format(date);
+  }
+
+  private static String formatCalendar(Calendar calendar) {
+    return ISO_DATE_FORMAT_WITHOUT_MS.get().format(calendar.getTime());
+  }
+
+  /**
+   * Formats a date.
+   *
+   * @param date the date
+   * @return the formatted value
+   */
+  protected String toStringOf(Date date) {
+    return formatDate(date) + classNameDisambiguation(date);
+  }
+
+  /**
+   * Formats a local date-time.
+   *
+   * @param localDateTime the local date-time
+   * @return the formatted value
+   */
   protected String toStringOf(LocalDateTime localDateTime) {
     return defaultToStringWithClassNameDisambiguation(localDateTime);
   }
 
+  /**
+   * Formats an offset date-time.
+   *
+   * @param offsetDateTime the offset date-time
+   * @return the formatted value
+   */
   protected String toStringOf(OffsetDateTime offsetDateTime) {
     return defaultToStringWithClassNameDisambiguation(offsetDateTime);
   }
 
+  /**
+   * Formats a zoned date-time.
+   *
+   * @param zonedDateTime the zoned date-time
+   * @return the formatted value
+   */
   protected String toStringOf(ZonedDateTime zonedDateTime) {
     return defaultToStringWithClassNameDisambiguation(zonedDateTime);
   }
 
+  /**
+   * Formats a local date.
+   *
+   * @param localDate the local date
+   * @return the formatted value
+   */
   protected String toStringOf(LocalDate localDate) {
     return defaultToStringWithClassNameDisambiguation(localDate);
   }
 
+  /**
+   * Formats a year-month.
+   *
+   * @param yearMonth the year-month
+   * @return the formatted value
+   */
   protected String toStringOf(YearMonth yearMonth) {
     return defaultToStringWithClassNameDisambiguation(yearMonth);
   }
 
+  /**
+   * Returns class information used to disambiguate a value.
+   *
+   * @param o the value
+   * @return the class name disambiguation
+   */
   protected String classNameDisambiguation(Object o) {
     return " (%s)".formatted(o.getClass().getName());
   }
 
+  /**
+   * Formats a float.
+   *
+   * @param f the float to format
+   * @return the formatted float
+   */
   protected String toStringOf(Float f) {
     return "%sf".formatted(f);
   }
 
+  /**
+   * Formats a long.
+   *
+   * @param l the long to format
+   * @return the formatted long
+   */
   protected String toStringOf(Long l) {
     return "%sL".formatted(l);
   }
 
+  /**
+   * Formats a file.
+   *
+   * @param file the file
+   * @return the formatted value
+   */
   protected String toStringOf(File file) {
     return file.getAbsolutePath();
   }
 
+  /**
+   * Formats a date formatter.
+   *
+   * @param dateFormat the date formatter
+   * @return the formatted value
+   */
   protected String toStringOf(SimpleDateFormat dateFormat) {
     return dateFormat.toPattern();
   }
 
+  /**
+   * Formats a future.
+   *
+   * @param future the future
+   * @return the formatted value
+   */
   protected String toStringOf(Future<?> future) {
     String className = future.getClass().getSimpleName();
     if (!future.isDone()) return concat(className, "[Incomplete]");
@@ -505,18 +727,42 @@ public class StandardRepresentation implements Representation {
     }
   }
 
+  /**
+   * Formats a tuple.
+   *
+   * @param tuple the tuple
+   * @return the formatted value
+   */
   protected String toStringOf(Tuple tuple) {
     return singleLineFormat(tuple.toList(), TUPLE_START, TUPLE_END);
   }
 
+  /**
+   * Formats an AssertJ map entry.
+   *
+   * @param mapEntry the map entry
+   * @return the formatted value
+   */
   protected String toStringOf(MapEntry<?, ?> mapEntry) {
     return "%s=%s".formatted(toStringOf(mapEntry.key), toStringOf(mapEntry.value));
   }
 
+  /**
+   * Formats a Java map entry.
+   *
+   * @param javaMapEntry the map entry
+   * @return the formatted value
+   */
   protected String toStringOf(Entry<?, ?> javaMapEntry) {
     return "%s=%s".formatted(toStringOf(javaMapEntry.getKey()), toStringOf(javaMapEntry.getValue()));
   }
 
+  /**
+   * Formats a map.
+   *
+   * @param map the map
+   * @return the formatted value
+   */
   protected String toStringOf(Map<?, ?> map) {
     if (map == null) return null;
     Map<?, ?> sortedMap = toSortedMapIfPossible(map);
@@ -544,6 +790,12 @@ public class StandardRepresentation implements Representation {
     }
   }
 
+  /**
+   * Formats a multiple assertions error.
+   *
+   * @param multipleAssertionsError the error
+   * @return the formatted value
+   */
   protected String toStringOf(MultipleAssertionsError multipleAssertionsError) {
     List<? extends AssertionError> assertionErrors = multipleAssertionsError.getErrors();
     int errorsCount = assertionErrors.size();
@@ -574,6 +826,12 @@ public class StandardRepresentation implements Representation {
     return builder.toString();
   }
 
+  /**
+   * Formats a throwable.
+   *
+   * @param throwable the throwable
+   * @return the formatted value
+   */
   protected String toStringOf(Throwable throwable) {
     StackTraceElement[] elements = throwable.getStackTrace();
     // if the line limit is 0, we assume the user don't want to print stack trace
@@ -600,26 +858,58 @@ public class StandardRepresentation implements Representation {
     }
   }
 
+  /**
+   * Formats an atomic reference.
+   *
+   * @param atomicReference the atomic reference
+   * @return the formatted value
+   */
   protected String toStringOf(AtomicReference<?> atomicReference) {
     return "%s[%s]".formatted(atomicReference.getClass().getSimpleName(), toStringOf(atomicReference.get()));
   }
 
+  /**
+   * Formats an atomic markable reference.
+   *
+   * @param atomicMarkableReference the atomic reference
+   * @return the formatted value
+   */
   protected String toStringOf(AtomicMarkableReference<?> atomicMarkableReference) {
     return "%s[marked=%s, reference=%s]".formatted(atomicMarkableReference.getClass().getSimpleName(),
                                                    atomicMarkableReference.isMarked(),
                                                    toStringOf(atomicMarkableReference.getReference()));
   }
 
+  /**
+   * Formats an atomic stamped reference.
+   *
+   * @param atomicStampedReference the atomic reference
+   * @return the formatted value
+   */
   protected String toStringOf(AtomicStampedReference<?> atomicStampedReference) {
     return "%s[stamp=%s, reference=%s]".formatted(atomicStampedReference.getClass().getSimpleName(),
                                                   atomicStampedReference.getStamp(),
                                                   toStringOf(atomicStampedReference.getReference()));
   }
 
+  /**
+   * Formats an iterable across multiple lines.
+   *
+   * @param iterable the iterable
+   * @return the formatted value
+   */
   protected String multiLineFormat(Iterable<?> iterable) {
     return format(iterable, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE, iterable);
   }
 
+  /**
+   * Formats an iterable on one line.
+   *
+   * @param iterable the iterable
+   * @param start the opening delimiter
+   * @param end the closing delimiter
+   * @return the formatted value
+   */
   protected String singleLineFormat(Iterable<?> iterable, String start, String end) {
     return format(iterable, start, end, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, iterable);
   }
@@ -657,31 +947,79 @@ public class StandardRepresentation implements Representation {
     return isObjectArray(o) ? smartFormat((Object[]) o) : formatPrimitiveArray(o);
   }
 
+  /**
+   * Formats an object array on one or multiple lines as needed.
+   *
+   * @param array the array
+   * @return the formatted value
+   */
   protected String smartFormat(Object[] array) {
     String description = singleLineFormat(array, array);
     return doesDescriptionFitOnSingleLine(description) ? description : multiLineFormat(array, array);
   }
 
+  /**
+   * Formats an array of primitives.
+   *
+   * @param o the primitive array
+   * @return the formatted value
+   */
   protected String formatPrimitiveArray(Object o) {
     if (!isArrayTypePrimitive(o)) throw notAnArrayOfPrimitives(o);
     List<Object> objects = new PrimitiveArrayList(o);
     return format(objects, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, objects);
   }
 
+  /**
+   * Formats an object array across multiple lines.
+   *
+   * @param array the array
+   * @param root the root object used for cycle detection
+   * @return the formatted value
+   */
   protected String multiLineFormat(Object[] array, Object root) {
     return format(array, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE, root);
   }
 
+  /**
+   * Formats an object array on one line.
+   *
+   * @param array the array
+   * @param root the root object used for cycle detection
+   * @return the formatted value
+   */
   protected String singleLineFormat(Object[] array, Object root) {
     return format(array, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, root);
   }
 
+  /**
+   * Formats an object array with the given layout.
+   *
+   * @param array the array
+   * @param start the opening delimiter
+   * @param end the closing delimiter
+   * @param elementSeparator the element separator
+   * @param indentation the indentation between elements
+   * @param root the root object used for cycle detection
+   * @return the formatted value
+   */
   protected String format(Object[] array, String start, String end, String elementSeparator, String indentation, Object root) {
     if (array == null) return null;
     // root is used to avoid infinite recursion in case one element refers to it.
     return format(java.util.Arrays.asList(array), start, end, elementSeparator, indentation, root);
   }
 
+  /**
+   * Formats a list with the given layout.
+   *
+   * @param elements the elements
+   * @param start the opening delimiter
+   * @param end the closing delimiter
+   * @param elementSeparator the element separator
+   * @param indentation the indentation between elements
+   * @param root the root object used for cycle detection
+   * @return the formatted value
+   */
   protected String format(List<?> elements, String start, String end, String elementSeparator, String indentation,
                           Object root) {
     if (elements == null) return null;
@@ -691,6 +1029,17 @@ public class StandardRepresentation implements Representation {
     return representGroup(representedElements, start, end, elementSeparator, indentation);
   }
 
+  /**
+   * Formats an iterable with the given layout.
+   *
+   * @param iterable the iterable
+   * @param start the opening delimiter
+   * @param end the closing delimiter
+   * @param elementSeparator the element separator
+   * @param indentation the indentation between elements
+   * @param root the root object used for cycle detection
+   * @return the formatted value
+   */
   protected String format(Iterable<?> iterable, String start, String end, String elementSeparator, String indentation,
                           Object root) {
     if (iterable == null) return null;
@@ -700,6 +1049,17 @@ public class StandardRepresentation implements Representation {
     return representGroup(representedElements, start, end, elementSeparator, indentation);
   }
 
+  /**
+   * Safely formats an element while avoiding direct self-reference.
+   *
+   * @param element the element
+   * @param start the opening delimiter
+   * @param end the closing delimiter
+   * @param elementSeparator the element separator
+   * @param indentation the indentation between elements
+   * @param root the root object used for cycle detection
+   * @return the formatted value
+   */
   protected String safeStringOf(Object element, String start, String end, String elementSeparator, String indentation,
                                 Object root) {
     if (element == root) return isArray(root) ? "(this array)" : "(this instance)";
@@ -786,6 +1146,12 @@ public class StandardRepresentation implements Representation {
                                                          formatLines(insertDelta.getRevised().getLines()));
   }
 
+  /**
+   * Formats a duration.
+   *
+   * @param duration the duration
+   * @return the formatted value
+   */
   protected String toStringOf(Duration duration) {
     String durationString = duration.toString();
     if (durationString.startsWith("PT")) {

@@ -42,6 +42,7 @@ import org.assertj.core.internal.Objects;
 public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAssert<SELF>>
     extends AbstractTemporalAssert<SELF, LocalDate> {
 
+  /** Error message used when the date to compare is {@code null}. */
   public static final String NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE = "The LocalDate to compare actual with should not be null";
 
   /**

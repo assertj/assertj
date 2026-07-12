@@ -61,7 +61,7 @@ class IterableAssert_map_Test {
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(elves).map(TolkienCharacter::getName));
     // THEN
-    then(assertionError).hasMessage(actualIsNull());
+    then(assertionError).hasMessageContainingAll("[map]", actualIsNull());
   }
 
   @Test
@@ -72,7 +72,7 @@ class IterableAssert_map_Test {
     var assertionError = expectAssertionError(() -> assertThat(elves).map(TolkienCharacter::getName,
                                                                           TolkienCharacter::getRace));
     // THEN
-    then(assertionError).hasMessage(actualIsNull());
+    then(assertionError).hasMessageContainingAll("[map]", actualIsNull());
   }
 
 }

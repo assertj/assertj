@@ -33,6 +33,12 @@ public class AbstractSpliteratorAssert<SELF extends AbstractSpliteratorAssert<SE
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Spliterators spliterators = Spliterators.instance();
 
+  /**
+   * Creates a new {@link Spliterator} assertion.
+   *
+   * @param actual the actual spliterator to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractSpliteratorAssert(Spliterator<ELEMENT> actual, Class<?> selfType) {
     super(actual, selfType);
   }

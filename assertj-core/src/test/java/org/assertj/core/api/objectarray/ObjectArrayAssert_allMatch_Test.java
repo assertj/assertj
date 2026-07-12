@@ -15,9 +15,11 @@
  */
 package org.assertj.core.api.objectarray;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
@@ -55,5 +57,15 @@ class ObjectArrayAssert_allMatch_Test extends ObjectArrayAssertBaseTest {
           .allMatch(obj -> false);
     // THEN
     then(softly.assertionErrorsCollected()).singleElement(THROWABLE).hasMessage("error message");
+  }
+
+  @Test
+  public void should_fail_if_actual_is_empty() {
+    // GIVEN
+    String[] emptyArray = {};
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(emptyArray).allMatch(e -> e.contains("error")));
+    // THEN
+    then(assertionError).hasMessageContaining("Expecting actual not to be empty");
   }
 }

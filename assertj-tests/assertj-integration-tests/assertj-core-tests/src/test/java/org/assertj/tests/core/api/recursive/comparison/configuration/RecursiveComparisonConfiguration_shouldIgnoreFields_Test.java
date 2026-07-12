@@ -20,7 +20,7 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValueWithPath;
-import static org.assertj.tests.core.api.recursive.data.DualValueUtil.randomPath;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValueWithRandomFieldLocation;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.time.ZonedDateTime;
@@ -37,7 +37,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.DualValue;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.tests.core.api.recursive.data.DualValueUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -45,12 +45,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
-  private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
-
-  @BeforeEach
-  void setup() {
-    recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
-  }
+  private final RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
 
   @ParameterizedTest(name = "{0} should be ignored")
   @MethodSource
@@ -64,10 +59,10 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   private static Stream<Arguments> should_ignore_actual_null_fields() {
-    return Stream.of(arguments(dualValue(null, "John")),
-                     arguments(dualValue(null, 123)),
-                     arguments(dualValue(null, null)),
-                     arguments(dualValue(null, new Date())));
+    return Stream.of(arguments(DualValueUtil.dualValueWithRandomFieldLocation(null, "John")),
+                     arguments(DualValueUtil.dualValueWithRandomFieldLocation(null, 123)),
+                     arguments(DualValueUtil.dualValueWithRandomFieldLocation(null, null)),
+                     arguments(DualValueUtil.dualValueWithRandomFieldLocation(null, new Date())));
   }
 
   @ParameterizedTest(name = "{0} should be ignored")
@@ -82,11 +77,11 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   private static Stream<Arguments> should_ignore_actual_optional_empty_fields() {
-    return Stream.of(arguments(dualValue(Optional.empty(), "John")),
-                     arguments(dualValue(Optional.empty(), Optional.of("John"))),
-                     arguments(dualValue(OptionalInt.empty(), OptionalInt.of(123))),
-                     arguments(dualValue(OptionalLong.empty(), OptionalLong.of(123L))),
-                     arguments(dualValue(OptionalDouble.empty(), OptionalDouble.of(123.0))));
+    return Stream.of(arguments(DualValueUtil.dualValueWithRandomFieldLocation(Optional.empty(), "John")),
+                     arguments(DualValueUtil.dualValueWithRandomFieldLocation(Optional.empty(), Optional.of("John"))),
+                     arguments(DualValueUtil.dualValueWithRandomFieldLocation(OptionalInt.empty(), OptionalInt.of(123))),
+                     arguments(DualValueUtil.dualValueWithRandomFieldLocation(OptionalLong.empty(), OptionalLong.of(123L))),
+                     arguments(DualValueUtil.dualValueWithRandomFieldLocation(OptionalDouble.empty(), OptionalDouble.of(123.0))));
   }
 
   @ParameterizedTest(name = "{0} should be ignored")
@@ -101,10 +96,10 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   private static Stream<Arguments> should_ignore_expected_null_fields() {
-    return Stream.of(arguments(dualValue("John", null)),
-                     arguments(dualValue(123, null)),
-                     arguments(dualValue(null, null)),
-                     arguments(dualValue(new Date(), null)));
+    return Stream.of(arguments(DualValueUtil.dualValueWithRandomFieldLocation("John", null)),
+                     arguments(DualValueUtil.dualValueWithRandomFieldLocation(123, null)),
+                     arguments(DualValueUtil.dualValueWithRandomFieldLocation(null, null)),
+                     arguments(DualValueUtil.dualValueWithRandomFieldLocation(new Date(), null)));
   }
 
   @ParameterizedTest(name = "{0} should be ignored with these ignored fields {1}")
@@ -194,7 +189,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
                      arguments(dualValueWithPath("number")),
                      arguments(dualValueWithPath("surname")),
                      arguments(dualValueWithPath("first", "name")),
-                     arguments(new DualValue(randomPath(), "actual", "expected")));
+                     arguments(dualValueWithRandomFieldLocation("actual", "expected")));
   }
 
   @Test
@@ -220,14 +215,14 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   }
 
   private static Stream<Arguments> should_ignore_fields_for_specified_types() {
-    return Stream.of(arguments(new DualValue(randomPath(), "actual", "expected"), list(String.class)),
-                     arguments(new DualValue(randomPath(), randomUUID(), randomUUID()), list(String.class, UUID.class)));
+    return Stream.of(arguments(dualValueWithRandomFieldLocation("actual", "expected"), list(String.class)),
+                     arguments(dualValueWithRandomFieldLocation(randomUUID(), randomUUID()), list(String.class, UUID.class)));
   }
 
   @Test
   void should_return_false_if_the_field_type_is_not_ignored() {
     // GIVEN
-    DualValue dualValue = new DualValue(randomPath(), "actual", "expected");
+    var dualValue = dualValueWithRandomFieldLocation("actual", "expected");
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(UUID.class);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
@@ -238,7 +233,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   @Test
   void should_be_able_to_ignore_boolean() {
     // GIVEN
-    DualValue dualValue = new DualValue(randomPath(), true, false);
+    var dualValue = dualValueWithRandomFieldLocation(true, false);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(boolean.class);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
@@ -249,7 +244,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   @Test
   void should_be_able_to_ignore_byte() {
     // GIVEN
-    DualValue dualValue = new DualValue(randomPath(), (byte) 0, (byte) 1);
+    var dualValue = dualValueWithRandomFieldLocation((byte) 0, (byte) 1);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(byte.class);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
@@ -260,7 +255,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   @Test
   void should_be_able_to_ignore_char() {
     // GIVEN
-    DualValue dualValue = new DualValue(randomPath(), 'a', 'b');
+    var dualValue = dualValueWithRandomFieldLocation('a', 'b');
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(char.class);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
@@ -271,7 +266,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   @Test
   void should_be_able_to_ignore_short() {
     // GIVEN
-    DualValue dualValue = new DualValue(randomPath(), (short) 123, (short) 123);
+    var dualValue = dualValueWithRandomFieldLocation((short) 123, (short) 123);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(short.class);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
@@ -282,7 +277,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   @Test
   void should_be_able_to_ignore_int() {
     // GIVEN
-    DualValue dualValue = new DualValue(randomPath(), 123, 123);
+    var dualValue = dualValueWithRandomFieldLocation(123, 123);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(int.class);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
@@ -294,7 +289,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   @MethodSource
   void should_be_able_to_ignore_concurrent_types_by_regex(Object value) {
     // GIVEN
-    DualValue dualValue = new DualValue(randomPath(), value, null);
+    var dualValue = dualValueWithRandomFieldLocation(value, null);
     recursiveComparisonConfiguration.ignoreFieldsOfTypesMatchingRegexes("java\\.util\\.concurrent\\..*");
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
@@ -309,7 +304,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   @Test
   void should_be_able_to_ignore_float() {
     // GIVEN
-    DualValue dualValue = new DualValue(randomPath(), 123.0f, 123.0f);
+    var dualValue = dualValueWithRandomFieldLocation(123.0f, 123.0f);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(float.class);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
@@ -320,7 +315,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   @Test
   void should_be_able_to_ignore_double() {
     // GIVEN
-    DualValue dualValue = new DualValue(randomPath(), 123.0, 123.0);
+    var dualValue = dualValueWithRandomFieldLocation(123.0, 123.0);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(double.class);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
@@ -332,7 +327,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   @MethodSource
   void should_be_able_to_ignore_primitive_field_by_specifying_their_wrapper_type(Object fieldValue, Class<?> wrapperType) {
     // GIVEN
-    DualValue dualValue = new DualValue(randomPath(), fieldValue, fieldValue);
+    var dualValue = dualValueWithRandomFieldLocation(fieldValue, fieldValue);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(wrapperType);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
@@ -353,7 +348,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   @Test
   void should_return_false_if_the_field_type_is_subtype_of_an_ignored_type() {
     // GIVEN
-    DualValue dualValue = new DualValue(randomPath(), Double.MAX_VALUE, "expected");
+    var dualValue = dualValueWithRandomFieldLocation(Double.MAX_VALUE, "expected");
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(Number.class);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
@@ -364,7 +359,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   @Test
   void should_not_ignore_actual_null_fields_for_specified_types_if_strictTypeChecking_is_disabled() {
     // GIVEN
-    DualValue dualValue = new DualValue(randomPath(), null, "expected");
+    var dualValue = dualValueWithRandomFieldLocation(null, "expected");
     recursiveComparisonConfiguration.strictTypeChecking(false);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(String.class);
     // WHEN
@@ -376,7 +371,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   @Test
   void should_ignore_actual_null_fields_for_specified_types_if_strictTypeChecking_is_enabled_and_expected_is_not_null() {
     // GIVEN
-    DualValue dualValue = new DualValue(randomPath(), null, "expected");
+    var dualValue = dualValueWithRandomFieldLocation(null, "expected");
     recursiveComparisonConfiguration.strictTypeChecking(true);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(String.class);
     // WHEN
@@ -394,9 +389,4 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     // THEN
     then(shouldBeCompared).isTrue();
   }
-
-  static DualValue dualValue(Object value1, Object value2) {
-    return new DualValue(randomPath(), value1, value2);
-  }
-
 }

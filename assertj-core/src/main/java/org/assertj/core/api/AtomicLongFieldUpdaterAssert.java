@@ -30,6 +30,11 @@ import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 public class AtomicLongFieldUpdaterAssert<OBJECT>
     extends AbstractAtomicFieldUpdaterAssert<AtomicLongFieldUpdaterAssert<OBJECT>, Long, AtomicLongFieldUpdater<OBJECT>, OBJECT> {
 
+  /**
+   * Creates a new atomic long field updater assertion.
+   *
+   * @param actual the actual field updater
+   */
   public AtomicLongFieldUpdaterAssert(AtomicLongFieldUpdater<OBJECT> actual) {
     super(actual, AtomicLongFieldUpdaterAssert.class, false);
   }

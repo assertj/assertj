@@ -27,10 +27,17 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 
+/**
+ * Base introspection strategy for recursive comparison.
+ */
 public abstract class AbstractRecursiveComparisonIntrospectionStrategy implements RecursiveComparisonIntrospectionStrategy {
 
   private boolean ignoreTransientFields = false;
 
+  /** Creates a new introspection strategy. */
+  public AbstractRecursiveComparisonIntrospectionStrategy() {}
+
+  /** Configures this strategy to ignore transient fields. */
   public void ignoreTransientFields() {
     ignoreTransientFields = true;
   }
@@ -52,6 +59,12 @@ public abstract class AbstractRecursiveComparisonIntrospectionStrategy implement
     return declaredFields;
   }
 
+  /**
+   * Returns the names of the fields declared by the given class and its superclasses.
+   *
+   * @param clazz the class to inspect
+   * @return the field names
+   */
   protected Set<String> getFieldsNames(Class<?> clazz) {
     return getDeclaredFieldsIncludingInherited(clazz).stream()
                                                      .map(Field::getName)

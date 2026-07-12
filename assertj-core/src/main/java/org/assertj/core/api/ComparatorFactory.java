@@ -21,13 +21,26 @@ import java.util.Comparator;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.Floats;
 
+/**
+ * Creates floating-point comparators with a configured precision.
+ */
 public class ComparatorFactory {
 
+  /** Shared comparator factory instance. */
   public static final ComparatorFactory INSTANCE = new ComparatorFactory();
 
+  /** Creates a new comparator factory. */
+  public ComparatorFactory() {}
+
+  /**
+   * Creates a double comparator using the given precision.
+   *
+   * @param precision the comparison precision
+   * @return the comparator
+   */
   public Comparator<Double> doubleComparatorWithPrecision(double precision) {
     // can't use <> with anonymous class in java 8
-    return new Comparator<Double>() {
+    return new Comparator<>() {
 
       @Override
       public int compare(Double double1, Double double2) {
@@ -49,9 +62,15 @@ public class ComparatorFactory {
     };
   }
 
+  /**
+   * Creates a float comparator using the given precision.
+   *
+   * @param precision the comparison precision
+   * @return the comparator
+   */
   public Comparator<Float> floatComparatorWithPrecision(float precision) {
     // can't use <> with anonymous class in java 8
-    return new Comparator<Float>() {
+    return new Comparator<>() {
 
       @Override
       public int compare(Float float1, Float float2) {

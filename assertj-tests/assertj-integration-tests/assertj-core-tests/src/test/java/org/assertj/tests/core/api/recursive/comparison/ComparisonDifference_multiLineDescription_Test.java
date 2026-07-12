@@ -16,22 +16,21 @@
 package org.assertj.tests.core.api.recursive.comparison;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Sets.newTreeSet;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.rootDualValue;
 import static org.assertj.tests.core.testkit.Maps.mapOf;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -43,57 +42,57 @@ class ComparisonDifference_multiLineDescription_Test {
   @Test
   void should_build_a_multiline_description() {
     // GIVEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("a", "b"), "foo", "bar"));
+    var comparisonDifference = new ComparisonDifference(dualValue("a.b", "foo", "bar"));
     // WHEN
     String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN
-    assertThat(multiLineDescription).isEqualTo(format("field/property 'a.b' differ:%n" +
-                                                      "- actual value  : \"foo\"%n" +
-                                                      "- expected value: \"bar\""));
+    then(multiLineDescription).isEqualTo(format("field/property 'a.b' differ:%n" +
+                                                "- actual value  : \"foo\"%n" +
+                                                "- expected value: \"bar\""));
   }
 
   @Test
   void multiline_description_should_indicate_top_level_objects_difference() {
     // GIVEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list(), "foo", "bar"));
+    var comparisonDifference = new ComparisonDifference(rootDualValue("foo", "bar"));
     // WHEN
     String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN
-    assertThat(multiLineDescription).isEqualTo(format("Top level actual and expected objects differ:%n" +
-                                                      "- actual value  : \"foo\"%n" +
-                                                      "- expected value: \"bar\""));
+    then(multiLineDescription).isEqualTo(format("Top level actual and expected objects differ:%n" +
+                                                "- actual value  : \"foo\"%n" +
+                                                "- expected value: \"bar\""));
   }
 
   @ParameterizedTest(name = "path {0}, index {1}")
   @CsvSource({ "[2],2", "[123],123" })
   void multiline_description_should_indicate_top_level_objects_element_difference(String path, String index) {
     // GIVEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list(path), "foo", "bar"));
+    var comparisonDifference = new ComparisonDifference(dualValue(path, "foo", "bar"));
     // WHEN
     String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN
-    assertThat(multiLineDescription).isEqualTo(format("Top level actual and expected objects element at index %s differ:%n" +
-                                                      "- actual value  : \"foo\"%n" +
-                                                      "- expected value: \"bar\"", index));
+    then(multiLineDescription).isEqualTo(format("Top level actual and expected objects element at index %s differ:%n" +
+                                                "- actual value  : \"foo\"%n" +
+                                                "- expected value: \"bar\"", index));
   }
 
   @ParameterizedTest(name = "path {0}, index {1}")
   @MethodSource
-  void multiline_description_should_indicate_element_difference(List<String> path, String index) {
+  void multiline_description_should_indicate_element_difference(String path, String index) {
     // GIVEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(path, "foo", "bar"));
+    var comparisonDifference = new ComparisonDifference(dualValue(path, "foo", "bar"));
     // WHEN
     String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN
-    assertThat(multiLineDescription).isEqualTo(format("field/property %s differ:%n" +
-                                                      "- actual value  : \"foo\"%n" +
-                                                      "- expected value: \"bar\"", index));
+    then(multiLineDescription).isEqualTo(format("field/property %s differ:%n" +
+                                                "- actual value  : \"foo\"%n" +
+                                                "- expected value: \"bar\"", index));
   }
 
   private static Stream<Arguments> multiline_description_should_indicate_element_difference() {
-    return Stream.of(arguments(list("name", "[2]"), "'name[2]'"),
-                     arguments(list("name", "[123]"), "'name[123]'"),
-                     arguments(list("name", "[123]", "first", "[456]", "last"), "'name[123].first[456].last'"));
+    return Stream.of(arguments("name.[2]", "'name[2]'"),
+                     arguments("name.[123]", "'name[123]'"),
+                     arguments("name.[123].first.[456].last", "'name[123].first[456].last'"));
   }
 
   @Test
@@ -101,13 +100,13 @@ class ComparisonDifference_multiLineDescription_Test {
     // GIVEN
     Set<String> actual = newLinkedHashSet("bar", "foo");
     Set<String> expected = newTreeSet("bar", "foo");
-    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("a", "b"), actual, expected));
+    var comparisonDifference = new ComparisonDifference(dualValue("a.b", actual, expected));
     // WHEN
     String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN
-    assertThat(multiLineDescription).contains("field/property 'a.b' differ:")
-                                    .contains("- actual value  : [\"bar\", \"foo\"] (LinkedHashSet@")
-                                    .contains("- expected value: [\"bar\", \"foo\"] (TreeSet@");
+    then(multiLineDescription).contains("field/property 'a.b' differ:")
+                              .contains("- actual value  : [\"bar\", \"foo\"] (LinkedHashSet@")
+                              .contains("- expected value: [\"bar\", \"foo\"] (TreeSet@");
   }
 
   @Test
@@ -115,36 +114,36 @@ class ComparisonDifference_multiLineDescription_Test {
     // GIVEN
     Map<Long, Boolean> actual = mapOf(entry(1L, true), entry(2L, false));
     Map<Long, Boolean> expected = new TreeMap<>(actual);
-    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("a", "b"), actual, expected));
+    var comparisonDifference = new ComparisonDifference(dualValue("a.b", actual, expected));
     // WHEN
     String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN
-    assertThat(multiLineDescription).contains("field/property 'a.b' differ:")
-                                    .contains("- actual value  : {1L=true, 2L=false} (LinkedHashMap@")
-                                    .contains("- expected value: {1L=true, 2L=false} (TreeMap@");
+    then(multiLineDescription).contains("field/property 'a.b' differ:")
+                              .contains("- actual value  : {1L=true, 2L=false} (LinkedHashMap@")
+                              .contains("- expected value: {1L=true, 2L=false} (TreeMap@");
   }
 
   @Test
   void should_build_comparison_difference_multiline_description_with_additional_information() {
     // GIVEN
-    DualValue dualValue = new DualValue(list("a", "b"), "foo", "bar");
-    ComparisonDifference com = new ComparisonDifference(dualValue, "additional information");
+    var dualValue = dualValue("a.b", "foo", "bar");
+    var comparisonDifference = new ComparisonDifference(dualValue, "additional information");
     // THEN
-    assertThat(com.multiLineDescription()).isEqualTo(format("field/property 'a.b' differ:%n" +
-                                                            "- actual value  : \"foo\"%n" +
-                                                            "- expected value: \"bar\"%n" +
-                                                            "additional information"));
+    then(comparisonDifference.multiLineDescription()).isEqualTo(format("field/property 'a.b' differ:%n" +
+                                                                       "- actual value  : \"foo\"%n" +
+                                                                       "- expected value: \"bar\"%n" +
+                                                                       "additional information"));
   }
 
   @Test
   void should_build_multiline_description_containing_percent() {
     // GIVEN
-    DualValue dualValue = new DualValue(list("a", "b"), "foo%", "%bar%%");
-    ComparisonDifference com = new ComparisonDifference(dualValue, "%additional %information%");
+    var dualValue = dualValue("a.b", "foo%", "%bar%%");
+    var comparisonDifference = new ComparisonDifference(dualValue, "%additional %information%");
     // THEN
-    assertThat(com.multiLineDescription()).isEqualTo(format("field/property 'a.b' differ:%n" +
-                                                            "- actual value  : \"foo%%\"%n" +
-                                                            "- expected value: \"%%bar%%%%\"%n" +
-                                                            "%%additional %%information%%"));
+    then(comparisonDifference.multiLineDescription()).isEqualTo(format("field/property 'a.b' differ:%n" +
+                                                                       "- actual value  : \"foo%%\"%n" +
+                                                                       "- expected value: \"%%bar%%%%\"%n" +
+                                                                       "%%additional %%information%%"));
   }
 }

@@ -17,10 +17,16 @@ package org.assertj.core.internal;
 
 import java.time.OffsetDateTime;
 
+/** Comparator ordering offset date-times by instant. */
 public class OffsetDateTimeByInstantComparator extends DescribableComparator<OffsetDateTime> {
 
   private static final OffsetDateTimeByInstantComparator INSTANCE = new OffsetDateTimeByInstantComparator();
 
+  /**
+   * Returns the shared comparator instance.
+   *
+   * @return the shared comparator
+   */
   public static OffsetDateTimeByInstantComparator getInstance() {
     return INSTANCE;
   }

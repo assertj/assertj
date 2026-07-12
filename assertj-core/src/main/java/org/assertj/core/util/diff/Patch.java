@@ -29,6 +29,10 @@ import java.util.ListIterator;
  * @param <T> The type of the compared elements in the 'lines'.
  */
 public class Patch<T> {
+
+  /** Creates an empty patch. */
+  public Patch() {}
+
   private List<Delta<T>> deltas = new LinkedList<>();
 
   /**

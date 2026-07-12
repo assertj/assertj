@@ -29,10 +29,20 @@ package org.assertj.core.api;
  */
 public class ByteArrayAssert extends AbstractByteArrayAssert<ByteArrayAssert> {
 
+  /**
+   * Creates a new byte array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public ByteArrayAssert(byte[] actual) {
     super(actual, ByteArrayAssert.class);
   }
 
+  /**
+   * Creates a byte array assertion used for null navigation.
+   *
+   * @return the null-navigation assertion
+   */
   public static ByteArrayAssert nullByteArrayAssert() {
     return new ByteArrayAssert(null);
   }

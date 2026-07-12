@@ -39,7 +39,7 @@ class OptionalAssert_flatMap_Test {
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(actual).flatMap(UPPER_CASE_OPTIONAL_STRING));
     // THEN
-    then(assertionError).hasMessage(actualIsNull());
+    then(assertionError).hasMessageContainingAll("[flatMap]", actualIsNull());
   }
 
   @Test

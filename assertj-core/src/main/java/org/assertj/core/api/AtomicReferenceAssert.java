@@ -26,8 +26,18 @@ import java.util.function.Predicate;
 
 import org.assertj.core.presentation.PredicateDescription;
 
+/**
+ * Assertions for {@link AtomicReference} values.
+ *
+ * @param <V> the referenced value type
+ */
 public class AtomicReferenceAssert<V> extends AbstractAssertWithComparator<AtomicReferenceAssert<V>, AtomicReference<V>> {
 
+  /**
+   * Creates a new atomic reference assertion.
+   *
+   * @param actual the actual atomic reference
+   */
   public AtomicReferenceAssert(AtomicReference<V> actual) {
     super(actual, AtomicReferenceAssert.class);
   }

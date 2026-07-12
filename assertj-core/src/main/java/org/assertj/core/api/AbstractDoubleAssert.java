@@ -56,11 +56,23 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
 
   private final boolean isPrimitive;
 
+  /**
+   * Creates a new assertion for a boxed {@link Double}.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractDoubleAssert(Double actual, Class<?> selfType) {
     super(actual, selfType);
     this.isPrimitive = false;
   }
 
+  /**
+   * Creates a new assertion for a primitive {@code double}.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   public AbstractDoubleAssert(double actual, Class<?> selfType) {
     super(actual, selfType);
     this.isPrimitive = true;

@@ -21,6 +21,8 @@ import org.assertj.core.error.ErrorMessageFactory;
 import com.google.common.collect.Table;
 
 /**
+ * Creates an error message indicating that a table does not contain the expected cell value.
+ *
  * @author David Harris
  */
 public class TableShouldContainCell extends BasicErrorMessageFactory {

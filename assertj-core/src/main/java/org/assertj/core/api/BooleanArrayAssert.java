@@ -29,6 +29,11 @@ package org.assertj.core.api;
  */
 public class BooleanArrayAssert extends AbstractBooleanArrayAssert<BooleanArrayAssert> {
 
+  /**
+   * Creates a new boolean array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public BooleanArrayAssert(boolean[] actual) {
     super(actual, BooleanArrayAssert.class);
   }

@@ -26,6 +26,11 @@ package org.assertj.core.api;
  */
 public class ClassAssert extends AbstractClassAssert<ClassAssert> {
 
+  /**
+   * Creates a new class assertion.
+   *
+   * @param actual the actual class to verify
+   */
   public ClassAssert(Class<?> actual) {
     super(actual, ClassAssert.class);
   }

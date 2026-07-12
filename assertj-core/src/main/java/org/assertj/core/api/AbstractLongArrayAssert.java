@@ -23,12 +23,24 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.LongArrays;
 
+/**
+ * Base class for assertions on {@code long} arrays.
+ *
+ * @param <SELF> the "self" type of this assertion class
+ */
 public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, long[], Long> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Internal assertions for {@code long} arrays. */
   protected LongArrays arrays = LongArrays.instance();
 
+  /**
+   * Creates a new {@code long} array assertion.
+   *
+   * @param actual the actual array to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractLongArrayAssert(long[] actual, Class<?> selfType) {
     super(actual, selfType);
   }

@@ -21,12 +21,20 @@ import java.net.URL;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for URIs and URLs with an unexpected port. */
 public class ShouldHavePort extends BasicErrorMessageFactory {
 
   private static final int NO_PORT = -1;
   private static final String SHOULD_HAVE_NO_PORT = "%nExpecting actual:%n  <%s>%nnot to have a port but had:%n  <%s>";
   private static final String SHOULD_HAVE_PORT = "%nExpecting port of%n  <%s>%nto be:%n  <%s>%nbut was:%n  <%s>";
 
+  /**
+   * Creates an error for a URI with the wrong port.
+   *
+   * @param actual the actual URI
+   * @param expectedPort the expected port
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHavePort(URI actual, int expectedPort) {
     return expectedPort == NO_PORT ? new ShouldHavePort(actual) : new ShouldHavePort(actual, expectedPort);
   }
@@ -39,6 +47,13 @@ public class ShouldHavePort extends BasicErrorMessageFactory {
     super(SHOULD_HAVE_NO_PORT, actual, actual.getPort());
   }
 
+  /**
+   * Creates an error for a URL with the wrong port.
+   *
+   * @param actual the actual URL
+   * @param expectedPort the expected port
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHavePort(URL actual, int expectedPort) {
     return expectedPort == NO_PORT ? new ShouldHavePort(actual) : new ShouldHavePort(actual, expectedPort);
   }

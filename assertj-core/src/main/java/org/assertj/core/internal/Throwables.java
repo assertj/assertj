@@ -87,6 +87,13 @@ public class Throwables {
     throw failures.failure(info, shouldHaveMessage(actual, expectedMessage), actual.getMessage(), expectedMessage);
   }
 
+  /**
+   * Verifies that the throwable has the expected cause.
+   *
+   * @param info assertion information
+   * @param actual the actual throwable
+   * @param expectedCause the expected cause
+   */
   public void assertHasCause(AssertionInfo info, Throwable actual, Throwable expectedCause) {
     assertNotNull(info, actual);
     Throwable actualCause = actual.getCause();
@@ -317,6 +324,11 @@ public class Throwables {
   }
 
   /**
+   * Verifies that the throwable message matches a regular expression.
+   *
+   * @param info assertion information
+   * @param actual the actual throwable
+   * @param regex the regular expression
    * @see #assertHasMessageMatching(AssertionInfo, Throwable, Pattern)
    */
   public void assertHasMessageMatching(AssertionInfo info, Throwable actual, String regex) {
@@ -434,12 +446,25 @@ public class Throwables {
     throw failures.failure(info, shouldHaveRootCauseExactlyInstance(actual, type));
   }
 
+  /**
+   * Verifies that the throwable has no suppressed exceptions.
+   *
+   * @param info assertion information
+   * @param actual the actual throwable
+   */
   public void assertHasNoSuppressedExceptions(AssertionInfo info, Throwable actual) {
     assertNotNull(info, actual);
     Throwable[] suppressed = actual.getSuppressed();
     if (suppressed.length != 0) throw failures.failure(info, shouldHaveNoSuppressedExceptions(actual));
   }
 
+  /**
+   * Verifies that the throwable has the expected suppressed exception.
+   *
+   * @param info assertion information
+   * @param actual the actual throwable
+   * @param expectedSuppressedException the expected suppressed exception
+   */
   public void assertHasSuppressedException(AssertionInfo info, Throwable actual,
                                            Throwable expectedSuppressedException) {
     assertNotNull(info, actual);

@@ -27,11 +27,27 @@ import java.util.List;
  */
 public class ShouldContainRecursively extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for a file directory tree missing a matching entry.
+   *
+   * @param actual the actual directory
+   * @param directoryContent the recursive directory content
+   * @param filterDescription the filter description
+   * @return the error message factory
+   */
   public static ErrorMessageFactory directoryShouldContainRecursively(File actual, List<File> directoryContent,
                                                                       String filterDescription) {
     return new ShouldContainRecursively(actual, directoryContent, filterDescription);
   }
 
+  /**
+   * Creates an error for a path directory tree missing a matching entry.
+   *
+   * @param actual the actual directory
+   * @param directoryContent the recursive directory content
+   * @param filterDescription the filter description
+   * @return the error message factory
+   */
   public static ErrorMessageFactory directoryShouldContainRecursively(Path actual, List<Path> directoryContent,
                                                                       String filterDescription) {
     return new ShouldContainRecursively(actual, directoryContent, filterDescription);

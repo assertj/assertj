@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.ThrowingConsumerFactory.throwingConsumer;
 import static org.mockito.Mockito.verify;
@@ -82,5 +83,16 @@ class ObjectArrayAssert_allSatisfy_with_ThrowingConsumer_Test extends ObjectArra
           .allSatisfy(requirements);
     // THEN
     then(softly.assertionErrorsCollected()).singleElement(THROWABLE).hasMessage("error message");
+  }
+
+  @Test
+  public void should_fail_if_actual_is_empty() {
+    // GIVEN
+    String[] emptyArray = {};
+    ThrowingConsumer<String> impossibleRequirements = s -> assertThat(s).contains("error").doesNotContain("error");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(emptyArray).allSatisfy(impossibleRequirements));
+    // THEN
+    then(assertionError).hasMessageContaining("Expecting actual not to be empty");
   }
 }

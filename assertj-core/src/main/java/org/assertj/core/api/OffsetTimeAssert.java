@@ -17,6 +17,7 @@ package org.assertj.core.api;
 
 import java.time.OffsetTime;
 
+/** Assertions for offset time values. */
 public class OffsetTimeAssert extends AbstractOffsetTimeAssert<OffsetTimeAssert> {
 
   /**

@@ -24,7 +24,11 @@ import java.util.Formatter;
  */
 public class UnicodeRepresentation extends StandardRepresentation {
 
+  /** Shared Unicode representation. */
   public static final UnicodeRepresentation UNICODE_REPRESENTATION = new UnicodeRepresentation();
+
+  /** Creates a Unicode representation. */
+  public UnicodeRepresentation() {}
 
   /**
    * Returns hexadecimal the {@code toString} representation of the given String or Character.

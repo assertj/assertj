@@ -22,7 +22,7 @@ import static org.assertj.core.api.MapSizeAssert.nullMapSizeAssert;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
 import static org.assertj.core.extractor.Extractors.byName;
-import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
+import static org.assertj.core.extractor.Extractors.descriptionOf;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toCollection;
@@ -50,6 +50,7 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguratio
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Maps;
+import org.assertj.core.util.Strings;
 
 /**
  * Base class for all implementations of assertions for {@link Map}s.
@@ -75,6 +76,12 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   Maps maps = Maps.instance();
   private BiPredicate<? super V, ? super V> valueEquals;
 
+  /**
+   * Creates a new map assertion.
+   *
+   * @param actual the actual map to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractMapAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -512,7 +519,16 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @SafeVarargs
   public final SELF contains(Map.Entry<? extends K, ? extends V>... entries) {
-    return executeAssertion(() -> maps.assertContains(info, actual, entries, valueEquals));
+    return executeAssertion(() -> assertContains(entries));
+  }
+
+  /**
+   * Verifies that the actual map contains the given entries.
+   *
+   * @param entries the expected entries
+   */
+  protected void assertContains(Map.Entry<? extends K, ? extends V>[] entries) {
+    maps.assertContains(info, actual, entries, valueEquals);
   }
 
   /**
@@ -543,7 +559,16 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @SafeVarargs
   public final SELF containsAnyOf(Map.Entry<? extends K, ? extends V>... entries) {
-    return executeAssertion(() -> maps.assertContainsAnyOf(info, actual, entries, valueEquals));
+    return executeAssertion(() -> assertContainsAnyOf(entries));
+  }
+
+  /**
+   * Verifies that the actual map contains at least one of the given entries.
+   *
+   * @param entries the entries of which at least one is expected
+   */
+  protected void assertContainsAnyOf(Map.Entry<? extends K, ? extends V>[] entries) {
+    maps.assertContainsAnyOf(info, actual, entries, valueEquals);
   }
 
   /**
@@ -694,7 +719,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError           if the actual map does not contain the given entries.
    */
   public SELF containsEntry(K key, V value) {
-    return executeAssertion(() -> maps.assertContains(info, actual, array(entry(key, value)), valueEquals));
+    return executeAssertion(() -> assertContains(array(entry(key, value))));
   }
 
   /**
@@ -949,7 +974,16 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @SafeVarargs
   public final SELF doesNotContain(Map.Entry<? extends K, ? extends V>... entries) {
-    return executeAssertion(() -> maps.assertDoesNotContain(info, actual, entries, valueEquals));
+    return executeAssertion(() -> assertDoesNotContain(entries));
+  }
+
+  /**
+   * Verifies that the actual map does not contain the given entries.
+   *
+   * @param entries the entries expected to be absent
+   */
+  protected void assertDoesNotContain(Map.Entry<? extends K, ? extends V>[] entries) {
+    maps.assertDoesNotContain(info, actual, entries, valueEquals);
   }
 
   /**
@@ -977,7 +1011,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError           if the actual map contains any of the given entries.
    */
   public SELF doesNotContainEntry(K key, V value) {
-    return executeAssertion(() -> maps.assertDoesNotContain(info, actual, array(entry(key, value)), valueEquals));
+    return executeAssertion(() -> assertDoesNotContain(array(entry(key, value))));
   }
 
   /**
@@ -1028,7 +1062,16 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @SafeVarargs
   public final SELF containsKeys(K... keys) {
-    return executeAssertion(() -> maps.assertContainsKeys(info, actual, keys));
+    return executeAssertion(() -> assertContainsKeys(keys));
+  }
+
+  /**
+   * Verifies that the actual map contains the given keys.
+   *
+   * @param keys the expected keys
+   */
+  protected void assertContainsKeys(K[] keys) {
+    maps.assertContainsKeys(info, actual, keys);
   }
 
   /**
@@ -1078,7 +1121,16 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @SafeVarargs
   public final SELF doesNotContainKeys(K... keys) {
-    return executeAssertion(() -> maps.assertDoesNotContainKeys(info, actual, keys));
+    return executeAssertion(() -> assertDoesNotContainKeys(keys));
+  }
+
+  /**
+   * Verifies that the actual map does not contain the given keys.
+   *
+   * @param keys the keys expected to be absent
+   */
+  protected void assertDoesNotContainKeys(K[] keys) {
+    maps.assertDoesNotContainKeys(info, actual, keys);
   }
 
   /**
@@ -1111,7 +1163,16 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @SafeVarargs
   public final SELF containsOnlyKeys(K... keys) {
-    return executeAssertion(() -> maps.assertContainsOnlyKeys(info, actual, keys));
+    return executeAssertion(() -> assertContainsOnlyKeys(keys));
+  }
+
+  /**
+   * Verifies that the actual map contains only the given keys.
+   *
+   * @param keys the expected keys
+   */
+  protected void assertContainsOnlyKeys(K[] keys) {
+    maps.assertContainsOnlyKeys(info, actual, keys);
   }
 
   /**
@@ -1205,7 +1266,16 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @SafeVarargs
   public final SELF containsValues(V... values) {
-    return executeAssertion(() -> maps.assertContainsValues(info, actual, values, valueEquals));
+    return executeAssertion(() -> assertContainsValues(values));
+  }
+
+  /**
+   * Verifies that the actual map contains the given values.
+   *
+   * @param values the expected values
+   */
+  protected void assertContainsValues(V[] values) {
+    maps.assertContainsValues(info, actual, values, valueEquals);
   }
 
   /**
@@ -1269,7 +1339,16 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @SafeVarargs
   public final SELF containsOnly(Map.Entry<? extends K, ? extends V>... entries) {
-    return executeAssertion(() -> maps.assertContainsOnly(info, actual, entries, valueEquals));
+    return executeAssertion(() -> assertContainsOnly(entries));
+  }
+
+  /**
+   * Verifies that the actual map contains only the given entries.
+   *
+   * @param entries the expected entries
+   */
+  protected void assertContainsOnly(Map.Entry<? extends K, ? extends V>[] entries) {
+    maps.assertContainsOnly(info, actual, entries, valueEquals);
   }
 
   /**
@@ -1305,7 +1384,16 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @SafeVarargs
   public final SELF containsExactly(Map.Entry<? extends K, ? extends V>... entries) {
-    return executeAssertion(() -> maps.assertContainsExactly(info, actual, entries, valueEquals));
+    return executeAssertion(() -> assertContainsExactly(entries));
+  }
+
+  /**
+   * Verifies that the actual map contains exactly the given entries.
+   *
+   * @param entries the expected entries
+   */
+  protected void assertContainsExactly(Map.Entry<? extends K, ? extends V>[] entries) {
+    maps.assertContainsExactly(info, actual, entries, valueEquals);
   }
 
   /**
@@ -1653,13 +1741,21 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @CheckReturnValue
   @SafeVarargs
   public final AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extractingByKeys(K... keys) {
-    return executeAssertionNavigation(() -> {
-      isNotNull();
-      List<V> extractedValues = Stream.of(keys).map(actual::get).collect(toList());
-      String extractedPropertiesOrFieldsDescription = extractedDescriptionOf((Object[]) keys);
-      String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
-      return newListAssertInstance(extractedValues).withAssertionState(myself).as(description);
-    }, ListAssert::nullListAssert);
+    return executeAssertionNavigation(() -> doExtractingByKeys(keys), ListAssert::nullListAssert);
+  }
+
+  /**
+   * Extracts values associated with the given keys.
+   *
+   * @param keys the keys whose values are extracted
+   * @return assertions on the extracted values
+   */
+  protected AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doExtractingByKeys(K[] keys) {
+    String extractingByKeysDescription = "extractingByKeys: " + descriptionOf(keys);
+    isNotNull(extractingByKeysDescription);
+    List<V> extractedValues = Stream.of(keys).map(actual::get).collect(toList());
+    String description = mostRelevantDescription(info.description(), extractingByKeysDescription);
+    return newListAssertInstance(extractedValues).withAssertionState(myself).as(description);
   }
 
   /**
@@ -1684,10 +1780,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @CheckReturnValue
   public AbstractObjectAssert<?, V> extractingByKey(K key) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      String extractingByKeyDescription = "extractingByKey: " + key;
+      isNotNull(extractingByKeyDescription);
       V extractedValue = actual.get(key);
-      String extractedPropertyOrFieldDescription = extractedDescriptionOf(key);
-      String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
+      String description = mostRelevantDescription(info.description(), extractingByKeyDescription);
       return new ObjectAssert<>(extractedValue).withAssertionState(myself).as(description);
     }, ObjectAssert::nullObjectAssert);
   }
@@ -1749,7 +1845,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingFromEntries(Function<? super Map.Entry<K, V>, Object> extractor) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      isNotNull("extractingFromEntries");
       List<Object> extractedObjects = actual.entrySet().stream()
                                             .map(extractor)
                                             .collect(toList());
@@ -1795,17 +1891,25 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @CheckReturnValue
   @SafeVarargs
   public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingFromEntries(Function<? super Map.Entry<K, V>, Object>... extractors) {
-    return executeAssertionNavigation(() -> {
-      isNotNull();
-      // combine all extractors into one function
-      Function<Map.Entry<K, V>, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
-                                                                                                    .map(extractor -> extractor.apply(objectToExtractValueFrom))
-                                                                                                    .toArray());
-      List<Tuple> extractedTuples = actual.entrySet().stream()
-                                          .map(tupleExtractor)
-                                          .collect(toList());
-      return newListAssertInstance(extractedTuples).withAssertionState(myself).as(info.description());
-    }, ListAssert::nullListAssert);
+    return executeAssertionNavigation(() -> doExtractingFromEntries(extractors), ListAssert::nullListAssert);
+  }
+
+  /**
+   * Applies the given extractors to each map entry.
+   *
+   * @param extractors the extractors to apply
+   * @return assertions on tuples of extracted values
+   */
+  protected AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> doExtractingFromEntries(Function<? super Map.Entry<K, V>, Object>[] extractors) {
+    isNotNull("extractingFromEntries");
+    // combine all extractors into one function
+    Function<Map.Entry<K, V>, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
+                                                                                                  .map(extractor -> extractor.apply(objectToExtractValueFrom))
+                                                                                                  .toArray());
+    List<Tuple> extractedTuples = actual.entrySet().stream()
+                                        .map(tupleExtractor)
+                                        .collect(toList());
+    return newListAssertInstance(extractedTuples).withAssertionState(myself).as(info.description());
   }
 
   /**
@@ -1856,10 +1960,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(String... keys) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      String extractedPropertiesOrFieldsDescription = Strings.join(keys).with(", ");
+      isNotNull("flatExtracting: " + extractedPropertiesOrFieldsDescription);
       Tuple values = byName(keys).apply(actual);
       List<Object> valuesFlattened = flatten(values.toList());
-      String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
       String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
       return newListAssertInstance(valuesFlattened).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);
@@ -1927,7 +2031,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @Override
   @Beta
   public RecursiveComparisonAssert<?> usingRecursiveComparison() {
-    // overridden for javadoc and to make this method public
+    // overridden for Javadoc and to make this method public
     return super.usingRecursiveComparison();
   }
 
@@ -1939,7 +2043,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @Override
   public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    // overridden for javadoc and to make this method public
+    // overridden for Javadoc and to make this method public
     return super.usingRecursiveComparison(recursiveComparisonConfiguration);
   }
 
@@ -1954,13 +2058,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * {@link java.util.function.Predicate} applied to them (including primitive fields), no fields are excluded, but:
    * <ul>
    *   <li>The recursion does not enter into Java Class Library types (java.*, javax.*)</li>
-   *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Collection} and array elements (but not the collection/array itself)</li>
+   *   <li>The {@link java.util.function.Predicate} is applied to {@link Iterable} and array elements (but not the iterable/array itself)</li>
    *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Map} values but not the map itself or its keys</li>
    *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Optional} and primitive optional values</li>
    * </ul>
-   * <p>You can change how the recursive assertion deals with arrays, collections, maps and optionals, see:</p>
+   * <p>You can change how the recursive assertion deals with arrays, iterables, maps and optionals, see:</p>
    * <ul>
-   *   <li>{@link RecursiveAssertionAssert#withCollectionAssertionPolicy(RecursiveAssertionConfiguration.CollectionAssertionPolicy)} for collections and arrays</li>
+   *   <li>{@link RecursiveAssertionAssert#withIterableAssertionPolicy(RecursiveAssertionConfiguration.IterableAssertionPolicy)} for iterables and arrays</li>
    *   <li>{@link RecursiveAssertionAssert#withMapAssertionPolicy(RecursiveAssertionConfiguration.MapAssertionPolicy)} for maps</li>
    *   <li>{@link RecursiveAssertionAssert#withOptionalAssertionPolicy(RecursiveAssertionConfiguration.OptionalAssertionPolicy)} for optionals</li>
    * </ul>
@@ -2032,7 +2136,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *   <li>Exclusion of fields by type</li>
    *   <li>Exclusion of primitive fields</li>
    *   <li>Inclusion of Java Class Library types in the recursive execution</li>
-   *   <li>Treatment of {@link java.util.Collection} and array objects</li>
+   *   <li>Treatment of {@link Iterable} and array objects</li>
    *   <li>Treatment of {@link java.util.Map} objects</li>
    *   <li>Treatment of Optional and primitive Optional objects</li>
    * </ul>

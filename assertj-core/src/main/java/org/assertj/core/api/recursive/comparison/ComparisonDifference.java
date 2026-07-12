@@ -28,6 +28,9 @@ import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.UnambiguousRepresentation;
 import org.assertj.core.presentation.Representation;
 
+/**
+ * Describes a difference found during recursive comparison.
+ */
 public class ComparisonDifference implements Comparable<ComparisonDifference> {
 
   // ELEMENT_WITH_INDEX_PATTERN should match [0] or [123] but not name[0] or [0].name, explanation:
@@ -41,6 +44,7 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   private static final String TOP_LEVEL_OBJECTS = "Top level actual and expected objects";
   private static final String TOP_LEVEL_ELEMENTS = "Top level actual and expected objects element at index %s";
 
+  /** Default template used to describe a comparison difference. */
   public static final String DEFAULT_TEMPLATE = "%s differ:%n" +
                                                 "- actual value  : %s%n" +
                                                 "- expected value: %s%s";
@@ -52,14 +56,32 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   final Optional<String> additionalInformation;
   final String template;
 
+  /**
+   * Creates a difference from the given dual value.
+   *
+   * @param dualValue the compared values and their path
+   */
   public ComparisonDifference(DualValue dualValue) {
-    this(dualValue.getDecomposedPath(), dualValue.actual, dualValue.expected, null, DEFAULT_TEMPLATE);
+    this(dualValue, null);
   }
 
+  /**
+   * Creates a difference with additional information.
+   *
+   * @param dualValue the compared values and their path
+   * @param additionalInformation additional difference information
+   */
   public ComparisonDifference(DualValue dualValue, String additionalInformation) {
-    this(dualValue.getDecomposedPath(), dualValue.actual, dualValue.expected, additionalInformation, DEFAULT_TEMPLATE);
+    this(dualValue, additionalInformation, DEFAULT_TEMPLATE);
   }
 
+  /**
+   * Creates a difference with additional information and a custom template.
+   *
+   * @param dualValue the compared values and their path
+   * @param additionalInformation additional difference information
+   * @param template the description template
+   */
   public ComparisonDifference(DualValue dualValue, String additionalInformation, String template) {
     this(dualValue.getDecomposedPath(), dualValue.actual, dualValue.expected, additionalInformation, template);
   }
@@ -74,31 +96,69 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
     this.template = template != null ? template : DEFAULT_TEMPLATE;
   }
 
+  /**
+   * Creates a difference for the root compared values.
+   *
+   * @param actual the actual value
+   * @param other the expected value
+   * @param additionalInformation additional difference information
+   * @return the root comparison difference
+   */
   public static ComparisonDifference rootComparisonDifference(Object actual, Object other, String additionalInformation) {
     return new ComparisonDifference(rootDualValue(actual, other), additionalInformation);
   }
 
+  /**
+   * Returns the actual value.
+   *
+   * @return the actual value
+   */
   public Object getActual() {
     return actual;
   }
 
+  /**
+   * Returns the expected value.
+   *
+   * @return the expected value
+   */
   public Object getExpected() {
     return expected;
   }
 
+  /**
+   * Returns the description template.
+   *
+   * @return the description template
+   */
   public String getTemplate() {
     return template;
   }
 
+  /**
+   * Returns additional difference information.
+   *
+   * @return the additional information
+   */
   public Optional<String> getAdditionalInformation() {
     return additionalInformation;
   }
 
+  /**
+   * Returns the decomposed field path.
+   *
+   * @return the decomposed path
+   */
   public List<String> getDecomposedPath() {
     return decomposedPath;
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns the concatenated field path.
+   *
+   * @return the concatenated path
+   */
   public String getConcatenatedPath() {
     return concatenatedPath;
   }
@@ -118,11 +178,22 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
                                                                                                                                  expected));
   }
 
+  /**
+   * Returns a multi-line description using the configured representation.
+   *
+   * @return the difference description
+   */
   public String multiLineDescription() {
     // use the default configured representation
     return multiLineDescription(ConfigurationProvider.CONFIGURATION_PROVIDER.representation());
   }
 
+  /**
+   * Returns a multi-line description using the given representation.
+   *
+   * @param representation the value representation
+   * @return the difference description
+   */
   public String multiLineDescription(Representation representation) {
     UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation(representation, actual, expected);
     String additionalInfo = additionalInformation.map(ComparisonDifference::formatOnNewline).orElse("");
@@ -133,6 +204,11 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   }
 
   // returns a user-friendly path description
+  /**
+   * Returns a user-friendly field path description.
+   *
+   * @return the field path description
+   */
   protected String fieldPathDescription() {
     if (concatenatedPath.isEmpty()) return TOP_LEVEL_OBJECTS;
     return concatenatedPath.matches(TOP_LEVEL_ELEMENT_PATTERN)

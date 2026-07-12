@@ -24,12 +24,27 @@ import java.util.concurrent.TimeoutException;
 
 import org.assertj.core.internal.Futures;
 
+/**
+ * future assertion base class.
+ *
+ * @param <SELF>   the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
+ *                 target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *                 for more details.
+ * @param <ACTUAL> the type of the "actual" value.
+ * @param <RESULT> The result type returned by this Future's {@code get} method
+ */
 public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SELF, ACTUAL, RESULT>, ACTUAL extends Future<RESULT>, RESULT>
     extends AbstractAssertWithComparator<SELF, ACTUAL> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Futures futures = Futures.instance();
 
+  /**
+   * Creates a new {@link Future} assertion.
+   *
+   * @param actual the actual future to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractFutureAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }

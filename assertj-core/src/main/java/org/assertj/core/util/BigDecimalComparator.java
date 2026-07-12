@@ -27,6 +27,9 @@ import java.math.BigDecimal;
  */
 public class BigDecimalComparator extends AbstractComparableNumberComparator<BigDecimal> {
 
+  /** Creates a new decimal comparator. */
+  public BigDecimalComparator() {}
+
   /**
    * an instance of {@link BigDecimalComparator}.
    */

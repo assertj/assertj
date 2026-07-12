@@ -26,6 +26,9 @@ import org.assertj.core.util.DualClass;
  */
 public class TypeMessages extends TypeHolder<String> {
 
+  /** Creates an empty type message holder. */
+  public TypeMessages() {}
+
   /**
    * This method returns the most relevant error message for the given class. The most relevant message is the
    * message which is registered for the class that is closest in the inheritance chain of the given {@code clazz}.

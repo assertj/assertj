@@ -17,8 +17,10 @@ package org.assertj.core.util;
 
 import java.nio.file.Path;
 
+/** Natural-order comparator for paths. */
 public class PathNaturalOrderComparator extends NaturalOrderComparator<Path> {
 
+  /** Shared path comparator instance. */
   public static final PathNaturalOrderComparator INSTANCE = new PathNaturalOrderComparator();
 
   private PathNaturalOrderComparator() {

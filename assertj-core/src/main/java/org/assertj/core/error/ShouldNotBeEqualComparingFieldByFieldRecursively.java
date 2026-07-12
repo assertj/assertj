@@ -18,8 +18,18 @@ package org.assertj.core.error;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.presentation.Representation;
 
+/** Creates errors for objects expected not to be recursively equal. */
 public class ShouldNotBeEqualComparingFieldByFieldRecursively extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for recursively equal objects.
+   *
+   * @param actual the actual object
+   * @param other the comparison object
+   * @param recursiveComparisonConfiguration the comparison configuration
+   * @param representation the value representation
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldNotBeEqualComparingFieldByFieldRecursively(Object actual, Object other,
                                                                                      RecursiveComparisonConfiguration recursiveComparisonConfiguration,
                                                                                      Representation representation) {
@@ -40,6 +50,12 @@ public class ShouldNotBeEqualComparingFieldByFieldRecursively extends BasicError
                                                                 actual, other);
   }
 
+  /**
+   * Creates an error for identical object references.
+   *
+   * @param actual the actual object
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldNotBeEqualComparingFieldByFieldRecursively(Object actual) {
     if (actual == null)
       return new ShouldNotBeEqualComparingFieldByFieldRecursively("%n" +

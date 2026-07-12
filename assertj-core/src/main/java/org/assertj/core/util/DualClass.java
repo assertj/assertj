@@ -67,14 +67,29 @@ public class DualClass<A, E> {
     return expected;
   }
 
+  /**
+   * Checks whether no expected class is available.
+   *
+   * @return whether the expected class is absent
+   */
   public boolean hasNoExpected() {
     return expected == null;
   }
 
+  /**
+   * Returns the actual class description.
+   *
+   * @return the actual class name or an empty string
+   */
   public String actualDescription() {
     return actual == null ? "" : actual.getName();
   }
 
+  /**
+   * Returns the expected class description.
+   *
+   * @return the expected class name or an empty string
+   */
   public String expectedDescription() {
     return expected == null ? "" : expected.getName();
   }

@@ -32,6 +32,11 @@ import java.io.File;
  */
 public class FileAssert extends AbstractFileAssert<FileAssert> {
 
+  /**
+   * Creates a new file assertion.
+   *
+   * @param actual the actual file to verify
+   */
   public FileAssert(File actual) {
     super(actual, FileAssert.class);
   }

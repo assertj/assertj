@@ -37,6 +37,12 @@ import org.assertj.core.internal.Failures;
  */
 public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<SELF>> extends AbstractAssert<SELF, Boolean> {
 
+  /**
+   * Creates a new {@link Boolean} assertion.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractBooleanAssert(Boolean actual, Class<?> selfType) {
     super(actual, selfType);
   }

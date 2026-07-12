@@ -15,8 +15,15 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for objects expected to have the same hash code. */
 public class ShouldHaveSameHashCode extends BasicErrorMessageFactory {
-
+  /**
+   * Creates an error for objects with different hash codes.
+   *
+   * @param actual the actual object
+   * @param other the comparison object
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveSameHashCode(Object actual, Object other) {
     return new ShouldHaveSameHashCode(actual, other);
   }

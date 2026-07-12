@@ -27,6 +27,13 @@ import java.util.Date;
  */
 public class ShouldBeInSameSecondWindow extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for dates expected to be in the same second.
+   *
+   * @param actual the actual date
+   * @param other the comparison date
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeInSameSecondWindow(Date actual, Date other) {
     return new ShouldBeInSameSecondWindow(actual, other);
   }

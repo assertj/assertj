@@ -22,12 +22,24 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.BooleanArrays;
 
+/**
+ * Base class for assertions on {@code boolean} arrays.
+ *
+ * @param <SELF> the "self" type of this assertion class
+ */
 public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, boolean[], Boolean> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Internal assertions for {@code boolean} arrays. */
   protected BooleanArrays arrays = BooleanArrays.instance();
 
+  /**
+   * Creates a new {@code boolean} array assertion.
+   *
+   * @param actual the actual array to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractBooleanArrayAssert(boolean[] actual, Class<?> selfType) {
     super(actual, selfType);
   }

@@ -47,9 +47,9 @@ class MapAssert_extractingByKey_with_Key_Test implements NavigationMethodBaseTes
     // GIVEN
     Map<Object, Object> map = null;
     // WHEN
-    var error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME));
+    var assertionError = expectAssertionError(() -> assertThat(map).extractingByKey(NAME));
     // THEN
-    then(error).hasMessage(actualIsNull());
+    then(assertionError).hasMessageContainingAll("[extractingByKey: name]", actualIsNull());
   }
 
   @Test
@@ -73,7 +73,7 @@ class MapAssert_extractingByKey_with_Key_Test implements NavigationMethodBaseTes
     // WHEN
     var error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME).isNull());
     // THEN
-    then(error).hasMessageContaining("[Extracted: name]");
+    then(error).hasMessageContaining("[extractingByKey: name]");
   }
 
   @Test

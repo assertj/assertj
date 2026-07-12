@@ -22,10 +22,20 @@ import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 
+/** Creates errors for zipped elements that do not satisfy requirements. */
 public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
 
   private static final String DELIMITER = "%n%n- ".formatted();
 
+  /**
+   * Creates an error for zipped elements that do not satisfy requirements.
+   *
+   * @param info assertion information
+   * @param actual the actual elements
+   * @param other the elements zipped with the actual values
+   * @param zipSatisfyErrors the failures
+   * @return the created error message factory
+   */
   public static ErrorMessageFactory zippedElementsShouldSatisfy(AssertionInfo info,
                                                                 Iterable<?> actual, Iterable<?> other,
                                                                 List<ZipSatisfyError> zipSatisfyErrors) {
@@ -51,17 +61,35 @@ public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
     return escapePercent(DELIMITER + String.join(DELIMITER, errorsToStrings));
   }
 
+  /** Describes one pair of zipped elements that failed its requirement. */
   public static class ZipSatisfyError {
+    /** The actual element. */
     public final Object actualElement;
+    /** The corresponding element from the other iterable. */
     public final Object otherElement;
+    /** The assertion error message. */
     public final String error;
 
+    /**
+     * Creates a zipped element failure.
+     *
+     * @param actualElement the actual element
+     * @param otherElement the corresponding other element
+     * @param error the error message
+     */
     public ZipSatisfyError(Object actualElement, Object otherElement, String error) {
       this.actualElement = actualElement;
       this.otherElement = otherElement;
       this.error = error;
     }
 
+    /**
+     * Describes a zipped element failure.
+     *
+     * @param info assertion information
+     * @param satisfyError the failure to describe
+     * @return the failure description
+     */
     public static String describe(AssertionInfo info, ZipSatisfyError satisfyError) {
       return "(%s, %s)%nerror: %s".formatted(info.representation().toStringOf(satisfyError.actualElement),
                                              info.representation().toStringOf(satisfyError.otherElement),

@@ -30,6 +30,11 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 public class AtomicIntegerFieldUpdaterAssert<OBJECT> extends
     AbstractAtomicFieldUpdaterAssert<AtomicIntegerFieldUpdaterAssert<OBJECT>, Integer, AtomicIntegerFieldUpdater<OBJECT>, OBJECT> {
 
+  /**
+   * Creates a new atomic integer field updater assertion.
+   *
+   * @param actual the actual field updater
+   */
   public AtomicIntegerFieldUpdaterAssert(AtomicIntegerFieldUpdater<OBJECT> actual) {
     super(actual, AtomicIntegerFieldUpdaterAssert.class, false);
   }

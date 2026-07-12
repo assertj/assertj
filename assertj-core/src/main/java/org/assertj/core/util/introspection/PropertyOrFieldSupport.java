@@ -18,15 +18,21 @@ package org.assertj.core.util.introspection;
 import static java.lang.String.format;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/** Extracts values from properties, fields, arrays, lists, and maps. */
 public class PropertyOrFieldSupport {
   private static final String SEPARATOR = ".";
+  private static final String ARRAY_INDEX_START = "[";
+  private static final String ARRAY_INDEX_END = "]";
   private PropertySupport propertySupport;
   private FieldSupport fieldSupport;
 
+  /** Support instance for value extraction. */
   public static final PropertyOrFieldSupport EXTRACTION = new PropertyOrFieldSupport();
+  /** Support instance for object comparison. */
   public static final PropertyOrFieldSupport COMPARISON = new PropertyOrFieldSupport(PropertySupport.instance(),
                                                                                      FieldSupport.COMPARISON);
 
@@ -41,10 +47,22 @@ public class PropertyOrFieldSupport {
     this.fieldSupport = fieldSupport;
   }
 
+  /**
+   * Configures whether private fields may be read.
+   *
+   * @param allowUsingPrivateFields whether private fields may be read
+   */
   public void setAllowUsingPrivateFields(boolean allowUsingPrivateFields) {
     fieldSupport.setAllowUsingPrivateFields(allowUsingPrivateFields);
   }
 
+  /**
+   * Extracts a possibly nested property or field value.
+   *
+   * @param propertyOrFieldName the property or field path
+   * @param input the source object
+   * @return the extracted value
+   */
   public Object getValueOf(String propertyOrFieldName, Object input) {
     checkArgument(propertyOrFieldName != null, "The name of the property/field to read should not be null");
     checkArgument(!propertyOrFieldName.isEmpty(), "The name of the property/field to read should not be empty");
@@ -52,16 +70,28 @@ public class PropertyOrFieldSupport {
 
     if (isNested(propertyOrFieldName)) {
       String firstPropertyName = popNameFrom(propertyOrFieldName);
-      Object propertyOrFieldValue = getSimpleValue(firstPropertyName, input);
+      // extract with or without and index
+      Object propertyOrFieldValue = hasIndex(firstPropertyName) ? getArrayOrListValue(firstPropertyName, input)
+          : getSimpleValue(firstPropertyName, input);
       // when one of the intermediate nested property/field value is null, return null
       if (propertyOrFieldValue == null) return null;
       // extract next sub-property/field value until reaching the last sub-property/field
       return getValueOf(nextNameFrom(propertyOrFieldName), propertyOrFieldValue);
     }
 
+    // we get property/field without the index
+    if (hasIndex(propertyOrFieldName)) return getArrayOrListValue(propertyOrFieldName, input);
+
     return getSimpleValue(propertyOrFieldName, input);
   }
 
+  /**
+   * Extracts a simple property or field value.
+   *
+   * @param name the property or field name
+   * @param input the source object
+   * @return the extracted value
+   */
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public Object getSimpleValue(String name, Object input) {
     // if input is an optional and name is "value", let's get the optional value directly
@@ -99,6 +129,37 @@ public class PropertyOrFieldSupport {
     }
   }
 
+  /**
+   * Extracts an indexed array or list value.
+   *
+   * @param name the indexed property or field name
+   * @param input the source object
+   * @return the extracted value
+   */
+  @SuppressWarnings("rawtypes")
+  public Object getArrayOrListValue(String name, Object input) {
+    // we could still have a map that has 'name[indexvalue]' as an actual key so we fall back
+    // to getSimpleValue
+    try {
+      Object value = getSimpleValue(nonIndexedNameOf(name), input);
+      if (value == null) return null;
+      if (value instanceof List list) return list.get(extractIndexFrom(name));
+      if (value instanceof Object[] array) return array[extractIndexFrom(name)];
+      return getSimpleValue(name, input);
+    } catch (NumberFormatException e) {
+      String message = format("%nCould not parse the index of a list or array in name '%s'.%n" +
+                              "Parsing error was: %n" +
+                              "- %s%n", name, e.getMessage());
+      throw new IntrospectionError(message, e);
+    } catch (IndexOutOfBoundsException e) {
+      String message = format("%nIndex out of bounds when accessing name '%s':%n" +
+                              "- %s", name, e.getMessage());
+      throw new IntrospectionError(message, e);
+    } catch (IntrospectionError e) {
+      return getSimpleValue(name, input);
+    }
+  }
+
   private String popNameFrom(String propertyOrFieldNameChain) {
     if (!isNested(propertyOrFieldNameChain)) return propertyOrFieldNameChain;
     return propertyOrFieldNameChain.substring(0, propertyOrFieldNameChain.indexOf(SEPARATOR));
@@ -113,6 +174,24 @@ public class PropertyOrFieldSupport {
     return propertyOrFieldName.contains(SEPARATOR)
            && !propertyOrFieldName.startsWith(SEPARATOR)
            && !propertyOrFieldName.endsWith(SEPARATOR);
+  }
+
+  private boolean hasIndex(String propertyOrFieldName) {
+    return propertyOrFieldName.contains(ARRAY_INDEX_START)
+           && propertyOrFieldName.contains(ARRAY_INDEX_END)
+           && propertyOrFieldName.indexOf(ARRAY_INDEX_START) < propertyOrFieldName.indexOf(ARRAY_INDEX_END);
+  }
+
+  private static String nonIndexedNameOf(String propertyOrFieldNameWithIndex) {
+    int start = propertyOrFieldNameWithIndex.indexOf(ARRAY_INDEX_START);
+    return propertyOrFieldNameWithIndex.substring(0, start);
+  }
+
+  private static int extractIndexFrom(String propertyOrFieldNameWithIndex) {
+    int start = propertyOrFieldNameWithIndex.indexOf(ARRAY_INDEX_START) + ARRAY_INDEX_START.length();
+    int end = propertyOrFieldNameWithIndex.indexOf(ARRAY_INDEX_END);
+    String indexAsString = propertyOrFieldNameWithIndex.substring(start, end);
+    return Integer.parseInt(indexAsString);
   }
 
 }

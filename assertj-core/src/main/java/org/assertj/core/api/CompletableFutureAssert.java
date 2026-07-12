@@ -25,14 +25,31 @@ import java.util.concurrent.CompletionStage;
  */
 public class CompletableFutureAssert<RESULT> extends AbstractCompletableFutureAssert<CompletableFutureAssert<RESULT>, RESULT> {
 
+  /**
+   * Creates an assertion for the given completion stage.
+   *
+   * @param <RESULT> the completion result type
+   * @param actual the actual completion stage
+   * @return the created assertion object
+   */
   public static <RESULT> CompletableFutureAssert<RESULT> assertThatCompletionStage(CompletionStage<RESULT> actual) {
     return new CompletableFutureAssert<>(actual);
   }
 
+  /**
+   * Creates an assertion for the given completable future.
+   *
+   * @param actual the actual future
+   */
   protected CompletableFutureAssert(CompletableFuture<RESULT> actual) {
     super(actual, CompletableFutureAssert.class);
   }
 
+  /**
+   * Creates an assertion for the given completion stage.
+   *
+   * @param actual the actual completion stage
+   */
   protected CompletableFutureAssert(CompletionStage<RESULT> actual) {
     super(actual == null ? null : actual.toCompletableFuture(), CompletableFutureAssert.class);
   }

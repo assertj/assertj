@@ -18,7 +18,13 @@ package org.assertj.core.api;
 /**
  * Provides helper methods for navigating a list property in a generated assertion class so we can chain assertions
  * through deeply nested models more easily.
- * 
+ *
+ * @param <SELF>           the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
+ *                         target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *                         for more details.
+ * @param <ACTUAL>         the type of the "actual" value.
+ * @param <ELEMENT>        the type of elements of the "actual" value.
+ * @param <ELEMENT_ASSERT> used for navigational assertions to return the right assert type.
  * @since 2.5.0 / 3.5.0
  * @deprecated Use {@link AbstractIterableAssert#withElementAssert(AssertFactory)} instead.
  */
@@ -33,6 +39,13 @@ public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNaviga
 
   private final AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
 
+  /**
+   * Creates a navigable iterable assertion using the given element assertion factory.
+   *
+   * @param actual the actual iterable
+   * @param selfType the type of the concrete assertion
+   * @param assertFactory the element assertion factory
+   */
   public FactoryBasedNavigableIterableAssert(ACTUAL actual, Class<?> selfType,
                                              AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     super(actual, selfType);

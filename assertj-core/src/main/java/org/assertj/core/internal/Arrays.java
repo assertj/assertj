@@ -121,25 +121,47 @@ public class Arrays {
     return INSTANCE;
   }
 
+  /** Creates array assertions using the standard comparison strategy. */
   public Arrays() {
     this(StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates array assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy to use
+   */
   public Arrays(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns the configured comparator, if any.
+   *
+   * @return the configured comparator or {@code null}
+   */
   public Comparator<?> getComparator() {
     if (!(comparisonStrategy instanceof ComparatorBasedComparisonStrategy)) return null;
     return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns the configured comparison strategy.
+   *
+   * @return the comparison strategy
+   */
   public ComparisonStrategy getComparisonStrategy() {
     return comparisonStrategy;
   }
 
+  /**
+   * Verifies that the given value is an array.
+   *
+   * @param info assertion information
+   * @param array the value to verify
+   */
   public static void assertIsArray(AssertionInfo info, Object array) {
     if (!isArray(array)) throw Failures.instance().failure(info, shouldBeAnArray(array));
   }
@@ -194,6 +216,13 @@ public class Arrays {
     hasSameSizeAsCheck(info, array, other, sizeOf(array));
   }
 
+  /**
+   * Verifies that two arrays have the same size.
+   *
+   * @param info assertion information
+   * @param array the actual array
+   * @param other the array to compare with
+   */
   public void assertHasSameSizeAs(AssertionInfo info, Object array, Object other) {
     assertNotNull(info, array);
     assertIsArray(info, array);
@@ -202,6 +231,14 @@ public class Arrays {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Verifies that the actual array contains the given values.
+   *
+   * @param info assertion information
+   * @param failures failure handler
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
     if (commonChecks(info, failures, actual, values)) return;
     Set<Object> notFound = new LinkedHashSet<>();
@@ -535,6 +572,14 @@ public class Arrays {
     }
   }
 
+  /**
+   * Verifies that the actual array is a subset of the given values.
+   *
+   * @param info assertion information
+   * @param failures failure handler
+   * @param actual the actual array
+   * @param values the values that may be present
+   */
   public void assertIsSubsetOf(AssertionInfo info, Failures failures, Object actual, Iterable<?> values) {
     assertNotNull(info, actual);
     checkIterableIsNotNull(values);
@@ -561,6 +606,16 @@ public class Arrays {
     if (arrayContains(array, null)) throw failures.failure(info, shouldNotContainNull(array));
   }
 
+  /**
+   * Verifies that all array elements satisfy the given condition.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param failures failure handler
+   * @param conditions condition helper
+   * @param array the actual array
+   * @param condition the condition to satisfy
+   */
   public <E> void assertAre(AssertionInfo info, Failures failures, Conditions conditions, Object array,
                             Condition<E> condition) {
     List<E> notMatchingCondition = getElementsNotMatchingCondition(info, failures, conditions, array, condition);
@@ -568,6 +623,16 @@ public class Arrays {
       throw failures.failure(info, elementsShouldBe(array, notMatchingCondition, condition));
   }
 
+  /**
+   * Verifies that no array element satisfies the given condition.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param failures failure handler
+   * @param conditions condition helper
+   * @param array the actual array
+   * @param condition the condition not to satisfy
+   */
   public <E> void assertAreNot(AssertionInfo info, Failures failures, Conditions conditions, Object array,
                                Condition<E> condition) {
     List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
@@ -575,6 +640,16 @@ public class Arrays {
       throw failures.failure(info, elementsShouldNotBe(array, matchingElements, condition));
   }
 
+  /**
+   * Verifies that all array elements have the given condition.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param failures failure handler
+   * @param conditions condition helper
+   * @param array the actual array
+   * @param condition the condition to have
+   */
   public <E> void assertHave(AssertionInfo info, Failures failures, Conditions conditions, Object array,
                              Condition<E> condition) {
     List<E> notMatchingCondition = getElementsNotMatchingCondition(info, failures, conditions, array, condition);
@@ -582,6 +657,16 @@ public class Arrays {
       throw failures.failure(info, elementsShouldHave(array, notMatchingCondition, condition));
   }
 
+  /**
+   * Verifies that no array element has the given condition.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param failures failure handler
+   * @param conditions condition helper
+   * @param array the actual array
+   * @param condition the condition not to have
+   */
   public <E> void assertHaveNot(AssertionInfo info, Failures failures, Conditions conditions, Object array,
                                 Condition<E> condition) {
     List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
@@ -589,6 +674,17 @@ public class Arrays {
       throw failures.failure(info, elementsShouldNotHave(array, matchingElements, condition));
   }
 
+  /**
+   * Verifies that at least the given number of elements satisfy the condition.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param failures failure handler
+   * @param conditions condition helper
+   * @param array the actual array
+   * @param times the minimum number of matches
+   * @param condition the condition to satisfy
+   */
   public <E> void assertAreAtLeast(AssertionInfo info, Failures failures, Conditions conditions, Object array,
                                    int times, Condition<E> condition) {
     List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
@@ -596,12 +692,34 @@ public class Arrays {
       throw failures.failure(info, elementsShouldBeAtLeast(array, times, condition));
   }
 
+  /**
+   * Verifies that at most the given number of elements satisfy the condition.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param failures failure handler
+   * @param conditions condition helper
+   * @param array the actual array
+   * @param times the maximum number of matches
+   * @param condition the condition to satisfy
+   */
   public <E> void assertAreAtMost(AssertionInfo info, Failures failures, Conditions conditions, Object array,
                                   int times, Condition<E> condition) {
     List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
     if (matchingElements.size() > times) throw failures.failure(info, elementsShouldBeAtMost(array, times, condition));
   }
 
+  /**
+   * Verifies that exactly the given number of elements satisfy the condition.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param failures failure handler
+   * @param conditions condition helper
+   * @param array the actual array
+   * @param times the expected number of matches
+   * @param condition the condition to satisfy
+   */
   public <E> void assertAreExactly(AssertionInfo info, Failures failures, Conditions conditions, Object array,
                                    int times, Condition<E> condition) {
     List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
@@ -609,6 +727,17 @@ public class Arrays {
       throw failures.failure(info, elementsShouldBeExactly(array, times, condition));
   }
 
+  /**
+   * Verifies that at least the given number of elements have the condition.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param failures failure handler
+   * @param conditions condition helper
+   * @param array the actual array
+   * @param times the minimum number of matches
+   * @param condition the condition to have
+   */
   public <E> void assertHaveAtLeast(AssertionInfo info, Failures failures, Conditions conditions, Object array,
                                     int times, Condition<E> condition) {
     List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
@@ -617,6 +746,17 @@ public class Arrays {
 
   }
 
+  /**
+   * Verifies that at most the given number of elements have the condition.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param failures failure handler
+   * @param conditions condition helper
+   * @param array the actual array
+   * @param times the maximum number of matches
+   * @param condition the condition to have
+   */
   public <E> void assertHaveAtMost(AssertionInfo info, Failures failures, Conditions conditions, Object array,
                                    int times, Condition<E> condition) {
     List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
@@ -625,6 +765,17 @@ public class Arrays {
 
   }
 
+  /**
+   * Verifies that exactly the given number of elements have the condition.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param failures failure handler
+   * @param conditions condition helper
+   * @param array the actual array
+   * @param times the expected number of matches
+   * @param condition the condition to have
+   */
   public <E> void assertHaveExactly(AssertionInfo info, Failures failures, Conditions conditions, Object array,
                                     int times, Condition<E> condition) {
     List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
@@ -632,6 +783,14 @@ public class Arrays {
       throw failures.failure(info, elementsShouldHaveExactly(array, times, condition));
   }
 
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   *
+   * @param info assertion information
+   * @param failures failure handler
+   * @param actual the actual array
+   * @param values the values of which at least one is expected
+   */
   public void assertContainsAnyOf(AssertionInfo info, Failures failures, Object actual, Object values) {
     if (commonChecks(info, failures, actual, values)) return;
     assertIsArray(info, actual);

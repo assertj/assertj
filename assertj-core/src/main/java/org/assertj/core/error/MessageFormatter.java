@@ -30,6 +30,11 @@ import org.assertj.core.presentation.Representation;
 public class MessageFormatter {
   private static final MessageFormatter INSTANCE = new MessageFormatter();
 
+  /**
+   * Returns the shared message formatter.
+   *
+   * @return the shared formatter
+   */
   public static MessageFormatter instance() {
     return INSTANCE;
   }

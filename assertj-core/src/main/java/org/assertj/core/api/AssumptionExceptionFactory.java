@@ -29,12 +29,20 @@ public class AssumptionExceptionFactory {
 
   private static PreferredAssumptionException preferredAssumptionException = Configuration.PREFERRED_ASSUMPTION_EXCEPTION;
 
+  /** Creates a new assumption exception factory. */
+  public AssumptionExceptionFactory() {}
+
   static RuntimeException assumptionNotMet(AssertionError assertionError) throws ReflectiveOperationException {
     Class<?> assumptionExceptionClass = preferredAssumptionException.getAssumptionExceptionClass();
     return buildAssumptionException(assumptionExceptionClass, assertionError);
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns the preferred assumption exception.
+   *
+   * @return the preferred assumption exception
+   */
   public static PreferredAssumptionException getPreferredAssumptionException() {
     return preferredAssumptionException;
   }

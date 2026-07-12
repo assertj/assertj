@@ -27,6 +27,15 @@ import com.google.common.collect.Multiset;
  */
 public class MultisetShouldContainAtMostTimes extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message for a multiset containing a value more times than expected.
+   *
+   * @param actual the actual multiset
+   * @param expected the expected value
+   * @param expectedTimes the maximum expected number of occurrences
+   * @param actualTimes the actual number of occurrences
+   * @return the created error message factory
+   */
   public static ErrorMessageFactory shouldContainAtMostTimes(final Multiset<?> actual, final Object expected,
                                                              final int expectedTimes, final int actualTimes) {
     return new MultisetShouldContainAtMostTimes("%n" +

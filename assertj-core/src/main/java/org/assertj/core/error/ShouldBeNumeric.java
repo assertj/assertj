@@ -23,8 +23,20 @@ package org.assertj.core.error;
  */
 public class ShouldBeNumeric extends BasicErrorMessageFactory {
 
+  /** Numeric types supported by this error factory. */
   public enum NumericType {
-    BYTE("byte"), SHORT("short"), INTEGER("int"), LONG("long"), FLOAT("float"), DOUBLE("double");
+    /** Byte values. */
+    BYTE("byte"),
+    /** Short values. */
+    SHORT("short"),
+    /** Integer values. */
+    INTEGER("int"),
+    /** Long values. */
+    LONG("long"),
+    /** Float values. */
+    FLOAT("float"),
+    /** Double values. */
+    DOUBLE("double");
 
     private final String typeName;
 

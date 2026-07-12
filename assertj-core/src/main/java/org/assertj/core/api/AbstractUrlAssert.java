@@ -28,8 +28,15 @@ import org.assertj.core.internal.Urls;
 public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> extends AbstractAssertWithComparator<SELF, URL> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Internal assertions for URLs. */
   protected Urls urls = Urls.instance();
 
+  /**
+   * Creates a new {@link URL} assertion.
+   *
+   * @param actual the actual URL to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractUrlAssert(final URL actual, final Class<?> selfType) {
     super(actual, selfType);
   }

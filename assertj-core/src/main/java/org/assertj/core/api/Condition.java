@@ -28,7 +28,6 @@ import org.assertj.core.description.TextDescription;
  * A condition to be met by an object.
  *
  * @param <T> the type of object this condition accepts.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
@@ -38,8 +37,12 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * Describes the condition status after being evaluated.
    */
   public enum Status {
-    SUCCESS("[✓]"), FAIL("[✗]");
+    /** The condition matched. */
+    SUCCESS("[✓]"),
+    /** The condition did not match. */
+    FAIL("[✗]");
 
+    /** The status label. */
     public final String label;
 
     Status(String label) {
@@ -148,6 +151,12 @@ public class Condition<T> implements Descriptable<Condition<T>> {
     return new TextDescription(status.label + " " + description().value());
   }
 
+  /**
+   * Evaluates this condition and returns its status.
+   *
+   * @param actual the value to evaluate
+   * @return the condition status
+   */
   protected Status status(T actual) {
     return matches(actual) ? SUCCESS : FAIL;
   }

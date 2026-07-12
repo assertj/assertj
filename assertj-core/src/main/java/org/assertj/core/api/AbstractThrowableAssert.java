@@ -32,10 +32,9 @@ import org.assertj.core.internal.Throwables;
 /**
  * Base class for all implementations of assertions for {@link Throwable}s.
  *
- * @param <SELF>   the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
- *                 target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *                 for more details.
+ * @param <SELF>  the "self" type of this assertion class.
  * @param <ACTUAL> the type of the "actual" value.
+ *
  * @author David DIDIER
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -50,10 +49,21 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Throwables throwables = Throwables.instance();
 
+  /**
+   * Creates a new throwable assertion.
+   *
+   * @param actual the actual throwable to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractThrowableAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
+  /**
+   * Verifies that a throwable has been captured.
+   *
+   * @return this assertion object
+   */
   protected SELF hasBeenThrown() {
     return executeAssertion(() -> {
       if (actual == null) {

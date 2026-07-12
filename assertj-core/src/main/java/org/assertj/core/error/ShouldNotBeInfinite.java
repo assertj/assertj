@@ -15,8 +15,14 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for numbers expected not to be infinite. */
 public class ShouldNotBeInfinite extends BasicErrorMessageFactory {
-
+  /**
+   * Creates an error for a number expected not to be infinite.
+   *
+   * @param actual the actual number
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldNotBeInfinite(Number actual) {
     return new ShouldNotBeInfinite(actual);
   }

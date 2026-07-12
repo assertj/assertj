@@ -31,6 +31,7 @@ import java.util.Objects;
  */
 public final class Offset<T extends Number> {
 
+  /** The offset value. */
   public final T value;
   /**
    * When |actual-expected|=offset and strict is true the assertThat(actual).isCloseTo(expected, offset); assertion will fail.

@@ -15,6 +15,11 @@
  */
 package org.assertj.core.error.future;
 
+/** Warning text used in future assertion error messages. */
 public class Warning {
+  /** Warning that a future's state may have changed after assertion evaluation. */
   public static final String WARNING = "Be aware that the state of the future in this message might not reflect the one at the time when the assertion was performed as it is evaluated later on";
+
+  /** Creates a warning holder. */
+  public Warning() {}
 }

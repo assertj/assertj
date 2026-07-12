@@ -34,14 +34,29 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class LongAssert extends AbstractLongAssert<LongAssert> {
 
+  /**
+   * Creates a new long assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public LongAssert(Long actual) {
     super(actual, LongAssert.class);
   }
 
+  /**
+   * Creates a new atomic long assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public LongAssert(AtomicLong actual) {
     this(actual == null ? null : actual.get());
   }
 
+  /**
+   * Creates an assertion whose actual value is {@code null}.
+   *
+   * @return a null long assertion
+   */
   public static LongAssert nullLongAssert() {
     return new LongAssert((Long) null);
   }

@@ -81,7 +81,11 @@ public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
     // @format:on
   }
 
+  /** Difference categories used to select the error format. */
   public enum ErrorType {
-    NOT_FOUND_ONLY, NOT_EXPECTED_ONLY
+    /** Only expected elements were missing. */
+    NOT_FOUND_ONLY,
+    /** Only unexpected elements were present. */
+    NOT_EXPECTED_ONLY
   }
 }

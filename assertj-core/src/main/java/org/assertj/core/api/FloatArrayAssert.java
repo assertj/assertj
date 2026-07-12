@@ -29,6 +29,11 @@ package org.assertj.core.api;
  */
 public class FloatArrayAssert extends AbstractFloatArrayAssert<FloatArrayAssert> {
 
+  /**
+   * Creates a new float array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public FloatArrayAssert(float[] actual) {
     super(actual, FloatArrayAssert.class);
   }

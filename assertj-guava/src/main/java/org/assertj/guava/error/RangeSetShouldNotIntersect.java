@@ -19,10 +19,20 @@ import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
 /**
+ * Creates an error message indicating that a range set intersects one or more unexpected ranges.
+ *
  * @author Ilya Koshaleu
  */
 public class RangeSetShouldNotIntersect extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message for a range set that intersects one or more unexpected ranges.
+   *
+   * @param actual the actual range set
+   * @param unexpected the ranges that should not be intersected
+   * @param intersected the ranges that were intersected
+   * @return the created error message factory
+   */
   public static ErrorMessageFactory shouldNotIntersect(Object actual, Object unexpected, Iterable<?> intersected) {
     return new RangeSetShouldNotIntersect(actual, unexpected, intersected);
   }

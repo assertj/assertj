@@ -26,6 +26,7 @@ import org.assertj.core.presentation.PredicateDescription;
 /**
  * Assertions for {@link Predicate}.
  *
+ * @param <SELF>  the "self" type of this assertion class.
  * @param <PRIMITIVE_PREDICATE> the actual type
  * @param <PRIMITIVE> the type of the wrapped variable in one of the special predicates
  *
@@ -46,6 +47,12 @@ abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAss
     this.primitivePredicate = wrappedPredicate;
   }
 
+  /**
+   * Verifies that the wrapped predicate accepts the given value.
+   *
+   * @param value the value expected to be accepted
+   * @return this assertion object
+   */
   protected SELF acceptsInternal(PRIMITIVE value) {
     return executeAssertion(() -> {
       isNotNull();
@@ -54,6 +61,12 @@ abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAss
     });
   }
 
+  /**
+   * Verifies that the wrapped predicate rejects the given value.
+   *
+   * @param value the value expected to be rejected
+   * @return this assertion object
+   */
   protected SELF rejectsInternal(PRIMITIVE value) {
     return executeAssertion(() -> {
       isNotNull();
@@ -62,6 +75,12 @@ abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAss
     });
   }
 
+  /**
+   * Verifies that the wrapped predicate accepts all the given values.
+   *
+   * @param values the values expected to be accepted
+   * @return this assertion object
+   */
   protected SELF acceptsAllInternal(Iterable<? extends PRIMITIVE> values) {
     return executeAssertion(() -> {
       isNotNull();
@@ -69,6 +88,12 @@ abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAss
     });
   }
 
+  /**
+   * Verifies that the wrapped predicate rejects all the given values.
+   *
+   * @param values the values expected to be rejected
+   * @return this assertion object
+   */
   protected SELF rejectsAllInternal(Iterable<? extends PRIMITIVE> values) {
     return executeAssertion(() -> {
       isNotNull();

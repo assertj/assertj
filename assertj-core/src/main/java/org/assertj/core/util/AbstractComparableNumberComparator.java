@@ -15,7 +15,16 @@
  */
 package org.assertj.core.util;
 
+/**
+ * Compares non-null numbers according to their natural ordering.
+ *
+ * @param <T> the number type
+ */
 public abstract class AbstractComparableNumberComparator<T extends Number & Comparable<T>> extends NullSafeComparator<T> {
+
+  /** Creates a new comparator. */
+  public AbstractComparableNumberComparator() {}
+
   @Override
   public int compareNonNull(T number1, T number2) {
     return number1.compareTo(number2);

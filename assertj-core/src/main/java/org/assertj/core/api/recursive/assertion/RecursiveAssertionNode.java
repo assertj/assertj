@@ -21,10 +21,20 @@ import java.util.Objects;
  * Immutable class representing a node in the recursive assertion.
  */
 public final class RecursiveAssertionNode {
+  /** The node value. */
   public final Object value;
+  /** The node name. */
   public final String name;
+  /** The node type. */
   public final Class<?> type;
 
+  /**
+   * Creates a recursive assertion node.
+   *
+   * @param value the node value
+   * @param name the node name
+   * @param type the node type
+   */
   public RecursiveAssertionNode(Object value, String name, Class<?> type) {
     this.value = value;
     this.name = name;

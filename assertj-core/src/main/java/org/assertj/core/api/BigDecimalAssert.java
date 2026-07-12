@@ -32,6 +32,11 @@ import java.math.BigDecimal;
  */
 public class BigDecimalAssert extends AbstractBigDecimalAssert<BigDecimalAssert> {
 
+  /**
+   * Creates a new {@link BigDecimal} assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public BigDecimalAssert(BigDecimal actual) {
     super(actual, BigDecimalAssert.class);
   }

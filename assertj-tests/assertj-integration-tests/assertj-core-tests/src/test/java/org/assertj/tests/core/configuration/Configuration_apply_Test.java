@@ -17,7 +17,7 @@ package org.assertj.tests.core.configuration;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -53,11 +53,8 @@ class Configuration_apply_Test {
     then(StandardRepresentation.getMaxLengthForSingleLineDescription()).isEqualTo(configuration.maxLengthForSingleLineDescription());
     boolean removeAssertJRelatedElementsFromStackTrace = Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace();
     then(removeAssertJRelatedElementsFromStackTrace).isEqualTo(configuration.removeAssertJRelatedElementsFromStackTraceEnabled());
-    // check lenient is honored by parsing a string that would fail if the DateFormat was not lenient.
-    then(configuration.lenientDateParsingEnabled()).isTrue();
     Date dateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse("2001-02-03T04:05:06");
-    then(dateTime).isEqualTo("2001-02-03T04:05:06") // passes whether the lenient flag is enabled or not
-                  .isEqualTo("2001-01-34T04:05:06"); // passes only when the lenient flag is enabled
+    then(dateTime).isEqualTo("2001-02-03T04:05:06");
     // check that additional date formats can be used
     Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2001-02-03");
     then(date).isEqualTo("2001_02_03")
@@ -75,7 +72,7 @@ class Configuration_apply_Test {
     // THEN
     then(Configuration.DEFAULT_CONFIGURATION.additionalDateFormats()).isEmpty();
     Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2001-02-03");
-    expectAssertionError(() -> then(date).isEqualTo("2001_02_03"));
+    assertThatAssertionErrorIsThrownBy(() -> then(date).isEqualTo("2001_02_03"));
   }
 
   @AfterEach

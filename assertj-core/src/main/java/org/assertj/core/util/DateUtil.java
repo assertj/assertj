@@ -21,9 +21,6 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -35,228 +32,8 @@ import java.util.Date;
  */
 public class DateUtil {
 
-  /**
-   * ISO 8601 date format (yyyy-MM-dd), example : <code>2003-04-23</code>
-   */
-  private static final DateFormat ISO_DATE_FORMAT = newIsoDateFormat();
-  /**
-   * ISO 8601 local date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
-   */
-  private static final DateFormat ISO_DATE_TIME_FORMAT = newIsoDateTimeFormat();
-  /**
-   * ISO 8601 local date-time format with millisecond (yyyy-MM-dd'T'HH:mm:ss.SSS), example :
-   * <code>2003-04-26T03:01:02.999</code>
-   */
-  private static final DateFormat ISO_DATE_TIME_FORMAT_WITH_MS = newIsoDateTimeWithMsFormat();
-
-  /**
-   * ISO 8601 date format (yyyy-MM-dd), example : <code>2003-04-23</code>
-   * @return a {@code yyyy-MM-dd} {@link DateFormat}
-   */
-  public static DateFormat newIsoDateFormat() {
-    return newIsoDateFormat(false);
-  }
-
-  /**
-   * ISO 8601 date-time format with ISO time zone (yyyy-MM-dd'T'HH:mm:ssX), example :
-   * <code>2003-04-26T03:01:02+00:00</code>
-   * @return a {@code yyyy-MM-dd'T'HH:mm:ssX} {@link DateFormat}
-   */
-  public static DateFormat newIsoDateTimeWithIsoTimeZoneFormat() {
-    return newIsoDateTimeWithIsoTimeZoneFormat(false);
-  }
-
-  /**
-   * ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
-   * @return a {@code yyyy-MM-dd'T'HH:mm:ss} {@link DateFormat}
-   */
-  public static DateFormat newIsoDateTimeFormat() {
-    return newIsoDateTimeFormat(false);
-  }
-
-  /**
-   * ISO 8601 date-time format with millisecond (yyyy-MM-dd'T'HH:mm:ss.SSS), example :
-   * <code>2003-04-26T03:01:02.999</code>
-   * @return a {@code yyyy-MM-dd'T'HH:mm:ss.SSS} {@link DateFormat}
-   */
-  public static DateFormat newIsoDateTimeWithMsFormat() {
-    return newIsoDateTimeWithMsFormat(false);
-  }
-
-  /**
-   * ISO 8601 date-time format with millisecond and ISO time zone (yyyy-MM-dd'T'HH:mm:ss.SSSX), example :
-   * <code>2003-04-26T03:01:02.758+00:00</code>
-   * @return a {@code yyyy-MM-dd'T'HH:mm:ss.SSSX} {@link DateFormat}
-   */
-  public static DateFormat newIsoDateTimeWithMsAndIsoTimeZoneFormat() {
-    return newIsoDateTimeWithMsAndIsoTimeZoneFormat(false);
-  }
-
-  /**
-   * {@link java.sql.Timestamp} date-time format with millisecond (yyyy-MM-dd HH:mm:ss.SSS), example :
-   * <code>2003-04-26 03:01:02.999</code>
-   * @return a {@code yyyy-MM-dd HH:mm:ss.SSS} {@link DateFormat}
-   */
-  public static DateFormat newTimestampDateFormat() {
-    return newTimestampDateFormat(false);
-  }
-
-  /**
-   * ISO 8601 date format (yyyy-MM-dd), example : <code>2003-04-23</code>
-   * @param lenientParsing whether or not parsing the date is lenient
-   * @return a {@code yyyy-MM-dd} {@link DateFormat}
-   */
-  public static DateFormat newIsoDateFormat(boolean lenientParsing) {
-    return dateFormatForPattern("yyyy-MM-dd", lenientParsing);
-  }
-
-  /**
-   * ISO 8601 date-time format with ISO time zone (yyyy-MM-dd'T'HH:mm:ssX), example :
-   * <code>2003-04-26T03:01:02+00:00</code>
-   * @param lenientParsing whether or not parsing the date is lenient
-   * @return a {@code yyyy-MM-dd'T'HH:mm:ssX} {@link DateFormat}
-   */
-  public static DateFormat newIsoDateTimeWithIsoTimeZoneFormat(boolean lenientParsing) {
-    return dateFormatForPattern("yyyy-MM-dd'T'HH:mm:ssX", lenientParsing);
-  }
-
-  /**
-   * ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
-   * @param lenientParsing whether or not parsing the date is lenient
-   * @return a {@code yyyy-MM-dd'T'HH:mm:ss} {@link DateFormat}
-   */
-  public static DateFormat newIsoDateTimeFormat(boolean lenientParsing) {
-    return dateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss", lenientParsing);
-  }
-
-  /**
-   * ISO 8601 date-time format with millisecond (yyyy-MM-dd'T'HH:mm:ss.SSS), example :
-   * <code>2003-04-26T03:01:02.999</code>
-   * @param lenientParsing whether or not parsing the date is lenient
-   * @return a {@code yyyy-MM-dd'T'HH:mm:ss.SSS} {@link DateFormat}
-   */
-  public static DateFormat newIsoDateTimeWithMsFormat(boolean lenientParsing) {
-    return dateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss.SSS", lenientParsing);
-  }
-
-  /**
-   * ISO 8601 date-time format with millisecond and ISO time zone (yyyy-MM-dd'T'HH:mm:ss.SSSX), example :
-   * <code>2003-04-26T03:01:02.758+00:00</code>
-   * @param lenientParsing whether or not parsing the date is lenient
-   * @return a {@code yyyy-MM-dd'T'HH:mm:ss.SSSX} {@link DateFormat}
-   */
-  public static DateFormat newIsoDateTimeWithMsAndIsoTimeZoneFormat(boolean lenientParsing) {
-    return dateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX", lenientParsing);
-  }
-
-  /**
-   * {@link java.sql.Timestamp} date-time format with millisecond (yyyy-MM-dd HH:mm:ss.SSS), example :
-   * <code>2003-04-26 03:01:02.999</code>
-   * @param lenientParsing whether or not parsing the date is lenient
-   * @return a {@code yyyy-MM-dd HH:mm:ss.SSS} {@link DateFormat}
-   */
-  public static DateFormat newTimestampDateFormat(boolean lenientParsing) {
-    return dateFormatForPattern("yyyy-MM-dd HH:mm:ss.SSS", lenientParsing);
-  }
-
-  private static DateFormat dateFormatForPattern(String pattern, boolean lenient) {
-    DateFormat dateFormat = new SimpleDateFormat(pattern);
-    dateFormat.setLenient(lenient);
-    return dateFormat;
-  }
-
-  /**
-   * Formats the given date using the ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss).<br>
-   * Method is synchronized
-   * because SimpleDateFormat is not thread safe (sigh).
-   * <p>
-   * Returns null if given the date is null.
-   *
-   * @param date the date to format.
-   * @return the formatted date or null if given the date was null.
-   */
-  public static synchronized String formatAsDatetime(Date date) {
-    return date == null ? null : ISO_DATE_TIME_FORMAT.format(date);
-  }
-
-  /**
-   * Formats the given date using the ISO 8601 date-time format with millisecond (yyyy-MM-dd'T'HH:mm:ss:SSS).<br>
-   * Method
-   * is synchronized because SimpleDateFormat is not thread safe (sigh).
-   * <p>
-   * Returns null if given the date is null.
-   *
-   * @param date the date to format.
-   * @return the formatted date or null if given the date was null.
-   */
-  public static synchronized String formatAsDatetimeWithMs(Date date) {
-    return date == null ? null : ISO_DATE_TIME_FORMAT_WITH_MS.format(date);
-  }
-
-  /**
-   * Formats the date of the given calendar using the ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss).<br> Method is
-   * thread safe.
-   * <p>
-   * Returns null if the given calendar is null.
-   *
-   * @param calendar the calendar to format.
-   * @return the formatted calendar or null if the given calendar was null.
-   */
-  public static String formatAsDatetime(Calendar calendar) {
-    return calendar == null ? null : formatAsDatetime(calendar.getTime());
-  }
-
-  /**
-   * Utility method to parse a Date following {@link #ISO_DATE_FORMAT}, returns null if the given String is null.
-   *
-   * @param dateAsString the string to parse as a Date following {@link #ISO_DATE_FORMAT}
-   * @return the corresponding Date or null if the given String is null.
-   * @throws RuntimeException encapsulating ParseException if the string can't be parsed as a Date
-   */
-  public static synchronized Date parse(String dateAsString) {
-    try {
-      return dateAsString == null ? null : ISO_DATE_FORMAT.parse(dateAsString);
-    } catch (ParseException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  /**
-   * Utility method to parse a Date following {@link #ISO_DATE_TIME_FORMAT}, returns null if the given String is null.
-   * <p>
-   * Example:
-   * <pre><code class='java'> Date date = parseDatetime("2003-04-26T03:01:02");</code></pre>
-   *
-   * @param dateAsString the string to parse as a Date following {@link #ISO_DATE_TIME_FORMAT}
-   * @return the corresponding Date with time details or null if the given String is null.
-   * @throws RuntimeException encapsulating ParseException if the string can't be parsed as a Date
-   */
-  public static synchronized Date parseDatetime(String dateAsString) {
-    try {
-      return dateAsString == null ? null : ISO_DATE_TIME_FORMAT.parse(dateAsString);
-    } catch (ParseException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  /**
-   * Utility method to parse a Date following {@link #ISO_DATE_TIME_FORMAT_WITH_MS}, returns null if the given String is
-   * null.
-   * <p>
-   * Example:
-   * <pre><code class='java'> Date date = parseDatetimeWithMs("2003-04-26T03:01:02.999");</code></pre>
-   *
-   * @param dateAsString the string to parse as a Date following {@link #ISO_DATE_TIME_FORMAT_WITH_MS}
-   * @return the corresponding Date with time details or null if the given String is null.
-   * @throws RuntimeException encapsulating ParseException if the string can't be parsed as a Date
-   */
-  public static synchronized Date parseDatetimeWithMs(String dateAsString) {
-    try {
-      return dateAsString == null ? null : ISO_DATE_TIME_FORMAT_WITH_MS.parse(dateAsString);
-    } catch (ParseException e) {
-      throw new RuntimeException(e);
-    }
-  }
+  /** Creates a new date utility instance. */
+  public DateUtil() {}
 
   /**
    * Converts the given Date to Calendar, returns null if the given Date is null.
@@ -393,16 +170,31 @@ public class DateUtil {
     return cal.getTime();
   }
 
+  /**
+   * Returns the current date and time.
+   *
+   * @return the current date and time
+   */
   public static Date now() {
     return new Date();
   }
 
+  /**
+   * Returns the date one day before today.
+   *
+   * @return yesterday's date
+   */
   public static Date yesterday() {
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.DAY_OF_MONTH, -1);
     return cal.getTime();
   }
 
+  /**
+   * Returns the date one day after today.
+   *
+   * @return tomorrow's date
+   */
   public static Date tomorrow() {
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.DAY_OF_MONTH, 1);
@@ -468,7 +260,7 @@ public class DateUtil {
     }
 
     if (millisecondsFieldDiff > 0) {
-      if (result.length() > 0) result.append(" and ");
+      if (!result.isEmpty()) result.append(" and ");
       result.append("%dms".formatted(millisecondsFieldDiff));
     }
 

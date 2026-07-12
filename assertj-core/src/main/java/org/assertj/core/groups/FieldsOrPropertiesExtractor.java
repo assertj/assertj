@@ -37,6 +37,9 @@ import org.assertj.core.api.AbstractObjectArrayAssert;
  */
 public class FieldsOrPropertiesExtractor {
 
+  /** Creates a new fields or properties extractor. */
+  public FieldsOrPropertiesExtractor() {}
+
   /**
    * Call {@link #extract(Iterable, Function)} after converting objects to an iterable.
    * <p>

@@ -34,10 +34,8 @@ import org.assertj.core.internal.Failures;
  * Assertion methods for {@link List}s.
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(List)}</code>.
- * <p>
  *
  * @param <ELEMENT> the type of elements of the "actual" value.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -46,48 +44,111 @@ import org.assertj.core.internal.Failures;
 public class ListAssert<ELEMENT> extends
     FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
+  /**
+   * Creates a new list assertion.
+   *
+   * @param <ELEMENT> the element type
+   * @param actual the actual list to verify
+   * @return the created assertion
+   */
   public static <ELEMENT> ListAssert<ELEMENT> assertThatList(List<? extends ELEMENT> actual) {
     return new ListAssert<>(actual);
   }
 
+  /**
+   * Creates a list assertion from a stream.
+   *
+   * @param <ELEMENT> the element type
+   * @param actual the actual stream to verify
+   * @return the created assertion
+   */
   public static <ELEMENT> ListAssert<ELEMENT> assertThatStream(Stream<? extends ELEMENT> actual) {
     return new ListAssert<>(actual);
   }
 
+  /**
+   * Creates a list assertion from a double stream.
+   *
+   * @param actual the actual stream to verify
+   * @return the created assertion
+   */
   public static ListAssert<Double> assertThatDoubleStream(DoubleStream actual) {
     return new ListAssert<>(actual);
   }
 
+  /**
+   * Creates a list assertion from a long stream.
+   *
+   * @param actual the actual stream to verify
+   * @return the created assertion
+   */
   public static ListAssert<Long> assertThatLongStream(LongStream actual) {
     return new ListAssert<>(actual);
   }
 
+  /**
+   * Creates a list assertion from an int stream.
+   *
+   * @param actual the actual stream to verify
+   * @return the created assertion
+   */
   public static ListAssert<Integer> assertThatIntStream(IntStream actual) {
     return new ListAssert<>(actual);
   }
 
+  /**
+   * Creates a list assertion whose actual value is {@code null}.
+   *
+   * @param <ELEMENT> the element type
+   * @return a null list assertion
+   */
   public static <ELEMENT> ListAssert<ELEMENT> nullListAssert() {
     return new ListAssert<>((List<? extends ELEMENT>) null);
   }
 
+  /**
+   * Creates a new list assertion.
+   *
+   * @param actual the actual list to verify
+   */
   public ListAssert(List<? extends ELEMENT> actual) {
     super(actual, ListAssert.class, ObjectAssert::new);
   }
 
+  /**
+   * Creates a list assertion from a stream.
+   *
+   * @param actual the actual stream to verify
+   */
   public ListAssert(Stream<? extends ELEMENT> actual) {
     this(actual == null ? null : new ListFromStream<>(actual));
   }
 
+  /**
+   * Creates a list assertion from an int stream.
+   *
+   * @param actual the actual stream to verify
+   */
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public ListAssert(IntStream actual) {
     this(actual == null ? null : new ListFromStream(actual));
   }
 
+  /**
+   * Creates a list assertion from a long stream.
+   *
+   * @param actual the actual stream to verify
+   */
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public ListAssert(LongStream actual) {
     this(actual == null ? null : new ListFromStream(actual));
   }
 
+  /**
+   * Creates a list assertion from a double stream.
+   *
+   * @param actual the actual stream to verify
+   */
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public ListAssert(DoubleStream actual) {
     this(actual == null ? null : new ListFromStream(actual));
@@ -218,26 +279,24 @@ public class ListAssert<ELEMENT> extends
     });
   }
 
-  protected ListAssert<ELEMENT> internalStartsWith(ELEMENT[] sequence) {
-    return executeAssertion(() -> {
-      if (!(actual instanceof ListFromStream)) {
-        iterables.assertStartsWith(info, actual, sequence);
-        return;
-      }
-      objects.assertNotNull(info, actual);
-      checkIsNotNull(sequence);
-      Iterator<? extends ELEMENT> iterator = asListFromStream().stream().iterator();
-      if (sequence.length == 0 && iterator.hasNext()) throw new AssertionError("actual is not empty");
-      int i = 0;
-      while (iterator.hasNext()) {
-        if (i >= sequence.length) break;
-        if (iterables.getComparisonStrategy().areEqual(iterator.next(), sequence[i++])) continue;
-        throw actualDoesNotStartWithSequence(info, sequence);
-      }
-      if (sequence.length > i) {
-        throw actualDoesNotStartWithSequence(info, sequence);
-      }
-    });
+  protected void assertStartsWith(ELEMENT[] sequence) {
+    if (!(actual instanceof ListFromStream)) {
+      iterables.assertStartsWith(info, actual, sequence);
+      return;
+    }
+    objects.assertNotNull(info, actual);
+    checkIsNotNull(sequence);
+    Iterator<? extends ELEMENT> iterator = asListFromStream().stream().iterator();
+    if (sequence.length == 0 && iterator.hasNext()) throw new AssertionError("actual is not empty");
+    int i = 0;
+    while (iterator.hasNext()) {
+      if (i >= sequence.length) break;
+      if (iterables.getComparisonStrategy().areEqual(iterator.next(), sequence[i++])) continue;
+      throw actualDoesNotStartWithSequence(info, sequence);
+    }
+    if (sequence.length > i) {
+      throw actualDoesNotStartWithSequence(info, sequence);
+    }
   }
 
   private AssertionError actualDoesNotStartWithSequence(AssertionInfo info, Object[] sequence) {
@@ -265,12 +324,11 @@ public class ListAssert<ELEMENT> extends
       return list.stream();
     }
 
-    private List<ELEMENT> initList() {
+    private void initList() {
       if (list == null) {
         list = newArrayList(stream.iterator());
         stream.close();
       }
-      return list;
     }
 
     @Override

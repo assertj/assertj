@@ -31,10 +31,20 @@ package org.assertj.core.api;
  */
 public class ShortAssert extends AbstractShortAssert<ShortAssert> {
 
+  /**
+   * Creates a new short assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public ShortAssert(Short actual) {
     super(actual, ShortAssert.class);
   }
 
+  /**
+   * Creates an assertion whose actual value is {@code null}.
+   *
+   * @return a null short assertion
+   */
   public static ShortAssert nullShortAssert() {
     return new ShortAssert(null);
   }

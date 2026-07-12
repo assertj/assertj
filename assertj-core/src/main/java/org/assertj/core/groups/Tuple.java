@@ -21,18 +21,34 @@ import static org.assertj.core.util.Lists.list;
 import java.util.Arrays;
 import java.util.List;
 
+/** An ordered group of values used by extracting assertions. */
 public final class Tuple {
 
   private final List<Object> values;
 
+  /**
+   * Creates a tuple containing the given values.
+   *
+   * @param values the tuple values
+   */
   public Tuple(Object... values) {
     this.values = list(values);
   }
 
+  /**
+   * Returns the tuple values as an array.
+   *
+   * @return the tuple values
+   */
   public Object[] toArray() {
     return values.toArray();
   }
 
+  /**
+   * Returns the tuple values as a list.
+   *
+   * @return the tuple values
+   */
   public List<Object> toList() {
     return values;
   }
@@ -55,6 +71,12 @@ public final class Tuple {
     return CONFIGURATION_PROVIDER.representation().toStringOf(this);
   }
 
+  /**
+   * Creates a tuple containing the given values.
+   *
+   * @param values the tuple values
+   * @return the created tuple
+   */
   public static Tuple tuple(Object... values) {
     return new Tuple(values);
   }

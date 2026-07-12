@@ -15,7 +15,7 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAmount;
@@ -53,6 +53,15 @@ public class ShouldBeCloseTo extends BasicErrorMessageFactory {
     return new ShouldBeCloseTo(actual, other, differenceDescription);
   }
 
+  /**
+   * Creates an error for temporal amounts expected to be close.
+   *
+   * @param actual the actual amount
+   * @param other the expected amount
+   * @param allowedDifference the allowed difference
+   * @param difference the actual difference
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeCloseTo(TemporalAmount actual, TemporalAmount other, TemporalAmount allowedDifference,
                                                     TemporalAmount difference) {
     return new ShouldBeCloseTo(actual, other, allowedDifference, difference);
@@ -63,8 +72,8 @@ public class ShouldBeCloseTo extends BasicErrorMessageFactory {
     // seems equal in the error message.
     // Use standard formatting to avoid calling ToString.toStringOf for long that adds a 'L' (like 100L) to
     // differentiate integer from long (here there is no ambiguity).
-    super("%nExpecting actual:%n  %s%nto be close to:%n  %s%nby less than %sms but difference was %sms".formatted(formatAsDatetimeWithMs(actual),
-                                                                                                                  formatAsDatetimeWithMs(other),
+    super("%nExpecting actual:%n  %s%nto be close to:%n  %s%nby less than %sms but difference was %sms".formatted(STANDARD_REPRESENTATION.toStringOf(actual),
+                                                                                                                  STANDARD_REPRESENTATION.toStringOf(other),
                                                                                                                   deltaInMilliseconds,
                                                                                                                   difference));
   }

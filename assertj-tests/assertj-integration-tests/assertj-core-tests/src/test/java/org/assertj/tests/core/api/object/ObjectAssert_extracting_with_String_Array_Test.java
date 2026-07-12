@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.math.BigDecimal;
@@ -112,6 +113,16 @@ class ObjectAssert_extracting_with_String_Array_Test implements NavigationMethod
     then(obiwan).extracting("name", "height")
                 .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                 .containsExactly("Obi-Wan", new BigDecimal("1.82"));
+  }
+
+  @Test
+  void extracting_with_function_should_throw_an_AssertionError_with_contextual_description_if_actual_is_null() {
+    // GIVEN
+    luke = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(luke).extracting("name.first", "name.last").isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[Extracted: name.first, name.last]", actualIsNull());
   }
 
   @Override

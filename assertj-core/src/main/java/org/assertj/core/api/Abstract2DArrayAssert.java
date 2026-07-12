@@ -28,6 +28,12 @@ package org.assertj.core.api;
 public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<SELF, ACTUAL, ELEMENT>, ACTUAL, ELEMENT>
     extends AbstractAssertWithComparator<SELF, ACTUAL> implements Array2DAssert<SELF, ELEMENT> {
 
+  /**
+   * Creates a new two-dimensional array assertion.
+   *
+   * @param actual the actual array to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected Abstract2DArrayAssert(final ACTUAL actual, final Class<?> selfType) {
     super(actual, selfType);
   }

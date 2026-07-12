@@ -15,7 +15,14 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for values expected to contain only printable characters. */
 public class ShouldBePrintable extends BasicErrorMessageFactory {
+  /**
+   * Creates a printable-content error.
+   *
+   * @param actual the actual value
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBePrintable(Object actual) {
     return new ShouldBePrintable(actual);
   }

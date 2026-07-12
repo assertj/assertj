@@ -17,8 +17,18 @@ package org.assertj.core.error;
 
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
+/** Creates errors for groups with unexpected element types. */
 public class ShouldHaveExactlyTypes extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error describing missing and unexpected element types.
+   *
+   * @param actual the actual group
+   * @param expectedTypes the expected types
+   * @param expectedTypesNotFoundInActual the missing types
+   * @param actualTypesNotExpected the unexpected types
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveTypes(Object actual, Iterable<Class<?>> expectedTypes,
                                                     Iterable<Class<?>> expectedTypesNotFoundInActual,
                                                     Iterable<Class<?>> actualTypesNotExpected) {
@@ -31,6 +41,14 @@ public class ShouldHaveExactlyTypes extends BasicErrorMessageFactory {
     return new ShouldHaveExactlyTypes(actual, expectedTypes, diff, expectedTypesNotFoundInActualOnly);
   }
 
+  /**
+   * Creates an error for an element with the wrong type at an index.
+   *
+   * @param actualElement the actual element
+   * @param expectedElement the expected type
+   * @param indexOfDifference the element index
+   * @return the error message factory
+   */
   public static ErrorMessageFactory elementsTypesDifferAtIndex(Object actualElement, Class<?> expectedElement,
                                                                int indexOfDifference) {
     return new ShouldHaveExactlyTypes(actualElement, expectedElement, indexOfDifference);

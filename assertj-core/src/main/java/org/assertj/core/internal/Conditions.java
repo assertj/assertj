@@ -106,6 +106,14 @@ public class Conditions {
     if (condition.matches(actual)) throw failures.failure(info, shouldNotHave(actual, condition));
   }
 
+  /**
+   * Verifies that the actual value satisfies the given condition.
+   *
+   * @param <T> the value type
+   * @param info assertion information
+   * @param actual the actual value
+   * @param condition the condition to satisfy
+   */
   public <T> void assertSatisfies(AssertionInfo info, T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
     if (!condition.matches(actual)) {

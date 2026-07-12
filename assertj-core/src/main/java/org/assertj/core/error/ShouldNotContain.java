@@ -61,6 +61,14 @@ public class ShouldNotContain extends BasicErrorMessageFactory {
     super("%nExpecting%n  %s%nnot to contain%n  %s%nbut found%n  %s%n%s", actual, expected, found, comparisonStrategy);
   }
 
+  /**
+   * Creates an error for a file directory containing matching entries.
+   *
+   * @param actual the actual directory
+   * @param matchingContent the matching entries
+   * @param filterDescription the filter description
+   * @return the error message factory
+   */
   public static ErrorMessageFactory directoryShouldNotContain(File actual, List<File> matchingContent, String filterDescription) {
     return new ShouldNotContain(actual, toFileNames(matchingContent), filterDescription);
   }
@@ -71,6 +79,14 @@ public class ShouldNotContain extends BasicErrorMessageFactory {
                 .collect(toList());
   }
 
+  /**
+   * Creates an error for a path directory containing matching entries.
+   *
+   * @param actual the actual directory
+   * @param matchingContent the matching entries
+   * @param filterDescription the filter description
+   * @return the error message factory
+   */
   public static ErrorMessageFactory directoryShouldNotContain(Path actual, List<Path> matchingContent, String filterDescription) {
     return new ShouldNotContain(actual, toPathNames(matchingContent), filterDescription);
   }

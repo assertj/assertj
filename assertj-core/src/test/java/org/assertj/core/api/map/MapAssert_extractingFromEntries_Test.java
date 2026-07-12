@@ -80,9 +80,10 @@ class MapAssert_extractingFromEntries_Test {
     // GIVEN
     map = null;
     // WHEN
-    var error = expectAssertionError(() -> assertThat(map).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue));
+    var assertionError = expectAssertionError(() -> assertThat(map).extractingFromEntries(Map.Entry::getKey,
+                                                                                          Map.Entry::getValue));
     // THEN
-    then(error).hasMessage(actualIsNull());
+    then(assertionError).hasMessageContainingAll("[extractingFromEntries]", actualIsNull());
   }
 
   @Test
@@ -90,8 +91,8 @@ class MapAssert_extractingFromEntries_Test {
     // GIVEN
     map = null;
     // WHEN
-    var error = expectAssertionError(() -> assertThat(map).extractingFromEntries(Map.Entry::getKey));
+    var assertionError = expectAssertionError(() -> assertThat(map).extractingFromEntries(Map.Entry::getKey));
     // THEN
-    then(error).hasMessage(actualIsNull());
+    then(assertionError).hasMessageContainingAll("[extractingFromEntries]", actualIsNull());
   }
 }

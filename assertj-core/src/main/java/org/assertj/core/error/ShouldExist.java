@@ -40,10 +40,22 @@ public class ShouldExist extends BasicErrorMessageFactory {
     return new ShouldExist(actual);
   }
 
+  /**
+   * Creates an error for a path expected to exist.
+   *
+   * @param actual the actual path
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldExist(final Path actual) {
     return new ShouldExist(actual, true);
   }
 
+  /**
+   * Creates an error for a path expected to exist without following links.
+   *
+   * @param actual the actual path
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldExistNoFollowLinks(final Path actual) {
     return new ShouldExist(actual, false);
   }

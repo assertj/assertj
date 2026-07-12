@@ -17,6 +17,7 @@ package org.assertj.core.api;
 
 import java.time.LocalDateTime;
 
+/** Assertions for {@link LocalDateTime} values. */
 public class LocalDateTimeAssert extends AbstractLocalDateTimeAssert<LocalDateTimeAssert> {
 
   /**

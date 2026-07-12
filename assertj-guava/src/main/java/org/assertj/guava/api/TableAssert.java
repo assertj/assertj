@@ -35,10 +35,20 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 
 /**
+ * Assertions for Guava {@link Table}s.
+ *
+ * @param <R> the type of row keys in the tested table
+ * @param <C> the type of column keys in the tested table
+ * @param <V> the type of values in the tested table
  * @author Jan Gorman
  */
 public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, Table<R, C, V>> {
 
+  /**
+   * Creates a new assertion for the given {@link Table}.
+   *
+   * @param actual the actual value
+   */
   protected TableAssert(Table<R, C, V> actual) {
     super(actual, TableAssert.class);
   }

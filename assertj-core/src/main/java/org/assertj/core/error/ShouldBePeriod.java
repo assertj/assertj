@@ -18,6 +18,8 @@ package org.assertj.core.error;
 import java.time.Period;
 
 /**
+ * Creates an error message indicating that a {@code Period} error.
+ *
  * @author Hayden Meloche
  */
 public class ShouldBePeriod extends BasicErrorMessageFactory {
@@ -28,10 +30,22 @@ public class ShouldBePeriod extends BasicErrorMessageFactory {
     super(EXPECTED_PREFIX + metric, actual);
   }
 
+  /**
+   * Creates an error for a period expected to be positive.
+   *
+   * @param actual the actual period
+   * @return the error message factory
+   */
   public static ShouldBePeriod shouldBePositive(Period actual) {
     return new ShouldBePeriod(actual, "positive");
   }
 
+  /**
+   * Creates an error for a period expected to be negative.
+   *
+   * @param actual the actual period
+   * @return the error message factory
+   */
   public static ShouldBePeriod shouldBeNegative(Period actual) {
     return new ShouldBePeriod(actual, "negative");
   }

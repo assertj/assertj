@@ -26,6 +26,9 @@ import java.util.Comparator;
  */
 public class BigIntegerComparator extends AbstractComparableNumberComparator<BigInteger> {
 
+  /** Creates a new big integer comparator. */
+  public BigIntegerComparator() {}
+
   /**
    * an instance of {@link BigIntegerComparator}.
    */

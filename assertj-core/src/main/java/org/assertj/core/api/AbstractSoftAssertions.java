@@ -22,13 +22,22 @@ import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.annotation.Contract;
 
+/**
+ * Base implementation for collecting multiple assertion errors.
+ */
 public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollector
     implements SoftAssertionsProvider, InstanceOfAssertFactories {
 
   private static final AssertionErrorCreator ASSERTION_ERROR_CREATOR = new AssertionErrorCreator();
 
+  /** Creates a new soft assertions instance. */
   protected AbstractSoftAssertions() {}
 
+  /**
+   * Throws all errors collected by the given collector.
+   *
+   * @param collector the assertion error collector
+   */
   public static void assertAll(AssertionErrorCollector collector) {
     List<AssertionError> errors = collector.assertionErrorsCollected();
     if (!errors.isEmpty()) throw ASSERTION_ERROR_CREATOR.multipleAssertionsError(errors);

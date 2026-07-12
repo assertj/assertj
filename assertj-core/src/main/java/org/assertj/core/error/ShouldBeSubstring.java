@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 
+/** Creates errors for text expected to be a substring. */
 public class ShouldBeSubstring extends BasicErrorMessageFactory {
 
   /**

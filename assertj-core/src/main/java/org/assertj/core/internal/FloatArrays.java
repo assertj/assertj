@@ -52,16 +52,31 @@ public class FloatArrays {
     this(StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates float array assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy
+   */
   public FloatArrays(ComparisonStrategy comparisonStrategy) {
     setArrays(new Arrays(comparisonStrategy));
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Sets the delegate used for common array assertions.
+   *
+   * @param arrays the delegate to use
+   */
   public void setArrays(Arrays arrays) {
     this.arrays = arrays;
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns the comparator used by the delegate.
+   *
+   * @return the configured comparator
+   */
   public Comparator<?> getComparator() {
     return arrays.getComparator();
   }
@@ -261,10 +276,24 @@ public class FloatArrays {
     arrays.assertContainsOnly(info, failures, actual, values);
   }
 
+  /**
+   * Verifies that the array contains exactly the given values in order.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContainsExactly(AssertionInfo info, float[] actual, float[] values) {
     arrays.assertContainsExactly(info, failures, actual, values);
   }
 
+  /**
+   * Verifies that the array contains exactly the given values in any order.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, float[] actual, float[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
@@ -395,6 +424,13 @@ public class FloatArrays {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 
+  /**
+   * Verifies that the array contains at least one of the given values.
+   *
+   * @param info assertion information
+   * @param actual the actual array
+   * @param values the expected values
+   */
   public void assertContainsAnyOf(AssertionInfo info, float[] actual, float[] values) {
     arrays.assertContainsAnyOf(info, failures, actual, values);
   }

@@ -31,6 +31,11 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 public class AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> extends
     AbstractAtomicFieldUpdaterAssert<AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT>, FIELD, AtomicReferenceFieldUpdater<OBJECT, FIELD>, OBJECT> {
 
+  /**
+   * Creates a new atomic reference field updater assertion.
+   *
+   * @param actual the actual field updater
+   */
   public AtomicReferenceFieldUpdaterAssert(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
     super(actual, AtomicReferenceFieldUpdaterAssert.class, true);
   }

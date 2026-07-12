@@ -23,6 +23,9 @@ import java.util.stream.Stream;
  */
 public class FieldMessages extends FieldHolder<String> {
 
+  /** Creates an empty field message registry. */
+  public FieldMessages() {}
+
   /**
    * Pairs the giving error {@code message} with the {@code fieldLocation}.
    *

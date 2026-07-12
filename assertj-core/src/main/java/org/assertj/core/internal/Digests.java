@@ -34,6 +34,12 @@ public final class Digests {
 
   private Digests() {}
 
+  /**
+   * Converts digest bytes to hexadecimal text.
+   *
+   * @param digest the digest bytes
+   * @return the hexadecimal digest
+   */
   public static String toHex(byte[] digest) {
     requireNonNull(digest, shouldNotBeNull("digest")::create);
     StringBuilder hex = new StringBuilder(digest.length * 2);
@@ -43,6 +49,12 @@ public final class Digests {
     return hex.toString();
   }
 
+  /**
+   * Converts a hexadecimal digest to bytes.
+   *
+   * @param digest the hexadecimal digest
+   * @return the digest bytes
+   */
   public static byte[] fromHex(String digest) {
     requireNonNull(digest, shouldNotBeNull("digest")::create);
     byte[] bytes = new byte[digest.length() / 2];
@@ -52,6 +64,15 @@ public final class Digests {
     return bytes;
   }
 
+  /**
+   * Computes and compares a stream digest.
+   *
+   * @param stream the input stream
+   * @param messageDigest the digest algorithm
+   * @param expected the expected digest bytes
+   * @return the digest comparison result
+   * @throws IOException if the stream cannot be read
+   */
   public static DigestDiff digestDiff(InputStream stream, MessageDigest messageDigest, byte[] expected) throws IOException {
     requireNonNull(stream, "The stream should not be null");
     requireNonNull(messageDigest, "The digest should not be null");

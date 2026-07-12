@@ -29,6 +29,14 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
   private static final String CONDITION_SHOULD_BE_SATISFIED = "%nExpecting actual:%n  %s%nto satisfy:%n  %s";
   private static final String CONSUMERS_SHOULD_BE_SATISFIED_IN_ANY_ORDER = "%nExpecting actual:%n  %s%nto satisfy all the consumers in any order.";
 
+  /**
+   * Creates an error for a value not satisfying a condition.
+   *
+   * @param <T> the value type
+   * @param actual the actual value
+   * @param condition the expected condition
+   * @return the error message factory
+   */
   public static <T> ErrorMessageFactory shouldSatisfy(T actual, Condition<? super T> condition) {
     return new ShouldSatisfy(actual, condition);
   }
@@ -48,6 +56,13 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
     super(CONDITION_SHOULD_BE_SATISFIED, actual, condition);
   }
 
+  /**
+   * Creates an error for a value not satisfying all requirements.
+   *
+   * @param actual the actual value
+   * @param d the requirement description
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldSatisfyAll(Object actual, Description d) {
     return new ShouldSatisfy(actual, d);
   }

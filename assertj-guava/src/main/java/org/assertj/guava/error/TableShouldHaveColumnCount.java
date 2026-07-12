@@ -19,6 +19,8 @@ import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
 /**
+ * Creates an error message indicating that a table does not have the expected column count.
+ *
  * @author David Harris
  */
 public class TableShouldHaveColumnCount extends BasicErrorMessageFactory {

@@ -28,8 +28,15 @@ import org.assertj.core.internal.Uris;
 public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> extends AbstractComparableAssert<SELF, URI> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Internal assertions for URIs. */
   protected Uris uris = Uris.instance();
 
+  /**
+   * Creates a new {@link URI} assertion.
+   *
+   * @param actual the actual URI to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractUriAssert(final URI actual, final Class<?> selfType) {
     super(actual, selfType);
   }

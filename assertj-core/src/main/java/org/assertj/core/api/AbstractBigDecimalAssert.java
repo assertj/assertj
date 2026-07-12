@@ -45,6 +45,12 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BigDecimals bigDecimals = BigDecimals.instance();
 
+  /**
+   * Creates a new {@link BigDecimal} assertion.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractBigDecimalAssert(BigDecimal actual, Class<?> selfType) {
     super(actual, selfType);
   }

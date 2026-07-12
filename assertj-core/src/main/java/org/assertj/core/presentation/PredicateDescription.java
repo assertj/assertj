@@ -30,9 +30,11 @@ import java.util.function.Predicate;
  */
 public class PredicateDescription {
   private static final String DEFAULT = "given";
+  /** Default predicate description. */
   public static final PredicateDescription GIVEN = new PredicateDescription(DEFAULT);
 
   // can be public as it is immutable, never null
+  /** The predicate description text. */
   public final String description;
 
   /**
@@ -45,6 +47,11 @@ public class PredicateDescription {
     this.description = description;
   }
 
+  /**
+   * Returns whether this is the default description.
+   *
+   * @return whether this is the default description
+   */
   public boolean isDefault() {
     return DEFAULT.equals(description);
   }

@@ -16,14 +16,18 @@
 package org.assertj.core.api.atomic.referencearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
+import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.Consumer;
 
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class AtomicReferenceArrayAssert_allSatisfy_Test extends AtomicReferenceArrayAssertBaseTest {
 
@@ -42,5 +46,16 @@ class AtomicReferenceArrayAssert_allSatisfy_Test extends AtomicReferenceArrayAss
   @Override
   protected void verify_internal_effects() {
     verify(iterables).assertAllSatisfy(info(), newArrayList(internalArray()), restrictions);
+  }
+
+  @Test
+  public void should_fail_if_actual_is_empty() {
+    // GIVEN
+    AtomicReferenceArray<String> emptyArray = atomicArrayOf();
+    Consumer<String> impossibleRequirements = s -> assertThat(s).contains("error").doesNotContain("error");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(emptyArray).allSatisfy(impossibleRequirements));
+    // THEN
+    then(assertionError).hasMessageContaining("Expecting actual not to be empty");
   }
 }

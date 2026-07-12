@@ -20,8 +20,16 @@ import java.net.URL;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for URLs with an unexpected protocol. */
 public class ShouldHaveProtocol extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for a URL with the wrong protocol.
+   *
+   * @param actual the actual URL
+   * @param expectedProtocol the expected protocol
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveProtocol(URL actual, String expectedProtocol) {
     return new ShouldHaveProtocol(actual, expectedProtocol);
   }

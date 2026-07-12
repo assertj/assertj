@@ -33,10 +33,13 @@ import org.assertj.core.internal.Objects;
 
 /**
  * Assertions for {@link LocalTime} type from new Date &amp; Time API introduced in Java 8.
+ *
+ * @param <SELF>  the "self" type of this assertion class.
  */
 public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAssert<SELF>>
     extends AbstractTemporalAssert<SELF, LocalTime> {
 
+  /** Error message used when the time to compare is {@code null}. */
   public static final String NULL_LOCAL_TIME_PARAMETER_MESSAGE = "The LocalTime to compare actual with should not be null";
 
   /**

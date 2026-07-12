@@ -25,6 +25,11 @@ import java.util.OptionalInt;
  */
 public class OptionalIntAssert extends AbstractOptionalIntAssert<OptionalIntAssert> {
 
+  /**
+   * Creates a new optional int assertion.
+   *
+   * @param actual the actual optional to verify
+   */
   protected OptionalIntAssert(OptionalInt actual) {
     super(actual, OptionalIntAssert.class);
   }

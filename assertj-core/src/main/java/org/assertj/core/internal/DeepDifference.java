@@ -52,6 +52,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DeepDifference {
 
+  /** Creates a new deep difference calculator. */
+  public DeepDifference() {}
+
   private static final String MISSING_FIELDS = "%s can't be compared to %s as %s does not declare all %s fields, it lacks these:%s";
   private static final Map<Class<?>, Boolean> customEquals = new ConcurrentHashMap<>();
   private static final Map<Class<?>, Boolean> customHash = new ConcurrentHashMap<>();
@@ -99,6 +102,7 @@ public class DeepDifference {
     }
   }
 
+  /** Describes a difference found during deep comparison. */
   public static class Difference {
 
     List<String> path;
@@ -106,10 +110,25 @@ public class DeepDifference {
     Object other;
     Optional<String> description;
 
+    /**
+     * Creates a difference.
+     *
+     * @param path the path to the differing value
+     * @param actual the actual value
+     * @param other the compared value
+     */
     public Difference(List<String> path, Object actual, Object other) {
       this(path, actual, other, null);
     }
 
+    /**
+     * Creates a difference with a description.
+     *
+     * @param path the path to the differing value
+     * @param actual the actual value
+     * @param other the compared value
+     * @param description the difference description
+     */
     public Difference(List<String> path, Object actual, Object other, String description) {
       this.path = path;
       this.actual = actual;
@@ -117,18 +136,38 @@ public class DeepDifference {
       this.description = Optional.ofNullable(description);
     }
 
+    /**
+     * Returns the path to the differing value.
+     *
+     * @return the difference path
+     */
     public List<String> getPath() {
       return path;
     }
 
+    /**
+     * Returns the actual value.
+     *
+     * @return the actual value
+     */
     public Object getActual() {
       return actual;
     }
 
+    /**
+     * Returns the compared value.
+     *
+     * @return the compared value
+     */
     public Object getOther() {
       return other;
     }
 
+    /**
+     * Returns the optional difference description.
+     *
+     * @return the difference description
+     */
     public Optional<String> getDescription() {
       return description;
     }

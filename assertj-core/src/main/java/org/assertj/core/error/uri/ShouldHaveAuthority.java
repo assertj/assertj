@@ -21,10 +21,18 @@ import java.net.URL;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for URIs and URLs with an unexpected authority. */
 public class ShouldHaveAuthority extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_AUTHORITY = "%nExpecting authority of%n  <%s>%nto be:%n  <%s>%nbut was:%n  <%s>";
 
+  /**
+   * Creates an error for a URI with the wrong authority.
+   *
+   * @param actual the actual URI
+   * @param expectedAuthority the expected authority
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveAuthority(URI actual, String expectedAuthority) {
     return new ShouldHaveAuthority(actual, expectedAuthority);
   }
@@ -33,6 +41,13 @@ public class ShouldHaveAuthority extends BasicErrorMessageFactory {
     super(SHOULD_HAVE_AUTHORITY, actual, expectedAuthority, actual.getAuthority());
   }
 
+  /**
+   * Creates an error for a URL with the wrong authority.
+   *
+   * @param actual the actual URL
+   * @param expectedAuthority the expected authority
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveAuthority(URL actual, String expectedAuthority) {
     return new ShouldHaveAuthority(actual, expectedAuthority);
   }

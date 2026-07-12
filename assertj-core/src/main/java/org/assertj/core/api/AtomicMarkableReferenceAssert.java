@@ -26,12 +26,18 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicMarkableReference)}</code>.
  * </p>
  *
+ * @param <VALUE> the reference value type
  * @author epeee
  * @since 2.7.0 / 3.7.0
  */
 public class AtomicMarkableReferenceAssert<VALUE>
     extends AbstractAtomicReferenceAssert<AtomicMarkableReferenceAssert<VALUE>, VALUE, AtomicMarkableReference<VALUE>> {
 
+  /**
+   * Creates a new atomic markable reference assertion.
+   *
+   * @param actual the actual atomic reference
+   */
   public AtomicMarkableReferenceAssert(AtomicMarkableReference<VALUE> actual) {
     super(actual, AtomicMarkableReferenceAssert.class);
   }

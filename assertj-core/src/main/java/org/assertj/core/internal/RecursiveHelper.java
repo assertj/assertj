@@ -27,7 +27,18 @@ import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
+/** Utility methods used by recursive assertions. */
 public class RecursiveHelper {
+
+  /** Creates a recursive assertion helper. */
+  public RecursiveHelper() {}
+
+  /**
+   * Checks whether an object is a supported container.
+   *
+   * @param o the object to check
+   * @return whether the object is a container
+   */
   public static boolean isContainer(Object o) {
     return o instanceof Iterable ||
            o instanceof Map ||

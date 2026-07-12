@@ -24,12 +24,24 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.CharArrays;
 
+/**
+ * Base class for assertions on {@code char} arrays.
+ *
+ * @param <SELF> the "self" type of this assertion class
+ */
 public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, char[], Character> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Internal assertions for {@code char} arrays. */
   protected CharArrays arrays = CharArrays.instance();
 
+  /**
+   * Creates a new {@code char} array assertion.
+   *
+   * @param actual the actual array to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractCharArrayAssert(char[] actual, Class<?> selfType) {
     super(actual, selfType);
   }

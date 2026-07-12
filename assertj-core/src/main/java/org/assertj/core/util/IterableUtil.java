@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+/** Utility methods for working with iterables. */
 public final class IterableUtil {
 
   /**
@@ -103,10 +104,24 @@ public final class IterableUtil {
     return collection.toArray(array);
   }
 
+  /**
+   * Copies the iterable elements into a collection.
+   *
+   * @param <T> the element type
+   * @param iterable the iterable to copy
+   * @return a collection containing the elements
+   */
   public static <T> Collection<T> toCollection(Iterable<T> iterable) {
     return iterable instanceof Collection ? (Collection<T>) iterable : newArrayList(iterable);
   }
 
+  /**
+   * Returns an iterable over the given elements.
+   *
+   * @param <T> the element type
+   * @param elements the elements
+   * @return an iterable over the elements
+   */
   @SafeVarargs
   public static <T> Iterable<T> iterable(T... elements) {
     if (elements == null) return null;
@@ -115,6 +130,13 @@ public final class IterableUtil {
     return list;
   }
 
+  /**
+   * Returns an iterator over the given elements.
+   *
+   * @param <T> the element type
+   * @param elements the elements
+   * @return an iterator over the elements
+   */
   @SafeVarargs
   public static <T> Iterator<T> iterator(T... elements) {
     if (elements == null) return null;

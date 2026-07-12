@@ -27,6 +27,13 @@ import java.nio.file.Path;
 public class ShouldHaveFileSystem extends BasicErrorMessageFactory {
   private static final String PATH_SHOULD_HAVE_FILE_SYSTEM = "%nExpecting path:%n  %s%nto have file system:%n  %s";
 
+  /**
+   * Creates an error for a path using the wrong file system.
+   *
+   * @param actual the actual path
+   * @param fileSystem the expected file system
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveFileSystem(final Path actual, final FileSystem fileSystem) {
     return new ShouldHaveFileSystem(actual, fileSystem);
   }

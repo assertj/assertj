@@ -75,6 +75,14 @@ public class ShouldContain extends BasicErrorMessageFactory {
     return shouldContain(actual, expected, notFound, StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates an error for a file directory missing a matching entry.
+   *
+   * @param actual the actual directory
+   * @param directoryContent the directory content
+   * @param filterDescription the filter description
+   * @return the error message factory
+   */
   public static ErrorMessageFactory directoryShouldContain(File actual, List<File> directoryContent, String filterDescription) {
     return new ShouldContain(actual, toFileNames(directoryContent), filterDescription);
   }
@@ -85,6 +93,14 @@ public class ShouldContain extends BasicErrorMessageFactory {
                 .collect(toList());
   }
 
+  /**
+   * Creates an error for a path directory missing a matching entry.
+   *
+   * @param actual the actual directory
+   * @param directoryContent the directory content
+   * @param filterDescription the filter description
+   * @return the error message factory
+   */
   public static ErrorMessageFactory directoryShouldContain(Path actual, List<Path> directoryContent, String filterDescription) {
     return new ShouldContain(actual, toPathNames(directoryContent), filterDescription);
   }

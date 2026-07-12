@@ -24,11 +24,22 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ShortArrays;
 
+/**
+ * Base class for assertions on {@code short} arrays.
+ *
+ * @param <SELF> the "self" type of this assertion class
+ */
 public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, short[], Short> {
 
   private ShortArrays arrays = ShortArrays.instance();
 
+  /**
+   * Creates a new {@code short} array assertion.
+   *
+   * @param actual the actual array to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractShortArrayAssert(short[] actual, Class<?> selfType) {
     super(actual, selfType);
   }

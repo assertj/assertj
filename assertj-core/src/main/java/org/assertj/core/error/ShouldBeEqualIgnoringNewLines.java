@@ -15,8 +15,16 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for text expected to be equal while ignoring newlines. */
 public class ShouldBeEqualIgnoringNewLines extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for text expected to be equal while ignoring newlines.
+   *
+   * @param actual the actual text
+   * @param expected the expected text
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeEqualIgnoringNewLines(CharSequence actual, CharSequence expected) {
     return new ShouldBeEqualIgnoringNewLines(actual, expected);
   }

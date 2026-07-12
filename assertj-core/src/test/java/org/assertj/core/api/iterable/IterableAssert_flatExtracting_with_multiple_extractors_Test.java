@@ -27,6 +27,7 @@ import static org.assertj.core.testkit.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.testkit.TolkienCharacter.Race.MAIA;
 import static org.assertj.core.testkit.TolkienCharacter.Race.MAN;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ import org.junit.jupiter.api.Test;
 
 class IterableAssert_flatExtracting_with_multiple_extractors_Test {
 
-  private final List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
+  private List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
   @SuppressWarnings("deprecation")
   private static final Function<TolkienCharacter, String> name = TolkienCharacter::getName;
@@ -165,4 +166,37 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     then(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(CaseInsensitiveStringComparator.INSTANCE);
   }
+
+  @Test
+  void flatExtracting_with_strings_should_fail_when_actual_is_null() {
+    // GIVEN
+    fellowshipOfTheRing = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(fellowshipOfTheRing).flatExtracting("age", "name").isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[flatExtracting: age, name]", actualIsNull());
+  }
+
+  @Test
+  void flatExtracting_with_Extractors_should_fail_when_actual_is_null() {
+    // GIVEN
+    fellowshipOfTheRing = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(fellowshipOfTheRing).flatExtracting(age, name).isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[flatExtracting]", actualIsNull());
+  }
+
+  @Test
+  void flatExtracting_with_ThrowingExtractors_should_fail_when_actual_is_null() {
+    // GIVEN
+    fellowshipOfTheRing = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(fellowshipOfTheRing).flatExtracting(ageThrowingExtractor,
+                                                                                                   nameThrowingExtractor)
+                                                                                   .isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[flatExtracting]", actualIsNull());
+  }
+
 }

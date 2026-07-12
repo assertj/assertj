@@ -33,7 +33,7 @@ class Configuration_describe_Test {
   void should_give_a_human_readable_description() throws Exception {
     // GIVEN
     Configuration configuration = new NonDefaultConfiguration();
-    configuration.setDescriptionConsumer(new Consumer<Description>() {
+    configuration.setDescriptionConsumer(new Consumer<>() {
       @Override
       public void accept(Description t) {
         System.out.println(t);
@@ -52,7 +52,6 @@ class Configuration_describe_Test {
                                        "- comparingPrivateFieldsEnabled ................... = false%n" +
                                        "- extractingPrivateFieldsEnabled .................. = false%n" +
                                        "- bareNamePropertyExtractionEnabled ............... = false%n" +
-                                       "- lenientDateParsingEnabled ....................... = true%n" +
                                        "- additional date formats ......................... = [yyyy_MM_dd, yyyy|MM|dd]%n" +
                                        "- maxLengthForSingleLineDescription ............... = 81%n" +
                                        "- maxElementsForPrinting .......................... = 1001%n" +

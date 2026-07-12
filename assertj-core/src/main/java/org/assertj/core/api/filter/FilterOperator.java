@@ -15,16 +15,34 @@
  */
 package org.assertj.core.api.filter;
 
+/**
+ * Base class for operators applied to iterable filters.
+ *
+ * @param <T> the filter parameter type
+ */
 public abstract class FilterOperator<T> {
 
   private static final String COMBINING_OPERATOR_IS_NOT_SUPPORTED = "Combining operator is not supported, but you can use Filters, see filteredOn methods in https://www.javadoc.io/doc/org.assertj/assertj-core/latest/org/assertj/core/api/AbstractIterableAssert.html";
+  /** The filter parameter. */
   protected final T filterParameter;
 
+  /**
+   * Creates a filter operator.
+   *
+   * @param filterValue the filter parameter
+   */
   protected FilterOperator(T filterValue) {
     if (filterValue instanceof FilterOperator<?>) throw new UnsupportedOperationException(COMBINING_OPERATOR_IS_NOT_SUPPORTED);
     this.filterParameter = filterValue;
   }
 
+  /**
+   * Applies this operator to the given filters.
+   *
+   * @param <E> the filtered element type
+   * @param filters the filters to update
+   * @return the updated filters
+   */
   public abstract <E> Filters<E> applyOn(Filters<E> filters);
 
 }

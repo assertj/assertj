@@ -25,6 +25,9 @@ import org.assertj.core.data.Index;
  */
 public class Double2DArrays {
 
+  /** Creates assertions for two-dimensional double arrays. */
+  public Double2DArrays() {}
+
   private static final Double2DArrays INSTANCE = new Double2DArrays();
 
   /**
@@ -42,6 +45,11 @@ public class Double2DArrays {
   Failures failures = Failures.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Sets the underlying two-dimensional array assertions.
+   *
+   * @param arrays the array assertions
+   */
   public void setArrays(Arrays2D arrays) {
     this.arrays = arrays;
   }

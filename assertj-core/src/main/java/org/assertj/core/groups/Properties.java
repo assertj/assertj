@@ -26,7 +26,8 @@ import org.assertj.core.util.introspection.PropertySupport;
 
 /**
  * Extracts the values of a specified property from the elements of a given <code>{@link Iterable}</code> or array.
- * 
+ *
+ * @param <T> the property type
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  * @author Joel Costigliola

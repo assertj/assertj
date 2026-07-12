@@ -32,6 +32,12 @@ public abstract class AbstractEnumerableAssert<SELF extends AbstractEnumerableAs
     extends AbstractAssertWithComparator<SELF, ACTUAL>
     implements EnumerableAssert<AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>, ELEMENT> {
 
+  /**
+   * Creates a new enumerable assertion.
+   *
+   * @param actual the actual enumerable value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractEnumerableAssert(final ACTUAL actual, final Class<?> selfType) {
     super(actual, selfType);
   }

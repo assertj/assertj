@@ -418,6 +418,12 @@ public class Files {
     if (!expected.equals(extension)) throw failures.failure(info, shouldHaveExtension(actual, extension, expected));
   }
 
+  /**
+   * Verifies that the file has no extension.
+   *
+   * @param info assertion information
+   * @param actual the actual file
+   */
   public void assertHasNoExtension(AssertionInfo info, File actual) {
     assertIsFile(info, actual);
     Optional<String> extension = getFileExtension(actual);
@@ -455,6 +461,14 @@ public class Files {
     throw failures.failure(info, shouldHaveNoParent(actual));
   }
 
+  /**
+   * Verifies the file digest.
+   *
+   * @param info assertion information
+   * @param actual the actual file
+   * @param digest the digest algorithm
+   * @param expected the expected digest bytes
+   */
   public void assertHasDigest(AssertionInfo info, File actual, MessageDigest digest, byte[] expected) {
     requireNonNull(digest, "The message digest algorithm should not be null");
     requireNonNull(expected, "The binary representation of digest to compare to should not be null");
@@ -469,11 +483,27 @@ public class Files {
     }
   }
 
+  /**
+   * Verifies the file digest.
+   *
+   * @param info assertion information
+   * @param actual the actual file
+   * @param digest the digest algorithm
+   * @param expected the expected hexadecimal digest
+   */
   public void assertHasDigest(AssertionInfo info, File actual, MessageDigest digest, String expected) {
     requireNonNull(expected, "The string representation of digest to compare to should not be null");
     assertHasDigest(info, actual, digest, Digests.fromHex(expected));
   }
 
+  /**
+   * Verifies the file digest using the named algorithm.
+   *
+   * @param info assertion information
+   * @param actual the actual file
+   * @param algorithm the digest algorithm
+   * @param expected the expected digest bytes
+   */
   public void assertHasDigest(AssertionInfo info, File actual, String algorithm, byte[] expected) {
     requireNonNull(algorithm, "The message digest algorithm should not be null");
     try {
@@ -483,48 +513,110 @@ public class Files {
     }
   }
 
+  /**
+   * Verifies the file digest using the named algorithm.
+   *
+   * @param info assertion information
+   * @param actual the actual file
+   * @param algorithm the digest algorithm
+   * @param expected the expected hexadecimal digest
+   */
   public void assertHasDigest(AssertionInfo info, File actual, String algorithm, String expected) {
     requireNonNull(expected, "The string representation of digest to compare to should not be null");
     assertHasDigest(info, actual, algorithm, Digests.fromHex(expected));
   }
 
+  /**
+   * Verifies that the file is an empty directory.
+   *
+   * @param info assertion information
+   * @param actual the actual file
+   */
   public void assertIsEmptyDirectory(AssertionInfo info, File actual) {
     List<File> files = directoryContent(info, actual);
     if (!files.isEmpty()) throw failures.failure(info, shouldBeEmptyDirectory(actual, files));
   }
 
+  /**
+   * Verifies that the file is a non-empty directory.
+   *
+   * @param info assertion information
+   * @param actual the actual file
+   */
   public void assertIsNotEmptyDirectory(AssertionInfo info, File actual) {
     boolean isEmptyDirectory = directoryContent(info, actual).isEmpty();
     if (isEmptyDirectory) throw failures.failure(info, shouldNotBeEmpty());
   }
 
+  /**
+   * Verifies that the directory contains a matching entry.
+   *
+   * @param info assertion information
+   * @param actual the actual directory
+   * @param filter the entry filter
+   */
   public void assertIsDirectoryContaining(AssertionInfo info, File actual, Predicate<File> filter) {
     requireNonNull(filter, "The files filter should not be null");
     assertIsDirectoryContaining(info, actual, filter::test, "the given filter");
   }
 
+  /**
+   * Verifies that the directory contains an entry matching the pattern.
+   *
+   * @param info assertion information
+   * @param actual the actual directory
+   * @param syntaxAndPattern the path matcher syntax and pattern
+   */
   public void assertIsDirectoryContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     FileFilter filter = fileFilter(info, actual, syntaxAndPattern);
     assertIsDirectoryContaining(info, actual, filter, "the '%s' pattern".formatted(syntaxAndPattern));
   }
 
+  /**
+   * Verifies that the directory tree contains an entry matching the pattern.
+   *
+   * @param info assertion information
+   * @param actual the actual directory
+   * @param syntaxAndPattern the path matcher syntax and pattern
+   */
   public void assertIsDirectoryRecursivelyContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     FileFilter filter = fileFilter(info, actual, syntaxAndPattern);
     assertIsDirectoryRecursivelyContaining(info, actual, filter::accept, "the '%s' pattern".formatted(syntaxAndPattern));
   }
 
+  /**
+   * Verifies that the directory tree contains a matching entry.
+   *
+   * @param info assertion information
+   * @param actual the actual directory
+   * @param filter the entry filter
+   */
   public void assertIsDirectoryRecursivelyContaining(AssertionInfo info, File actual, Predicate<File> filter) {
     requireNonNull(filter, "The files filter should not be null");
     assertIsDirectoryRecursivelyContaining(info, actual, filter, "the given filter");
   }
 
+  /**
+   * Verifies that the directory contains no matching entry.
+   *
+   * @param info assertion information
+   * @param actual the actual directory
+   * @param filter the entry filter
+   */
   public void assertIsDirectoryNotContaining(AssertionInfo info, File actual, Predicate<File> filter) {
     requireNonNull(filter, "The files filter should not be null");
     assertIsDirectoryNotContaining(info, actual, filter::test, "the given filter");
   }
 
+  /**
+   * Verifies that the directory contains no entry matching the pattern.
+   *
+   * @param info assertion information
+   * @param actual the actual directory
+   * @param syntaxAndPattern the path matcher syntax and pattern
+   */
   public void assertIsDirectoryNotContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     FileFilter filter = fileFilter(info, actual, syntaxAndPattern);

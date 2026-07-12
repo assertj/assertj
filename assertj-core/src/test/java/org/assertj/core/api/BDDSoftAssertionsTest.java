@@ -31,6 +31,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.assertj.core.internal.DatesBaseTest.parseDatetime;
 import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.testkit.ClasspathResources.resourcePath;
 import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
@@ -40,7 +41,6 @@ import static org.assertj.core.testkit.TolkienCharacter.Race.ELF;
 import static org.assertj.core.testkit.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.testkit.TolkienCharacter.Race.MAN;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -596,7 +596,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .isEmpty();
     // THEN
     assertThat(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                        .containsExactly("error 1", "error 2");
+                                        .containsExactly("[flatExtracting] error 1", "[flatExtracting] error 2");
   }
 
   @Test
@@ -1908,7 +1908,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
       List<Throwable> errorsCollected = softly.errorsCollected();
       assertThat(errorsCollected).hasSize(3);
       assertThat(errorsCollected.get(0)).hasMessageFindingMatch("not found:.*stranger.*not expected:.*david");
-      assertThat(errorsCollected.get(1)).hasMessage("overridingErrorMessage with extractingFromEntries");
+      assertThat(errorsCollected.get(1)).hasMessage("[extractingFromEntries] overridingErrorMessage with extractingFromEntries");
       assertThat(errorsCollected.get(2)).hasMessageFindingMatch("not found:.*10.*not expected:.*1");
     }
   }
@@ -1978,6 +1978,26 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
                                   .containsExactly("[size()] error message", "[content()] error message");
+  }
+
+  @Test
+  void path_soft_assertions_should_work_with_size() {
+    // GIVEN
+    Path path = resourcePath("actual_file.txt");
+    // WHEN
+    softly.then(path)
+          .size()
+          .overridingErrorMessage("size error message")
+          .isGreaterThan(0)
+          .isLessThan(1)
+          .returnToPath()
+          .overridingErrorMessage("isNull error message")
+          .isNull();
+    // THEN
+    // THEN
+    var errorsCollected = softly.errorsCollected();
+    then(errorsCollected.get(0)).hasMessageContaining("size error message");
+    then(errorsCollected.get(1)).hasMessageContaining("isNull error message");
   }
 
   @Test

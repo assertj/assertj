@@ -2000,8 +2000,6 @@ public final class BDDAssumptions extends Assumptions {
 
   /**
    * Creates a new assumption's instance for an {@link Matcher}.
-   * <p>
-   *
    * @param actual the actual {@link Matcher} value to be validated.
    * @return the {@link Matcher} assertion object to be used for assumptions.
    */

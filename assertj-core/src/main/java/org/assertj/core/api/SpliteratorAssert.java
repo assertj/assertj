@@ -28,6 +28,13 @@ import java.util.Spliterator;
  */
 public class SpliteratorAssert<ELEMENT> extends AbstractSpliteratorAssert<SpliteratorAssert<ELEMENT>, ELEMENT> {
 
+  /**
+   * Creates a new spliterator assertion.
+   *
+   * @param <ELEMENT> the element type
+   * @param actual the actual spliterator
+   * @return the created assertion
+   */
   public static <ELEMENT> SpliteratorAssert<ELEMENT> assertThatSpliterator(Spliterator<ELEMENT> actual) {
     return new SpliteratorAssert<>(actual);
   }

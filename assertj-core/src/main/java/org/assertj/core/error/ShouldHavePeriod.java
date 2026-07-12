@@ -18,6 +18,8 @@ package org.assertj.core.error;
 import java.time.Period;
 
 /**
+ *  Creates an error message indicating that a {@code Period} error.
+ *
  * @author Hayden Meloche
  */
 public class ShouldHavePeriod extends BasicErrorMessageFactory {
@@ -31,16 +33,40 @@ public class ShouldHavePeriod extends BasicErrorMessageFactory {
     super(EXPECTED_PREFIX + metric + " but had %s", actual, expectedSpecific, actualSpecific);
   }
 
+  /**
+   * Creates an error for an unexpected year count.
+   *
+   * @param actual the actual period
+   * @param actualYear the actual count
+   * @param expectedYear the expected count
+   * @return the error message factory
+   */
   public static ShouldHavePeriod shouldHaveYears(Period actual, int actualYear, int expectedYear) {
     final String metric = Math.abs(expectedYear) == 1 ? "year" : "years";
     return new ShouldHavePeriod(actual, actualYear, expectedYear, metric);
   }
 
+  /**
+   * Creates an error for an unexpected month count.
+   *
+   * @param actual the actual period
+   * @param actualMonths the actual count
+   * @param expectedMonths the expected count
+   * @return the error message factory
+   */
   public static ShouldHavePeriod shouldHaveMonths(Period actual, int actualMonths, int expectedMonths) {
     final String metric = Math.abs(expectedMonths) == 1 ? "month" : "months";
     return new ShouldHavePeriod(actual, actualMonths, expectedMonths, metric);
   }
 
+  /**
+   * Creates an error for an unexpected day count.
+   *
+   * @param actual the actual period
+   * @param actualDays the actual count
+   * @param expectedDays the expected count
+   * @return the error message factory
+   */
   public static ShouldHavePeriod shouldHaveDays(Period actual, int actualDays, int expectedDays) {
     final String metric = Math.abs(expectedDays) == 1 ? "day" : "days";
     return new ShouldHavePeriod(actual, actualDays, expectedDays, metric);

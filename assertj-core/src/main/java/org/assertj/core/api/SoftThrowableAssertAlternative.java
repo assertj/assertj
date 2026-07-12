@@ -29,13 +29,20 @@ import org.assertj.core.description.Description;
  *           .withMessage("boom! %s", "tcha!"); </code></pre>
  *           
  * This class is linked with the {@link ThrowableTypeAssert} and allow to check that an exception type is thrown by a lambda.
- * 
+ *
+ * @param <ACTUAL> the actual throwable type
  * @since 3.23.0
  */
 public class SoftThrowableAssertAlternative<ACTUAL extends Throwable> extends ThrowableAssertAlternative<ACTUAL> {
 
   private final ThrowableAssert<ACTUAL> softThrowableAssert;
 
+  /**
+   * Creates a soft throwable assertion.
+   *
+   * @param actual the actual throwable
+   * @param softAssertionsProvider the soft assertions provider
+   */
   public SoftThrowableAssertAlternative(final ACTUAL actual, SoftAssertionsProvider softAssertionsProvider) {
     super(actual);
     softThrowableAssert = softAssertionsProvider.soft(new ThrowableAssert<>(actual));

@@ -46,6 +46,12 @@ public class ShouldBeWritable extends BasicErrorMessageFactory {
     return new ShouldBeWritable(actual);
   }
 
+  /**
+   * Creates an error for a path expected to be writable.
+   *
+   * @param actual the actual path
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeWritable(Path actual) {
     return new ShouldBeWritable(actual);
   }

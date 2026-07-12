@@ -19,11 +19,10 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.tests.core.api.recursive.data.Color.GREEN;
 import static org.assertj.tests.core.api.recursive.data.ColorWithCode.RED;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
 
-import java.util.List;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
 import org.assertj.tests.core.api.recursive.data.Light;
 import org.assertj.tests.core.api.recursive.data.Theme;
@@ -33,14 +32,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class DualValue_hasPotentialCyclingValues_Test {
 
-  private static final List<String> PATH = list("foo", "bar");
-
   @ParameterizedTest(name = "actual {0} / expected {1}")
   @MethodSource("values")
   void should_return_false_when_actual_or_expected_is_a_container_type_and_true_otherwise(Object actual, Object expected,
                                                                                           boolean expectedResult) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, expected);
+    var dualValue = dualValue(actual, expected);
     // WHEN
     boolean hasPotentialCyclingValuess = dualValue.hasPotentialCyclingValues();
     // THEN

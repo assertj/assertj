@@ -19,7 +19,6 @@ import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
 
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.junit.jupiter.api.Test;
 
 class ComparisonDifference_rootComparisonDifference_Test {
@@ -27,7 +26,7 @@ class ComparisonDifference_rootComparisonDifference_Test {
   @Test
   void should_build_ComparisonDifference_for_root_dual_value() {
     // GIVEN
-    ComparisonDifference comparisonDifference = rootComparisonDifference("foo", "bar", "info");
+    var comparisonDifference = rootComparisonDifference("foo", "bar", "info");
     // WHEN
     String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN

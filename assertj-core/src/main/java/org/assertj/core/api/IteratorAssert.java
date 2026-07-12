@@ -29,10 +29,22 @@ import java.util.Iterator;
  */
 public class IteratorAssert<ELEMENT> extends AbstractIteratorAssert<IteratorAssert<ELEMENT>, ELEMENT> {
 
+  /**
+   * Creates a new iterator assertion.
+   *
+   * @param <ELEMENT> the element type
+   * @param actual the actual iterator to verify
+   * @return the created assertion
+   */
   public static <ELEMENT> IteratorAssert<ELEMENT> assertThatIterator(Iterator<? extends ELEMENT> actual) {
     return new IteratorAssert<>(actual);
   }
 
+  /**
+   * Creates a new iterator assertion.
+   *
+   * @param actual the actual iterator to verify
+   */
   public IteratorAssert(Iterator<? extends ELEMENT> actual) {
     super(actual, IteratorAssert.class);
   }

@@ -45,6 +45,12 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Shorts shorts = Shorts.instance();
 
+  /**
+   * Creates a new {@link Short} assertion.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractShortAssert(Short actual, Class<?> selfType) {
     super(actual, selfType);
   }

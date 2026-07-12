@@ -13,7 +13,7 @@
   <name>AssertJ Core Integration Tests (Groovy)</name>
 
   <properties>
-    <groovy.version>5.0.6</groovy.version>
+    <groovy.version>5.0.7</groovy.version>
   </properties>
 
   <dependencies>
@@ -54,7 +54,7 @@
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>4.3.1</version>
+        <version>5.1.0</version>
         <executions>
           <execution>
             <goals>

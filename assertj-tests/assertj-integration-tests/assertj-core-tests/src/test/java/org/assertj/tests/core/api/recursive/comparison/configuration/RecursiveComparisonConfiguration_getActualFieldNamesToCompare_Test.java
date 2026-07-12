@@ -16,14 +16,14 @@
 package org.assertj.tests.core.api.recursive.comparison.configuration;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.rootDualValue;
 
 import java.time.Duration;
 import java.util.Date;
 import java.util.Set;
 
 import org.assertj.core.api.recursive.comparison.DualValue;
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.tests.core.api.recursive.data.Person;
 import org.assertj.tests.core.api.recursive.data.PersonDtoWithPersonNeighbour;
@@ -48,17 +48,17 @@ class RecursiveComparisonConfiguration_getActualFieldNamesToCompare_Test {
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(".*umber");
     recursiveComparisonConfiguration.ignoreFields("people.name");
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(Date.class);
-    Person person1 = new Person("John");
+    var person1 = new Person("John");
     person1.home.address.number = 1;
     person1.dateOfBirth = new Date(123);
     person1.neighbour = new Person("Jack");
     person1.neighbour.home.address.number = 123;
-    Person person2 = new Person("John");
+    var person2 = new Person("John");
     person2.home.address.number = 1;
     person2.dateOfBirth = new Date(123);
     person2.neighbour = new Person("Jim");
     person2.neighbour.home.address.number = 456;
-    DualValue dualValue = new DualValue(list("people"), person1, person2);
+    var dualValue = new DualValue(new FieldLocation("people"), person1, person2, null);
     // WHEN
     Set<String> fields = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
     // THEN
@@ -69,17 +69,17 @@ class RecursiveComparisonConfiguration_getActualFieldNamesToCompare_Test {
   void should_compute_ignored_fields_honoring_comparingOnly_fields() {
     // GIVEN
     recursiveComparisonConfiguration.compareOnlyFields("dateOfBirth", "home.address");
-    Person person1 = new Person("John");
+    var person1 = new Person("John");
     person1.home.address.number = 1;
     person1.dateOfBirth = new Date(123);
     person1.neighbour = new Person("Jack");
     person1.neighbour.home.address.number = 123;
-    Person person2 = new Person("John");
+    var person2 = new Person("John");
     person2.home.address.number = 1;
     person2.dateOfBirth = new Date(123);
     person2.neighbour = new Person("Jim");
     person2.neighbour.home.address.number = 456;
-    DualValue dualValue = new DualValue(list(), person1, person2);
+    var dualValue = rootDualValue(person1, person2);
     // WHEN
     Set<String> fields = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
     // THEN
@@ -93,9 +93,9 @@ class RecursiveComparisonConfiguration_getActualFieldNamesToCompare_Test {
   void should_only_return_fields_from_compareOnlyFields_list() {
     // GIVEN
     recursiveComparisonConfiguration.compareOnlyFields("people.name");
-    Person person1 = new Person("John");
+    var person1 = new Person("John");
     PersonDtoWithPersonNeighbour person2 = new PersonDtoWithPersonNeighbour("John");
-    DualValue dualValue = new DualValue(list("people"), person2, person1);
+    var dualValue = new DualValue(new FieldLocation("people"), person2, person1, null);
     // WHEN
     Set<String> fields = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
     // THEN
@@ -105,26 +105,26 @@ class RecursiveComparisonConfiguration_getActualFieldNamesToCompare_Test {
   @Test
   void should_return_fields_in_a_reasonable_amount_of_time_for_deeply_nested_object() {
     // GIVEN
-    Person p1 = new Person("Alice");
-    Person p2 = new Person("Brian");
-    Person p3 = new Person("Christina");
-    Person p4 = new Person("David");
-    Person p5 = new Person("Emily");
-    Person p6 = new Person("Francisco");
-    Person p7 = new Person("Gabriella");
-    Person p8 = new Person("Henry");
-    Person p9 = new Person("Isabelle");
-    Person p10 = new Person("Jackson");
-    Person p11 = new Person("Kimberly");
-    Person p12 = new Person("Lucas");
-    Person p13 = new Person("Melissa");
-    Person p14 = new Person("Nathan");
-    Person p15 = new Person("Olivia");
-    Person p16 = new Person("Penelope");
-    Person p17 = new Person("Quentin");
-    Person p18 = new Person("Rebecca");
-    Person p19 = new Person("Samuel");
-    Person p20 = new Person("Tanya");
+    var p1 = new Person("Alice");
+    var p2 = new Person("Brian");
+    var p3 = new Person("Christina");
+    var p4 = new Person("David");
+    var p5 = new Person("Emily");
+    var p6 = new Person("Francisco");
+    var p7 = new Person("Gabriella");
+    var p8 = new Person("Henry");
+    var p9 = new Person("Isabelle");
+    var p10 = new Person("Jackson");
+    var p11 = new Person("Kimberly");
+    var p12 = new Person("Lucas");
+    var p13 = new Person("Melissa");
+    var p14 = new Person("Nathan");
+    var p15 = new Person("Olivia");
+    var p16 = new Person("Penelope");
+    var p17 = new Person("Quentin");
+    var p18 = new Person("Rebecca");
+    var p19 = new Person("Samuel");
+    var p20 = new Person("Tanya");
     p1.neighbour = p2;
     p2.neighbour = p3;
     p3.neighbour = p4;
@@ -145,10 +145,10 @@ class RecursiveComparisonConfiguration_getActualFieldNamesToCompare_Test {
     p18.neighbour = p19;
     p19.neighbour = p20;
 
-    Person p1b = new Person("Anders");
+    var p1b = new Person("Anders");
     p1b.neighbour = p2;
 
-    DualValue dualValue = new DualValue(rootFieldLocation(), p1, p2);
+    var dualValue = rootDualValue(p1, p2);
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(".*id");
     // WHEN
     Stopwatch stopwatch = Stopwatch.createStarted();
@@ -162,7 +162,7 @@ class RecursiveComparisonConfiguration_getActualFieldNamesToCompare_Test {
   void should_return_all_fields_when_some_compared_types_are_specified_as_a_value_not_to_compare_could_have_a_field_to_compare() {
     // GIVEN
     Company microsoft = new Company(new Person("Bill"));
-    DualValue dualValue = new DualValue(rootFieldLocation(), microsoft, microsoft);
+    var dualValue = rootDualValue(microsoft, microsoft);
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(Person.class);
     recursiveComparisonConfiguration.compareOnlyFields("ceo");
     // WHEN

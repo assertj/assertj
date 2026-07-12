@@ -19,7 +19,8 @@ import org.assertj.core.annotation.CheckReturnValue;
 
 /**
  * Base class for file size assertions.
- * 
+ *
+ * @param <ORIGIN> originating file assertion
  * @since 3.22.0
  */
 public abstract class AbstractFileSizeAssert<ORIGIN extends AbstractFileAssert<ORIGIN>>
@@ -38,6 +39,10 @@ public abstract class AbstractFileSizeAssert<ORIGIN extends AbstractFileAssert<O
   }
 
   /**
+   * Creates a file size assertion without an origin assertion.
+   *
+   * @param actualFileSize the actual file size
+   * @param selfType the type of the concrete assertion
    * @deprecated use {@link #AbstractFileSizeAssert(AbstractFileAssert)} instead.
    */
   @Deprecated
@@ -46,6 +51,12 @@ public abstract class AbstractFileSizeAssert<ORIGIN extends AbstractFileAssert<O
     this.originAssert = null;
   }
 
+  /**
+   * Creates a file size assertion with the given origin and size.
+   *
+   * @param originAssert the origin file assertion
+   * @param actualFileSize the actual file size
+   */
   protected AbstractFileSizeAssert(AbstractFileAssert<ORIGIN> originAssert, Long actualFileSize) {
     super(actualFileSize, AbstractFileSizeAssert.class);
     this.originAssert = originAssert;

@@ -18,9 +18,9 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
+import static org.assertj.core.internal.DatesBaseTest.parseDate;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.testkit.NeverEqualComparator.NEVER_EQUALS;
-import static org.assertj.core.util.DateUtil.parse;
 
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.description.Description;
@@ -37,7 +37,7 @@ class ShouldBeBefore_create_Test {
   @Test
   void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeBefore(parse("2019-01-01"), parse("2012-01-01"));
+    ErrorMessageFactory factory = shouldBeBefore(parseDate("2019-01-01"), parseDate("2012-01-01"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // WHEN
@@ -52,7 +52,7 @@ class ShouldBeBefore_create_Test {
   void should_create_error_message_with_comparison_strategy() {
     // GIVEN
     ComparatorBasedComparisonStrategy comparisonStrategy = new ComparatorBasedComparisonStrategy(NEVER_EQUALS);
-    ErrorMessageFactory factory = shouldBeBefore(parse("2019-01-01"), parse("2012-01-01"), comparisonStrategy);
+    ErrorMessageFactory factory = shouldBeBefore(parseDate("2019-01-01"), parseDate("2012-01-01"), comparisonStrategy);
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN

@@ -15,7 +15,16 @@
  */
 package org.assertj.core.util;
 
+/**
+ * Represents an operation that may throw any throwable.
+ */
 @FunctionalInterface
 public interface Executable {
+
+  /**
+   * Executes the operation.
+   *
+   * @throws Throwable if execution fails
+   */
   void execute() throws Throwable;
 }

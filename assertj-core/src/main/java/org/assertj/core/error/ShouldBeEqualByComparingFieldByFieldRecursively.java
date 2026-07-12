@@ -28,8 +28,18 @@ import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.internal.UnambiguousRepresentation;
 import org.assertj.core.presentation.Representation;
 
+/** Creates errors for recursive field-by-field comparison failures. */
 public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error from legacy recursive comparison differences.
+   *
+   * @param actual the actual object
+   * @param other the expected object
+   * @param differences the comparison differences
+   * @param representation the value representation
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeEqualByComparingFieldByFieldRecursive(Object actual, Object other,
                                                                                   List<Difference> differences,
                                                                                   Representation representation) {
@@ -46,6 +56,16 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
                                                                actual, other);
   }
 
+  /**
+   * Creates an error from recursive comparison differences.
+   *
+   * @param actual the actual object
+   * @param other the expected object
+   * @param differences the comparison differences
+   * @param recursiveComparisonConfiguration the comparison configuration
+   * @param representation the value representation
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeEqualByComparingFieldByFieldRecursively(Object actual, Object other,
                                                                                     List<ComparisonDifference> differences,
                                                                                     RecursiveComparisonConfiguration recursiveComparisonConfiguration,

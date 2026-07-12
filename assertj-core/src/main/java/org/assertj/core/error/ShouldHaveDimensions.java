@@ -19,12 +19,30 @@ import static java.lang.String.format;
 
 import java.lang.reflect.Array;
 
+/** Creates errors for two-dimensional arrays with unexpected dimensions. */
 public class ShouldHaveDimensions extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for an unexpected first dimension.
+   *
+   * @param actual the actual array
+   * @param actualSize the actual size
+   * @param expectedSize the expected size
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveFirstDimension(Object actual, int actualSize, int expectedSize) {
     return new ShouldHaveDimensions(actual, actualSize, expectedSize);
   }
 
+  /**
+   * Creates an error for an unexpected row size.
+   *
+   * @param actual the actual array
+   * @param actualSize the actual row size
+   * @param expectedSize the expected row size
+   * @param rowIndex the row index
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveSize(Object actual, int actualSize, int expectedSize, int rowIndex) {
     return new ShouldHaveDimensions(actual, actualSize, expectedSize, rowIndex);
   }

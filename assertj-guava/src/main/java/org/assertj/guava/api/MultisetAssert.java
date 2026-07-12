@@ -30,8 +30,7 @@ import com.google.common.collect.Multiset;
  *
  * Assertions for guava {@link Multiset}.
  * <p>
- * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Multiset)}</code>
- * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Multiset)}</code>.
  *
  * @param <T> the type of elements contained in the tested Multiset value
  *
@@ -39,6 +38,11 @@ import com.google.common.collect.Multiset;
  */
 public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>, Multiset<? extends T>, T, ObjectAssert<T>> {
 
+  /**
+   * Creates a new assertion for the given {@link Multiset}.
+   *
+   * @param actual the actual value
+   */
   protected MultisetAssert(Multiset<? extends T> actual) {
     super(actual, MultisetAssert.class);
   }

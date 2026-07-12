@@ -36,6 +36,12 @@ public abstract class AbstractAssertWithComparator<SELF extends AbstractAssertWi
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
   // let's keep compiler warning internal (when we can) and not expose them to our end users.
+  /**
+   * Creates a new assertion supporting custom comparison strategies.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractAssertWithComparator(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }

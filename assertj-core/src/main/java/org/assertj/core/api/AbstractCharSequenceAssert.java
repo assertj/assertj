@@ -68,6 +68,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Strings strings = Strings.instance();
 
+  /**
+   * Creates a new character sequence assertion.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractCharSequenceAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }

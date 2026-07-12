@@ -46,6 +46,12 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Integers integers = Integers.instance();
 
+  /**
+   * Creates a new {@link Integer} assertion.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractIntegerAssert(Integer actual, Class<?> selfType) {
     super(actual, selfType);
   }

@@ -17,13 +17,29 @@ package org.assertj.core.api;
 
 import org.assertj.core.annotation.CheckReturnValue;
 
+/**
+ * Assertions for the size of an iterable.
+ *
+ * @param <ELEMENT> the iterable element type
+ */
 public class IterableSizeAssert<ELEMENT>
     extends AbstractIterableSizeAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
+  /**
+   * Creates an iterable size assertion.
+   *
+   * @param originAssert the origin iterable assertion
+   */
   public IterableSizeAssert(AbstractIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> originAssert) {
     super(originAssert);
   }
 
+  /**
+   * Creates an iterable size assertion with the given operations.
+   *
+   * @param originAssert the origin iterable assertion
+   * @param size the known iterable size
+   */
   protected IterableSizeAssert(AbstractIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> originAssert,
                                @SuppressWarnings("unused") Integer size) {
     super(originAssert, size);

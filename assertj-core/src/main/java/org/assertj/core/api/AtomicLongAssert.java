@@ -28,6 +28,9 @@ import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Longs;
 
+/**
+ * Assertions for {@link AtomicLong} values.
+ */
 public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAssert, AtomicLong> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -36,6 +39,11 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Longs longs = Longs.instance();
 
+  /**
+   * Creates a new atomic long assertion.
+   *
+   * @param actual the actual atomic long
+   */
   public AtomicLongAssert(AtomicLong actual) {
     super(actual, AtomicLongAssert.class);
   }

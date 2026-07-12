@@ -25,6 +25,9 @@ import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.Representation;
 
+/**
+ * Creates assertion errors, using OpenTest4J types when available.
+ */
 public class AssertionErrorCreator {
 
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class, Object.class);
@@ -33,10 +36,16 @@ public class AssertionErrorCreator {
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ConstructorInvoker constructorInvoker;
 
+  /** Creates an assertion error creator using the default constructor invoker. */
   public AssertionErrorCreator() {
     this(new ConstructorInvoker());
   }
 
+  /**
+   * Creates an assertion error creator using the given constructor invoker.
+   *
+   * @param constructorInvoker the constructor invoker
+   */
   public AssertionErrorCreator(ConstructorInvoker constructorInvoker) {
     this.constructorInvoker = constructorInvoker;
     try {
@@ -49,6 +58,15 @@ public class AssertionErrorCreator {
 
   // single assertion error
 
+  /**
+   * Creates an assertion error with actual and expected values.
+   *
+   * @param message the error message
+   * @param actual the actual value
+   * @param expected the expected value
+   * @param representation the value representation
+   * @return the assertion error
+   */
   public AssertionError assertionError(String message, Object actual, Object expected, Representation representation) {
     return assertionFailedError(message, actual, expected, representation).orElse(assertionError(message));
   }
@@ -77,16 +95,36 @@ public class AssertionErrorCreator {
     }
   }
 
+  /**
+   * Creates an assertion error with the given message.
+   *
+   * @param message the error message
+   * @return the assertion error
+   */
   public AssertionError assertionError(String message) {
     return new AssertionError(message);
   }
 
   // multiple assertions error
 
+  /**
+   * Creates an error aggregating multiple assertion errors.
+   *
+   * @param errors the assertion errors
+   * @return the aggregate assertion error
+   */
   public AssertionError multipleAssertionsError(List<AssertionError> errors) {
     return multipleAssertionsError(null, null, errors);
   }
 
+  /**
+   * Creates an error aggregating multiple assertion errors.
+   *
+   * @param description the assertion description
+   * @param objectUnderTest the object under test
+   * @param errors the assertion errors
+   * @return the aggregate assertion error
+   */
   public AssertionError multipleAssertionsError(Description description, Object objectUnderTest, List<AssertionError> errors) {
     MultipleAssertionsError multipleAssertionsError = new MultipleAssertionsError(description, objectUnderTest, errors);
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(multipleAssertionsError);

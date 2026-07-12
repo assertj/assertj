@@ -17,15 +17,28 @@ package org.assertj.core.error;
 
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
+/** Creates errors for atomic references expected to be marked. */
 public class ShouldBeMarked extends BasicErrorMessageFactory {
 
   private static final String EXPECTING_TO_BE_MARKED = "%nExpecting %s to be a marked but was not";
   private static final String EXPECTING_NOT_TO_BE_MARKED = "%nExpecting %s not to be a marked but was";
 
+  /**
+   * Creates an error for a reference expected to be marked.
+   *
+   * @param actual the actual reference
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeMarked(AtomicMarkableReference<?> actual) {
     return new ShouldBeMarked(actual, true);
   }
 
+  /**
+   * Creates an error for a reference expected not to be marked.
+   *
+   * @param actual the actual reference
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldNotBeMarked(AtomicMarkableReference<?> actual) {
     return new ShouldBeMarked(actual, false);
   }

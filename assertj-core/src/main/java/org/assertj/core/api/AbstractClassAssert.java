@@ -63,9 +63,8 @@ import org.assertj.core.internal.Classes;
  * Base class for all implementations of assertions for {@link Class}es.
  *
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
- *
+ *               target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *               for more details.
  * @author William Delanoue
  * @author Mikhail Mazursky
  */
@@ -74,6 +73,12 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   Classes classes = Classes.instance();
 
+  /**
+   * Creates a new {@link Class} assertion.
+   *
+   * @param actual the actual class to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractClassAssert(Class<?> actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -91,12 +96,12 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * // this assertion fails:
    * assertThat(HumanJedi.class).isAssignableFrom(Jedi.class);</code></pre>
    *
-   * @see Class#isAssignableFrom(Class)
    * @param others {@code Class} who can be assignable from.
    * @return {@code this} assertions object
-   * @throws AssertionError if the actual {@code Class} is {@code null}.
+   * @throws AssertionError           if the actual {@code Class} is {@code null}.
    * @throws IllegalArgumentException if no {@code others} classes have been specified.
-   * @throws AssertionError if the actual {@code Class} is not assignable from all of the {@code others} classes.
+   * @throws AssertionError           if the actual {@code Class} is not assignable from all of the {@code others} classes.
+   * @see Class#isAssignableFrom(Class)
    */
   public SELF isAssignableFrom(Class<?>... others) {
     return executeAssertion(() -> classes.assertIsAssignableFrom(info, actual, others));
@@ -115,13 +120,12 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * // this assertion fails
    * assertThat(Jedi.class).isAssignableTo(HumanJedi.class);</code></pre>
    *
-   * @see Class#isAssignableFrom(Class)
    * @param other {@code Class} who can be assignable to.
    * @return {@code this} assertions object
-   * @throws AssertionError if the actual {@code Class} is {@code null}.
+   * @throws AssertionError           if the actual {@code Class} is {@code null}.
    * @throws IllegalArgumentException if {@code other} is null.
-   * @throws AssertionError if the actual {@code Class} is not assignable to the {@code others} class.
-   *
+   * @throws AssertionError           if the actual {@code Class} is not assignable to the {@code others} class.
+   * @see Class#isAssignableFrom(Class)
    * @since 3.24.0
    */
   public SELF isAssignableTo(Class<?> other) {
@@ -207,7 +211,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not abstract.
-   *
    * @since 3.12.0
    */
   public SELF isAbstract() {
@@ -294,7 +297,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not a record.
-   *
    * @since 3.25.0
    */
   public SELF isRecord() {
@@ -323,7 +325,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is a record.
-   *
    * @since 3.25.0
    */
   public SELF isNotRecord() {
@@ -358,12 +359,11 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(MyRecord.class).hasRecordComponents("componentOne", "unknownComponent");</code></pre>
    *
    * @param first the first record component name which must be in this class
-   * @param rest the remaining record component names which must be in this class
+   * @param rest  the remaining record component names which must be in this class
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not a record.
    * @throws AssertionError if the actual {@code Class} doesn't contain all the record component names.
-   *
    * @since 3.25.0
    */
   public SELF hasRecordComponents(String first, String... rest) {
@@ -477,7 +477,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not public.
-   *
    * @since 2.7.0 / 3.7.0
    */
   public SELF isPublic() {
@@ -507,7 +506,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not protected.
-   *
    * @since 2.7.0 / 3.7.0
    */
   public SELF isProtected() {
@@ -537,7 +535,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not package-private.
-   *
    * @since 3.15.0
    */
   public SELF isPackagePrivate() {
@@ -572,7 +569,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not private.
-   *
    * @since 3.26.0
    */
   public SELF isPrivate() {
@@ -678,14 +674,17 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    */
   @SafeVarargs
   public final SELF hasAnnotations(Class<? extends Annotation>... annotations) {
-    return executeAssertion(() -> {
-      isNotNull();
-      assertHasAnnotations(annotations);
-    });
+    return executeAssertion(() -> assertHasAnnotations(annotations));
   }
 
-  private void assertHasAnnotations(Class<? extends Annotation>[] annotations) {
+  /**
+   * Verifies that the actual class has all the given annotations.
+   *
+   * @param annotations the annotations expected on the actual class
+   */
+  protected void assertHasAnnotations(Class<? extends Annotation>[] annotations) {
     requireNonNull(annotations, shouldNotBeNull("annotations")::create);
+    isNotNull();
     var missing = stream(annotations).filter(not(this::hasAnnotationByType)).collect(toSet());
     if (!missing.isEmpty()) throw assertionError(shouldHaveAnnotations(actual, Set.of(annotations), missing));
   }
@@ -756,10 +755,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @param superclass the class which must be the direct superclass of actual.
    * @return {@code this} assertions object
    * @throws NullPointerException if {@code superclass} is {@code null}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't have the given class as direct superclass.
-   * @since 3.15.0
+   * @throws AssertionError       if {@code actual} is {@code null}.
+   * @throws AssertionError       if the actual {@code Class} doesn't have the given class as direct superclass.
    * @see #hasNoSuperclass()
+   * @since 3.15.0
    */
   public SELF hasSuperclass(Class<?> superclass) {
     return executeAssertion(() -> {
@@ -799,8 +798,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} has a superclass.
-   * @since 3.15.0
    * @see #hasSuperclass(Class)
+   * @since 3.15.0
    */
   public SELF hasNoSuperclass() {
     return executeAssertion(() -> {
@@ -835,11 +834,11 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * <p>
    * The assertion succeeds if no given fields are passed and the actual {@code Class} has no accessible public fields.
    *
-   * @see Class#getField(String)
    * @param fields the fields who must be in the class.
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contain all the specified fields.
+   * @see Class#getField(String)
    */
   public SELF hasPublicFields(String... fields) {
     return executeAssertion(() -> classes.assertHasPublicFields(info, actual, fields));
@@ -865,12 +864,11 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * <p>
    * The assertion succeeds if no given fields are passed and the actual {@code Class} has no accessible public fields.
    *
-   * @see Class#getField(String)
    * @param fields all the fields that are expected to be in the class.
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if fields are not all the actual {@code Class}'s accessible public fields.
-   *
+   * @see Class#getField(String)
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasOnlyPublicFields(String... fields) {
@@ -894,11 +892,11 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * <p>
    * The assertion succeeds if no given fields are passed and the actual {@code Class} has no declared fields.
    *
-   * @see Class#getDeclaredField(String)
    * @param fields the fields who must be declared in the class.
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all the specified fields.
+   * @see Class#getDeclaredField(String)
    */
   public SELF hasDeclaredFields(String... fields) {
     return executeAssertion(() -> classes.assertHasDeclaredFields(info, actual, fields));
@@ -924,12 +922,11 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * <p>
    * The assertion succeeds if no given fields are passed and the actual {@code Class} has no declared fields.
    *
-   * @see Class#getField(String)
    * @param fields all the fields that are expected to be in the class.
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if fields are not all the declared fields of the actual {@code Class}.
-   *
+   * @see Class#getField(String)
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasOnlyDeclaredFields(String... fields) {
@@ -960,7 +957,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all the specified methods.
-   *
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasMethods(String... methodNames) {
@@ -993,7 +989,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all the given methods.
-   *
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasDeclaredMethods(String... methodNames) {
@@ -1022,7 +1017,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all the given public methods.
-   *
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasPublicMethods(String... methodNames) {
@@ -1033,7 +1027,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * Verifies that the actual {@code Class} has the given package name (as in {@link Class#getPackage()}).
    * <p>
    * The expected package name should always be not {@code null}. To verify the absence of the package, use
-   * {@link #hasNoPackage()}. 
+   * {@link #hasNoPackage()}.
    * <p>
    * Example:
    * <pre><code class='java'> package one.two;
@@ -1052,7 +1046,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} does not have the given package.
-   *
    * @since 3.18.0
    */
   public SELF hasPackage(String expected) {
@@ -1074,13 +1067,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * Verifies that the actual {@code Class} has the given package (as in {@link Class#getPackage()}).
    * <p>
    * The expected package should always be not {@code null}. To verify the absence of the package, use
-   * {@link #hasNoPackage()}. 
+   * {@link #hasNoPackage()}.
    * <p>
    * Example:
    * <pre><code class='java'> package one.two;
    *
    * class MyClass {}
-   **
+   * *
    * // these assertions succeed:
    * assertThat(MyClass.class).hasPackage(Package.getPackage("one.two"));
    * assertThat(MyClass.class).hasPackage(MyClass.class.getPackage());
@@ -1094,10 +1087,9 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} does not have the given package.
-   *
-   * @since 3.18.0
    * @see #hasPackage(String)
    * @see #hasNoPackage()
+   * @since 3.18.0
    */
   public SELF hasPackage(Package expected) {
     return executeAssertion(() -> {
@@ -1131,10 +1123,9 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} has a package.
-   *
-   * @since 3.25.0
    * @see #hasPackage(Package)
    * @see #hasPackage(String)
+   * @since 3.25.0
    */
   public SELF hasNoPackage() {
     return executeAssertion(() -> {
@@ -1164,7 +1155,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not sealed.
-   *
    * @since 3.25.0
    */
   public SELF isSealed() {
@@ -1195,7 +1185,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is sealed.
-   *
    * @since 3.25.0
    */
   public SELF isNotSealed() {

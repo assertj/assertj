@@ -21,8 +21,17 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.util.Objects;
 
+/** Creates errors for throwables with an unexpected root cause. */
 public class ShouldHaveRootCause extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for a root cause with the wrong message.
+   *
+   * @param actual the actual throwable
+   * @param actualCause the actual root cause
+   * @param expectedMessage the expected message
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveRootCauseWithMessage(Throwable actual, Throwable actualCause,
                                                                    String expectedMessage) {
     checkArgument(actual != null, "actual should not be null");
@@ -31,6 +40,14 @@ public class ShouldHaveRootCause extends BasicErrorMessageFactory {
     return new ShouldHaveRootCause(actual, actualCause, expectedMessage);
   }
 
+  /**
+   * Creates an error for an unexpected root cause.
+   *
+   * @param actual the actual throwable
+   * @param actualCause the actual root cause
+   * @param expectedCause the expected root cause
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveRootCause(Throwable actual, Throwable actualCause, Throwable expectedCause) {
     checkArgument(actual != null, "actual should not be null");
     checkArgument(expectedCause != null, "expected cause should not be null");
@@ -45,6 +62,12 @@ public class ShouldHaveRootCause extends BasicErrorMessageFactory {
     return new ShouldHaveRootCause(actual, actualCause, expectedCause);
   }
 
+  /**
+   * Creates an error for a throwable lacking a root cause.
+   *
+   * @param actualCause the actual throwable
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveRootCause(Throwable actualCause) {
     return new BasicErrorMessageFactory("Expecting actual throwable to have a root cause but it did not, actual was:%n%s",
                                         actualCause);

@@ -44,6 +44,11 @@ public class BigIntegers extends Numbers<BigInteger> {
     super();
   }
 
+  /**
+   * Creates big integer assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy to use
+   */
   public BigIntegers(ComparisonStrategy comparisonStrategy) {
     super(comparisonStrategy);
   }

@@ -38,10 +38,25 @@ public class ShouldHaveDateField extends BasicErrorMessageFactory {
     return new ShouldHaveDateField(actual, fieldDescription, fieldValue);
   }
 
+  /**
+   * Creates an error for a temporal with the wrong field value.
+   *
+   * @param actual the actual temporal
+   * @param fieldDescription the field description
+   * @param fieldValue the expected field value
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveDateField(Temporal actual, String fieldDescription, int fieldValue) {
     return new ShouldHaveDateField(actual, fieldDescription, fieldValue);
   }
 
+  /**
+   * Creates an error for a temporal with the wrong month.
+   *
+   * @param actual the actual temporal
+   * @param month the expected month
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveMonth(Temporal actual, Month month) {
     return new ShouldHaveDateField(actual, "month", month);
   }

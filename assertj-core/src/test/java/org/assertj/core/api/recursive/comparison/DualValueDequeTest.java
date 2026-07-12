@@ -15,37 +15,28 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
-
-import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
-import org.assertj.core.api.BDDAssertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("DualValueDeque")
+@SuppressWarnings("ResultOfMethodCallIgnored")
 class DualValueDequeTest {
 
-  private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
-
-  @BeforeEach
-  void beforeEachTest() {
-    recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
-  }
+  private RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
 
   @Test
   void should_ignore_dual_values_with_a_null_first_value() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
-    DualValueDeque dualValueDeque = new DualValueDeque(recursiveComparisonConfiguration);
-    DualValue dualValueA = dualValue(null, "A");
-    DualValue dualValueB = dualValue("B", "B");
-    DualValue dualValueC = dualValue(null, "C");
-    DualValue dualValueD = dualValue("D", "D");
-    DualValue dualValueE = dualValue("E", "E");
+    var dualValueDeque = new DualValueDeque(recursiveComparisonConfiguration);
+    var dualValueA = dualValue(null, "A");
+    var dualValueB = dualValue("B", "B");
+    var dualValueC = dualValue(null, "C");
+    var dualValueD = dualValue("D", "D");
+    var dualValueE = dualValue("E", "E");
     // WHEN
     dualValueDeque.add(dualValueA);
     dualValueDeque.add(dualValueB);
@@ -56,19 +47,19 @@ class DualValueDequeTest {
     dualValueDeque.addAll(list(dualValueA, dualValueB, dualValueC));
     dualValueDeque.addAll(0, list(dualValueA, dualValueB, dualValueC));
     // THEN
-    BDDAssertions.then(dualValueDeque).containsExactly(dualValueB, dualValueB, dualValueD, dualValueE, dualValueB);
+    then(dualValueDeque).containsExactly(dualValueB, dualValueB, dualValueD, dualValueE, dualValueB);
   }
 
   @Test
   void should_ignore_dual_values_with_a_null_second_value() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
-    DualValueDeque dualValueDeque = new DualValueDeque(recursiveComparisonConfiguration);
-    DualValue dualValueA = dualValue("A", null);
-    DualValue dualValueB = dualValue("B", "B");
-    DualValue dualValueC = dualValue("C", null);
-    DualValue dualValueD = dualValue("D", "D");
-    DualValue dualValueE = dualValue("E", "E");
+    var dualValueDeque = new DualValueDeque(recursiveComparisonConfiguration);
+    var dualValueA = dualValue("A", null);
+    var dualValueB = dualValue("B", "B");
+    var dualValueC = dualValue("C", null);
+    var dualValueD = dualValue("D", "D");
+    var dualValueE = dualValue("E", "E");
     // WHEN
     dualValueDeque.add(dualValueA);
     dualValueDeque.add(dualValueB);
@@ -79,18 +70,18 @@ class DualValueDequeTest {
     dualValueDeque.addAll(list(dualValueA, dualValueB, dualValueC));
     dualValueDeque.addAll(0, list(dualValueA, dualValueB, dualValueC));
     // THEN
-    BDDAssertions.then(dualValueDeque).containsExactly(dualValueB, dualValueB, dualValueD, dualValueE, dualValueB);
+    then(dualValueDeque).containsExactly(dualValueB, dualValueB, dualValueD, dualValueE, dualValueB);
   }
 
   @Test
   void should_not_ignore_any_dual_values() {
     // GIVEN
-    DualValueDeque dualValueDeque = new DualValueDeque(recursiveComparisonConfiguration);
-    DualValue dualValueA = dualValue(null, "A");
-    DualValue dualValueB = dualValue("B", "B");
-    DualValue dualValueC = dualValue(null, "C");
-    DualValue dualValueD = dualValue("D", "D");
-    DualValue dualValueE = dualValue("E", "E");
+    var dualValueDeque = new DualValueDeque(recursiveComparisonConfiguration);
+    var dualValueA = dualValue(null, "A");
+    var dualValueB = dualValue("B", "B");
+    var dualValueC = dualValue(null, "C");
+    var dualValueD = dualValue("D", "D");
+    var dualValueE = dualValue("E", "E");
     // WHEN
     dualValueDeque.add(dualValueA);
     dualValueDeque.add(dualValueB);
@@ -101,16 +92,12 @@ class DualValueDequeTest {
     dualValueDeque.addAll(list(dualValueA, dualValueB, dualValueC));
     dualValueDeque.addAll(0, list(dualValueA, dualValueB, dualValueC));
     // THEN
-    BDDAssertions.then(dualValueDeque).containsExactly(dualValueA, dualValueB, dualValueC, dualValueC, dualValueA, dualValueA,
-                                                       dualValueB,
-                                                       dualValueD, dualValueE, dualValueA, dualValueB, dualValueC);
+    then(dualValueDeque).containsExactly(dualValueA, dualValueB, dualValueC, dualValueC, dualValueA, dualValueA,
+                                         dualValueB, dualValueD, dualValueE, dualValueA, dualValueB, dualValueC);
   }
 
   private static DualValue dualValue(String value1, String value2) {
-    return new DualValue(randomPath(), value1, value2);
-  }
-
-  static List<String> randomPath() {
-    return list(RandomStringUtils.random(RandomUtils.nextInt(1, 10), true, false));
+    String path = RandomStringUtils.secure().next(RandomUtils.secure().randomInt(1, 10), true, false);
+    return new DualValue(new FieldLocation(path), value1, value2, null);
   }
 }

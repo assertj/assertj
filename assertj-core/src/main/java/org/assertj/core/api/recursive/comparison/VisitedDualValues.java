@@ -15,36 +15,57 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static org.assertj.core.util.Lists.list;
+
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 class VisitedDualValues {
 
-  private final List<VisitedDualValue> dualValues;
+  private final List<VisitedDualValue> visitedDualValues;
 
   VisitedDualValues() {
-    this.dualValues = new ArrayList<>();
+    visitedDualValues = new ArrayList<>();
   }
 
   void registerVisitedDualValue(DualValue dualValue) {
-    this.dualValues.add(new VisitedDualValue(dualValue));
+    visitedDualValues.add(new VisitedDualValue(dualValue));
   }
 
   void registerComparisonDifference(DualValue dualValue, ComparisonDifference comparisonDifference) {
-    this.dualValues.stream()
-                   // register difference on dual values agnostic of location, to take care of values visited several times
-                   .filter(visitedDualValue -> visitedDualValue.dualValue.sameValues(dualValue))
-                   .findFirst()
-                   .ifPresent(visitedDualValue -> visitedDualValue.comparisonDifferences.add(comparisonDifference));
+    registerComparisonDifferences(dualValue, list(comparisonDifference));
   }
 
-  Optional<List<ComparisonDifference>> registeredComparisonDifferencesOf(DualValue dualValue) {
-    return this.dualValues.stream()
-                          // use sameValues to get already visited dual values with different location
-                          .filter(visitedDualValue -> visitedDualValue.dualValue.sameValues(dualValue))
-                          .findFirst()
-                          .map(visitedDualValue -> visitedDualValue.comparisonDifferences);
+  void registerComparisonDifferences(DualValue dualValue, List<ComparisonDifference> comparisonDifferences) {
+    Optional<VisitedDualValue> visitedDualValueWithSameValues = visitedDualValues.stream()
+                                                                                 .filter(visitedDualValue -> visitedDualValue.dualValue.sameValues(dualValue))
+                                                                                 .findFirst();
+    // register difference on dual values agnostic of location, to take care of values visited several times
+    if (visitedDualValueWithSameValues.isPresent()) {
+      visitedDualValueWithSameValues.get().comparisonDifferences.addAll(comparisonDifferences);
+    } else {
+      VisitedDualValue visitedDualValue = new VisitedDualValue(dualValue);
+      visitedDualValue.comparisonDifferences.addAll(comparisonDifferences);
+      visitedDualValues.add(visitedDualValue);
+    }
+  }
+
+  Optional<Set<ComparisonDifference>> getRegisteredComparisonDifferencesOf(DualValue dualValue) {
+    Optional<VisitedDualValue> optionalVisitedDualValue = visitedDualValues.stream()
+                                                                           .filter(visitedDualValue -> visitedDualValue.dualValue.sameValues(dualValue))
+                                                                           .findFirst();
+    if (optionalVisitedDualValue.isEmpty()) {
+      return Optional.empty();
+    }
+    // need to aggregate the current visited dualValue differences + all the visited children differences
+    Set<ComparisonDifference> comparisonDifferences = new LinkedHashSet<>(optionalVisitedDualValue.get().comparisonDifferences);
+    visitedDualValues.stream()
+                     .filter(visitedDualValue -> visitedDualValue.dualValue.hasAncestor(dualValue))
+                     .forEach(visitedDualValue -> comparisonDifferences.addAll(visitedDualValue.comparisonDifferences));
+    return Optional.of(comparisonDifferences);
   }
 
   private static class VisitedDualValue {
@@ -60,5 +81,6 @@ class VisitedDualValues {
     public String toString() {
       return "VisitedDualValue[dualValue=%s, comparisonDifferences=%s]".formatted(this.dualValue, this.comparisonDifferences);
     }
+
   }
 }

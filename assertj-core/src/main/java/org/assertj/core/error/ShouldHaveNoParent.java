@@ -39,6 +39,12 @@ public class ShouldHaveNoParent extends BasicErrorMessageFactory {
     return new ShouldHaveNoParent(actual);
   }
 
+  /**
+   * Creates an error for a path unexpectedly having a parent.
+   *
+   * @param actual the actual path
+   * @return the error message factory
+   */
   public static ShouldHaveNoParent shouldHaveNoParent(Path actual) {
     return new ShouldHaveNoParent(actual);
   }

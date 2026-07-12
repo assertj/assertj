@@ -50,6 +50,7 @@ import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
 public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDateTimeAssert<SELF>> extends
     AbstractTemporalAssert<SELF, OffsetDateTime> {
 
+  /** Error message used when the date-time to compare is {@code null}. */
   public static final String NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE = "The OffsetDateTime to compare actual with should not be null";
 
   /**

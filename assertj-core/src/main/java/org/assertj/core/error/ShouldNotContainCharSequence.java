@@ -62,10 +62,24 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
                                             actual, sequence, comparisonStrategy);
   }
 
+  /**
+   * Creates an error for text unexpectedly containing a sequence.
+   *
+   * @param actual the actual text
+   * @param sequence the prohibited sequence
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldNotContain(CharSequence actual, CharSequence sequence) {
     return shouldNotContain(actual, sequence, StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates an error for a throwable message unexpectedly containing text.
+   *
+   * @param actual the actual throwable
+   * @param sequence the prohibited text
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldNotContain(Throwable actual, CharSequence sequence) {
     String format = "%n" +
                     "Expecting throwable message:%n" +
@@ -80,6 +94,14 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
     return new ShouldNotContainCharSequence(format, actual.getMessage(), sequence, StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates an error for a throwable message containing prohibited text.
+   *
+   * @param actual the actual throwable
+   * @param sequence the prohibited values
+   * @param found the found values
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldNotContain(Throwable actual, CharSequence[] sequence,
                                                      Set<? extends CharSequence> found) {
     String format = "%n" +
@@ -135,6 +157,14 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
                                             actual, sequence, StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates an error for text containing prohibited values ignoring case.
+   *
+   * @param actual the actual text
+   * @param sequences the prohibited values
+   * @param foundSequences the found values
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldNotContainIgnoringCase(CharSequence actual, CharSequence[] sequences,
                                                                  Set<CharSequence> foundSequences) {
     return new ShouldNotContainCharSequence("%n" +

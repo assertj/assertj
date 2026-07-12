@@ -15,7 +15,14 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for values expected to contain only alphanumeric characters. */
 public class ShouldBeAlphanumeric extends BasicErrorMessageFactory {
+  /**
+   * Creates an alphanumeric-content error.
+   *
+   * @param actual the actual value
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeAlphanumeric(Object actual) {
     return new ShouldBeAlphanumeric(actual);
   }

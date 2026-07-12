@@ -33,6 +33,13 @@ import org.assertj.core.util.IterableUtil;
  */
 public class ShouldContainSubsequence extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error when the actual group is shorter than the subsequence.
+   *
+   * @param actual the actual group
+   * @param subsequence the expected subsequence
+   * @return the error message factory
+   */
   public static ShouldContainSubsequence actualDoesNotHaveEnoughElementsToContainSubsequence(Object actual, Object subsequence) {
     return new ShouldContainSubsequence(actual, subsequence);
   }
@@ -42,6 +49,15 @@ public class ShouldContainSubsequence extends BasicErrorMessageFactory {
           sizeOfArrayOrIterable(actual), sizeOf(subsequence), actual, subsequence);
   }
 
+  /**
+   * Creates an error when too few elements remain to match a subsequence.
+   *
+   * @param actual the actual group
+   * @param subsequence the expected subsequence
+   * @param actualIndex the current actual index
+   * @param subsequenceIndex the current subsequence index
+   * @return the error message factory
+   */
   public static ShouldContainSubsequence actualDoesNotHaveEnoughElementsLeftToContainSubsequence(Object actual,
                                                                                                  Object subsequence,
                                                                                                  int actualIndex,

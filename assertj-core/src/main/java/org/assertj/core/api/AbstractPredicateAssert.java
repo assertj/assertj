@@ -27,6 +27,7 @@ import org.assertj.core.presentation.PredicateDescription;
 /**
  * Assertions for {@link Predicate}.
  *
+ * @param <SELF>  the "self" type of this assertion class.
  * @param <T> type of the value contained in the {@link Predicate}.
  *
  * @author Filip Hrisafov
@@ -37,6 +38,12 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
+  /**
+   * Creates a new {@link Predicate} assertion.
+   *
+   * @param actual the actual predicate to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractPredicateAssert(Predicate<T> actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -61,12 +68,21 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    */
   @SafeVarargs
   public final SELF accepts(T... values) {
-    return executeAssertion(() -> {
-      isNotNull();
-      if (values.length == 1) {
-        if (!actual.test(values[0])) throwAssertionError(shouldAccept(actual, values[0], PredicateDescription.GIVEN));
-      } else iterables.assertAllMatch(info, list(values), actual, PredicateDescription.GIVEN);
-    });
+    return executeAssertion(() -> assertAccepts(values));
+  }
+
+  /**
+   * Verifies that the actual predicate accepts all the given values.
+   *
+   * @param values the values expected to be accepted
+   */
+  protected void assertAccepts(T[] values) {
+    isNotNull();
+    if (values.length == 1) {
+      if (!actual.test(values[0])) throwAssertionError(shouldAccept(actual, values[0], PredicateDescription.GIVEN));
+    } else {
+      iterables.assertAllMatch(info, list(values), actual, PredicateDescription.GIVEN);
+    }
   }
 
   /**
@@ -89,12 +105,21 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    */
   @SafeVarargs
   public final SELF rejects(T... values) {
-    return executeAssertion(() -> {
-      isNotNull();
-      if (values.length == 1) {
-        if (actual.test(values[0])) throwAssertionError(shouldNotAccept(actual, values[0], PredicateDescription.GIVEN));
-      } else iterables.assertNoneMatch(info, list(values), actual, PredicateDescription.GIVEN);
-    });
+    return executeAssertion(() -> assertRejects(values));
+  }
+
+  /**
+   * Verifies that the actual predicate rejects all the given values.
+   *
+   * @param values the values expected to be rejected
+   */
+  protected void assertRejects(T[] values) {
+    isNotNull();
+    if (values.length == 1) {
+      if (actual.test(values[0])) throwAssertionError(shouldNotAccept(actual, values[0], PredicateDescription.GIVEN));
+    } else {
+      iterables.assertNoneMatch(info, list(values), actual, PredicateDescription.GIVEN);
+    }
   }
 
   /**

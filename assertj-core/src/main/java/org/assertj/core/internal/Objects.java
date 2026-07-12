@@ -98,6 +98,11 @@ public class Objects {
   Failures failures = Failures.instance();
   private final FieldSupport fieldSupport = FieldSupport.comparison();
 
+  /**
+   * Returns the shared object assertions instance.
+   *
+   * @return the shared instance
+   */
   public static Objects instance() {
     return INSTANCE;
   }
@@ -107,27 +112,61 @@ public class Objects {
     this(StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates object assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy
+   */
   public Objects(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns the comparator used by the comparison strategy.
+   *
+   * @return the configured comparator
+   */
   public Comparator<?> getComparator() {
     return comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy ? strategy.getComparator() : null;
   }
 
+  /**
+   * Returns the comparison strategy.
+   *
+   * @return the comparison strategy
+   */
   public ComparisonStrategy getComparisonStrategy() {
     return comparisonStrategy;
   }
 
+  /**
+   * Returns the assertion failure provider.
+   *
+   * @return the failure provider
+   */
   public Failures getFailures() {
     return failures;
   }
 
+  /**
+   * Verifies that the object is an instance of the given type.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param type the expected type
+   */
   public void assertIsInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
     if (!isInstanceOfClass(actual, type, info)) throw failures.failure(info, shouldBeInstance(actual, type));
   }
 
+  /**
+   * Verifies that the object is an instance of any given type.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param types the expected types
+   */
   public void assertIsInstanceOfAny(AssertionInfo info, Object actual, Class<?>[] types) {
     if (objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
     throw failures.failure(info, shouldBeInstanceOfAny(actual, types));
@@ -146,6 +185,13 @@ public class Objects {
     return false;
   }
 
+  /**
+   * Verifies that the object is not an instance of the given type.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param type the prohibited type
+   */
   public void assertIsNotInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
     if (isInstanceOfClass(actual, type, info)) throw failures.failure(info, shouldNotBeInstance(actual, type));
   }
@@ -156,11 +202,25 @@ public class Objects {
     return clazz.isInstance(actual);
   }
 
+  /**
+   * Verifies that the object is not an instance of any given type.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param types the prohibited types
+   */
   public void assertIsNotInstanceOfAny(AssertionInfo info, Object actual, Class<?>[] types) {
     if (!objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
     throw failures.failure(info, shouldNotBeInstanceOfAny(actual, types));
   }
 
+  /**
+   * Verifies that two objects have the same class.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param other the comparison object
+   */
   public void assertHasSameClassAs(AssertionInfo info, Object actual, Object other) {
     if (!haveSameClass(actual, other, info)) throw failures.failure(info, shouldHaveSameClass(actual, other));
   }
@@ -173,10 +233,24 @@ public class Objects {
     return actualClass.equals(otherClass);
   }
 
+  /**
+   * Verifies that two objects have different classes.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param other the comparison object
+   */
   public void assertDoesNotHaveSameClassAs(AssertionInfo info, Object actual, Object other) {
     if (haveSameClass(actual, other, info)) throw failures.failure(info, shouldNotHaveSameClass(actual, other));
   }
 
+  /**
+   * Verifies that the object has exactly the given type.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param type the expected type
+   */
   public void assertIsExactlyInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
     if (!actualIsExactlyInstanceOfType(actual, type, info))
       throw failures.failure(info, shouldBeExactlyInstance(actual, type));
@@ -188,11 +262,25 @@ public class Objects {
     return expectedType.equals(actual.getClass());
   }
 
+  /**
+   * Verifies that the object does not have exactly the given type.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param type the prohibited exact type
+   */
   public void assertIsNotExactlyInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
     if (actualIsExactlyInstanceOfType(actual, type, info))
       throw failures.failure(info, shouldNotBeExactlyInstance(actual, type));
   }
 
+  /**
+   * Verifies that the object's class is one of the given classes.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param types the expected classes
+   */
   public void assertIsOfAnyClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
     boolean itemInArray = isOfOneOfGivenTypes(actual, types, info);
     if (!itemInArray) throw failures.failure(info, shouldBeOfClassIn(actual, types));
@@ -204,6 +292,13 @@ public class Objects {
     return isItemInArray(actual.getClass(), types);
   }
 
+  /**
+   * Verifies that the object's class is none of the given classes.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param types the prohibited classes
+   */
   public void assertIsNotOfAnyClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
     boolean itemInArray = isOfOneOfGivenTypes(actual, types, info);
     if (itemInArray) throw failures.failure(info, shouldNotBeOfClassIn(actual, types));
@@ -214,11 +309,25 @@ public class Objects {
     checkArgument(types.length > 0, "The given array of types should not be empty");
   }
 
+  /**
+   * Verifies that two objects are equal.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param expected the expected object
+   */
   public void assertEqual(AssertionInfo info, Object actual, Object expected) {
     if (!areEqual(actual, expected))
       throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
   }
 
+  /**
+   * Verifies that two objects are not equal.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param other the comparison object
+   */
   public void assertNotEqual(AssertionInfo info, Object actual, Object other) {
     if (areEqual(actual, other)) throw failures.failure(info, shouldNotBeEqual(actual, other, comparisonStrategy));
   }
@@ -227,27 +336,67 @@ public class Objects {
     return comparisonStrategy.areEqual(actual, other);
   }
 
+  /**
+   * Verifies that the object is {@code null}.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   */
   public void assertNull(AssertionInfo info, Object actual) {
     if (actual != null)
       throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
   }
 
+  /**
+   * Verifies that the object is not {@code null}.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   */
   public void assertNotNull(AssertionInfo info, Object actual) {
     if (actual == null) throw failures.failure(info, shouldNotBeNull());
   }
 
+  /**
+   * Verifies that the labeled object is not {@code null}.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param label the object label
+   */
   public void assertNotNull(AssertionInfo info, Object actual, String label) {
     if (actual == null) throw failures.failure(info, shouldNotBeNull(label));
   }
 
+  /**
+   * Verifies that two references are identical.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param expected the expected reference
+   */
   public void assertSame(AssertionInfo info, Object actual, Object expected) {
     if (actual != expected) throw failures.failure(info, shouldBeSame(actual, expected));
   }
 
+  /**
+   * Verifies that two references are different.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param other the comparison reference
+   */
   public void assertNotSame(AssertionInfo info, Object actual, Object other) {
     if (actual == other) throw failures.failure(info, shouldNotBeSame(actual));
   }
 
+  /**
+   * Verifies the object's string representation.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param expectedToString the expected representation
+   */
   public void assertHasToString(AssertionInfo info, Object actual, String expectedToString) {
     assertNotNull(info, actual);
     String actualString = actual.toString();
@@ -255,6 +404,13 @@ public class Objects {
       throw failures.failure(info, shouldHaveToString(actualString, expectedToString), actualString, expectedToString);
   }
 
+  /**
+   * Verifies that the object has a different string representation.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param otherToString the prohibited representation
+   */
   public void assertDoesNotHaveToString(AssertionInfo info, Object actual, String otherToString) {
     assertNotNull(info, actual);
     String actualToString = actual.toString();
@@ -262,11 +418,25 @@ public class Objects {
       throw failures.failure(info, shouldNotHaveToString(otherToString));
   }
 
+  /**
+   * Verifies that the object is in the given array.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param values the candidate values
+   */
   public void assertIsIn(AssertionInfo info, Object actual, Object[] values) {
     checkArrayIsNotNull(values);
     assertIsIn(info, actual, asList(values));
   }
 
+  /**
+   * Verifies that the object is not in the given array.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param values the prohibited values
+   */
   public void assertIsNotIn(AssertionInfo info, Object actual, Object[] values) {
     checkArrayIsNotNull(values);
     assertIsNotIn(info, actual, asList(values));
@@ -283,11 +453,25 @@ public class Objects {
     return false;
   }
 
+  /**
+   * Verifies that the object is in the given iterable.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param values the candidate values
+   */
   public void assertIsIn(AssertionInfo info, Object actual, Iterable<?> values) {
     checkNotNullIterable(values);
     if (!isActualIn(actual, values)) throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
   }
 
+  /**
+   * Verifies that the object is not in the given iterable.
+   *
+   * @param info assertion information
+   * @param actual the actual object
+   * @param values the prohibited values
+   */
   public void assertIsNotIn(AssertionInfo info, Object actual, Iterable<?> values) {
     checkNotNullIterable(values);
     if (isActualIn(actual, values)) throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
@@ -327,6 +511,14 @@ public class Objects {
     return fieldSupport.isAllowedToRead(field) || propertySupport.publicGetterExistsFor(field.getName(), actual);
   }
 
+  /**
+   * Verifies that readable fields are non-null except those ignored.
+   *
+   * @param <A> the actual object type
+   * @param info assertion information
+   * @param actual the actual object
+   * @param propertiesOrFieldsToIgnore the fields or properties to ignore
+   */
   public <A> void assertHasNoNullFieldsOrPropertiesExcept(AssertionInfo info, A actual,
                                                           String... propertiesOrFieldsToIgnore) {
     assertNotNull(info, actual);
@@ -357,6 +549,14 @@ public class Objects {
                                                                 newArrayList(propertiesOrFieldsToIgnore)));
   }
 
+  /**
+   * Verifies that readable fields are null except those ignored.
+   *
+   * @param <A> the actual object type
+   * @param info assertion information
+   * @param actual the actual object
+   * @param propertiesOrFieldsToIgnore the fields or properties to ignore
+   */
   public <A> void assertHasAllNullFieldsOrPropertiesExcept(AssertionInfo info, A actual,
                                                            String... propertiesOrFieldsToIgnore) {
     assertNotNull(info, actual);
@@ -377,6 +577,12 @@ public class Objects {
     return PropertyOrFieldSupport.COMPARISON.getValueOf(fieldName, a);
   }
 
+  /**
+   * Returns non-static, non-synthetic fields declared by a class and its ancestors.
+   *
+   * @param clazz the class to inspect
+   * @return the declared and inherited fields
+   */
   public static Set<Field> getDeclaredFieldsIncludingInherited(Class<?> clazz) {
     requireNonNull(clazz, "expecting Class parameter not to be null");
     Set<Field> declaredFields = getDeclaredFieldsIgnoringSyntheticAndStatic(clazz);
@@ -389,6 +595,12 @@ public class Objects {
     return declaredFields;
   }
 
+  /**
+   * Returns names of non-static, non-synthetic fields.
+   *
+   * @param clazz the class to inspect
+   * @return the field names
+   */
   public static Set<String> getFieldsNames(Class<?> clazz) {
     return getDeclaredFieldsIncludingInherited(clazz).stream()
                                                      .map(Field::getName)
@@ -401,6 +613,14 @@ public class Objects {
                                  .collect(toCollection(LinkedHashSet::new));
   }
 
+  /**
+   * Verifies that the object has the named field or property.
+   *
+   * @param <A> the actual object type
+   * @param info assertion information
+   * @param actual the actual object
+   * @param name the field or property name
+   */
   public <A> void assertHasFieldOrProperty(AssertionInfo info, A actual, String name) {
     assertNotNull(info, actual);
     try {
@@ -412,6 +632,15 @@ public class Objects {
     }
   }
 
+  /**
+   * Verifies the value of a named field or property.
+   *
+   * @param <A> the actual object type
+   * @param info assertion information
+   * @param actual the actual object
+   * @param name the field or property name
+   * @param expectedValue the expected value
+   */
   public <A> void assertHasFieldOrPropertyWithValue(AssertionInfo info, A actual, String name, Object expectedValue) {
     assertHasFieldOrProperty(info, actual, name);
     Object value = extractPropertyOrField(actual, name);
@@ -419,6 +648,14 @@ public class Objects {
       throw failures.failure(info, shouldHavePropertyOrFieldWithValue(actual, name, expectedValue, value));
   }
 
+  /**
+   * Verifies that the object declares only the named fields.
+   *
+   * @param <A> the actual object type
+   * @param info assertion information
+   * @param actual the actual object
+   * @param names the expected field names
+   */
   public <A> void assertHasOnlyFields(AssertionInfo info, A actual, String... names) {
     assertNotNull(info, actual);
     checkArgument(names != null, "Given fields/properties are null");
@@ -442,12 +679,28 @@ public class Objects {
     return PropertyOrFieldSupport.EXTRACTION.getValueOf(name, actual);
   }
 
+  /**
+   * Verifies that two objects have the same hash code.
+   *
+   * @param <A> the actual object type
+   * @param info assertion information
+   * @param actual the actual object
+   * @param other the comparison object
+   */
   public <A> void assertHasSameHashCodeAs(AssertionInfo info, A actual, Object other) {
     assertNotNull(info, actual);
     requireNonNull(other, "The object used to compare actual's hash code with should not be null");
     if (actual.hashCode() != other.hashCode()) throw failures.failure(info, shouldHaveSameHashCode(actual, other));
   }
 
+  /**
+   * Verifies that two objects have different hash codes.
+   *
+   * @param <A> the actual object type
+   * @param info assertion information
+   * @param actual the actual object
+   * @param other the comparison object
+   */
   public <A> void assertDoesNotHaveSameHashCodeAs(AssertionInfo info, A actual, Object other) {
     assertNotNull(info, actual);
     requireNonNull(other, "The object used to compare actual's hash code with should not be null");

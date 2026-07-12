@@ -20,6 +20,7 @@ import java.net.URL;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for URLs differing after query parameters are sorted. */
 public class ShouldBeEqualToWithSortedQueryParameters extends BasicErrorMessageFactory {
   private static final String SHOULD_BE_EQUAL_TO_WITH_SORTED_QUERY_PARAMETERS = "%n" +
                                                                                 "Expecting URL to be:%n" +
@@ -28,6 +29,13 @@ public class ShouldBeEqualToWithSortedQueryParameters extends BasicErrorMessageF
                                                                                 "  <%s>%n" +
                                                                                 "after sorting parameters";
 
+  /**
+   * Creates an error for URLs expected to match after sorting query parameters.
+   *
+   * @param actual the actual URL
+   * @param expected the expected URL
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeEqualToWithSortedQueryParameters(URL actual, URL expected) {
     return new ShouldBeEqualToWithSortedQueryParameters(actual, expected);
   }

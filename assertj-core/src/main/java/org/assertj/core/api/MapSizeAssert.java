@@ -19,12 +19,29 @@ import java.util.Map;
 
 import org.assertj.core.annotation.CheckReturnValue;
 
+/**
+ * Assertions for the size of a map.
+ *
+ * @param <KEY> the map key type
+ * @param <VALUE> the map value type
+ */
 public class MapSizeAssert<KEY, VALUE> extends AbstractMapSizeAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> {
 
+  /**
+   * Creates a map size assertion.
+   *
+   * @param originAssert the origin map assertion
+   */
   public MapSizeAssert(AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> originAssert) {
     super(originAssert);
   }
 
+  /**
+   * Creates a map size assertion with a known size.
+   *
+   * @param originAssert the origin map assertion
+   * @param size the known map size
+   */
   protected MapSizeAssert(AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> originAssert,
                           @SuppressWarnings("unused") Integer size) {
     super(originAssert, size);

@@ -40,6 +40,12 @@ public class ShouldNotExist extends BasicErrorMessageFactory {
     return new ShouldNotExist(actual);
   }
 
+  /**
+   * Creates an error for a path expected not to exist.
+   *
+   * @param actual the actual path
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldNotExist(final Path actual) {
     return new ShouldNotExist(actual);
   }

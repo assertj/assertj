@@ -111,13 +111,13 @@ class AbstractAssert_extracting_with_String_and_AssertFactory_Test implements Na
   }
 
   @Test
-  void should_throw_assertion_error_if_actual_is_null() {
+  void should_throw_an_AssertionError_with_contextual_description_if_actual_is_null() {
     // GIVEN
     TestAssert underTest = new TestAssert(null);
     // WHEN
     var assertionError = expectAssertionError(() -> underTest.extracting("age", Assertions::assertThat));
     // THEN
-    then(assertionError).hasMessage(actualIsNull());
+    then(assertionError).hasMessageContainingAll("[Extracted: age]", actualIsNull());
   }
 
   @Override

@@ -25,6 +25,12 @@ public class ShouldBeCanonicalPath extends BasicErrorMessageFactory {
 
   private static final String SHOULD_BE_CANONICAL = "%nExpecting actual:%n  %s%nto be a canonical path";
 
+  /**
+   * Creates an error for a path expected to be canonical.
+   *
+   * @param actual the actual path
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeCanonicalPath(final Path actual) {
     return new ShouldBeCanonicalPath(actual);
   }

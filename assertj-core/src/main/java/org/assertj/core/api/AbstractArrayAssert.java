@@ -30,6 +30,12 @@ public abstract class AbstractArrayAssert<SELF extends AbstractArrayAssert<SELF,
     extends AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>
     implements ArraySortedAssert<AbstractArrayAssert<SELF, ACTUAL, ELEMENT>, ELEMENT> {
 
+  /**
+   * Creates a new array assertion.
+   *
+   * @param actual the actual array to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractArrayAssert(final ACTUAL actual, final Class<?> selfType) {
     super(actual, selfType);
   }

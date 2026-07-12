@@ -29,6 +29,12 @@ public class ShouldBeNormalized extends BasicErrorMessageFactory {
     super(SHOULD_BE_NORMALIZED, actual);
   }
 
+  /**
+   * Creates an error for a path expected to be normalized.
+   *
+   * @param actual the actual path
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeNormalized(Path actual) {
     return new ShouldBeNormalized(actual);
   }

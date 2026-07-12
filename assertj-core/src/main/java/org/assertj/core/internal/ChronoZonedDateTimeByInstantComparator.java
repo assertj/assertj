@@ -17,10 +17,18 @@ package org.assertj.core.internal;
 
 import java.time.chrono.ChronoZonedDateTime;
 
+/**
+ * Compares chronological zoned date-time values by instant.
+ */
 public class ChronoZonedDateTimeByInstantComparator extends DescribableComparator<ChronoZonedDateTime<?>> {
 
   private static final ChronoZonedDateTimeByInstantComparator INSTANCE = new ChronoZonedDateTimeByInstantComparator();
 
+  /**
+   * Returns the shared comparator instance.
+   *
+   * @return the comparator instance
+   */
   public static ChronoZonedDateTimeByInstantComparator getInstance() {
     return INSTANCE;
   }

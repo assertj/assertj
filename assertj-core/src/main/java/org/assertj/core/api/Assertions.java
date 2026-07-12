@@ -33,6 +33,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -1736,7 +1737,6 @@ public class Assertions implements InstanceOfAssertFactories {
    * but had not been.
    * <p>
    * {@link Assertions#shouldHaveThrown(Class)} can be used as a replacement.
-   * <p>
    * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> failBecauseExceptionWasNotThrown(IOException.class)));}.
@@ -2981,40 +2981,6 @@ public class Assertions implements InstanceOfAssertFactories {
   // --------------------------------------------------------------------------------------------------
 
   /**
-   * Instead of using default strict date/time parsing, it is possible to use lenient parsing mode for default date
-   * formats parser to interpret inputs that do not precisely match supported date formats (lenient parsing).
-   * <p>
-   * With strict parsing, inputs must match exactly date/time format.
-   *
-   * <p>
-   * Example:
-   * <pre><code class='java'> Date date = Dates.parse("2001-02-03");
-   * final Date dateTime = parseDatetime("2001-02-03T04:05:06");
-   * final Date dateTimeWithMs = parseDatetimeWithMs("2001-02-03T04:05:06.700");
-   *
-   * Assertions.setLenientDateParsing(true);
-   *
-   * // assertions will pass
-   * assertThat(date).isEqualTo("2001-01-34");
-   * assertThat(date).isEqualTo("2001-02-02T24:00:00");
-   * assertThat(date).isEqualTo("2001-02-04T-24:00:00.000");
-   * assertThat(dateTime).isEqualTo("2001-02-03T04:05:05.1000");
-   * assertThat(dateTime).isEqualTo("2001-02-03T04:04:66");
-   * assertThat(dateTimeWithMs).isEqualTo("2001-02-03T04:05:07.-300");
-   *
-   * // assertions will fail
-   * assertThat(date).hasSameTimeAs("2001-02-04"); // different date
-   * assertThat(dateTime).hasSameTimeAs("2001-02-03 04:05:06"); // leniency does not help here</code></pre>
-   *
-   * To revert to default strict date parsing, call {@code setLenientDateParsing(false)}.
-   *
-   * @param value whether lenient parsing mode should be enabled or not
-   */
-  public static void setLenientDateParsing(boolean value) {
-    AbstractDateAssert.setLenientDateParsing(value);
-  }
-
-  /**
    * Add the given date format to the ones used to parse date String in String based Date assertions like
    * {@link org.assertj.core.api.AbstractDateAssert#isEqualTo(String)}.
    * <p>
@@ -3115,19 +3081,21 @@ public class Assertions implements InstanceOfAssertFactories {
    * <p>
    * Defaults date format are:
    * <ul>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSSX</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link java.sql.Timestamp} String representation support)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME ISO_OFFSET_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE_TIME ISO_LOCAL_DATE_TIME}</li>
+   * <li>{@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE ISO_LOCAL_DATE}</li>
+   * <li>{@link Timestamp} format as supported by {@link Timestamp#valueOf(String)}</li>
    * </ul>
    * <p>
    * Example of valid string date representations:
    * <ul>
+   * <li><code>2003-04-26T03:01:02.000000001Z</code> (nanos precision)</li>
+   * <li><code>2003-04-26T03:01:02.758+02:00</code></li>
    * <li><code>2003-04-26T03:01:02.999</code></li>
    * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26T03:01:02+05:00</code></li>
+   * <li><code>2003-04-26T03:01:02</code></li>
+   * <li><code>2003-04-26 03:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
    */

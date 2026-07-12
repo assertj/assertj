@@ -33,10 +33,20 @@ import java.util.concurrent.atomic.AtomicLongArray;
  */
 public class LongArrayAssert extends AbstractLongArrayAssert<LongArrayAssert> {
 
+  /**
+   * Creates a new long array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public LongArrayAssert(long[] actual) {
     super(actual, LongArrayAssert.class);
   }
 
+  /**
+   * Creates a new atomic long array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public LongArrayAssert(AtomicLongArray actual) {
     this(array(actual));
   }

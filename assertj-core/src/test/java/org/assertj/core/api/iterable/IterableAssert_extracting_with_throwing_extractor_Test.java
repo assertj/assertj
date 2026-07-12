@@ -74,9 +74,9 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
     // GIVEN
     jedis = null;
     // WHEN
-    var error = expectAssertionError(() -> assertThat(jedis).extracting(throwingFirstNameExtractor));
+    var assertionError = expectAssertionError(() -> assertThat(jedis).extracting(throwingFirstNameExtractor));
     // THEN
-    then(error).hasMessage(actualIsNull());
+    then(assertionError).hasMessageContainingAll("[extracting]", actualIsNull());
   }
 
   @Test
@@ -149,6 +149,28 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
     then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     then(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
+  }
+
+  @Test
+  void extracting_with_ThrowingExtractor_should_fail_when_actual_is_null() {
+    // GIVEN
+    jedis = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(jedis).extracting(throwingFirstNameExtractor).isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[extracting]", actualIsNull());
+  }
+
+  @Test
+  void extracting_with_ThrowingExtractors_should_fail_when_actual_is_null() {
+    // GIVEN
+    jedis = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(jedis).extracting(throwingFirstNameExtractor,
+                                                                                 throwingLastNameExtractor)
+                                                                     .isEmpty());
+    // THEN
+    then(assertionError).hasMessageContainingAll("[extracting]", actualIsNull());
   }
 
 }

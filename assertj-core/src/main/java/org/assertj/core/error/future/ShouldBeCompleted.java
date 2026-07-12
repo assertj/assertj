@@ -20,10 +20,17 @@ import java.util.concurrent.CompletableFuture;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for completable futures expected to be completed. */
 public class ShouldBeCompleted extends BasicErrorMessageFactory {
 
   private static final String SHOULD_BE_COMPLETED = "%nExpecting%n  <%s>%nto be completed.%n" + Warning.WARNING;
 
+  /**
+   * Creates an error for a future expected to be completed.
+   *
+   * @param actual the actual future
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeCompleted(CompletableFuture<?> actual) {
     return new ShouldBeCompleted(actual);
   }

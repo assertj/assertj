@@ -21,8 +21,10 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS;
 import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.List;
 import java.util.function.Function;
@@ -101,6 +103,16 @@ class ObjectAssert_extracting_with_Function_Array_Test implements NavigationMeth
     var nullPointerException = catchNullPointerException(() -> assertThat(luke).extracting(extractors));
     // THEN
     then(nullPointerException).hasMessage(shouldNotBeNull("extractors").create());
+  }
+
+  @Test
+  void should_throw_an_AssertionError_with_contextual_description_if_actual_is_null() {
+    // GIVEN
+    Employee nullEmployee = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(nullEmployee).extracting(FIRST_NAME, Employee::getName));
+    // THEN
+    then(assertionError).hasMessageContainingAll("[extracting]", actualIsNull());
   }
 
   @Test

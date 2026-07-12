@@ -33,6 +33,9 @@ import org.assertj.core.util.PathNaturalOrderComparator;
  */
 public class TypeComparators extends TypeHolder<Comparator<?>> {
 
+  /** Creates an empty type comparator holder. */
+  public TypeComparators() {}
+
   private static final double DOUBLE_COMPARATOR_PRECISION = 1e-15;
   private static final DoubleComparator DEFAULT_DOUBLE_COMPARATOR = new DoubleComparator(DOUBLE_COMPARATOR_PRECISION);
 
@@ -41,6 +44,11 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
 
   private static final Comparator<Path> DEFAULT_PATH_COMPARATOR = PathNaturalOrderComparator.INSTANCE;
 
+  /**
+   * Returns comparators for commonly used types.
+   *
+   * @return the default type comparators
+   */
   public static TypeComparators defaultTypeComparators() {
     TypeComparators comparatorByType = new TypeComparators();
     comparatorByType.registerComparator(Double.class, DEFAULT_DOUBLE_COMPARATOR);

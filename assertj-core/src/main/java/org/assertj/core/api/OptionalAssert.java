@@ -25,10 +25,21 @@ import java.util.Optional;
  */
 public class OptionalAssert<VALUE> extends AbstractOptionalAssert<OptionalAssert<VALUE>, VALUE> {
 
+  /**
+   * Creates a new optional assertion.
+   *
+   * @param actual the actual optional to verify
+   */
   protected OptionalAssert(Optional<VALUE> actual) {
     super(actual, OptionalAssert.class);
   }
 
+  /**
+   * Creates an optional assertion whose actual value is {@code null}.
+   *
+   * @param <VALUE> the optional value type
+   * @return a null optional assertion
+   */
   public static <VALUE> OptionalAssert<VALUE> nullOptionalAssert() {
     return new OptionalAssert<>(null);
   }

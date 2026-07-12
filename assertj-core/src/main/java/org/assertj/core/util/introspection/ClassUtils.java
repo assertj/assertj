@@ -26,7 +26,13 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
+/**
+ * Utility methods for working with classes.
+ */
 public class ClassUtils {
+
+  /** Creates a new class utility instance. */
+  public ClassUtils() {}
 
   /**
    * Lists primitive wrapper {@link Class}es.

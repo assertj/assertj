@@ -21,7 +21,11 @@ import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+/** Utility methods for creating streams. */
 public class Streams {
+
+  /** Creates a stream utility instance. */
+  public Streams() {}
 
   /**
    * Returns a sequential {@link Stream} of the contents of {@code iterable}, delegating to {@link
@@ -36,6 +40,13 @@ public class Streams {
         : StreamSupport.stream(iterable.spliterator(), false);
   }
 
+  /**
+   * Creates a sequential stream from an iterator.
+   *
+   * @param <T> the element type
+   * @param iterator the source iterator
+   * @return the stream
+   */
   public static <T> Stream<T> stream(Iterator<T> iterator) {
     return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, 0), false);
   }

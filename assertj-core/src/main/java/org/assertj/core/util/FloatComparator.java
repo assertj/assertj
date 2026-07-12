@@ -15,14 +15,25 @@
  */
 package org.assertj.core.util;
 
+/** Comparator considering floats equal within a configured precision. */
 public class FloatComparator extends NullSafeComparator<Float> {
 
   private float precision;
 
+  /**
+   * Creates a comparator with the given precision.
+   *
+   * @param epsilon the comparison precision
+   */
   public FloatComparator(float epsilon) {
     this.precision = epsilon;
   }
 
+  /**
+   * Returns the comparison precision.
+   *
+   * @return the comparison precision
+   */
   public float getEpsilon() {
     return precision;
   }

@@ -32,14 +32,29 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class BooleanAssert extends AbstractBooleanAssert<BooleanAssert> {
 
+  /**
+   * Creates a new boolean assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public BooleanAssert(Boolean actual) {
     super(actual, BooleanAssert.class);
   }
 
+  /**
+   * Creates a new assertion for an atomic boolean value.
+   *
+   * @param actual the actual atomic boolean
+   */
   public BooleanAssert(AtomicBoolean actual) {
     this(actual == null ? null : actual.get());
   }
 
+  /**
+   * Creates a boolean assertion used for null navigation.
+   *
+   * @return the null-navigation assertion
+   */
   public static BooleanAssert nullBooleanAssert() {
     return new BooleanAssert((Boolean) null);
   }

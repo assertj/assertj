@@ -20,10 +20,20 @@ import static org.assertj.core.util.Arrays.isArray;
 
 import java.util.Comparator;
 
+/**
+ * Comparison strategy applying a comparator to object array elements.
+ *
+ * @param <T> the element type
+ */
 public class ObjectArrayElementComparisonStrategy<T> extends StandardComparisonStrategy {
 
   private final Comparator<? super T> elementComparator;
 
+  /**
+   * Creates a strategy using the given element comparator.
+   *
+   * @param elementComparator the element comparator
+   */
   public ObjectArrayElementComparisonStrategy(Comparator<? super T> elementComparator) {
     this.elementComparator = elementComparator;
   }

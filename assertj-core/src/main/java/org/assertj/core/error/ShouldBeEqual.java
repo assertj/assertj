@@ -49,10 +49,15 @@ public class ShouldBeEqual {
   private static final String EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR = EXPECTED_BUT_WAS_MESSAGE + "%n%s";
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class,
                                                                                    Object.class);
+  /** The actual value. */
   protected final Object actual;
+  /** The expected value. */
   protected final Object expected;
+  /** Whether the values have matching class names from different packages. */
   protected final boolean haveSameClassNameInDifferentPackages;
+  /** Formatter used to build the failure message. */
   protected final MessageFormatter messageFormatter = MessageFormatter.instance();
+  /** Strategy used to compare the values. */
   protected final ComparisonStrategy comparisonStrategy;
   private final Representation representation;
   private ConstructorInvoker constructorInvoker = new ConstructorInvoker();
@@ -84,6 +89,14 @@ public class ShouldBeEqual {
     return new ShouldBeEqual(actual, expected, comparisonStrategy, representation);
   }
 
+  /**
+   * Creates an equality error factory.
+   *
+   * @param actual the actual value
+   * @param expected the expected value
+   * @param comparisonStrategy the comparison strategy
+   * @param representation the value representation
+   */
   protected ShouldBeEqual(Object actual, Object expected, ComparisonStrategy comparisonStrategy, Representation representation) {
     this.actual = actual;
     this.expected = expected;
@@ -126,6 +139,11 @@ public class ShouldBeEqual {
     return Failures.instance().failure(message);
   }
 
+  /**
+   * Checks whether actual and expected have the same string representation.
+   *
+   * @return whether both representations are equal
+   */
   protected boolean actualAndExpectedHaveSameStringRepresentation() {
     return Objects.equals(representation.toStringOf(actual), representation.toStringOf(expected));
   }
@@ -180,6 +198,12 @@ public class ShouldBeEqual {
                                                               comparisonStrategy.asText());
   }
 
+  /**
+   * Indents a multiline value representation.
+   *
+   * @param valueRepresentation the representation to indent
+   * @return the indented representation
+   */
   protected String indent(String valueRepresentation) {
     return "%n%s".formatted(valueRepresentation).replace(lineSeparator(), lineSeparator() + "  ");
   }
@@ -225,10 +249,20 @@ public class ShouldBeEqual {
     }
   }
 
+  /**
+   * Returns an unambiguous actual value representation.
+   *
+   * @return the detailed actual representation
+   */
   protected String detailedActual() {
     return representation.unambiguousToStringOf(actual, haveSameClassNameInDifferentPackages);
   }
 
+  /**
+   * Returns an unambiguous expected value representation.
+   *
+   * @return the detailed expected representation
+   */
   protected String detailedExpected() {
     return representation.unambiguousToStringOf(expected, haveSameClassNameInDifferentPackages);
   }

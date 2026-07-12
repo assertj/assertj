@@ -15,6 +15,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.asList;
 import static java.util.Arrays.copyOf;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
@@ -35,7 +36,6 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -79,6 +79,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Object[])}</code>.
  * </p>
  *
+ * @param <SELF>  the "self" type of this assertion class.
  * @param <ELEMENT> the type of elements of the "actual" value.
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -108,6 +109,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
   TypeComparators comparatorsForElementPropertyOrFieldTypes;
 
+  /**
+   * Creates a new object array assertion.
+   *
+   * @param actual the actual array to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractObjectArrayAssert(ELEMENT[] actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -342,7 +349,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF contains(ELEMENT... values) {
-    return executeAssertion(() -> arrays.assertContains(info, actual, values));
+    return executeAssertion(() -> assertContains(values));
+  }
+
+  /**
+   * Verifies that the actual array contains the given values.
+   *
+   * @param values the expected values
+   */
+  protected void assertContains(ELEMENT[] values) {
+    arrays.assertContains(info, actual, values);
   }
 
   /**
@@ -380,7 +396,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsOnly(ELEMENT... values) {
-    return executeAssertion(() -> arrays.assertContainsOnly(info, actual, values));
+    return executeAssertion(() -> assertContainsOnly(values));
+  }
+
+  /**
+   * Verifies that the actual array contains only the given values.
+   *
+   * @param values the expected values
+   */
+  protected void assertContainsOnly(ELEMENT[] values) {
+    arrays.assertContainsOnly(info, actual, values);
   }
 
   /**
@@ -459,7 +484,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsOnlyOnce(ELEMENT... values) {
-    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, actual, values));
+    return executeAssertion(() -> assertContainsOnlyOnce(values));
+  }
+
+  /**
+   * Verifies that the actual array contains each given value only once.
+   *
+   * @param values the values expected once
+   */
+  protected void assertContainsOnlyOnce(ELEMENT[] values) {
+    arrays.assertContainsOnlyOnce(info, actual, values);
   }
 
   /**
@@ -494,7 +528,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsExactly(ELEMENT... values) {
-    return executeAssertion(() -> arrays.assertContainsExactly(info, actual, values));
+    return executeAssertion(() -> assertContainsExactly(values));
+  }
+
+  /**
+   * Verifies that the actual array contains exactly the given values in order.
+   *
+   * @param values the expected values
+   */
+  protected void assertContainsExactly(ELEMENT[] values) {
+    arrays.assertContainsExactly(info, actual, values);
   }
 
   /**
@@ -521,7 +564,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsExactlyInAnyOrder(ELEMENT... values) {
-    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, values));
+    return executeAssertion(() -> assertContainsExactlyInAnyOrder(values));
+  }
+
+  /**
+   * Verifies that the actual array contains exactly the given values in any order.
+   *
+   * @param values the expected values
+   */
+  protected void assertContainsExactlyInAnyOrder(ELEMENT[] values) {
+    arrays.assertContainsExactlyInAnyOrder(info, actual, values);
   }
 
   /**
@@ -578,7 +630,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsSequence(ELEMENT... sequence) {
-    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, sequence));
+    return executeAssertion(() -> assertContainsSequence(sequence));
+  }
+
+  /**
+   * Verifies that the actual array contains the given sequence.
+   *
+   * @param sequence the expected sequence
+   */
+  protected void assertContainsSequence(ELEMENT[] sequence) {
+    arrays.assertContainsSequence(info, actual, sequence);
   }
 
   /**
@@ -607,7 +668,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF containsSequence(Iterable<? extends ELEMENT> sequence) {
     checkSequenceIsNotNull(sequence);
-    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, toArray(sequence)));
+    return containsSequence(toArray(sequence));
   }
 
   /**
@@ -635,7 +696,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF doesNotContainSequence(ELEMENT... sequence) {
-    return executeAssertion(() -> arrays.assertDoesNotContainSequence(info, actual, sequence));
+    return executeAssertion(() -> assertDoesNotContainSequence(sequence));
+  }
+
+  /**
+   * Verifies that the actual array does not contain the given sequence.
+   *
+   * @param sequence the sequence expected to be absent
+   */
+  protected void assertDoesNotContainSequence(ELEMENT[] sequence) {
+    arrays.assertDoesNotContainSequence(info, actual, sequence);
   }
 
   /**
@@ -663,7 +733,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF doesNotContainSequence(Iterable<? extends ELEMENT> sequence) {
     checkSequenceIsNotNull(sequence);
-    return executeAssertion(() -> arrays.assertDoesNotContainSequence(info, actual, toArray(sequence)));
+    return doesNotContainSequence(toArray(sequence));
   }
 
   /**
@@ -688,7 +758,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsSubsequence(ELEMENT... subsequence) {
-    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, subsequence));
+    return executeAssertion(() -> assertContainsSubsequence(subsequence));
+  }
+
+  /**
+   * Verifies that the actual array contains the given subsequence.
+   *
+   * @param subsequence the expected subsequence
+   */
+  protected void assertContainsSubsequence(ELEMENT[] subsequence) {
+    arrays.assertContainsSubsequence(info, actual, subsequence);
   }
 
   /**
@@ -713,7 +792,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF containsSubsequence(Iterable<? extends ELEMENT> subsequence) {
     checkSubsequenceIsNotNull(subsequence);
-    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, toArray(subsequence)));
+    return containsSubsequence(toArray(subsequence));
   }
 
   /**
@@ -739,7 +818,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF doesNotContainSubsequence(ELEMENT... subsequence) {
-    return executeAssertion(() -> arrays.assertDoesNotContainSubsequence(info, actual, subsequence));
+    return executeAssertion(() -> assertDoesNotContainSubsequence(subsequence));
+  }
+
+  /**
+   * Verifies that the actual array does not contain the given subsequence.
+   *
+   * @param subsequence the subsequence expected to be absent
+   */
+  protected void assertDoesNotContainSubsequence(ELEMENT[] subsequence) {
+    arrays.assertDoesNotContainSubsequence(info, actual, subsequence);
   }
 
   /**
@@ -765,7 +853,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF doesNotContainSubsequence(Iterable<? extends ELEMENT> subsequence) {
     checkSubsequenceIsNotNull(subsequence);
-    return executeAssertion(() -> arrays.assertDoesNotContainSubsequence(info, actual, toArray(subsequence)));
+    return doesNotContainSubsequence(toArray(subsequence));
   }
 
   /**
@@ -907,7 +995,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF doesNotContain(ELEMENT... values) {
-    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, values));
+    return executeAssertion(() -> assertDoesNotContain(values));
+  }
+
+  /**
+   * Verifies that the actual array does not contain the given values.
+   *
+   * @param values the values expected to be absent
+   */
+  protected void assertDoesNotContain(ELEMENT[] values) {
+    arrays.assertDoesNotContain(info, actual, values);
   }
 
   /**
@@ -981,7 +1078,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF startsWith(ELEMENT... sequence) {
-    return executeAssertion(() -> arrays.assertStartsWith(info, actual, sequence));
+    return executeAssertion(() -> assertStartsWith(sequence));
+  }
+
+  /**
+   * Verifies that the actual array starts with the given sequence.
+   *
+   * @param sequence the expected starting sequence
+   */
+  protected void assertStartsWith(ELEMENT[] sequence) {
+    arrays.assertStartsWith(info, actual, sequence);
   }
 
   /**
@@ -1034,7 +1140,17 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF endsWith(ELEMENT first, ELEMENT... sequence) {
-    return executeAssertion(() -> arrays.assertEndsWith(info, actual, first, sequence));
+    return executeAssertion(() -> assertEndsWith(first, sequence));
+  }
+
+  /**
+   * Verifies that the actual array ends with the given elements.
+   *
+   * @param first the first expected ending element
+   * @param sequence the remaining expected ending elements
+   */
+  protected void assertEndsWith(ELEMENT first, ELEMENT[] sequence) {
+    arrays.assertEndsWith(info, actual, first, sequence);
   }
 
   /**
@@ -1058,7 +1174,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF isSubsetOf(Iterable<? extends ELEMENT> values) {
-    return executeAssertion(() -> arrays.assertIsSubsetOf(info, actual, values));
+    return isSubsetOf(toArray(values));
   }
 
   /**
@@ -1083,7 +1199,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF isSubsetOf(ELEMENT... values) {
-    return executeAssertion(() -> arrays.assertIsSubsetOf(info, actual, Arrays.asList(values)));
+    return executeAssertion(() -> assertIsSubsetOf(values));
+  }
+
+  /**
+   * Verifies that the actual array is a subset of the given values.
+   *
+   * @param values the values that may be present
+   */
+  protected void assertIsSubsetOf(ELEMENT[] values) {
+    arrays.assertIsSubsetOf(info, actual, asList(values));
   }
 
   /**
@@ -1714,9 +1839,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(array(derrickRose)).usingRecursiveFieldByFieldElementComparator(configuration)
    *                               .contains(jalenRose);</code></pre>
    * The recursive comparison is documented here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   * <p>
-   *
-   * @param fields the field names to exclude in the elements comparison.
+   * @param fields the field names to exclude in the element's comparison.
    * @return {@code this} assertion object.
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
@@ -1764,9 +1887,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(array(derrickRose)).usingRecursiveFieldByFieldElementComparator(configuration)
    *                               .contains(jalenRose);</code></pre>
    * The recursive comparison is documented here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   * <p>
-   *
-   * @param fields the field names to exclude in the elements comparison.
+   * @param fields the field names to exclude in the element's comparison.
    * @return {@code this} assertion object.
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
@@ -1825,9 +1946,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(String fieldOrProperty) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
-      Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
       String extractedDescription = extractedDescriptionOf(fieldOrProperty);
+      isNotNull(extractedDescription);
+      Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
       String description = mostRelevantDescription(info.description(), extractedDescription);
       return newListAssertInstance(newArrayList(values)).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);
@@ -1881,10 +2002,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extracting(String fieldOrProperty,
                                                                                      Class<P> extractingType) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
-      @SuppressWarnings("unchecked")
-      List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(fieldOrProperty));
       String extractedDescription = extractedDescriptionOf(fieldOrProperty);
+      isNotNull(extractedDescription);
+      @SuppressWarnings("unchecked")
+      List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(asList(actual), byName(fieldOrProperty));
       String description = mostRelevantDescription(info.description(), extractedDescription);
       return newListAssertInstance(values).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);
@@ -1942,9 +2063,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(String... propertiesOrFields) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
-      List<Tuple> values = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(propertiesOrFields));
       String extractedDescription = extractedDescriptionOf(propertiesOrFields);
+      isNotNull(extractedDescription);
+      List<Tuple> values = FieldsOrPropertiesExtractor.extract(asList(actual), byName(propertiesOrFields));
       String description = mostRelevantDescription(info.description(), extractedDescription);
       return newListAssertInstance(values).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);
@@ -1984,8 +2105,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public <U> AbstractListAssert<?, List<? extends U>, U, ObjectAssert<U>> extracting(Function<? super ELEMENT, U> extractor) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
-      List<U> values = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor);
+      isNotNull("extracting");
+      List<U> values = FieldsOrPropertiesExtractor.extract(asList(actual), extractor);
       return newListAssertInstance(values).withAssertionState(myself);
     }, ListAssert::nullListAssert);
   }
@@ -2030,11 +2151,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
-    return executeAssertionNavigation(() -> {
-      isNotNull();
-      List<V> values = FieldsOrPropertiesExtractor.extract(newArrayList(actual), extractor);
-      return newListAssertInstance(values).withAssertionState(myself);
-    }, ListAssert::nullListAssert);
+    return extracting((Function<? super ELEMENT, V>) extractor);
   }
 
   /**
@@ -2088,14 +2205,22 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   @SafeVarargs
   public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(Function<? super ELEMENT, ?>... extractors) {
-    return executeAssertionNavigation(() -> {
-      isNotNull();
-      Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
-                                                                                            .map(extractor -> extractor.apply(objectToExtractValueFrom))
-                                                                                            .toArray());
-      List<Tuple> tuples = stream(actual).map(tupleExtractor).collect(toList());
-      return newListAssertInstance(tuples).withAssertionState(myself);
-    }, ListAssert::nullListAssert);
+    return executeAssertionNavigation(() -> doExtracting(extractors), ListAssert::nullListAssert);
+  }
+
+  /**
+   * Applies the given extractors to each array element.
+   *
+   * @param extractors the extractors to apply
+   * @return assertions on tuples of extracted values
+   */
+  protected AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> doExtracting(Function<? super ELEMENT, ?>[] extractors) {
+    isNotNull("extracting");
+    Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
+                                                                                          .map(extractor -> extractor.apply(objectToExtractValueFrom))
+                                                                                          .toArray());
+    List<Tuple> tuples = stream(actual).map(tupleExtractor).collect(toList());
+    return newListAssertInstance(tuples).withAssertionState(myself);
   }
 
   /**
@@ -2131,8 +2256,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(Function<? super ELEMENT, C> extractor) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
-      List<V> result = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor).stream()
+      isNotNull("flatExtracting");
+      List<V> result = FieldsOrPropertiesExtractor.extract(asList(actual), extractor).stream()
                                                   .flatMap(Collection::stream).collect(toList());
       return newListAssertInstance(result).withAssertionState(myself);
     }, ListAssert::nullListAssert);
@@ -2212,9 +2337,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(String propertyName) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      isNotNull("flatExtracting: " + propertyName);
       List<Object> extractedValues = newArrayList();
-      List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(propertyName));
+      List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(asList(actual), byName(propertyName));
       for (Object group : extractedGroups) {
         // expecting group to be an iterable or an array
         if (isArray(group)) {
@@ -2273,13 +2398,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingResultOf(String method) {
-    return executeAssertionNavigation(() -> {
-      isNotNull();
-      Object[] values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-      String extractedDescription = extractedDescriptionOfMethod(method);
-      String description = mostRelevantDescription(info.description(), extractedDescription);
-      return newListAssertInstance(newArrayList(values)).withAssertionState(myself).as(description);
-    }, ListAssert::nullListAssert);
+    return extractingResultOf(method, Object.class);
   }
 
   /**
@@ -2325,10 +2444,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extractingResultOf(String method,
                                                                                              Class<P> extractingType) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      String extractedDescription = extractedDescriptionOfMethod(method);
+      isNotNull(extractedDescription);
       @SuppressWarnings("unchecked")
       P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-      String extractedDescription = extractedDescriptionOfMethod(method);
       String description = mostRelevantDescription(info.description(), extractedDescription);
       return newListAssertInstance(newArrayList(values)).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);
@@ -2382,9 +2501,11 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * globally disabled by calling {@link Assertions#setAllowExtractingPrivateFields(boolean)
    * Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
+   * <p>
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
-   * <p>
    * <p>
    * As an example, let's check all employees 800 years old (yes, special employees):
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
@@ -2445,6 +2566,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * globally disabled by calling {@link Assertions#setAllowExtractingPrivateFields(boolean)
    * Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
+   * <p>
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
    * <p>
@@ -2495,6 +2619,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * no such property exists it tries to read the value from a field. Reading private fields is supported by default,
    * this can be globally disabled by calling {@link Assertions#setAllowExtractingPrivateFields(boolean)
    * Assertions.setAllowExtractingPrivateFields(false)}.
+   * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
    * <p>
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
@@ -2713,6 +2840,13 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // assertion will fail
    * assertThat(abcc).allMatch(s -&gt; s.length() == 1);</code></pre>
    * <p>
+   * This assertion fails if given an empty array as the predicate would never be evaluated, this is to avoid
+   * confusing behavior as in the example below:
+   * <pre><code class='java'> String[] emptyArray = new String[0];
+   * // assertion fails, it would be confusing if it succeeded as it actually does not perform any check.
+   * assertThat(emptyArray).allMatch(s -&gt; s.contains(“error”))
+   *                       .allMatch(s -&gt; s.doesNotContain(“error”));</code></pre>
+   * <p>
    * Note that you can achieve the same result with {@link #are(Condition) are(Condition)} or {@link #have(Condition) have(Condition)}.
    *
    * @param predicate the given {@link Predicate}.
@@ -2767,7 +2901,11 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // assertion fails as XYZ.txt does not start with 'A':
    * assertThat(readers).allSatisfy(startsWithA);</code></pre>
    * <p>
-   * If the actual array is empty, this assertion succeeds as there is nothing to check.
+   * This assertion fails if given an empty array as the requirements would never be evaluated, this is to avoid
+   * confusing behavior as in the example below:
+   * <pre><code class='java'> String[] emptyArray = new String[0];
+   * // assertion fails, it would be confusing if it succeeded as it actually does not perform any check.
+   * assertThat(emptyArray).allSatisfy(s -&gt; assertThat(s).contains(“error”).doesNotContain(“error”));</code></pre>
    *
    * @param requirements the given {@link ThrowingConsumer}.
    * @return {@code this} object.
@@ -3006,7 +3144,18 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF satisfiesExactly(Consumer<? super ELEMENT>... requirements) {
-    return executeAssertion(() -> iterables.assertSatisfiesExactly(info, List.of(actual), requirements));
+    return executeAssertion(() -> assertSatisfiesExactly(requirements));
+  }
+
+  /**
+   * Verifies that elements satisfy the given requirements in order.
+   *
+   * @param requirements the requirements to satisfy
+   * @return this assertion object
+   */
+  protected SELF assertSatisfiesExactly(Consumer<? super ELEMENT>[] requirements) {
+    iterables.assertSatisfiesExactly(info, newArrayList(actual), requirements);
+    return myself;
   }
 
   /**
@@ -3114,7 +3263,18 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF satisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>... requirements) {
-    return executeAssertion(() -> iterables.assertSatisfiesExactlyInAnyOrder(info, List.of(actual), requirements));
+    return executeAssertion(() -> assertSatisfiesExactlyInAnyOrder(requirements));
+  }
+
+  /**
+   * Verifies that elements satisfy the given requirements in any order.
+   *
+   * @param requirements the requirements to satisfy
+   * @return this assertion object
+   */
+  protected SELF assertSatisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>[] requirements) {
+    iterables.assertSatisfiesExactlyInAnyOrder(info, List.of(actual), requirements);
+    return myself;
   }
 
   /**
@@ -3199,7 +3359,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF satisfiesOnlyOnce(Consumer<? super ELEMENT> requirements) {
-    return executeAssertion(() -> iterables.assertSatisfiesOnlyOnce(info, List.of(actual), requirements));
+    return executeAssertion(() -> iterables.assertSatisfiesOnlyOnce(info, newArrayList(actual), requirements));
   }
 
   /**
@@ -3259,6 +3419,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsAnyOf(ELEMENT... values) {
+    return assertContainsAnyOf(values);
+  }
+
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   *
+   * @param values the values of which at least one is expected
+   * @return this assertion object
+   */
+  protected SELF assertContainsAnyOf(ELEMENT[] values) {
     return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, values));
   }
 
@@ -3430,7 +3600,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @Beta
   public RecursiveComparisonAssert<?> usingRecursiveComparison() {
-    // overridden for javadoc and to make this method public
+    // overridden for Javadoc and to make this method public
     return super.usingRecursiveComparison();
   }
 
@@ -3457,13 +3627,13 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * {@link java.util.function.Predicate} applied to them (including primitive fields), no fields are excluded, but:
    * <ul>
    *   <li>The recursion does not enter into Java Class Library types (java.*, javax.*)</li>
-   *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Collection} and array elements (but not the collection/array itself)</li>
+   *   <li>The {@link java.util.function.Predicate} is applied to {@link Iterable} and array elements (but not the iterable/array itself)</li>
    *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Map} values but not the map itself or its keys</li>
    *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Optional} and primitive optional values</li>
    * </ul>
-   * <p>You can change how the recursive assertion deals with arrays, collections, maps and optionals, see:</p>
+   * <p>You can change how the recursive assertion deals with arrays, iterables, maps and optionals, see:</p>
    * <ul>
-   *   <li>{@link RecursiveAssertionAssert#withCollectionAssertionPolicy(RecursiveAssertionConfiguration.CollectionAssertionPolicy)} for collections and arrays</li>
+   *   <li>{@link RecursiveAssertionAssert#withIterableAssertionPolicy(RecursiveAssertionConfiguration.IterableAssertionPolicy)} for iterables and arrays</li>
    *   <li>{@link RecursiveAssertionAssert#withMapAssertionPolicy(RecursiveAssertionConfiguration.MapAssertionPolicy)} for maps</li>
    *   <li>{@link RecursiveAssertionAssert#withOptionalAssertionPolicy(RecursiveAssertionConfiguration.OptionalAssertionPolicy)} for optionals</li>
    * </ul>
@@ -3532,7 +3702,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *   <li>Exclusion of fields by type</li>
    *   <li>Exclusion of primitive fields</li>
    *   <li>Inclusion of Java Class Library types in the recursive execution</li>
-   *   <li>Treatment of {@link java.util.Collection} and array objects</li>
+   *   <li>Treatment of {@link Iterable} and array objects</li>
    *   <li>Treatment of {@link java.util.Map} objects</li>
    *   <li>Treatment of Optional and primitive Optional objects</li>
    * </ul>
@@ -3631,6 +3801,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return toAssert(actual[0], navigationDescription("check single element"));
   }
 
+  /**
+   * Builds the description used for a navigation assertion.
+   *
+   * @param propertyName the navigated property name
+   * @return the navigation description
+   */
   protected String navigationDescription(String propertyName) {
     String text = descriptionText();
     if (Strings.isNullOrEmpty(text)) {
@@ -3648,12 +3824,22 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   // lazy init TypeComparators
+  /**
+   * Returns the comparators registered by element type.
+   *
+   * @return the registered comparators
+   */
   protected TypeComparators getComparatorsByType() {
     if (comparatorsByType == null) comparatorsByType = defaultTypeComparators();
     return comparatorsByType;
   }
 
   // lazy init TypeComparators
+  /**
+   * Returns the comparators registered by element property or field type.
+   *
+   * @return the registered comparators
+   */
   protected TypeComparators getComparatorsForElementPropertyOrFieldTypes() {
     if (comparatorsForElementPropertyOrFieldTypes == null)
       comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
@@ -3699,6 +3885,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   // to implement to return the correct AbstractObjectArrayAssert subtype
+  /**
+   * Creates an assertion for the given array.
+   *
+   * @param array the array to assert on
+   * @return the new array assertion
+   */
   protected abstract SELF newObjectArrayAssert(ELEMENT[] array);
 
   /**

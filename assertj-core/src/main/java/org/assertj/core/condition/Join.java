@@ -38,7 +38,9 @@ import org.assertj.core.util.Streams;
  */
 public abstract class Join<T> extends Condition<T> {
 
+  /** Delimiter ending the joined condition description. */
   protected static final String SUFFIX_DELIMITER = "]";
+  /** Delimiter starting the joined condition description. */
   protected static final String PREFIX_DELIMITER = ":[";
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting

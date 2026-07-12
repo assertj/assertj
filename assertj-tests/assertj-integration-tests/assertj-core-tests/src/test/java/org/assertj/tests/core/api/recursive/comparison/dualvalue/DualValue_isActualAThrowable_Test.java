@@ -16,26 +16,22 @@
 package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class DualValue_isActualAThrowable_Test {
 
-  private static final List<String> PATH = list("foo", "bar");
-
   @ParameterizedTest
   @MethodSource
   void isActualAThrowable_should_return_true_when_actual_is_a_throwable(Throwable actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, "unused");
+    var dualValue = dualValue(actual, "unused");
     // WHEN
     boolean isActualAThrowable = dualValue.isActualAThrowable();
     // THEN
@@ -50,7 +46,7 @@ class DualValue_isActualAThrowable_Test {
   @Test
   void isActualAThrowable_should_return_false_when_actual_is_not_a_throwable() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), "unused");
+    var dualValue = dualValue(Pair.of(1, "a"), "unused");
     // WHEN
     boolean isActualAThrowable = dualValue.isActualAThrowable();
     // THEN
@@ -60,7 +56,7 @@ class DualValue_isActualAThrowable_Test {
   @Test
   void isActualAThrowable_should_return_false_when_actual_is_null() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, null, "unused");
+    var dualValue = dualValue(null, "unused");
     // WHEN
     boolean isActualAThrowable = dualValue.isActualAThrowable();
     // THEN

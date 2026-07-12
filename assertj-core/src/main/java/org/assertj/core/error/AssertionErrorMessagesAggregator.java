@@ -18,10 +18,21 @@ package org.assertj.core.error;
 import java.util.List;
 
 /**
+ * Aggregates multiple assertion error messages into a single formatted message.
+ *
  * @since 3.17.0
  */
 public class AssertionErrorMessagesAggregator {
 
+  /** Creates a new assertion error messages aggregator. */
+  public AssertionErrorMessagesAggregator() {}
+
+  /**
+   * Aggregates the given error messages.
+   *
+   * @param errors the error messages
+   * @return the aggregate message
+   */
   public static String aggregateErrorMessages(List<String> errors) {
     StringBuilder msg = new StringBuilder("%nThe following ");
     countAssertions(errors, msg);

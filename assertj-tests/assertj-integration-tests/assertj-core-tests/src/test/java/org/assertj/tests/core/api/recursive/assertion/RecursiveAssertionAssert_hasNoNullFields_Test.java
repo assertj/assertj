@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenNoException;
-import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_AND_ELEMENTS;
+import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.IterableAssertionPolicy.ITERABLE_OBJECT_AND_ELEMENTS;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_OBJECT_AND_ENTRIES;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.OptionalAssertionPolicy.OPTIONAL_OBJECT_AND_VALUE;
 import static org.assertj.core.util.Arrays.array;
@@ -118,7 +118,7 @@ class RecursiveAssertionAssert_hasNoNullFields_Test {
     Object testObject = new OuterWithArray();
     // WHEN
     var error = expectAssertionError(() -> assertThat(testObject).usingRecursiveAssertion()
-                                                                 .withCollectionAssertionPolicy(COLLECTION_OBJECT_AND_ELEMENTS)
+                                                                 .withIterableAssertionPolicy(ITERABLE_OBJECT_AND_ELEMENTS)
                                                                  .hasNoNullFields());
     // THEN
     then(error).hasMessageContainingAll("arrayOuter", "inner.array");
@@ -141,7 +141,7 @@ class RecursiveAssertionAssert_hasNoNullFields_Test {
     Object testObject = new OuterWithCollection();
     // WHEN
     var error = expectAssertionError(() -> assertThat(testObject).usingRecursiveAssertion()
-                                                                 .withCollectionAssertionPolicy(COLLECTION_OBJECT_AND_ELEMENTS)
+                                                                 .withIterableAssertionPolicy(ITERABLE_OBJECT_AND_ELEMENTS)
                                                                  .hasNoNullFields());
     // THEN
     then(error).hasMessageContainingAll("collectionOuter", "inner.collection");

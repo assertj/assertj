@@ -28,17 +28,29 @@ import org.assertj.core.description.Description;
  *           .withMessage("boom! %s", "tcha!"); </code></pre>
  * This class is linked with the {@link ThrowableTypeAssert} and allow to check that an exception
  * type is thrown by a lambda.
+ *
+ * @param <ACTUAL> the actual throwable type
  */
 public class ThrowableAssertAlternative<ACTUAL extends Throwable>
     extends AbstractObjectAssert<ThrowableAssertAlternative<ACTUAL>, ACTUAL> {
 
   private final ThrowableAssert<ACTUAL> delegate;
 
+  /**
+   * Creates an alternative throwable assertion.
+   *
+   * @param actual the actual throwable
+   */
   public ThrowableAssertAlternative(final ACTUAL actual) {
     super(actual, ThrowableAssertAlternative.class);
     delegate = new ThrowableAssert<>(actual);
   }
 
+  /**
+   * Returns the delegate throwable assertion.
+   *
+   * @return the delegate assertion
+   */
   protected ThrowableAssert<ACTUAL> getDelegate() {
     return delegate;
   }

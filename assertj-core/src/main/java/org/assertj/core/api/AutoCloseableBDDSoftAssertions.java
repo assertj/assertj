@@ -140,4 +140,7 @@ package org.assertj.core.api;
  * @see <a href="https://www.beust.com/weblog/reinventing-assertions/">Reinventing Assertions (inspired this feature)</a>
  */
 public class AutoCloseableBDDSoftAssertions extends BDDSoftAssertions implements AutoCloseableSoftAssertionsProvider {
+
+  /** Creates a new auto-closeable BDD soft assertions instance. */
+  public AutoCloseableBDDSoftAssertions() {}
 }

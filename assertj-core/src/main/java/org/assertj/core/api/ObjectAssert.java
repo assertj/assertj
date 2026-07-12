@@ -29,10 +29,21 @@ package org.assertj.core.api;
  */
 public class ObjectAssert<ACTUAL> extends AbstractObjectAssert<ObjectAssert<ACTUAL>, ACTUAL> {
 
+  /**
+   * Creates a new object assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public ObjectAssert(ACTUAL actual) {
     super(actual, ObjectAssert.class);
   }
 
+  /**
+   * Creates an object assertion whose actual value is {@code null}.
+   *
+   * @param <ACTUAL> the actual value type
+   * @return a null object assertion
+   */
   public static <ACTUAL> ObjectAssert<ACTUAL> nullObjectAssert() {
     return new ObjectAssert<>(null);
   }

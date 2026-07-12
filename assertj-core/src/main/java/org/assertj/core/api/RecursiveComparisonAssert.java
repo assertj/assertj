@@ -36,12 +36,23 @@ import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.DualClass;
 import org.assertj.core.util.introspection.IntrospectionError;
 
+/**
+ * Assertions comparing object graphs recursively.
+ *
+ * @param <SELF> the assertion self type
+ */
 public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SELF>>
     extends AbstractAssertWithComparator<SELF, Object> {
 
   private final RecursiveComparisonConfiguration recursiveComparisonConfiguration;
   private final RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator;
 
+  /**
+   * Creates a recursive comparison assertion.
+   *
+   * @param actual the actual object graph
+   * @param recursiveComparisonConfiguration the comparison configuration
+   */
   public RecursiveComparisonAssert(Object actual, RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     super(actual, RecursiveComparisonAssert.class);
     this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
@@ -228,7 +239,6 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * This assertion always fails if the given array of values is empty.
    * <p>
    * <strong>Example</strong>
-   * <p>
    * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
@@ -280,7 +290,6 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * <p>
    * This assertion always fails if the given iterable is empty.
    * <strong>Example</strong>
-   * <p>
    * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
@@ -333,7 +342,6 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * This assertion always succeeds if the given array of values is empty.
    * <p>
    * <strong>Example</strong>
-   * <p>
    * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
@@ -386,7 +394,6 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * This assertion always succeeds if the given iterable is empty.
    * <p>
    * <strong>Example</strong>
-   * <p>
    * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
@@ -1996,6 +2003,8 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *     this.color = value;
    *   }
    * }</code></pre>
+   *
+   * @return this assertion object
    */
   @CheckReturnValue
   public SELF withEnumStringComparison() {

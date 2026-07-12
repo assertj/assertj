@@ -19,7 +19,6 @@ import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.assertj.core.util.Streams.stream;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -51,6 +50,11 @@ public class HashSetAssert<ELEMENT>
 
   private final Iterables originalIterables;
 
+  /**
+   * Creates a new hash set assertion.
+   *
+   * @param elements the actual elements to verify
+   */
   public HashSetAssert(HashSet<? extends ELEMENT> elements) {
     super(elements, HashSetAssert.class);
     originalIterables = iterables;
@@ -78,17 +82,9 @@ public class HashSetAssert<ELEMENT>
     return new HashSetAssert<>(setPreservingTheOrder);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
-  public HashSetAssert<ELEMENT> isSubsetOf(Iterable<? extends ELEMENT> values) {
-    return executeAssertion(() -> originalIterables.assertIsSubsetOf(info, actual, values));
-  }
-
-  @Override
-  protected HashSetAssert<ELEMENT> internalIsSubsetOf(ELEMENT[] values) {
-    return executeAssertion(() -> originalIterables.assertIsSubsetOf(info, actual, Arrays.asList(values)));
+  protected void assertIsSubsetOf(Iterable<? extends ELEMENT> values) {
+    originalIterables.assertIsSubsetOf(info, actual, values);
   }
 
   private static class InHashSetComparisonStrategy extends StandardComparisonStrategy {

@@ -28,6 +28,11 @@ import java.util.concurrent.Future;
  */
 public class FutureAssert<RESULT> extends AbstractFutureAssert<FutureAssert<RESULT>, Future<RESULT>, RESULT> {
 
+  /**
+   * Creates a new future assertion.
+   *
+   * @param actual the actual future to verify
+   */
   protected FutureAssert(Future<RESULT> actual) {
     super(actual, FutureAssert.class);
   }

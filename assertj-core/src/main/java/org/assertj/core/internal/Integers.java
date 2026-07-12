@@ -44,6 +44,11 @@ public class Integers extends Numbers<Integer> implements WholeNumbers<Integer> 
     super();
   }
 
+  /**
+   * Creates integer assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy
+   */
   public Integers(ComparisonStrategy comparisonStrategy) {
     super(comparisonStrategy);
   }

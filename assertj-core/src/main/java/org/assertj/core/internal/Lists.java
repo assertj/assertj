@@ -69,11 +69,21 @@ public class Lists {
     this(StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates list assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy
+   */
   public Lists(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns the comparator used by the comparison strategy.
+   *
+   * @return the configured comparator
+   */
   public Comparator<?> getComparator() {
     return comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy ? strategy.getComparator() : null;
   }
@@ -242,6 +252,15 @@ public class Lists {
     throw failures.failure(info, shouldBeAtIndex(actual, condition, index, actual.get(index.value)));
   }
 
+  /**
+   * Verifies that the element at the given index satisfies the requirements.
+   *
+   * @param <T> the element type
+   * @param info assertion information
+   * @param actual the actual list
+   * @param requirements the element requirements
+   * @param index the element index
+   */
   public <T> void satisfies(AssertionInfo info, List<? extends T> actual, Consumer<? super T> requirements, Index index) {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer expressing the assertions requirements must not be null");
@@ -275,6 +294,11 @@ public class Lists {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns the comparison strategy.
+   *
+   * @return the comparison strategy
+   */
   public ComparisonStrategy getComparisonStrategy() {
     return comparisonStrategy;
   }

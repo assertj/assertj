@@ -21,6 +21,7 @@ import java.util.Set;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for URIs and URLs with unexpected parameters. */
 public class ShouldHaveParameter extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_PARAMETER_BUT_WAS_MISSING = "%nExpecting actual:%n  <%s>%nto have parameter:%n  <%s>%nbut was missing";
@@ -43,10 +44,25 @@ public class ShouldHaveParameter extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_NO_PARAMETERS = "%nExpecting actual:%n  <%s>%nnot to have any parameters but found:%n  <%s>";
 
+  /**
+   * Creates an error for a missing parameter.
+   *
+   * @param actual the actual URI or URL
+   * @param name the parameter name
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveParameter(Object actual, String name) {
     return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_BUT_WAS_MISSING, actual, name);
   }
 
+  /**
+   * Creates an error for a missing parameter value.
+   *
+   * @param actual the actual URI or URL
+   * @param name the parameter name
+   * @param expectedValue the expected value
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveParameter(Object actual, String name, String expectedValue) {
     if (expectedValue == null)
       return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_WITHOUT_VALUE_BUT_PARAMETER_WAS_MISSING, actual, name);
@@ -54,6 +70,15 @@ public class ShouldHaveParameter extends BasicErrorMessageFactory {
                                    expectedValue);
   }
 
+  /**
+   * Creates an error for a parameter with unexpected values.
+   *
+   * @param actual the actual URI or URL
+   * @param name the parameter name
+   * @param expectedValue the expected value
+   * @param actualValues the actual values
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveParameter(Object actual, String name, String expectedValue,
                                                         List<String> actualValues) {
     if (expectedValue == null)
@@ -67,12 +92,27 @@ public class ShouldHaveParameter extends BasicErrorMessageFactory {
         : SHOULD_HAVE_PARAMETER_VALUE_BUT_HAD_WRONG_VALUE, actual, name, expectedValue, valueDescription(actualValues));
   }
 
+  /**
+   * Creates an error for unexpectedly present parameters.
+   *
+   * @param actual the actual URI or URL
+   * @param parameterNames the unexpected parameter names
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveNoParameters(Object actual, Set<String> parameterNames) {
     String parametersDescription = parameterNames.size() == 1 ? parameterNames.iterator().next()
         : parameterNames.toString();
     return new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETERS, actual, parametersDescription);
   }
 
+  /**
+   * Creates an error for an unexpectedly present parameter.
+   *
+   * @param actual the actual URI or URL
+   * @param name the parameter name
+   * @param actualValues the actual values
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveNoParameter(Object actual, String name, List<String> actualValues) {
     return noValueIn(actualValues)
         ? new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETER_BUT_HAD_ONE_WITHOUT_VALUE, actual, name)
@@ -80,6 +120,15 @@ public class ShouldHaveParameter extends BasicErrorMessageFactory {
             : SHOULD_HAVE_NO_PARAMETER_BUT_HAD_ONE_VALUE, actual, name, valueDescription(actualValues));
   }
 
+  /**
+   * Creates an error for an unexpectedly present parameter value.
+   *
+   * @param actual the actual URI or URL
+   * @param name the parameter name
+   * @param unwantedValue the unwanted value
+   * @param actualValues the actual values
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveNoParameter(Object actual, String name, String unwantedValue,
                                                           List<String> actualValues) {
     if (noValueIn(actualValues))

@@ -30,10 +30,13 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.tests.core.api.recursive.data.Color;
 import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
+import org.assertj.tests.core.api.recursive.data.Person;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -101,6 +104,42 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     // THEN
     ComparisonDifference comparisonDifference = javaTypeDiff("home.address.number", 1, 2);
     compareRecursivelyFailsWithDifferences(actual, expected, comparisonDifference);
+  }
+
+  @Test
+  void should_fail_when_expected_contains_duplicate_elements_not_present_in_actual_while_ignoring_collection_order() {
+    // GIVEN
+    List<String> actual = List.of("a", "b");
+    List<String> expected = List.of("a", "a");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .ignoringCollectionOrder()
+                                                                      .isEqualTo(expected));
+    // THEN
+    System.out.println(assertionError.getMessage());
+    then(assertionError).hasMessageContaining(format("The following expected elements were not matched in the actual List12:%n" +
+                                                     "  [\"a\"]"));
+  }
+
+  @Test
+  void should_fail_when_unmatched_pair_with_leaf_difference_is_compared_twice() {
+    // GIVEN
+    FriendlyPerson alice = new FriendlyPerson("Alice");
+    alice.add(friend("Charlie"));
+    alice.add(friend("Dave"));
+    FriendlyPerson bob = new FriendlyPerson("Bob");
+    bob.add(friend("Eve"));
+    bob.add(friend("Frank"));
+    List<FriendlyPerson> actual = List.of(alice, alice, alice);
+    List<FriendlyPerson> expected = List.of(bob, bob, bob);
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .ignoringCollectionOrder()
+                                                                      .isEqualTo(expected));
+    // THEN
+    then(assertionError).message()
+                        .containsOnlyOnce("The following expected elements were not matched")
+                        .containsSubsequence("name=Bob", "name=Bob", "name=Bob");
   }
 
   @ParameterizedTest(name = "{0}: actual={1} / expected={2} / ignore collection order in fields={3}")
@@ -336,9 +375,9 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     List<Integer> listAReverse = list(2, 1);
     List<Integer> listBReverse = list(2, 1);
     // WHEN - THEN
-    assertThat(list(listA, listB)).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                  .ignoringCollectionOrder()
-                                  .isEqualTo(list(listAReverse, listBReverse));
+    then(list(listA, listB)).usingRecursiveComparison(recursiveComparisonConfiguration)
+                            .ignoringCollectionOrder()
+                            .isEqualTo(list(listAReverse, listBReverse));
 
   }
 
@@ -355,9 +394,9 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     List<FriendlyPerson> listAReverse = list(p4, p3);
     List<FriendlyPerson> listBReverse = list(p4, p3);
     // WHEN - THEN
-    assertThat(list(listA, listB)).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                  .ignoringCollectionOrder()
-                                  .isEqualTo(list(listAReverse, listBReverse));
+    then(list(listA, listB)).usingRecursiveComparison(recursiveComparisonConfiguration)
+                            .ignoringCollectionOrder()
+                            .isEqualTo(list(listAReverse, listBReverse));
 
   }
 
@@ -389,11 +428,11 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
                                         new PersonWithEnum("name-2", SECOND));
 
     // WHEN/THEN
-    assertThat(persons).usingRecursiveComparison(recursiveComparisonConfiguration)
-                       .ignoringCollectionOrder()
-                       .isEqualTo(list(new PersonWithEnum("name-2", SECOND),
-                                       new PersonWithEnum("name-2", FIRST),
-                                       new PersonWithEnum("name-1", FIRST)));
+    then(persons).usingRecursiveComparison(recursiveComparisonConfiguration)
+                 .ignoringCollectionOrder()
+                 .isEqualTo(list(new PersonWithEnum("name-2", SECOND),
+                                 new PersonWithEnum("name-2", FIRST),
+                                 new PersonWithEnum("name-1", FIRST)));
   }
 
   static class PersonWithInt {
@@ -487,13 +526,18 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
   }
 
   // related to https://github.com/assertj/assertj/issues/3598
-  @Test
-  public void should_fix_3598() {
-    // GIVEN
-    Inner i1 = new Inner(1);
-    Inner i2 = new Inner(2);
-    Inner i3 = new Inner(3);
+  public static Stream<Arguments> should_fix_3598() {
+    return Stream.of(arguments(new Inner<>(1), new Inner<>(2), new Inner<>(3)),
+                     arguments(new Inner<>(Color.BLUE), new Inner<>(Color.RED), new Inner<>(Color.GREEN)),
+                     arguments(new Inner<>(Optional.of("a")), new Inner<>(Optional.of("b")), new Inner<>(Optional.of("c"))),
+                     arguments(new Inner<>(new Person("a")), new Inner<>(new Person("b")), new Inner<>(new Person("c"))),
+                     arguments(new Inner<>("a"), new Inner<>("b"), new Inner<>("c")));
+  }
 
+  @ParameterizedTest
+  @MethodSource
+  public void should_fix_3598(Inner<?> i1, Inner<?> i2, Inner<?> i3) {
+    // GIVEN
     Outer o1A = new Outer(i1);
     Outer o2A = new Outer(i2);
     Outer o3A = new Outer(i3);
@@ -524,10 +568,10 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     }
   }
 
-  static class Inner {
-    public int val;
+  static class Inner<T> {
+    public T val;
 
-    public Inner(int val) {
+    public Inner(T val) {
       this.val = val;
     }
 

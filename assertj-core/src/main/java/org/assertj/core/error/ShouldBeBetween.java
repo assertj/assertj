@@ -59,6 +59,7 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldBeBetween}</code>.
+   * @param <T> the boundary value type
    * @param actual the actual value in the failed assertion.
    * @param start the lower boundary of range.
    * @param end the lower boundary of range.

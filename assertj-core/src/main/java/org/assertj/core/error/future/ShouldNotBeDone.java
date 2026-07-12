@@ -20,10 +20,17 @@ import java.util.concurrent.Future;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for futures expected not to be done. */
 public class ShouldNotBeDone extends BasicErrorMessageFactory {
 
   private static final String SHOULD_NOT_BE_DONE = "%nExpecting%n  <%s>%nnot to be done.%n" + Warning.WARNING;
 
+  /**
+   * Creates an error for a future expected not to be done.
+   *
+   * @param actual the actual future
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldNotBeDone(Future<?> actual) {
     return new ShouldNotBeDone(actual);
   }

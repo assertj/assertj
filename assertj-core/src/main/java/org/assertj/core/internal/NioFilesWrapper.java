@@ -36,14 +36,37 @@ public class NioFilesWrapper {
 
   private NioFilesWrapper() {}
 
+  /**
+   * Opens an input stream for a path.
+   *
+   * @param path the path to open
+   * @param options the open options
+   * @return the input stream
+   * @throws IOException if the stream cannot be opened
+   */
   public InputStream newInputStream(Path path, OpenOption... options) throws IOException {
     return Files.newInputStream(path, options);
   }
 
+  /**
+   * Opens a filtered directory stream.
+   *
+   * @param dir the directory path
+   * @param filter the entry filter
+   * @return the directory stream
+   * @throws IOException if the directory cannot be opened
+   */
   public DirectoryStream<Path> newDirectoryStream(Path dir, Filter<? super Path> filter) throws IOException {
     return Files.newDirectoryStream(dir, filter);
   }
 
+  /**
+   * Returns the size of a file.
+   *
+   * @param path the file path
+   * @return the file size
+   * @throws IOException if the size cannot be read
+   */
   public long size(Path path) throws IOException {
     return Files.size(path);
   }

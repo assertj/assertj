@@ -31,6 +31,9 @@ import org.assertj.core.internal.Objects;
 
 /**
  * Base class for all implementations of assertions for {@link Temporal}s.
+ *
+ * @param <SELF>  the "self" type of this assertion class.
+ * @param <TEMPORAL>>  the Temporal type of this assertion class.
  * @since 3.7.0
  */
 public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert<SELF, TEMPORAL>, TEMPORAL extends Temporal>

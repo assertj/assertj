@@ -15,17 +15,30 @@
  */
 package org.assertj.core.api.filter;
 
+/** Filter excluding a set of candidate values. */
 public class NotInFilter extends FilterOperator<Object[]> {
 
   private NotInFilter(Object... filterParameter) {
     super(filterParameter);
   }
 
+  /**
+   * Creates a filter excluding the given values.
+   *
+   * @param valuesNotToMatch the values to exclude
+   * @return the exclusion filter
+   */
   public static NotInFilter notIn(Object... valuesNotToMatch) {
     return new NotInFilter(valuesNotToMatch);
   }
 
   // could be removed but since it is part of the API we can't ...
+  /**
+   * Legacy filter method retained for compatibility.
+   *
+   * @param propertyValueOfCurrentElement the current property value
+   * @return always {@code false}
+   */
   public boolean filter(@SuppressWarnings("unused") Object propertyValueOfCurrentElement) {
     return false;
   }

@@ -17,10 +17,18 @@ package org.assertj.core.error;
 
 import java.nio.file.Path;
 
+/** Creates errors for paths expected to start with another path. */
 public class ShouldStartWithPath extends BasicErrorMessageFactory {
 
   private static final String PATH_SHOULD_START_WITH = "%nExpected path:%n  %s%nto start with:%n  %s%nbut it did not.";
 
+  /**
+   * Creates an error for a path with the wrong prefix.
+   *
+   * @param actual the actual path
+   * @param other the expected prefix
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldStartWith(final Path actual, final Path other) {
     return new ShouldStartWithPath(actual, other);
   }

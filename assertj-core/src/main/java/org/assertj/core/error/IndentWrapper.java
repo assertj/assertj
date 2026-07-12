@@ -25,6 +25,8 @@ import static org.assertj.core.util.Objects.hashCodeFor;
  * When a value is wrapped with {@link #of(Object)}, each line of its string representation
  * will be indented with 2 spaces. This is useful for multi-line values where only the first line
  * would otherwise be indented.
+ *
+ * @param value the value
  */
 public record IndentWrapper(Object value) {
 

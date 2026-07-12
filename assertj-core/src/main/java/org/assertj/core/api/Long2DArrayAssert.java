@@ -40,8 +40,14 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
   private final Failures failures = Failures.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Assertion implementation for two-dimensional long arrays. */
   protected Long2DArrays long2dArrays = Long2DArrays.instance();
 
+  /**
+   * Creates a new two-dimensional long array assertion.
+   *
+   * @param actual the actual array to verify
+   */
   public Long2DArrayAssert(long[][] actual) {
     super(actual, Long2DArrayAssert.class);
   }

@@ -45,13 +45,17 @@ import com.google.common.collect.RangeSet;
  * Assertion for guava {@link RangeSet}.
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(RangeSet)}</code>.
- * <p>
  *
  * @param <T> the type of the tested RangeSet elements
  * @author Ilya Koshaleu
  */
 public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<RangeSetAssert<T>, RangeSet<T>> {
 
+  /**
+   * Creates a new assertion for the given {@link RangeSet}.
+   *
+   * @param actual the actual value
+   */
   protected RangeSetAssert(RangeSet<T> actual) {
     super(actual, RangeSetAssert.class);
   }

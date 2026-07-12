@@ -37,7 +37,12 @@ import org.assertj.core.configuration.ConfigurationProvider;
  */
 public enum FieldSupport {
 
-  EXTRACTION(true), EXTRACTION_OF_PUBLIC_FIELD_ONLY(false), COMPARISON(true);
+  /** Field extraction including private fields. */
+  EXTRACTION(true),
+  /** Field extraction restricted to public fields. */
+  EXTRACTION_OF_PUBLIC_FIELD_ONLY(false),
+  /** Field access for comparison. */
+  COMPARISON(true);
 
   private static final String CHAR = "char";
   private static final String BOOLEAN = "boolean";
@@ -80,6 +85,11 @@ public enum FieldSupport {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns whether private fields may be used.
+   *
+   * @return whether private fields may be used
+   */
   public boolean isAllowedToUsePrivateFields() {
     return allowUsingPrivateFields;
   }
@@ -121,6 +131,13 @@ public enum FieldSupport {
     return simpleFieldValues(fieldName, fieldClass, target);
   }
 
+  /**
+   * Extracts field values from the given targets.
+   *
+   * @param fieldName the field name
+   * @param target the target objects
+   * @return the extracted values
+   */
   public List<Object> fieldValues(String fieldName, Iterable<?> target) {
     return fieldValues(fieldName, Object.class, target);
   }
@@ -249,6 +266,12 @@ public enum FieldSupport {
     }
   }
 
+  /**
+   * Checks whether the given field may be read.
+   *
+   * @param field the field to check
+   * @return whether the field may be read
+   */
   public boolean isAllowedToRead(Field field) {
     if (allowUsingPrivateFields) return true;
     // only read public field

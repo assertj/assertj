@@ -45,6 +45,7 @@ import org.assertj.core.presentation.PredicateDescription;
 /**
  * Assertions for {@link CompletableFuture}.
  *
+ * @param <SELF>  the "self" type of this assertion class.
  * @param <RESULT> type of the value contained in the {@link CompletableFuture}.
  */
 // TODO deprecate completed for succeeds?
@@ -54,6 +55,12 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Futures futures = Futures.instance();
 
+  /**
+   * Creates a new {@link CompletableFuture} assertion.
+   *
+   * @param actual the actual future to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractCompletableFutureAssert(CompletableFuture<RESULT> actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -442,6 +449,12 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   }
 
   // introduced to be proxied for assumptions and soft assertions.
+  /**
+   * Creates an object assertion for the given future result.
+   *
+   * @param objectUnderTest the future result
+   * @return an assertion for the result
+   */
   protected ObjectAssert<RESULT> newObjectAssert(RESULT objectUnderTest) {
     return new ObjectAssert<>(objectUnderTest).withAssertionState(myself);
   }

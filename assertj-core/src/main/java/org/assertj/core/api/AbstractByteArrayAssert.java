@@ -28,12 +28,24 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ByteArrays;
 
+/**
+ * Base class for assertions on {@code byte} arrays.
+ *
+ * @param <SELF> the "self" type of this assertion class
+ */
 public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, byte[], Byte> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Internal assertions for {@code byte} arrays. */
   protected ByteArrays arrays = ByteArrays.instance();
 
+  /**
+   * Creates a new {@code byte} array assertion.
+   *
+   * @param actual the actual array to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractByteArrayAssert(byte[] actual, Class<?> selfType) {
     super(actual, selfType);
   }

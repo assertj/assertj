@@ -38,52 +38,52 @@ class Dates_assertIsEqualWithPrecision_Test extends DatesBaseTest {
 
   @Override
   protected void initActualDate() {
-    actual = parseDatetimeWithMs("2011-09-27T12:23:35.999");
+    actual = parseDatetime("2011-09-27T12:23:35.999");
   }
 
   @Test
   void should_pass_regardless_of_millisecond_fields_values() {
     AssertionInfo info = someInfo();
-    Date other = parseDatetimeWithMs("2011-09-27T12:23:35.998");
+    Date other = parseDatetime("2011-09-27T12:23:35.998");
     dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.MILLISECONDS);
   }
 
   @Test
   void should_pass_regardless_of_second_and_millisecond_fields_values() {
     AssertionInfo info = someInfo();
-    Date other = parseDatetimeWithMs("2011-09-27T12:23:36.999");
+    Date other = parseDatetime("2011-09-27T12:23:36.999");
     dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.SECONDS);
   }
 
   @Test
   void should_pass_regardless_of_minute_second_and_millisecond_fields_values() {
     AssertionInfo info = someInfo();
-    Date other = parseDatetimeWithMs("2011-09-27T12:24:35.999");
+    Date other = parseDatetime("2011-09-27T12:24:35.999");
     dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.MINUTES);
   }
 
   @Test
   void should_pass_regardless_of_hour_minute_second_and_millisecond_fields_values() {
     AssertionInfo info = someInfo();
-    Date other = parseDatetimeWithMs("2011-09-27T17:24:35.999");
+    Date other = parseDatetime("2011-09-27T17:24:35.999");
     dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.HOURS);
     // test with hour values that are equals if you don't take AM/PM into account (1PM == 13).
-    actual = parseDatetimeWithMs("2011-09-27T13:23:35.999"); // 01PM
-    other = parseDatetimeWithMs("2011-09-27T01:23:35.999");
+    actual = parseDatetime("2011-09-27T13:23:35.999"); // 01PM
+    other = parseDatetime("2011-09-27T01:23:35.999");
     dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.HOURS);
   }
 
   @Test
   void should_pass_if_day_not_equal() {
     AssertionInfo info = someInfo();
-    Date other = parseDatetimeWithMs("2011-09-28T12:23:35.999");
+    Date other = parseDatetime("2011-09-28T12:23:35.999");
     dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.DAYS);
   }
 
   @Test
   void should_fail_if_ms_fields_differ() {
     AssertionInfo info = someInfo();
-    Date other = parseDatetimeWithMs("2011-09-27T12:23:35.998");
+    Date other = parseDatetime("2011-09-27T12:23:35.998");
 
     Throwable error = catchThrowable(() -> dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.MICROSECONDS));
 
@@ -94,7 +94,7 @@ class Dates_assertIsEqualWithPrecision_Test extends DatesBaseTest {
   @Test
   void should_fail_if_second_fields_differ() {
     AssertionInfo info = someInfo();
-    Date other = parseDatetimeWithMs("2011-09-27T12:23:36.999");
+    Date other = parseDatetime("2011-09-27T12:23:36.999");
 
     Throwable error = catchThrowable(() -> dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.MILLISECONDS));
 
@@ -105,7 +105,7 @@ class Dates_assertIsEqualWithPrecision_Test extends DatesBaseTest {
   @Test
   void should_fail_if_minute_fields_differ() {
     AssertionInfo info = someInfo();
-    Date other = parseDatetimeWithMs("2011-09-27T12:24:35.999");
+    Date other = parseDatetime("2011-09-27T12:24:35.999");
 
     Throwable error = catchThrowable(() -> dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.SECONDS));
 
@@ -116,7 +116,7 @@ class Dates_assertIsEqualWithPrecision_Test extends DatesBaseTest {
   @Test
   void should_fail_if_hour_fields_differ() {
     AssertionInfo info = someInfo();
-    Date other = parseDatetimeWithMs("2011-09-27T13:23:35.999");
+    Date other = parseDatetime("2011-09-27T13:23:35.999");
 
     Throwable error = catchThrowable(() -> dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.MINUTES));
 
@@ -147,7 +147,7 @@ class Dates_assertIsEqualWithPrecision_Test extends DatesBaseTest {
   @Test
   void should_fail_if_day_not_equal() {
     AssertionInfo info = someInfo();
-    Date other = parseDatetimeWithMs("2011-09-28T12:23:35.999");
+    Date other = parseDatetime("2011-09-28T12:23:35.999");
 
     Throwable error = catchThrowable(() -> dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.HOURS));
 

@@ -22,7 +22,11 @@ import java.util.List;
 /**
  * Provides helper methods for navigating a list property in a generated assertion class so we can chain assertions
  * through deeply nested models more easily.
- * 
+ *
+ * @param <SELF>  the "self" type of this assertion class.
+ * @param <ACTUAL> actual
+ * @param <ELEMENT>> self
+ * @param <ELEMENT_ASSERT>> element assert
  * @since 2.5.0 / 3.5.0
  * @deprecated Use {@link AbstractListAssert#withElementAssert(AssertFactory)} instead.
  */
@@ -37,6 +41,13 @@ public class FactoryBasedNavigableListAssert<SELF extends FactoryBasedNavigableL
 
   private final AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
 
+  /**
+   * Creates a navigable list assertion using the given element assertion factory.
+   *
+   * @param actual the actual list
+   * @param selfType the type of the concrete assertion
+   * @param assertFactory the element assertion factory
+   */
   public FactoryBasedNavigableListAssert(ACTUAL actual, Class<?> selfType,
                                          AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     super(actual, selfType);

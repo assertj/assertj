@@ -18,7 +18,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeInSameHour.shouldBeInSameHour;
-import static org.assertj.core.util.DateUtil.parseDatetime;
+import static org.assertj.core.internal.DatesBaseTest.parseDatetime;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;

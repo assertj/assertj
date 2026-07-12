@@ -50,6 +50,11 @@ public class BigDecimals extends Numbers<BigDecimal> {
     super();
   }
 
+  /**
+   * Creates decimal assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy to use
+   */
   public BigDecimals(ComparisonStrategy comparisonStrategy) {
     super(comparisonStrategy);
   }
@@ -82,6 +87,13 @@ public class BigDecimals extends Numbers<BigDecimal> {
     return value1.compareTo(value2) == 0;
   }
 
+  /**
+   * Verifies that the actual decimal has the expected scale.
+   *
+   * @param info assertion information
+   * @param actual the actual decimal
+   * @param expectedScale the expected scale
+   */
   public void assertHasScale(AssertionInfo info, BigDecimal actual, int expectedScale) {
     assertNotNull(info, actual);
     if (areEqual(actual.scale(), expectedScale)) return;

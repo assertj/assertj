@@ -1,0 +1,40 @@
+name: Mutation Testing
+
+on:
+  pull_request:
+    branches: [ 'main', '3.x' ]
+
+permissions: {}
+
+env:
+  MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always
+
+jobs:
+
+  run:
+
+    name: Run
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 2
+      - name: Set up Java
+        uses: actions/setup-java@0f481fcb613427c0f801b606911222b5b6f3083a # v5.5.0
+        with:
+          distribution: 'zulu'
+          java-version: '25'
+          cache: 'maven'
+      - name: Run Mutation Testing
+        run: >
+          ./mvnw $MAVEN_ARGS -am test-compile pitest:mutationCoverage
+          -pl assertj-tests/assertj-integration-tests/assertj-core-tests,assertj-tests/assertj-integration-tests/assertj-guava-tests
+          -DextraFeatures="+GIT(from[HEAD~1]), +gitci"
+      - name: Aggregate Results
+        run: ./mvnw $MAVEN_ARGS pitest-git:aggregate
+      - name: Upload Results
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: pitest
+          path: target/pit-reports-ci/

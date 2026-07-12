@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for futures expected to complete within a timeout. */
 public class ShouldBeCompletedWithin extends BasicErrorMessageFactory {
 
   private static final String SHOULD_BE_COMPLETED_WITHIN_DURATION = "%n"
@@ -40,10 +41,27 @@ public class ShouldBeCompletedWithin extends BasicErrorMessageFactory {
                                                            + "to be completed within %s %s.%n%n"
                                                            + "exception caught while trying to get the future result: ";
 
+  /**
+   * Creates a timeout error using a duration.
+   *
+   * @param actual the actual future
+   * @param duration the timeout duration
+   * @param exception the exception raised while waiting
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeCompletedWithin(Future<?> actual, Duration duration, Exception exception) {
     return new ShouldBeCompletedWithin(actual, duration, exception);
   }
 
+  /**
+   * Creates a timeout error using a value and unit.
+   *
+   * @param actual the actual future
+   * @param timeout the timeout value
+   * @param timeUnit the timeout unit
+   * @param exception the exception raised while waiting
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeCompletedWithin(Future<?> actual, long timeout, TimeUnit timeUnit,
                                                             Exception exception) {
     return new ShouldBeCompletedWithin(actual, timeout, timeUnit, exception);

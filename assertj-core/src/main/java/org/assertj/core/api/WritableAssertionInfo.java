@@ -45,10 +45,16 @@ public class WritableAssertionInfo implements AssertionInfo {
   private Description description;
   private Representation representation;
 
+  /**
+   * Creates assertion information using the given representation.
+   *
+   * @param customRepresentation the custom representation, or {@code null} for the default
+   */
   public WritableAssertionInfo(Representation customRepresentation) {
     useRepresentation(customRepresentation == null ? CONFIGURATION_PROVIDER.representation() : customRepresentation);
   }
 
+  /** Creates assertion information using the default representation. */
   public WritableAssertionInfo() {
     useRepresentation(CONFIGURATION_PROVIDER.representation());
   }
@@ -143,23 +149,38 @@ public class WritableAssertionInfo implements AssertionInfo {
     return representation;
   }
 
+  /** Uses hexadecimal representation for assertion values. */
   public void useHexadecimalRepresentation() {
     representation = new HexadecimalRepresentation();
   }
 
+  /** Uses Unicode representation for assertion values. */
   public void useUnicodeRepresentation() {
     representation = new UnicodeRepresentation();
   }
 
+  /** Uses binary representation for assertion values. */
   public void useBinaryRepresentation() {
     representation = new BinaryRepresentation();
   }
 
+  /**
+   * Uses the given representation for assertion values.
+   *
+   * @param newRepresentation the representation to use
+   */
   public void useRepresentation(Representation newRepresentation) {
     requireNonNull(newRepresentation, "The representation to use should not be null.");
     representation = newRepresentation;
   }
 
+  /**
+   * Returns the existing description when available, otherwise the given one.
+   *
+   * @param info assertion information
+   * @param newDescription the fallback description
+   * @return the most relevant description
+   */
   public static String mostRelevantDescriptionIn(WritableAssertionInfo info, String newDescription) {
     return info.hasDescription() ? info.descriptionText() : newDescription;
   }

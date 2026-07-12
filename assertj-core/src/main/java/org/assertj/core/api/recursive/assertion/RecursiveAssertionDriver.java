@@ -16,7 +16,7 @@
 package org.assertj.core.api.recursive.assertion;
 
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_ONLY;
+import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.IterableAssertionPolicy.ITERABLE_OBJECT_ONLY;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_OBJECT_AND_ENTRIES;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_OBJECT_ONLY;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.OptionalAssertionPolicy.OPTIONAL_OBJECT_ONLY;
@@ -26,7 +26,6 @@ import static org.assertj.core.util.Sets.newHashSet;
 import static org.assertj.core.util.introspection.ClassUtils.isOptionalOrPrimitiveOptional;
 import static org.assertj.core.util.introspection.ClassUtils.isPrimitiveOrWrapper;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -39,6 +38,7 @@ import java.util.function.Predicate;
 import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.util.Arrays;
 
+/** Traverses an object graph and applies a recursive assertion predicate. */
 public class RecursiveAssertionDriver {
 
   private static final String NULL = "null";
@@ -50,15 +50,28 @@ public class RecursiveAssertionDriver {
   private final List<FieldLocation> fieldsFailingTheAssertion = list();
   private final RecursiveAssertionConfiguration configuration;
 
+  /**
+   * Creates a recursive assertion driver.
+   *
+   * @param configuration the traversal configuration
+   */
   public RecursiveAssertionDriver(RecursiveAssertionConfiguration configuration) {
     this.configuration = configuration;
   }
 
+  /**
+   * Applies a predicate over the configured object graph.
+   *
+   * @param predicate the assertion predicate
+   * @param graphNode the object graph root
+   * @return locations that failed the predicate
+   */
   public List<FieldLocation> assertOverObjectGraph(Predicate<Object> predicate, Object graphNode) {
     assertRecursively(predicate, graphNode, graphNode.getClass(), rootFieldLocation());
     return fieldsFailingTheAssertion.stream().sorted().collect(toList());
   }
 
+  /** Clears traversal state so this driver can be reused. */
   public void reset() {
     visitedNodeIds.clear();
     fieldsFailingTheAssertion.clear();
@@ -114,7 +127,7 @@ public class RecursiveAssertionDriver {
   }
 
   private boolean isContainer(Class<?> nodeType) {
-    return isCollection(nodeType) || isArray(nodeType);
+    return isIterable(nodeType) || isArray(nodeType);
   }
 
   private void recurseIntoFieldsOfCurrentNode(Predicate<Object> predicate, Object node, Class<?> nodeType,
@@ -129,12 +142,12 @@ public class RecursiveAssertionDriver {
   }
 
   private boolean isTypeRequiringSpecificHandling(Class<?> nodeType) {
-    return isCollection(nodeType) || isMap(nodeType) || isArray(nodeType) || isOptionalOrPrimitiveOptional(nodeType);
+    return isIterable(nodeType) || isMap(nodeType) || isArray(nodeType) || isOptionalOrPrimitiveOptional(nodeType);
   }
 
   private boolean shouldRecurseOverSpecialTypes(Class<?> nodeType) {
     boolean recurseOverContainer = isContainer(nodeType)
-                                   && configuration.getCollectionAssertionPolicy() != COLLECTION_OBJECT_ONLY;
+                                   && configuration.getIterableAssertionPolicy() != ITERABLE_OBJECT_ONLY;
     boolean recurseOverMap = isMap(nodeType) && configuration.getMapAssertionPolicy() != MAP_OBJECT_ONLY;
     boolean recurseOverOptional = isOptionalOrPrimitiveOptional(nodeType)
                                   && configuration.getOptionalAssertionPolicy() != OPTIONAL_OBJECT_ONLY;
@@ -143,24 +156,23 @@ public class RecursiveAssertionDriver {
 
   private void doRecursionForSpecialTypes(Predicate<Object> predicate, Object node, Class<?> nodeType,
                                           FieldLocation fieldLocation) {
-    if (isCollection(nodeType)) {
-      recurseIntoCollection(predicate, (Collection<?>) node, fieldLocation);
-    } else if (isArray(nodeType)) {
+    if (isArray(nodeType)) {
       recurseIntoArray(predicate, node, nodeType, fieldLocation);
     } else if (isMap(nodeType)) {
       recurseIntoMap(predicate, (Map<?, ?>) node, fieldLocation);
     } else if (isOptionalOrPrimitiveOptional(nodeType)) {
       recurseIntoOptional(predicate, node, fieldLocation);
+    } else if (isIterable(nodeType)) {
+      recurseIntoIterable(predicate, (Iterable<?>) node, fieldLocation);
     }
   }
 
-  private void recurseIntoCollection(Predicate<Object> predicate, Collection<?> collection, FieldLocation fieldLocation) {
-    // TODO handle collection if needed by policy
-    if (collection == null) {
-      return; // no way to recursive into the collection, anyway the collection node has already been visited
+  private void recurseIntoIterable(Predicate<Object> predicate, Iterable<?> iterable, FieldLocation fieldLocation) {
+    if (iterable == null) {
+      return; // no way to recurse into the iterable, anyway the iterable node has already been visited
     }
     int index = 0;
-    for (Object element : collection) {
+    for (Object element : iterable) {
       assertRecursively(predicate, element, safeGetClass(element), fieldLocation.field(INDEX_FORMAT.formatted(index)));
       index++;
     }
@@ -267,8 +279,8 @@ public class RecursiveAssertionDriver {
     return name + '@' + hexString;
   }
 
-  private boolean isCollection(Class<?> nodeType) {
-    return Collection.class.isAssignableFrom(nodeType);
+  private boolean isIterable(Class<?> nodeType) {
+    return Iterable.class.isAssignableFrom(nodeType);
   }
 
   private boolean isArray(Class<?> nodeType) {

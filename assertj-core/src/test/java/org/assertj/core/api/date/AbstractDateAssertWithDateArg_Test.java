@@ -99,6 +99,7 @@ public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseT
                                                                        "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
                                                                        "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
                                                                        "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                                                       "    yyyy-MM-dd HH:mm:ss,%n" +
                                                                        "    yyyy-MM-dd]"));
   }
 

@@ -33,23 +33,40 @@ import org.assertj.core.data.Percentage;
 
 /**
  * Base class of reusable assertions for numbers.
- * 
+ *
+ * @param <NUMBER> the number type
  * @author Drummond Dawson
  * @author Joel Costigliola
  * @author Nicolas François
  */
 public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extends Comparables {
 
+  /** Creates number assertions using the standard comparison strategy. */
   public Numbers() {
     super();
   }
 
+  /**
+   * Creates number assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy
+   */
   public Numbers(ComparisonStrategy comparisonStrategy) {
     super(comparisonStrategy);
   }
 
+  /**
+   * Returns zero in the supported number type.
+   *
+   * @return zero
+   */
   protected abstract NUMBER zero();
 
+  /**
+   * Returns one in the supported number type.
+   *
+   * @return one
+   */
   protected abstract NUMBER one();
 
   /**
@@ -263,14 +280,42 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
       throw failures.failure(info, shouldNotBeEqualWithinPercentage(actual, other, percentage, absDiff(actual, other)));
   }
 
+  /**
+   * Returns the absolute difference between two values.
+   *
+   * @param actual the first value
+   * @param other the second value
+   * @return the absolute difference
+   */
   protected abstract NUMBER absDiff(final NUMBER actual, final NUMBER other);
 
+  /**
+   * Checks whether the first value is greater than the second.
+   *
+   * @param value the first value
+   * @param other the second value
+   * @return whether the first value is greater
+   */
   protected abstract boolean isGreaterThan(final NUMBER value, final NUMBER other);
 
+  /**
+   * Checks whether one number is greater than or equal to another.
+   *
+   * @param value the value to compare
+   * @param other the comparison target
+   * @return whether {@code value} is greater than or equal to {@code other}
+   */
   protected boolean isGreaterThanOrEqualTo(final NUMBER value, final NUMBER other) {
     return areEqual(value, other) || isGreaterThan(value, other);
   }
 
+  /**
+   * Checks whether two values are equal.
+   *
+   * @param value the first value
+   * @param other the second value
+   * @return whether the values are equal
+   */
   protected boolean areEqual(final NUMBER value, final NUMBER other) {
     return Objects.equals(value, other);
   }

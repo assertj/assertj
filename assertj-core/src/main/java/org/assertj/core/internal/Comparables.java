@@ -61,11 +61,21 @@ public class Comparables {
     this(StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates comparable assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy to use
+   */
   public Comparables(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns the configured comparator, if any.
+   *
+   * @return the configured comparator or {@code null}
+   */
   public Comparator<?> getComparator() {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
       return strategy.getComparator();
@@ -121,6 +131,14 @@ public class Comparables {
     throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
   }
 
+  /**
+   * Checks whether two values are equal according to the comparison strategy.
+   *
+   * @param <T> the value type
+   * @param actual the actual value
+   * @param expected the expected value
+   * @return whether the values are equal
+   */
   protected <T> boolean areEqual(T actual, T expected) {
     return comparisonStrategy.areEqual(actual, expected);
   }
@@ -228,10 +246,26 @@ public class Comparables {
     throw failures.failure(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
   }
 
+  /**
+   * Verifies that the actual value is before or equal to the other value.
+   *
+   * @param <T> the value type
+   * @param info assertion information
+   * @param actual the actual value
+   * @param other the value to compare with
+   */
   public <T> void assertIsBeforeOrEqualTo(AssertionInfo info, Comparable<? super T> actual, T other) {
     assertLessThanOrEqualTo(info, actual, other, ShouldBeBeforeOrEqualTo::shouldBeBeforeOrEqualTo);
   }
 
+  /**
+   * Verifies that the actual value is less than or equal to the other value.
+   *
+   * @param <T> the value type
+   * @param info assertion information
+   * @param actual the actual value
+   * @param other the value to compare with
+   */
   public <T> void assertLessThanOrEqualTo(AssertionInfo info, Comparable<? super T> actual, T other) {
     assertLessThanOrEqualTo(info, actual, other, ShouldBeLessOrEqual::shouldBeLessOrEqual);
   }
@@ -255,10 +289,26 @@ public class Comparables {
     throw failures.failure(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
   }
 
+  /**
+   * Verifies that the actual value is after the other value.
+   *
+   * @param <T> the value type
+   * @param info assertion information
+   * @param actual the actual value
+   * @param other the value to compare with
+   */
   public <T> void assertIsAfter(AssertionInfo info, Comparable<? super T> actual, T other) {
     assertGreaterThan(info, actual, other, ShouldBeAfter::shouldBeAfter);
   }
 
+  /**
+   * Verifies that the actual value is greater than the other value.
+   *
+   * @param <T> the value type
+   * @param info assertion information
+   * @param actual the actual value
+   * @param other the value to compare with
+   */
   public <T> void assertGreaterThan(AssertionInfo info, Comparable<? super T> actual, T other) {
     assertGreaterThan(info, actual, other, ShouldBeGreater::shouldBeGreater);
   }
@@ -287,10 +337,26 @@ public class Comparables {
     return comparisonStrategy.isGreaterThan(actual, other);
   }
 
+  /**
+   * Verifies that the actual value is greater than or equal to the other value.
+   *
+   * @param <T> the value type
+   * @param info assertion information
+   * @param actual the actual value
+   * @param other the value to compare with
+   */
   public <T> void assertGreaterThanOrEqualTo(AssertionInfo info, Comparable<? super T> actual, T other) {
     assertGreaterThanOrEqualTo(info, actual, other, ShouldBeGreaterOrEqual::shouldBeGreaterOrEqual);
   }
 
+  /**
+   * Verifies that the actual value is after or equal to the other value.
+   *
+   * @param <T> the value type
+   * @param info assertion information
+   * @param actual the actual value
+   * @param other the value to compare with
+   */
   public <T> void assertIsAfterOrEqualTo(AssertionInfo info, Comparable<? super T> actual, T other) {
     assertGreaterThanOrEqualTo(info, actual, other, ShouldBeAfterOrEqualTo::shouldBeAfterOrEqualTo);
   }
@@ -318,6 +384,13 @@ public class Comparables {
     return comparisonStrategy.isLessThan(actual, other);
   }
 
+  /**
+   * Verifies that the actual value is not {@code null}.
+   *
+   * @param <T> the value type
+   * @param info assertion information
+   * @param actual the actual value
+   */
   protected static <T> void assertNotNull(AssertionInfo info, T actual) {
     Objects.instance().assertNotNull(info, actual);
   }

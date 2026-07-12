@@ -28,7 +28,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link AtomicReferenceArrayAssert#containsSequence(List)}</code>.
+ * Tests for <code>{@link AtomicReferenceArrayAssert#containsSequence(Iterable)}</code>.
  *
  * @author Chris Arnott
  */
@@ -48,9 +48,7 @@ class AtomicReferenceArrayAssert_containsSequence_List_Test extends AtomicRefere
 
   @Test
   void should_throw_error_if_sequence_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> {
-      List<Object> nullList = null;
-      assertions.containsSequence(nullList);
-    }).withMessage(nullSequence());
+    assertThatNullPointerException().isThrownBy(() -> assertions.containsSequence((List<Object>) null))
+                                    .withMessage(nullSequence());
   }
 }

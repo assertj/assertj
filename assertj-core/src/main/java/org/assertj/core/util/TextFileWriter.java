@@ -23,20 +23,42 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 
 /**
+ * Writes text content to files.
+ *
  * @author Yvonne Wang
  * @author Olivier Michallat
  */
 public class TextFileWriter {
   private static final TextFileWriter INSTANCE = new TextFileWriter();
 
+  /**
+   * Returns the shared text file writer.
+   *
+   * @return the shared writer
+   */
   public static TextFileWriter instance() {
     return INSTANCE;
   }
 
+  /**
+   * Writes text using the default charset.
+   *
+   * @param file the destination file
+   * @param content the text content
+   * @throws IOException if writing fails
+   */
   public void write(File file, String... content) throws IOException {
     write(file, Charset.defaultCharset(), content);
   }
 
+  /**
+   * Writes text using the given charset.
+   *
+   * @param file the destination file
+   * @param charset the charset
+   * @param content the text content
+   * @throws IOException if writing fails
+   */
   public void write(File file, Charset charset, String... content) throws IOException {
     try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), charset))) {
       for (String line : content) {

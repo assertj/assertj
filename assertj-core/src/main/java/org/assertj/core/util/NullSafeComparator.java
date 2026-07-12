@@ -28,5 +28,12 @@ abstract class NullSafeComparator<T> implements Comparator<T> {
     return compareNonNull(o1, o2);
   }
 
+  /**
+   * Compares two non-null values.
+   *
+   * @param o1 the first value
+   * @param o2 the second value
+   * @return the comparison result
+   */
   protected abstract int compareNonNull(T o1, T o2);
 }

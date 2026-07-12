@@ -19,8 +19,16 @@ import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Assertions for {@link AtomicBoolean} values.
+ */
 public class AtomicBooleanAssert extends AbstractAssert<AtomicBooleanAssert, AtomicBoolean> {
 
+  /**
+   * Creates a new atomic boolean assertion.
+   *
+   * @param actual the actual atomic boolean
+   */
   public AtomicBooleanAssert(AtomicBoolean actual) {
     super(actual, AtomicBooleanAssert.class);
   }

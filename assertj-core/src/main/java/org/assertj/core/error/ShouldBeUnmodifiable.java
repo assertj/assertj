@@ -15,6 +15,7 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for collections expected to be unmodifiable. */
 public class ShouldBeUnmodifiable extends BasicErrorMessageFactory {
 
   private static final String UNEXPECTED_SUCCESS_PATTERN = "%n" +
@@ -29,6 +30,12 @@ public class ShouldBeUnmodifiable extends BasicErrorMessageFactory {
                                                            "  %s%n" +
                                                            "instead of java.lang.UnsupportedOperationException";
 
+  /**
+   * Creates an error for a successful mutating method.
+   *
+   * @param method the mutating method
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeUnmodifiable(String method) {
     return new ShouldBeUnmodifiable(method);
   }
@@ -37,6 +44,13 @@ public class ShouldBeUnmodifiable extends BasicErrorMessageFactory {
     super(UNEXPECTED_SUCCESS_PATTERN, method);
   }
 
+  /**
+   * Creates an error for an unexpected mutation exception.
+   *
+   * @param method the mutating method
+   * @param cause the unexpected exception
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeUnmodifiable(String method, RuntimeException cause) {
     return new ShouldBeUnmodifiable(method, cause);
   }

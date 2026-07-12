@@ -27,6 +27,15 @@ import com.google.common.collect.Multiset;
  */
 public class MultisetShouldContainTimes extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message for a multiset containing a value a different number of times than expected.
+   *
+   * @param actual the actual multiset
+   * @param expected the expected value
+   * @param expectedTimes the expected number of occurrences
+   * @param actualTimes the actual number of occurrences
+   * @return the created error message factory
+   */
   public static ErrorMessageFactory shouldContainTimes(final Multiset<?> actual, final Object expected,
                                                        final int expectedTimes, final int actualTimes) {
     return new MultisetShouldContainTimes("%n" +

@@ -25,12 +25,24 @@ import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
 import org.assertj.core.internal.FloatArrays;
 
+/**
+ * Base class for assertions on {@code float} arrays.
+ *
+ * @param <SELF> the "self" type of this assertion class
+ */
 public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, float[], Float> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /** Internal assertions for {@code float} arrays. */
   protected FloatArrays arrays = FloatArrays.instance();
 
+  /**
+   * Creates a new {@code float} array assertion.
+   *
+   * @param actual the actual array to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractFloatArrayAssert(float[] actual, Class<?> selfType) {
     super(actual, selfType);
   }

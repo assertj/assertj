@@ -17,11 +17,18 @@ package org.assertj.core.api.exception;
 
 import java.io.Serial;
 
+/** Runtime exception raised while operating on paths. */
 public final class PathsException extends RuntimeException {
 
   @Serial
   private static final long serialVersionUID = 1L;
 
+  /**
+   * Creates a path operation exception.
+   *
+   * @param message the detail message
+   * @param cause the underlying cause
+   */
   public PathsException(final String message, final Throwable cause) {
     super(message, cause);
   }

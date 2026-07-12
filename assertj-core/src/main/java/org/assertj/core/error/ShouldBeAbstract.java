@@ -15,8 +15,15 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for classes expected to be abstract. */
 public class ShouldBeAbstract extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for a class expected to be abstract.
+   *
+   * @param actual the actual class
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeAbstract(Class<?> actual) {
     return new ShouldBeAbstract(actual);
   }

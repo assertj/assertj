@@ -20,8 +20,19 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 import com.google.common.collect.Range;
 
+/**
+ * Creates an error message indicating that a range should have the expected upper endpoint.
+ */
 public class RangeShouldHaveUpperEndpointEqual extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message for a range without the expected upper endpoint.
+   *
+   * @param <T> the type of values in the range
+   * @param actual the actual range
+   * @param value the expected upper endpoint
+   * @return the created error message factory
+   */
   public static <T extends Comparable<T>> ErrorMessageFactory shouldHaveEqualUpperEndpoint(final Range<T> actual,
                                                                                            final Object value) {
     return new RangeShouldHaveUpperEndpointEqual("%n" +

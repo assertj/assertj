@@ -34,6 +34,9 @@ import org.assertj.core.util.diff.myers.MyersDiff;
  */
 public class DiffUtils {
 
+  /** Creates a new diff utility instance. */
+  public DiffUtils() {}
+
   private static Pattern unifiedDiffChunkRe = Pattern.compile("^@@\\s+-(?:(\\d+)(?:,(\\d+))?)\\s+\\+(?:(\\d+)(?:,(\\d+))?)\\s+@@$");
 
   /**

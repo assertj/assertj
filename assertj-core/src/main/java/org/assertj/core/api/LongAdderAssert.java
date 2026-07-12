@@ -25,6 +25,11 @@ import java.util.concurrent.atomic.LongAdder;
  */
 public class LongAdderAssert extends AbstractLongAdderAssert<LongAdderAssert> {
 
+  /**
+   * Creates a new long adder assertion.
+   *
+   * @param longAdder the actual value to verify
+   */
   public LongAdderAssert(LongAdder longAdder) {
     super(longAdder, LongAdderAssert.class);
   }

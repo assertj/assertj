@@ -20,10 +20,17 @@ import java.util.concurrent.Future;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for futures expected to be cancelled. */
 public class ShouldBeCancelled extends BasicErrorMessageFactory {
 
   private static final String SHOULD_BE_CANCELLED = "%nExpecting%n  <%s>%nto be cancelled.%n" + Warning.WARNING;
 
+  /**
+   * Creates an error for a future expected to be cancelled.
+   *
+   * @param actual the actual future
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeCancelled(Future<?> actual) {
     return new ShouldBeCancelled(actual);
   }

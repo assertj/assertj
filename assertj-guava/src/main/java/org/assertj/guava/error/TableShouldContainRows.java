@@ -21,10 +21,20 @@ import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
 /**
+ * Creates an error message indicating that a table does not contain all expected rows.
+ *
  * @author Jan Gorman
  */
 public class TableShouldContainRows extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message for a table that does not contain all expected rows.
+   *
+   * @param actual the actual table
+   * @param rows the expected rows
+   * @param rowsNotFound the missing rows
+   * @return the created error message factory
+   */
   public static ErrorMessageFactory tableShouldContainRows(Object actual, Object[] rows, Set<?> rowsNotFound) {
     return rows.length == 1 ? new TableShouldContainRows(actual, rows[0])
         : new TableShouldContainRows(actual, rows,
@@ -36,6 +46,13 @@ public class TableShouldContainRows extends BasicErrorMessageFactory {
     super("%nExpecting:%n  %s%nto contain row:%n  %s", actual, row);
   }
 
+  /**
+   * Creates an error message for a table that does not contain all expected rows.
+   *
+   * @param actual the actual table
+   * @param rows the expected rows
+   * @param rowsNotFound the missing rows
+   */
   public TableShouldContainRows(Object actual, Object[] rows, Set<?> rowsNotFound) {
     super("%nExpecting:%n  %s%nto contain rows:%n  %s%nbut could not find:%n  %s", actual, rows, rowsNotFound);
   }

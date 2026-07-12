@@ -22,11 +22,10 @@ import java.util.function.Predicate;
 /**
  * Assertions methods applicable to groups of objects (e.g. arrays or collections.)
  *
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
+ * @param <SELF>    the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
+ *                  target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *                  for more details.
  * @param <ELEMENT> the type of elements of the "actual" value.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Nicolas François
@@ -55,10 +54,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException     if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values.
+   * @throws AssertionError           if the actual group is {@code null}.
+   * @throws AssertionError           if the actual group does not contain the given values.
    */
   @SuppressWarnings("unchecked")
   SELF contains(ELEMENT... values);
@@ -92,11 +91,11 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException     if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
-   *           or none of the given values, or the actual group contains more values than the given ones.
+   * @throws AssertionError           if the actual group is {@code null}.
+   * @throws AssertionError           if the actual group does not contain the given values, i.e. the actual group contains some
+   *                                  or none of the given values, or the actual group contains more values than the given ones.
    */
   @SuppressWarnings("unchecked")
   SELF containsOnly(ELEMENT... values);
@@ -141,11 +140,11 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException     if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
-   *           or none of the given values, or the actual group contains more than once these values.
+   * @throws AssertionError           if the actual group is {@code null}.
+   * @throws AssertionError           if the actual group does not contain the given values, i.e. the actual group contains some
+   *                                  or none of the given values, or the actual group contains more than once these values.
    */
   @SuppressWarnings("unchecked")
   SELF containsOnlyOnce(ELEMENT... values);
@@ -170,10 +169,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
-   *           contains some or none of the given values, or the actual group contains more values than the given ones
-   *           or values are the same but the order is not.
+   * @throws AssertionError       if the actual group is {@code null}.
+   * @throws AssertionError       if the actual group does not contain the given values with same order, i.e. the actual group
+   *                              contains some or none of the given values, or the actual group contains more values than the given ones
+   *                              or values are the same but the order is not.
    */
   @SuppressWarnings("unchecked")
   SELF containsExactly(ELEMENT... values);
@@ -197,9 +196,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
-   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @throws AssertionError       if the actual group is {@code null}.
+   * @throws AssertionError       if the actual group does not contain the given values, i.e. the actual group
+   *                              contains some or none of the given values, or the actual group contains more values than the given ones.
    */
   @SuppressWarnings("unchecked")
   SELF containsExactlyInAnyOrder(ELEMENT... values);
@@ -224,9 +223,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
-   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @throws AssertionError       if the actual group is {@code null}.
+   * @throws AssertionError       if the actual group does not contain the given values, i.e. the actual group
+   *                              contains some or none of the given values, or the actual group contains more values than the given ones.
    * @since 2.9.0 / 3.9.0
    */
   SELF containsExactlyInAnyOrderElementsOf(Iterable<? extends ELEMENT> values);
@@ -357,7 +356,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(elvesRings).containsSubsequence(nenya, vilya);</code></pre>
    * <p>
    * If you want to specify the elements of the subsequence to check with an {@link Iterable}, use {@link #containsSubsequence(Iterable) containsSubsequence(Iterable)} instead.
-  
+   *
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
    * @throws AssertionError if the actual group is {@code null}.
@@ -462,10 +461,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException     if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group contains any of the given values.
+   * @throws AssertionError           if the actual group is {@code null}.
+   * @throws AssertionError           if the actual group contains any of the given values.
    */
   @SuppressWarnings("unchecked")
   SELF doesNotContain(ELEMENT... values);
@@ -508,10 +507,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException     if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not start with the given sequence of objects.
+   * @throws AssertionError           if the actual group is {@code null}.
+   * @throws AssertionError           if the actual group does not start with the given sequence of objects.
    */
   @SuppressWarnings("unchecked")
   SELF startsWith(ELEMENT... sequence);
@@ -533,13 +532,13 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(abc).endsWith("a");
    * assertThat(abc).endsWith("a", "b");</code></pre>
    *
-   * @param first the first element of the sequence of objects to look for.
+   * @param first    the first element of the sequence of objects to look for.
    * @param sequence the rest of the sequence of objects to look for.
    * @return this assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException     if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not end with the given sequence of objects.
+   * @throws AssertionError           if the actual group is {@code null}.
+   * @throws AssertionError           if the actual group does not end with the given sequence of objects.
    */
   @SuppressWarnings("unchecked")
   SELF endsWith(ELEMENT first, ELEMENT... sequence);
@@ -565,8 +564,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not end with the given sequence of objects.
+   * @throws AssertionError       if the actual group is {@code null}.
+   * @throws AssertionError       if the actual group does not end with the given sequence of objects.
    */
   SELF endsWith(ELEMENT[] sequence);
 
@@ -627,8 +626,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more elements do not satisfy the given condition.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if one or more elements do not satisfy the given condition.
    */
   SELF are(Condition<? super ELEMENT> condition);
 
@@ -651,8 +650,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more elements satisfy the given condition.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if one or more elements satisfy the given condition.
    */
   SELF areNot(Condition<? super ELEMENT> condition);
 
@@ -675,8 +674,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more elements do not satisfy the given condition.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if one or more elements do not satisfy the given condition.
    */
   SELF have(Condition<? super ELEMENT> condition);
 
@@ -699,8 +698,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more elements satisfy the given condition.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if one or more elements satisfy the given condition.
    */
   SELF doNotHave(Condition<? super ELEMENT> condition);
 
@@ -718,12 +717,12 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // assertion will fail
    * oneTwoThree.areAtLeast(3, oddNumber);</code></pre>
    *
-   * @param n the minimum number of times the condition should be verified.
+   * @param n         the minimum number of times the condition should be verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element can not be cast to T.
-   * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
+   * @throws AssertionError       if an element can not be cast to T.
+   * @throws AssertionError       if the number of elements satisfying the given condition is &lt; n.
    */
   SELF areAtLeast(int n, Condition<? super ELEMENT> condition);
 
@@ -757,12 +756,12 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // assertion will fail
    * oneTwoThree.areAtMost(1, oddNumber);</code></pre>
    *
-   * @param n the number of times the condition should be at most verified.
+   * @param n         the number of times the condition should be at most verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if the number of elements satisfying the given condition is &gt; n.
    */
   SELF areAtMost(int n, Condition<? super ELEMENT> condition);
 
@@ -781,12 +780,12 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * oneTwoThree.areExactly(1, oddNumber);
    * oneTwoThree.areExactly(3, oddNumber);</code></pre>
    *
-   * @param n the exact number of times the condition should be verified.
+   * @param n         the exact number of times the condition should be verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if the number of elements satisfying the given condition is &ne; n.
    */
   SELF areExactly(int n, Condition<? super ELEMENT> condition);
 
@@ -820,10 +819,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * // assertion will fail
    * oneTwoThree.haveAtLeast(3, oddNumber);</code></pre>
-   *
+   * <p>
    * This method is an alias for {@link #areAtLeast(int, Condition)}.
    *
-   * @param n the minimum number of times the condition must hold.
+   * @param n         the minimum number of times the condition must hold.
    * @param condition the given condition.
    * @return {@code this} assertion object.
    */
@@ -843,10 +842,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * // assertion will fail
    * oneTwoThree.haveAtMost(1, oddNumber);</code></pre>
-   *
+   * <p>
    * This method is an alias {@link #areAtMost(int, Condition)}.
    *
-   * @param n the maximum number of times the condition must hold.
+   * @param n         the maximum number of times the condition must hold.
    * @param condition the given condition.
    * @return {@code this} assertion object.
    */
@@ -866,10 +865,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * // assertions will fail
    * oneTwoThree.haveExactly(1, oddNumber);
    * oneTwoThree.haveExactly(3, oddNumber);</code></pre>
-   *
+   * <p>
    * This method is an alias {@link #areExactly(int, Condition)}.
    *
-   * @param n the exact number of times the condition must hold.
+   * @param n         the exact number of times the condition must hold.
    * @param condition the given condition.
    * @return {@code this} assertion object.
    */
@@ -894,8 +893,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param iterable the given {@code Iterable} we will get elements from.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain all the elements of given {@code Iterable}.
+   * @throws AssertionError       if the actual group is {@code null}.
+   * @throws AssertionError       if the actual group does not contain all the elements of given {@code Iterable}.
    */
   SELF containsAll(Iterable<? extends ELEMENT> iterable);
 
@@ -917,8 +916,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param expectedTypes the expected types
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if not all elements of the actual group are instances of one of the given types
+   * @throws AssertionError       if the actual group is {@code null}.
+   * @throws AssertionError       if not all elements of the actual group are instances of one of the given types
    * @since 2.7.0 / 3.7.0
    */
   SELF hasOnlyElementsOfTypes(Class<?>... expectedTypes);
@@ -945,8 +944,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param expectedTypes the expected types
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given type array is {@code null}.
-   * @throws AssertionError if actual is {@code null}.
-   * @throws AssertionError if the actual elements types don't exactly match the given ones (in the given order).
+   * @throws AssertionError       if actual is {@code null}.
+   * @throws AssertionError       if the actual elements types don't exactly match the given ones (in the given order).
    */
   SELF hasExactlyElementsOfTypes(Class<?>... expectedTypes);
 
@@ -966,7 +965,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param expectedType the expected type.
    * @return this assertion object.
    * @throws NullPointerException if the given type is {@code null}.
-   * @throws AssertionError if the actual {@code Object} group does not have any elements of the given type.
+   * @throws AssertionError       if the actual {@code Object} group does not have any elements of the given type.
    */
   SELF hasAtLeastOneElementOfType(Class<?> expectedType);
 
@@ -986,7 +985,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param expectedType the expected type.
    * @return this assertion object.
    * @throws NullPointerException if the given type is {@code null}.
-   * @throws AssertionError if one element is not of the expected type.
+   * @throws AssertionError       if one element is not of the expected type.
    */
   SELF hasOnlyElementsOfType(Class<?> expectedType);
 
@@ -1005,7 +1004,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param unexpectedTypes the not expected types.
    * @return this assertion object.
    * @throws NullPointerException if the given type is {@code null}.
-   * @throws AssertionError if one element's type matches the given types.
+   * @throws AssertionError       if one element's type matches the given types.
    * @since 2.9.0 / 3.9.0
    */
   SELF doesNotHaveAnyElementsOfTypes(Class<?>... unexpectedTypes);
@@ -1026,7 +1025,6 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * If you want to directly specify the elements to check, use {@link #containsExactly(Object...) containsExactly(Object...)} instead.
    *
    * @param iterable the given {@code Iterable} we will get elements from.
-   *
    * @return {@code this} assertion object.
    */
   SELF containsExactlyElementsOf(Iterable<? extends ELEMENT> iterable);
@@ -1046,10 +1044,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(list(&quot;Arya&quot;, &quot;Stark&quot;, &quot;daughter&quot;, &quot;of&quot;, &quot;Ned&quot;, &quot;Stark&quot;)).containsOnlyOnceElementsOf(list(&quot;Stark&quot;, &quot;Lannister&quot;, &quot;Arya&quot;));</code></pre>
    * <p>
    * If you want to directly specify the elements to check with, use {@link #containsOnlyOnce(Object...)} instead.
+   *
    * @param iterable the given {@code Iterable} we will get elements from.
-   *
    * @return {@code this} assertion object.
-   *
    * @since 3.16.0
    */
   SELF containsOnlyOnceElementsOf(Iterable<? extends ELEMENT> iterable);
@@ -1071,10 +1068,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * @param iterable the Iterable whose elements we expect to be present
    * @return this assertion object
-   * @throws AssertionError if the actual group is {@code null}
+   * @throws AssertionError       if the actual group is {@code null}
    * @throws NullPointerException if the given {@code Iterable} is {@code null}
-   * @throws AssertionError if the actual {@code Iterable} does not have the same elements, in any order, as the given
-   *           {@code Iterable}
+   * @throws AssertionError       if the actual {@code Iterable} does not have the same elements, in any order, as the given
+   *                              {@code Iterable}
    */
   SELF hasSameElementsAs(Iterable<? extends ELEMENT> iterable);
 
@@ -1094,10 +1091,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * @param iterable the {@link Iterable} whose elements must not be in the actual group.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException     if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty iterable.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group contains some elements of the given {@link Iterable}.
+   * @throws AssertionError           if the actual group is {@code null}.
+   * @throws AssertionError           if the actual group contains some elements of the given {@link Iterable}.
    */
   SELF doesNotContainAnyElementsOf(Iterable<? extends ELEMENT> iterable);
 
@@ -1119,9 +1116,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * @param values the {@code Iterable} that should contain all actual elements.
    * @return this assertion object.
-   * @throws AssertionError if the actual {@code Iterable} is {@code null}.
+   * @throws AssertionError       if the actual {@code Iterable} is {@code null}.
    * @throws NullPointerException if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the actual {@code Iterable} is not subset of set {@code Iterable}.
+   * @throws AssertionError       if the actual {@code Iterable} is not subset of set {@code Iterable}.
    */
   SELF isSubsetOf(Iterable<? extends ELEMENT> values);
 
@@ -1153,7 +1150,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   /**
    * Verifies that all the elements of actual match the given {@link Predicate}.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> Iterable&lt;String&gt; abc  = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
@@ -1162,14 +1159,21 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * // assertion will fail
    * assertThat(abcc).allMatch(s -&gt; s.length() == 1);</code></pre>
-   *
+   * <p>
+   * This assertion fails if given an empty iterable as the predicate would never be evaluated, this is to avoid
+   * confusing behavior as in the example below:
+   * <pre><code class='java'> Iterable&lt;String&gt; emptyList  = new ArrayList&lt;&gt;();
+   * // assertion fails, it would be confusing if it succeeded as it actually does not perform any check.
+   * assertThat(emptyList).allMatch(s -&gt; s.contains(“error”))
+   *                      .allMatch(s -&gt; s.doesNotContain(“error”));</code></pre>
+   * <p>
    * Note that you can achieve the same result with {@link #are(Condition) are(Condition)} or {@link #have(Condition) have(Condition)}.
    *
    * @param predicate the given {@link Predicate}.
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more elements don't satisfy the given predicate.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if one or more elements don't satisfy the given predicate.
    */
   SELF allMatch(Predicate<? super ELEMENT> predicate);
 
@@ -1186,20 +1190,26 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * // assertion will fail
    * assertThat(abcc).allMatch(s -&gt; s.length() == 1, "length of 1");</code></pre>
-   *
+   * <p>
    * The message of the failed assertion would be:
    * <pre><code class='java'>Expecting all elements of:
    *  &lt;["a", "b", "cc"]&gt;
    *  to match 'length of 1' predicate but this element did not:
    *  &lt;"cc"&gt;</code></pre>
+   * <p>
+   * This assertion fails if given an empty iterable as the predicate would never be evaluated, this is to avoid
+   * confusing behavior as in the example below:
+   * <pre><code class='java'> Iterable&lt;String&gt; emptyList  = new ArrayList&lt;&gt;();
+   * // assertion fails, it would be confusing if it succeeded as it actually does not perform any check.
+   * assertThat(emptyList).allMatch(s -&gt; s.contains(“error”), "has error")
+   *                      .allMatch(s -&gt; s.doesNotContain(“error”), "has no error");</code></pre>
    *
-   *
-   * @param predicate the given {@link Predicate}.
+   * @param predicate            the given {@link Predicate}.
    * @param predicateDescription a description of the {@link Predicate} used in the error message
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more elements don't satisfy the given predicate.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if one or more elements don't satisfy the given predicate.
    * @since 3.6.0
    */
   SELF allMatch(Predicate<? super ELEMENT> predicate, String predicateDescription);
@@ -1214,14 +1224,17 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *                                 assertThat(person.getCountry()).isEqualTo("Iceland");
    *                                 assertThat(person.getPhoneCountryCode()).isEqualTo("+354");
    *                               });</code></pre>
-   *
    * <p>
-   * If the actual iterable is empty, this assertion succeeds as there is no elements to check.
+   * This assertion fails if given an empty iterable as the requirements would never be evaluated, this is to avoid
+   * confusing behavior as in the example below:
+   * <pre><code class='java'> Iterable&lt;String&gt; emptyList  = new ArrayList&lt;&gt;();
+   * // assertion fails, it would be confusing if it succeeded as it actually does not perform any check.
+   * assertThat(emptyList).allSatisfy(s -&gt; assertThat(s).contains(“error”).doesNotContain(“error”));</code></pre>
    *
    * @param requirements the given {@link Consumer}.
    * @return {@code this} object.
    * @throws NullPointerException if the given {@link Consumer} is {@code null}.
-   * @throws AssertionError if one or more elements don't satisfy the given requirements.
+   * @throws AssertionError       if one or more elements don't satisfy the given requirements.
    * @since 3.6.0
    */
   SELF allSatisfy(Consumer<? super ELEMENT> requirements);
@@ -1232,31 +1245,35 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * This is useful to perform a group of assertions on elements.
    * <p>
    * This is the same assertion as {@link #allSatisfy(Consumer)} but the given consumer can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * Example:
    * <pre><code class='java'>  // read() throws IOException
-   * // note that the code would not compile if isNotEmpty, startsWithA or startsWithZ were declared as a Consumer&lt;Reader&gt; 
+   * // note that the code would not compile if isNotEmpty, startsWithA or startsWithZ were declared as a Consumer&lt;Reader&gt;
    * ThrowingConsumer&lt;Reader&gt; isNotEmpty = reader -&gt; assertThat(reader.read()).isEqualTo(-1);
    * ThrowingConsumer&lt;Reader&gt; startsWithA = reader -&gt; assertThat(reader.read()).isEqualTo('A');
    *
-   * // ABC.txt contains: ABC  
-   * // XYZ.txt contains: XYZ  
+   * // ABC.txt contains: ABC
+   * // XYZ.txt contains: XYZ
    * Iterable&lt;FileReader&gt; fileReaders = Arrays.asList(new FileReader("ABC.txt"), new FileReader("XYZ.txt"));
-   * 
+   *
    * // assertion succeeds as none of the files are empty
    * assertThat(fileReaders).allSatisfy(isNotEmpty);
    *
    * // assertion fails as XYZ.txt does not start with 'A':
    * assertThat(fileReaders).allSatisfy(startsWithA);</code></pre>
    * <p>
-   * If the actual iterable is empty, this assertion succeeds as there is nothing to check.
+   * This assertion fails if given an empty iterable as the requirements would never be evaluated, this is to avoid
+   * confusing behavior as in the example below:
+   * <pre><code class='java'> Iterable&lt;String&gt; emptyList  = new ArrayList&lt;&gt;();
+   * // assertion fails, it would be confusing if it succeeded as it actually does not perform any check.
+   * assertThat(emptyList).allSatisfy(s -&gt; assertThat(s).contains(“error”).doesNotContain(“error”));</code></pre>
    *
    * @param requirements the given {@link ThrowingConsumer}.
    * @return {@code this} object.
    * @throws NullPointerException if given {@link ThrowingConsumer} is null
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError if one or more elements don't satisfy the given requirements.
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       if one or more elements don't satisfy the given requirements.
    * @since 3.21.0
    */
   SELF allSatisfy(ThrowingConsumer<? super ELEMENT> requirements);
@@ -1297,8 +1314,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param allRequirements the requirements to meet.
    * @return {@code this} to chain assertions.
    * @throws NullPointerException if given requirements are null.
-   * @throws AssertionError if any element does not satisfy the requirements at the same index
-   * @throws AssertionError if there are not as many requirements as there are iterable elements.
+   * @throws AssertionError       if any element does not satisfy the requirements at the same index
+   * @throws AssertionError       if there are not as many requirements as there are iterable elements.
    * @since 3.19.0
    */
   @SuppressWarnings("unchecked")
@@ -1311,11 +1328,11 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Each requirement is expressed as a {@link ThrowingConsumer}, there must be as many requirements as there are iterable elements.
    * <p>
    * This is the same assertion as {@link #satisfiesExactly(Consumer...)} but the given consumers can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;TolkienCharacter&gt; characters = list(frodo, aragorn, legolas);
-   * 
+   *
    * // the code would compile even if TolkienCharacter.getRace(), isMortal() or getName() threw a checked exception
    *
    * // assertions succeed
@@ -1345,9 +1362,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param allRequirements the requirements to meet.
    * @return {@code this} to chain assertions.
    * @throws NullPointerException if given requirements are null.
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError if any element does not satisfy the requirements at the same index
-   * @throws AssertionError if there are not as many requirements as there are iterable elements.
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       if any element does not satisfy the requirements at the same index
+   * @throws AssertionError       if there are not as many requirements as there are iterable elements.
    * @since 3.21.0
    */
   @SuppressWarnings("unchecked")
@@ -1399,9 +1416,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param allRequirements the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
    * @return this assertion object.
    * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
-   * @throws AssertionError if there is no permutation of elements that satisfies the individual consumers in order
-   * @throws AssertionError if there are not as many requirements as there are iterable elements.
-   *
+   * @throws AssertionError       if there is no permutation of elements that satisfies the individual consumers in order
+   * @throws AssertionError       if there are not as many requirements as there are iterable elements.
    * @since 3.19.0
    */
   @SuppressWarnings("unchecked")
@@ -1453,9 +1469,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param allRequirements the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
    * @return this assertion object.
    * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError if there is no permutation of elements that satisfies the individual consumers in order
-   * @throws AssertionError if there are not as many requirements as there are iterable elements.
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       if there is no permutation of elements that satisfies the individual consumers in order
+   * @throws AssertionError       if there are not as many requirements as there are iterable elements.
    * @since 3.21.0
    */
   @SuppressWarnings("unchecked")
@@ -1481,7 +1497,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param requirements the {@link Consumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
    * @return this assertion object.
    * @throws NullPointerException if the given requirements are {@code null}.
-   * @throws AssertionError if the requirements are not satisfied only once
+   * @throws AssertionError       if the requirements are not satisfied only once
    * @since 3.24.0
    */
   SELF satisfiesOnlyOnce(Consumer<? super ELEMENT> requirements);
@@ -1506,8 +1522,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param requirements the {@link ThrowingConsumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
    * @return this assertion object.
    * @throws NullPointerException if the given requirements are {@code null}.
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError if the requirements are not satisfied only once
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       if the requirements are not satisfied only once
    * @since 3.24.0
    */
   SELF satisfiesOnlyOnce(ThrowingConsumer<? super ELEMENT> requirements);
@@ -1523,14 +1539,14 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * // assertion will fail
    * assertThat(abcc).anyMatch(s -&gt; s.length() &gt; 2);</code></pre>
-   *
+   * <p>
    * Note that you can achieve the same result with {@link #areAtLeastOne(Condition) areAtLeastOne(Condition)}
    * or {@link #haveAtLeastOne(Condition) haveAtLeastOne(Condition)}.
    *
    * @param predicate the given {@link Predicate}.
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if no elements satisfy the given predicate.
+   * @throws AssertionError       if no elements satisfy the given predicate.
    * @since 3.9.0
    */
   SELF anyMatch(Predicate<? super ELEMENT> predicate);
@@ -1547,17 +1563,17 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * // assertion will fail
    * assertThat(abcc).anyMatch(s -&gt; s.length() &gt; 2, "length greater than 2);</code></pre>
-   *
+   * <p>
    * The message of the failed assertion would be:
    * <pre><code class='java'>Expecting any elements of:
    *  &lt;["a", "b", "cc"]&gt;
    *  to match 'length greater than 2' predicate but none did.</code></pre>
    *
-   * @param predicate the given {@link Predicate}.
+   * @param predicate            the given {@link Predicate}.
    * @param predicateDescription a description of the {@link Predicate} used in the error message
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if no elements satisfy the given predicate.
+   * @throws AssertionError       if no elements satisfy the given predicate.
    * @since 3.27.0
    */
   SELF anyMatch(Predicate<? super ELEMENT> predicate, String predicateDescription);
@@ -1582,7 +1598,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param requirements the given {@link Consumer}.
    * @return {@code this} object.
    * @throws NullPointerException if the given {@link Consumer} is {@code null}.
-   * @throws AssertionError no elements satisfy the given requirements.
+   * @throws AssertionError       no elements satisfy the given requirements.
    * @since 3.7.0
    */
   SELF anySatisfy(Consumer<? super ELEMENT> requirements);
@@ -1593,18 +1609,18 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * This is useful to check that a group of assertions is verified by (at least) one element.
    * <p>
    * This is the same assertion as {@link #anySatisfy(Consumer)} but the given consumer can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * Example:
    * <pre><code class='java'>  // read() throws IOException
-   * // note that the code would not compile if startsWithA, startsWithY or startsWithZ were declared as a Consumer&lt;Reader&gt; 
+   * // note that the code would not compile if startsWithA, startsWithY or startsWithZ were declared as a Consumer&lt;Reader&gt;
    * ThrowingConsumer&lt;Reader&gt; startsWithA = reader -&gt; assertThat(reader.read()).isEqualTo('A');
    * ThrowingConsumer&lt;Reader&gt; startsWithZ = reader -&gt; assertThat(reader.read()).isEqualTo('Z');
    *
-   * // ABC.txt contains: ABC  
-   * // XYZ.txt contains: XYZ  
+   * // ABC.txt contains: ABC
+   * // XYZ.txt contains: XYZ
    * Iterable&lt;FileReader&gt; fileReaders = Arrays.asList(new FileReader("ABC.txt"), new FileReader("XYZ.txt"));
-   * 
+   *
    * // assertion succeeds as ABC.txt starts with 'A'
    * assertThat(fileReaders).anySatisfy(startsWithA);
    *
@@ -1616,8 +1632,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param requirements the given {@link ThrowingConsumer}.
    * @return {@code this} object.
    * @throws NullPointerException if given {@link ThrowingConsumer} is null
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError no elements satisfy the given requirements.
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       no elements satisfy the given requirements.
    * @since 3.21.0
    */
   SELF anySatisfy(ThrowingConsumer<? super ELEMENT> requirements);
@@ -1630,13 +1646,13 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(myIcelanderFriends).noneSatisfy(person -&gt; {
    *                                  assertThat(person.getCountry()).isEqualTo("Brazil");
    *                                });</code></pre>
-   *
+   * <p>
    * Note that this assertion succeeds if the group (collection, array, ...) is empty whatever the restrictions are.
    *
    * @param restrictions the given restrictions as {@link Consumer} that no elements should meet.
    * @return {@code this} object.
    * @throws NullPointerException if the given {@link Consumer} is {@code null}.
-   * @throws AssertionError if one or more elements satisfy the given requirements.
+   * @throws AssertionError       if one or more elements satisfy the given requirements.
    * @since 3.10.0
    */
   SELF noneSatisfy(Consumer<? super ELEMENT> restrictions);
@@ -1647,18 +1663,18 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * This is useful to check that a group of assertions is verified by (at least) one element.
    * <p>
    * This is the same assertion as {@link #anySatisfy(Consumer)} but the given consumer can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * Example:
    * <pre><code class='java'>  // read() throws IOException
-   * // note that the code would not compile if startsWithA, startsWithY or startsWithZ were declared as a Consumer&lt;Reader&gt; 
+   * // note that the code would not compile if startsWithA, startsWithY or startsWithZ were declared as a Consumer&lt;Reader&gt;
    * ThrowingConsumer&lt;Reader&gt; startsWithA = reader -&gt; assertThat(reader.read()).isEqualTo('A');
    * ThrowingConsumer&lt;Reader&gt; startsWithZ = reader -&gt; assertThat(reader.read()).isEqualTo('Z');
    *
-   * // ABC.txt contains: ABC  
-   * // XYZ.txt contains: XYZ  
+   * // ABC.txt contains: ABC
+   * // XYZ.txt contains: XYZ
    * Iterable&lt;FileReader&gt; fileReaders = Arrays.asList(new FileReader("ABC.txt"), new FileReader("XYZ.txt"));
-   * 
+   *
    * // assertion succeeds as none of the file starts 'Z'
    * assertThat(fileReaders).noneSatisfy(startsWithZ);
    *
@@ -1670,8 +1686,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param restrictions the given {@link ThrowingConsumer}.
    * @return {@code this} object.
    * @throws NullPointerException if given {@link ThrowingConsumer} is null
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError if one or more elements satisfy the given requirements.
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       if one or more elements satisfy the given requirements.
    * @since 3.21.0
    */
   SELF noneSatisfy(ThrowingConsumer<? super ELEMENT> restrictions);
@@ -1697,10 +1713,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * @param values the values whose at least one which is expected to be in the {@code Iterable} under test.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws NullPointerException     if the array of values is {@code null}.
    * @throws IllegalArgumentException if the array of values is empty and the {@code Iterable} under test is not empty.
-   * @throws AssertionError if the {@code Iterable} under test is {@code null}.
-   * @throws AssertionError if the {@code Iterable} under test does not contain any of the given {@code values}.
+   * @throws AssertionError           if the {@code Iterable} under test is {@code null}.
+   * @throws AssertionError           if the {@code Iterable} under test does not contain any of the given {@code values}.
    * @since 2.9.0 / 3.9.0
    */
   @SuppressWarnings("unchecked")
@@ -1727,10 +1743,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * @param iterable the iterable whose at least one element is expected to be in the {@code Iterable} under test.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the iterable of expected values is {@code null}.
+   * @throws NullPointerException     if the iterable of expected values is {@code null}.
    * @throws IllegalArgumentException if the iterable of expected values is empty and the {@code Iterable} under test is not empty.
-   * @throws AssertionError if the {@code Iterable} under test is {@code null}.
-   * @throws AssertionError if the {@code Iterable} under test does not contain any of elements from the given {@code Iterable}.
+   * @throws AssertionError           if the {@code Iterable} under test is {@code null}.
+   * @throws AssertionError           if the {@code Iterable} under test does not contain any of elements from the given {@code Iterable}.
    * @since 2.9.0 / 3.9.0
    */
   SELF containsAnyElementsOf(Iterable<? extends ELEMENT> iterable);
@@ -1746,15 +1762,15 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * // assertion will fail
    * assertThat(abcc).noneMatch(s -&gt; s.length() == 2);</code></pre>
-   *
+   * <p>
    * Note that you can achieve the same result with {@link #areNot(Condition) areNot(Condition)}
    * or {@link #doNotHave(Condition) doNotHave(Condition)}.
    *
    * @param predicate the given {@link Predicate}.
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if any element satisfy the given predicate.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if any element satisfy the given predicate.
    * @since 3.9.0
    */
   SELF noneMatch(Predicate<? super ELEMENT> predicate);
@@ -1771,18 +1787,18 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * // assertion will fail
    * assertThat(abcc).noneMatch(s -&gt; s.length() == 2, "length of 2");</code></pre>
-   *
+   * <p>
    * The message of the failed assertion would be:
    * <pre><code class='java'>Expecting no elements of:
    *  &lt;["a", "b", "cc"]&gt;
    *  to match 'length of 2' predicate but this element did:
    *  &lt;"cc"&gt;</code></pre>
    *
-   * @param predicate the given {@link Predicate}.
+   * @param predicate            the given {@link Predicate}.
    * @param predicateDescription a description of the {@link Predicate} used in the error message
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if any elements satisfy the given predicate.
+   * @throws AssertionError       if any elements satisfy the given predicate.
    * @since 3.27.0
    */
   SELF noneMatch(Predicate<? super ELEMENT> predicate, String predicateDescription);

@@ -43,6 +43,11 @@ public class Longs extends Numbers<Long> implements WholeNumbers<Long> {
     super();
   }
 
+  /**
+   * Creates long assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy
+   */
   public Longs(ComparisonStrategy comparisonStrategy) {
     super(comparisonStrategy);
   }

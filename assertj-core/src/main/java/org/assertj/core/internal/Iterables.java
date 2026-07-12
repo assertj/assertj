@@ -150,11 +150,21 @@ public class Iterables {
     this(StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates iterable assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy
+   */
   public Iterables(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns the comparator used by the comparison strategy.
+   *
+   * @return the configured comparator, or {@code null}
+   */
   public Comparator<?> getComparator() {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
       return strategy.getComparator();
@@ -163,6 +173,11 @@ public class Iterables {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  /**
+   * Returns the comparison strategy.
+   *
+   * @return the comparison strategy
+   */
   public ComparisonStrategy getComparisonStrategy() {
     return comparisonStrategy;
   }
@@ -178,6 +193,12 @@ public class Iterables {
     if (!isNullOrEmpty(actual)) throw failures.failure(info, shouldBeNullOrEmpty(actual));
   }
 
+  /**
+   * Verifies that the iterable is not empty.
+   *
+   * @param info assertion information
+   * @param actual the actual iterable
+   */
   public void assertNotEmpty(AssertionInfo info, Iterable<?> actual) {
     assertNotNull(info, actual);
     if (isNullOrEmpty(actual)) throw failures.failure(info, shouldNotBeEmpty());
@@ -1161,8 +1182,17 @@ public class Iterables {
                             actual, list(values));
   }
 
+  /**
+   * Verifies that every element satisfies the given requirements.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param actual the actual iterable
+   * @param requirements the element requirements
+   */
   public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
+    assertNotEmpty(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
 
     List<UnsatisfiedRequirement> unsatisfiedRequirements = stream(actual).map(element -> failsRequirements(requirements, element))
@@ -1181,6 +1211,14 @@ public class Iterables {
     return Optional.empty();
   }
 
+  /**
+   * Verifies that each element satisfies its corresponding requirements.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param actual the actual iterable
+   * @param allRequirements the requirements in element order
+   */
   public <E> void assertSatisfiesExactly(AssertionInfo info, Iterable<? extends E> actual,
                                          Consumer<? super E>[] allRequirements) {
     assertNotNull(info, actual);
@@ -1198,6 +1236,14 @@ public class Iterables {
 
   }
 
+  /**
+   * Verifies that elements satisfy the requirements in any order.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param actual the actual iterable
+   * @param consumers the element requirements
+   */
   public <E> void assertSatisfiesExactlyInAnyOrder(AssertionInfo info, Iterable<? extends E> actual,
                                                    Consumer<? super E>[] consumers) {
     assertNotNull(info, actual);
@@ -1215,6 +1261,14 @@ public class Iterables {
       throw failures.failure(info, shouldSatisfyExactlyInAnyOrder(actual));
   }
 
+  /**
+   * Verifies that exactly one element satisfies the given requirements.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param actual the actual iterable
+   * @param requirements the element requirements
+   */
   public <E> void assertSatisfiesOnlyOnce(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<? super E> expressing the requirements must not be null");
@@ -1257,6 +1311,16 @@ public class Iterables {
                                        .collect(toCollection(ArrayDeque::new));
   }
 
+  /**
+   * Verifies requirements against pairs of zipped elements.
+   *
+   * @param <ACTUAL_ELEMENT> the actual element type
+   * @param <OTHER_ELEMENT> the other element type
+   * @param info assertion information
+   * @param actual the actual iterable
+   * @param other the iterable to zip with
+   * @param zipRequirements the pair requirements
+   */
   public <ACTUAL_ELEMENT, OTHER_ELEMENT> void assertZipSatisfy(AssertionInfo info,
                                                                Iterable<? extends ACTUAL_ELEMENT> actual,
                                                                Iterable<OTHER_ELEMENT> other,
@@ -1285,6 +1349,14 @@ public class Iterables {
     }
   }
 
+  /**
+   * Verifies that at least one element satisfies the requirements.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param actual the actual iterable
+   * @param requirements the element requirements
+   */
   public <E> void assertAnySatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
@@ -1299,10 +1371,20 @@ public class Iterables {
     throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements, info));
   }
 
+  /**
+   * Verifies that every element matches the predicate.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param actual the actual iterable
+   * @param predicate the predicate to evaluate
+   * @param predicateDescription the predicate description
+   */
   public <E> void assertAllMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
                                  PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
+    assertNotEmpty(info, actual);
     List<? extends E> nonMatches = stream(actual).filter(predicate.negate()).collect(toList());
 
     if (!nonMatches.isEmpty()) {
@@ -1312,6 +1394,14 @@ public class Iterables {
     }
   }
 
+  /**
+   * Verifies that no element satisfies the restrictions.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param actual the actual iterable
+   * @param restrictions the restrictions to evaluate
+   */
   public <E> void assertNoneSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> restrictions) {
     assertNotNull(info, actual);
     requireNonNull(restrictions, "The Consumer<T> expressing the restrictions must not be null");
@@ -1332,6 +1422,15 @@ public class Iterables {
     return Optional.of(element);
   }
 
+  /**
+   * Verifies that at least one element matches the predicate.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param actual the actual iterable
+   * @param predicate the predicate to evaluate
+   * @param predicateDescription the predicate description
+   */
   public <E> void assertAnyMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
                                  PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
@@ -1341,6 +1440,15 @@ public class Iterables {
     }
   }
 
+  /**
+   * Verifies that no element matches the predicate.
+   *
+   * @param <E> the element type
+   * @param info assertion information
+   * @param actual the actual iterable
+   * @param predicate the predicate to evaluate
+   * @param predicateDescription the predicate description
+   */
   public <E> void assertNoneMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
                                   PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
@@ -1374,6 +1482,13 @@ public class Iterables {
     throw failures.failure(info, shouldContainAnyOf(actual, values, comparisonStrategy));
   }
 
+  /**
+   * Verifies that the iterable contains exactly the given values in any order.
+   *
+   * @param info assertion information
+   * @param actual the actual iterable
+   * @param values the expected values
+   */
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, Iterable<?> actual, Object[] values) {
     checkIsNotNull(values);
     assertNotNull(info, actual);
@@ -1409,6 +1524,13 @@ public class Iterables {
     return stream(actual).filter(condition::matches).collect(toList());
   }
 
+  /**
+   * Creates a predicate that matches when the given assertions pass.
+   *
+   * @param <T> the tested value type
+   * @param assertions the assertions to evaluate
+   * @return the predicate
+   */
   public static <T> Predicate<T> byPassingAssertions(Consumer<? super T> assertions) {
     return objectToTest -> {
       try {

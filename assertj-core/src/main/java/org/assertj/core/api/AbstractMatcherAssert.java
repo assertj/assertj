@@ -28,11 +28,18 @@ import org.assertj.core.internal.Failures;
 /**
  * Assertions for {@link java.util.regex.Matcher}
  *
+ * @param <SELF>  the "self" type of this assertion class.
  * @author Jiashu Zhang
  */
 public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<SELF>>
     extends AbstractAssertWithComparator<SELF, Matcher> {
 
+  /**
+   * Creates a new {@link Matcher} assertion.
+   *
+   * @param actual the actual matcher to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractMatcherAssert(Matcher actual, Class<?> selfType) {
     super(actual, selfType);
   }

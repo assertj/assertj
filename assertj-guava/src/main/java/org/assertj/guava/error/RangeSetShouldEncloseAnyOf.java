@@ -26,6 +26,13 @@ import org.assertj.core.error.ErrorMessageFactory;
  */
 public class RangeSetShouldEncloseAnyOf extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message for a range set that does not enclose any expected range.
+   *
+   * @param actual the actual range set
+   * @param expected the expected ranges
+   * @return the created error message factory
+   */
   public static ErrorMessageFactory shouldEncloseAnyOf(Object actual, Object expected) {
     return new RangeSetShouldEncloseAnyOf(actual, expected);
   }

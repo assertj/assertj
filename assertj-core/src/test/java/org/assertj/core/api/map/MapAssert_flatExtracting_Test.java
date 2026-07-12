@@ -20,6 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -86,6 +88,16 @@ class MapAssert_flatExtracting_Test {
     // WHEN/THEN
     assertThat(map).flatExtracting("name", "job", "year")
                    .containsExactly("Dave", "Jeff", "Plumber", "Builder", 2017);
+  }
+
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    map = null;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(map).flatExtracting("name", "job", "year"));
+    // THEN
+    then(assertionError).hasMessageContainingAll("[flatExtracting: name, job, year]", actualIsNull());
   }
 
 }

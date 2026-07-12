@@ -26,6 +26,11 @@ public class LazyTextDescription extends Description {
 
   private Supplier<String> descriptionSupplier;
 
+  /**
+   * Creates a lazily evaluated text description.
+   *
+   * @param descriptionSupplier the description text supplier
+   */
   public LazyTextDescription(Supplier<String> descriptionSupplier) {
     this.descriptionSupplier = descriptionSupplier;
   }

@@ -56,6 +56,11 @@ public class RecursiveComparator implements Comparator<Object> {
     return recursiveComparisonDifferenceCalculator.determineDifferences(actual, expected, recursiveComparisonConfiguration);
   }
 
+  /**
+   * Returns the comparator description.
+   *
+   * @return the comparator description
+   */
   public String getDescription() {
     return "RecursiveComparator a comparator based on the recursive comparison with the following configuration:%n%s".formatted(
                                                                                                                                 recursiveComparisonConfiguration);

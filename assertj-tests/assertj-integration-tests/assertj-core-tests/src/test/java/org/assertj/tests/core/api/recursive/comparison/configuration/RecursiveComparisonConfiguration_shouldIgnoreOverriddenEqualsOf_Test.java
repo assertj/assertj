@@ -18,6 +18,7 @@ package org.assertj.tests.core.api.recursive.comparison.configuration;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Date;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.DualValue;
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.tests.core.api.recursive.data.Color;
 import org.assertj.tests.core.api.recursive.data.Human;
@@ -47,7 +49,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Test {
   @Test
   void should_ignore_all_overridden_equals_for_non_java_types() {
     // GIVEN
-    DualValue dualValue = new DualValue(list("foo"), new Person(), new Person());
+    var dualValue = dualValue("foo", new Person(), new Person());
     recursiveComparisonConfiguration.useOverriddenEquals();
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
     // WHEN
@@ -60,7 +62,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Test {
   @MethodSource("ignoringAllOverriddenEqualsExceptBasicTypes")
   void should_ignore_all_overridden_equals_except_basic_types(Object value) {
     // GIVEN
-    DualValue dualValue = new DualValue(list("foo"), value, value);
+    var dualValue = dualValue("foo", value, value);
     recursiveComparisonConfiguration.useOverriddenEquals();
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
     // WHEN
@@ -87,12 +89,12 @@ class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Test {
   }
 
   private static Stream<Arguments> ignoringOverriddenEqualsByRegexesSource() {
-    return Stream.of(arguments(dualValueWithPath("phone"), array("phon.")),
-                     arguments(dualValueWithPath("name"), array("foo", "na..", "foo")),
-                     arguments(dualValueWithPath("name", "first"), array("name\\.fi.st")),
-                     arguments(dualValueWithPath("father", "dob"), array("father.*")),
-                     arguments(dualValueWithPath("father", "nickname", "first"), array("father\\.(.*)\\.first")),
-                     arguments(dualValueWithPath("father", "name", "first"), array("father\\.(.*)\\.first")));
+    return Stream.of(arguments(personDualValueWithPath("phone"), array("phon.")),
+                     arguments(personDualValueWithPath("name"), array("foo", "na..", "foo")),
+                     arguments(personDualValueWithPath("name", "first"), array("name\\.fi.st")),
+                     arguments(personDualValueWithPath("father", "dob"), array("father.*")),
+                     arguments(personDualValueWithPath("father", "nickname", "first"), array("father\\.(.*)\\.first")),
+                     arguments(personDualValueWithPath("father", "name", "first"), array("father\\.(.*)\\.first")));
   }
 
   @ParameterizedTest(name = "{0} overridden equals should be ignored for these types {1}")
@@ -125,14 +127,15 @@ class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Test {
   }
 
   private static Stream<Arguments> ignoringOverriddenEqualsForFieldsSource() {
-    return Stream.of(arguments(dualValueWithPath("name"), array("name")),
-                     arguments(dualValueWithPath("name"), array("foo", "name", "foo")),
-                     arguments(dualValueWithPath("name", "first"), array("name.first")),
-                     arguments(dualValueWithPath("father", "name", "first"), array("father", "name.first", "father.name.first")));
+    return Stream.of(arguments(personDualValueWithPath("name"), array("name")),
+                     arguments(personDualValueWithPath("name"), array("foo", "name", "foo")),
+                     arguments(personDualValueWithPath("name", "first"), array("name.first")),
+                     arguments(personDualValueWithPath("father", "name", "first"),
+                               array("father", "name.first", "father.name.first")));
   }
 
-  private static DualValue dualValueWithPath(String... pathElements) {
-    return new DualValue(list(pathElements), new Person(), new Person());
+  private static DualValue personDualValueWithPath(String... pathElements) {
+    return new DualValue(new FieldLocation(list(pathElements)), new Person(), new Person(), null);
   }
 
 }

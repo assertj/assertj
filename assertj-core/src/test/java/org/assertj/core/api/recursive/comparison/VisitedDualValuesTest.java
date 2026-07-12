@@ -16,54 +16,89 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.api.recursive.comparison.DualValue.rootDualValue;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
-import org.assertj.core.api.BDDAssertions;
 import org.junit.jupiter.api.Test;
 
 class VisitedDualValuesTest {
 
   @Test
-  void should_return_the_registered_differences() {
+  void should_return_direct_registered_differences_without_duplicates() {
     // GIVEN
-    VisitedDualValues visitedDualValues = new VisitedDualValues();
-    DualValue dualValue = new DualValue(list(""), "abc", "abc");
+    var visitedDualValues = new VisitedDualValues();
+    var dualValue = rootDualValue("abc", "abc");
     visitedDualValues.registerVisitedDualValue(dualValue);
-    ComparisonDifference comparisonDifference1 = new ComparisonDifference(dualValue);
+    var comparisonDifference1 = new ComparisonDifference(dualValue);
     visitedDualValues.registerComparisonDifference(dualValue, comparisonDifference1);
-    ComparisonDifference comparisonDifference2 = new ComparisonDifference(dualValue);
+    var comparisonDifference1bis = new ComparisonDifference(dualValue);
+    visitedDualValues.registerComparisonDifference(dualValue, comparisonDifference1bis);
+    var comparisonDifference2 = new ComparisonDifference(dualValue, "another diff");
     visitedDualValues.registerComparisonDifference(dualValue, comparisonDifference2);
     // WHEN
-    Optional<List<ComparisonDifference>> optionalComparisonDifferences = visitedDualValues.registeredComparisonDifferencesOf(dualValue);
+    var optionalComparisonDifferences = visitedDualValues.getRegisteredComparisonDifferencesOf(dualValue);
     // THEN
     then(optionalComparisonDifferences).isPresent();
-    BDDAssertions.then(optionalComparisonDifferences.get()).containsExactlyInAnyOrder(comparisonDifference1,
-                                                                                      comparisonDifference2);
+    then(optionalComparisonDifferences.get()).containsExactlyInAnyOrder(comparisonDifference1, comparisonDifference2);
+  }
+
+  @Test
+  void should_return_registered_differences_on_grandchildren_without_duplicates() {
+    // GIVEN
+    var visitedDualValues = new VisitedDualValues();
+    var dualValueA = new DualValue(new FieldLocation("a"), "a", "a", null);
+    var dualValueB = new DualValue(new FieldLocation("a.b"), "ab", "ab", dualValueA);
+    var dualValueC = new DualValue(new FieldLocation("a.b.c"), "abc", "abc", dualValueB);
+    var dualValueD = new DualValue(new FieldLocation("a.b.c.d"), "abcd", "abcd", dualValueC);
+    var dualValueE = new DualValue(new FieldLocation("a.b.c.d.e"), "abcde", "abcde", dualValueD);
+    visitedDualValues.registerVisitedDualValue(dualValueA);
+    visitedDualValues.registerVisitedDualValue(dualValueB);
+    visitedDualValues.registerVisitedDualValue(dualValueC);
+    visitedDualValues.registerVisitedDualValue(dualValueD);
+    ComparisonDifference comparisonDifferenceB = new ComparisonDifference(dualValueB);
+    visitedDualValues.registerComparisonDifference(dualValueB, comparisonDifferenceB);
+    ComparisonDifference comparisonDifferenceD = new ComparisonDifference(dualValueD);
+    visitedDualValues.registerComparisonDifference(dualValueD, comparisonDifferenceD);
+    // WHEN
+    Optional<Set<ComparisonDifference>> dualValueADifferences = visitedDualValues.getRegisteredComparisonDifferencesOf(dualValueA);
+    Optional<Set<ComparisonDifference>> dualValueBDifferences = visitedDualValues.getRegisteredComparisonDifferencesOf(dualValueB);
+    Optional<Set<ComparisonDifference>> dualValueCDifferences = visitedDualValues.getRegisteredComparisonDifferencesOf(dualValueC);
+    Optional<Set<ComparisonDifference>> dualValueDDifferences = visitedDualValues.getRegisteredComparisonDifferencesOf(dualValueD);
+    Optional<Set<ComparisonDifference>> dualValueEDifferences = visitedDualValues.getRegisteredComparisonDifferencesOf(dualValueE);
+    // THEN
+    then(dualValueADifferences).isPresent();
+    then(dualValueADifferences.get()).containsExactlyInAnyOrder(comparisonDifferenceB, comparisonDifferenceD);
+    then(dualValueBDifferences).isPresent();
+    then(dualValueBDifferences.get()).containsExactlyInAnyOrder(comparisonDifferenceB, comparisonDifferenceD);
+    then(dualValueCDifferences).isPresent();
+    then(dualValueCDifferences.get()).containsExactlyInAnyOrder(comparisonDifferenceD);
+    then(dualValueDDifferences).isPresent();
+    then(dualValueDDifferences.get()).containsExactlyInAnyOrder(comparisonDifferenceD);
+    then(dualValueEDifferences).isEmpty();
   }
 
   @Test
   void should_return_no_differences_when_none_have_been_registered() {
     // GIVEN
-    VisitedDualValues visitedDualValues = new VisitedDualValues();
-    DualValue dualValue = new DualValue(list(""), "abc", "abc");
+    var visitedDualValues = new VisitedDualValues();
+    var dualValue = rootDualValue("abc", "abc");
     visitedDualValues.registerVisitedDualValue(dualValue);
     // WHEN
-    Optional<List<ComparisonDifference>> optionalComparisonDifferences = visitedDualValues.registeredComparisonDifferencesOf(dualValue);
+    Optional<Set<ComparisonDifference>> optionalComparisonDifferences = visitedDualValues.getRegisteredComparisonDifferencesOf(dualValue);
     // THEN
     then(optionalComparisonDifferences).isPresent();
-    BDDAssertions.then(optionalComparisonDifferences.get()).isEmpty();
+    then(optionalComparisonDifferences.get()).isEmpty();
   }
 
   @Test
   void should_return_empty_optional_for_unknown_dual_values() {
     // GIVEN
-    VisitedDualValues visitedDualValues = new VisitedDualValues();
-    DualValue dualValue = new DualValue(list(""), "abc", "abc");
+    var visitedDualValues = new VisitedDualValues();
+    var dualValue = rootDualValue("abc", "abc");
     // WHEN
-    Optional<List<ComparisonDifference>> optionalComparisonDifferences = visitedDualValues.registeredComparisonDifferencesOf(dualValue);
+    var optionalComparisonDifferences = visitedDualValues.getRegisteredComparisonDifferencesOf(dualValue);
     // THEN
     then(optionalComparisonDifferences).isEmpty();
   }

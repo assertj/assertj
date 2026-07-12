@@ -17,14 +17,29 @@ package org.assertj.core.util;
 
 import java.util.Comparator;
 
+/**
+ * Null-safe comparator using natural order.
+ *
+ * @param <T> the compared type
+ */
 public class NaturalOrderComparator<T extends Comparable<? super T>> extends NullSafeComparator<T> {
 
   private String description;
 
+  /**
+   * Creates a comparator described from the given class.
+   *
+   * @param clazz the compared class
+   */
   public NaturalOrderComparator(Class<T> clazz) {
     this.description = "%s natural order".formatted(clazz.getSimpleName());
   }
 
+  /**
+   * Creates a comparator with the given description.
+   *
+   * @param description the comparator description
+   */
   public NaturalOrderComparator(String description) {
     this.description = description;
   }

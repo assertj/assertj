@@ -134,22 +134,16 @@
           </execution>
         </executions>
       </plugin>
-      <!-- generate jacoco report -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <!-- exclude deprecated classes -->
-            <exclude>org/assertj/guava/data/MapEntry*</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <detectOfflineLinks>false</detectOfflineLinks>
+          <additionalOptions combine.children="append">
+            <additionalOption>--link-modularity-mismatch=info</additionalOption>
+          </additionalOptions>
+          <links>
+            <link>https://javadoc.io/static/com.google.guava/guava/${guava.version}</link>
+          </links>
           <offlineLinks>
             <offlineLink>
               <url>https://javadoc.io/static/org.assertj/assertj-core/${project.version}</url>
@@ -183,6 +177,16 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- exclude deprecated classes -->
+            <exclude>org/assertj/guava/data/MapEntry*</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.sonatype.central</groupId>

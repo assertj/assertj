@@ -18,8 +18,8 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeBetween.shouldNotBeBetween;
+import static org.assertj.core.internal.DatesBaseTest.parseDate;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.assertj.core.util.DateUtil.parse;
 
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ class ShouldNotBeBetween_create_Test {
   @Test
   void should_create_error_message_with_period_boundaries_included() {
     // GIVEN
-    ErrorMessageFactory factory = shouldNotBeBetween(parse("2009-01-01"), parse("2011-01-01"), parse("2012-01-01"),
+    ErrorMessageFactory factory = shouldNotBeBetween(parseDate("2009-01-01"), parseDate("2011-01-01"), parseDate("2012-01-01"),
                                                      true, true);
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
@@ -51,7 +51,7 @@ class ShouldNotBeBetween_create_Test {
   @Test
   void should_create_error_message_with_period_lower_boundary_included() {
     // GIVEN
-    ErrorMessageFactory factory = shouldNotBeBetween(parse("2012-01-01"), parse("2011-01-01"), parse("2012-01-01"),
+    ErrorMessageFactory factory = shouldNotBeBetween(parseDate("2012-01-01"), parseDate("2011-01-01"), parseDate("2012-01-01"),
                                                      true, false);
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
@@ -66,7 +66,7 @@ class ShouldNotBeBetween_create_Test {
   @Test
   void should_create_error_message_with_period_upper_boundary_included() {
     // GIVEN
-    ErrorMessageFactory factory = shouldNotBeBetween(parse("2011-01-01"), parse("2011-01-01"), parse("2012-01-01"),
+    ErrorMessageFactory factory = shouldNotBeBetween(parseDate("2011-01-01"), parseDate("2011-01-01"), parseDate("2012-01-01"),
                                                      false, true);
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
@@ -81,7 +81,7 @@ class ShouldNotBeBetween_create_Test {
   @Test
   void should_create_error_message_with_period_boundaries_excluded() {
     // GIVEN
-    ErrorMessageFactory factory = shouldNotBeBetween(parse("2011-01-01"), parse("2011-01-01"), parse("2012-01-01"),
+    ErrorMessageFactory factory = shouldNotBeBetween(parseDate("2011-01-01"), parseDate("2011-01-01"), parseDate("2012-01-01"),
                                                      false, false);
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);

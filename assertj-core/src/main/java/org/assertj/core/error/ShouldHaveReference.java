@@ -15,6 +15,7 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for atomic values with an unexpected reference. */
 public class ShouldHaveReference extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_REFERENCE = "%nExpecting%n  %s%nto have reference:%n  %s%nbut had:%n  %s";
@@ -23,6 +24,15 @@ public class ShouldHaveReference extends BasicErrorMessageFactory {
     super(SHOULD_HAVE_REFERENCE, actual, expectedReference, actualReference);
   }
 
+  /**
+   * Creates an error for an unexpected reference.
+   *
+   * @param <REF> the reference type
+   * @param actual the actual atomic value
+   * @param actualReference the actual reference
+   * @param expectedReference the expected reference
+   * @return the error message factory
+   */
   public static <REF> ErrorMessageFactory shouldHaveReference(Object actual, REF actualReference, REF expectedReference) {
     return new ShouldHaveReference(actual, actualReference, expectedReference);
   }

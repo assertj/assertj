@@ -20,8 +20,16 @@ import java.net.URI;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for URIs with an unexpected scheme. */
 public class ShouldHaveScheme extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for a URI with the wrong scheme.
+   *
+   * @param actual the actual URI
+   * @param expectedScheme the expected scheme
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveScheme(URI actual, String expectedScheme) {
     return new ShouldHaveScheme(actual, expectedScheme);
   }

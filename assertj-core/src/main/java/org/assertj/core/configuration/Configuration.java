@@ -17,7 +17,6 @@ package org.assertj.core.configuration;
 
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.text.DateFormat;
@@ -40,26 +39,35 @@ import org.assertj.core.presentation.Representation;
 public class Configuration {
 
   // default values
+  /** Default maximum length for a single-line description. */
   public static final int MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION = 80;
+  /** Default maximum number of elements to print. */
   public static final int MAX_ELEMENTS_FOR_PRINTING = 1000;
+  /** Default maximum number of indices to print. */
   public static final int MAX_INDICES_FOR_PRINTING = 50;
+  /** Default setting for removing AssertJ stack trace elements. */
   public static final boolean REMOVE_ASSERTJ_RELATED_ELEMENTS_FROM_STACK_TRACE = true;
+  /** Default setting for comparing private fields. */
   public static final boolean ALLOW_COMPARING_PRIVATE_FIELDS = true;
+  /** Default setting for extracting private fields. */
   public static final boolean ALLOW_EXTRACTING_PRIVATE_FIELDS = true;
+  /** Default setting for bare-name property extraction. */
   public static final boolean BARE_NAME_PROPERTY_EXTRACTION_ENABLED = true;
-  public static final boolean LENIENT_DATE_PARSING = false;
+  /** Default setting for printing assertion descriptions. */
   public static final boolean PRINT_ASSERTIONS_DESCRIPTION_ENABLED = false;
+  /** Default maximum number of stack trace elements to display. */
   public static final int MAX_STACKTRACE_ELEMENTS_DISPLAYED = 3;
+  /** Default preferred assumption exception. */
   public static final PreferredAssumptionException PREFERRED_ASSUMPTION_EXCEPTION = PreferredAssumptionException.AUTO_DETECT;
 
   // load default configuration after default values are initialized otherwise PREFERRED_ASSUMPTION_EXCEPTION is null
+  /** Shared default configuration. */
   public static final Configuration DEFAULT_CONFIGURATION = new Configuration();
 
   private boolean comparingPrivateFields;
   private boolean extractingPrivateFields;
   private boolean bareNamePropertyExtraction;
   private boolean removeAssertJRelatedElementsFromStackTrace;
-  private boolean lenientDateParsing;
   private List<DateFormat> additionalDateFormats;
   private int maxLengthForSingleLineDescription;
   private int maxElementsForPrinting;
@@ -68,6 +76,7 @@ public class Configuration {
   private int maxStackTraceElementsDisplayed;
   private PreferredAssumptionException preferredAssumptionException;
 
+  /** Creates a configuration initialized with default values. */
   public Configuration() {
     setDefaults();
   }
@@ -80,7 +89,6 @@ public class Configuration {
     extractingPrivateFields = ALLOW_EXTRACTING_PRIVATE_FIELDS;
     bareNamePropertyExtraction = BARE_NAME_PROPERTY_EXTRACTION_ENABLED;
     removeAssertJRelatedElementsFromStackTrace = REMOVE_ASSERTJ_RELATED_ELEMENTS_FROM_STACK_TRACE;
-    lenientDateParsing = LENIENT_DATE_PARSING;
     additionalDateFormats = emptyList();
     maxLengthForSingleLineDescription = MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION;
     maxElementsForPrinting = MAX_ELEMENTS_FOR_PRINTING;
@@ -91,6 +99,8 @@ public class Configuration {
   }
 
   /**
+   * Returns the representation used by this configuration.
+   *
    * @return the default {@link Representation} that is used within AssertJ.
    */
   public Representation representation() {
@@ -200,31 +210,6 @@ public class Configuration {
   }
 
   /**
-   * Returns whether AssertJ will use lenient parsing mode for default date formats.
-   * Default is {@value #LENIENT_DATE_PARSING}.
-   * <p>
-   * See {@link Assertions#setLenientDateParsing(boolean)} for a detailed description.
-   *
-   * @return whether AssertJ will use lenient parsing mode for default date formats.
-   */
-  public boolean lenientDateParsingEnabled() {
-    return lenientDateParsing;
-  }
-
-  /**
-   * Returns whether AssertJ will use lenient parsing mode for default date formats.
-   * <p>
-   * See {@link Assertions#setLenientDateParsing(boolean)} for a detailed description.
-   * <p>
-   * Note that this change will only be effective once {@link #apply()} or {@link #applyAndDisplay()} is called.
-   *
-   * @param lenientDateParsing whether AssertJ will use lenient parsing mode for default date formats.
-   */
-  public void setLenientDateParsing(boolean lenientDateParsing) {
-    this.lenientDateParsing = lenientDateParsing;
-  }
-
-  /**
    * AssertJ uses defaults date formats in date assertions, this property let's you register additional ones (default there are no additional date formats).
    * <p>
    * See {@link Assertions#registerCustomDateFormat(java.text.DateFormat)} for a detailed description.
@@ -312,18 +297,38 @@ public class Configuration {
     this.maxElementsForPrinting = maxElementsForPrinting;
   }
 
+  /**
+   * Returns whether assertion descriptions are printed.
+   *
+   * @return whether assertion descriptions are printed
+   */
   public boolean printAssertionsDescription() {
     return printAssertionsDescription;
   }
 
+  /**
+   * Sets whether assertion descriptions are printed.
+   *
+   * @param printAssertionsDescription whether to print assertion descriptions
+   */
   public void setPrintAssertionsDescriptionEnabled(boolean printAssertionsDescription) {
     this.printAssertionsDescription = printAssertionsDescription;
   }
 
+  /**
+   * Returns the configured description consumer.
+   *
+   * @return the description consumer
+   */
   public Consumer<Description> descriptionConsumer() {
     return descriptionConsumer;
   }
 
+  /**
+   * Sets the assertion description consumer.
+   *
+   * @param descriptionConsumer the description consumer
+   */
   public void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
     this.descriptionConsumer = descriptionConsumer;
   }
@@ -385,7 +390,6 @@ public class Configuration {
     Assertions.setAllowComparingPrivateFields(comparingPrivateFieldsEnabled());
     Assertions.setAllowExtractingPrivateFields(extractingPrivateFieldsEnabled());
     Assertions.setExtractBareNamePropertyMethods(bareNamePropertyExtractionEnabled());
-    Assertions.setLenientDateParsing(lenientDateParsingEnabled());
     Assertions.setMaxElementsForPrinting(maxElementsForPrinting());
     Assertions.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription());
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTraceEnabled());
@@ -408,13 +412,17 @@ public class Configuration {
     System.out.println(describe());
   }
 
+  /**
+   * Returns a textual description of this configuration.
+   *
+   * @return the configuration description
+   */
   public String describe() {
     return format("Applying configuration %s%n" +
                   "- representation .................................. = %s%n" +
                   "- comparingPrivateFieldsEnabled ................... = %s%n" +
                   "- extractingPrivateFieldsEnabled .................. = %s%n" +
                   "- bareNamePropertyExtractionEnabled ............... = %s%n" +
-                  "- lenientDateParsingEnabled ....................... = %s%n" +
                   "- additional date formats ......................... = %s%n" +
                   "- maxLengthForSingleLineDescription ............... = %s%n" +
                   "- maxElementsForPrinting .......................... = %s%n" +
@@ -428,7 +436,6 @@ public class Configuration {
                   comparingPrivateFieldsEnabled(),
                   extractingPrivateFieldsEnabled(),
                   bareNamePropertyExtractionEnabled(),
-                  lenientDateParsingEnabled(),
                   describeAdditionalDateFormats(),
                   maxLengthForSingleLineDescription(),
                   maxElementsForPrinting(),
@@ -442,7 +449,7 @@ public class Configuration {
   private String describeAdditionalDateFormats() {
     return additionalDateFormats().stream()
                                   .map(this::describe)
-                                  .collect(toList())
+                                  .toList()
                                   .toString();
   }
 

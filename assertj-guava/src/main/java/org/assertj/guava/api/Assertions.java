@@ -40,34 +40,93 @@ import com.google.common.io.ByteSource;
  */
 public class Assertions implements InstanceOfAssertFactories {
 
+  /**
+   * Creates an assertion for the given {@link ByteSource}.
+   *
+   * @param actual the actual value
+   * @return the created assertion
+   */
   public static ByteSourceAssert assertThat(final ByteSource actual) {
     return new ByteSourceAssert(actual);
   }
 
+  /**
+   * Creates an assertion for the given {@link Multimap}.
+   *
+   * @param <K> the type of keys in the multimap
+   * @param <V> the type of values in the multimap
+   * @param actual the actual value
+   * @return the created assertion
+   */
   public static <K, V> MultimapAssert<K, V> assertThat(final Multimap<K, V> actual) {
     return new MultimapAssert<>(actual);
   }
 
+  /**
+   * Creates an assertion for the given {@link Optional}.
+   *
+   * @param <T> the type of the optional value
+   * @param actual the actual value
+   * @return the created assertion
+   */
   public static <T> OptionalAssert<T> assertThat(final Optional<T> actual) {
     return new OptionalAssert<>(actual);
   }
 
+  /**
+   * Creates an assertion for the given {@link Range}.
+   *
+   * @param <T> the type of values in the range
+   * @param actual the actual value
+   * @return the created assertion
+   */
   public static <T extends Comparable<T>> RangeAssert<T> assertThat(final Range<T> actual) {
     return new RangeAssert<>(actual);
   }
 
+  /**
+   * Creates an assertion for the given {@link RangeMap}.
+   *
+   * @param <K> the type of keys in the range map
+   * @param <V> the type of values in the range map
+   * @param actual the actual value
+   * @return the created assertion
+   */
   public static <K extends Comparable<K>, V> RangeMapAssert<K, V> assertThat(final RangeMap<K, V> actual) {
     return new RangeMapAssert<>(actual);
   }
 
+  /**
+   * Creates an assertion for the given {@link RangeSet}.
+   *
+   * @param <T> the type of values in the range set
+   * @param actual the actual value
+   * @return the created assertion
+   */
   public static <T extends Comparable<T>> RangeSetAssert<T> assertThat(final RangeSet<T> actual) {
     return new RangeSetAssert<>(actual);
   }
 
+  /**
+   * Creates an assertion for the given {@link Table}.
+   *
+   * @param <R> the type of row keys in the table
+   * @param <C> the type of column keys in the table
+   * @param <V> the type of values in the table
+   * @param actual the actual value
+   * @return the created assertion
+   */
   public static <R, C, V> TableAssert<R, C, V> assertThat(Table<R, C, V> actual) {
     return new TableAssert<>(actual);
   }
 
+  /**
+   * Creates an assertion for the given {@link Multiset}.
+   *
+   * @param <T> the type of values in the multiset
+   * @param actual the actual value
+   * @return the created assertion
+   */
   public static <T> MultisetAssert<T> assertThat(final Multiset<T> actual) {
     return new MultisetAssert<>(actual);
   }

@@ -39,6 +39,11 @@ import org.assertj.core.util.Streams;
 public class IterableAssert<ELEMENT> extends
     FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
+  /**
+   * Creates a new iterable assertion.
+   *
+   * @param actual the actual iterable to verify
+   */
   public IterableAssert(Iterable<? extends ELEMENT> actual) {
     super(actual, IterableAssert.class, ObjectAssert::new);
   }
@@ -48,10 +53,23 @@ public class IterableAssert<ELEMENT> extends
     return assertThatIterable(iterable);
   }
 
+  /**
+   * Creates a new iterable assertion.
+   *
+   * @param <ELEMENT> the element type
+   * @param actual the actual iterable to verify
+   * @return the created assertion
+   */
   public static <ELEMENT> IterableAssert<ELEMENT> assertThatIterable(Iterable<? extends ELEMENT> actual) {
     return new IterableAssert<>(actual);
   }
 
+  /**
+   * Creates an iterable assertion whose actual value is {@code null}.
+   *
+   * @param <ELEMENT> the element type
+   * @return a null iterable assertion
+   */
   public static <ELEMENT> IterableAssert<ELEMENT> nullIterableAssert() {
     return new IterableAssert<>((Iterable<? extends ELEMENT>) null);
   }

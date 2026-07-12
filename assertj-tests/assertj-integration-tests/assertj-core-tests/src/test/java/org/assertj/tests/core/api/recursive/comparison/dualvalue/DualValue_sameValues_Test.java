@@ -16,11 +16,10 @@
 package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.rootDualValue;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.DualValue;
@@ -29,8 +28,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class DualValue_sameValues_Test {
-
-  private static final List<String> PATH = list("foo", "bar");
 
   @ParameterizedTest
   @MethodSource
@@ -41,9 +38,9 @@ class DualValue_sameValues_Test {
   static Stream<Arguments> sameValues_should_return_true_when_dual_values_refer_to_the_same_instances() {
     Object value1 = new Object();
     Object value2 = new Object();
-    DualValue dualValue1 = new DualValue(rootFieldLocation(), value1, value2);
-    DualValue dualValue2 = new DualValue(rootFieldLocation(), value1, value2);
-    DualValue dualValue3 = new DualValue(rootFieldLocation().field("foo"), value1, value2);
+    var dualValue1 = rootDualValue(value1, value2);
+    var dualValue2 = rootDualValue(value1, value2);
+    var dualValue3 = dualValue("foo", value1, value2);
     return Stream.of(arguments(dualValue1, dualValue2),
                      arguments(dualValue1, dualValue1),
                      arguments(dualValue2, dualValue1),
@@ -61,10 +58,10 @@ class DualValue_sameValues_Test {
     Object value1 = new Object();
     Object value2 = new Object();
     Object value3 = new Object();
-    DualValue dualValue1 = new DualValue(rootFieldLocation(), value1, value2);
-    DualValue dualValue2 = new DualValue(rootFieldLocation(), value1, value3);
-    DualValue dualValue3 = new DualValue(rootFieldLocation().field("foo"), value1, value3);
-    DualValue dualValue4 = new DualValue(rootFieldLocation(), new Object(), value2);
+    var dualValue1 = rootDualValue(value1, value2);
+    var dualValue2 = rootDualValue(value1, value3);
+    var dualValue3 = dualValue("foo", value1, value3);
+    var dualValue4 = rootDualValue(new Object(), value2);
     return Stream.of(arguments(dualValue1, dualValue2),
                      arguments(dualValue2, dualValue1),
                      arguments(dualValue1, dualValue3),

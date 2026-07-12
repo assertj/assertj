@@ -25,7 +25,13 @@ import static org.assertj.core.util.Strings.isNullOrEmpty;
  * @author Yvonne Wang
  */
 public abstract class Description {
+
+  /** Creates a new description. */
+  public Description() {}
+
   /**
+   * Returns this description's value.
+   *
    * @return the value of this description.
    */
   public abstract String value();
@@ -35,10 +41,23 @@ public abstract class Description {
     return value();
   }
 
+  /**
+   * Returns an empty description when the given description is {@code null}.
+   *
+   * @param description the description
+   * @return the description or an empty one
+   */
   public static Description emptyIfNull(Description description) {
     return description == null ? emptyDescription() : description;
   }
 
+  /**
+   * Returns the existing description when set, otherwise the new description.
+   *
+   * @param existingDescription the existing description
+   * @param newDescription the fallback description
+   * @return the most relevant description
+   */
   public static String mostRelevantDescription(Description existingDescription, String newDescription) {
     boolean isDescriptionSet = existingDescription != null && !isNullOrEmpty(existingDescription.value());
     return isDescriptionSet ? existingDescription.value() : newDescription;

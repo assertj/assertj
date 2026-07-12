@@ -31,22 +31,56 @@ public class ShouldHaveAllNullFields extends BasicErrorMessageFactory {
   private static final String EXCLUDING = COMPARISON + " except: %s.";
   private static final String DOT = ".";
 
+  /**
+   * Creates an error with non-null and ignored field lists.
+   *
+   * @param actual the actual object
+   * @param nonNullFields the non-null fields
+   * @param ignoredFields the ignored fields
+   */
   public ShouldHaveAllNullFields(Object actual, List<String> nonNullFields, List<String> ignoredFields) {
     super(EXPECTED_MULTIPLE + EXCLUDING, actual, nonNullFields, ignoredFields);
   }
 
+  /**
+   * Creates an error with non-null fields.
+   *
+   * @param actual the actual object
+   * @param nonNullFields the non-null fields
+   */
   public ShouldHaveAllNullFields(Object actual, List<String> nonNullFields) {
     super(EXPECTED_MULTIPLE + COMPARISON + DOT, actual, nonNullFields);
   }
 
+  /**
+   * Creates an error with one non-null field.
+   *
+   * @param actual the actual object
+   * @param nonNullField the non-null field
+   */
   public ShouldHaveAllNullFields(Object actual, String nonNullField) {
     super(EXPECTED_SINGLE + COMPARISON + DOT, actual, nonNullField);
   }
 
+  /**
+   * Creates an error with one non-null field and ignored fields.
+   *
+   * @param actual the actual object
+   * @param nonNullField the non-null field
+   * @param ignoredFields the ignored fields
+   */
   public ShouldHaveAllNullFields(Object actual, String nonNullField, List<String> ignoredFields) {
     super(EXPECTED_SINGLE + EXCLUDING, actual, nonNullField, ignoredFields);
   }
 
+  /**
+   * Creates an error for fields expected to be null.
+   *
+   * @param actual the actual object
+   * @param nonNullFields the non-null fields
+   * @param ignoredFields the ignored fields
+   * @return the error message factory
+   */
   public static ShouldHaveAllNullFields shouldHaveAllNullFields(Object actual, List<String> nonNullFields,
                                                                 List<String> ignoredFields) {
     if (nonNullFields.size() == 1) {

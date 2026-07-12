@@ -32,14 +32,29 @@ package org.assertj.core.api;
  */
 public class DoubleAssert extends AbstractDoubleAssert<DoubleAssert> {
 
+  /**
+   * Creates a new double assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public DoubleAssert(Double actual) {
     super(actual, DoubleAssert.class);
   }
 
+  /**
+   * Creates a new primitive double assertion.
+   *
+   * @param actual the actual value to verify
+   */
   public DoubleAssert(double actual) {
     super(actual, DoubleAssert.class);
   }
 
+  /**
+   * Creates a double assertion used for null navigation.
+   *
+   * @return the null-navigation assertion
+   */
   public static DoubleAssert nullDoubleAssert() {
     return new DoubleAssert(null);
   }

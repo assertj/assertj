@@ -70,9 +70,9 @@ class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test
     // GIVEN
     Map<Object, Object> map = null;
     // WHEN
-    var error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME, as(STRING)));
+    var assertionError = expectAssertionError(() -> assertThat(map).extractingByKey(NAME, as(STRING)));
     // THEN
-    then(error).hasMessage(actualIsNull());
+    then(assertionError).hasMessageContainingAll("[extractingByKey: name]", actualIsNull());
   }
 
   @Test
@@ -96,7 +96,7 @@ class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test
     // WHEN
     var error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME, as(STRING)).isNull());
     // THEN
-    then(error).hasMessageContaining("[Extracted: name]");
+    then(error).hasMessageContaining("[extractingByKey: name]");
   }
 
   @Override

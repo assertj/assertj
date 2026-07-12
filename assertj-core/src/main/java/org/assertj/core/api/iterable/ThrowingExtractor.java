@@ -44,5 +44,12 @@ public interface ThrowingExtractor<F, T, EXCEPTION extends Exception> extends Fu
     }
   }
 
+  /**
+   * Extracts a value and may throw an exception.
+   *
+   * @param input the source value
+   * @return the extracted value
+   * @throws EXCEPTION if extraction fails
+   */
   T extractThrows(F input) throws EXCEPTION;
 }

@@ -15,8 +15,15 @@
  */
 package org.assertj.core.error;
 
+/** Creates errors for numbers expected to be finite. */
 public class ShouldBeFinite extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for a number expected to be finite.
+   *
+   * @param actual the actual number
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldBeFinite(Number actual) {
     return new ShouldBeFinite(actual);
   }

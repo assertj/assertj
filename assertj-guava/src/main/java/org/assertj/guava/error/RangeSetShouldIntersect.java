@@ -29,6 +29,14 @@ import com.google.common.collect.RangeSet;
  */
 public class RangeSetShouldIntersect extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error message for a range set that does not intersect all expected ranges.
+   *
+   * @param actual the actual range set
+   * @param expected the expected ranges
+   * @param notIntersected the ranges that were not intersected
+   * @return the created error message factory
+   */
   public static ErrorMessageFactory shouldIntersect(RangeSet<?> actual, Object expected, Iterable<?> notIntersected) {
     return new RangeSetShouldIntersect(actual, expected, notIntersected);
   }

@@ -27,6 +27,13 @@ import static org.assertj.core.util.Throwables.getStackTrace;
  */
 public class ShouldHaveCauseReference extends BasicErrorMessageFactory {
 
+  /**
+   * Creates an error for a throwable with the wrong cause reference.
+   *
+   * @param actualCause the actual cause
+   * @param expectedCause the expected cause
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveCauseReference(Throwable actualCause, Throwable expectedCause) {
     return actualCause == null
         ? new ShouldHaveCauseReference(expectedCause)

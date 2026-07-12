@@ -62,6 +62,12 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   private Map<String, Comparator<?>> comparatorsByPropertyOrField = new TreeMap<>();
   private TypeComparators comparatorsByType;
 
+  /**
+   * Creates a new object assertion.
+   *
+   * @param actual the actual object to verify
+   * @param selfType the type of the concrete assertion
+   */
   public AbstractObjectAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -194,6 +200,11 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   // lazy init TypeComparators
+  /**
+   * Returns the comparators registered by property or field type.
+   *
+   * @return the registered comparators
+   */
   protected TypeComparators getComparatorsByType() {
     if (comparatorsByType == null) comparatorsByType = defaultTypeComparators();
     return comparatorsByType;
@@ -287,6 +298,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * Private fields are matched by default but this can be changed by calling {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
+   * For convenience, arrays and {@code List} fields or properties can be indexed using 'name[index]' (since 3.26.4).
+   * <p>
    * If you are looking to chain multiple assertions on different properties in a type safe way, consider chaining
    * {@link #returns(Object, Function)} and {@link #doesNotReturn(Object, Function)} calls.
    * <p>
@@ -294,19 +307,27 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <pre><code class='java'> public class TolkienCharacter {
    *   private String name;
    *   private int age;
+   *   private List&lt;TolkienCharacter&gt; friends;
    *   // constructor omitted
    *
    *   public String getName() {
    *     return this.name;
    *   }
+   *
+   *   public void addFriend(TolkienCharacter character) {
+   *     friends.add(character);
+   *   }
    * }
    *
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33);
+   * TolkienCharacter sam = new TolkienCharacter("Sam", 34);
+   * frodo.addFriend(sam);
    * TolkienCharacter noname = new TolkienCharacter(null, 33);
    *
    * // assertions will pass :
    * assertThat(frodo).hasFieldOrPropertyWithValue("name", "Frodo");
    * assertThat(frodo).hasFieldOrPropertyWithValue("age", 33);
+   * assertThat(frodo).hasFieldOrPropertyWithValue("friends[0]", sam);
    * assertThat(noname).hasFieldOrPropertyWithValue("name", null);
    *
    * // assertions will fail :
@@ -322,6 +343,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param value the field/property expected value
    * @return {@code this} assertion object.
    * @throws AssertionError           if the actual object is {@code null}.
+   * @throws AssertionError           if using an index that is out of bounds.
    * @throws IllegalArgumentException if name is {@code null}.
    * @throws AssertionError           if the actual object does not have the given field/property
    * @throws AssertionError           if the actual object has the given field/property but not with the expected value
@@ -387,6 +409,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <pre><code class='java'> // "address" is a Map property (that is getAddress() returns a Map)
    * actual.getAddress().get("street").getNumber();</code></pre>
    * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
+   * <p>
    * Private fields can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
    * Example:
@@ -409,10 +434,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(String... propertiesOrFields) {
     return executeAssertionNavigation(() -> {
-      isNotNull();
+      String extractedDescription = extractedDescriptionOf(propertiesOrFields);
+      isNotNull(extractedDescription);
       Tuple values = byName(propertiesOrFields).apply(actual);
-      String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
-      String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
+      String description = mostRelevantDescription(info.description(), extractedDescription);
       return newListAssertInstance(values.toList()).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);
   }
@@ -428,6 +453,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * or if address is a {@link Map}:
    * <pre><code class='java'> // "address" is a Map property (that is getAddress() returns a Map)
    * actual.getAddress().get("street").getNumber();</code></pre>
+   * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
    * <p>
    * Private field can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
@@ -475,6 +503,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * Nested field/property is supported, specifying "address.street.number" is equivalent to get the value
    * corresponding to actual.getAddress().getStreet().getNumber()
+   * <p>
+   * If the field is an array or a list, you can access a specific elements using brackets notation,
+   * ex: {@code friends[1]} to get the second element of the friends array/list field.
    * <p>
    * Private field can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
@@ -539,14 +570,22 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   @SafeVarargs
   public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, ?>... extractors) {
+    return executeAssertionNavigation(() -> doExtracting(extractors), ListAssert::nullListAssert);
+  }
+
+  /**
+   * Applies the given extractors to the actual object.
+   *
+   * @param extractors the extractors to apply
+   * @return assertions on the extracted values
+   */
+  protected AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> doExtracting(Function<? super ACTUAL, ?>[] extractors) {
     requireNonNull(extractors, shouldNotBeNull("extractors")::create);
-    return executeAssertionNavigation(() -> {
-      isNotNull();
-      List<Object> values = Stream.of(extractors)
-                                  .map(extractor -> extractor.apply(actual))
-                                  .collect(toList());
-      return newListAssertInstance(values).withAssertionState(myself);
-    }, ListAssert::nullListAssert);
+    isNotNull("extracting");
+    List<Object> values = Stream.of(extractors)
+                                .map(extractor -> extractor.apply(actual))
+                                .collect(toList());
+    return newListAssertInstance(values).withAssertionState(myself);
   }
 
   /**
@@ -810,13 +849,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * {@link java.util.function.Predicate} applied to them (including primitive fields), no fields are excluded, but:
    * <ul>
    *   <li>The recursion does not enter into Java Class Library types (java.*, javax.*)</li>
-   *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Collection} and array elements (but not the collection/array itself)</li>
+   *   <li>The {@link java.util.function.Predicate} is applied to {@link Iterable} and array elements (but not the iterable/array itself)</li>
    *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Map} values but not the map itself or its keys</li>
    *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Optional} and primitive optional values</li>
    * </ul>
-   * <p>You can change how the recursive assertion deals with arrays, collections, maps and optionals, see:</p>
+   * <p>You can change how the recursive assertion deals with arrays, iterables, maps and optionals, see:</p>
    * <ul>
-   *   <li>{@link RecursiveAssertionAssert#withCollectionAssertionPolicy(RecursiveAssertionConfiguration.CollectionAssertionPolicy)} for collections and arrays</li>
+   *   <li>{@link RecursiveAssertionAssert#withIterableAssertionPolicy(RecursiveAssertionConfiguration.IterableAssertionPolicy)} for iterables and arrays</li>
    *   <li>{@link RecursiveAssertionAssert#withMapAssertionPolicy(RecursiveAssertionConfiguration.MapAssertionPolicy)} for maps</li>
    *   <li>{@link RecursiveAssertionAssert#withOptionalAssertionPolicy(RecursiveAssertionConfiguration.OptionalAssertionPolicy)} for optionals</li>
    * </ul>
@@ -883,7 +922,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *   <li>Exclusion of fields by type</li>
    *   <li>Exclusion of primitive fields</li>
    *   <li>Inclusion of Java Class Library types in the recursive execution</li>
-   *   <li>Treatment of {@link java.util.Collection} and array objects</li>
+   *   <li>Treatment of {@link Iterable} and array objects</li>
    *   <li>Treatment of {@link java.util.Map} objects</li>
    *   <li>Treatment of Optional and primitive Optional objects</li>
    * </ul>
@@ -899,6 +938,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   // override for proxyable friendly AbstractObjectAssert
+  /**
+   * Creates an object assertion for the given value.
+   *
+   * @param <T> the value type
+   * @param objectUnderTest the value to assert on
+   * @return the new object assertion
+   */
   protected <T> AbstractObjectAssert<?, T> newObjectAssert(T objectUnderTest) {
     return new ObjectAssert<>(objectUnderTest);
   }

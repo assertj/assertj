@@ -26,6 +26,8 @@ import org.assertj.core.internal.Failures;
 /**
  * Assertions for {@link java.util.OptionalLong}.
  *
+ * @param <SELF>  the "self" type of this assertion class.
+ *
  * @author Jean-Christophe Gay
  * @author Alexander Bischof
  * @author Grzegorz Piwowarek
@@ -33,6 +35,12 @@ import org.assertj.core.internal.Failures;
 public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLongAssert<SELF>> extends
     AbstractAssertWithComparator<SELF, OptionalLong> {
 
+  /**
+   * Creates a new {@link OptionalLong} assertion.
+   *
+   * @param actual the actual optional to verify
+   * @param selfType the type of the concrete assertion
+   */
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   protected AbstractOptionalLongAssert(OptionalLong actual, Class<?> selfType) {
     super(actual, selfType);

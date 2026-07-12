@@ -28,14 +28,21 @@ import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 /**
  * Base class of reusable assertions for real numbers (float and double).
  *
+ * @param <NUMBER> the number type
  * @author Joel Costigliola
  */
 public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> extends Numbers<NUMBER> {
 
+  /** Creates real number assertions using the standard comparison strategy. */
   protected RealNumbers() {
     super();
   }
 
+  /**
+   * Creates real number assertions using the given comparison strategy.
+   *
+   * @param comparisonStrategy the comparison strategy
+   */
   protected RealNumbers(ComparisonStrategy comparisonStrategy) {
     super(comparisonStrategy);
   }
@@ -52,12 +59,24 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
     assertEqualByComparison(info, actual, NaN());
   }
 
+  /**
+   * Returns the absolute decimal difference between two numbers.
+   *
+   * @param number1 the first number
+   * @param number2 the second number
+   * @return the absolute difference
+   */
   protected BigDecimal absBigDecimalDiff(NUMBER number1, NUMBER number2) {
     BigDecimal number1AsbigDecimal = new BigDecimal(String.valueOf(number1));
     BigDecimal number2AsbigDecimal = new BigDecimal(String.valueOf(number2));
     return number1AsbigDecimal.subtract(number2AsbigDecimal).abs();
   }
 
+  /**
+   * Returns the not-a-number value.
+   *
+   * @return the not-a-number value
+   */
   protected abstract NUMBER NaN();
 
   /**
@@ -75,30 +94,72 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
     return value.compareTo(other) > 0;
   }
 
+  /**
+   * Verifies that the number is finite.
+   *
+   * @param info assertion information
+   * @param actual the actual number
+   */
   public void assertIsFinite(AssertionInfo info, NUMBER actual) {
     assertNotNull(info, actual);
     if (isFinite(actual)) return;
     throw failures.failure(info, shouldBeFinite(actual));
   }
 
+  /**
+   * Checks whether the value is finite.
+   *
+   * @param value the value to check
+   * @return whether the value is finite
+   */
   protected abstract boolean isFinite(NUMBER value);
 
+  /**
+   * Verifies that the number is not finite.
+   *
+   * @param info assertion information
+   * @param actual the actual number
+   */
   public void assertIsNotFinite(AssertionInfo info, NUMBER actual) {
     assertNotNull(info, actual);
     if (isNotFinite(actual)) return;
     throw failures.failure(info, shouldNotBeFinite(actual));
   }
 
+  /**
+   * Checks whether the value is not finite.
+   *
+   * @param value the value to check
+   * @return whether the value is not finite
+   */
   protected abstract boolean isNotFinite(NUMBER value);
 
+  /**
+   * Verifies that the number is infinite.
+   *
+   * @param info assertion information
+   * @param actual the actual number
+   */
   public void assertIsInfinite(AssertionInfo info, NUMBER actual) {
     assertNotNull(info, actual);
     if (isInfinite(actual)) return;
     throw failures.failure(info, shouldBeInfinite(actual));
   }
 
+  /**
+   * Checks whether the value is infinite.
+   *
+   * @param value the value to check
+   * @return whether the value is infinite
+   */
   protected abstract boolean isInfinite(NUMBER value);
 
+  /**
+   * Verifies that the number is not infinite.
+   *
+   * @param info assertion information
+   * @param actual the actual number
+   */
   public void assertIsNotInfinite(AssertionInfo info, NUMBER actual) {
     assertNotNull(info, actual);
     if (isNotInfinite(actual)) return;
@@ -115,7 +176,19 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
     return isNaN(value) || isInfinite(value);
   }
 
+  /**
+   * Checks whether the value is not a number.
+   *
+   * @param value the value to check
+   * @return whether the value is not a number
+   */
   protected abstract boolean isNaN(NUMBER value);
 
+  /**
+   * Checks whether the value is not infinite.
+   *
+   * @param value the value to check
+   * @return whether the value is not infinite
+   */
   protected abstract boolean isNotInfinite(NUMBER value);
 }

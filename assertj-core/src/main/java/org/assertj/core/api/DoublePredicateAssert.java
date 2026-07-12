@@ -28,10 +28,21 @@ import java.util.stream.DoubleStream;
  */
 public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePredicateAssert, DoublePredicate, Double> {
 
+  /**
+   * Creates an assertion for the given double predicate.
+   *
+   * @param actual the actual predicate
+   * @return the created assertion object
+   */
   public static DoublePredicateAssert assertThatDoublePredicate(DoublePredicate actual) {
     return new DoublePredicateAssert(actual);
   }
 
+  /**
+   * Creates a new double predicate assertion.
+   *
+   * @param actual the actual predicate
+   */
   public DoublePredicateAssert(DoublePredicate actual) {
     super(actual, toPredicate(actual), DoublePredicateAssert.class);
   }

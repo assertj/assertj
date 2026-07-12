@@ -21,12 +21,11 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Sets.newTreeSet;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
 
 import java.nio.file.Path;
-import java.util.List;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -36,13 +35,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 class DualValue_iterableValues_Test {
 
-  private static final List<String> PATH = list("foo", "bar");
-
   @ParameterizedTest
   @MethodSource("orderedCollections")
   void isActualAnOrderedCollection_should_return_true_when_actual_is_an_ordered_collection(Iterable<?> actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, "");
+    var dualValue = dualValue(actual, "");
     // WHEN
     boolean isActualAnOrderedCollection = dualValue.isActualAnOrderedCollection();
     // THEN
@@ -53,7 +50,7 @@ class DualValue_iterableValues_Test {
   @MethodSource("orderedCollections")
   void isExpectedAnOrderedCollection_should_return_true_when_expected_is_an_ordered_collection(Iterable<?> expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", expected);
+    var dualValue = dualValue("", expected);
     // WHEN
     boolean isExpectedAnOrderedCollection = dualValue.isExpectedAnOrderedCollection();
     // THEN
@@ -68,7 +65,7 @@ class DualValue_iterableValues_Test {
   @MethodSource("nonOrdered")
   void isActualAnOrderedCollection_should_return_false_when_actual_is_not_an_ordered_collection(Object actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, "");
+    var dualValue = dualValue(actual, "");
     // WHEN
     boolean isActualAnOrderedCollection = dualValue.isActualAnOrderedCollection();
     // THEN
@@ -79,7 +76,7 @@ class DualValue_iterableValues_Test {
   @MethodSource("nonOrdered")
   void isExpectedAnOrderedCollection_should_return_false_when_expected_is_not_an_ordered_collection(Object expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", expected);
+    var dualValue = dualValue("", expected);
     // WHEN
     boolean isExpectedAnOrderedCollection = dualValue.isExpectedAnOrderedCollection();
     // THEN
@@ -94,7 +91,7 @@ class DualValue_iterableValues_Test {
   @MethodSource("iterables")
   void isActualAnIterable_should_return_true_when_actual_is_an_ordered_collection(Object actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, "");
+    var dualValue = dualValue(actual, "");
     // WHEN
     boolean isActualAnIterable = dualValue.isActualAnIterable();
     // THEN
@@ -105,7 +102,7 @@ class DualValue_iterableValues_Test {
   @MethodSource("iterables")
   void isExpectedAnIterable_should_return_true_when_expected_is_an_iterable(Object expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", expected);
+    var dualValue = dualValue("", expected);
     // WHEN
     boolean isExpectedAnIterable = dualValue.isExpectedAnIterable();
     // THEN
@@ -120,7 +117,7 @@ class DualValue_iterableValues_Test {
   @MethodSource("nonIterables")
   void isActualAnIterable_should_return_false_when_actual_is_not_an_iterable(Object actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual, "");
+    var dualValue = dualValue(actual, "");
     // WHEN
     boolean isActualAnIterable = dualValue.isActualAnIterable();
     // THEN
@@ -131,7 +128,7 @@ class DualValue_iterableValues_Test {
   @MethodSource("nonIterables")
   void isExpectedAnIterable_should_return_false_when_expected_is_not_an_iterable(Object expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", expected);
+    var dualValue = dualValue("", expected);
     // WHEN
     boolean isExpectedAnIterable = dualValue.isExpectedAnIterable();
     // THEN
@@ -146,7 +143,7 @@ class DualValue_iterableValues_Test {
   @MethodSource("iterableJsonNodes")
   void isExpectedAnIterable_should_return_true_when_expected_is_an_array_json_node(JsonNode expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", expected.findValue("value"));
+    var dualValue = dualValue("", expected.findValue("value"));
     // WHEN
     boolean isExpectedAnIterable = dualValue.isExpectedAnIterable();
     // THEN
@@ -157,7 +154,7 @@ class DualValue_iterableValues_Test {
   @MethodSource("nonIterableJsonNodes")
   void isExpectedAnIterable_should_return_false_when_expected_is_a_json_node_that_should_not_be_treated_as_an_iterable(JsonNode expected) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", expected.findValue("value"));
+    var dualValue = dualValue("", expected.findValue("value"));
     // WHEN
     boolean isExpectedAnIterable = dualValue.isExpectedAnIterable();
     // THEN
@@ -168,7 +165,7 @@ class DualValue_iterableValues_Test {
   @MethodSource("iterableJsonNodes")
   void isActualAnIterable_should_return_true_when_actual_is_an_array_json_node(JsonNode actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual.findValue("value"), "");
+    var dualValue = dualValue(actual.findValue("value"), "");
     // WHEN
     boolean isActualAnIterable = dualValue.isActualAnIterable();
     // THEN
@@ -179,7 +176,7 @@ class DualValue_iterableValues_Test {
   @MethodSource("nonIterableJsonNodes")
   void isActualAnIterable_should_return_false_when_actual_is_a_json_node_that_should_not_be_treated_as_an_iterable(JsonNode actual) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, actual.findValue("value"), "");
+    var dualValue = dualValue(actual.findValue("value"), "");
     // WHEN
     boolean isActualAnIterable = dualValue.isActualAnIterable();
     // THEN

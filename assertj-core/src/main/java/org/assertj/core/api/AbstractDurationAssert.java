@@ -33,6 +33,8 @@ import org.assertj.core.presentation.StandardRepresentation;
 
 /**
  * Assertions for {@link Duration} type.
+ *
+ * @param <SELF>  the "self" type of this assertion class.
  * @author Filip Hrisafov
  * @author Eric Rizzo
  * @since 3.15.0

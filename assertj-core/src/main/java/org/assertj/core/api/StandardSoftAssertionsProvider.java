@@ -77,6 +77,7 @@ import java.util.stream.Stream;
 import org.assertj.core.annotation.CanIgnoreReturnValue;
 import org.assertj.core.annotation.CheckReturnValue;
 
+/** Standard entry point exposing all soft assertion types. */
 @CheckReturnValue
 public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
   /**

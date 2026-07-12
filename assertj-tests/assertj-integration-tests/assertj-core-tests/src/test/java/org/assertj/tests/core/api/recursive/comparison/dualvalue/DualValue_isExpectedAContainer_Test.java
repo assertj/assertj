@@ -20,8 +20,8 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.tests.core.api.recursive.data.DualValueUtil.dualValue;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,20 +32,17 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class DualValue_isExpectedAContainer_Test {
 
-  private static final List<String> PATH = list("foo", "bar");
-
   @ParameterizedTest(name = "actual {0} / expected {1}")
   @MethodSource("values")
   void should_indicates_whether_expected_is_a_container_or_not(Object expected, boolean expectedResult) {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, null, expected);
+    var dualValue = dualValue(null, expected);
     // WHEN
     boolean isExpectedAContainer = dualValue.isExpectedAContainer();
     // THEN

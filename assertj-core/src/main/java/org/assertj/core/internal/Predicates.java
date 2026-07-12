@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.Predicate;
 
+/** Reusable predicate assertions. */
 public class Predicates {
 
   private static final Predicates INSTANCE = new Predicates();

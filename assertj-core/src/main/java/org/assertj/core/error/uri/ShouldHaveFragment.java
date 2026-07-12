@@ -20,7 +20,15 @@ import java.net.URI;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+/** Creates errors for URIs with an unexpected fragment. */
 public class ShouldHaveFragment extends BasicErrorMessageFactory {
+  /**
+   * Creates an error for a URI with the wrong fragment.
+   *
+   * @param actual the actual URI
+   * @param expectedFragment the expected fragment
+   * @return the error message factory
+   */
   public static ErrorMessageFactory shouldHaveFragment(URI actual, String expectedFragment) {
     return expectedFragment == null ? new ShouldHaveFragment(actual) : new ShouldHaveFragment(actual, expectedFragment);
   }

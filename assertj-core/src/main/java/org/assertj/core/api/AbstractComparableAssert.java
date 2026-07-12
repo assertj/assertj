@@ -38,6 +38,12 @@ public abstract class AbstractComparableAssert<SELF extends AbstractComparableAs
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Comparables comparables = new Comparables();
 
+  /**
+   * Creates a new comparable assertion.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractComparableAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }

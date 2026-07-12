@@ -34,6 +34,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.assertj.core.internal.DatesBaseTest.parseDatetime;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.testkit.ClasspathResources.resourceFile;
@@ -46,7 +47,6 @@ import static org.assertj.core.testkit.TolkienCharacter.Race.ELF;
 import static org.assertj.core.testkit.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.testkit.TolkienCharacter.Race.MAN;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -715,7 +715,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
                                   .containsExactly("[Extracted: name] error 1", "[Extracted: name, age] error 2",
-                                                   "[Extracted: name] error 3", "error 4", "error 5", "error 6");
+                                                   "[Extracted: name] error 3", "[extracting] error 4",
+                                                   "[extracting] error 5", "[extracting] error 6");
   }
 
   @Test
@@ -731,7 +732,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .isEmpty();
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                  .containsExactly("error 1", "error 2");
+                                  .containsExactly("[flatExtracting] error 1", "[flatExtracting] error 2");
   }
 
   @Test
@@ -2551,7 +2552,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       List<Throwable> errorsCollected = softly.errorsCollected();
       then(errorsCollected).hasSize(3);
       then(errorsCollected.get(0)).hasMessageFindingMatch("not found:.*stranger.*not expected:.*david");
-      then(errorsCollected.get(1)).hasMessage("overridingErrorMessage with extractingFromEntries");
+      then(errorsCollected.get(1)).hasMessage("[extractingFromEntries] overridingErrorMessage with extractingFromEntries");
       then(errorsCollected.get(2)).hasMessageFindingMatch("not found:.*10.*not expected:.*1");
     }
   }
@@ -2713,6 +2714,25 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
                                   .containsExactly("[binaryContent()] error message");
+  }
+
+  @Test
+  void path_soft_assertions_should_work_with_size() {
+    // GIVEN
+    Path path = resourcePath("actual_file.txt");
+    // WHEN
+    softly.assertThat(path)
+          .size()
+          .overridingErrorMessage("size error message")
+          .isGreaterThan(0)
+          .isLessThan(1)
+          .returnToPath()
+          .overridingErrorMessage("isNull error message")
+          .isNull();
+    // THEN
+    var errorsCollected = softly.errorsCollected();
+    then(errorsCollected.get(0)).hasMessageContaining("size error message");
+    then(errorsCollected.get(1)).hasMessageContaining("isNull error message");
   }
 
   @Test

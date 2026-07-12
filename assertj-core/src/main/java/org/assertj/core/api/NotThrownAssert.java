@@ -25,14 +25,20 @@ import org.assertj.core.util.Throwables;
 /**
  * Assertion class checking a {@link ThrowingCallable} throws no exception.
  * <p>
- * The class itself does not do much, it delegates the work to {@link ThrowableAssert} after calling {@link #isThrownBy(ThrowingCallable)}.
+ * The class itself does not do much, it delegates the work to {@link ThrowableAssert} after calling
+ * {@link #isThrownBy(ThrowingCallable)}.
  *
  * @since 3.17.0
  * @see ThrowableTypeAssert
  */
+/** Assertion used when no throwable was raised. */
 public class NotThrownAssert implements Descriptable<NotThrownAssert> {
 
+  /** Optional assertion description. */
   protected Description description;
+
+  /** Creates an assertion representing the absence of a throwable. */
+  public NotThrownAssert() {}
 
   /**
    * Assert that no exception of any type is thrown by the {@code throwingCallable}.

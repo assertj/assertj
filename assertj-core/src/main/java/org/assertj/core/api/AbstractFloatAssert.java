@@ -54,11 +54,23 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
 
   private final boolean isPrimitive;
 
+  /**
+   * Creates a new assertion for a boxed {@link Float}.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   protected AbstractFloatAssert(Float actual, Class<?> selfType) {
     super(actual, selfType);
     this.isPrimitive = false;
   }
 
+  /**
+   * Creates a new assertion for a primitive {@code float}.
+   *
+   * @param actual the actual value to verify
+   * @param selfType the type of the concrete assertion
+   */
   public AbstractFloatAssert(float actual, Class<?> selfType) {
     super(actual, selfType);
     this.isPrimitive = true;
