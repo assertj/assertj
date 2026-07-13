@@ -15,6 +15,7 @@
  */
 package org.assertj.core.api.abstract_;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
@@ -73,6 +74,16 @@ class AbstractAssert_asInstanceOf_with_InstanceOfAssertFactory_Test extends Abst
   void should_return_narrowed_assert_type() {
     // WHEN
     AbstractAssert<?, ?> result = assertions.asInstanceOf(LONG);
+    // THEN
+    then(result).isInstanceOf(AbstractLongAssert.class);
+  }
+
+  @Test
+  void should_allow_null_for_any_narrowed_assert_type() {
+    // GIVEN
+    String actual = null;
+    // WHEN - works as null is a valid Long value
+    AbstractAssert<?, ?> result = assertThat(actual).asInstanceOf(LONG);
     // THEN
     then(result).isInstanceOf(AbstractLongAssert.class);
   }

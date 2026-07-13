@@ -380,7 +380,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
 
   /**
    * Uses an {@link InstanceOfAssertFactory} to verify that the actual value is an instance of a given type and to produce
-   * a new {@link Assert} narrowed to that type.
+   * a new {@link Assert} narrowed to that type (if actual is null, the check succeeds).
    * <p>
    * {@link InstanceOfAssertFactories} provides static factories for all the types supported by {@code Assertions#assertThat}.
    * <p>

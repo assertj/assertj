@@ -88,6 +88,14 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test
   }
 
   @Test
+  void should_allow_narrowing_null_value() {
+    // GIVEN
+    luke.name.first = null;
+    // WHEN/THEN
+    then(luke).extracting("name.first", STRING).isNull();
+  }
+
+  @Test
   void should_fail_if_the_extracted_value_is_not_an_instance_of_the_assert_factory_type() {
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(luke).extracting("name.first", LONG));

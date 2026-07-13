@@ -66,6 +66,14 @@ class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test
   }
 
   @Test
+  void should_allow_narrowing_null_value() {
+    // GIVEN
+    map.put(NAME, null);
+    // WHEN/THEN
+    then(map).extractingByKey(NAME, as(STRING)).isNull();
+  }
+
+  @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
     Map<Object, Object> map = null;
@@ -84,11 +92,8 @@ class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test
   }
 
   @Test
-  void should_fail_if_key_is_unknown() {
-    // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey("unknown", as(STRING)));
-    // THEN
-    then(error).hasMessageContaining(actualIsNull());
+  void should_extract_null_if_key_is_unknown() {
+    assertThat(map).extractingByKey("unknown", as(STRING)).isNull();
   }
 
   @Test
