@@ -16,6 +16,7 @@
 package org.assertj.core.api.iterable;
 
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -25,6 +26,8 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 
+import java.util.List;
+
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.IterableAssert;
@@ -33,7 +36,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link IterableAssert#singleElement(InstanceOfAssertFactory)}</code>.
- * 
+ *
  * @author Michael Grafl
  */
 @DisplayName("IterableAssert singleElement(InstanceOfAssertFactory)")
@@ -67,6 +70,14 @@ class IterableAssert_singleElement_with_InstanceOfAssertFactory_Test {
     AbstractStringAssert<?> result = assertThat(babySimpsons).singleElement(STRING);
     // THEN
     result.startsWith("Mag");
+  }
+
+  @Test
+  void should_allow_narrowing_null_value() {
+    // GIVEN
+    List<String> withNull = singletonList(null);
+    // WHEN/THEN
+    then(withNull).singleElement(STRING).isNull();
   }
 
   @Test

@@ -17,6 +17,7 @@ package org.assertj.tests.core.api.future;
 
 import static java.lang.String.format;
 import static java.util.concurrent.CompletableFuture.completedFuture;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -41,8 +42,8 @@ class FutureAssert_succeedsWithin_duration_Test extends AbstractFutureTest {
     String value = "done";
     Future<String> future = completedFuture(value);
     // WHEN/THEN
-    assertThat(future).succeedsWithin(Duration.ofMillis(1))
-                      .isEqualTo(value);
+    then(future).succeedsWithin(Duration.ofMillis(1))
+                .isEqualTo(value);
   }
 
   @Test
@@ -54,7 +55,7 @@ class FutureAssert_succeedsWithin_duration_Test extends AbstractFutureTest {
 
     // WHEN/THEN
     // using the same duration would fail depending on when the thread executing the future is started
-    assertThat(future).succeedsWithin(Duration.ofMillis(sleepDuration + 1_000)).isEqualTo(value);
+    then(future).succeedsWithin(Duration.ofMillis(sleepDuration + 1_000)).isEqualTo(value);
   }
 
   @Test
@@ -63,8 +64,17 @@ class FutureAssert_succeedsWithin_duration_Test extends AbstractFutureTest {
     String value = "done";
     Future<String> future = completedFuture(value);
     // WHEN/THEN
-    assertThat(future).succeedsWithin(Duration.ofMillis(1), as(STRING))
-                      .startsWith("don");
+    then(future).succeedsWithin(Duration.ofMillis(1), as(STRING))
+                .startsWith("don");
+  }
+
+  @Test
+  void should_allow_narrowing_null_value() {
+    // GIVEN
+    String value = null;
+    Future<String> future = completedFuture(value);
+    // WHEN/THEN
+    then(future).succeedsWithin(1, MILLISECONDS, as(STRING)).isNull();
   }
 
   @Test

@@ -26,6 +26,8 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsEmpty;
 
+import java.util.List;
+
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.IterableAssert;
@@ -67,6 +69,14 @@ class IterableAssert_element_with_InstanceOfAssertFactory_Test {
     AbstractStringAssert<?> result = assertThat(iterable).element(1, STRING);
     // THEN
     result.startsWith("str");
+  }
+
+  @Test
+  void should_allow_narrowing_null_value() {
+    // GIVEN
+    List<String> withNull = asList("foo", null);
+    // WHEN/THEN
+    then(withNull).element(1, STRING).isNull();
   }
 
   @Test

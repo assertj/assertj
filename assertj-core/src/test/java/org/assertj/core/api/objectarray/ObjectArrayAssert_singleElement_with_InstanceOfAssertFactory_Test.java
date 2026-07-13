@@ -59,6 +59,14 @@ class ObjectArrayAssert_singleElement_with_InstanceOfAssertFactory_Test {
   }
 
   @Test
+  void should_allow_narrowing_null_value() {
+    // GIVEN
+    String[] withNull = { null };
+    // WHEN/THEN
+    then(withNull).singleElement(STRING).isNull();
+  }
+
+  @Test
   void should_fail_if_first_element_is_not_an_instance_of_the_factory_type() {
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(babySimpsons).singleElement(INTEGER));

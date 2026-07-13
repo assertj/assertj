@@ -17,6 +17,7 @@ package org.assertj.core.api.iterable;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -25,6 +26,8 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsEmpty;
+
+import java.util.List;
 
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.InstanceOfAssertFactory;
@@ -67,6 +70,14 @@ class IterableAssert_last_with_InstanceOfAssertFactory_Test {
     AbstractStringAssert<?> result = assertThat(iterable).last(STRING);
     // THEN
     result.startsWith("str");
+  }
+
+  @Test
+  void should_allow_narrowing_null_value() {
+    // GIVEN
+    List<String> withNull = singletonList(null);
+    // WHEN/THEN
+    then(withNull).last(STRING).isNull();
   }
 
   @Test
