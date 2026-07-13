@@ -129,7 +129,8 @@ public class Files {
     try {
       List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
       if (diffs.isEmpty()) return;
-      throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
+      throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs),
+                             FileContent.of(actual), FileContent.of(expected));
     } catch (MalformedInputException e) {
       try {
         // MalformedInputException is thrown by readLine() called in diff
@@ -139,7 +140,8 @@ public class Files {
           // fall back to the UncheckedIOException : not throwing an error is wrong as there was one in the first place.
           throw e;
         }
-        throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
+        throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult),
+                               FileContent.of(actual), FileContent.of(expected));
       } catch (IOException ioe) {
         throw new UncheckedIOException(format(UNABLE_TO_COMPARE_FILE_CONTENTS, actual, expected), ioe);
       }
@@ -165,7 +167,9 @@ public class Files {
     assertIsFile(info, actual);
     try {
       BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected.toPath()));
-      if (binaryDiffResult.hasDiff()) throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
+      if (binaryDiffResult.hasDiff())
+        throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult),
+                               FileContent.of(actual), FileContent.of(expected));
     } catch (IOException ioe) {
       throw new UncheckedIOException(format(UNABLE_TO_COMPARE_FILE_CONTENTS, actual, expected), ioe);
     }
