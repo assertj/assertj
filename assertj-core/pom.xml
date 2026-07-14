@@ -357,6 +357,14 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <trimStackTrace>false</trimStackTrace>
+          <!--
+            Force tests to run on the classpath instead of the module path.
+            Without this, Surefire detects the module-info.class produced from
+            src/main/java9 and puts tests on the module path, which causes an
+            IllegalAccessError due to test-scope JUnit platform jars being split
+            between the module path and the classpath (unnamed module).
+          -->
+          <useModulePath>false</useModulePath>
           <excludes>
             <exclude>org/assertj/core/internal/objects/Objects_assertHasOnlyFields_Test*</exclude>
           </excludes>
