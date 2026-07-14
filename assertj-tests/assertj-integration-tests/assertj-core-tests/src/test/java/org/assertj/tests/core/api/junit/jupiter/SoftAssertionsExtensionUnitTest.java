@@ -35,14 +35,12 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 
-/**
- * Unit tests for {@link SoftAssertionsExtension}.
- *
- * @author Sam Brannen
- * @since 3.13
- * @see SoftAssertionsExtensionIntegrationTest
- * @see BDDSoftAssertionsExtensionIntegrationTest
- */
+/// Unit tests for [SoftAssertionsExtension].
+///
+/// @author Sam Brannen
+/// @since 3.13
+/// @see SoftAssertionsExtensionIntegrationTest
+/// @see BDDSoftAssertionsExtensionIntegrationTest
 @DisplayName("JUnit Jupiter Soft Assertions extension")
 class SoftAssertionsExtensionUnitTest {
 

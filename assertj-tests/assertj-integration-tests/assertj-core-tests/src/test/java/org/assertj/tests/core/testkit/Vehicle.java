@@ -15,9 +15,7 @@
  */
 package org.assertj.tests.core.testkit;
 
-/**
- * @author Marcus Klimstra (CGI)
- */
+/// @author Marcus Klimstra (CGI)
 public interface Vehicle {
   String getName();
 }

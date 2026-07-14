@@ -34,9 +34,7 @@ import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Valeriy Vyrva
- */
+/// @author Valeriy Vyrva
 class Paths_assertIsEmptyDirectory_Test extends PathsBaseTest {
 
   @Test

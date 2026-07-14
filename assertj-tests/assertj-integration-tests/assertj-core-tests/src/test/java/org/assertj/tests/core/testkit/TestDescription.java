@@ -17,11 +17,9 @@ package org.assertj.tests.core.testkit;
 
 import org.assertj.core.description.Description;
 
-/**
- * A description to be used for testing.
- * 
- * @author Alex Ruiz
- */
+/// A description to be used for testing.
+///
+/// @author Alex Ruiz
 public class TestDescription extends Description {
 
   private final String value;

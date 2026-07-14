@@ -21,16 +21,12 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Strings#assertHasSizeGreaterThan(AssertionInfo, CharSequence, int)}</code>.
- *
- * @author Geoffrey Arthaud
- */
+/// Tests for [Strings#assertHasSizeGreaterThan(AssertionInfo, CharSequence, int)].
+///
+/// @author Geoffrey Arthaud
 class Strings_assertHasSizeBetween_Test extends StringsBaseTest {
 
   @Test

@@ -35,9 +35,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-/**
- * @author Filip Hrisafov
- */
+/// @author Filip Hrisafov
 class Assertions_sync_with_BDDAssertions_WithAssertions_and_soft_assertions_variants_Test extends BaseAssertionsTest {
 
   // Assertions - BDDAssertions sync tests

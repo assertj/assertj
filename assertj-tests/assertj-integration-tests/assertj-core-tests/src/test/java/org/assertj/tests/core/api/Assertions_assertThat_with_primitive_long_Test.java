@@ -21,11 +21,9 @@ import org.assertj.core.api.AbstractLongAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Assertions#assertThat(long)}</code>.
- * 
- * @author Alex Ruiz
- */
+/// Tests for [Assertions#assertThat(long)].
+///
+/// @author Alex Ruiz
 class Assertions_assertThat_with_primitive_long_Test {
 
   @Test

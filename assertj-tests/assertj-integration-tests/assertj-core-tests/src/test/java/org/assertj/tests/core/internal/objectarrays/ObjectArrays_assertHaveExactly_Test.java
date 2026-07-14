@@ -23,11 +23,9 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Nicolas François
- * @author Mikhail Mazursky
- * @author Joel Costigliola
- */
+/// @author Nicolas François
+/// @author Mikhail Mazursky
+/// @author Joel Costigliola
 class ObjectArrays_assertHaveExactly_Test extends ObjectArraysWithConditionBaseTest {
 
   @Test

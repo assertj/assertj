@@ -25,11 +25,9 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link org.assertj.core.internal.Strings#assertHasLineCount(org.assertj.core.api.AssertionInfo, CharSequence, int)}</code>.
- *
- * @author Mariusz Smykula
- */
+/// Tests for [org.assertj.core.internal.Strings#assertHasLineCount(org.assertj.core.api.AssertionInfo, CharSequence, int)].
+///
+/// @author Mariusz Smykula
 class Strings_assertHasLinesCount_Test extends StringsBaseTest {
 
   @Test

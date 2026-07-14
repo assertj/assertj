@@ -341,31 +341,32 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
                                   .isEqualTo(list(listCReverse, listAReverse));
   }
 
-  /**
-   * This test shows that we can't track all visited values, only the one with potential cycles.
-   * <p>
-   * Let's run it step by step with tracking all visited values:<br>
-   * list(listA, listB) vs list(listAReverse, listBReverse) means trying to find<br>
-   * - listA in list(listAReverse, listBReverse) and then listB
-   * <p>
-   * After comparing possible pairs (listA element, listAReverse element) we conclude that listA matches listAReverse<br>
-   * - here are the pairs (1, 2), (1, 1), (2, 2), we add them to the visited ones<br>
-   * <p>
-   * We now try to find listB in list(listBReverse) - listAReverse must not be taken into account as it had already been matched<br>
-   * - we would like to try (1, 2), (1, 1), (2, 2) but they have already been visited, so we skip them.<br>
-   * at this point, we know listB won't be found because (1, 1), (2, 2) won't be considered.<br>
-   * We compare dual values but not the location since to track cycles we want to find the same objects at different locations
-   * <p>
-   * Comparing dualValues actual and expected with == does not solve the issue because Java does not always create different objects
-   * for primitive wrapping the same basic value, i.e. {@code new Integer(1) == new Integer(1)}.
-   * <p>
-   * The solution is to avoid adding all pairs to visited values. <br>
-   * Visited values are here to track cycles, a pair of wrapped primitive types can't cycle back to itself, we thus can and must ignore them.
-   * <p>
-   * For good measure we don't track pair that include any java.lang values.
-   * <p>
-   * If listA and listB contained non wrapped basic types then == is enough to differentiate them.
-   */
+  /// This test shows that we can't track all visited values, only the one with potential cycles.
+  ///
+  /// Let's run it step by step with tracking all visited values:<br>
+  /// list(listA, listB) vs list(listAReverse, listBReverse) means trying to find<br>
+  /// - listA in list(listAReverse, listBReverse) and then listB
+  ///
+  /// After comparing possible pairs (listA element, listAReverse element) we conclude that listA matches listAReverse<br>
+  /// - here are the pairs (1, 2), (1, 1), (2, 2), we add them to the visited ones<br>
+  ///
+  /// We now try to find listB in list(listBReverse) - listAReverse must not be taken into account as it had already been
+  /// matched<br>
+  /// - we would like to try (1, 2), (1, 1), (2, 2) but they have already been visited, so we skip them.<br>
+  /// at this point, we know listB won't be found because (1, 1), (2, 2) won't be considered.<br>
+  /// We compare dual values but not the location since to track cycles we want to find the same objects at different locations
+  ///
+  /// Comparing dualValues actual and expected with == does not solve the issue because Java does not always create different
+  /// objects
+  /// for primitive wrapping the same basic value, i.e. `new Integer(1) == new Integer(1)`.
+  ///
+  /// The solution is to avoid adding all pairs to visited values. <br>
+  /// Visited values are here to track cycles, a pair of wrapped primitive types can't cycle back to itself, we thus can and must
+  /// ignore them.
+  ///
+  /// For good measure we don't track pair that include any java.lang values.
+  ///
+  /// If listA and listB contained non wrapped basic types then == is enough to differentiate them.
   @Test
   void should_fix_1854_minimal_test() {
     // GIVEN

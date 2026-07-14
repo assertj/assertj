@@ -20,16 +20,12 @@ import static org.assertj.core.error.ShouldBeEven.shouldBeEven;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Shorts;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-/**
- * Tests for <code>{@link Shorts#assertIsEven(AssertionInfo, Number)}</code>.
- *
- * @author Cal027
- */
+/// Tests for [Shorts#assertIsEven(AssertionInfo, Number)].
+///
+/// @author Cal027
 class Shorts_assertIsEven_Test extends ShortsBaseTest {
 
   @ParameterizedTest

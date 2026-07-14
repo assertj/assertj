@@ -19,9 +19,7 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Maciej Wajcht
- */
+/// @author Maciej Wajcht
 class Short2DArrays_assertNotEmpty_Test extends Short2DArraysBaseTest {
 
   @Test

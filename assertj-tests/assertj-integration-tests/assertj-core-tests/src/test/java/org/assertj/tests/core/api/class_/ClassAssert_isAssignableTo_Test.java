@@ -29,10 +29,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-/**
- * @author Vikram Nithyanandam
- * @author Jessica Hamilton
- */
+/// @author Vikram Nithyanandam
+/// @author Jessica Hamilton
 class ClassAssert_isAssignableTo_Test {
 
   @Test

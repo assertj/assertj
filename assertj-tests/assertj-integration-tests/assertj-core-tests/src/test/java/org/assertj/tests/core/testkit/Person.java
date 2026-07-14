@@ -17,11 +17,9 @@ package org.assertj.tests.core.testkit;
 
 import java.util.Objects;
 
-/**
- * A person.
- *
- * @author Alex Ruiz
- */
+/// A person.
+///
+/// @author Alex Ruiz
 public class Person implements Comparable<Person> {
 
   private final String name;

@@ -23,9 +23,7 @@ import java.lang.annotation.Target;
 import org.assertj.core.internal.Classes;
 import org.junit.jupiter.api.BeforeEach;
 
-/**
- * @author William Delanoue
- */
+/// @author William Delanoue
 public abstract class ClassesBaseTest {
 
   protected Classes classes;

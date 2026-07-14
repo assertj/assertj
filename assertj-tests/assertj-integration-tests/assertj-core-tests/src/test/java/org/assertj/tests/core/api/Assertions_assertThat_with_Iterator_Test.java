@@ -28,11 +28,9 @@ import java.util.Iterator;
 import org.assertj.core.api.IteratorAssert;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Julien Meddah
- * @author Joel Costigliola
- * @author Mikhail Mazursky
- */
+/// @author Julien Meddah
+/// @author Joel Costigliola
+/// @author Mikhail Mazursky
 class Assertions_assertThat_with_Iterator_Test {
 
   private final StringIterator stringIterator = new StringIterator();

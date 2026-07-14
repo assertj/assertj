@@ -21,10 +21,8 @@ import static org.assertj.core.api.BDDAssertions.then;
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Yvonne Wang
- * @author Alex Ruiz
- */
+/// @author Yvonne Wang
+/// @author Alex Ruiz
 class TextDescription_constructor_Test {
 
   @Test

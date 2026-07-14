@@ -27,16 +27,12 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Strings#assertContainsSequence(AssertionInfo, CharSequence, CharSequence[])}</code>.
- *
- * @author Billy Yuan
- */
+/// Tests for [Strings#assertContainsSequence(AssertionInfo, CharSequence, CharSequence[].
+///
+/// @author Billy Yuan
 class Strings_assertContainsSequence_Test extends StringsBaseTest {
   String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
 

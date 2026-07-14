@@ -24,9 +24,7 @@ import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Emanuel Trandafir
- */
+/// @author Emanuel Trandafir
 class RecursiveComparisonAssert_with_records_Test extends WithComparingFieldsIntrospectionStrategyBaseTest {
 
   @Nested

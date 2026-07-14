@@ -15,9 +15,7 @@
  */
 package org.assertj.tests.core.testkit;
 
-/**
- * @author Alex Ruiz
- */
+/// @author Alex Ruiz
 public final class IntArrays {
   private static final int[] EMPTY = {};
 

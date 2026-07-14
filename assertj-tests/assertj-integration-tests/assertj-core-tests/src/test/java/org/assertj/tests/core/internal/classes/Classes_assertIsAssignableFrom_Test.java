@@ -25,13 +25,9 @@ import org.assertj.core.util.Sets;
 import org.assertj.tests.core.internal.ClassesBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for
- * <code>{@link org.assertj.core.internal.Classes#assertIsAssignableFrom(org.assertj.core.api.AssertionInfo, Class, Class[])}</code>
- * .
- * 
- * @author William Delanoue
- */
+/// Tests for [org.assertj.core.internal.Classes#assertIsAssignableFrom(org.assertj.core.api.AssertionInfo, Class, Class[].
+///
+/// @author William Delanoue
 class Classes_assertIsAssignableFrom_Test extends ClassesBaseTest {
 
   @Test

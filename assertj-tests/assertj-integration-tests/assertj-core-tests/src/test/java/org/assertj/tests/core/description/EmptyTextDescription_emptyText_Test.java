@@ -21,9 +21,7 @@ import static org.assertj.core.description.EmptyTextDescription.emptyDescription
 import org.assertj.core.description.Description;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Yvonne Wang
- */
+/// @author Yvonne Wang
 class EmptyTextDescription_emptyText_Test {
 
   @Test

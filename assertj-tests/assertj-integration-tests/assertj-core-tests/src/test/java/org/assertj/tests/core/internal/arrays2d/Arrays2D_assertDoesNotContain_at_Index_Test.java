@@ -24,18 +24,13 @@ import static org.assertj.tests.core.testkit.TestData.someIndex;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.Index;
-import org.assertj.core.internal.Arrays2D;
-import org.assertj.core.internal.Failures;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Arrays2D#assertDoesNotContain(AssertionInfo, Failures, Object, Object, Index)}</code>.
- *
- * @author Maciej Wajcht
- */
+/// Tests for [Arrays2D#assertDoesNotContain(AssertionInfo, Failures, Object, Object, Index)].
+///
+/// @author Maciej Wajcht
 class Arrays2D_assertDoesNotContain_at_Index_Test extends Arrays2D_BaseTest {
 
   private int[][] actual = new int[][] { { 0, 2, 4 }, { 6, 8, 10 } };

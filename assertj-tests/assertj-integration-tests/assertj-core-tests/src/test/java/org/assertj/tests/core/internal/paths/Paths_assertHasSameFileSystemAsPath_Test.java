@@ -31,9 +31,7 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
-/**
- * @author Ashley Scopes
- */
+/// @author Ashley Scopes
 class Paths_assertHasSameFileSystemAsPath_Test extends PathsBaseTest {
 
   @Test

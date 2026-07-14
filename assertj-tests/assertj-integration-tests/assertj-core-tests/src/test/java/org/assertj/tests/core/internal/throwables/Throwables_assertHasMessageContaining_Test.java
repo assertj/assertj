@@ -23,10 +23,8 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Joel Costigliola
- * @author Phillip Webb
- */
+/// @author Joel Costigliola
+/// @author Phillip Webb
 class Throwables_assertHasMessageContaining_Test extends ThrowablesBaseTest {
 
   @Test

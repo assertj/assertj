@@ -22,15 +22,11 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Char2DArrays;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Char2DArrays#assertHasDimensions(AssertionInfo, char[][], int, int)}</code>.
- *
- * @author Maciej Wajcht
- */
+/// Tests for [Char2DArrays#assertHasDimensions(AssertionInfo, char[].
+///
+/// @author Maciej Wajcht
 class Arrays2D_assertHasDimensions_Test extends Arrays2D_BaseTest {
 
   private char[][] actual = new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } };

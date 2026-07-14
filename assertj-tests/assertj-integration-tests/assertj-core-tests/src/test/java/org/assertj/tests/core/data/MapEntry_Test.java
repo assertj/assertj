@@ -24,9 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
-/**
- * @author Alex Ruiz
- */
+/// @author Alex Ruiz
 class MapEntry_Test {
 
   @Test

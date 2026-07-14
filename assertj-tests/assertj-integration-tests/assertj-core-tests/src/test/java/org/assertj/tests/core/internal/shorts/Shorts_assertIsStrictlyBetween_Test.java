@@ -25,14 +25,11 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Shorts;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Shorts#assertIsStrictlyBetween(AssertionInfo, Short, Short, Short)}</code>.
- *
- * @author William Delanoue
- */
+/// Tests for [Shorts#assertIsStrictlyBetween(AssertionInfo, Short, Short, Short)].
+///
+/// @author William Delanoue
 class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
 
   private static final Short ZERO = 0;

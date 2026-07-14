@@ -26,11 +26,9 @@ import org.assertj.core.api.AbstractAssertWithComparator;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.Test;
 
-/**
- * Base tests for navigation methods which create a new assertion.
- *
- * @author Stefano Cordio
- */
+/// Base tests for navigation methods which create a new assertion.
+///
+/// @author Stefano Cordio
 public interface NavigationMethodBaseTest<ASSERT extends AbstractAssertWithComparator<ASSERT, ?>> {
 
   ASSERT getAssertion();

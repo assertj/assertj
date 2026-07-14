@@ -26,9 +26,7 @@ import org.junit.jupiter.api.Test;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
-/**
- * @author Max Daniline
- */
+/// @author Max Daniline
 public class MultisetAssert_containsAtLeast_Test {
 
   @Test

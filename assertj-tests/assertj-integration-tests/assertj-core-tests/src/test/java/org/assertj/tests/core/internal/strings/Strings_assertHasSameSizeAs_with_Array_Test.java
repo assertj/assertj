@@ -23,15 +23,12 @@ import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErro
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Strings#assertHasSameSizeAs(AssertionInfo, CharSequence, Object[])}</code>.
- *
- * @author Nicolas François
- */
+/// Tests for [Strings#assertHasSameSizeAs(AssertionInfo, CharSequence, Object[].
+///
+/// @author Nicolas François
 class Strings_assertHasSameSizeAs_with_Array_Test extends StringsBaseTest {
 
   private String actual = "Han";

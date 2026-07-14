@@ -28,9 +28,7 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Chris Arnott
- */
+/// @author Chris Arnott
 class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArraysBaseTest {
 
   @Override

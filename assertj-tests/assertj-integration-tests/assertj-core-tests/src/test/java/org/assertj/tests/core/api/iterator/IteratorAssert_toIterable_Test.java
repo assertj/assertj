@@ -22,9 +22,7 @@ import org.assertj.core.api.IteratorAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Sára Juhošová
- */
+/// @author Sára Juhošová
 class IteratorAssert_toIterable_Test {
 
   private IteratorAssert<Integer> assertions;

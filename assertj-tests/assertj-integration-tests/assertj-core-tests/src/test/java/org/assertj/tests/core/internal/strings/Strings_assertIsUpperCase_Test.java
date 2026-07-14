@@ -23,9 +23,7 @@ import static org.assertj.tests.core.testkit.TestData.someInfo;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Marcel Overdijk
- */
+/// @author Marcel Overdijk
 class Strings_assertIsUpperCase_Test extends StringsBaseTest {
 
   @Test

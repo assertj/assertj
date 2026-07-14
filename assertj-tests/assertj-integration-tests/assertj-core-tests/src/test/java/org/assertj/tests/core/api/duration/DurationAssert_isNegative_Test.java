@@ -27,9 +27,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-/**
- * @author Filip Hrisafov
- */
+/// @author Filip Hrisafov
 class DurationAssert_isNegative_Test {
 
   @Test

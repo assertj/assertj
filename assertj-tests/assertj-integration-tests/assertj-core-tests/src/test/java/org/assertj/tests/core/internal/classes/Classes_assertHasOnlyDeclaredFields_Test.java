@@ -30,14 +30,9 @@ import org.assertj.tests.core.internal.ClassesBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for
- * <code
- * >{@link org.assertj.core.internal.Classes#assertHasOnlyDeclaredFields(org.assertj.core.api.AssertionInfo, Class, String...)}</code>
- * .
- *
- * @author Filip Hrisafov
- */
+/// Tests for [org.assertj.core.internal.Classes#assertHasOnlyDeclaredFields(org.assertj.core.api.AssertionInfo, Class, String)].
+///
+/// @author Filip Hrisafov
 class Classes_assertHasOnlyDeclaredFields_Test extends ClassesBaseTest {
 
   private static final LinkedHashSet<String> EMPTY_STRING_SET = Sets.newLinkedHashSet();

@@ -27,9 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import com.google.common.io.ByteSource;
 
-/**
- * @author Andrew Gaul
- */
+/// @author Andrew Gaul
 class ByteSourceAssert_hasSameContentAs_Test {
 
   @Test

@@ -23,9 +23,7 @@ import static org.assertj.guava.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Joel Costigliola
- */
+/// @author Joel Costigliola
 class MultimapAssert_hasSize_Test extends MultimapAssertBaseTest {
 
   @Test

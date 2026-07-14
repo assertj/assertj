@@ -27,10 +27,8 @@ import static org.assertj.tests.core.testkit.TestData.someInfo;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class Strings_assertContains_Test extends StringsBaseTest {
 
   @Test

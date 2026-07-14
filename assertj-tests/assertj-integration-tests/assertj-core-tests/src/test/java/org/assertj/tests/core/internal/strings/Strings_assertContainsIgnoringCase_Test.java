@@ -27,10 +27,8 @@ import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.util.DefaultLocale;
 
-/**
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
 
   @Test

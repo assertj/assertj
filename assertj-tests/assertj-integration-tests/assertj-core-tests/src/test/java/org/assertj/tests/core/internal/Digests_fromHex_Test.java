@@ -24,9 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-/**
- * @author Valeriy Vyrva
- */
+/// @author Valeriy Vyrva
 class Digests_fromHex_Test {
 
   private static final byte[] DIGEST_TEST_1_BYTES = { -38, 57, -93, -18, 94, 107, 75, 13, 50, 85, -65, -17, -107, 96, 24, -112,

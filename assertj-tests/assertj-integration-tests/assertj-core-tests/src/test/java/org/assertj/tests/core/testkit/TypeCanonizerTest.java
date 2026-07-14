@@ -29,10 +29,8 @@ import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.ObjectAssert;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Filip Hrisafov
- * @author Clement Mathieu
- */
+/// @author Filip Hrisafov
+/// @author Clement Mathieu
 @SuppressWarnings("unused")
 class TypeCanonizerTest {
   private interface Asssert<T> {

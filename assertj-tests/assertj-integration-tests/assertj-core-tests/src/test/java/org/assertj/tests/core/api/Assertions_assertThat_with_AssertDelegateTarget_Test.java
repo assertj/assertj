@@ -18,14 +18,11 @@ package org.assertj.tests.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AssertDelegateTarget;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Assertions#assertThat(AssertDelegateTarget)}</code>.
- * 
- * @author Christian Rösch
- */
+/// Tests for [Assertions#assertThat(AssertDelegateTarget)].
+///
+/// @author Christian Rösch
 class Assertions_assertThat_with_AssertDelegateTarget_Test {
 
   @Test

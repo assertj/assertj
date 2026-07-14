@@ -44,10 +44,8 @@ import org.assertj.guava.api.RangeMapAssert;
 import org.assertj.guava.api.RangeSetAssert;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Stefano Cordio
- * @since 3.3.0
- */
+/// @author Stefano Cordio
+/// @since 3.3.0
 class Assertions_sync_with_InstanceOfAssertFactories_Test {
 
   private static final Class<?>[] FIELD_FACTORIES_IGNORED_TYPES = {

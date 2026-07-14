@@ -29,16 +29,13 @@ import static org.mockito.Mockito.verify;
 import java.util.regex.PatternSyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Strings#assertMatches(AssertionInfo, CharSequence, CharSequence)}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// Tests for [Strings#assertMatches(AssertionInfo, CharSequence, CharSequence)].
+///
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
 
   private String actual = "Yoda";

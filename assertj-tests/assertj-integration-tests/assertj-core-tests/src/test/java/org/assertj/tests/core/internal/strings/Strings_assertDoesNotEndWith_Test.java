@@ -21,16 +21,12 @@ import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Strings#assertDoesNotEndWith(AssertionInfo, CharSequence, CharSequence)}</code>.
- *
- * @author Michal Kordas
- */
+/// Tests for [Strings#assertDoesNotEndWith(AssertionInfo, CharSequence, CharSequence)].
+///
+/// @author Michal Kordas
 class Strings_assertDoesNotEndWith_Test extends StringsBaseTest {
 
   @Test

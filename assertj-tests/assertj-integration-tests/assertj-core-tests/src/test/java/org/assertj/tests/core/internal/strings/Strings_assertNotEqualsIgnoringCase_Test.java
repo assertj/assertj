@@ -30,9 +30,7 @@ import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.util.DefaultLocale;
 
-/**
- * @author Alexander Bischof
- */
+/// @author Alexander Bischof
 class Strings_assertNotEqualsIgnoringCase_Test extends StringsBaseTest {
 
   @Test

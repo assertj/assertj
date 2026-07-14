@@ -23,10 +23,8 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Nicolas François
- * @author Mikhail Mazursky
- */
+/// @author Nicolas François
+/// @author Mikhail Mazursky
 class ObjectArrays_assertHaveAtLeast_Test extends ObjectArraysWithConditionBaseTest {
 
   @Test

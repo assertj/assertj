@@ -41,9 +41,7 @@ import org.assertj.tests.core.testkit.NavigationMethodBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Stefano Cordio
- */
+/// @author Stefano Cordio
 class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test
     implements NavigationMethodBaseTest<ObjectAssert<Employee>> {
 

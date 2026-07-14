@@ -28,17 +28,13 @@ import org.assertj.core.internal.ShortArrays;
 import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
-/**
- * Base class for testing <code>{@link ShortArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and another
- * with {@link ComparatorBasedComparisonStrategy}. *
- *
- * @author Joel Costigliola
- */
+/// Base class for testing [ShortArrays], set up an instance with [StandardComparisonStrategy] and another
+/// with [ComparatorBasedComparisonStrategy]. *
+///
+/// @author Joel Costigliola
 class ShortArraysBaseTest {
 
-  /**
-   * is initialized with {@link #initActualArray()} with default value = {6, 8, 10}
-   */
+  /// is initialized with [#initActualArray()] with default value = {6, 8, 10}
   protected short[] actual;
   protected Failures failures;
   protected ShortArrays arrays;

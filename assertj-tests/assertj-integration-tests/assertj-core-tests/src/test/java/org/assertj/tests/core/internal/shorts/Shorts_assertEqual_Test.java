@@ -23,16 +23,13 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Shorts;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Shorts#assertEqual(AssertionInfo, Object, Object)}</code>.
- *
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
+/// Tests for [Shorts#assertEqual(AssertionInfo, Object, Object)].
+///
+/// @author Alex Ruiz
+/// @author Joel Costigliola
 class Shorts_assertEqual_Test extends ShortsBaseTest {
 
   @Test

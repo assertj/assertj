@@ -38,9 +38,7 @@ import org.assertj.tests.core.testkit.NavigationMethodBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Stefano Cordio
- */
+/// @author Stefano Cordio
 class AbstractAssert_extracting_with_Function_and_AssertFactory_Test implements NavigationMethodBaseTest<TestAssert> {
 
   private TestAssert underTest;

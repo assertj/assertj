@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.description.Description;
 import org.assertj.core.error.ErrorMessageFactory;
@@ -28,11 +27,9 @@ import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Failures#failure(AssertionInfo, ErrorMessageFactory)}</code>.
- * 
- * @author Alex Ruiz
- */
+/// Tests for [Failures#failure(AssertionInfo, ErrorMessageFactory)].
+///
+/// @author Alex Ruiz
 class Failures_failure_with_ErrorMessage_Test {
 
   private WritableAssertionInfo info;

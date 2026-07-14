@@ -31,12 +31,9 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
-import org.assertj.core.internal.ShortArrays;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ShortArrays#assertContainsExactlyInAnyOrder(AssertionInfo, short[], short[])}</code>.
- */
+/// Tests for [ShortArrays#assertContainsExactlyInAnyOrder(AssertionInfo, short[].
 class ShortArrays_assertContainsExactlyInAnyOrder_Test extends ShortArraysBaseTest {
 
   @Test

@@ -21,16 +21,11 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Arrays2D;
-import org.assertj.core.internal.Failures;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Arrays2D#assertEmpty(AssertionInfo, Failures, Object)}</code>.
- *
- * @author Maciej Wajcht
- */
+/// Tests for [Arrays2D#assertEmpty(AssertionInfo, Failures, Object)].
+///
+/// @author Maciej Wajcht
 class Arrays2D_assertEmpty_Test extends Arrays2D_BaseTest {
 
   @Test

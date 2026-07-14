@@ -23,9 +23,7 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author William Delanoue
- */
+/// @author William Delanoue
 class ClassAssert_isInterface_Test {
 
   @Test

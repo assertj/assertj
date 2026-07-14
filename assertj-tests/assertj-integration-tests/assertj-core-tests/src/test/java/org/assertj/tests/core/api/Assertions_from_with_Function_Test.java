@@ -23,11 +23,9 @@ import java.util.function.Function;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Assertions#from(Function)}</code>.
- *
- * @author Stefano Cordio
- */
+/// Tests for [Assertions#from(Function)].
+///
+/// @author Stefano Cordio
 class Assertions_from_with_Function_Test {
 
   @Test

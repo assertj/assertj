@@ -24,14 +24,10 @@ import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsNu
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link Strings#assertDoesNotContainSequence(AssertionInfo, CharSequence, CharSequence[])}.
- */
+/// Tests for [Strings#assertDoesNotContainSequence(AssertionInfo, CharSequence, CharSequence[])].
 class Strings_assertDoesNotContainSequence_Test extends StringsBaseTest {
 
   @Test

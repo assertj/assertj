@@ -25,21 +25,19 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 
-/**
- * These tests ensure assertThat(list_of_1m_elements).containsOnly(...) is an O(N) rather than O(N^2)
- * operation. Given that the list has 1 million elements, O(N^2) is O(1000 billion), which should
- * take from several dozens to several thousands seconds, given that the constant in the actual
- * complexity is low (which indeed is, in case of ArrayList, where the main contributor to the time
- * consumed by the operation is System.arraycopy()). O(N) is O(1 million), which should take perhaps
- * from one to a hundred milliseconds, depending on the frequency of the test machine, the JVM
- * version used, etc.
- * <p>
- * Therefore, 5 seconds (the limit used in the tests below) seems to be a good threshold that would
- * clearly distinguish .containsOnly(...) being O(N) or O(N^2) on any test agent, thus preventing
- * a regression of .containsOnly(...) back to O(N^2) complexity.
- *
- * @see <a href="https://github.com/assertj/assertj/issues/1718">assertj/assertj#1718</a>
- */
+/// These tests ensure assertThat(list_of_1m_elements).containsOnly(...) is an O(N) rather than O(N^2)
+/// operation. Given that the list has 1 million elements, O(N^2) is O(1000 billion), which should
+/// take from several dozens to several thousands seconds, given that the constant in the actual
+/// complexity is low (which indeed is, in case of ArrayList, where the main contributor to the time
+/// consumed by the operation is System.arraycopy()). O(N) is O(1 million), which should take perhaps
+/// from one to a hundred milliseconds, depending on the frequency of the test machine, the JVM
+/// version used, etc.
+///
+/// Therefore, 5 seconds (the limit used in the tests below) seems to be a good threshold that would
+/// clearly distinguish .containsOnly(...) being O(N) or O(N^2) on any test agent, thus preventing
+/// a regression of .containsOnly(...) back to O(N^2) complexity.
+///
+/// @see <a href="https://github.com/assertj/assertj/issues/1718">assertj/assertj#1718</a>
 class ContainsOnlyPerfTest {
 
   @Test
