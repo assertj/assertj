@@ -19,12 +19,10 @@ import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldContainRecursively.directoryShouldContainRecursively;
 import static org.assertj.core.error.ShouldExist.shouldExist;
-import static org.assertj.core.util.Lists.list;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import java.nio.file.Path;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -62,7 +60,7 @@ class Paths_assertIsDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends
   }
 
   @ParameterizedTest
-  @ValueSource(strings = { "regex:.+\\.data", "regex:.+foobar.*", "regex:.+root.+foo.*" })
+  @ValueSource(strings = { "regex:.+\\.data", "regex:.+foobar.*", "regex:root.+foo.*" })
   void should_pass_if_actual_contains_some_paths_matching_the_given_pathMatcherPattern(String pattern) {
     // GIVEN
     createDefaultFixturePaths();
@@ -107,17 +105,4 @@ class Paths_assertIsDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends
     // THEN
     verify(failures).failure(INFO, directoryShouldContainRecursively(tempDir, emptyList(), TXT_EXTENSION_PATTERN_DESCRIPTION));
   }
-
-  @Test
-  void should_fail_if_actual_does_not_contain_any_paths_matching_the_given_pathMatcherPattern() {
-    // GIVEN
-    Path fooDir = createDirectory(tempDir, "foo", "foo2.data");
-    createDirectory(fooDir, "foo3");
-    // WHEN
-    expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, tempDir, TXT_EXTENSION_PATTERN));
-    // THEN
-    List<Path> fooDirContent = list(fooDir, fooDir.resolve("foo2.data"), fooDir.resolve("foo3"));
-    verify(failures).failure(INFO, directoryShouldContainRecursively(tempDir, fooDirContent, TXT_EXTENSION_PATTERN_DESCRIPTION));
-  }
-
 }

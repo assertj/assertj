@@ -15,6 +15,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
 import static java.nio.file.Files.walk;
 import static java.util.Objects.requireNonNull;
@@ -164,7 +165,8 @@ public class Paths {
    */
   public void assertExistsNoFollowLinks(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    if (!Files.exists(actual, LinkOption.NOFOLLOW_LINKS)) throw failures.failure(info, shouldExistNoFollowLinks(actual));
+    if (!Files.exists(actual, LinkOption.NOFOLLOW_LINKS))
+      throw failures.failure(info, shouldExistNoFollowLinks(actual));
   }
 
   /**
@@ -562,7 +564,8 @@ public class Paths {
   public void assertIsDirectoryContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
-    assertIsDirectoryContaining(info, actual, pathMatcher::matches, "the '%s' pattern".formatted(syntaxAndPattern));
+    Filter<Path> pathFilter = path -> pathMatcher.matches(actual.relativize(path));
+    assertIsDirectoryContaining(info, actual, pathFilter, format("the '%s' pattern", syntaxAndPattern));
   }
 
   /**
@@ -713,7 +716,7 @@ public class Paths {
   private List<Path> filterDirectory(AssertionInfo info, Path actual, Filter<Path> filter) {
     assertIsDirectory(info, actual);
     try (DirectoryStream<Path> stream = nioFilesWrapper.newDirectoryStream(actual, filter)) {
-      return stream(stream.spliterator(), false).collect(toList());
+      return stream(stream.spliterator(), false).map(actual::relativize).collect(toList());
     } catch (IOException e) {
       throw new UncheckedIOException("Unable to list directory content: <%s>".formatted(actual), e);
     }
@@ -723,29 +726,19 @@ public class Paths {
     return filterDirectory(info, actual, ANY);
   }
 
-  private void assertIsDirectoryContaining(AssertionInfo info, Path actual, Filter<Path> filter, String filterPresentation) {
+  private void assertIsDirectoryContaining(AssertionInfo info, Path actual, Filter<Path> filter, String filterDescription) {
     List<Path> matchingFiles = filterDirectory(info, actual, filter);
     if (matchingFiles.isEmpty()) {
-      throw failures.failure(info, directoryShouldContain(actual, directoryContent(info, actual), filterPresentation));
+      throw failures.failure(info, directoryShouldContain(actual, directoryContent(info, actual), filterDescription));
     }
   }
 
-  private boolean isDirectoryRecursivelyContaining(AssertionInfo info, Path actual, Predicate<Path> filter) {
-    assertIsDirectory(info, actual);
-    try (Stream<Path> actualContent = recursiveContentOf(actual)) {
-      return actualContent.anyMatch(filter);
-    }
-  }
-
-  private List<Path> sortedRecursiveContent(Path path) {
-    try (Stream<Path> pathContent = recursiveContentOf(path)) {
-      return pathContent.sorted().collect(toList());
-    }
-  }
-
-  private Stream<Path> recursiveContentOf(Path directory) {
-    try {
-      return walk(directory).filter(p -> !p.equals(directory));
+  private List<Path> recursiveContentOf(Path directory) {
+    try (Stream<Path> pathStream = walk(directory)) {
+      return pathStream.filter(path -> !path.equals(directory))
+                       .map(directory::relativize)
+                       .sorted()
+                       .collect(toList());
     } catch (IOException e) {
       throw new UncheckedIOException("Unable to walk recursively the directory :<%s>".formatted(directory), e);
     }
@@ -753,8 +746,10 @@ public class Paths {
 
   private void assertIsDirectoryRecursivelyContaining(AssertionInfo info, Path actual, Predicate<Path> filter,
                                                       String filterPresentation) {
-    if (!isDirectoryRecursivelyContaining(info, actual, filter)) {
-      throw failures.failure(info, directoryShouldContainRecursively(actual, sortedRecursiveContent(actual), filterPresentation));
+    assertIsDirectory(info, actual);
+    List<Path> actualContent = recursiveContentOf(actual);
+    if (actualContent.stream().noneMatch(filter)) {
+      throw failures.failure(info, directoryShouldContainRecursively(actual, actualContent, filterPresentation));
     }
   }
 

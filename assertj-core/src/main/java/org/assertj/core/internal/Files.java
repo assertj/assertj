@@ -15,7 +15,9 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
+import static java.nio.file.Files.walk;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -86,6 +88,7 @@ public class Files {
 
   /**
    * Returns the singleton instance of this class.
+   *
    * @return the singleton instance of this class.
    */
   public static Files instance() {
@@ -106,19 +109,20 @@ public class Files {
 
   /**
    * Asserts that the given files have same content. Adapted from <a
-   * href="https://junit-addons.sourceforge.net/junitx/framework/FileAssert.html" target="_blank">FileAssert</a> (from <a
-   * href="https://sourceforge.net/projects/junit-addons/">JUnit-addons</a>.)
-   * @param info contains information about the assertion.
-   * @param actual the "actual" file.
-   * @param actualCharset {@link Charset} of the "actual" file.
-   * @param expected the "expected" file.
+   * href="http://junit-addons.sourceforge.net/junitx/framework/FileAssert.html" target="_blank">FileAssert</a> (from <a
+   * href="http://sourceforge.net/projects/junit-addons">JUnit-addons</a>.)
+   *
+   * @param info            contains information about the assertion.
+   * @param actual          the "actual" file.
+   * @param actualCharset   {@link Charset} of the "actual" file.
+   * @param expected        the "expected" file.
    * @param expectedCharset {@link Charset} of the "actual" file.
-   * @throws NullPointerException if {@code expected} is {@code null}.
+   * @throws NullPointerException     if {@code expected} is {@code null}.
    * @throws IllegalArgumentException if {@code expected} is not an existing file.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if {@code actual} is not an existing file.
-   * @throws UncheckedIOException if an I/O error occurs.
-   * @throws AssertionError if the given files do not have same content.
+   * @throws AssertionError           if {@code actual} is {@code null}.
+   * @throws AssertionError           if {@code actual} is not an existing file.
+   * @throws UncheckedIOException     if an I/O error occurs.
+   * @throws AssertionError           if the given files do not have same content.
    */
   public void assertSameContentAs(AssertionInfo info, File actual, Charset actualCharset, File expected,
                                   Charset expectedCharset) {
@@ -148,15 +152,16 @@ public class Files {
 
   /**
    * Asserts that the given files have the same binary content.
-   * @param info contains information about the assertion.
-   * @param actual the "actual" file.
+   *
+   * @param info     contains information about the assertion.
+   * @param actual   the "actual" file.
    * @param expected the "expected" file.
-   * @throws NullPointerException if {@code expected} is {@code null}.
+   * @throws NullPointerException     if {@code expected} is {@code null}.
    * @throws IllegalArgumentException if {@code expected} is not an existing file.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if {@code actual} is not an existing file.
-   * @throws UncheckedIOException if an I/O error occurs.
-   * @throws AssertionError if the given files do not have same content.
+   * @throws AssertionError           if {@code actual} is {@code null}.
+   * @throws AssertionError           if {@code actual} is not an existing file.
+   * @throws UncheckedIOException     if an I/O error occurs.
+   * @throws AssertionError           if the given files do not have same content.
    */
   public void assertSameBinaryContentAs(AssertionInfo info, File actual, File expected) {
     verifyIsFile(expected);
@@ -171,14 +176,15 @@ public class Files {
 
   /**
    * Asserts that the given file has the given binary content.
-   * @param info contains information about the assertion.
-   * @param actual the "actual" file.
+   *
+   * @param info     contains information about the assertion.
+   * @param actual   the "actual" file.
    * @param expected the "expected" binary content.
    * @throws NullPointerException if {@code expected} is {@code null}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if {@code actual} is not an existing file.
+   * @throws AssertionError       if {@code actual} is {@code null}.
+   * @throws AssertionError       if {@code actual} is not an existing file.
    * @throws UncheckedIOException if an I/O error occurs.
-   * @throws AssertionError if the file does not have the binary content.
+   * @throws AssertionError       if the file does not have the binary content.
    */
   public void assertHasBinaryContent(AssertionInfo info, File actual, byte[] expected) {
     requireNonNull(expected, "The binary content to compare to should not be null");
@@ -195,8 +201,9 @@ public class Files {
 
   /**
    * Asserts that the given file has the given size in bytes.
-   * @param info contains information about the assertion.
-   * @param actual the "actual" file.
+   *
+   * @param info                contains information about the assertion.
+   * @param actual              the "actual" file.
    * @param expectedSizeInBytes the "expected" file size.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if {@code actual} is not an existing file.
@@ -209,15 +216,16 @@ public class Files {
 
   /**
    * Asserts that the given file has the given text content.
-   * @param info contains information about the assertion.
-   * @param actual the "actual" file.
+   *
+   * @param info     contains information about the assertion.
+   * @param actual   the "actual" file.
    * @param expected the "expected" text content.
-   * @param charset the charset to use to read the file.
+   * @param charset  the charset to use to read the file.
    * @throws NullPointerException if {@code expected} is {@code null}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if {@code actual} is not an existing file.
+   * @throws AssertionError       if {@code actual} is {@code null}.
+   * @throws AssertionError       if {@code actual} is not an existing file.
    * @throws UncheckedIOException if an I/O error occurs.
-   * @throws AssertionError if the file does not have the text content.
+   * @throws AssertionError       if the file does not have the text content.
    */
   public void assertHasContent(AssertionInfo info, File actual, String expected, Charset charset) {
     requireNonNull(expected, "The text to compare to should not be null");
@@ -234,7 +242,8 @@ public class Files {
 
   /**
    * Asserts that the given file is an existing file.
-   * @param info contains information about the assertion.
+   *
+   * @param info   contains information about the assertion.
    * @param actual the given file.
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file is not an existing file.
@@ -247,7 +256,8 @@ public class Files {
 
   /**
    * Asserts that the given file is an existing directory.
-   * @param info contains information about the assertion.
+   *
+   * @param info   contains information about the assertion.
    * @param actual the given file.
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file is not an existing directory.
@@ -260,7 +270,8 @@ public class Files {
 
   /**
    * Asserts that the given file is an absolute path.
-   * @param info contains information about the assertion.
+   *
+   * @param info   contains information about the assertion.
    * @param actual the given file.
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file is not an absolute path.
@@ -272,7 +283,8 @@ public class Files {
 
   /**
    * Asserts that the given file is a relative path.
-   * @param info contains information about the assertion.
+   *
+   * @param info   contains information about the assertion.
    * @param actual the given file.
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file is not a relative path.
@@ -284,7 +296,8 @@ public class Files {
 
   /**
    * Asserts that the given file exists, regardless it's a file or directory.
-   * @param info contains information about the assertion.
+   *
+   * @param info   contains information about the assertion.
    * @param actual the given file.
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file does not exist.
@@ -297,7 +310,8 @@ public class Files {
 
   /**
    * Asserts that the given file does not exist.
-   * @param info contains information about the assertion.
+   *
+   * @param info   contains information about the assertion.
    * @param actual the given file.
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file exists.
@@ -310,7 +324,8 @@ public class Files {
 
   /**
    * Asserts that the given file can be modified by the application.
-   * @param info contains information about the assertion.
+   *
+   * @param info   contains information about the assertion.
    * @param actual the given file.
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file can not be modified.
@@ -323,7 +338,8 @@ public class Files {
 
   /**
    * Asserts that the given {@code File} is empty (i.e. size is equal to zero bytes).
-   * @param info contains information about the assertion.
+   *
+   * @param info   contains information about the assertion.
    * @param actual the given file.
    * @throws AssertionError if the given {@code File} is {@code null}.
    * @throws AssertionError if the given {@code File} does not exist.
@@ -337,7 +353,8 @@ public class Files {
 
   /**
    * Asserts that the given {@code File} is not empty (i.e. size is greater than zero bytes).
-   * @param info contains information about the assertion.
+   *
+   * @param info   contains information about the assertion.
    * @param actual the given file.
    * @throws AssertionError if the given {@code File} is {@code null}.
    * @throws AssertionError if the given {@code File} does not exist.
@@ -351,7 +368,8 @@ public class Files {
 
   /**
    * Asserts that the given file can be read by the application.
-   * @param info contains information about the assertion.
+   *
+   * @param info   contains information about the assertion.
    * @param actual the given file.
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file can not be modified.
@@ -364,7 +382,8 @@ public class Files {
 
   /**
    * Asserts that the given file can be executed by the application.
-   * @param info contains information about the assertion.
+   *
+   * @param info   contains information about the assertion.
    * @param actual the given file.
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file can not be executed.
@@ -378,14 +397,14 @@ public class Files {
   /**
    * Asserts that the given {@code File} has the given parent.
    *
-   * @param info contains information about the assertion.
-   * @param actual the given file.
+   * @param info     contains information about the assertion.
+   * @param actual   the given file.
    * @param expected the expected parent {@code File}.
    * @throws NullPointerException if the expected parent {@code File} is {@code null}.
    * @throws UncheckedIOException if an I/O error occurs.
-   * @throws AssertionError if the given {@code File} is {@code null}.
-   * @throws AssertionError if the given {@code File} does not have a parent.
-   * @throws AssertionError if the given {@code File} parent is not equal to the expected one.
+   * @throws AssertionError       if the given {@code File} is {@code null}.
+   * @throws AssertionError       if the given {@code File} does not have a parent.
+   * @throws AssertionError       if the given {@code File} parent is not equal to the expected one.
    */
   public void assertHasParent(AssertionInfo info, File actual, File expected) {
     requireNonNull(expected, "The expected parent file should not be null.");
@@ -403,13 +422,13 @@ public class Files {
   /**
    * Asserts that the given {@code File} has the given extension.
    *
-   * @param info contains information about the assertion.
-   * @param actual the given file.
+   * @param info     contains information about the assertion.
+   * @param actual   the given file.
    * @param expected the expected extension, it does not contains the {@code '.'}
    * @throws NullPointerException if the expected extension is {@code null}.
-   * @throws AssertionError if the actual {@code File} is {@code null}.
-   * @throws AssertionError if the actual {@code File} is not a file (ie a directory).
-   * @throws AssertionError if the actual {@code File} does not have the expected extension.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} is not a file (ie a directory).
+   * @throws AssertionError       if the actual {@code File} does not have the expected extension.
    */
   public void assertHasExtension(AssertionInfo info, File actual, String expected) {
     requireNonNull(expected, "The expected extension should not be null.");
@@ -433,12 +452,12 @@ public class Files {
   /**
    * Asserts that the given {@code File} has the given name.
    *
-   * @param info contains information about the assertion.
-   * @param actual the given file.
+   * @param info     contains information about the assertion.
+   * @param actual   the given file.
    * @param expected the expected file name.
    * @throws NullPointerException if the expected name is {@code null}.
-   * @throws AssertionError if the actual {@code File} is {@code null}.
-   * @throws AssertionError if the actual {@code File} does not have the expected name.
+   * @throws AssertionError       if the actual {@code File} is {@code null}.
+   * @throws AssertionError       if the actual {@code File} does not have the expected name.
    */
   public void assertHasName(AssertionInfo info, File actual, String expected) {
     assertNotNull(info, actual);
@@ -450,7 +469,7 @@ public class Files {
   /**
    * Asserts that the given {@code File} does not have a parent.
    *
-   * @param info contains information about the assertion.
+   * @param info   contains information about the assertion.
    * @param actual the given file.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} has a parent.
@@ -556,8 +575,7 @@ public class Files {
    * @param filter the entry filter
    */
   public void assertIsDirectoryContaining(AssertionInfo info, File actual, Predicate<File> filter) {
-    requireNonNull(filter, "The files filter should not be null");
-    assertIsDirectoryContaining(info, actual, filter::test, "the given filter");
+    assertIsDirectoryContaining(info, actual, filter, "the given filter");
   }
 
   /**
@@ -569,8 +587,15 @@ public class Files {
    */
   public void assertIsDirectoryContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
-    FileFilter filter = fileFilter(info, actual, syntaxAndPattern);
-    assertIsDirectoryContaining(info, actual, filter, "the '%s' pattern".formatted(syntaxAndPattern));
+    Predicate<File> filePredicate = fileFilter(info, actual, syntaxAndPattern)::accept;
+    assertIsDirectoryContaining(info, actual, filePredicate, format("the '%s' pattern", syntaxAndPattern));
+  }
+
+  private void assertIsDirectoryContaining(AssertionInfo info, File actual, Predicate<File> filter, String filterDescription) {
+    requireNonNull(filter, "The files filter should not be null");
+    if (!isDirectoryContaining(info, actual, filter)) {
+      throw failures.failure(info, directoryShouldContain(actual, directoryContent(info, actual), filterDescription));
+    }
   }
 
   /**
@@ -582,8 +607,8 @@ public class Files {
    */
   public void assertIsDirectoryRecursivelyContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
-    FileFilter filter = fileFilter(info, actual, syntaxAndPattern);
-    assertIsDirectoryRecursivelyContaining(info, actual, filter::accept, "the '%s' pattern".formatted(syntaxAndPattern));
+    Predicate<File> filePredicate = fileFilter(info, actual, syntaxAndPattern)::accept;
+    assertIsDirectoryRecursivelyContaining(info, actual, filePredicate, format("the '%s' pattern", syntaxAndPattern));
   }
 
   /**
@@ -598,12 +623,20 @@ public class Files {
     assertIsDirectoryRecursivelyContaining(info, actual, filter, "the given filter");
   }
 
+  private void assertIsDirectoryRecursivelyContaining(AssertionInfo info, File actual, Predicate<File> filter,
+                                                      String filterPresentation) {
+    if (!isDirectoryRecursivelyContaining(info, actual, filter)) {
+      List<File> directoryContent = sortedRecursiveRelativeContentOf(actual);
+      throw failures.failure(info, directoryShouldContainRecursively(actual, directoryContent, filterPresentation));
+    }
+  }
+
   /**
-   * Verifies that the directory contains no matching entry.
+   * Verifies that the directory contains no entry matching the filter.
    *
    * @param info assertion information
    * @param actual the actual directory
-   * @param filter the entry filter
+   * @param filter the file filter
    */
   public void assertIsDirectoryNotContaining(AssertionInfo info, File actual, Predicate<File> filter) {
     requireNonNull(filter, "The files filter should not be null");
@@ -639,13 +672,6 @@ public class Files {
     return filterDirectory(info, actual, ANY);
   }
 
-  private void assertIsDirectoryContaining(AssertionInfo info, File actual, FileFilter filter, String filterPresentation) {
-    List<File> matchingFiles = filterDirectory(info, actual, filter);
-    if (matchingFiles.isEmpty()) {
-      throw failures.failure(info, directoryShouldContain(actual, directoryContent(info, actual), filterPresentation));
-    }
-  }
-
   private void assertIsDirectoryNotContaining(AssertionInfo info, File actual, FileFilter filter, String filterPresentation) {
     List<File> matchingFiles = filterDirectory(info, actual, filter);
     if (!matchingFiles.isEmpty()) {
@@ -654,34 +680,38 @@ public class Files {
   }
 
   private boolean isDirectoryRecursivelyContaining(AssertionInfo info, File actual, Predicate<File> filter) {
+    return isDirectoryContaining(info, actual, filter, true);
+  }
+
+  private boolean isDirectoryContaining(AssertionInfo info, File actual, Predicate<File> filter) {
+    return isDirectoryContaining(info, actual, filter, false);
+  }
+
+  private boolean isDirectoryContaining(AssertionInfo info, File actual, Predicate<File> filter, boolean recursively) {
     assertIsDirectory(info, actual);
-    try (Stream<File> actualContent = recursiveContentOf(actual)) {
-      return actualContent.anyMatch(filter);
-    }
-  }
-
-  private List<File> sortedRecursiveContent(File directory) {
-    try (Stream<File> fileStream = recursiveContentOf(directory)) {
-      return fileStream.sorted(comparing(File::getAbsolutePath))
-                       .collect(toList());
-    }
-  }
-
-  private Stream<File> recursiveContentOf(File directory) {
-    Path path = directory.toPath();
-    try {
-      return java.nio.file.Files.walk(path)
-                                .filter(p -> !p.equals(path))
-                                .map(Path::toFile);
+    Path directoryPath = actual.toPath();
+    // don't use actual.listFiles(filter) for non-recursive mode as it checks absolute paths, walk does not
+    try (Stream<Path> pathStream = recursively ? walk(directoryPath) : walk(directoryPath, 1)) {
+      Stream<File> relativeFileStream = pathStream.filter(path -> !path.equals(directoryPath))
+                                                  .map(directoryPath::relativize)
+                                                  .map(Path::toFile);
+      return relativeFileStream.anyMatch(filter);
     } catch (IOException e) {
-      throw new UncheckedIOException("Unable to walk recursively the directory :<%s>".formatted(path), e);
+      throw new UncheckedIOException(format("Unable to walk %sdirectory: <%s>", recursively ? "recursively " : "", directoryPath),
+                                     e);
     }
   }
 
-  private void assertIsDirectoryRecursivelyContaining(AssertionInfo info, File actual, Predicate<File> filter,
-                                                      String filterPresentation) {
-    if (!isDirectoryRecursivelyContaining(info, actual, filter)) {
-      throw failures.failure(info, directoryShouldContainRecursively(actual, sortedRecursiveContent(actual), filterPresentation));
+  private List<File> sortedRecursiveRelativeContentOf(File directory) {
+    Path directoryPath = directory.toPath();
+    try (Stream<Path> pathStream = walk(directoryPath)) {
+      return pathStream.filter(path -> !path.equals(directoryPath))
+                       .map(directoryPath::relativize)
+                       .map(Path::toFile)
+                       .sorted()
+                       .collect(toList());
+    } catch (IOException e) {
+      throw new UncheckedIOException(format("Unable to walk recursively the directory :<%s>", directoryPath), e);
     }
   }
 
