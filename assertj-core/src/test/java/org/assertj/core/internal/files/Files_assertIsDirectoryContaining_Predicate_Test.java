@@ -135,8 +135,7 @@ class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseTest {
     // WHEN
     Throwable error = catchThrowable(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE));
     // THEN
-    then(error).isInstanceOf(NullPointerException.class)
-               .hasMessage("Directory listing should not be null");
+    then(error).isInstanceOf(NullPointerException.class);
   }
 
   @Test

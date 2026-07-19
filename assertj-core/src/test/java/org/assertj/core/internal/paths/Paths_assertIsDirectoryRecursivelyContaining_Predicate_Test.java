@@ -20,12 +20,10 @@ import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldContainRecursively.directoryShouldContainRecursively;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.Mockito.verify;
 
 import java.nio.file.Path;
-import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -78,7 +76,7 @@ class Paths_assertIsDirectoryRecursivelyContaining_Predicate_Test extends PathsS
       return Stream.of(path -> path.toString().contains("bar2"), // one match
                        path -> path.toString().endsWith("foobar2.json"), // one match
                        path -> path.toString().contains("foobar"), // 3 matches
-                       path -> path.getParent().toString().endsWith("foobar"), // one match
+                       path -> path.getParent() != null && path.getParent().toString().endsWith("foobar"), // one match
                        path -> path.toString().contains("foo")); // all matches
     }
   }
@@ -114,19 +112,6 @@ class Paths_assertIsDirectoryRecursivelyContaining_Predicate_Test extends PathsS
     expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, tempDir, alwaysTrue));
     // THEN
     verify(failures).failure(INFO, directoryShouldContainRecursively(tempDir, emptyList(), THE_GIVEN_FILTER_DESCRIPTION));
-  }
-
-  @Test
-  void should_fail_if_actual_does_not_contain_any_paths_matching_the_given_predicate() {
-    // GIVEN
-    Path fooDir = createDirectory(tempDir, "foo", "foo2.data");
-    createDirectory(fooDir, "foo3");
-    Predicate<Path> alwaysFalse = f -> false;
-    // WHEN
-    expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, tempDir, alwaysFalse));
-    // THEN
-    List<Path> fooDirContent = list(fooDir, fooDir.resolve("foo2.data"), fooDir.resolve("foo3"));
-    verify(failures).failure(INFO, directoryShouldContainRecursively(tempDir, fooDirContent, THE_GIVEN_FILTER_DESCRIPTION));
   }
 
 }

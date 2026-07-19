@@ -306,7 +306,7 @@ class ShouldContain_create_Test {
                                    "  root%n" +
                                    "to contain at least one file matching glob:**.java but there was none.%n" +
                                    "The directory content was:%n" +
-                                   "  [foo.txt, bar.txt]"));
+                                   "  [bar.txt, foo.txt]"));
   }
 
   @Test
@@ -324,7 +324,7 @@ class ShouldContain_create_Test {
                                    "  root%%dir%n" +
                                    "to contain at least one file matching glob:**%%Test.java but there was none.%n" +
                                    "The directory content was:%n" +
-                                   "  [foo%%1.txt, bar%%2.txt]"));
+                                   "  [bar%%2.txt, foo%%1.txt]"));
   }
 
   @Test
@@ -341,8 +341,7 @@ class ShouldContain_create_Test {
                                    "  root%n" +
                                    "to contain at least one file matching glob:**.java but there was none.%n" +
                                    "The directory content was:%n" +
-                                   "  [%s, %s]",
-                                   directory.resolve("foo.txt"), directory.resolve("bar.txt")));
+                                   "  [root/bar.txt, root/foo.txt]"));
   }
 
 }

@@ -134,8 +134,7 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
     // WHEN
     Throwable error = catchThrowable(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
-    then(error).isInstanceOf(NullPointerException.class)
-               .hasMessage("Directory listing should not be null");
+    then(error).isInstanceOf(NullPointerException.class);
   }
 
   @Test

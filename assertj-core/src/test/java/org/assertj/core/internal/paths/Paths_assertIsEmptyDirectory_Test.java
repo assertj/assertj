@@ -84,7 +84,7 @@ class Paths_assertIsEmptyDirectory_Test extends PathsBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> underTest.assertIsEmptyDirectory(INFO, actual));
     // THEN
-    then(error).hasMessage(shouldBeEmptyDirectory(actual, singletonList(file)).create());
+    then(error).hasMessage(shouldBeEmptyDirectory(actual, singletonList(actual.relativize(file))).create());
   }
 
   @Test

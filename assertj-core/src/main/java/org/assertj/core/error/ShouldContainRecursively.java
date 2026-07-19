@@ -15,6 +15,9 @@
  */
 package org.assertj.core.error;
 
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.util.Strings.escapePercent;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
@@ -29,20 +32,22 @@ public class ShouldContainRecursively extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory directoryShouldContainRecursively(File actual, List<File> directoryContent,
                                                                       String filterDescription) {
-    return new ShouldContainRecursively(actual, directoryContent, filterDescription);
+    return new ShouldContainRecursively(actual, directoryContent.stream().map(File::toString).collect(toList()),
+                                        filterDescription);
   }
 
   public static ErrorMessageFactory directoryShouldContainRecursively(Path actual, List<Path> directoryContent,
                                                                       String filterDescription) {
-    return new ShouldContainRecursively(actual, directoryContent, filterDescription);
+    return new ShouldContainRecursively(actual, directoryContent.stream().map(Path::toString).collect(toList()),
+                                        filterDescription);
   }
 
-  private ShouldContainRecursively(Object actual, List<?> directoryContent, String filterDescription) {
+  private ShouldContainRecursively(Object actual, List<String> directoryContent, String filterDescription) {
     super("%nExpecting directory or any of its subdirectories (recursively):%n" +
           "  %s%n" +
           "to contain at least one file matching %s but there was none.%n" +
-          "The directory content was:%n  %s",
-          actual, filterDescription, directoryContent);
+          "The directory content was:%n  " + escapePercent("[" + String.join(", ", directoryContent) + "]"),
+          actual, filterDescription);
   }
 
 }
