@@ -52,6 +52,7 @@ import static org.assertj.core.error.ShouldContainSubsequence.actualDoesNotHaveE
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
+import static org.assertj.core.error.ShouldHaveAllElementsEqual.shouldHaveAllElementsEqual;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
@@ -725,6 +726,29 @@ public class Iterables {
     Iterable<?> duplicates = comparisonStrategy.duplicatesFrom(actual);
     if (!isNullOrEmpty(duplicates))
       throw failures.failure(info, shouldNotHaveDuplicates(actual, duplicates, comparisonStrategy));
+  }
+
+  /**
+   * Asserts that all the elements of the given {@code Iterable} are equal to each other. An empty or single-element
+   * {@code Iterable} passes as there is nothing that can differ.
+   *
+   * @param info   contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} contains at least two elements that are not equal.
+   */
+  public void assertAllElementsAreEqual(AssertionInfo info, Iterable<?> actual) {
+    assertNotNull(info, actual);
+    Iterator<?> iterator = actual.iterator();
+    if (!iterator.hasNext()) return;
+    Object first = iterator.next();
+    List<Object> notEqualElements = new ArrayList<>();
+    while (iterator.hasNext()) {
+      Object element = iterator.next();
+      if (!areEqual(first, element)) notEqualElements.add(element);
+    }
+    if (!notEqualElements.isEmpty())
+      throw failures.failure(info, shouldHaveAllElementsEqual(actual, first, notEqualElements, comparisonStrategy));
   }
 
   /**
