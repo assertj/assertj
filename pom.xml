@@ -213,6 +213,7 @@
           <configuration>
             <rules>
               <dependencyConvergence/>
+              <reactorModuleConvergence/>
             </rules>
           </configuration>
         </plugin>
