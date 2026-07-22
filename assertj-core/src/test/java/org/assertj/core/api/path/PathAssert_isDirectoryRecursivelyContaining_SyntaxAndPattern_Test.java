@@ -79,7 +79,8 @@ class PathAssert_isDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends 
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(tempDir).isDirectoryRecursivelyContaining("glob:*.txt"));
     // THEN
-    then(assertionError).hasMessageContainingAll("The directory content was:", "[dir, dir/test.txt, test.java]");
+    then(assertionError).hasMessageContainingAll("The directory content was:",
+                                                 "[dir, dir/test.txt, test.java]".replace('/', File.separatorChar));
   }
 
   @Test

@@ -25,6 +25,7 @@ import static org.mockito.Mockito.verify;
 import java.io.File;
 import java.util.function.Predicate;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
 import org.junit.jupiter.api.Test;
@@ -95,8 +96,8 @@ class FileAssert_isDirectoryRecursivelyContaining_Predicate_Test extends FileAss
     AssertionError assertionError = expectAssertionError(() -> assertThat(tempDir).isDirectoryRecursivelyContaining(f -> f.getName()
                                                                                                                           .equals("foo2")));
     // THEN
-    then(assertionError).hasMessageContainingAll("The directory content was:",
-                                                 "[foo, foo/foo2.txt, foo3]".replace('/', File.separatorChar));
+    String content = SystemUtils.IS_OS_WINDOWS ? "[foo, foo3, foo\\foo2.txt]" : "[foo, foo/foo2.txt, foo3]";
+    then(assertionError).hasMessageContainingAll("The directory content was:", content);
   }
 
 }

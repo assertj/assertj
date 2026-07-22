@@ -68,7 +68,8 @@ class PathAssert_isDirectoryRecursivelyContaining_Predicate_Test extends PathAss
                  .isDirectoryRecursivelyContaining(path -> path.toString().equals("dir"))
                  .isDirectoryRecursivelyContaining(path -> path.toString().endsWith("java"))
                  .isDirectoryRecursivelyContaining(path -> path.toString().endsWith(".png"))
-                 .isDirectoryRecursivelyContaining(path -> path.toString().startsWith("docs/mus"));
+                 .isDirectoryRecursivelyContaining(path -> path.toString()
+                                                               .startsWith("docs/mus".replace('/', File.separatorChar)));
   }
 
   @Test
@@ -81,7 +82,8 @@ class PathAssert_isDirectoryRecursivelyContaining_Predicate_Test extends PathAss
     AssertionError assertionError = expectAssertionError(() -> assertThat(tempDir).isDirectoryRecursivelyContaining(path -> path.toString()
                                                                                                                                 .equals("test.txt")));
     // THEN
-    then(assertionError).hasMessageContainingAll("The directory content was:", "[dir, dir/test.txt, test.java]");
+    then(assertionError).hasMessageContainingAll("The directory content was:",
+                                                 "[dir, dir/test.txt, test.java]".replace('/', File.separatorChar));
   }
 
   @Test
