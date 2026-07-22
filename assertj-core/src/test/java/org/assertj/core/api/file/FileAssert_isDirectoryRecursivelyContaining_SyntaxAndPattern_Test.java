@@ -77,7 +77,8 @@ class FileAssert_isDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends 
     // WHEN glob:*.txt does not traverse directories thus dir/test.txt does not match glob:*.txt but matches glob:**.txt
     AssertionError assertionError = expectAssertionError(() -> assertThat(tempDir).isDirectoryRecursivelyContaining("glob:*.txt"));
     // THEN
-    then(assertionError).hasMessageContainingAll("The directory content was:", "[dir, dir/test.txt, test.java]");
+    then(assertionError).hasMessageContainingAll("The directory content was:",
+                                                 "[dir, dir/test.txt, test.java]".replace('/', File.separatorChar));
   }
 
 }

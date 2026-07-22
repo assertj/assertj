@@ -81,7 +81,8 @@ class FileAssert_isDirectoryRecursivelyContaining_Predicate_Test extends FileAss
     AssertionError assertionError = expectAssertionError(() -> assertThat(tempDir).isDirectoryRecursivelyContaining(file -> false));
     // THEN
     then(assertionError).hasMessageContainingAll("The directory content was:",
-                                                 "[directory1, directory1/file3.txt, directory2, file1.txt, file2.txt]");
+                                                 "[directory1, directory1/file3.txt, directory2, file1.txt, file2.txt]".replace('/',
+                                                                                                                                File.separatorChar));
   }
 
   @Test
@@ -95,7 +96,7 @@ class FileAssert_isDirectoryRecursivelyContaining_Predicate_Test extends FileAss
                                                                                                                           .equals("foo2")));
     // THEN
     then(assertionError).hasMessageContainingAll("The directory content was:",
-                                                 "[foo, foo/foo2.txt, foo3]");
+                                                 "[foo, foo/foo2.txt, foo3]".replace('/', File.separatorChar));
   }
 
 }

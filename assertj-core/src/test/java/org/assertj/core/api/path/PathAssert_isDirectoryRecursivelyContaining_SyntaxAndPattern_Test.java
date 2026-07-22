@@ -22,6 +22,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -89,6 +90,7 @@ class PathAssert_isDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends 
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(tempDir).isDirectoryRecursivelyContaining("glob:*.txt"));
     // THEN
-    then(assertionError).hasMessageContainingAll("The directory content was:", "[foo, foo/foo3]");
+    then(assertionError).hasMessageContainingAll("The directory content was:",
+                                                 "[foo, foo/foo3]".replace('/', File.separatorChar));
   }
 }

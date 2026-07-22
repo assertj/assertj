@@ -341,7 +341,7 @@ class ShouldContain_create_Test {
                                    "  root%n" +
                                    "to contain at least one file matching glob:**.java but there was none.%n" +
                                    "The directory content was:%n" +
-                                   "  [root/bar.txt, root/foo.txt]"));
+                                   "  [root/bar.txt, root/foo.txt]").replace('/', File.separatorChar));
   }
 
 }
