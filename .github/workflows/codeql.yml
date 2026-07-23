@@ -35,6 +35,8 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
+      env:
+        CODEQL_EXTRACTOR_JAVA_AGENT_DISABLE_KOTLIN: true # https://github.com/github/codeql/issues/22219
     # https://github.com/github/codeql-action/issues/2074
     - name: Set up Java
       if: matrix.language == 'java-kotlin'
