@@ -19,27 +19,12 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.SoftAssertions;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SoftAssertionsErrorDescriptionTest {
-
-  private int initialMaxStackTraceElementsDisplayedValue;
-
-  @BeforeEach
-  public void beforeTest() {
-    initialMaxStackTraceElementsDisplayedValue = StandardRepresentation.getMaxStackTraceElementsDisplayed();
-  }
-
-  @AfterEach
-  public void afterTest() {
-    StandardRepresentation.setMaxStackTraceElementsDisplayed(initialMaxStackTraceElementsDisplayedValue);
-  }
+class SoftAssertionsErrorDescriptionTest {
 
   @Test
-  public void should_display_the_error_cause_and_the_cause_first_stack_trace_elements() {
+  void should_display_the_error_cause_and_the_cause_first_stack_trace_elements() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
     softly.fail("failure", throwRuntimeException());
@@ -48,10 +33,11 @@ public class SoftAssertionsErrorDescriptionTest {
     // THEN
     then(error).hasMessageContainingAll("cause message: abc",
                                         "cause first 3 stack trace elements:",
-                                        "SoftAssertionsErrorDescriptionTest.throwRuntimeException(SoftAssertionsErrorDescriptionTest.java:55)");
+                                        "SoftAssertionsErrorDescriptionTest.throwRuntimeException(SoftAssertionsErrorDescriptionTest.java:40)");
   }
 
-  protected static RuntimeException throwRuntimeException() {
+  static RuntimeException throwRuntimeException() {
     return new RuntimeException("abc");
   }
+
 }

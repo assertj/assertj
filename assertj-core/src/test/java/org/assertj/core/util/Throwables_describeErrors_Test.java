@@ -22,23 +22,14 @@ import static org.assertj.core.util.Throwables.describeErrors;
 import java.util.List;
 
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.AfterEach;
+import org.assertj.core.testkit.MutatesGlobalConfiguration;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link Throwables#describeErrors(List)}.
- *
  * @author chanwonlee
  */
+@MutatesGlobalConfiguration
 class Throwables_describeErrors_Test {
-
-  private static final int DEFAULT_MAX_STACK_TRACE_ELEMENTS = StandardRepresentation.getMaxStackTraceElementsDisplayed();
-
-  @AfterEach
-  void afterEach() {
-    // restore default value
-    StandardRepresentation.setMaxStackTraceElementsDisplayed(DEFAULT_MAX_STACK_TRACE_ELEMENTS);
-  }
 
   @Test
   void should_honor_maxStackTraceElementsDisplayed_setting_when_exception_has_a_cause() {
@@ -64,7 +55,7 @@ class Throwables_describeErrors_Test {
     then(descriptions).singleElement(STRING)
                       .startsWith("error message without cause")
                       .containsSubsequence("first 3 stack trace elements:",
-                                           "should_honor_maxStackTraceElementsDisplayed_setting_when_exception_has_no_cause(Throwables_describeErrors_Test.java:60)");
+                                           "should_honor_maxStackTraceElementsDisplayed_setting_when_exception_has_no_cause(Throwables_describeErrors_Test.java:51)");
     then(countStackTraceElements(descriptions.get(0))).isEqualTo(StandardRepresentation.getMaxStackTraceElementsDisplayed());
   }
 

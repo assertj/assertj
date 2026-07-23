@@ -26,30 +26,19 @@ import java.util.List;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.error.MultipleAssertionsError;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.tests.core.testkit.MutatesGlobalConfiguration;
 import org.junit.jupiter.api.Test;
 
 /**
- * this is not in a org.assertj package to avoid assertj packages in the stack trace that is handled specifically and
+ * this is not in an org.assertj package to avoid assertj packages in the stack trace that is handled specifically and
  * does not reflect real users code.
  */
+@MutatesGlobalConfiguration
 class StandardRepresentation_MultipleAssertionsError_format_Test {
 
   private static final StandardRepresentation REPRESENTATION = new StandardRepresentation();
   private static final List<AssertionError> throwables = List.of(expectAssertionError(() -> assertThat("foo").startsWith("bar")),
                                                                  expectAssertionError(() -> assertThat("baz").isEqualTo("bar")));
-  private int initialMaxStackTraceElementsDisplayedValue;
-
-  @BeforeEach
-  public void beforeTest() {
-    initialMaxStackTraceElementsDisplayedValue = StandardRepresentation.getMaxStackTraceElementsDisplayed();
-  }
-
-  @AfterEach
-  public void afterTest() {
-    StandardRepresentation.setMaxStackTraceElementsDisplayed(initialMaxStackTraceElementsDisplayedValue);
-  }
 
   @Test
   void should_not_display_stacktrace_if_maxStackTraceElementsDisplayed_is_zero() {
@@ -93,14 +82,14 @@ class StandardRepresentation_MultipleAssertionsError_format_Test {
   @Test
   void should_display_the_full_stacktrace() {
     // GIVEN
-    StandardRepresentation.setMaxStackTraceElementsDisplayed(100);
+    StandardRepresentation.setMaxStackTraceElementsDisplayed(200);
     var multipleAssertionsError = new MultipleAssertionsError(null, null, throwables);
     // WHEN
     String toString = REPRESENTATION.toStringOf(multipleAssertionsError);
     // THEN
     then(toString).containsSubsequence("2 assertion errors:",
                                        "-- error 1 --",
-                                       "first 100 stack trace elements:")
+                                       "first 200 stack trace elements:")
                   .doesNotContain("remaining lines not displayed");
   }
 

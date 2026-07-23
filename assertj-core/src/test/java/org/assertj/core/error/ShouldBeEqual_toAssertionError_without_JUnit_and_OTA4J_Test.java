@@ -20,61 +20,62 @@ import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import static org.assertj.core.util.Arrays.array;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.withSettings;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.testkit.MutatesGlobalConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
 /**
- * Tests for <code>{@link ShouldBeEqual#toAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
- *
- * @author Alex Ruiz
- * @author Yvonne Wang
+ * @author Filip Hrisafov
  */
-class ShouldBeEqual_newAssertionError_without_JUnit_Test {
+@MutatesGlobalConfiguration
+class ShouldBeEqual_toAssertionError_without_JUnit_and_OTA4J_Test {
 
   private Description description;
   private ShouldBeEqual factory;
   private ConstructorInvoker constructorInvoker;
 
   @BeforeEach
-  public void setUp() throws NoSuchFieldException, IllegalAccessException {
+  void setUp() throws NoSuchFieldException, IllegalAccessException {
     Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
     description = new TestDescription("Jedi");
-    factory = shouldBeEqual("Luke", "Yoda", new StandardRepresentation());
-    constructorInvoker = mock(ConstructorInvoker.class, withSettings().defaultAnswer(CALLS_REAL_METHODS));
+    factory = shouldBeEqual("Luke", "Yoda", STANDARD_REPRESENTATION);
+    constructorInvoker = mock(ConstructorInvoker.class);
     writeField(factory, "constructorInvoker", constructorInvoker, true);
   }
 
   @Test
-  void should_create_AssertionFailedError() throws Exception {
-    AssertionError error = factory.toAssertionError(description, new StandardRepresentation());
+  void should_create_AssertionError_if_created_AssertionFailedError_is_null() throws Exception {
+    // GIVEN
+    given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willReturn(null);
+    // WHEN
+    AssertionError error = factory.toAssertionError(description, STANDARD_REPRESENTATION);
+    // THEN
     check(error);
   }
 
   private void check(AssertionError error) throws Exception {
-    verify(constructorInvoker).newInstance(AssertionFailedError.class.getName(),
-                                           new Class<?>[] { String.class, Object.class, Object.class },
-                                           format("[Jedi] %n" +
-                                                  "expected: \"Yoda\"%n" +
-                                                  " but was: \"Luke\""),
-                                           STANDARD_REPRESENTATION.toStringOf("Yoda"),
-                                           STANDARD_REPRESENTATION.toStringOf("Luke"));
-    assertThat(error).isInstanceOf(AssertionFailedError.class);
-    AssertionFailedError assertionFailedError = (AssertionFailedError) error;
-    assertThat(assertionFailedError.getActual().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf("Luke"));
-    assertThat(assertionFailedError.getExpected().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf("Yoda"));
-    assertThat(error).hasMessage(format("[Jedi] %n" +
+    verify(constructorInvoker, times(2)).newInstance(AssertionFailedError.class.getName(),
+                                                     array(String.class, Object.class, Object.class),
+                                                     format("[Jedi] %n" +
+                                                            "expected: \"Yoda\"%n" +
+                                                            " but was: \"Luke\""),
+                                                     STANDARD_REPRESENTATION.toStringOf("Yoda"),
+                                                     STANDARD_REPRESENTATION.toStringOf("Luke"));
+    assertThat(error).isNotInstanceOf(AssertionFailedError.class)
+                     .hasMessage(format("[Jedi] %n" +
                                         "expected: \"Yoda\"%n" +
                                         " but was: \"Luke\""));
   }
-
 }
