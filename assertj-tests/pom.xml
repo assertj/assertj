@@ -31,18 +31,23 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <configuration>
-          <rules combine.children="append">
-            <bannedDependencies>
-              <includes>
-                <include>*:*:*:jar:test</include>
-              </includes>
-              <excludes>
-                <exclude>*</exclude>
-              </excludes>
-            </bannedDependencies>
-          </rules>
-        </configuration>
+        <executions>
+          <execution>
+            <id>default</id>
+            <configuration>
+              <rules combine.children="append">
+                <bannedDependencies>
+                  <includes>
+                    <include>*:*:*:jar:test</include>
+                  </includes>
+                  <excludes>
+                    <exclude>*</exclude>
+                  </excludes>
+                </bannedDependencies>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
