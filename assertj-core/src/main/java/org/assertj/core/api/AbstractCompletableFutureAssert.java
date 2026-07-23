@@ -15,7 +15,7 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.error.future.ShouldBeCancelled.shouldBeCancelled;
