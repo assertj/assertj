@@ -631,25 +631,11 @@ public class Files {
     }
   }
 
-  /**
-   * Verifies that the directory contains no entry matching the filter.
-   *
-   * @param info assertion information
-   * @param actual the actual directory
-   * @param filter the file filter
-   */
   public void assertIsDirectoryNotContaining(AssertionInfo info, File actual, Predicate<File> filter) {
     requireNonNull(filter, "The files filter should not be null");
     assertIsDirectoryNotContaining(info, actual, filter::test, "the given filter");
   }
 
-  /**
-   * Verifies that the directory contains no entry matching the pattern.
-   *
-   * @param info assertion information
-   * @param actual the actual directory
-   * @param syntaxAndPattern the path matcher syntax and pattern
-   */
   public void assertIsDirectoryNotContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     FileFilter filter = fileFilter(info, actual, syntaxAndPattern);

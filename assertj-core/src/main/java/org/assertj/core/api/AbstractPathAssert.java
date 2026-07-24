@@ -1425,6 +1425,11 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * <p>
    * To check the actual directory direct content, and its subdirectories use {@link #isDirectoryRecursivelyContaining(Predicate)}.
    * <p>
+   * This assertion only checks the actual directory direct content, it does not check the subdirectories contents,
+   * nor the actual directory itself.
+   * <p>
+   * To check the actual directory direct content, and its subdirectories use {@link #isDirectoryRecursivelyContaining(Predicate)}.
+   * <p>
    * Note that the actual {@link Path} must exist and be a directory.
    * <p>
    * Examples:
@@ -1466,6 +1471,14 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   /**
    * Verify that the actual {@code Path} is a directory containing at least one path matching the given {@code String}
    * interpreted as a path matcher (as per {@link FileSystem#getPathMatcher(String)}).
+   * <p>
+   * This assertion only checks the actual directory direct content, it does not check the subdirectories contents,
+   * nor the actual directory itself.
+   * <p>
+   * To check the actual directory direct content, and its subdirectories use {@link #isDirectoryRecursivelyContaining(String)}.
+   * <p>
+   * The actual directory content that is matched against the given pattern is interpreted relative to the actual directory (not as absolute paths).<br/>
+   * For example, with {@code /root/dir/foo.txt}, {@code assertThat(dir).isDirectoryContaining(somePattern)} will check {@code foo.txt} and not {@code /root/dir/foo.txt}.
    * <p>
    * This assertion only checks the actual directory direct content, it does not check the subdirectories contents,
    * nor the actual directory itself.
@@ -1522,6 +1535,8 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * matching the given {@code String} interpreted as a path matcher (as per {@link FileSystem#getPathMatcher(String)}).
    * <p>
    * This methods performs the same assertion as {@link #isDirectoryContaining(String syntaxAndPattern)} but recursively.
+   * <p>
+   * The actual directory content that is matched against the given pattern is interpreted relative to the actual directory (not as absolute paths).
    * <p>
    * The actual directory content that is matched against the given pattern is interpreted relative to the actual directory (not as absolute paths).
    * <p>

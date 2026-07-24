@@ -245,6 +245,7 @@ limitations under the License.
           <configuration>
             <rules>
               <dependencyConvergence />
+              <reactorModuleConvergence/>
             </rules>
           </configuration>
         </plugin>

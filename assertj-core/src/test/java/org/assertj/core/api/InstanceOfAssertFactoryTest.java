@@ -259,5 +259,4 @@ class InstanceOfAssertFactoryTest {
                                                      .returns(rawClass, from(ParameterizedType::getRawType))
                                                      .returns(null, from(ParameterizedType::getOwnerType)));
   }
-
 }
