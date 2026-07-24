@@ -253,6 +253,7 @@
             </addStylesheets>
             <!-- Explicitly set Javadoc locale to English -->
             <locale>en_US</locale>
+            <excludePackageNames>*.internal</excludePackageNames>
             <nohelp>true</nohelp>
             <bottom><![CDATA[
               Copyright &#169; {currentYear} {organizationName}. All rights reserved.
