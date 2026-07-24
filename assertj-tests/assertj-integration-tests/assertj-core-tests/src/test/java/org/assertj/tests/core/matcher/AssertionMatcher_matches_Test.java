@@ -25,13 +25,15 @@ import static org.mockito.Mockito.verifyNoInteractions;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.matcher.AssertionMatcher;
+import org.assertj.tests.core.testkit.MutatesGlobalConfiguration;
 import org.hamcrest.Description;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 
+@MutatesGlobalConfiguration
 class AssertionMatcher_matches_Test {
+
   private static final Integer ZERO = 0;
   private static final Integer ONE = 1;
 
@@ -42,22 +44,9 @@ class AssertionMatcher_matches_Test {
     }
   };
 
-  private boolean removeAssertJRelatedElementsFromStackTrace;
-
-  /**
-   * Stacktrace filtering must be disabled in order to check frames in
-   * {@link this#matcher_should_fill_description_when_assertion_fails()}.
-   * I use setUp and tearDown methods to ensure that it is set to original value after a test.
-   */
   @BeforeEach
-  public void setUp() {
-    removeAssertJRelatedElementsFromStackTrace = Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace();
+  void setUp() {
     Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
-  }
-
-  @AfterEach
-  public void tearDown() {
-    Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
   }
 
   @Test
@@ -80,10 +69,6 @@ class AssertionMatcher_matches_Test {
     assertThat(isZeroMatcher.matches(ONE)).isFalse();
   }
 
-  /**
-   * {@link Failures#removeAssertJRelatedElementsFromStackTrace} must be set to true
-   * in order for this test to pass. It is in {@link this#setUp()}.
-   */
   @Test
   void matcher_should_fill_description_when_assertion_fails() {
     // WHEN

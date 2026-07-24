@@ -164,11 +164,13 @@ public class StandardRepresentation implements Representation {
    * <ul>
    *   <li>{@code maxLengthForSingleLineDescription} = {@value org.assertj.core.configuration.Configuration#MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION} </li>
    *   <li>{@code maxElementsForPrinting} = {@value org.assertj.core.configuration.Configuration#MAX_ELEMENTS_FOR_PRINTING} </li>
+   *   <li>{@code maxStackTraceElementsDisplayed} = {@value org.assertj.core.configuration.Configuration#MAX_STACKTRACE_ELEMENTS_DISPLAYED} </li>
    * </ul>
    */
   public static void resetDefaults() {
     maxLengthForSingleLineDescription = Configuration.MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION;
     maxElementsForPrinting = Configuration.MAX_ELEMENTS_FOR_PRINTING;
+    maxStackTraceElementsDisplayed = Configuration.MAX_STACKTRACE_ELEMENTS_DISPLAYED;
   }
 
   /**

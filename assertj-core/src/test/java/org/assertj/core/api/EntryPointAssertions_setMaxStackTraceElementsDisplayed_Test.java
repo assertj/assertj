@@ -21,27 +21,18 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
+import org.assertj.core.testkit.MutatesGlobalConfiguration;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@DisplayName("EntryPoint assertions setMaxStackTraceElementsDisplayed method")
+@MutatesGlobalConfiguration
 class EntryPointAssertions_setMaxStackTraceElementsDisplayed_Test extends EntryPointAssertionsBaseTest {
-
-  private static final int DEFAULT_MAX_STACK_TRACE_ELEMENTS_DISPLAYED = StandardRepresentation.getMaxStackTraceElementsDisplayed();
-
-  @AfterEach
-  void afterEachTest() {
-    // reset to the default value to avoid side effects on the other tests
-    StandardRepresentation.setMaxStackTraceElementsDisplayed(DEFAULT_MAX_STACK_TRACE_ELEMENTS_DISPLAYED);
-  }
 
   @ParameterizedTest
   @MethodSource("setMaxStackTraceElementsDisplayedFunctions")
   void should_set_maxStackTraceElementsDisplayed_value(Consumer<Integer> setMaxStackTraceElementsDisplayedFunction) {
     // GIVEN
-    int maxStackTraceElementsDisplayed = DEFAULT_MAX_STACK_TRACE_ELEMENTS_DISPLAYED + 1;
+    int maxStackTraceElementsDisplayed = StandardRepresentation.getMaxStackTraceElementsDisplayed() + 1;
     // WHEN
     setMaxStackTraceElementsDisplayedFunction.accept(maxStackTraceElementsDisplayed);
     // THEN

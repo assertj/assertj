@@ -15,34 +15,39 @@
  */
 package org.assertj.core.testkit;
 
-import java.lang.annotation.ElementType;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
+
+import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import org.assertj.core.configuration.ConfigurationProvider;
-import org.assertj.core.testkit.MutatesGlobalConfiguration.AssumptionMutatingExtension;
+import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.testkit.MutatesGlobalConfiguration.GlobalConfigurationResetExtension;
 import org.junit.jupiter.api.extension.AfterAllCallback;
-import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.parallel.Isolated;
 
 /**
  * An annotation for any test class that mutates the global configuration.
- *
- * <p>By using this annotation, any tests that mutate this configuration will have the configuration
+ * <p>
+ * By using this annotation, any tests that mutate this configuration will have the configuration
  * reset to the default values after each test case runs.
  *
  * @author Ashley Scopes
  */
-@ExtendWith(AssumptionMutatingExtension.class)
+@ExtendWith(GlobalConfigurationResetExtension.class)
 @Isolated("Mutates global state")
-@Target(ElementType.TYPE)
+@Target(TYPE)
+@Retention(RUNTIME)
 public @interface MutatesGlobalConfiguration {
 
-  final class AssumptionMutatingExtension implements AfterEachCallback, AfterAllCallback {
+  class GlobalConfigurationResetExtension implements AfterTestExecutionCallback, AfterAllCallback {
 
     @Override
-    public void afterEach(ExtensionContext context) {
+    public void afterTestExecution(ExtensionContext context) {
       resetAll();
     }
 
@@ -51,8 +56,10 @@ public @interface MutatesGlobalConfiguration {
       resetAll();
     }
 
-    private void resetAll() {
-      ConfigurationProvider.CONFIGURATION_PROVIDER.configuration().setDefaults();
+    private static void resetAll() {
+      CONFIGURATION_PROVIDER.configuration().setDefaults();
+      StandardRepresentation.resetDefaults();
     }
   }
+
 }
