@@ -285,6 +285,7 @@ limitations under the License.
             </addStylesheets>
             <!-- Explicitly set Javadoc locale to English -->
             <locale>en_US</locale>
+            <excludePackageNames>*.internal</excludePackageNames>
             <failOnWarnings>true</failOnWarnings>
             <nohelp>true</nohelp>
             <bottom><![CDATA[
