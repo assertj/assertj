@@ -6,7 +6,7 @@ This file defines the technical stack, development conventions, and documentatio
 * **Build Toolchain**: Use JDK 25 or newer to build the project and generate documentation.
 * **Production Code Compatibility**: Target the language version declared in the `java.version` property of the root POM.
   * Do *not* use preview features or APIs introduced in later Java versions.
-* **Dependency Management**: Maven 3.9.x (always use the wrapper via `./mvnw`).
+* **Dependency Management**: Maven (always use the wrapper via `./mvnw`).
 * **Testing Ecosystem**: JUnit, Mockito, and AssertJ.
 
 ## Code & Testing Conventions
@@ -82,7 +82,7 @@ Use the Maven wrapper for the following verification and formatting commands:
 * **License Headers**: `./mvnw license:format` to add or update license headers.
 * **Code Formatting**: `./mvnw spotless:apply` to format code and optimize imports.
 * **Verification**: `./mvnw clean verify` to ensure all tests pass.
-* **Documentation**: `./mvnw clean  javadoc:javadoc` to generate Javadoc documentation.
+* **Documentation**: `./mvnw clean javadoc:javadoc` to generate Javadoc documentation.
 
 ## Strict Restrictions (Do Not)
 
