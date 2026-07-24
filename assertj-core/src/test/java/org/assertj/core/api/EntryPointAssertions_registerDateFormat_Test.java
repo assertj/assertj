@@ -22,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,12 +32,6 @@ class EntryPointAssertions_registerDateFormat_Test extends EntryPointAssertionsB
 
   @BeforeEach
   void beforeEachTest() {
-    // reset to the default value to avoid side effects on the other tests
-    AbstractDateAssert.useDefaultDateFormatsOnly();
-  }
-
-  @AfterEach
-  void afterEachTest() {
     // reset to the default value to avoid side effects on the other tests
     AbstractDateAssert.useDefaultDateFormatsOnly();
   }

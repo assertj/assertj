@@ -20,7 +20,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -29,12 +28,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 class EntryPointAssertions_setPrintAssertionsDescription_Test extends EntryPointAssertionsBaseTest {
 
   private static final boolean DEFAULT_EXTRACTING_BARE_NAME_PROPERTY_METHODS = AbstractAssert.printAssertionsDescription;
-
-  @AfterEach
-  void afterEachTest() {
-    // reset to the default value to avoid side effects on the other tests
-    AbstractAssert.printAssertionsDescription = DEFAULT_EXTRACTING_BARE_NAME_PROPERTY_METHODS;
-  }
 
   @ParameterizedTest
   @MethodSource("setPrintAssertionsDescriptionMethodsFunctions")

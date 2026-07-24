@@ -21,7 +21,6 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.assertj.core.util.introspection.FieldSupport;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -30,12 +29,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 class EntryPointAssertions_setAllowExtractingPrivateFields_Test extends EntryPointAssertionsBaseTest {
 
   private static final boolean DEFAULT_ALLOW_EXTRACTING_PRIVATE_FIELDS = FieldSupport.comparison().isAllowedToUsePrivateFields();
-
-  @AfterEach
-  void afterEachTest() {
-    // reset to the default value to avoid side effects on the other tests
-    FieldSupport.extraction().setAllowUsingPrivateFields(DEFAULT_ALLOW_EXTRACTING_PRIVATE_FIELDS);
-  }
 
   @ParameterizedTest
   @MethodSource("setAllowExtractingPrivateFieldsFunctions")

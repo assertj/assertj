@@ -24,25 +24,15 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.internal.Failures;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class Remove_assertJ_stacktrace_elements_Test {
 
-  private boolean initialRemoveAssertJRelatedElementsFromStackTraceValue;
-
   @BeforeEach
   public void beforeTest() {
-    initialRemoveAssertJRelatedElementsFromStackTraceValue = Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace();
     setRemoveAssertJRelatedElementsFromStackTrace(true);
-  }
-
-  @AfterEach
-  public void afterTest() {
-    setRemoveAssertJRelatedElementsFromStackTrace(initialRemoveAssertJRelatedElementsFromStackTraceValue);
   }
 
   @ParameterizedTest

@@ -27,12 +27,15 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Set;
 
+import org.junit.jupiter.api.BeforeEach;
+
 /**
  * @author Filip Hrisafov
  */
 public abstract class BaseAssertionsTest {
 
-  {
+  @BeforeEach
+  void setUpStackTraceFiltering() {
     setRemoveAssertJRelatedElementsFromStackTrace(false);
   }
 

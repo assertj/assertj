@@ -22,21 +22,12 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.assertj.core.presentation.Representation;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayName("EntryPoint assertions useRepresentation method")
 class EntryPointAssertions_useRepresentation_Test extends EntryPointAssertionsBaseTest {
-
-  private static final Representation DEFAULT_CUSTOM_REPRESENTATION = AbstractAssert.customRepresentation;
-
-  @AfterEach
-  void afterEachTest() {
-    // reset to the default value to avoid side effects on the other tests
-    AbstractAssert.customRepresentation = DEFAULT_CUSTOM_REPRESENTATION;
-  }
 
   @ParameterizedTest
   @MethodSource("useRepresentationFunctions")

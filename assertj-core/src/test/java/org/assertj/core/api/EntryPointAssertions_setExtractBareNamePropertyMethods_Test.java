@@ -21,7 +21,6 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.assertj.core.util.introspection.Introspection;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -30,12 +29,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 class EntryPointAssertions_setExtractBareNamePropertyMethods_Test extends EntryPointAssertionsBaseTest {
 
   private static final boolean DEFAULT_EXTRACTING_BARE_NAME_PROPERTY_METHODS = Introspection.canExtractBareNamePropertyMethods();
-
-  @AfterEach
-  void afterEachTest() {
-    // reset to the default value to avoid side effects on the other tests
-    Introspection.setExtractBareNamePropertyMethods(DEFAULT_EXTRACTING_BARE_NAME_PROPERTY_METHODS);
-  }
 
   @ParameterizedTest
   @MethodSource("setAllowExtractingBareNamePropertyMethodsFunctions")
