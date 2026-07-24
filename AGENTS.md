@@ -82,7 +82,7 @@ Use the Maven wrapper for the following verification and formatting commands:
 * **License Headers**: `./mvnw license:format` to add or update license headers.
 * **Code Formatting**: `./mvnw spotless:apply` to format code and optimize imports.
 * **Verification**: `./mvnw clean verify` to ensure all tests pass.
-* **Documentation**: `./mvnw clean  javadoc:javadoc` to generate Javadoc documentation.
+* **Documentation**: `./mvnw clean javadoc:javadoc` to generate Javadoc documentation.
 
 ## Strict Restrictions (Do Not)
 
