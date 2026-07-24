@@ -25,7 +25,7 @@ jobs:
         - language: actions
           build-mode: none
         - language: java-kotlin
-          build-mode: autobuild
+          build-mode: none
 
     steps:
     - name: Checkout repository
@@ -35,15 +35,9 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
-    # https://github.com/github/codeql-action/issues/2074
-    - name: Set up Java
-      if: matrix.language == 'java-kotlin'
-      uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
-      with:
-        distribution: 'zulu'
-        java-version: '25'
-        cache: 'maven'
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
       with:
         category: "/language:${{matrix.language}}"
+      env:
+        CODEQL_EXTRACTOR_JAVA_AGENT_DISABLE_KOTLIN: true # https://github.com/github/codeql/issues/22219
