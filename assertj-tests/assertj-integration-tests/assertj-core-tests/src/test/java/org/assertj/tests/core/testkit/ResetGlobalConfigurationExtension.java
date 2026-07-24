@@ -13,27 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api;
+package org.assertj.tests.core.testkit;
 
-import static org.mockito.Answers.CALLS_REAL_METHODS;
-import static org.mockito.Mockito.mock;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 
 import org.assertj.core.configuration.Configuration;
-import org.assertj.core.configuration.ConfigurationProvider;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
-public class EntryPointAssertionsBaseTest {
+public class ResetGlobalConfigurationExtension implements AfterEachCallback {
 
-  protected static final WithAssertions withAssertions = mock(WithAssertions.class, CALLS_REAL_METHODS);
-
-  // TODO delete once moved to `assertj-core-tests`
-  @AfterEach
-  void afterEach() {
-    resetGlobalConfiguration();
-  }
-
-  private static void resetGlobalConfiguration() {
-    Configuration configuration = ConfigurationProvider.CONFIGURATION_PROVIDER.configuration();
+  @Override
+  public void afterEach(ExtensionContext context) {
+    Configuration configuration = CONFIGURATION_PROVIDER.configuration();
     configuration.setDefaults();
     configuration.apply();
   }

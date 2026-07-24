@@ -21,7 +21,6 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -30,12 +29,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 class EntryPointAssertions_setMaxElementsForPrinting_Test extends EntryPointAssertionsBaseTest {
 
   private static final int DEFAULT_MAX_ELEMENTS_FOR_PRINTING = StandardRepresentation.getMaxElementsForPrinting();
-
-  @AfterEach
-  void afterEachTest() {
-    // reset to the default value to avoid side effects on the other tests
-    StandardRepresentation.setMaxElementsForPrinting(DEFAULT_MAX_ELEMENTS_FOR_PRINTING);
-  }
 
   @ParameterizedTest
   @MethodSource("setMaxElementsForPrintingFunctions")

@@ -21,7 +21,6 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.Failures;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -31,12 +30,6 @@ class EntryPointAssertions_setRemoveAssertJRelatedElementsFromStackTrace_Test ex
 
   private static final Failures FAILURES = Failures.instance();
   private static final boolean DEFAULT_REMOVE_ASSERTJ_FROM_STACK_TRACE = FAILURES.isRemoveAssertJRelatedElementsFromStackTrace();
-
-  @AfterEach
-  void afterEachTest() {
-    // reset to the default value to avoid side effects on the other tests
-    FAILURES.setRemoveAssertJRelatedElementsFromStackTrace(DEFAULT_REMOVE_ASSERTJ_FROM_STACK_TRACE);
-  }
 
   @ParameterizedTest
   @MethodSource("setRemoveAssertJRelatedElementsFromStackTraceMethodsFunctions")

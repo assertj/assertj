@@ -15,21 +15,21 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.mockito.Mockito.mock;
 
 import java.util.Date;
 
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- * 
  * Abstract base of all DateAssert tests.
  * 
  * @author Joel Costigliola
- * 
  */
 public abstract class DateAssertBaseTest {
 
@@ -38,7 +38,7 @@ public abstract class DateAssertBaseTest {
   protected Objects objects;
 
   @BeforeEach
-  public void setUp() {
+  protected void setUp() {
     dates = mock(Dates.class);
     objects = mock(Objects.class);
     assertions = new DateAssert(new Date());
@@ -46,9 +46,12 @@ public abstract class DateAssertBaseTest {
     assertions.objects = objects;
   }
 
+  // TODO delete once moved to `assertj-core-tests`
   @AfterEach
-  public void tearDown() {
-    AbstractDateAssert.useDefaultDateFormatsOnly();
+  void tearDown() {
+    Configuration configuration = CONFIGURATION_PROVIDER.configuration();
+    configuration.setDefaults();
+    configuration.apply();
   }
 
   protected Date parse(String dateAsString) {
@@ -70,4 +73,5 @@ public abstract class DateAssertBaseTest {
   protected Dates getDates(DateAssert someAssertions) {
     return someAssertions.dates;
   }
+
 }

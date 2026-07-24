@@ -21,6 +21,7 @@ import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.AssumptionExceptionFactory.getPreferredAssumptionException;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.configuration.PreferredAssumptionException.JUNIT5;
 import static org.assertj.core.configuration.PreferredAssumptionException.TEST_NG;
 import static org.mockito.Answers.CALLS_REAL_METHODS;
@@ -29,24 +30,23 @@ import static org.mockito.Mockito.mock;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.PreferredAssumptionException;
-import org.assertj.core.testkit.MutatesGlobalConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.opentest4j.TestAbortedException;
 
-@MutatesGlobalConfiguration
 class EntryPoint_Assumptions_setPreferredAssumptionException_Test {
 
-  protected static final WithAssumptions withAssumptions = mock(WithAssumptions.class, CALLS_REAL_METHODS);
+  private static final WithAssumptions withAssumptions = mock(WithAssumptions.class, CALLS_REAL_METHODS);
 
-  private static final PreferredAssumptionException DEFAULT_PREFERRED_ASSUMPTION_EXCEPTION = getPreferredAssumptionException();
-
+  // TODO delete once moved to `assertj-core-tests`
   @AfterEach
-  void afterEachTest() {
-    // reset to the default value to avoid side effects on the other tests
-    Assumptions.setPreferredAssumptionException(DEFAULT_PREFERRED_ASSUMPTION_EXCEPTION);
+  void afterEach() {
+    Configuration configuration = CONFIGURATION_PROVIDER.configuration();
+    configuration.setDefaults();
+    configuration.apply();
   }
 
   @ParameterizedTest

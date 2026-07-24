@@ -58,10 +58,8 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
     defaultTimeZone = TimeZone.getDefault();
   }
 
-  @Override
   @AfterEach
-  public void tearDown() {
-    useDefaultDateFormatsOnly();
+  void restore_default_time_zone() {
     TimeZone.setDefault(defaultTimeZone);
   }
 

@@ -22,11 +22,8 @@ import java.util.function.Consumer;
 
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.description.Description;
-import org.assertj.tests.core.testkit.MutatesGlobalConfiguration;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-@MutatesGlobalConfiguration
 class Configuration_describe_Test {
 
   @Test
@@ -60,12 +57,6 @@ class Configuration_describe_Test {
                                        "- descriptionConsumer ............................. = sysout%n" +
                                        "- removeAssertJRelatedElementsFromStackTraceEnabled = false%n" +
                                        "- preferredAssumptionException .................... = TEST_NG(org.testng.SkipException)%n"));
-  }
-
-  @AfterEach
-  public void afterEach() {
-    // revert whatever we did in the other tests
-    Configuration.DEFAULT_CONFIGURATION.apply();
   }
 
 }
