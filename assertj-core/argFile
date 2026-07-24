@@ -48,13 +48,11 @@
 --add-opens org.assertj.core/org.assertj.core.api.double_=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.doublearray=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.doublepredicate=org.junit.platform.commons
---add-opens org.assertj.core/org.assertj.core.api.fail=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.file=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.filter=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.float2darray=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.float_=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.floatarray=org.junit.platform.commons
---add-opens org.assertj.core/org.assertj.core.api.future=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.hashset=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.instant=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.int2darray=org.junit.platform.commons
@@ -62,7 +60,6 @@
 --add-opens org.assertj.core/org.assertj.core.api.integer_=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.intpredicate=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.iterable=org.junit.platform.commons
---add-opens org.assertj.core/org.assertj.core.api.iterator=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.junit.jupiter=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.list=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.localdate=org.junit.platform.commons
@@ -123,7 +120,6 @@
 --add-opens org.assertj.core/org.assertj.core.internal.intarrays=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.internal.integers=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.internal.iterables=org.junit.platform.commons
---add-opens org.assertj.core/org.assertj.core.internal.iterators=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.internal.lists=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.internal.long2darrays=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.internal.longarrays=org.junit.platform.commons
@@ -138,5 +134,4 @@
 --add-opens org.assertj.core/org.assertj.core.util.diff=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.util.diff.myers=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.util.introspection=org.junit.platform.commons
---add-opens org.assertj.core/org.assertj.core.util.xml=org.junit.platform.commons
 --add-opens org.assertj.core/org.example.test=org.junit.platform.commons
