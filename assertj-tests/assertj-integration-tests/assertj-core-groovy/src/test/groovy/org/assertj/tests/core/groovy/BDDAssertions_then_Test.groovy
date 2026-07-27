@@ -15,36 +15,46 @@
  */
 package org.assertj.tests.core.groovy
 
+import groovy.transform.CompileStatic
+import org.assertj.core.api.AbstractStringAssert
+import org.assertj.core.api.BDDAssertions
 import org.junit.jupiter.api.Test
 
-import static org.assertj.core.api.Assertions.assertThat
+import static org.assertj.core.api.BDDAssertions.then
 
-class Assertions_assertThat_with_Groovy_strings_Test {
+@CompileStatic
+class BDDAssertions_then_Test {
 
   @Test
-  void should_accept_triple_single_quoted_strings() {
+  void should_accept_dollar_slashy_strings() {
     // GIVEN
-    def actual = '''
-.*foo.*
-'''
-    // WHEN/THEN
-    assertThat(actual).isEqualTo("\n.*foo.*\n")
+    def actual = $/.*foo.*/$
+    // WHEN
+    AbstractStringAssert<?> result = then(actual)
+    // THEN
+    result.isEqualTo(".*foo.*")
   }
 
   @Test
   void should_accept_slashy_strings() {
     // GIVEN
     def actual = /.*foo.*/
-    // WHEN/THEN
-    assertThat(actual).isEqualTo(".*foo.*")
+    // WHEN
+    AbstractStringAssert<?> result = then(actual)
+    // THEN
+    result.isEqualTo(".*foo.*")
   }
 
   @Test
-  void should_accept_dollar_slashy_strings() {
+  void should_accept_triple_single_quoted_strings() {
     // GIVEN
-    def actual = $/.*foo.*/$
-    // WHEN/THEN
-    assertThat(actual).isEqualTo(".*foo.*")
+    def actual = '''
+        .*foo.*
+        '''.stripIndent()
+    // WHEN
+    AbstractStringAssert<?> result = then(actual)
+    // THEN
+    result.isEqualTo("\n.*foo.*\n")
   }
 
 }

@@ -62,7 +62,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Mariusz Smykula
  */
-class BDDAssertions_then_Test {
+class BDDAssertions_then_legacy_Test {
 
   private AssertFactory<String, StringAssert> stringAssertFactory = StringAssert::new;
 

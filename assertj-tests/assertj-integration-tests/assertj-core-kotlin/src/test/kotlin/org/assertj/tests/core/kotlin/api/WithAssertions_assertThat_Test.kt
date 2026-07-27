@@ -16,18 +16,20 @@
 package org.assertj.tests.core.kotlin.api
 
 import org.assertj.core.api.AbstractIntArrayAssert
-import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.ListAssert
+import org.assertj.core.api.WithAssertions
 import org.junit.jupiter.api.Test
+import org.mockito.Answers.CALLS_REAL_METHODS
+import org.mockito.Mockito.mock
 
-class Assertions_assertThat_Test {
+class WithAssertions_assertThat_Test {
 
   @Test
   fun `should accept IntArray`() {
     // GIVEN
     val actual: IntArray = intArrayOf(1, 2, 3)
     // WHEN
-    val result: AbstractIntArrayAssert<*> = assertThat(actual)
+    val result: AbstractIntArrayAssert<*> = withAssertions.assertThat(actual)
     // THEN
     result.contains(1, 2, 3)
   }
@@ -37,7 +39,7 @@ class Assertions_assertThat_Test {
     // GIVEN
     val actual: List<String> = listOf("Viserys", "Rhaenyra", "Daemon")
     // WHEN
-    val result: ListAssert<String?> = assertThat(actual)
+    val result: ListAssert<String?> = withAssertions.assertThat(actual)
     // THEN
     result.containsExactly("Viserys", "Rhaenyra", "Daemon")
   }
@@ -47,9 +49,13 @@ class Assertions_assertThat_Test {
     // GIVEN
     val actual: MutableList<String> = mutableListOf("Viserys", "Rhaenyra", "Daemon")
     // WHEN
-    val result: ListAssert<String?> = assertThat(actual)
+    val result: ListAssert<String?> = withAssertions.assertThat(actual)
     // THEN
     result.containsExactly("Viserys", "Rhaenyra", "Daemon")
+  }
+
+  companion object {
+    val withAssertions: WithAssertions = mock(WithAssertions::class.java, CALLS_REAL_METHODS)
   }
 
 }

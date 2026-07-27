@@ -16,18 +16,18 @@
 package org.assertj.tests.core.kotlin.api
 
 import org.assertj.core.api.AbstractIntArrayAssert
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.BDDAssertions.then
 import org.assertj.core.api.ListAssert
 import org.junit.jupiter.api.Test
 
-class Assertions_assertThat_Test {
+class BDDAssertions_then_Test {
 
   @Test
   fun `should accept IntArray`() {
     // GIVEN
     val actual: IntArray = intArrayOf(1, 2, 3)
     // WHEN
-    val result: AbstractIntArrayAssert<*> = assertThat(actual)
+    val result: AbstractIntArrayAssert<*> = then(actual)
     // THEN
     result.contains(1, 2, 3)
   }
@@ -37,7 +37,7 @@ class Assertions_assertThat_Test {
     // GIVEN
     val actual: List<String> = listOf("Viserys", "Rhaenyra", "Daemon")
     // WHEN
-    val result: ListAssert<String?> = assertThat(actual)
+    val result: ListAssert<String?> = then(actual)
     // THEN
     result.containsExactly("Viserys", "Rhaenyra", "Daemon")
   }
@@ -47,7 +47,7 @@ class Assertions_assertThat_Test {
     // GIVEN
     val actual: MutableList<String> = mutableListOf("Viserys", "Rhaenyra", "Daemon")
     // WHEN
-    val result: ListAssert<String?> = assertThat(actual)
+    val result: ListAssert<String?> = then(actual)
     // THEN
     result.containsExactly("Viserys", "Rhaenyra", "Daemon")
   }

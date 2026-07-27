@@ -15,19 +15,25 @@
  */
 package org.assertj.tests.core.groovy
 
+import groovy.transform.CompileStatic
+import org.assertj.core.api.AbstractCharSequenceAssert
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
 import static org.assertj.core.api.Assertions.assertThatCharSequence
 
-class Assertions_assertThatCharSequence_with_Groovy_strings_Test {
+@CompileStatic
+class Assertions_assertThatCharSequence_Test {
 
   @Test
   void should_accept_interpolated_expressions() {
     // GIVEN
     def foo = "foo"
     def actual = /.*${foo}.*/
-    // WHEN/THEN
-    assertThatCharSequence(actual).isEqualTo(/.*${foo}.*/)
+    // WHEN
+    AbstractCharSequenceAssert<?, ? extends CharSequence> result = assertThatCharSequence(actual)
+    // THEN
+    result.isEqualTo(/.*${foo}.*/)
   }
 
 }

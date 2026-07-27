@@ -13,24 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.tests.core.api;
+package org.assertj.tests.core.groovy
 
-import static org.assertj.core.api.Assertions.assertThat;
+import groovy.transform.CompileStatic
+import org.assertj.core.api.AbstractCharSequenceAssert
+import org.junit.jupiter.api.Test
 
-import org.assertj.core.api.AbstractShortAssert;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.BDDAssertions.thenCharSequence
 
-/**
- * @author Alex Ruiz
- */
-class Assertions_assertThat_with_Short_Test {
+@CompileStatic
+class BDDAssertions_thenCharSequence_Test {
 
   @Test
-  void should_create_Assert() {
-    Short zero = (short) 0;
-    AbstractShortAssert<?> assertions = Assertions.assertThat(zero);
-    assertThat(assertions).isNotNull();
+  void should_accept_interpolated_expressions() {
+    // GIVEN
+    def foo = "foo"
+    def actual = /.*${foo}.*/
+    // WHEN
+    AbstractCharSequenceAssert<?, ? extends CharSequence> result = thenCharSequence(actual)
+    // THEN
+    result.isEqualTo(/.*${foo}.*/)
   }
 
 }

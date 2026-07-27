@@ -13,43 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.tests.core.kotlin.api
+package org.assertj.tests.core.groovy
 
-import org.assertj.core.api.AbstractIntArrayAssert
-import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.ListAssert
+import groovy.transform.CompileStatic
+import org.assertj.core.api.AbstractStringAssert
 import org.junit.jupiter.api.Test
 
+import static org.assertj.core.api.Assertions.assertThat
+
+@CompileStatic
 class Assertions_assertThat_Test {
 
   @Test
-  fun `should accept IntArray`() {
+  void should_accept_dollar_slashy_strings() {
     // GIVEN
-    val actual: IntArray = intArrayOf(1, 2, 3)
+    def actual = $/.*foo.*/$
     // WHEN
-    val result: AbstractIntArrayAssert<*> = assertThat(actual)
+    AbstractStringAssert<?> result = assertThat(actual)
     // THEN
-    result.contains(1, 2, 3)
+    result.isEqualTo(".*foo.*")
   }
 
   @Test
-  fun `should accept List`() {
+  void should_accept_slashy_strings() {
     // GIVEN
-    val actual: List<String> = listOf("Viserys", "Rhaenyra", "Daemon")
+    def actual = /.*foo.*/
     // WHEN
-    val result: ListAssert<String?> = assertThat(actual)
+    AbstractStringAssert<?> result = assertThat(actual)
     // THEN
-    result.containsExactly("Viserys", "Rhaenyra", "Daemon")
+    result.isEqualTo(".*foo.*")
   }
 
   @Test
-  fun `should accept MutableList`() {
+  void should_accept_triple_single_quoted_strings() {
     // GIVEN
-    val actual: MutableList<String> = mutableListOf("Viserys", "Rhaenyra", "Daemon")
+    def actual = '''
+        .*foo.*
+        '''.stripIndent()
     // WHEN
-    val result: ListAssert<String?> = assertThat(actual)
+    AbstractStringAssert<?> result = assertThat(actual)
     // THEN
-    result.containsExactly("Viserys", "Rhaenyra", "Daemon")
+    result.isEqualTo("\n.*foo.*\n")
   }
 
 }
