@@ -513,6 +513,20 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link BigIntegerAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(BigInteger)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g. {@code <T extends BigInteger>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  default AbstractBigIntegerAssert<?> assertThatBigInteger(BigInteger actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Create assertion for {@link AtomicBoolean}.
    *
    * @param actual the actual value.
@@ -1099,6 +1113,20 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default AbstractFileAssert<?> assertThat(final File actual) {
     return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link FileAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(File)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g. {@code <T extends File>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  default AbstractFileAssert<?> assertThatFile(File actual) {
+    return assertThat(actual);
   }
 
   /**

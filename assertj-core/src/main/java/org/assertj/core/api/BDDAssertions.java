@@ -331,6 +331,20 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.BigIntegerAssert}</code>.
+   * <p>
+   * Use this over {@link #then(BigInteger)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g. {@code <T extends BigInteger>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  public static AbstractBigIntegerAssert<?> thenBigInteger(BigInteger actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.BooleanAssert}</code>.
    *
    * @param actual the actual value.
@@ -861,6 +875,20 @@ public class BDDAssertions extends Assertions {
    */
   public static AbstractFileAssert<?> then(File actual) {
     return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.FileAssert}</code>.
+   * <p>
+   * Use this over {@link #then(File)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g. {@code <T extends File>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  public static AbstractFileAssert<?> thenFile(File actual) {
+    return then(actual);
   }
 
   /**
