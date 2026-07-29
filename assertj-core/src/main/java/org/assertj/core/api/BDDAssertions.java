@@ -1239,6 +1239,20 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.DateAssert}</code>.
+   * <p>
+   * Use this over {@link #then(Date)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g. {@code <T extends Date>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  public static AbstractDateAssert<?> thenDate(Date actual) {
+    return then(actual);
+  }
+
+  /**
    * Create assertion for {@link AtomicBoolean}.
    *
    * @param actual the actual value.

@@ -15,25 +15,37 @@
  */
 package org.assertj.tests.core.api;
 
+import static org.assertj.core.api.Assertions.assertThatDate;
+
 import java.util.Date;
 
-import org.assertj.core.api.AssertionsForClassTypes;
+import org.assertj.core.api.AbstractDateAssert;
 import org.junit.jupiter.api.Test;
 
-class Assertions_avoid_ambiguous_reference_compilation_error_Test {
+class Assertions_assertThatDate_Test {
 
   @Test
-  void should_not_report_ambiguous_reference_compilation_error() {
-    // does not compile, explanation: https://stackoverflow.com/questions/29499847/ambiguous-method-in-java-8-why
-    // Assertions.assertThat(getDate()).isEqualTo(getDate());
+  void should_accept_Date() {
+    // GIVEN
+    Date actual = new Date(0);
+    // WHEN
+    AbstractDateAssert<?> result = assertThatDate(actual);
+    // THEN
+    result.isEqualTo(new Date(0));
+  }
 
-    // compiles since AssertionsForClassTypes does not provide assertThat for interfaces
-    AssertionsForClassTypes.assertThat(getDate()).isEqualTo(getDate());
+  // https://github.com/assertj/assertj/issues/839
+  @Test
+  void should_accept_bounded_generic_Date_subtype() {
+    // WHEN
+    AbstractDateAssert<?> result = assertThatDate(getDateSubtype());
+    // THEN
+    result.isNotNull();
   }
 
   @SuppressWarnings("unchecked")
-  protected static <T extends Date> T getDate() {
-    return (T) new Date(123);
+  private static <T extends Date> T getDateSubtype() {
+    return (T) new Date(0);
   }
 
 }
