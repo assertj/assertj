@@ -21,8 +21,10 @@ import static org.assertj.core.error.ShouldNotHaveThrownExcept.shouldNotHaveThro
 
 import java.util.Arrays;
 import java.util.IllegalFormatException;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
+import org.assertj.core.description.Description;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
@@ -59,6 +61,73 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
       throw Failures.instance().failure(info, new BasicErrorMessageFactory("%nExpecting code to raise a throwable."));
     }
     return myself;
+  }
+
+  /**
+   * Sets the description of the assertion that is going to be called <b>after</b>.
+   * <p>
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
+   * the chained call by throwing an AssertionError.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // WRONG: assertion fails in assertThatThrown but "display me" won't appear in the error message
+   * assertThatThrownBy(() -&gt; {}).as("display me").isInstanceOf(Exception.class);
+   *
+   * // CORRECT: assertion fails  in assertThatThrown AND "display me" will appear in the error message
+   * assertThatThrownBy(() -&gt; {}, "display me").isInstanceOf(Exception.class);</code></pre>
+   * <p>
+   * This overloaded version of "describedAs" offers more flexibility than the one taking a {@code String} by allowing
+   * users to pass their own implementation of a description. For example, a description that creates its value lazily,
+   * only when an assertion failure occurs.
+   * </p>
+   *
+   * @param description the new description to set.
+   * @return {@code this} object.
+   * @throws NullPointerException if the description is {@code null}.
+   * @see #describedAs(Description)
+   */
+  @Override
+  public SELF as(String description, Object... args) {
+    return super.as(description, args);
+  }
+
+  /**
+   * Lazily specifies the description of the assertion that is going to be called, the given description is <b>not</b> evaluated
+   * if the assertion succeeds.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // set an incorrect age to Mr Frodo which we all know is 33 years old.
+   * frodo.setAge(50);
+   *
+   * // the lazy test description is <b>not</b> evaluated as the assertion succeeds
+   * assertThat(frodo.getAge()).as(() -&gt; &quot;check Frodo's age&quot;).isEqualTo(50);
+   *
+   * try
+   * {
+   *   // the lazy test description is evaluated as the assertion fails
+   *   assertThat(frodo.getAge()).as(() -&gt; &quot;check Frodo's age&quot;).isEqualTo(33);
+   * }
+   * catch (AssertionError e)
+   * {
+   *   assertThat(e).hasMessageContaining(&quot;[check Frodo's age]&quot;);
+   * }</code></pre>
+   * <p>
+   * The description must be set <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
+   * the chained call by throwing an AssertionError.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // WRONG: assertion fails in assertThatThrownBy but "display me" won't appear in the error message
+   * assertThatThrownBy(() -&gt; {}).as(() -&gt; &quot;display me&quot;).isInstanceOf(Exception.class);
+   *
+   * // CORRECT: assertion fails in assertThatThrownBy AND "display me" will appear in the error message
+   * assertThatThrownBy(() -&gt; {}, &quot;display me&quot;).isInstanceOf(Exception.class);</code></pre>
+   * @param descriptionSupplier the description {@link Supplier}.
+   * @return {@code this} object.
+   * @throws IllegalStateException if the descriptionSupplier is {@code null} when evaluated.
+   */
+  @Override
+  public SELF as(Supplier<String> descriptionSupplier) {
+    return super.as(descriptionSupplier);
   }
 
   /**
