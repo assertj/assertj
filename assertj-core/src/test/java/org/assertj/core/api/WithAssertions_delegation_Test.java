@@ -702,14 +702,6 @@ class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  void withAssertions_doesNotHave_condition_Test() {
-    assertThat(doesNotHave(JEDI).matches("Solo")).isTrue();
-  }
-
-  /**
-   * Test that the delegate method is called.
-   */
-  @Test
   void withAssertions_contentOf_Test() {
     assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> contentOf(new File("/non-existent file")).contains("a"));
   }

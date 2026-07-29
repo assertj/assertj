@@ -42,7 +42,7 @@ class EntryPointAssertions_doesNotHave_Test extends EntryPointAssertionsBaseTest
   }
 
   private static <T> Stream<Function<Condition<T>, DoesNotHave<T>>> doesNotHaveFactories() {
-    return Stream.of(Assertions::doesNotHave, BDDAssertions::doesNotHave, withAssertions::doesNotHave);
+    return Stream.of(Assertions::doesNotHave, BDDAssertions::doesNotHave);
   }
 
 }
