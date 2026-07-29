@@ -2161,7 +2161,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
-   * Creates a new <code>{@link DoesNotHave}</code>.
+   * @deprecated as it clashes with {@link AbstractAssert#doesNotHave(Condition)} method when a subclass of
+   * AbstractAssert implements WithAssertions, use {@link Assertions#doesNotHave(Condition)} instead.
    *
    * @param <T> the type of object the given condition accept.
    * @param condition the condition to inverse.
