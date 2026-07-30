@@ -316,6 +316,20 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(BigDecimal)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g. {@code <T extends BigDecimal>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  public static AbstractBigDecimalAssert<?> assertThatBigDecimal(BigDecimal actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link BigIntegerAssert}</code>.
    *
    * @param actual the actual value.
