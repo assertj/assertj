@@ -74,6 +74,7 @@ import org.assertj.core.internal.annotation.Contract;
  *
  * @deprecated Use {@link Assertions#assertThat} instead. In case of compiler ambiguity error, use the explicit
  * {@code assertThat<Type>} helpers in {@link Assertions}.
+ * @since 3.28.0
  */
 @Deprecated
 @CheckReturnValue

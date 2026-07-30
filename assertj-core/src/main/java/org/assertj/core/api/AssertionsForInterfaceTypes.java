@@ -69,6 +69,7 @@ import org.assertj.core.annotation.CheckReturnValue;
  *
  * @deprecated Use {@link Assertions#assertThat} instead. In case of compiler ambiguity error, use the explicit
  * {@code assertThat<Type>} helpers in {@link Assertions}.
+ * @since 3.28.0
  */
 @Deprecated
 @CheckReturnValue
