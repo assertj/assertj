@@ -70,7 +70,7 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
    * <p>
    * Use this over {@link #assertThat(BigDecimal)} in case of ambiguous method resolution when the object under test
-   * is a bounded generic type, e.g. {@code <T extends BigDecimal>}.
+   * is a bounded generic type, e.g., {@code <T extends BigDecimal>}.
    *
    * @param actual the actual value.
    * @return the created assertion object.
@@ -95,7 +95,7 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * Creates a new instance of <code>{@link BigIntegerAssert}</code>.
    * <p>
    * Use this over {@link #assertThat(BigInteger)} in case of ambiguous method resolution when the object under test
-   * is a bounded generic type, e.g. {@code <T extends BigInteger>}.
+   * is a bounded generic type, e.g., {@code <T extends BigInteger>}.
    *
    * @param actual the actual value.
    * @return the created assertion object.
@@ -407,7 +407,7 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * Creates a new instance of <code>{@link FileAssert}</code>.
    * <p>
    * Use this over {@link #assertThat(File)} in case of ambiguous method resolution when the object under test
-   * is a bounded generic type, e.g. {@code <T extends File>}.
+   * is a bounded generic type, e.g., {@code <T extends File>}.
    *
    * @param actual the actual value.
    * @return the created assertion object.
@@ -750,7 +750,7 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * Creates a new instance of <code>{@link DateAssert}</code>.
    * <p>
    * Use this over {@link #assertThat(Date)} in case of ambiguous method resolution when the object under test
-   * is a bounded generic type, e.g. {@code <T extends Date>}.
+   * is a bounded generic type, e.g., {@code <T extends Date>}.
    *
    * @param actual the actual value.
    * @return the created assertion object.
