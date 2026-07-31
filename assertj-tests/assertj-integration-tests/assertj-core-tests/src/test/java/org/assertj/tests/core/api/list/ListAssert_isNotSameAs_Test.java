@@ -13,25 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.tests.core.api;
+package org.assertj.tests.core.api.list;
 
-import static org.assertj.core.api.Assertions.assertThatStream;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotBeSame.shouldNotBeSame;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.util.stream.Stream;
 
-import org.assertj.core.api.ListAssert;
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertThatStream_Test {
+class ListAssert_isNotSameAs_Test {
 
   @Test
-  void should_accept_Stream() {
+  void should_fail_with_stream_without_consuming_it() {
     // GIVEN
-    Stream<String> actual = Stream.of("Luke", "Leia");
+    Stream<?> actual = mock();
     // WHEN
-    ListAssert<String> result = assertThatStream(actual);
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotSameAs(actual));
     // THEN
-    result.containsExactly("Luke", "Leia");
+    then(assertionError).hasMessage(shouldNotBeSame(actual).create());
+    verifyNoInteractions(actual);
   }
 
 }

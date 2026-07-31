@@ -13,25 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.tests.core.api;
+package org.assertj.tests.core.api.list;
 
-import static org.assertj.core.api.Assertions.assertThatStream;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.util.stream.Stream;
 
-import org.assertj.core.api.ListAssert;
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertThatStream_Test {
+class ListAssert_isEqualTo_Test {
 
   @Test
-  void should_accept_Stream() {
+  void should_pass_with_stream_without_consuming_it() {
     // GIVEN
-    Stream<String> actual = Stream.of("Luke", "Leia");
+    Stream<?> actual = mock();
     // WHEN
-    ListAssert<String> result = assertThatStream(actual);
+    assertThat(actual).isEqualTo(actual);
     // THEN
-    result.containsExactly("Luke", "Leia");
+    verifyNoInteractions(actual);
   }
 
 }

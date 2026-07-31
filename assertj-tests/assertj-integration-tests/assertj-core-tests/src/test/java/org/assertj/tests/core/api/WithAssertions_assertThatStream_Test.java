@@ -15,21 +15,25 @@
  */
 package org.assertj.tests.core.api;
 
-import static org.assertj.core.api.Assertions.assertThatStream;
+import static org.mockito.Answers.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.mock;
 
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ListAssert;
+import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertThatStream_Test {
+class WithAssertions_assertThatStream_Test {
+
+  static WithAssertions withAssertions = mock(CALLS_REAL_METHODS);
 
   @Test
   void should_accept_Stream() {
     // GIVEN
     Stream<String> actual = Stream.of("Luke", "Leia");
     // WHEN
-    ListAssert<String> result = assertThatStream(actual);
+    ListAssert<String> result = withAssertions.assertThatStream(actual);
     // THEN
     result.containsExactly("Luke", "Leia");
   }

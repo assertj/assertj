@@ -13,25 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.tests.core.api;
+package org.assertj.tests.core.api.list;
 
-import static org.assertj.core.api.Assertions.assertThatStream;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.stream.Stream;
 
-import org.assertj.core.api.ListAssert;
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertThatStream_Test {
+class ListAssert_hasSize_Test {
 
   @Test
-  void should_accept_Stream() {
+  void should_pass_with_upper_bounded_stream() {
     // GIVEN
-    Stream<String> actual = Stream.of("Luke", "Leia");
-    // WHEN
-    ListAssert<String> result = assertThatStream(actual);
-    // THEN
-    result.containsExactly("Luke", "Leia");
+    Stream<? extends Number> actual = Stream.of(1, 2, 3);
+    // WHEN/THEN
+    assertThat(actual).hasSize(3);
   }
 
 }

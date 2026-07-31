@@ -13,25 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.tests.core.api;
+package org.assertj.tests.core.api.list;
 
-import static org.assertj.core.api.Assertions.assertThatStream;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.stream.Stream;
 
-import org.assertj.core.api.ListAssert;
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertThatStream_Test {
+class ListAssert_containsExactly_Test {
 
   @Test
-  void should_accept_Stream() {
+  void should_pass_when_asserting_stream_multiple_times() {
     // GIVEN
     Stream<String> actual = Stream.of("Luke", "Leia");
-    // WHEN
-    ListAssert<String> result = assertThatStream(actual);
-    // THEN
-    result.containsExactly("Luke", "Leia");
+    // WHEN/THEN
+    assertThat(actual).containsExactly("Luke", "Leia")
+                      .containsExactly("Luke", "Leia");
   }
 
 }

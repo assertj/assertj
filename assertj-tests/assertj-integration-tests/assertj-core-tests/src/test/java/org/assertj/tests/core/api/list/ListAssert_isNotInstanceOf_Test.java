@@ -13,25 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.tests.core.api;
+package org.assertj.tests.core.api.list;
 
-import static org.assertj.core.api.Assertions.assertThatStream;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.stream.Stream;
-
-import org.assertj.core.api.ListAssert;
+import org.assertj.tests.core.testkit.StringStream;
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertThatStream_Test {
+class ListAssert_isNotInstanceOf_Test {
 
   @Test
-  void should_accept_Stream() {
+  void should_pass_when_stream_is_not_instance_of_class() {
     // GIVEN
-    Stream<String> actual = Stream.of("Luke", "Leia");
-    // WHEN
-    ListAssert<String> result = assertThatStream(actual);
-    // THEN
-    result.containsExactly("Luke", "Leia");
+    StringStream actual = new StringStream();
+    // WHEN/THEN
+    assertThat(actual).isNotInstanceOf(Long.class);
   }
 
 }

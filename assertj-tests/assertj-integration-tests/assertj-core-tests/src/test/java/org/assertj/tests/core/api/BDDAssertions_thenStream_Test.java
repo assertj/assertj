@@ -15,21 +15,21 @@
  */
 package org.assertj.tests.core.api;
 
-import static org.assertj.core.api.Assertions.assertThatStream;
+import static org.assertj.core.api.BDDAssertions.thenStream;
 
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ListAssert;
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertThatStream_Test {
+class BDDAssertions_thenStream_Test {
 
   @Test
   void should_accept_Stream() {
     // GIVEN
     Stream<String> actual = Stream.of("Luke", "Leia");
     // WHEN
-    ListAssert<String> result = assertThatStream(actual);
+    ListAssert<String> result = thenStream(actual);
     // THEN
     result.containsExactly("Luke", "Leia");
   }
