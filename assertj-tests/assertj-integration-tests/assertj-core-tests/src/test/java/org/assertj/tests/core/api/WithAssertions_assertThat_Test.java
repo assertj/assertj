@@ -826,6 +826,26 @@ class WithAssertions_assertThat_Test {
   }
 
   @Test
+  void should_accept_Object() {
+    // GIVEN
+    Object actual = new Object();
+    // WHEN
+    ObjectAssert<Object> result = underTest.assertThat(actual);
+    // THEN
+    result.isNotNull();
+  }
+
+  @Test
+  void should_accept_ClassLoader() {
+    // GIVEN
+    ClassLoader actual = String.class.getClassLoader();
+    // WHEN
+    ObjectAssert<ClassLoader> result = underTest.assertThat(actual);
+    // THEN
+    result.isEqualTo(String.class.getClassLoader());
+  }
+
+  @Test
   void should_accept_OffsetDateTime() {
     // GIVEN
     OffsetDateTime actual = OffsetDateTime.now();

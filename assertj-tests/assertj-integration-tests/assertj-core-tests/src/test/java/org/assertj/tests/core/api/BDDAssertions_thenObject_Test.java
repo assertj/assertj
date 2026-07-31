@@ -15,7 +15,7 @@
  */
 package org.assertj.tests.core.api;
 
-import static org.assertj.core.api.Assertions.assertThatObject;
+import static org.assertj.core.api.BDDAssertions.thenObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,14 +23,14 @@ import java.util.List;
 import org.assertj.core.api.ObjectAssert;
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertThatObject_Test {
+class BDDAssertions_thenObject_Test {
 
   @Test
   void should_preserve_actual_type_for_object_assertions() {
     // GIVEN
     LinkedList<String> actual = new LinkedList<>(List.of("value"));
     // WHEN
-    ObjectAssert<LinkedList<String>> result = assertThatObject(actual);
+    ObjectAssert<LinkedList<String>> result = thenObject(actual);
     // THEN
     result.extracting(LinkedList::getFirst).isEqualTo("value");
   }

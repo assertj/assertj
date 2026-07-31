@@ -15,22 +15,26 @@
  */
 package org.assertj.tests.core.api;
 
-import static org.assertj.core.api.Assertions.assertThatObject;
+import static org.mockito.Answers.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.mock;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import org.assertj.core.api.ObjectAssert;
+import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertThatObject_Test {
+class WithAssertions_assertThatObject_Test {
+
+  static WithAssertions withAssertions = mock(CALLS_REAL_METHODS);
 
   @Test
   void should_preserve_actual_type_for_object_assertions() {
     // GIVEN
     LinkedList<String> actual = new LinkedList<>(List.of("value"));
     // WHEN
-    ObjectAssert<LinkedList<String>> result = assertThatObject(actual);
+    ObjectAssert<LinkedList<String>> result = withAssertions.assertThatObject(actual);
     // THEN
     result.extracting(LinkedList::getFirst).isEqualTo("value");
   }
