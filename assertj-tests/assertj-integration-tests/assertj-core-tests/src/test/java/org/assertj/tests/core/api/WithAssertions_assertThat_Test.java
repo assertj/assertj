@@ -276,6 +276,16 @@ class WithAssertions_assertThat_Test {
   }
 
   @Test
+  void should_accept_boolean() {
+    // GIVEN
+    boolean actual = true;
+    // WHEN
+    AbstractBooleanAssert<?> result = underTest.assertThat(actual);
+    // THEN
+    result.isTrue();
+  }
+
+  @Test
   void should_accept_boolean_2d_array() {
     // GIVEN
     boolean[][] actual = { { true, false }, { false, true } };
@@ -299,6 +309,16 @@ class WithAssertions_assertThat_Test {
   void should_accept_Byte() {
     // GIVEN
     Byte actual = (byte) 0;
+    // WHEN
+    AbstractByteAssert<?> result = underTest.assertThat(actual);
+    // THEN
+    result.isZero();
+  }
+
+  @Test
+  void should_accept_byte() {
+    // GIVEN
+    byte actual = (byte) 0;
     // WHEN
     AbstractByteAssert<?> result = underTest.assertThat(actual);
     // THEN
@@ -349,6 +369,16 @@ class WithAssertions_assertThat_Test {
   void should_accept_Character() {
     // GIVEN
     Character actual = 'a';
+    // WHEN
+    AbstractCharacterAssert<?> result = underTest.assertThat(actual);
+    // THEN
+    result.isLowerCase();
+  }
+
+  @Test
+  void should_accept_char() {
+    // GIVEN
+    char actual = 'a';
     // WHEN
     AbstractCharacterAssert<?> result = underTest.assertThat(actual);
     // THEN
@@ -426,6 +456,16 @@ class WithAssertions_assertThat_Test {
   }
 
   @Test
+  void should_accept_double() {
+    // GIVEN
+    double actual = 0.0;
+    // WHEN
+    AbstractDoubleAssert<?> result = underTest.assertThat(actual);
+    // THEN
+    result.isZero();
+  }
+
+  @Test
   void should_accept_double_2d_array() {
     // GIVEN
     double[][] actual = { { 0.0, 1.0 }, { 2.0, 3.0 } };
@@ -489,6 +529,16 @@ class WithAssertions_assertThat_Test {
   void should_accept_Float() {
     // GIVEN
     Float actual = 0.0f;
+    // WHEN
+    AbstractFloatAssert<?> result = underTest.assertThat(actual);
+    // THEN
+    result.isZero();
+  }
+
+  @Test
+  void should_accept_float() {
+    // GIVEN
+    float actual = 0.0f;
     // WHEN
     AbstractFloatAssert<?> result = underTest.assertThat(actual);
     // THEN
@@ -569,6 +619,16 @@ class WithAssertions_assertThat_Test {
   void should_accept_Integer() {
     // GIVEN
     Integer actual = 0;
+    // WHEN
+    AbstractIntegerAssert<?> result = underTest.assertThat(actual);
+    // THEN
+    result.isZero();
+  }
+
+  @Test
+  void should_accept_int() {
+    // GIVEN
+    int actual = 0;
     // WHEN
     AbstractIntegerAssert<?> result = underTest.assertThat(actual);
     // THEN
@@ -659,6 +719,16 @@ class WithAssertions_assertThat_Test {
   void should_accept_Long() {
     // GIVEN
     Long actual = 0L;
+    // WHEN
+    AbstractLongAssert<?> result = underTest.assertThat(actual);
+    // THEN
+    result.isZero();
+  }
+
+  @Test
+  void should_accept_long() {
+    // GIVEN
+    long actual = 0L;
     // WHEN
     AbstractLongAssert<?> result = underTest.assertThat(actual);
     // THEN
@@ -849,6 +919,16 @@ class WithAssertions_assertThat_Test {
   void should_accept_Short() {
     // GIVEN
     Short actual = (short) 0;
+    // WHEN
+    AbstractShortAssert<?> result = underTest.assertThat(actual);
+    // THEN
+    result.isZero();
+  }
+
+  @Test
+  void should_accept_short() {
+    // GIVEN
+    short actual = (short) 0;
     // WHEN
     AbstractShortAssert<?> result = underTest.assertThat(actual);
     // THEN
