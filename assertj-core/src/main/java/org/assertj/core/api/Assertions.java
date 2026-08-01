@@ -1484,7 +1484,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * Uses the given instance as the instance under test for all the assertions expressed as the passed {@link Consumer}.
    * <p>
    * This is useful to avoid repeating getting the instance to test, a bit like a <a href="https://mrhaki.blogspot.com/2009/09/groovy-goodness-with-method.html">with</a> block which turns the target into
-   * the equivalent of {@code this} (as  in Groovy for example).
+   * the equivalent of {@code this} (as in Groovy for example).
    * <p>
    * Example:
    * <pre><code> assertWith(team.getPlayers().get(0).getStats(),

@@ -16,34 +16,39 @@
 package org.assertj.tests.core.api;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.tests.core.testkit.ThrowingCallableFactory.codeThrowing;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+import static org.mockito.Answers.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.mock;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertThatExceptionOfType_Test {
+class WithAssertions_assertThatNullPointerException_Test {
+
+  static WithAssertions withAssertions = mock(CALLS_REAL_METHODS);
 
   @Test
-  void should_pass_if_expected_exception_is_thrown() {
+  void should_pass_if_NullPointerException_is_thrown() {
     // GIVEN
-    ThrowingCallable throwingSupplier = codeThrowing(new IllegalArgumentException("boom"));
+    ThrowingCallable throwingSupplier = codeThrowing(new NullPointerException("something was wrong"));
     // WHEN/THEN
-    assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(throwingSupplier).withMessage("boom");
+    withAssertions.assertThatNullPointerException().isThrownBy(throwingSupplier).withMessage("something was wrong");
   }
 
   @Test
-  void should_fail_if_expected_exception_is_not_thrown() {
+  void should_fail_if_NullPointerException_is_not_thrown() {
     // GIVEN
-    IllegalStateException exception = new IllegalStateException("boom");
+    IllegalArgumentException exception = new IllegalArgumentException("boom");
     ThrowingCallable throwingSupplier = codeThrowing(exception);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(throwingSupplier));
+    AssertionError assertionError = expectAssertionError(() -> withAssertions.assertThatNullPointerException()
+                                                                             .isThrownBy(throwingSupplier));
     // THEN
-    then(assertionError).hasMessage(shouldBeInstance(exception, IllegalArgumentException.class).create());
+    then(assertionError).hasMessage(shouldBeInstance(exception, NullPointerException.class).create());
   }
 
   @Test
@@ -51,7 +56,8 @@ class Assertions_assertThatExceptionOfType_Test {
     // GIVEN
     ThrowingCallable throwingSupplier = () -> {};
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(throwingSupplier));
+    AssertionError assertionError = expectAssertionError(() -> withAssertions.assertThatNullPointerException()
+                                                                             .isThrownBy(throwingSupplier));
     // THEN
     then(assertionError).hasMessage(format("%nExpecting code to raise a throwable."));
   }

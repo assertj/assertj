@@ -16,8 +16,8 @@
 package org.assertj.tests.core.api;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenIllegalStateException;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.tests.core.testkit.ThrowingCallableFactory.codeThrowing;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
@@ -25,25 +25,25 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertThatExceptionOfType_Test {
+class BDDAssertions_thenIllegalStateException_Test {
 
   @Test
-  void should_pass_if_expected_exception_is_thrown() {
+  void should_pass_if_IllegalStateException_is_thrown() {
     // GIVEN
-    ThrowingCallable throwingSupplier = codeThrowing(new IllegalArgumentException("boom"));
+    ThrowingCallable throwingSupplier = codeThrowing(new IllegalStateException("boom"));
     // WHEN/THEN
-    assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(throwingSupplier).withMessage("boom");
+    thenIllegalStateException().isThrownBy(throwingSupplier).withMessage("boom");
   }
 
   @Test
-  void should_fail_if_expected_exception_is_not_thrown() {
+  void should_fail_if_IllegalStateException_is_not_thrown() {
     // GIVEN
-    IllegalStateException exception = new IllegalStateException("boom");
+    IllegalArgumentException exception = new IllegalArgumentException("boom");
     ThrowingCallable throwingSupplier = codeThrowing(exception);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(throwingSupplier));
+    AssertionError assertionError = expectAssertionError(() -> thenIllegalStateException().isThrownBy(throwingSupplier));
     // THEN
-    then(assertionError).hasMessage(shouldBeInstance(exception, IllegalArgumentException.class).create());
+    then(assertionError).hasMessage(shouldBeInstance(exception, IllegalStateException.class).create());
   }
 
   @Test
@@ -51,7 +51,7 @@ class Assertions_assertThatExceptionOfType_Test {
     // GIVEN
     ThrowingCallable throwingSupplier = () -> {};
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(throwingSupplier));
+    AssertionError assertionError = expectAssertionError(() -> thenIllegalStateException().isThrownBy(throwingSupplier));
     // THEN
     then(assertionError).hasMessage(format("%nExpecting code to raise a throwable."));
   }

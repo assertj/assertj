@@ -17,32 +17,32 @@ package org.assertj.tests.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertWith;
+import static org.assertj.core.api.BDDAssertions.thenWith;
 
 import java.util.function.Consumer;
 
 import org.assertj.tests.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertWith_Test {
+class BDDAssertions_thenWith_Test {
 
   private final Jedi yoda = new Jedi("Yoda", "Green");
 
   @Test
   void should_pass_satisfying_single_requirement() {
-    assertWith(yoda, jedi -> assertThat(jedi.lightSaberColor).isEqualTo("Green"));
+    thenWith(yoda, jedi -> assertThat(jedi.lightSaberColor).isEqualTo("Green"));
   }
 
   @Test
   void should_pass_satisfying_multiple_requirements() {
-    assertWith(yoda,
-               jedi -> assertThat(jedi.lightSaberColor).isEqualTo("Green"),
-               jedi -> assertThat(jedi.getName()).isEqualTo("Yoda"));
+    thenWith(yoda,
+             jedi -> assertThat(jedi.lightSaberColor).isEqualTo("Green"),
+             jedi -> assertThat(jedi.getName()).isEqualTo("Yoda"));
   }
 
   @Test
   void should_allow_strongly_typed_assertion() {
-    assertWith("foo", string -> assertThat(string).startsWith("f"));
+    thenWith("foo", string -> assertThat(string).startsWith("f"));
   }
 
   @Test
@@ -50,7 +50,7 @@ class Assertions_assertWith_Test {
     // GIVEN
     Consumer<Jedi> nullRequirements = null;
     // WHEN/THEN
-    assertThatIllegalArgumentException().isThrownBy(() -> assertWith(yoda, nullRequirements))
+    assertThatIllegalArgumentException().isThrownBy(() -> thenWith(yoda, nullRequirements))
                                         .withMessage("No assertions group should be null");
   }
 

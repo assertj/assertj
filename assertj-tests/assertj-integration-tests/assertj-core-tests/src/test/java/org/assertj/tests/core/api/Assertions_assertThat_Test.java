@@ -47,6 +47,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Spliterator;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -82,6 +83,7 @@ import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AbstractCharacterAssert;
 import org.assertj.core.api.AbstractClassAssert;
 import org.assertj.core.api.AbstractCollectionAssert;
+import org.assertj.core.api.AbstractComparableAssert;
 import org.assertj.core.api.AbstractDateAssert;
 import org.assertj.core.api.AbstractDoubleArrayAssert;
 import org.assertj.core.api.AbstractDoubleAssert;
@@ -409,6 +411,27 @@ class Assertions_assertThat_Test {
     AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> result = assertThat(actual);
     // THEN
     result.contains("Yoda");
+  }
+
+  // FIXME https://github.com/assertj/assertj/issues/4352
+  // @Test
+  // void should_accept_Comparable() {
+  // // GIVEN
+  // Comparable<UUID> actual = new UUID(0L, 0L); // implements Comparable<UUID>
+  // // WHEN
+  // AbstractComparableAssert<?, UUID> result = assertThat(actual);
+  // // THEN
+  // result.isLessThan(new UUID(0L, 1L));
+  // }
+
+  @Test
+  void should_accept_Comparable_subtype() {
+    // GIVEN
+    UUID actual = new UUID(0L, 0L); // implements Comparable<UUID>
+    // WHEN
+    AbstractComparableAssert<?, UUID> result = assertThat(actual);
+    // THEN
+    result.isLessThan(new UUID(0L, 1L));
   }
 
   @Test

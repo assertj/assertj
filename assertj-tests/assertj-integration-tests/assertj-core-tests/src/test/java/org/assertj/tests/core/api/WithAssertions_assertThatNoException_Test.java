@@ -15,21 +15,25 @@
  */
 package org.assertj.tests.core.api;
 
-import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 import static org.assertj.tests.core.testkit.ThrowingCallableFactory.codeThrowing;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+import static org.mockito.Answers.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.mock;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertThatNoException_Test {
+class WithAssertions_assertThatNoException_Test {
+
+  static WithAssertions withAssertions = mock(CALLS_REAL_METHODS);
 
   @Test
   void should_pass_if_no_exception_is_thrown() {
     // WHEN/THEN
-    assertThatNoException().isThrownBy(() -> {});
+    withAssertions.assertThatNoException().isThrownBy(() -> {});
   }
 
   @Test
@@ -38,7 +42,7 @@ class Assertions_assertThatNoException_Test {
     Exception exception = new Exception("boom");
     ThrowingCallable boom = codeThrowing(exception);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThatNoException().isThrownBy(boom));
+    AssertionError assertionError = expectAssertionError(() -> withAssertions.assertThatNoException().isThrownBy(boom));
     // THEN
     then(assertionError).hasMessage(shouldNotHaveThrown(exception).create());
   }
@@ -48,7 +52,8 @@ class Assertions_assertThatNoException_Test {
     // GIVEN
     ThrowingCallable boom = codeThrowing(new Exception("boom"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThatNoException().as("Test").isThrownBy(boom));
+    AssertionError assertionError = expectAssertionError(() -> withAssertions.assertThatNoException().as("Test")
+                                                                             .isThrownBy(boom));
     // THEN
     then(assertionError).hasMessageStartingWith("[Test]");
   }
@@ -58,10 +63,10 @@ class Assertions_assertThatNoException_Test {
     // GIVEN
     ThrowingCallable boom = codeThrowing(new Exception("boom"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThatNoException().isThrownBy(boom));
+    AssertionError assertionError = expectAssertionError(() -> withAssertions.assertThatNoException().isThrownBy(boom));
     // THEN
     then(assertionError).hasMessageContaining("java.lang.Exception: %s", "boom")
-                        .hasMessageContaining("at org.assertj.tests.core.api.Assertions_assertThatNoException_Test.should_fail_if_exception_is_thrown_and_error_message_contains_stacktrace");
+                        .hasMessageContaining("at org.assertj.tests.core.api.WithAssertions_assertThatNoException_Test.should_fail_if_exception_is_thrown_and_error_message_contains_stacktrace");
   }
 
 }
