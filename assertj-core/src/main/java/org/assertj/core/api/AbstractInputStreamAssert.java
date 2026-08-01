@@ -234,10 +234,12 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   }
 
   /**
-   * Verifies that the content of the actual {@code InputStream} is equal to the given {@code String} <b>except for newlines which are ignored</b>.
+   * Verifies that the content of the actual {@code InputStream} is equal to the given {@code String}. Newlines are
+   * taken into account (including a single trailing newline).
    * <p>
-   * This will change in AssertJ 4.0 where newlines will be taken into account, in the meantime, to get this behavior
-   * one can use {@link #asString(Charset)} and then chain with {@link AbstractStringAssert#isEqualTo(String)}.
+   * Line ending style ({@code \n}, {@code \r}, {@code \r\n}) is normalized when comparing lines. For more granular
+   * string assertions on the content (for example ignoring newlines), use {@link #asString(Charset)} and chain string
+   * assertions such as {@link AbstractStringAssert#isEqualToIgnoringNewlines(CharSequence)}.
    * <p>
    * The {@link Charset#defaultCharset() default charset} is used for decoding the bytes of the stream to a String.
    * To use a different charset for decoding, use {@link #asString(Charset)}.
@@ -251,7 +253,8 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    *
    * // assertions will fail
    * assertThat(new ByteArrayInputStream("a".getBytes())).hasContent("");
-   * assertThat(new ByteArrayInputStream("a".getBytes())).hasContent("ab");</code></pre>
+   * assertThat(new ByteArrayInputStream("a".getBytes())).hasContent("ab");
+   * assertThat(new ByteArrayInputStream("a".getBytes())).hasContent("a\n");</code></pre>
    *
    * @param expected the given {@code String} to compare the actual {@code InputStream} to.
    * @return {@code this} assertion object.

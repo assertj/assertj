@@ -101,6 +101,38 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
   }
 
   @Test
+  void should_pass_if_actual_and_expected_both_end_with_a_trailing_newline() throws IOException {
+    // GIVEN
+    Path actual = Files.writeString(tempDir.resolve("actual"), "Content\n");
+    // WHEN/THEN
+    underTest.assertHasTextualContent(INFO, actual, "Content\n", CHARSET);
+  }
+
+  @Test
+  void should_fail_if_expected_has_trailing_newline_but_actual_does_not() throws IOException {
+    // GIVEN
+    Path actual = Files.writeString(tempDir.resolve("actual"), "Content");
+    String expected = "Content\n";
+    List<Delta<String>> diffs = diff.diff(actual, expected, CHARSET);
+    // WHEN
+    var error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
+    // THEN
+    then(error).hasMessage(shouldHaveContent(actual, CHARSET, diffs).create(INFO.description(), INFO.representation()));
+  }
+
+  @Test
+  void should_fail_if_actual_has_trailing_newline_but_expected_does_not() throws IOException {
+    // GIVEN
+    Path actual = Files.writeString(tempDir.resolve("actual"), "Content\n");
+    String expected = "Content";
+    List<Delta<String>> diffs = diff.diff(actual, expected, CHARSET);
+    // WHEN
+    var error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
+    // THEN
+    then(error).hasMessage(shouldHaveContent(actual, CHARSET, diffs).create(INFO.description(), INFO.representation()));
+  }
+
+  @Test
   void should_fail_if_actual_does_not_have_expected_textual_content() throws IOException {
     // GIVEN
     Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes(CHARSET));

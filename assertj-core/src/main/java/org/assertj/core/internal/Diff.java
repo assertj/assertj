@@ -28,6 +28,7 @@ import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.util.diff.Delta;
@@ -155,12 +156,24 @@ public class Diff {
     }
   }
 
+  // Reads all content then splits on any line terminator (\n, \r, \r\n). A trailing terminator is kept as a final
+  // empty line so that "a" and "a\n" are not considered equal (see https://github.com/assertj/assertj/issues/2993).
+  // BufferedReader.readLine() would drop that distinction.
   private List<String> linesFromBufferedReader(BufferedReader reader) throws IOException {
-    String line;
-    List<String> lines = new ArrayList<>();
-    while ((line = reader.readLine()) != null) {
-      lines.add(line);
+    StringBuilder content = new StringBuilder();
+    char[] buffer = new char[8192];
+    int read;
+    while ((read = reader.read(buffer)) != -1) {
+      content.append(buffer, 0, read);
     }
-    return lines;
+    return splitLines(content.toString());
+  }
+
+  private static List<String> splitLines(String content) {
+    if (content.isEmpty()) {
+      return new ArrayList<>();
+    }
+    // limit -1 keeps trailing empty strings produced by a final line terminator
+    return new ArrayList<>(Arrays.asList(content.split("\\R", -1)));
   }
 }
