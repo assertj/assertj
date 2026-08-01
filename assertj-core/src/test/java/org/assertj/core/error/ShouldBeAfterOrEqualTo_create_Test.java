@@ -80,10 +80,14 @@ class ShouldBeAfterOrEqualTo_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN — both would look identical at ms precision; nanos must appear so the failure is understandable
+    then(STANDARD_REPRESENTATION.toStringOf(actualMillisOnly)).doesNotContain("123456");
+    then(STANDARD_REPRESENTATION.toStringOf(otherWithNanos)).contains("123456");
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting actual:%n" +
-                                   "  2011-01-01T01:00:00.123 (java.sql.Timestamp)%n" +
+                                   "  %s%n" +
                                    "to be after or equal to:%n" +
-                                   "  2011-01-01T01:00:00.123456789 (java.sql.Timestamp)%n"));
+                                   "  %s%n",
+                                   STANDARD_REPRESENTATION.toStringOf(actualMillisOnly),
+                                   STANDARD_REPRESENTATION.toStringOf(otherWithNanos)));
   }
 }
