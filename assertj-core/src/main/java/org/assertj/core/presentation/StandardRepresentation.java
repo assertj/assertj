@@ -33,6 +33,7 @@ import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Path;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -588,6 +589,23 @@ public class StandardRepresentation implements Representation {
     return ISO_DATE_FORMAT_WITH_MS.get().format(date);
   }
 
+  // Timestamp comparison uses nanos; SimpleDateFormat only shows millis — append sub-ms digits when present
+  // so failure messages do not look identical for values that differ only in nanos (see #4241).
+  private static String formatTimestamp(Timestamp timestamp) {
+    String withMillis = formatDate(timestamp);
+    int subMillisecondNanos = timestamp.getNanos() % 1_000_000;
+    if (subMillisecondNanos == 0) {
+      return withMillis;
+    }
+    // Drop trailing zeros (same idea as Instant.toString()).
+    String extra = "%06d".formatted(subMillisecondNanos);
+    int end = extra.length();
+    while (end > 0 && extra.charAt(end - 1) == '0') {
+      end--;
+    }
+    return withMillis + extra.substring(0, end);
+  }
+
   private static String formatCalendar(Calendar calendar) {
     return ISO_DATE_FORMAT_WITHOUT_MS.get().format(calendar.getTime());
   }
@@ -599,7 +617,8 @@ public class StandardRepresentation implements Representation {
    * @return the formatted value
    */
   protected String toStringOf(Date date) {
-    return formatDate(date) + classNameDisambiguation(date);
+    String formattedValue = date instanceof Timestamp ? formatTimestamp((Timestamp) date) : formatDate(date);
+    return formattedValue + classNameDisambiguation(date);
   }
 
   /**
