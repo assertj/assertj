@@ -22,7 +22,6 @@ import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
 import static org.assertj.core.util.Arrays.isObjectArray;
 import static org.assertj.core.util.Arrays.notAnArrayOfPrimitives;
 import static org.assertj.core.util.DateUtil.formatAsDatetime;
-import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
@@ -34,6 +33,7 @@ import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Path;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -113,6 +113,8 @@ public class StandardRepresentation implements Representation {
   private static final Map<Class<?>, Function<?, ? extends CharSequence>> customFormatterByType = new HashMap<>();
   private static final Class<?>[] TYPE_WITH_UNAMBIGUOUS_REPRESENTATION = { Date.class, LocalDateTime.class, ZonedDateTime.class,
       OffsetDateTime.class, Calendar.class };
+
+  private static final ThreadLocal<SimpleDateFormat> ISO_DATE_FORMAT_WITH_MS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS"));
 
   // Iterable types that should be considered to be unsafe to dereference and iterate across (e.g. they may have
   // visible side effects).
@@ -434,8 +436,30 @@ public class StandardRepresentation implements Representation {
     return p.isDefault() ? String.format("%s", p.description) : String.format("'%s'", p.description);
   }
 
+  private static String formatDate(Date date) {
+    return ISO_DATE_FORMAT_WITH_MS.get().format(date);
+  }
+
+  // Timestamp comparison uses nanos; SimpleDateFormat only shows millis — append sub-ms digits when present
+  // so failure messages do not look identical for values that differ only in nanos (see #4241).
+  private static String formatTimestamp(Timestamp timestamp) {
+    String withMillis = formatDate(timestamp);
+    int subMillisecondNanos = timestamp.getNanos() % 1_000_000;
+    if (subMillisecondNanos == 0) {
+      return withMillis;
+    }
+    // Drop trailing zeros (same idea as Instant.toString()).
+    String extra = String.format("%06d", subMillisecondNanos);
+    int end = extra.length();
+    while (end > 0 && extra.charAt(end - 1) == '0') {
+      end--;
+    }
+    return withMillis + extra.substring(0, end);
+  }
+
   protected String toStringOf(Date date) {
-    return formatAsDatetimeWithMs(date) + classNameDisambiguation(date);
+    String formattedValue = date instanceof Timestamp ? formatTimestamp((Timestamp) date) : formatDate(date);
+    return formattedValue + classNameDisambiguation(date);
   }
 
   protected String toStringOf(LocalDateTime localDateTime) {

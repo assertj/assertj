@@ -32,8 +32,10 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -331,6 +333,28 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
     String dateRepresentation = STANDARD_REPRESENTATION.toStringOf(date);
     // THEN
     then(dateRepresentation).isEqualTo("2011-06-18T23:53:17.000 (java.util.Date)");
+  }
+
+  @Test
+  void should_return_toString_of_Timestamp_with_millisecond_precision_only() {
+    // GIVEN
+    Timestamp timestampWithMsOnly = Timestamp.from(Instant.parse("2011-06-18T16:53:17.123Z"));
+    // WHEN
+    String representation = STANDARD_REPRESENTATION.toStringOf(timestampWithMsOnly);
+    // THEN
+    then(representation).endsWith(" (java.sql.Timestamp)")
+                        .contains(".123")
+                        .doesNotContain(".1234");
+  }
+
+  @Test
+  void should_return_toString_of_Timestamp_including_sub_millisecond_nanos() {
+    // GIVEN — nanos beyond millis (e.g. Timestamp.from(Instant.now()) on high-res clocks)
+    Timestamp timestampWithNanos = Timestamp.from(Instant.parse("2011-06-18T16:53:17.123456789Z"));
+    // WHEN
+    String representation = STANDARD_REPRESENTATION.toStringOf(timestampWithNanos);
+    // THEN — sub-ms digits must be visible so same-millis values are distinguishable in error messages
+    then(representation).isEqualTo("2011-06-18T18:53:17.123456789 (java.sql.Timestamp)");
   }
 
   @Test

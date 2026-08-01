@@ -15,11 +15,18 @@
  */
 package org.assertj.core.api.date;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link DateAssert#isAfterOrEqualTo(Date)}</code>.
@@ -46,6 +53,28 @@ class DateAssert_isAfterOrEqualTo_Test extends AbstractDateAssertWithDateArg_Tes
   @Override
   protected DateAssert assertionInvocationWithInstantArg() {
     return assertions.isAfterOrEqualTo(otherDate.toInstant());
+  }
+
+  @Test
+  void should_pass_if_timestamp_is_after_or_equal_to_instant_with_sub_ms_precision() {
+    // GIVEN
+    Instant instant = Instant.parse("2011-01-01T00:00:00.123456Z");
+    Timestamp later = Timestamp.from(instant.plusMillis(1));
+    Timestamp equalWithNanos = Timestamp.from(instant);
+    // WHEN/THEN
+    then(later).isAfterOrEqualTo(instant);
+    then(equalWithNanos).isAfterOrEqualTo(instant);
+  }
+
+  @Test
+  void should_fail_if_millis_only_timestamp_is_before_instant_with_sub_ms_precision() {
+    // GIVEN — Instant has micros; Timestamp from epoch millis truncates them
+    Instant withMicros = Instant.parse("2011-01-01T00:00:00.123456Z");
+    Timestamp actualMillisOnly = new Timestamp(withMicros.toEpochMilli());
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actualMillisOnly).isAfterOrEqualTo(withMicros));
+    // THEN — message uses Timestamp.from(instant) as the comparison target (dateFrom)
+    then(assertionError).hasMessage(shouldBeAfterOrEqualTo(actualMillisOnly, Timestamp.from(withMicros)).create());
   }
 
 }
