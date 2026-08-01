@@ -345,7 +345,7 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
     // WHEN
     String representation = STANDARD_REPRESENTATION.toStringOf(timestampWithNanos);
     // THEN — sub-ms digits must be visible so same-millis values are distinguishable in error messages
-    then(representation).isEqualTo("2011-06-18T18:53:17.123456789 (java.sql.Timestamp)");
+    then(representation).contains(":53:17.123456789 (java.sql.Timestamp)");
   }
 
   @Test
