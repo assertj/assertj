@@ -46,6 +46,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.util.Arrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for <code>{@link Class}</code>s.
@@ -81,7 +82,7 @@ public class Classes {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not assignable from all of the {@code others} classes.
    */
-  public void assertIsAssignableFrom(AssertionInfo info, Class<?> actual, Class<?>... others) {
+  public void assertIsAssignableFrom(AssertionInfo info, @Nullable Class<?> actual, Class<?>... others) {
     assertNotNull(info, actual);
     checkArgument(!Arrays.isNullOrEmpty(others), "Expecting at least one Class to be specified");
 
@@ -104,7 +105,7 @@ public class Classes {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the field.
    */
-  public void assertHasPublicFields(AssertionInfo info, Class<?> actual, String... fields) {
+  public void assertHasPublicFields(AssertionInfo info, @Nullable Class<?> actual, String... fields) {
     assertNotNull(info, actual);
     Set<String> expectedFieldNames = newLinkedHashSet(fields);
     Set<String> missingFieldNames = newLinkedHashSet();
@@ -126,7 +127,7 @@ public class Classes {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if fields are not all the fields of the actual {@code Class}.
    */
-  public void assertHasOnlyPublicFields(AssertionInfo info, Class<?> actual, String... expectedFields) {
+  public void assertHasOnlyPublicFields(AssertionInfo info, @Nullable Class<?> actual, String... expectedFields) {
     assertNotNull(info, actual);
     Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getFields()));
     List<String> notExpected = newArrayList(actualFieldNames);
@@ -174,7 +175,7 @@ public class Classes {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of the field.
    */
-  public void assertHasDeclaredFields(AssertionInfo info, Class<?> actual, String... fields) {
+  public void assertHasDeclaredFields(AssertionInfo info, @Nullable Class<?> actual, String... fields) {
     assertNotNull(info, actual);
     Set<String> expectedFieldNames = newLinkedHashSet(fields);
     Set<String> missingFieldNames = newLinkedHashSet();
@@ -196,7 +197,7 @@ public class Classes {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if fields are not all the fields of the actual {@code Class}.
    */
-  public void assertHasOnlyDeclaredFields(AssertionInfo info, Class<?> actual, String... expectedFields) {
+  public void assertHasOnlyDeclaredFields(AssertionInfo info, @Nullable Class<?> actual, String... expectedFields) {
     assertNotNull(info, actual);
     Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getDeclaredFields()));
     List<String> notExpected = newArrayList(actualFieldNames);
@@ -232,7 +233,7 @@ public class Classes {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all the methods.
    */
-  public void assertHasMethods(AssertionInfo info, Class<?> actual, String... methods) {
+  public void assertHasMethods(AssertionInfo info, @Nullable Class<?> actual, String... methods) {
     assertNotNull(info, actual);
     doAssertHasMethods(info, actual, filterSyntheticMembers(getAllMethods(actual)), false, methods);
   }
@@ -246,7 +247,7 @@ public class Classes {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all the methods.
    */
-  public void assertHasDeclaredMethods(AssertionInfo info, Class<?> actual, String... methods) {
+  public void assertHasDeclaredMethods(AssertionInfo info, @Nullable Class<?> actual, String... methods) {
     assertNotNull(info, actual);
     doAssertHasMethods(info, actual, filterSyntheticMembers(actual.getDeclaredMethods()), true, methods);
   }
@@ -277,7 +278,7 @@ public class Classes {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all the public methods.
    */
-  public void assertHasPublicMethods(AssertionInfo info, Class<?> actual, String... methods) {
+  public void assertHasPublicMethods(AssertionInfo info, @Nullable Class<?> actual, String... methods) {
     assertNotNull(info, actual);
     Method[] actualMethods = actual.getMethods();
     SortedSet<String> expectedMethodNames = newTreeSet(methods);
@@ -381,7 +382,7 @@ public class Classes {
     return filteredMembers;
   }
 
-  private static void assertNotNull(AssertionInfo info, Class<?> actual) {
+  private static void assertNotNull(AssertionInfo info, @Nullable Class<?> actual) {
     Objects.instance().assertNotNull(info, actual);
   }
 }

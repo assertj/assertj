@@ -62,6 +62,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.error.ShouldBeEqualWithTimePrecision;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for <code>{@link Date}</code>s.
@@ -119,7 +120,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} is not strictly before the given one.
    */
-  public void assertIsBefore(AssertionInfo info, Date actual, Date other) {
+  public void assertIsBefore(AssertionInfo info, @Nullable Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!isBefore(actual, other))
@@ -135,7 +136,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} is not before or equal to the given one.
    */
-  public void assertIsBeforeOrEqualTo(AssertionInfo info, Date actual, Date other) {
+  public void assertIsBeforeOrEqualTo(AssertionInfo info, @Nullable Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!isBeforeOrEqualTo(actual, other))
@@ -151,7 +152,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} is not strictly after the given one.
    */
-  public void assertIsAfter(AssertionInfo info, Date actual, Date other) {
+  public void assertIsAfter(AssertionInfo info, @Nullable Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!isAfter(actual, other))
@@ -167,7 +168,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} is not after or equal to the given one.
    */
-  public void assertIsAfterOrEqualTo(AssertionInfo info, Date actual, Date other) {
+  public void assertIsAfterOrEqualTo(AssertionInfo info, @Nullable Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!isAfterOrEqualTo(actual, other))
@@ -184,7 +185,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} is not equal to the given one.
    */
-  public void assertIsEqualWithPrecision(AssertionInfo info, Date actual, Date other, TimeUnit precision) {
+  public void assertIsEqualWithPrecision(AssertionInfo info, @Nullable Date actual, Date other, TimeUnit precision) {
     assertNotNull(info, actual);
     Calendar calendarActual = Calendar.getInstance();
     calendarActual.setTime(actual);
@@ -236,7 +237,8 @@ public class Dates {
       throw failures.failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
   }
 
-  private boolean actualIsBetweenGivenPeriod(AssertionInfo info, Date actual, Date start, Date end, boolean inclusiveStart,
+  private boolean actualIsBetweenGivenPeriod(AssertionInfo info, @Nullable Date actual, Date start, Date end,
+                                             boolean inclusiveStart,
                                              boolean inclusiveEnd) {
     assertNotNull(info, actual);
     startDateParameterIsNotNull(start);
@@ -274,7 +276,7 @@ public class Dates {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Date} is not in the past.
    */
-  public void assertIsInThePast(AssertionInfo info, Date actual) {
+  public void assertIsInThePast(AssertionInfo info, @Nullable Date actual) {
     assertNotNull(info, actual);
     if (!isBefore(actual, now())) throw failures.failure(info, shouldBeInThePast(actual, comparisonStrategy));
   }
@@ -287,7 +289,7 @@ public class Dates {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Date} is not today.
    */
-  public void assertIsToday(AssertionInfo info, Date actual) {
+  public void assertIsToday(AssertionInfo info, @Nullable Date actual) {
     assertNotNull(info, actual);
     Date todayWithoutTime = truncateTime(now());
     Date actualWithoutTime = truncateTime(actual);
@@ -301,7 +303,7 @@ public class Dates {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Date} is not in the future.
    */
-  public void assertIsInTheFuture(AssertionInfo info, Date actual) {
+  public void assertIsInTheFuture(AssertionInfo info, @Nullable Date actual) {
     assertNotNull(info, actual);
     if (!isAfter(actual, now())) throw failures.failure(info, shouldBeInTheFuture(actual, comparisonStrategy));
   }
@@ -314,7 +316,7 @@ public class Dates {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Date} year is after or equal to the given year.
    */
-  public void assertIsBeforeYear(AssertionInfo info, Date actual, int year) {
+  public void assertIsBeforeYear(AssertionInfo info, @Nullable Date actual, int year) {
     assertNotNull(info, actual);
     if (yearOf(actual) >= year) throw failures.failure(info, shouldBeBeforeYear(actual, year));
   }
@@ -327,7 +329,7 @@ public class Dates {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Date} year is before or equal to the given year.
    */
-  public void assertIsAfterYear(AssertionInfo info, Date actual, int year) {
+  public void assertIsAfterYear(AssertionInfo info, @Nullable Date actual, int year) {
     assertNotNull(info, actual);
     if (yearOf(actual) <= year) throw failures.failure(info, shouldBeAfterYear(actual, year));
   }
@@ -340,7 +342,7 @@ public class Dates {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Date} year is not equal to the given year.
    */
-  public void assertHasYear(AssertionInfo info, Date actual, int year) {
+  public void assertHasYear(AssertionInfo info, @Nullable Date actual, int year) {
     assertNotNull(info, actual);
     if (yearOf(actual) != year) throw failures.failure(info, shouldHaveDateField(actual, "year", year));
   }
@@ -354,7 +356,7 @@ public class Dates {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Date} month is not equal to the given month.
    */
-  public void assertHasMonth(AssertionInfo info, Date actual, int month) {
+  public void assertHasMonth(AssertionInfo info, @Nullable Date actual, int month) {
     assertNotNull(info, actual);
     if (monthOf(actual) != month)
       throw failures.failure(info, shouldHaveDateField(actual, "month", month));
@@ -368,7 +370,7 @@ public class Dates {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Date} month is not equal to the given day of month.
    */
-  public void assertHasDayOfMonth(AssertionInfo info, Date actual, int dayOfMonth) {
+  public void assertHasDayOfMonth(AssertionInfo info, @Nullable Date actual, int dayOfMonth) {
     assertNotNull(info, actual);
     if (dayOfMonthOf(actual) != dayOfMonth) throw failures.failure(info, shouldHaveDateField(actual, "day of month", dayOfMonth));
   }
@@ -381,7 +383,7 @@ public class Dates {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Date} week is not equal to the given day of week.
    */
-  public void assertHasDayOfWeek(AssertionInfo info, Date actual, int dayOfWeek) {
+  public void assertHasDayOfWeek(AssertionInfo info, @Nullable Date actual, int dayOfWeek) {
     assertNotNull(info, actual);
     if (dayOfWeekOf(actual) != dayOfWeek) throw failures.failure(info, shouldHaveDateField(actual, "day of week", dayOfWeek));
   }
@@ -394,7 +396,7 @@ public class Dates {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Date} hour is not equal to the given hour.
    */
-  public void assertHasHourOfDay(AssertionInfo info, Date actual, int hourOfDay) {
+  public void assertHasHourOfDay(AssertionInfo info, @Nullable Date actual, int hourOfDay) {
     assertNotNull(info, actual);
     if (hourOfDayOf(actual) != hourOfDay)
       throw failures.failure(info, shouldHaveDateField(actual, "hour", hourOfDay));
@@ -408,7 +410,7 @@ public class Dates {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Date} minute is not equal to the given minute.
    */
-  public void assertHasMinute(AssertionInfo info, Date actual, int minute) {
+  public void assertHasMinute(AssertionInfo info, @Nullable Date actual, int minute) {
     assertNotNull(info, actual);
     if (minuteOf(actual) != minute) throw failures.failure(info, shouldHaveDateField(actual, "minute", minute));
   }
@@ -421,7 +423,7 @@ public class Dates {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Date} second is not equal to the given second.
    */
-  public void assertHasSecond(AssertionInfo info, Date actual, int second) {
+  public void assertHasSecond(AssertionInfo info, @Nullable Date actual, int second) {
     assertNotNull(info, actual);
     if (secondOf(actual) != second) throw failures.failure(info, shouldHaveDateField(actual, "second", second));
   }
@@ -434,7 +436,7 @@ public class Dates {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Date} millisecond is not equal to the given millisecond.
    */
-  public void assertHasMillisecond(AssertionInfo info, Date actual, int millisecond) {
+  public void assertHasMillisecond(AssertionInfo info, @Nullable Date actual, int millisecond) {
     assertNotNull(info, actual);
     if (millisecondOf(actual) != millisecond)
       throw failures.failure(info, shouldHaveDateField(actual, "millisecond", millisecond));
@@ -449,7 +451,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if actual and given {@code Date} are not in the same year.
    */
-  public void assertIsInSameYearAs(AssertionInfo info, Date actual, Date other) {
+  public void assertIsInSameYearAs(AssertionInfo info, @Nullable Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!areInSameYear(actual, other)) throw failures.failure(info, shouldBeInSameYear(actual, other));
@@ -474,7 +476,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if actual and given {@code Date} are not chronologically speaking in the same month.
    */
-  public void assertIsInSameMonthAs(AssertionInfo info, Date actual, Date other) {
+  public void assertIsInSameMonthAs(AssertionInfo info, @Nullable Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!areInSameMonth(actual, other)) throw failures.failure(info, shouldBeInSameMonth(actual, other));
@@ -500,7 +502,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if actual and given {@code Date} are not chronologically speaking in the same day of month.
    */
-  public void assertIsInSameDayAs(AssertionInfo info, Date actual, Date other) {
+  public void assertIsInSameDayAs(AssertionInfo info, @Nullable Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!areInSameDayOfMonth(actual, other)) throw failures.failure(info, shouldBeInSameDay(actual, other));
@@ -526,7 +528,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if actual and given {@code Date} are not chronologically speaking in the same hour.
    */
-  public void assertIsInSameHourAs(AssertionInfo info, Date actual, Date other) {
+  public void assertIsInSameHourAs(AssertionInfo info, @Nullable Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!areInSameHour(actual, other)) throw failures.failure(info, shouldBeInSameHour(actual, other));
@@ -542,7 +544,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if actual and given {@code Date} are not chronologically speaking in the same hour.
    */
-  public void assertIsInSameHourWindowAs(AssertionInfo info, Date actual, Date other) {
+  public void assertIsInSameHourWindowAs(AssertionInfo info, @Nullable Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!areInSameHourWindow(actual, other)) throw failures.failure(info, shouldBeInSameHourWindow(actual, other));
@@ -577,7 +579,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if actual and given {@code Date} are not chronologically speaking in the same minute.
    */
-  public void assertIsInSameMinuteAs(AssertionInfo info, Date actual, Date other) {
+  public void assertIsInSameMinuteAs(AssertionInfo info, @Nullable Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!areInSameMinute(actual, other)) throw failures.failure(info, shouldBeInSameMinute(actual, other));
@@ -592,7 +594,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if actual and given {@code Date} are not chronologically speaking in the same minute.
    */
-  public void assertIsInSameMinuteWindowAs(AssertionInfo info, Date actual, Date other) {
+  public void assertIsInSameMinuteWindowAs(AssertionInfo info, @Nullable Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!areInSameMinuteWindow(actual, other)) throw failures.failure(info, shouldBeInSameMinuteWindow(actual, other));
@@ -621,7 +623,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if actual and given {@code Date} are not chronologically speaking in the same second.
    */
-  public void assertIsInSameSecondAs(AssertionInfo info, Date actual, Date other) {
+  public void assertIsInSameSecondAs(AssertionInfo info, @Nullable Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!areInSameSecond(actual, other)) throw failures.failure(info, shouldBeInSameSecond(actual, other));
@@ -636,7 +638,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if actual and given {@code Date} are not chronologically speaking in the same second.
    */
-  public void assertIsInSameSecondWindowAs(AssertionInfo info, Date actual, Date other) {
+  public void assertIsInSameSecondWindowAs(AssertionInfo info, @Nullable Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     if (!areInSameSecondWindow(actual, other)) throw failures.failure(info, shouldBeInSameSecondWindow(actual, other));
@@ -676,7 +678,7 @@ public class Dates {
    * @throws NullPointerException if other {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} week is not close to the given date by less than delta.
    */
-  public void assertIsCloseTo(AssertionInfo info, Date actual, Date other, long deltaInMilliseconds) {
+  public void assertIsCloseTo(AssertionInfo info, @Nullable Date actual, Date other, long deltaInMilliseconds) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
     long difference = Math.abs(actual.getTime() - other.getTime());
@@ -692,7 +694,7 @@ public class Dates {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Date} time is not equal to the given timestamp.
    */
-  public void assertHasTime(AssertionInfo info, Date actual, long timestamp) {
+  public void assertHasTime(AssertionInfo info, @Nullable Date actual, long timestamp) {
     assertNotNull(info, actual);
     if (actual.getTime() != timestamp) throw failures.failure(info, shouldHaveTime(actual, timestamp));
   }
@@ -706,7 +708,7 @@ public class Dates {
    * @throws AssertionError if {@code expected} is {@code null}.
    * @throws AssertionError if the actual {@code Date} time is not equal to the given {@code Date}.
    */
-  public void assertHasSameTime(AssertionInfo info, Date actual, Date expected) {
+  public void assertHasSameTime(AssertionInfo info, @Nullable Date actual, Date expected) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(expected);
     if (actual.getTime() != expected.getTime()) throw failures.failure(info, shouldHaveSameTime(actual, expected));
@@ -721,7 +723,7 @@ public class Dates {
    * @throws AssertionError if the actual {@code Date} time is not equal to the given date time.
    * @throws NullPointerException if other {@code Date} is {@code null}.
    */
-  public void hasSameTimeAs(AssertionInfo info, Date actual, Date date) {
+  public void hasSameTimeAs(AssertionInfo info, @Nullable Date actual, Date date) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(date);
     assertHasSameTime(info, actual, date);
@@ -757,7 +759,7 @@ public class Dates {
     requireNonNull(end, "The end date of period to compare actual with should not be null");
   }
 
-  private void assertNotNull(AssertionInfo info, Date actual) {
+  private void assertNotNull(AssertionInfo info, @Nullable Date actual) {
     Objects.instance().assertNotNull(info, actual);
   }
 

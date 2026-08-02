@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import org.assertj.core.util.DualClass;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An internal holder of the custom message for type. It is used to store messages for registered classes.
@@ -40,7 +41,7 @@ public class TypeMessages extends TypeHolder<String> {
    * @param clazz the class for which to find an error message
    * @return the most relevant error message, or {@code null} if no message could be found
    */
-  public String getMessageForType(Class<?> clazz) {
+  public @Nullable String getMessageForType(Class<?> clazz) {
     return super.get(clazz);
   }
 

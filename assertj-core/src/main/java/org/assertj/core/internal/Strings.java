@@ -101,6 +101,7 @@ import java.util.stream.Collectors;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implements assertions for {@link String} values.
@@ -154,7 +155,7 @@ public class Strings {
    * @param info assertion information
    * @param actual the actual text
    */
-  public void assertEmpty(AssertionInfo info, CharSequence actual) {
+  public void assertEmpty(AssertionInfo info, @Nullable CharSequence actual) {
     assertNotNull(info, actual);
     if (hasContent(actual)) throw failures.failure(info, shouldBeEmpty(actual));
   }
@@ -165,7 +166,7 @@ public class Strings {
    * @param info assertion information
    * @param actual the actual text
    */
-  public void assertNotEmpty(AssertionInfo info, CharSequence actual) {
+  public void assertNotEmpty(AssertionInfo info, @Nullable CharSequence actual) {
     assertNotNull(info, actual);
     if (!hasContent(actual)) throw failures.failure(info, shouldNotBeEmpty());
   }
@@ -181,7 +182,7 @@ public class Strings {
    * @param actual the actual text
    * @param expectedSize the expected length
    */
-  public void assertHasSize(AssertionInfo info, CharSequence actual, int expectedSize) {
+  public void assertHasSize(AssertionInfo info, @Nullable CharSequence actual, int expectedSize) {
     assertNotNull(info, actual);
     checkSizes(actual, actual.length(), expectedSize, info);
   }
@@ -193,7 +194,7 @@ public class Strings {
    * @param actual the actual text
    * @param expectedMaxSizeExcluded the exclusive maximum
    */
-  public void assertHasSizeLessThan(AssertionInfo info, CharSequence actual, int expectedMaxSizeExcluded) {
+  public void assertHasSizeLessThan(AssertionInfo info, @Nullable CharSequence actual, int expectedMaxSizeExcluded) {
     assertNotNull(info, actual);
 
     if (actual.length() >= expectedMaxSizeExcluded) {
@@ -208,7 +209,7 @@ public class Strings {
    * @param actual the actual text
    * @param expectedMaxSizeIncluded the inclusive maximum
    */
-  public void assertHasSizeLessThanOrEqualTo(AssertionInfo info, CharSequence actual, int expectedMaxSizeIncluded) {
+  public void assertHasSizeLessThanOrEqualTo(AssertionInfo info, @Nullable CharSequence actual, int expectedMaxSizeIncluded) {
     assertNotNull(info, actual);
 
     if (actual.length() > expectedMaxSizeIncluded) {
@@ -223,7 +224,7 @@ public class Strings {
    * @param actual the actual text
    * @param expectedMinSizeExcluded the exclusive minimum
    */
-  public void assertHasSizeGreaterThan(AssertionInfo info, CharSequence actual, int expectedMinSizeExcluded) {
+  public void assertHasSizeGreaterThan(AssertionInfo info, @Nullable CharSequence actual, int expectedMinSizeExcluded) {
     assertNotNull(info, actual);
 
     if (actual.length() <= expectedMinSizeExcluded) {
@@ -238,7 +239,7 @@ public class Strings {
    * @param actual the actual text
    * @param expectedMinSizeIncluded the inclusive minimum
    */
-  public void assertHasSizeGreaterThanOrEqualTo(AssertionInfo info, CharSequence actual, int expectedMinSizeIncluded) {
+  public void assertHasSizeGreaterThanOrEqualTo(AssertionInfo info, @Nullable CharSequence actual, int expectedMinSizeIncluded) {
     assertNotNull(info, actual);
 
     if (actual.length() < expectedMinSizeIncluded) {
@@ -254,7 +255,7 @@ public class Strings {
    * @param lowerBoundary the inclusive lower boundary
    * @param higherBoundary the inclusive upper boundary
    */
-  public void assertHasSizeBetween(AssertionInfo info, CharSequence actual, int lowerBoundary, int higherBoundary) {
+  public void assertHasSizeBetween(AssertionInfo info, @Nullable CharSequence actual, int lowerBoundary, int higherBoundary) {
     assertNotNull(info, actual);
     checkSizeBetween(actual, lowerBoundary, higherBoundary, actual.length(), info);
   }
@@ -266,7 +267,7 @@ public class Strings {
    * @param actual the actual text
    * @param expectedLineCount the expected line count
    */
-  public void assertHasLineCount(AssertionInfo info, CharSequence actual, int expectedLineCount) {
+  public void assertHasLineCount(AssertionInfo info, @Nullable CharSequence actual, int expectedLineCount) {
     assertNotNull(info, actual);
     LineNumberReader reader = new LineNumberReader(new StringReader(actual.toString()));
     try {
@@ -284,7 +285,7 @@ public class Strings {
    * @param actual the actual text
    * @param other the iterable to compare
    */
-  public void assertHasSameSizeAs(AssertionInfo info, CharSequence actual, Iterable<?> other) {
+  public void assertHasSameSizeAs(AssertionInfo info, @Nullable CharSequence actual, Iterable<?> other) {
     assertNotNull(info, actual);
     hasSameSizeAsCheck(info, actual, other, actual.length());
   }
@@ -296,7 +297,7 @@ public class Strings {
    * @param actual the actual text
    * @param array the array to compare
    */
-  public void assertHasSameSizeAs(AssertionInfo info, CharSequence actual, Object array) {
+  public void assertHasSameSizeAs(AssertionInfo info, @Nullable CharSequence actual, Object array) {
     assertNotNull(info, actual);
     assertIsArray(info, array);
     hasSameSizeAsCheck(info, actual, array, actual.length());
@@ -309,7 +310,7 @@ public class Strings {
    * @param actual the actual text
    * @param other the text to compare
    */
-  public void assertHasSameSizeAs(AssertionInfo info, CharSequence actual, CharSequence other) {
+  public void assertHasSameSizeAs(AssertionInfo info, @Nullable CharSequence actual, CharSequence other) {
     assertNotNull(info, actual);
     checkOtherIsNotNull(other, "CharSequence or String");
     checkSameSizes(info, actual, other, actual.length(), other.length());
@@ -352,7 +353,7 @@ public class Strings {
    * @param info assertion information
    * @param actual the actual text
    */
-  public void assertContainsOnlyDigits(AssertionInfo info, CharSequence actual) {
+  public void assertContainsOnlyDigits(AssertionInfo info, @Nullable CharSequence actual) {
     assertNotNull(info, actual);
     if (actual.length() == 0) throw failures.failure(info, shouldContainOnlyDigits(actual));
     for (int index = 0; index < actual.length(); index++) {
@@ -869,7 +870,7 @@ public class Strings {
     if (matcher == null) throw new NullPointerException("The matcher should not be null");
   }
 
-  private static void assertNotNull(AssertionInfo info, CharSequence actual) {
+  private static void assertNotNull(AssertionInfo info, @Nullable CharSequence actual) {
     Objects.instance().assertNotNull(info, actual);
   }
 
@@ -1088,7 +1089,7 @@ public class Strings {
    * @param actual the actual text
    * @param sequence the containing sequence
    */
-  public void assertIsSubstringOf(AssertionInfo info, CharSequence actual, CharSequence sequence) {
+  public void assertIsSubstringOf(AssertionInfo info, @Nullable CharSequence actual, CharSequence sequence) {
     assertNotNull(info, actual);
     requireNonNull(sequence, "Expecting CharSequence not to be null");
     if (stringContains(sequence.toString(), actual.toString())) return;
@@ -1114,7 +1115,7 @@ public class Strings {
    * @param actual the actual text
    * @param matcher the matcher
    */
-  public void assertContainsPattern(AssertionInfo info, CharSequence actual, Matcher matcher) {
+  public void assertContainsPattern(AssertionInfo info, @Nullable CharSequence actual, Matcher matcher) {
     assertNotNull(info, actual);
     checkIsNotNull(matcher);
     if (!matcher.find()) throw failures.failure(info, shouldContainPattern(actual, matcher.pattern().pattern()));
@@ -1191,7 +1192,7 @@ public class Strings {
    * @param info assertion information
    * @param actual the actual text
    */
-  public void assertLowerCase(AssertionInfo info, CharSequence actual) {
+  public void assertLowerCase(AssertionInfo info, @Nullable CharSequence actual) {
     assertNotNull(info, actual);
     if (!isLowerCase(actual)) throw failures.failure(info, shouldBeLowerCase(actual));
   }
@@ -1206,7 +1207,7 @@ public class Strings {
    * @param info assertion information
    * @param actual the actual text
    */
-  public void assertUpperCase(AssertionInfo info, CharSequence actual) {
+  public void assertUpperCase(AssertionInfo info, @Nullable CharSequence actual) {
     assertNotNull(info, actual);
     if (!isUpperCase(actual)) throw failures.failure(info, shouldBeUpperCase(actual));
   }
@@ -1221,7 +1222,7 @@ public class Strings {
    * @param info assertion information
    * @param actual the actual text
    */
-  public void assertMixedCase(AssertionInfo info, CharSequence actual) {
+  public void assertMixedCase(AssertionInfo info, @Nullable CharSequence actual) {
     assertNotNull(info, actual);
     if (isLowerCase(actual) != isUpperCase(actual)) throw failures.failure(info, shouldBeMixedCase(actual));
   }
@@ -1232,7 +1233,7 @@ public class Strings {
    * @param info assertion information
    * @param actual the actual string
    */
-  public void assertIsBase64(AssertionInfo info, String actual) {
+  public void assertIsBase64(AssertionInfo info, @Nullable String actual) {
     assertNotNull(info, actual);
     try {
       Base64.getDecoder().decode(actual);
@@ -1247,7 +1248,7 @@ public class Strings {
    * @param info assertion information
    * @param actual the actual string
    */
-  public void assertIsBase64Url(AssertionInfo info, String actual) {
+  public void assertIsBase64Url(AssertionInfo info, @Nullable String actual) {
     assertNotNull(info, actual);
     try {
       Base64.getUrlDecoder().decode(actual);
@@ -1268,7 +1269,7 @@ public class Strings {
    * @param actual the actual text
    * @param sequence the expected sequence
    */
-  public static void doCommonCheckForCharSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
+  public static void doCommonCheckForCharSequence(AssertionInfo info, @Nullable CharSequence actual, CharSequence[] sequence) {
     assertNotNull(info, actual);
     checkIsNotNull(sequence);
     checkIsNotEmpty(sequence);

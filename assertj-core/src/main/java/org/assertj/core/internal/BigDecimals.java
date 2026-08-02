@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for <code>{@link BigDecimal}</code>s.
@@ -94,7 +95,7 @@ public class BigDecimals extends Numbers<BigDecimal> {
    * @param actual the actual decimal
    * @param expectedScale the expected scale
    */
-  public void assertHasScale(AssertionInfo info, BigDecimal actual, int expectedScale) {
+  public void assertHasScale(AssertionInfo info, @Nullable BigDecimal actual, int expectedScale) {
     assertNotNull(info, actual);
     if (areEqual(actual.scale(), expectedScale)) return;
     throw failures.failure(info, shouldHaveScale(actual, expectedScale));

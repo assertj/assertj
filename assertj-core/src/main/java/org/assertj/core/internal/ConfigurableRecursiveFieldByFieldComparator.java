@@ -24,6 +24,7 @@ import java.util.Objects;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Compares objects field/property by field/property recursively based on the given {@link RecursiveComparisonConfiguration} allowing fine tuning of the comparison.
@@ -51,7 +52,7 @@ public class ConfigurableRecursiveFieldByFieldComparator implements Comparator<O
   }
 
   @Override
-  public int compare(Object actual, Object other) {
+  public int compare(@Nullable Object actual, @Nullable Object other) {
     if (actual == null && other == null) return 0;
     if (actual == null || other == null) return NOT_EQUAL;
     return areEqual(actual, other) ? 0 : NOT_EQUAL;

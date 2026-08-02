@@ -22,6 +22,7 @@ import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for <code>{@link Character}</code>s.
@@ -62,7 +63,7 @@ public class Characters extends Comparables {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not a lowercase character.
    */
-  public void assertLowerCase(AssertionInfo info, Character actual) {
+  public void assertLowerCase(AssertionInfo info, @Nullable Character actual) {
     assertNotNull(info, actual);
     if (isLowerCase(actual)) return;
     throw failures.failure(info, shouldBeLowerCase(actual));
@@ -75,7 +76,7 @@ public class Characters extends Comparables {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not a uppercase character.
    */
-  public void assertUpperCase(AssertionInfo info, Character actual) {
+  public void assertUpperCase(AssertionInfo info, @Nullable Character actual) {
     assertNotNull(info, actual);
     if (isUpperCase(actual)) return;
     throw failures.failure(info, shouldBeUpperCase(actual));

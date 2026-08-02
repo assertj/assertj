@@ -26,6 +26,7 @@ import static org.assertj.core.error.ShouldSatisfy.shouldSatisfyAll;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.condition.AllOf;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Verifies that a value satisfies a <code>{@link Condition}</code>.
@@ -59,7 +60,7 @@ public class Conditions {
    * @throws NullPointerException if the given {@code Condition} is {@code null}.
    * @throws AssertionError if the actual value does not satisfy the given {@code Condition}.
    */
-  public <T> void assertIs(AssertionInfo info, T actual, Condition<? super T> condition) {
+  public <T> void assertIs(AssertionInfo info, @Nullable T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
     if (!condition.matches(actual)) throw failures.failure(info, shouldBe(actual, condition));
   }
@@ -73,7 +74,7 @@ public class Conditions {
    * @throws NullPointerException if the given {@code Condition} is {@code null}.
    * @throws AssertionError if the actual value satisfies the given {@code Condition}.
    */
-  public <T> void assertIsNot(AssertionInfo info, T actual, Condition<? super T> condition) {
+  public <T> void assertIsNot(AssertionInfo info, @Nullable T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
     if (condition.matches(actual)) throw failures.failure(info, shouldNotBe(actual, condition));
   }
@@ -87,7 +88,7 @@ public class Conditions {
    * @throws NullPointerException if the given {@code Condition} is {@code null}.
    * @throws AssertionError if the actual value does not satisfy the given {@code Condition}.
    */
-  public <T> void assertHas(AssertionInfo info, T actual, Condition<? super T> condition) {
+  public <T> void assertHas(AssertionInfo info, @Nullable T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
     if (!condition.matches(actual)) throw failures.failure(info, shouldHave(actual, condition));
   }
@@ -101,7 +102,7 @@ public class Conditions {
    * @throws NullPointerException if the given {@code Condition} is {@code null}.
    * @throws AssertionError if the actual value satisfies the given {@code Condition}.
    */
-  public <T> void assertDoesNotHave(AssertionInfo info, T actual, Condition<? super T> condition) {
+  public <T> void assertDoesNotHave(AssertionInfo info, @Nullable T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
     if (condition.matches(actual)) throw failures.failure(info, shouldNotHave(actual, condition));
   }
@@ -114,7 +115,7 @@ public class Conditions {
    * @param actual the actual value
    * @param condition the condition to satisfy
    */
-  public <T> void assertSatisfies(AssertionInfo info, T actual, Condition<? super T> condition) {
+  public <T> void assertSatisfies(AssertionInfo info, @Nullable T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
     if (!condition.matches(actual)) {
       if (condition instanceof AllOf)

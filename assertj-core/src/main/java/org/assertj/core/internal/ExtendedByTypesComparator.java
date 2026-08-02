@@ -20,6 +20,8 @@ import static org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonS
 import java.util.Comparator;
 import java.util.Objects;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Compares objects using passed or standard default comparator extended with comparators by type.
  * @since 2.9.0 / 3.9.0
@@ -38,7 +40,7 @@ public class ExtendedByTypesComparator implements Comparator<Object> {
     this(
          new Comparator<Object>() {
            @Override
-           public int compare(Object actual, Object other) {
+           public int compare(@Nullable Object actual, @Nullable Object other) {
              return Objects.deepEquals(actual, other) ? 0 : NOT_EQUAL;
            }
 
@@ -62,7 +64,7 @@ public class ExtendedByTypesComparator implements Comparator<Object> {
 
   @Override
   @SuppressWarnings("unchecked")
-  public int compare(Object actual, Object other) {
+  public int compare(@Nullable Object actual, @Nullable Object other) {
     // value returned is not relevant for ordering if objects are not equal
     if (actual == null && other == null) return 0;
     if (actual == null || other == null) return NOT_EQUAL;

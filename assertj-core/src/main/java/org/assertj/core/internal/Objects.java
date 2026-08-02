@@ -72,10 +72,12 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.error.GroupTypeDescription;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.assertj.core.util.introspection.PropertySupport;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for {@code Object}s.
@@ -353,7 +355,8 @@ public class Objects {
    * @param info assertion information
    * @param actual the actual object
    */
-  public void assertNotNull(AssertionInfo info, Object actual) {
+  @Contract("_, null -> fail")
+  public void assertNotNull(AssertionInfo info, @Nullable Object actual) {
     if (actual == null) throw failures.failure(info, shouldNotBeNull());
   }
 
@@ -364,7 +367,8 @@ public class Objects {
    * @param actual the actual object
    * @param label the object label
    */
-  public void assertNotNull(AssertionInfo info, Object actual, String label) {
+  @Contract("_, null, _ -> fail")
+  public void assertNotNull(AssertionInfo info, @Nullable Object actual, String label) {
     if (actual == null) throw failures.failure(info, shouldNotBeNull(label));
   }
 
@@ -397,7 +401,7 @@ public class Objects {
    * @param actual the actual object
    * @param expectedToString the expected representation
    */
-  public void assertHasToString(AssertionInfo info, Object actual, String expectedToString) {
+  public void assertHasToString(AssertionInfo info, @Nullable Object actual, String expectedToString) {
     assertNotNull(info, actual);
     String actualString = actual.toString();
     if (!actualString.equals(expectedToString))
@@ -411,7 +415,7 @@ public class Objects {
    * @param actual the actual object
    * @param otherToString the prohibited representation
    */
-  public void assertDoesNotHaveToString(AssertionInfo info, Object actual, String otherToString) {
+  public void assertDoesNotHaveToString(AssertionInfo info, @Nullable Object actual, String otherToString) {
     assertNotNull(info, actual);
     String actualToString = actual.toString();
     if (actualToString.equals(otherToString))
@@ -519,7 +523,7 @@ public class Objects {
    * @param actual the actual object
    * @param propertiesOrFieldsToIgnore the fields or properties to ignore
    */
-  public <A> void assertHasNoNullFieldsOrPropertiesExcept(AssertionInfo info, A actual,
+  public <A> void assertHasNoNullFieldsOrPropertiesExcept(AssertionInfo info, @Nullable A actual,
                                                           String... propertiesOrFieldsToIgnore) {
     assertNotNull(info, actual);
     Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
@@ -557,7 +561,7 @@ public class Objects {
    * @param actual the actual object
    * @param propertiesOrFieldsToIgnore the fields or properties to ignore
    */
-  public <A> void assertHasAllNullFieldsOrPropertiesExcept(AssertionInfo info, A actual,
+  public <A> void assertHasAllNullFieldsOrPropertiesExcept(AssertionInfo info, @Nullable A actual,
                                                            String... propertiesOrFieldsToIgnore) {
     assertNotNull(info, actual);
     Set<Field> declaredFields = getDeclaredFieldsIncludingInherited(actual.getClass());
@@ -621,7 +625,7 @@ public class Objects {
    * @param actual the actual object
    * @param name the field or property name
    */
-  public <A> void assertHasFieldOrProperty(AssertionInfo info, A actual, String name) {
+  public <A> void assertHasFieldOrProperty(AssertionInfo info, @Nullable A actual, String name) {
     assertNotNull(info, actual);
     try {
       extractPropertyOrField(actual, name);
@@ -656,7 +660,7 @@ public class Objects {
    * @param actual the actual object
    * @param names the expected field names
    */
-  public <A> void assertHasOnlyFields(AssertionInfo info, A actual, String... names) {
+  public <A> void assertHasOnlyFields(AssertionInfo info, @Nullable A actual, String... names) {
     assertNotNull(info, actual);
     checkArgument(names != null, "Given fields/properties are null");
     List<String> expectedFields = stream(names).sorted().toList();
@@ -687,7 +691,7 @@ public class Objects {
    * @param actual the actual object
    * @param other the comparison object
    */
-  public <A> void assertHasSameHashCodeAs(AssertionInfo info, A actual, Object other) {
+  public <A> void assertHasSameHashCodeAs(AssertionInfo info, @Nullable A actual, Object other) {
     assertNotNull(info, actual);
     requireNonNull(other, "The object used to compare actual's hash code with should not be null");
     if (actual.hashCode() != other.hashCode()) throw failures.failure(info, shouldHaveSameHashCode(actual, other));
@@ -701,7 +705,7 @@ public class Objects {
    * @param actual the actual object
    * @param other the comparison object
    */
-  public <A> void assertDoesNotHaveSameHashCodeAs(AssertionInfo info, A actual, Object other) {
+  public <A> void assertDoesNotHaveSameHashCodeAs(AssertionInfo info, @Nullable A actual, Object other) {
     assertNotNull(info, actual);
     requireNonNull(other, "The object used to compare actual's hash code with should not be null");
     if (actual.hashCode() == other.hashCode())

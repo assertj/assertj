@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.Spliterator;
 
 import org.assertj.core.api.AssertionInfo;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for <code>{@link Spliterator}</code>s.
@@ -88,7 +89,7 @@ public class Spliterators {
    * @throws AssertionError if the actual {@code Spliterator} is {@code null}.
    * @throws AssertionError if the actual {@code Spliterator} does not have the expected characteristics.
    */
-  public void assertHasCharacteristics(AssertionInfo info, Spliterator<?> actual, int... characteristics) {
+  public void assertHasCharacteristics(AssertionInfo info, @Nullable Spliterator<?> actual, int... characteristics) {
     assertNotNull(info, actual);
     Set<String> actualCharacteristicNames = characteristicNames(actual.characteristics());
     Set<String> expectedCharacteristicNames = characteristicNames(characteristics);
@@ -105,7 +106,7 @@ public class Spliterators {
    * @throws AssertionError if the actual {@code Spliterator} does not have the expected characteristics
    *                        or the actual {@code Spliterator} has additional characteristics.
    */
-  public void assertHasOnlyCharacteristics(AssertionInfo info, Spliterator<?> actual, int... characteristics) {
+  public void assertHasOnlyCharacteristics(AssertionInfo info, @Nullable Spliterator<?> actual, int... characteristics) {
     assertNotNull(info, actual);
     Set<String> actualCharacteristicNames = characteristicNames(actual.characteristics());
     Set<String> expectedCharacteristicNames = characteristicNames(characteristics);

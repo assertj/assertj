@@ -22,6 +22,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for arrays of {@code short}s.
@@ -63,7 +64,7 @@ public class ShortArrays {
    * @param actual the given array.
    * @throws AssertionError if the given array is not {@code null} *and* contains one or more elements.
    */
-  public void assertNullOrEmpty(AssertionInfo info, short[] actual) {
+  public void assertNullOrEmpty(AssertionInfo info, short @Nullable [] actual) {
     arrays.assertNullOrEmpty(info, failures, actual);
   }
 
@@ -75,7 +76,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array is not empty.
    */
-  public void assertEmpty(AssertionInfo info, short[] actual) {
+  public void assertEmpty(AssertionInfo info, short @Nullable [] actual) {
     arrays.assertEmpty(info, failures, actual);
   }
 
@@ -87,7 +88,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array is empty.
    */
-  public void assertNotEmpty(AssertionInfo info, short[] actual) {
+  public void assertNotEmpty(AssertionInfo info, short @Nullable [] actual) {
     arrays.assertNotEmpty(info, failures, actual);
   }
 
@@ -100,7 +101,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is different than the expected one.
    */
-  public void assertHasSize(AssertionInfo info, short[] actual, int expectedSize) {
+  public void assertHasSize(AssertionInfo info, short @Nullable [] actual, int expectedSize) {
     arrays.assertHasSize(info, actual, expectedSize);
   }
 
@@ -113,7 +114,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not greater than the boundary.
    */
-  public void assertHasSizeGreaterThan(AssertionInfo info, short[] actual, int boundary) {
+  public void assertHasSizeGreaterThan(AssertionInfo info, short @Nullable [] actual, int boundary) {
     arrays.assertHasSizeGreaterThan(info, actual, boundary);
   }
 
@@ -126,7 +127,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not greater than or equal to the boundary.
    */
-  public void assertHasSizeGreaterThanOrEqualTo(AssertionInfo info, short[] actual, int boundary) {
+  public void assertHasSizeGreaterThanOrEqualTo(AssertionInfo info, short @Nullable [] actual, int boundary) {
     arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
   }
 
@@ -139,7 +140,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not less than the boundary.
    */
-  public void assertHasSizeLessThan(AssertionInfo info, short[] actual, int boundary) {
+  public void assertHasSizeLessThan(AssertionInfo info, short @Nullable [] actual, int boundary) {
     arrays.assertHasSizeLessThan(info, actual, boundary);
   }
 
@@ -152,7 +153,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not less than or equal to the boundary.
    */
-  public void assertHasSizeLessThanOrEqualTo(AssertionInfo info, short[] actual, int boundary) {
+  public void assertHasSizeLessThanOrEqualTo(AssertionInfo info, short @Nullable [] actual, int boundary) {
     arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
   }
 
@@ -166,7 +167,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not between the boundaries.
    */
-  public void assertHasSizeBetween(AssertionInfo info, short[] actual, int lowerBoundary, int higherBoundary) {
+  public void assertHasSizeBetween(AssertionInfo info, short @Nullable [] actual, int lowerBoundary, int higherBoundary) {
     arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
   }
 
@@ -180,7 +181,7 @@ public class ShortArrays {
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if the actual group does not have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, short[] actual, Iterable<?> other) {
+  public void assertHasSameSizeAs(AssertionInfo info, short @Nullable [] actual, Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
   }
 
@@ -194,7 +195,7 @@ public class ShortArrays {
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if the actual group does not have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, short[] actual, Object[] other) {
+  public void assertHasSameSizeAs(AssertionInfo info, short @Nullable [] actual, Object[] other) {
     arrays.assertHasSameSizeAs(info, actual, other);
   }
 
@@ -209,7 +210,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array does not contain the given values.
    */
-  public void assertContains(AssertionInfo info, short[] actual, short[] values) {
+  public void assertContains(AssertionInfo info, short @Nullable [] actual, short[] values) {
     arrays.assertContains(info, failures, actual, values);
   }
 
@@ -226,7 +227,7 @@ public class ShortArrays {
    *           the given array.
    * @throws AssertionError if the given array does not contain the given value at the given index.
    */
-  public void assertContains(AssertionInfo info, short[] actual, short value, Index index) {
+  public void assertContains(AssertionInfo info, short @Nullable [] actual, short value, Index index) {
     arrays.assertContains(info, failures, actual, value, index);
   }
 
@@ -241,7 +242,7 @@ public class ShortArrays {
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the given array contains the given value at the given index.
    */
-  public void assertDoesNotContain(AssertionInfo info, short[] actual, short value, Index index) {
+  public void assertDoesNotContain(AssertionInfo info, short @Nullable [] actual, short value, Index index) {
     arrays.assertDoesNotContain(info, failures, actual, value, index);
   }
 
@@ -257,7 +258,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array does not contain the given values or if the given array contains values
    *           that are not in the given array.
    */
-  public void assertContainsOnly(AssertionInfo info, short[] actual, short[] values) {
+  public void assertContainsOnly(AssertionInfo info, short @Nullable [] actual, short[] values) {
     arrays.assertContainsOnly(info, failures, actual, values);
   }
 
@@ -268,7 +269,7 @@ public class ShortArrays {
    * @param actual the actual array
    * @param values the expected values
    */
-  public void assertContainsExactly(AssertionInfo info, short[] actual, short[] values) {
+  public void assertContainsExactly(AssertionInfo info, short @Nullable [] actual, short[] values) {
     arrays.assertContainsExactly(info, failures, actual, values);
   }
 
@@ -279,7 +280,7 @@ public class ShortArrays {
    * @param actual the actual array
    * @param values the expected values
    */
-  public void assertContainsExactlyInAnyOrder(AssertionInfo info, short[] actual, short[] values) {
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, short @Nullable [] actual, short[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
 
@@ -295,7 +296,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array does not contain the given values or if the given array contains more
    *           than once values.
    */
-  public void assertContainsOnlyOnce(AssertionInfo info, short[] actual, short[] values) {
+  public void assertContainsOnlyOnce(AssertionInfo info, short @Nullable [] actual, short[] values) {
     arrays.assertContainsOnlyOnce(info, failures, actual, values);
   }
 
@@ -310,7 +311,7 @@ public class ShortArrays {
    * @throws IllegalArgumentException if the given sequence is empty.
    * @throws AssertionError if the given array does not contain the given sequence of values.
    */
-  public void assertContainsSequence(AssertionInfo info, short[] actual, short[] sequence) {
+  public void assertContainsSequence(AssertionInfo info, short @Nullable [] actual, short[] sequence) {
     arrays.assertContainsSequence(info, failures, actual, sequence);
   }
 
@@ -325,7 +326,7 @@ public class ShortArrays {
    * @throws IllegalArgumentException if the given subsequence is empty.
    * @throws AssertionError if the given array does not contain the given subsequence of values.
    */
-  public void assertContainsSubsequence(AssertionInfo info, short[] actual, short[] subsequence) {
+  public void assertContainsSubsequence(AssertionInfo info, short @Nullable [] actual, short[] subsequence) {
     arrays.assertContainsSequence(info, failures, actual, subsequence);
   }
 
@@ -340,7 +341,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array contains any of given values.
    */
-  public void assertDoesNotContain(AssertionInfo info, short[] actual, short[] values) {
+  public void assertDoesNotContain(AssertionInfo info, short @Nullable [] actual, short[] values) {
     arrays.assertDoesNotContain(info, failures, actual, values);
   }
 
@@ -354,7 +355,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array contains duplicate values.
    */
-  public void assertDoesNotHaveDuplicates(AssertionInfo info, short[] actual) {
+  public void assertDoesNotHaveDuplicates(AssertionInfo info, short @Nullable [] actual) {
     arrays.assertDoesNotHaveDuplicates(info, failures, actual);
   }
 
@@ -371,7 +372,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array does not start with the given sequence of values.
    */
-  public void assertStartsWith(AssertionInfo info, short[] actual, short[] sequence) {
+  public void assertStartsWith(AssertionInfo info, short @Nullable [] actual, short[] sequence) {
     arrays.assertStartsWith(info, failures, actual, sequence);
   }
 
@@ -388,7 +389,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array does not end with the given sequence of values.
    */
-  public void assertEndsWith(AssertionInfo info, short[] actual, short[] sequence) {
+  public void assertEndsWith(AssertionInfo info, short @Nullable [] actual, short[] sequence) {
     arrays.assertEndsWith(info, failures, actual, sequence);
   }
 
@@ -398,7 +399,7 @@ public class ShortArrays {
    * @param info contains information about the assertion.
    * @param actual the given array.
    */
-  public void assertIsSorted(AssertionInfo info, short[] actual) {
+  public void assertIsSorted(AssertionInfo info, short @Nullable [] actual) {
     arrays.assertIsSorted(info, failures, actual);
   }
 
@@ -409,7 +410,7 @@ public class ShortArrays {
    * @param actual the given array.
    * @param comparator the {@link Comparator} used to compare array elements
    */
-  public void assertIsSortedAccordingToComparator(AssertionInfo info, short[] actual,
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, short @Nullable [] actual,
                                                   Comparator<? super Short> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
@@ -421,7 +422,7 @@ public class ShortArrays {
    * @param actual the actual array
    * @param values the expected values
    */
-  public void assertContainsAnyOf(AssertionInfo info, short[] actual, short[] values) {
+  public void assertContainsAnyOf(AssertionInfo info, short @Nullable [] actual, short[] values) {
     arrays.assertContainsAnyOf(info, failures, actual, values);
   }
 }

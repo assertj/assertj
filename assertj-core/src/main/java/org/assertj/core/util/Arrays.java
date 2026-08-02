@@ -47,7 +47,7 @@ public class Arrays {
    * @param o the given object.
    * @return {@code true} if the given object is not {@code null} and is an array, otherwise {@code false}.
    */
-  public static boolean isArray(Object o) {
+  public static boolean isArray(@Nullable Object o) {
     return o != null && o.getClass().isArray();
   }
 
@@ -192,7 +192,7 @@ public class Arrays {
    * @param o the value to check
    * @return whether the value is an object array
    */
-  public static boolean isObjectArray(Object o) {
+  public static boolean isObjectArray(@Nullable Object o) {
     return isArray(o) && !isArrayTypePrimitive(o);
   }
 
@@ -202,7 +202,7 @@ public class Arrays {
    * @param o the value to check
    * @return whether the value is an array of primitives
    */
-  public static boolean isArrayTypePrimitive(Object o) {
+  public static boolean isArrayTypePrimitive(@Nullable Object o) {
     return isArray(o) && o.getClass().getComponentType().isPrimitive();
   }
 

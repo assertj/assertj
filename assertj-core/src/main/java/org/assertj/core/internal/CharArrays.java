@@ -22,6 +22,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for arrays of {@code char}s.
@@ -60,7 +61,7 @@ public class CharArrays {
    *
    * @return the configured comparator or {@code null}
    */
-  public Comparator<?> getComparator() {
+  public @Nullable Comparator<?> getComparator() {
     return arrays.getComparator();
   }
 
@@ -90,7 +91,7 @@ public class CharArrays {
    * @param actual the given array.
    * @throws AssertionError if the given array is not {@code null} *and* contains one or more elements.
    */
-  public void assertNullOrEmpty(AssertionInfo info, char[] actual) {
+  public void assertNullOrEmpty(AssertionInfo info, char @Nullable [] actual) {
     arrays.assertNullOrEmpty(info, failures, actual);
   }
 
@@ -102,7 +103,7 @@ public class CharArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array is not empty.
    */
-  public void assertEmpty(AssertionInfo info, char[] actual) {
+  public void assertEmpty(AssertionInfo info, char @Nullable [] actual) {
     arrays.assertEmpty(info, failures, actual);
   }
 
@@ -114,7 +115,7 @@ public class CharArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array is empty.
    */
-  public void assertNotEmpty(AssertionInfo info, char[] actual) {
+  public void assertNotEmpty(AssertionInfo info, char @Nullable [] actual) {
     arrays.assertNotEmpty(info, failures, actual);
   }
 
@@ -127,7 +128,7 @@ public class CharArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is different than the expected one.
    */
-  public void assertHasSize(AssertionInfo info, char[] actual, int expectedSize) {
+  public void assertHasSize(AssertionInfo info, char @Nullable [] actual, int expectedSize) {
     arrays.assertHasSize(info, actual, expectedSize);
   }
 
@@ -140,7 +141,7 @@ public class CharArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not greater than the boundary.
    */
-  public void assertHasSizeGreaterThan(AssertionInfo info, char[] actual, int boundary) {
+  public void assertHasSizeGreaterThan(AssertionInfo info, char @Nullable [] actual, int boundary) {
     arrays.assertHasSizeGreaterThan(info, actual, boundary);
   }
 
@@ -153,7 +154,7 @@ public class CharArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not greater than or equal to the boundary.
    */
-  public void assertHasSizeGreaterThanOrEqualTo(AssertionInfo info, char[] actual, int boundary) {
+  public void assertHasSizeGreaterThanOrEqualTo(AssertionInfo info, char @Nullable [] actual, int boundary) {
     arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
   }
 
@@ -166,7 +167,7 @@ public class CharArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not less than the boundary.
    */
-  public void assertHasSizeLessThan(AssertionInfo info, char[] actual, int boundary) {
+  public void assertHasSizeLessThan(AssertionInfo info, char @Nullable [] actual, int boundary) {
     arrays.assertHasSizeLessThan(info, actual, boundary);
   }
 
@@ -179,7 +180,7 @@ public class CharArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not less than or equal to the boundary.
    */
-  public void assertHasSizeLessThanOrEqualTo(AssertionInfo info, char[] actual, int boundary) {
+  public void assertHasSizeLessThanOrEqualTo(AssertionInfo info, char @Nullable [] actual, int boundary) {
     arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
   }
 
@@ -193,7 +194,7 @@ public class CharArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not between the boundaries.
    */
-  public void assertHasSizeBetween(AssertionInfo info, char[] actual, int lowerBoundary, int higherBoundary) {
+  public void assertHasSizeBetween(AssertionInfo info, char @Nullable [] actual, int lowerBoundary, int higherBoundary) {
     arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
   }
 
@@ -207,7 +208,7 @@ public class CharArrays {
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if the actual group does not have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, char[] actual, Iterable<?> other) {
+  public void assertHasSameSizeAs(AssertionInfo info, char @Nullable [] actual, Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
   }
 
@@ -221,7 +222,7 @@ public class CharArrays {
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if the actual group does not have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, char[] actual, Object[] other) {
+  public void assertHasSameSizeAs(AssertionInfo info, char @Nullable [] actual, Object[] other) {
     arrays.assertHasSameSizeAs(info, actual, other);
   }
 
@@ -236,7 +237,7 @@ public class CharArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array does not contain the given values.
    */
-  public void assertContains(AssertionInfo info, char[] actual, char[] values) {
+  public void assertContains(AssertionInfo info, char @Nullable [] actual, char[] values) {
     arrays.assertContains(info, failures, actual, values);
   }
 
@@ -253,7 +254,7 @@ public class CharArrays {
    *           the given array.
    * @throws AssertionError if the given array does not contain the given value at the given index.
    */
-  public void assertContains(AssertionInfo info, char[] actual, char value, Index index) {
+  public void assertContains(AssertionInfo info, char @Nullable [] actual, char value, Index index) {
     arrays.assertContains(info, failures, actual, value, index);
   }
 
@@ -268,7 +269,7 @@ public class CharArrays {
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the given array contains the given value at the given index.
    */
-  public void assertDoesNotContain(AssertionInfo info, char[] actual, char value, Index index) {
+  public void assertDoesNotContain(AssertionInfo info, char @Nullable [] actual, char value, Index index) {
     arrays.assertDoesNotContain(info, failures, actual, value, index);
   }
 
@@ -284,7 +285,7 @@ public class CharArrays {
    * @throws AssertionError if the given array does not contain the given values or if the given array contains values
    *           that are not in the given array.
    */
-  public void assertContainsOnly(AssertionInfo info, char[] actual, char[] values) {
+  public void assertContainsOnly(AssertionInfo info, char @Nullable [] actual, char[] values) {
     arrays.assertContainsOnly(info, failures, actual, values);
   }
 
@@ -295,7 +296,7 @@ public class CharArrays {
    * @param actual the actual array
    * @param values the expected values
    */
-  public void assertContainsExactly(AssertionInfo info, char[] actual, char[] values) {
+  public void assertContainsExactly(AssertionInfo info, char @Nullable [] actual, char[] values) {
     arrays.assertContainsExactly(info, failures, actual, values);
   }
 
@@ -306,7 +307,7 @@ public class CharArrays {
    * @param actual the actual array
    * @param values the expected values
    */
-  public void assertContainsExactlyInAnyOrder(AssertionInfo info, char[] actual, char[] values) {
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, char @Nullable [] actual, char[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
 
@@ -322,7 +323,7 @@ public class CharArrays {
    * @throws AssertionError if the given array does not contain the given values or if the given array contains more
    *           than once values.
    */
-  public void assertContainsOnlyOnce(AssertionInfo info, char[] actual, char[] values) {
+  public void assertContainsOnlyOnce(AssertionInfo info, char @Nullable [] actual, char[] values) {
     arrays.assertContainsOnlyOnce(info, failures, actual, values);
   }
 
@@ -337,7 +338,7 @@ public class CharArrays {
    * @throws IllegalArgumentException if the given sequence is empty.
    * @throws AssertionError if the given array does not contain the given sequence of values.
    */
-  public void assertContainsSequence(AssertionInfo info, char[] actual, char[] sequence) {
+  public void assertContainsSequence(AssertionInfo info, char @Nullable [] actual, char[] sequence) {
     arrays.assertContainsSequence(info, failures, actual, sequence);
   }
 
@@ -352,7 +353,7 @@ public class CharArrays {
    * @throws IllegalArgumentException if the given subsequence is empty.
    * @throws AssertionError if the given array does not contain the given subsequence of values.
    */
-  public void assertContainsSubsequence(AssertionInfo info, char[] actual, char[] subsequence) {
+  public void assertContainsSubsequence(AssertionInfo info, char @Nullable [] actual, char[] subsequence) {
     arrays.assertContainsSubsequence(info, failures, actual, subsequence);
   }
 
@@ -367,7 +368,7 @@ public class CharArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array contains any of given values.
    */
-  public void assertDoesNotContain(AssertionInfo info, char[] actual, char[] values) {
+  public void assertDoesNotContain(AssertionInfo info, char @Nullable [] actual, char[] values) {
     arrays.assertDoesNotContain(info, failures, actual, values);
   }
 
@@ -381,7 +382,7 @@ public class CharArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array contains duplicate values.
    */
-  public void assertDoesNotHaveDuplicates(AssertionInfo info, char[] actual) {
+  public void assertDoesNotHaveDuplicates(AssertionInfo info, char @Nullable [] actual) {
     arrays.assertDoesNotHaveDuplicates(info, failures, actual);
   }
 
@@ -398,7 +399,7 @@ public class CharArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array does not start with the given sequence of values.
    */
-  public void assertStartsWith(AssertionInfo info, char[] actual, char[] sequence) {
+  public void assertStartsWith(AssertionInfo info, char @Nullable [] actual, char[] sequence) {
     arrays.assertStartsWith(info, failures, actual, sequence);
   }
 
@@ -415,7 +416,7 @@ public class CharArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array does not end with the given sequence of values.
    */
-  public void assertEndsWith(AssertionInfo info, char[] actual, char[] sequence) {
+  public void assertEndsWith(AssertionInfo info, char @Nullable [] actual, char[] sequence) {
     arrays.assertEndsWith(info, failures, actual, sequence);
   }
 
@@ -425,7 +426,7 @@ public class CharArrays {
    * @param info contains information about the assertion.
    * @param actual the given array.
    */
-  public void assertIsSorted(AssertionInfo info, char[] actual) {
+  public void assertIsSorted(AssertionInfo info, char @Nullable [] actual) {
     arrays.assertIsSorted(info, failures, actual);
   }
 
@@ -436,7 +437,7 @@ public class CharArrays {
    * @param actual the given array.
    * @param comparator the {@link Comparator} used to compare array elements
    */
-  public void assertIsSortedAccordingToComparator(AssertionInfo info, char[] actual,
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, char @Nullable [] actual,
                                                   Comparator<? super Character> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
@@ -448,7 +449,7 @@ public class CharArrays {
    * @param actual the actual array
    * @param values the values of which at least one is expected
    */
-  public void assertContainsAnyOf(AssertionInfo info, char[] actual, char[] values) {
+  public void assertContainsAnyOf(AssertionInfo info, char @Nullable [] actual, char[] values) {
     arrays.assertContainsAnyOf(info, failures, actual, values);
   }
 }

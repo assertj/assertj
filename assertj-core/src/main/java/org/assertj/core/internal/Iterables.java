@@ -114,6 +114,7 @@ import org.assertj.core.configuration.Configuration;
 import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.assertj.core.presentation.PredicateDescription;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for <code>{@link Iterable}</code>s.
@@ -199,7 +200,7 @@ public class Iterables {
    * @param info assertion information
    * @param actual the actual iterable
    */
-  public void assertNotEmpty(AssertionInfo info, Iterable<?> actual) {
+  public void assertNotEmpty(AssertionInfo info, @Nullable Iterable<?> actual) {
     assertNotNull(info, actual);
     if (isNullOrEmpty(actual)) throw failures.failure(info, shouldNotBeEmpty());
   }
@@ -213,7 +214,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the number of elements in the given {@code Iterable} is different from the expected one.
    */
-  public void assertHasSize(AssertionInfo info, Iterable<?> actual, int expectedSize) {
+  public void assertHasSize(AssertionInfo info, @Nullable Iterable<?> actual, int expectedSize) {
     assertNotNull(info, actual);
     checkSizes(actual, sizeOf(actual), expectedSize, info);
   }
@@ -243,7 +244,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the number of elements in the given {@code Iterable} is greater than the boundary.
    */
-  public void assertHasSizeGreaterThan(AssertionInfo info, Iterable<?> actual, int boundary) {
+  public void assertHasSizeGreaterThan(AssertionInfo info, @Nullable Iterable<?> actual, int boundary) {
     assertNotNull(info, actual);
     checkSizeGreaterThan(actual, boundary, sizeOf(actual), info);
   }
@@ -257,7 +258,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the number of elements in the given {@code Iterable} is greater than or equal to the boundary.
    */
-  public void assertHasSizeGreaterThanOrEqualTo(AssertionInfo info, Iterable<?> actual, int boundary) {
+  public void assertHasSizeGreaterThanOrEqualTo(AssertionInfo info, @Nullable Iterable<?> actual, int boundary) {
     assertNotNull(info, actual);
     checkSizeGreaterThanOrEqualTo(actual, boundary, sizeOf(actual), info);
   }
@@ -271,7 +272,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the number of elements in the given {@code Iterable} is less than the expected one.
    */
-  public void assertHasSizeLessThan(AssertionInfo info, Iterable<?> actual, int boundary) {
+  public void assertHasSizeLessThan(AssertionInfo info, @Nullable Iterable<?> actual, int boundary) {
     assertNotNull(info, actual);
     checkSizeLessThan(actual, boundary, sizeOf(actual), info);
   }
@@ -285,7 +286,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the number of elements in the given {@code Iterable} is less than or equal to the boundary.
    */
-  public void assertHasSizeLessThanOrEqualTo(AssertionInfo info, Iterable<?> actual, int boundary) {
+  public void assertHasSizeLessThanOrEqualTo(AssertionInfo info, @Nullable Iterable<?> actual, int boundary) {
     assertNotNull(info, actual);
     checkSizeLessThanOrEqualTo(actual, boundary, sizeOf(actual), info);
   }
@@ -300,7 +301,7 @@ public class Iterables {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not between the boundaries.
    */
-  public void assertHasSizeBetween(AssertionInfo info, Iterable<?> actual, int lowerBoundary, int higherBoundary) {
+  public void assertHasSizeBetween(AssertionInfo info, @Nullable Iterable<?> actual, int lowerBoundary, int higherBoundary) {
     assertNotNull(info, actual);
     checkSizeBetween(actual, lowerBoundary, higherBoundary, sizeOf(actual), info);
   }
@@ -315,7 +316,7 @@ public class Iterables {
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if actual {@code Iterable} and other array don't have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, Iterable<?> actual, Object other) {
+  public void assertHasSameSizeAs(AssertionInfo info, @Nullable Iterable<?> actual, Object other) {
     assertNotNull(info, actual);
     assertIsArray(info, other);
     hasSameSizeAsCheck(info, actual, other, sizeOf(actual));
@@ -331,7 +332,7 @@ public class Iterables {
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if actual and other {@code Iterable} don't have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, Iterable<?> actual, Iterable<?> other) {
+  public void assertHasSameSizeAs(AssertionInfo info, @Nullable Iterable<?> actual, Iterable<?> other) {
     assertNotNull(info, actual);
     hasSameSizeAsCheck(info, actual, other, sizeOf(actual));
   }
@@ -459,7 +460,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain at least a null element or if the given
    *                        {@code Iterable} contains values that are not null elements.
    */
-  public void assertContainsOnlyNulls(AssertionInfo info, Iterable<?> actual) {
+  public void assertContainsOnlyNulls(AssertionInfo info, @Nullable Iterable<?> actual) {
     assertNotNull(info, actual);
     // empty => no null elements => failure
     if (sizeOf(actual) == 0) throw failures.failure(info, shouldContainOnlyNulls(actual));
@@ -623,7 +624,7 @@ public class Iterables {
    * @throws NullPointerException if the given Iterable is {@code null}.
    * @throws AssertionError       if the actual {@code Iterable} is not subset of set <code>{@link Iterable}</code>
    */
-  public void assertIsSubsetOf(AssertionInfo info, Iterable<?> actual, Iterable<?> values) {
+  public void assertIsSubsetOf(AssertionInfo info, @Nullable Iterable<?> actual, Iterable<?> values) {
     assertNotNull(info, actual);
     checkIterableIsNotNull(values);
     List<Object> extra = stream(actual).filter(actualElement -> !iterableContains(values, actualElement))
@@ -720,7 +721,7 @@ public class Iterables {
    * @throws AssertionError           if the given {@code Iterable} is {@code null}.
    * @throws AssertionError           if the given {@code Iterable} contains duplicate values.
    */
-  public void assertDoesNotHaveDuplicates(AssertionInfo info, Iterable<?> actual) {
+  public void assertDoesNotHaveDuplicates(AssertionInfo info, @Nullable Iterable<?> actual) {
     assertNotNull(info, actual);
     Iterable<?> duplicates = comparisonStrategy.duplicatesFrom(actual);
     if (!isNullOrEmpty(duplicates))
@@ -827,7 +828,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the given {@code Iterable} does not contain at least a null element.
    */
-  public void assertContainsNull(AssertionInfo info, Iterable<?> actual) {
+  public void assertContainsNull(AssertionInfo info, @Nullable Iterable<?> actual) {
     assertNotNull(info, actual);
     if (!iterableContains(actual, null)) throw failures.failure(info, shouldContainNull(actual));
   }
@@ -840,7 +841,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the given {@code Iterable} contains a null element.
    */
-  public void assertDoesNotContainNull(AssertionInfo info, Iterable<?> actual) {
+  public void assertDoesNotContainNull(AssertionInfo info, @Nullable Iterable<?> actual) {
     assertNotNull(info, actual);
     if (iterableContains(actual, null)) throw failures.failure(info, shouldNotContainNull(actual));
   }
@@ -856,7 +857,7 @@ public class Iterables {
    * @throws AssertionError       if an element cannot be cast to T.
    * @throws AssertionError       if one or more elements do not satisfy the given condition.
    */
-  public <T> void assertAre(AssertionInfo info, Iterable<? extends T> actual, Condition<? super T> condition) {
+  public <T> void assertAre(AssertionInfo info, @Nullable Iterable<? extends T> actual, Condition<? super T> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -879,7 +880,7 @@ public class Iterables {
    * @throws AssertionError       if an element cannot be cast to E.
    * @throws AssertionError       if one or more elements satisfy the given condition.
    */
-  public <E> void assertAreNot(AssertionInfo info, Iterable<? extends E> actual, Condition<? super E> condition) {
+  public <E> void assertAreNot(AssertionInfo info, @Nullable Iterable<? extends E> actual, Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -902,7 +903,7 @@ public class Iterables {
    * @throws AssertionError       if an element cannot be cast to E.
    * @throws AssertionError       if one or more elements do not satisfy the given condition.
    */
-  public <E> void assertHave(AssertionInfo info, Iterable<? extends E> actual, Condition<? super E> condition) {
+  public <E> void assertHave(AssertionInfo info, @Nullable Iterable<? extends E> actual, Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -925,7 +926,7 @@ public class Iterables {
    * @throws AssertionError       if an element cannot be cast to E.
    * @throws AssertionError       if one or more elements satisfy the given condition.
    */
-  public <E> void assertDoNotHave(AssertionInfo info, Iterable<? extends E> actual, Condition<? super E> condition) {
+  public <E> void assertDoNotHave(AssertionInfo info, @Nullable Iterable<? extends E> actual, Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -950,7 +951,7 @@ public class Iterables {
    * @throws AssertionError       if an element cannot be cast to E.
    * @throws AssertionError       if the number of elements satisfying the given condition is &lt; n.
    */
-  public <E> void assertAreAtLeast(AssertionInfo info, Iterable<? extends E> actual, int times,
+  public <E> void assertAreAtLeast(AssertionInfo info, @Nullable Iterable<? extends E> actual, int times,
                                    Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
@@ -981,7 +982,7 @@ public class Iterables {
    * @throws AssertionError       if an element cannot be cast to E.
    * @throws AssertionError       if the number of elements satisfying the given condition is &gt; n.
    */
-  public <E> void assertAreAtMost(AssertionInfo info, Iterable<? extends E> actual, int n,
+  public <E> void assertAreAtMost(AssertionInfo info, @Nullable Iterable<? extends E> actual, int n,
                                   Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
@@ -1012,7 +1013,7 @@ public class Iterables {
    * @throws AssertionError       if an element cannot be cast to E.
    * @throws AssertionError       if the number of elements satisfying the given condition is &ne; n.
    */
-  public <E> void assertAreExactly(AssertionInfo info, Iterable<? extends E> actual, int times,
+  public <E> void assertAreExactly(AssertionInfo info, @Nullable Iterable<? extends E> actual, int times,
                                    Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
@@ -1042,7 +1043,7 @@ public class Iterables {
    * @throws AssertionError       if an element cannot be cast to E.
    * @throws AssertionError       if the number of elements satisfying the given condition is &lt; n.
    */
-  public <E> void assertHaveAtLeast(AssertionInfo info, Iterable<? extends E> actual, int times,
+  public <E> void assertHaveAtLeast(AssertionInfo info, @Nullable Iterable<? extends E> actual, int times,
                                     Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
@@ -1067,7 +1068,7 @@ public class Iterables {
    * @throws AssertionError       if an element cannot be cast to E.
    * @throws AssertionError       if the number of elements satisfying the given condition is &gt; n.
    */
-  public <E> void assertHaveAtMost(AssertionInfo info, Iterable<? extends E> actual, int times,
+  public <E> void assertHaveAtMost(AssertionInfo info, @Nullable Iterable<? extends E> actual, int times,
                                    Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
@@ -1092,7 +1093,7 @@ public class Iterables {
    * @throws AssertionError       if an element cannot be cast to E.
    * @throws AssertionError       if the number of elements satisfying the given condition is &ne; n.
    */
-  public <E> void assertHaveExactly(AssertionInfo info, Iterable<? extends E> actual, int times,
+  public <E> void assertHaveExactly(AssertionInfo info, @Nullable Iterable<? extends E> actual, int times,
                                     Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
@@ -1190,7 +1191,7 @@ public class Iterables {
    * @param actual the actual iterable
    * @param requirements the element requirements
    */
-  public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
+  public <E> void assertAllSatisfy(AssertionInfo info, @Nullable Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
     assertNotEmpty(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
@@ -1219,7 +1220,7 @@ public class Iterables {
    * @param actual the actual iterable
    * @param allRequirements the requirements in element order
    */
-  public <E> void assertSatisfiesExactly(AssertionInfo info, Iterable<? extends E> actual,
+  public <E> void assertSatisfiesExactly(AssertionInfo info, @Nullable Iterable<? extends E> actual,
                                          Consumer<? super E>[] allRequirements) {
     assertNotNull(info, actual);
     assertHasSameSizeAs(info, actual, allRequirements); // TODO
@@ -1244,7 +1245,7 @@ public class Iterables {
    * @param actual the actual iterable
    * @param consumers the element requirements
    */
-  public <E> void assertSatisfiesExactlyInAnyOrder(AssertionInfo info, Iterable<? extends E> actual,
+  public <E> void assertSatisfiesExactlyInAnyOrder(AssertionInfo info, @Nullable Iterable<? extends E> actual,
                                                    Consumer<? super E>[] consumers) {
     assertNotNull(info, actual);
     requireNonNull(consumers, "The Consumer<? super E>... expressing the assertions must not be null");
@@ -1269,7 +1270,8 @@ public class Iterables {
    * @param actual the actual iterable
    * @param requirements the element requirements
    */
-  public <E> void assertSatisfiesOnlyOnce(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
+  public <E> void assertSatisfiesOnlyOnce(AssertionInfo info, @Nullable Iterable<? extends E> actual,
+                                          Consumer<? super E> requirements) {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<? super E> expressing the requirements must not be null");
     List<E> satisfiedElements = new ArrayList<>();
@@ -1322,7 +1324,7 @@ public class Iterables {
    * @param zipRequirements the pair requirements
    */
   public <ACTUAL_ELEMENT, OTHER_ELEMENT> void assertZipSatisfy(AssertionInfo info,
-                                                               Iterable<? extends ACTUAL_ELEMENT> actual,
+                                                               @Nullable Iterable<? extends ACTUAL_ELEMENT> actual,
                                                                Iterable<OTHER_ELEMENT> other,
                                                                BiConsumer<? super ACTUAL_ELEMENT, OTHER_ELEMENT> zipRequirements) {
     assertNotNull(info, actual);
@@ -1357,7 +1359,7 @@ public class Iterables {
    * @param actual the actual iterable
    * @param requirements the element requirements
    */
-  public <E> void assertAnySatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
+  public <E> void assertAnySatisfy(AssertionInfo info, @Nullable Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
 
@@ -1380,7 +1382,7 @@ public class Iterables {
    * @param predicate the predicate to evaluate
    * @param predicateDescription the predicate description
    */
-  public <E> void assertAllMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
+  public <E> void assertAllMatch(AssertionInfo info, @Nullable Iterable<? extends E> actual, Predicate<? super E> predicate,
                                  PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
@@ -1402,7 +1404,8 @@ public class Iterables {
    * @param actual the actual iterable
    * @param restrictions the restrictions to evaluate
    */
-  public <E> void assertNoneSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> restrictions) {
+  public <E> void assertNoneSatisfy(AssertionInfo info, @Nullable Iterable<? extends E> actual,
+                                    Consumer<? super E> restrictions) {
     assertNotNull(info, actual);
     requireNonNull(restrictions, "The Consumer<T> expressing the restrictions must not be null");
     List<E> erroneousElements = stream(actual).map(element -> failsRestrictions(element, restrictions))
@@ -1431,7 +1434,7 @@ public class Iterables {
    * @param predicate the predicate to evaluate
    * @param predicateDescription the predicate description
    */
-  public <E> void assertAnyMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
+  public <E> void assertAnyMatch(AssertionInfo info, @Nullable Iterable<? extends E> actual, Predicate<? super E> predicate,
                                  PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
@@ -1449,7 +1452,7 @@ public class Iterables {
    * @param predicate the predicate to evaluate
    * @param predicateDescription the predicate description
    */
-  public <E> void assertNoneMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
+  public <E> void assertNoneMatch(AssertionInfo info, @Nullable Iterable<? extends E> actual, Predicate<? super E> predicate,
                                   PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
@@ -1508,7 +1511,7 @@ public class Iterables {
                            shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
   }
 
-  void assertNotNull(AssertionInfo info, Iterable<?> actual) {
+  void assertNotNull(AssertionInfo info, @Nullable Iterable<?> actual) {
     Objects.instance().assertNotNull(info, actual);
   }
 

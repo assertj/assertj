@@ -17,6 +17,7 @@ package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for two-dimensional arrays of {@code long}s.
@@ -61,7 +62,7 @@ public class Long2DArrays {
    * @param actual the given array.
    * @throws AssertionError if the given array is not {@code null} *and* contains one or more elements.
    */
-  public void assertNullOrEmpty(AssertionInfo info, long[][] actual) {
+  public void assertNullOrEmpty(AssertionInfo info, long[] @Nullable [] actual) {
     arrays.assertNullOrEmpty(info, failures, actual);
   }
 
@@ -73,7 +74,7 @@ public class Long2DArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array is not empty.
    */
-  public void assertEmpty(AssertionInfo info, long[][] actual) {
+  public void assertEmpty(AssertionInfo info, long[] @Nullable [] actual) {
     arrays.assertEmpty(info, failures, actual);
   }
 
@@ -85,7 +86,7 @@ public class Long2DArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array is empty.
    */
-  public void assertNotEmpty(AssertionInfo info, long[][] actual) {
+  public void assertNotEmpty(AssertionInfo info, long[] @Nullable [] actual) {
     arrays.assertNotEmpty(info, failures, actual);
   }
 
@@ -99,7 +100,7 @@ public class Long2DArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array's dimensions are not equal to the given ones.
    */
-  public void assertHasDimensions(AssertionInfo info, long[][] actual, int expectedFirstDimension,
+  public void assertHasDimensions(AssertionInfo info, long[] @Nullable [] actual, int expectedFirstDimension,
                                   int expectedSecondDimension) {
     arrays.assertHasDimensions(info, failures, actual, expectedFirstDimension, expectedSecondDimension);
   }
@@ -114,7 +115,7 @@ public class Long2DArrays {
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if the actual group does not have the same dimension.
    */
-  public void assertHasSameDimensionsAs(AssertionInfo info, long[][] actual, Object other) {
+  public void assertHasSameDimensionsAs(AssertionInfo info, long[] @Nullable [] actual, @Nullable Object other) {
     arrays.assertHasSameDimensionsAs(info, actual, other);
   }
 
@@ -125,7 +126,7 @@ public class Long2DArrays {
    * @param actual the given array.
    * @param expectedNumberOfRows the expected first dimension size of {@code actual}.
    */
-  public void assertNumberOfRows(AssertionInfo info, long[][] actual, int expectedNumberOfRows) {
+  public void assertNumberOfRows(AssertionInfo info, long[] @Nullable [] actual, int expectedNumberOfRows) {
     arrays.assertNumberOfRows(info, failures, actual, expectedNumberOfRows);
   }
 
@@ -142,7 +143,7 @@ public class Long2DArrays {
    *           the given array.
    * @throws AssertionError if the given array does not contain the given value at the given index.
    */
-  public void assertContains(AssertionInfo info, long[][] actual, long[] value, Index index) {
+  public void assertContains(AssertionInfo info, long[] @Nullable [] actual, long[] value, Index index) {
     arrays.assertContains(info, failures, actual, value, index);
   }
 
@@ -157,7 +158,7 @@ public class Long2DArrays {
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the given array contains the given value at the given index.
    */
-  public void assertDoesNotContain(AssertionInfo info, long[][] actual, long[] value, Index index) {
+  public void assertDoesNotContain(AssertionInfo info, long[] @Nullable [] actual, long[] value, Index index) {
     arrays.assertDoesNotContain(info, failures, actual, value, index);
   }
 }

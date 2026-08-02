@@ -24,6 +24,7 @@ import org.assertj.core.util.DoubleComparator;
 import org.assertj.core.util.DualClass;
 import org.assertj.core.util.FloatComparator;
 import org.assertj.core.util.PathNaturalOrderComparator;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An internal holder of the comparators for type. It is used to store comparators for registered classes.
@@ -68,7 +69,7 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
    * @param clazz the class for which to find a comparator
    * @return the most relevant comparator, or {@code null} if no comparator could be found
    */
-  public Comparator<?> getComparatorForType(Class<?> clazz) {
+  public @Nullable Comparator<?> getComparatorForType(Class<?> clazz) {
     return getComparatorForDualTypes(clazz, null);
   }
 
@@ -88,7 +89,7 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
    * @param otherClazz the class of the right element for which to find a comparator
    * @return the most relevant comparator, or {@code null} if no comparator could be found
    */
-  public Comparator<?> getComparatorForDualTypes(Class<?> clazz, Class<?> otherClazz) {
+  public @Nullable Comparator<?> getComparatorForDualTypes(Class<?> clazz, @Nullable Class<?> otherClazz) {
     return super.get(clazz, otherClazz);
   }
 
@@ -109,7 +110,7 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
    * @param otherType the type of the right element for which to check a comparator
    * @return is the giving type associated with any custom comparator
    */
-  public boolean hasComparatorForDualTypes(Class<?> type, Class<?> otherType) {
+  public boolean hasComparatorForDualTypes(Class<?> type, @Nullable Class<?> otherType) {
     return super.hasEntity(type, otherType);
   }
 

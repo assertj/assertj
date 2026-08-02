@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.assertj.core.api.AssertionInfo;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for <code>{@link Future}</code>s.
@@ -61,7 +62,7 @@ public class Futures {
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
    */
-  public void assertIsCancelled(AssertionInfo info, Future<?> actual) {
+  public void assertIsCancelled(AssertionInfo info, @Nullable Future<?> actual) {
     assertNotNull(info, actual);
     if (!actual.isCancelled())
       throw failures.failure(info, shouldBeCancelled(actual));
@@ -72,7 +73,7 @@ public class Futures {
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
    */
-  public void assertIsNotCancelled(AssertionInfo info, Future<?> actual) {
+  public void assertIsNotCancelled(AssertionInfo info, @Nullable Future<?> actual) {
     assertNotNull(info, actual);
     if (actual.isCancelled())
       throw failures.failure(info, shouldNotBeCancelled(actual));
@@ -83,7 +84,7 @@ public class Futures {
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
    */
-  public void assertIsDone(AssertionInfo info, Future<?> actual) {
+  public void assertIsDone(AssertionInfo info, @Nullable Future<?> actual) {
     assertNotNull(info, actual);
     if (!actual.isDone())
       throw failures.failure(info, shouldBeDone(actual));
@@ -94,7 +95,7 @@ public class Futures {
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
    */
-  public void assertIsNotDone(AssertionInfo info, Future<?> actual) {
+  public void assertIsNotDone(AssertionInfo info, @Nullable Future<?> actual) {
     assertNotNull(info, actual);
     if (actual.isDone())
       throw failures.failure(info, shouldNotBeDone(actual));
@@ -110,7 +111,7 @@ public class Futures {
    * @param unit the timeout unit
    * @return the future result
    */
-  public <RESULT> RESULT assertSucceededWithin(AssertionInfo info, Future<RESULT> actual, long timeout, TimeUnit unit) {
+  public <RESULT> RESULT assertSucceededWithin(AssertionInfo info, @Nullable Future<RESULT> actual, long timeout, TimeUnit unit) {
     assertNotNull(info, actual);
     try {
       return actual.get(timeout, unit);
@@ -128,7 +129,7 @@ public class Futures {
    * @param timeout the timeout duration
    * @return the future result
    */
-  public <RESULT> RESULT assertSucceededWithin(AssertionInfo info, Future<RESULT> actual, Duration timeout) {
+  public <RESULT> RESULT assertSucceededWithin(AssertionInfo info, @Nullable Future<RESULT> actual, Duration timeout) {
     assertNotNull(info, actual);
     try {
       return actual.get(timeout.toNanos(), TimeUnit.NANOSECONDS);
@@ -145,7 +146,7 @@ public class Futures {
    * @param timeout the timeout duration
    * @return the exception raised by the future
    */
-  public Exception assertFailedWithin(AssertionInfo info, Future<?> actual, Duration timeout) {
+  public Exception assertFailedWithin(AssertionInfo info, @Nullable Future<?> actual, Duration timeout) {
     assertNotNull(info, actual);
     try {
       actual.get(timeout.toNanos(), TimeUnit.NANOSECONDS);
@@ -164,7 +165,7 @@ public class Futures {
    * @param unit the timeout unit
    * @return the exception raised by the future
    */
-  public Exception assertFailedWithin(AssertionInfo info, Future<?> actual, long timeout, TimeUnit unit) {
+  public Exception assertFailedWithin(AssertionInfo info, @Nullable Future<?> actual, long timeout, TimeUnit unit) {
     assertNotNull(info, actual);
     try {
       actual.get(timeout, unit);
@@ -182,7 +183,7 @@ public class Futures {
    * @param timeout the timeout duration
    * @return the exceptional completion cause
    */
-  public Exception assertCompletedExceptionallyWithin(AssertionInfo info, Future<?> actual, Duration timeout) {
+  public Exception assertCompletedExceptionallyWithin(AssertionInfo info, @Nullable Future<?> actual, Duration timeout) {
     assertNotNull(info, actual);
     try {
       actual.get(timeout.toNanos(), TimeUnit.NANOSECONDS);
@@ -203,7 +204,8 @@ public class Futures {
    * @param unit the timeout unit
    * @return the exceptional completion cause
    */
-  public Exception assertCompletedExceptionallyWithin(AssertionInfo info, Future<?> actual, long timeout, TimeUnit unit) {
+  public Exception assertCompletedExceptionallyWithin(AssertionInfo info, @Nullable Future<?> actual, long timeout,
+                                                      TimeUnit unit) {
     assertNotNull(info, actual);
     try {
       actual.get(timeout, unit);
@@ -215,7 +217,7 @@ public class Futures {
     }
   }
 
-  private void assertNotNull(AssertionInfo info, Future<?> actual) {
+  private void assertNotNull(AssertionInfo info, @Nullable Future<?> actual) {
     Objects.instance().assertNotNull(info, actual);
   }
 }

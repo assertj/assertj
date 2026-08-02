@@ -77,6 +77,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.diff.Delta;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Core assertion class for {@link Path} assertions
@@ -116,7 +117,7 @@ public class Paths {
    * @param info assertion information
    * @param actual the actual path
    */
-  public void assertIsReadable(final AssertionInfo info, final Path actual) {
+  public void assertIsReadable(final AssertionInfo info, @Nullable final Path actual) {
     assertNotNull(info, actual);
     assertExists(info, actual);
     if (!Files.isReadable(actual)) throw failures.failure(info, shouldBeReadable(actual));
@@ -128,7 +129,7 @@ public class Paths {
    * @param info assertion information
    * @param actual the actual path
    */
-  public void assertIsWritable(AssertionInfo info, Path actual) {
+  public void assertIsWritable(AssertionInfo info, @Nullable Path actual) {
     assertNotNull(info, actual);
     assertExists(info, actual);
     if (!Files.isWritable(actual)) throw failures.failure(info, shouldBeWritable(actual));
@@ -140,7 +141,7 @@ public class Paths {
    * @param info assertion information
    * @param actual the actual path
    */
-  public void assertIsExecutable(final AssertionInfo info, final Path actual) {
+  public void assertIsExecutable(final AssertionInfo info, @Nullable final Path actual) {
     assertNotNull(info, actual);
     assertExists(info, actual);
     if (!Files.isExecutable(actual)) throw failures.failure(info, shouldBeExecutable(actual));
@@ -152,7 +153,7 @@ public class Paths {
    * @param info assertion information
    * @param actual the actual path
    */
-  public void assertExists(final AssertionInfo info, final Path actual) {
+  public void assertExists(final AssertionInfo info, @Nullable final Path actual) {
     assertNotNull(info, actual);
     if (!Files.exists(actual)) throw failures.failure(info, shouldExist(actual));
   }
@@ -163,7 +164,7 @@ public class Paths {
    * @param info assertion information
    * @param actual the actual path
    */
-  public void assertExistsNoFollowLinks(final AssertionInfo info, final Path actual) {
+  public void assertExistsNoFollowLinks(final AssertionInfo info, @Nullable final Path actual) {
     assertNotNull(info, actual);
     if (!Files.exists(actual, LinkOption.NOFOLLOW_LINKS))
       throw failures.failure(info, shouldExistNoFollowLinks(actual));
@@ -175,7 +176,7 @@ public class Paths {
    * @param info assertion information
    * @param actual the actual path
    */
-  public void assertDoesNotExist(final AssertionInfo info, final Path actual) {
+  public void assertDoesNotExist(final AssertionInfo info, @Nullable final Path actual) {
     assertNotNull(info, actual);
     if (!Files.notExists(actual, LinkOption.NOFOLLOW_LINKS)) throw failures.failure(info, shouldNotExist(actual));
   }
@@ -219,7 +220,7 @@ public class Paths {
    * @param info assertion information
    * @param actual the actual path
    */
-  public void assertIsAbsolute(final AssertionInfo info, final Path actual) {
+  public void assertIsAbsolute(final AssertionInfo info, @Nullable final Path actual) {
     assertNotNull(info, actual);
     if (!actual.isAbsolute()) throw failures.failure(info, shouldBeAbsolutePath(actual));
   }
@@ -230,7 +231,7 @@ public class Paths {
    * @param info assertion information
    * @param actual the actual path
    */
-  public void assertIsRelative(final AssertionInfo info, final Path actual) {
+  public void assertIsRelative(final AssertionInfo info, @Nullable final Path actual) {
     assertNotNull(info, actual);
     if (actual.isAbsolute()) throw failures.failure(info, shouldBeRelativePath(actual));
   }
@@ -241,7 +242,7 @@ public class Paths {
    * @param info assertion information
    * @param actual the actual path
    */
-  public void assertIsNormalized(final AssertionInfo info, final Path actual) {
+  public void assertIsNormalized(final AssertionInfo info, @Nullable final Path actual) {
     assertNotNull(info, actual);
     if (!actual.normalize().equals(actual)) throw failures.failure(info, shouldBeNormalized(actual));
   }
@@ -252,7 +253,7 @@ public class Paths {
    * @param info assertion information
    * @param actual the actual path
    */
-  public void assertIsCanonical(final AssertionInfo info, final Path actual) {
+  public void assertIsCanonical(final AssertionInfo info, @Nullable final Path actual) {
     assertNotNull(info, actual);
     if (!actual.equals(toRealPath(actual))) throw failures.failure(info, shouldBeCanonicalPath(actual));
   }
@@ -264,7 +265,7 @@ public class Paths {
    * @param actual the actual path
    * @param expected the expected parent
    */
-  public void assertHasParent(final AssertionInfo info, final Path actual, final Path expected) {
+  public void assertHasParent(final AssertionInfo info, @Nullable final Path actual, final Path expected) {
     assertNotNull(info, actual);
     checkExpectedParentPathIsNotNull(expected);
     Path parent = toRealPath(actual).getParent();
@@ -279,7 +280,7 @@ public class Paths {
    * @param actual the actual path
    * @param expected the expected parent
    */
-  public void assertHasParentRaw(final AssertionInfo info, final Path actual, final Path expected) {
+  public void assertHasParentRaw(final AssertionInfo info, @Nullable final Path actual, final Path expected) {
     assertNotNull(info, actual);
     checkExpectedParentPathIsNotNull(expected);
     Path parent = actual.getParent();
@@ -293,7 +294,7 @@ public class Paths {
    * @param info assertion information
    * @param actual the actual path
    */
-  public void assertHasNoParent(final AssertionInfo info, final Path actual) {
+  public void assertHasNoParent(final AssertionInfo info, @Nullable final Path actual) {
     assertNotNull(info, actual);
     if (toRealPath(actual).getParent() != null) throw failures.failure(info, shouldHaveNoParent(actual));
   }
@@ -304,7 +305,7 @@ public class Paths {
    * @param info assertion information
    * @param actual the actual path
    */
-  public void assertHasNoParentRaw(final AssertionInfo info, final Path actual) {
+  public void assertHasNoParentRaw(final AssertionInfo info, @Nullable final Path actual) {
     assertNotNull(info, actual);
     if (actual.getParent() != null) throw failures.failure(info, shouldHaveNoParent(actual));
   }
@@ -333,7 +334,7 @@ public class Paths {
    * @param actual the actual path
    * @param other the expected prefix
    */
-  public void assertStartsWith(final AssertionInfo info, final Path actual, final Path other) {
+  public void assertStartsWith(final AssertionInfo info, @Nullable final Path actual, final Path other) {
     assertNotNull(info, actual);
     assertExpectedStartPathIsNotNull(other);
 
@@ -352,7 +353,7 @@ public class Paths {
    * @param actual the actual path
    * @param other the expected prefix
    */
-  public void assertStartsWithRaw(final AssertionInfo info, final Path actual, final Path other) {
+  public void assertStartsWithRaw(final AssertionInfo info, @Nullable final Path actual, final Path other) {
     assertNotNull(info, actual);
     assertExpectedStartPathIsNotNull(other);
     if (!actual.startsWith(other)) throw failures.failure(info, shouldStartWith(actual, other));
@@ -365,7 +366,7 @@ public class Paths {
    * @param actual the actual path
    * @param other the expected ending
    */
-  public void assertEndsWith(final AssertionInfo info, final Path actual, final Path other) {
+  public void assertEndsWith(final AssertionInfo info, @Nullable final Path actual, final Path other) {
     assertNotNull(info, actual);
     assertExpectedEndPathIsNotNull(other);
     Path path = Files.exists(actual) ? toRealPath(actual) : actual;
@@ -379,7 +380,7 @@ public class Paths {
    * @param actual the actual path
    * @param end the expected ending
    */
-  public void assertEndsWithRaw(final AssertionInfo info, final Path actual, final Path end) {
+  public void assertEndsWithRaw(final AssertionInfo info, @Nullable final Path actual, final Path end) {
     assertNotNull(info, actual);
     assertExpectedEndPathIsNotNull(end);
     if (!actual.endsWith(end)) throw failures.failure(info, shouldEndWith(actual, end));
@@ -392,7 +393,7 @@ public class Paths {
    * @param actual the actual path
    * @param fileName the expected file name
    */
-  public void assertHasFileName(final AssertionInfo info, Path actual, String fileName) {
+  public void assertHasFileName(final AssertionInfo info, @Nullable Path actual, String fileName) {
     assertNotNull(info, actual);
     requireNonNull(fileName, "expected fileName should not be null");
     if (!actual.getFileName().endsWith(fileName)) throw failures.failure(info, shouldHaveName(actual, fileName));
@@ -678,7 +679,7 @@ public class Paths {
    * @param actual the actual path
    * @param expectedFileSystem the expected file system
    */
-  public void assertHasFileSystem(AssertionInfo info, Path actual, FileSystem expectedFileSystem) {
+  public void assertHasFileSystem(AssertionInfo info, @Nullable Path actual, FileSystem expectedFileSystem) {
     assertNotNull(info, actual);
     requireNonNull(expectedFileSystem, "The expected file system should not be null");
 
@@ -697,7 +698,7 @@ public class Paths {
    * @param actualPath the actual path
    * @param expectedPath the comparison path
    */
-  public void assertHasSameFileSystemAs(AssertionInfo info, Path actualPath, Path expectedPath) {
+  public void assertHasSameFileSystemAs(AssertionInfo info, @Nullable Path actualPath, Path expectedPath) {
     assertNotNull(info, actualPath);
     requireNonNull(expectedPath, "The expected path should not be null");
 
@@ -760,12 +761,12 @@ public class Paths {
     }
   }
 
-  private PathMatcher pathMatcher(AssertionInfo info, Path actual, String syntaxAndPattern) {
+  private PathMatcher pathMatcher(AssertionInfo info, @Nullable Path actual, String syntaxAndPattern) {
     assertNotNull(info, actual);
     return actual.getFileSystem().getPathMatcher(syntaxAndPattern);
   }
 
-  private static void assertNotNull(final AssertionInfo info, final Path actual) {
+  private static void assertNotNull(final AssertionInfo info, @Nullable final Path actual) {
     Objects.instance().assertNotNull(info, actual);
   }
 
