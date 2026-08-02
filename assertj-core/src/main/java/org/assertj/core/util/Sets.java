@@ -17,10 +17,13 @@ package org.assertj.core.util;
 
 import static java.util.stream.Collectors.toCollection;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
+
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utility methods related to {@link Set}s.
@@ -37,7 +40,7 @@ public final class Sets {
    * @return the created {@code HashSet}, or {@code null} if the given array of elements is {@code null}.
    */
   @SafeVarargs
-  public static <T> Set<T> set(T... elements) {
+  public static <T> @Nullable Set<T> set(T... elements) {
     return newLinkedHashSet(elements);
   }
 
@@ -58,7 +61,7 @@ public final class Sets {
    * @param elements the elements to store in the {@code HashSet}.
    * @return the created {@code HashSet}, or {@code null} if the given array of elements is {@code null}.
    */
-  public static <T> HashSet<T> newHashSet(Iterable<? extends T> elements) {
+  public static <T> @Nullable HashSet<T> newHashSet(@Nullable Iterable<? extends T> elements) {
     if (elements == null) {
       return null;
     }
@@ -72,7 +75,7 @@ public final class Sets {
    * @param elements the elements to store in the {@code LinkedHashSet}.
    * @return the created {@code LinkedHashSet}, or {@code null} if the given array of elements is {@code null}.
    */
-  public static <T> LinkedHashSet<T> newLinkedHashSet(Iterable<? extends T> elements) {
+  public static <T> @Nullable LinkedHashSet<T> newLinkedHashSet(@Nullable Iterable<? extends T> elements) {
     if (elements == null) {
       return null;
     }
@@ -97,12 +100,12 @@ public final class Sets {
    * @return the created {@code LinkedHashSet}, or {@code null} if the given array of elements is {@code null}.
    */
   @SafeVarargs
-  public static <T> LinkedHashSet<T> newLinkedHashSet(T... elements) {
+  public static <T> @Nullable LinkedHashSet<T> newLinkedHashSet(T @Nullable... elements) {
     if (elements == null) {
       return null;
     }
     LinkedHashSet<T> set = newLinkedHashSet();
-    java.util.Collections.addAll(set, elements);
+    Collections.addAll(set, elements);
     return set;
   }
 
@@ -124,12 +127,12 @@ public final class Sets {
    * @return the created {@link TreeSet}, or {@code null} if the given array of elements is {@code null}.
    */
   @SafeVarargs
-  public static <T> TreeSet<T> newTreeSet(T... elements) {
+  public static <T> @Nullable TreeSet<T> newTreeSet(T @Nullable... elements) {
     if (elements == null) {
       return null;
     }
     TreeSet<T> set = newTreeSet();
-    java.util.Collections.addAll(set, elements);
+    Collections.addAll(set, elements);
     return set;
   }
 

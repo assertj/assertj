@@ -30,6 +30,9 @@ import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+
 /**
  * Utility methods related to arrays.
  *
@@ -73,7 +76,7 @@ public class Arrays {
    * @return the values of the given Object as a {@code List<Object>}.
    * @throws IllegalArgumentException it the given Object is not an array.
    */
-  public static List<Object> asList(Object array) {
+  public static @Nullable List<Object> asList(Object array) {
     return newArrayList(asObjectArray(array));
   }
 
@@ -106,7 +109,7 @@ public class Arrays {
    * @param atomicIntegerArray the {@link AtomicIntegerArray} to convert to int[].
    * @return an int[].
    */
-  public static int[] array(AtomicIntegerArray atomicIntegerArray) {
+  public static int @Nullable [] array(@Nullable AtomicIntegerArray atomicIntegerArray) {
     if (atomicIntegerArray == null) return null;
     int[] array = new int[atomicIntegerArray.length()];
     for (int i = 0; i < array.length; i++) {
@@ -121,7 +124,7 @@ public class Arrays {
    * @param atomicLongArray the {@link AtomicLongArray} to convert to long[].
    * @return an long[].
    */
-  public static long[] array(AtomicLongArray atomicLongArray) {
+  public static long @Nullable [] array(@Nullable AtomicLongArray atomicLongArray) {
     if (atomicLongArray == null) return null;
     long[] array = new long[atomicLongArray.length()];
     for (int i = 0; i < array.length; i++) {
@@ -138,7 +141,7 @@ public class Arrays {
    * @return an T[].
    */
   @SuppressWarnings("unchecked")
-  public static <T> T[] array(AtomicReferenceArray<T> atomicReferenceArray) {
+  public static <T> T @Nullable [] array(@Nullable AtomicReferenceArray<T> atomicReferenceArray) {
     if (atomicReferenceArray == null) return null;
     int length = atomicReferenceArray.length();
     if (length == 0) return array();
@@ -157,7 +160,7 @@ public class Arrays {
    * @return all the non-{@code null} elements in the given array. An empty list is returned if the given array is
    *         {@code null}.
    */
-  public static <T> List<T> nonNullElementsIn(T[] array) {
+  public static <T> List<T> nonNullElementsIn(T @Nullable [] array) {
     if (array == null) return emptyList();
     return stream(array).filter(Objects::nonNull).collect(toList());
   }
@@ -171,7 +174,7 @@ public class Arrays {
    * @return {@code true} if the given array has only {@code null} elements or is empty, {@code false} otherwise.
    * @throws NullPointerException if the given array is {@code null}.
    */
-  public static <T> boolean hasOnlyNullElements(T[] array) {
+  public static <T> boolean hasOnlyNullElements(@NonNull T[] array) {
     requireNonNull(array);
     if (isEmpty(array)) return false;
     for (T o : array) {

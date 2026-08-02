@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * Utility methods related to files.
  *
@@ -225,7 +227,7 @@ public class Files {
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
    */
-  public static String contentOf(File file, Charset charset) {
+  public static String contentOf(File file, @NonNull Charset charset) {
     requireNonNull(charset, "The charset should not be null");
     try {
       return new String(java.nio.file.Files.readAllBytes(file.toPath()), charset);

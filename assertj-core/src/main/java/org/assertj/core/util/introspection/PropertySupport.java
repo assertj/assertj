@@ -27,6 +27,8 @@ import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Utility methods for properties access.
  *
@@ -92,7 +94,7 @@ public class PropertySupport {
    * @return a the values of the given property name
    * @throws IntrospectionError if the given target does not have a property with a matching name.
    */
-  public static <T> T propertyValueOf(String propertyName, Object target, Class<T> clazz) {
+  public static <T> @Nullable T propertyValueOf(String propertyName, Object target, Class<T> clazz) {
     return instance().propertyValueOf(propertyName, clazz, target);
   }
 
@@ -174,7 +176,7 @@ public class PropertySupport {
    * @throws IntrospectionError if target object does not have a property with a matching name.
    * @throws IllegalArgumentException if propertyName is null.
    */
-  public <T> T propertyValueOf(String propertyName, Class<T> clazz, Object target) {
+  public <T> @Nullable T propertyValueOf(String propertyName, Class<T> clazz, @Nullable Object target) {
     checkArgument(propertyName != null, "the property name should not be null.");
     // returns null if target is null as we can't extract a property from a null object
     // but don't want to raise an exception if we were looking at a nested property

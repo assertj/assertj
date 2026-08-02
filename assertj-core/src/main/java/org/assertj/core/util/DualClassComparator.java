@@ -17,6 +17,8 @@ package org.assertj.core.util;
 
 import java.util.Comparator;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * A comparator for {@link DualClass}, allowing comparison based on class of the actual and expected components.
  *
@@ -45,7 +47,7 @@ public class DualClassComparator extends NullSafeComparator<DualClass<?, ?>> {
     return result == 0 ? compare(o1.expected(), o2.expected(), expectedComparator) : result;
   }
 
-  private int compare(Class<?> o1, Class<?> o2, Comparator<Class<?>> comparator) {
+  private int compare(@Nullable Class<?> o1, @Nullable Class<?> o2, Comparator<Class<?>> comparator) {
     if (o1 == o2) return 0;
     if (o1 == null) return -1;
     if (o2 == null) return 1;

@@ -15,6 +15,8 @@
  */
 package org.assertj.core.util.diff.myers;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Copy from https://code.google.com/p/java-diff-utils/.
  * <p>
@@ -32,7 +34,7 @@ public abstract class PathNode {
   /** Position in the revised sequence. */
   public final int j;
   /** The previous node in the path. */
-  public final PathNode prev;
+  public final @Nullable PathNode prev;
 
   /**
    * Concatenates a new path node with an existing diffpath.
@@ -40,7 +42,7 @@ public abstract class PathNode {
    * @param j The position in the revised sequence for the new node.
    * @param prev The previous node in the path.
    */
-  public PathNode(int i, int j, PathNode prev) {
+  public PathNode(int i, int j, @Nullable PathNode prev) {
     this.i = i;
     this.j = j;
     this.prev = prev;
@@ -71,7 +73,7 @@ public abstract class PathNode {
    * <code>null</code>
    * if none found.
    */
-  public final PathNode previousSnake() {
+  public final @Nullable PathNode previousSnake() {
     if (isBootstrap())
       return null;
     if (!isSnake() && prev != null)

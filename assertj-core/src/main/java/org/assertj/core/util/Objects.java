@@ -18,6 +18,8 @@ package org.assertj.core.util;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Arrays.isNullOrEmpty;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Utility methods related to objects.
  *
@@ -53,7 +55,7 @@ public final class Objects {
    * @param o the given object.
    * @return the hash code for the given object
    */
-  public static int hashCodeFor(Object o) {
+  public static int hashCodeFor(@Nullable Object o) {
     if (o == null) return 0;
     return isArray(o) && !o.getClass().getComponentType().isPrimitive()
         ? java.util.Arrays.deepHashCode((Object[]) o)
@@ -69,7 +71,7 @@ public final class Objects {
    * @param type the given type.
    * @return the casted object, or {@code null} if the given object is not to the given type.
    */
-  public static <T> T castIfBelongsToType(Object o, Class<T> type) {
+  public static <T> @Nullable T castIfBelongsToType(@Nullable Object o, Class<T> type) {
     if (o != null && type.isAssignableFrom(o.getClass())) {
       return type.cast(o);
     }

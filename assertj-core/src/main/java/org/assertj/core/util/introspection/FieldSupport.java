@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.assertj.core.configuration.ConfigurationProvider;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utility methods for fields access.
@@ -206,7 +207,7 @@ public enum FieldSupport {
    * @return the value of the given field name
    * @throws IntrospectionError if the given target does not have a field with a matching name.
    */
-  public <T> T fieldValue(String fieldName, Class<T> fieldClass, Object target) {
+  public <T> @Nullable T fieldValue(String fieldName, Class<T> fieldClass, @Nullable Object target) {
     if (target == null) return null;
 
     if (isNestedField(fieldName)) {

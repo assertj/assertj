@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.jspecify.annotations.Nullable;
+
 /** Extracts values from properties, fields, arrays, lists, and maps. */
 public class PropertyOrFieldSupport {
   private static final String SEPARATOR = ".";
@@ -63,7 +65,7 @@ public class PropertyOrFieldSupport {
    * @param input the source object
    * @return the extracted value
    */
-  public Object getValueOf(String propertyOrFieldName, Object input) {
+  public @Nullable Object getValueOf(String propertyOrFieldName, Object input) {
     checkArgument(propertyOrFieldName != null, "The name of the property/field to read should not be null");
     checkArgument(!propertyOrFieldName.isEmpty(), "The name of the property/field to read should not be empty");
     checkArgument(input != null, "The object to extract property/field from should not be null");
@@ -93,7 +95,7 @@ public class PropertyOrFieldSupport {
    * @return the extracted value
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  public Object getSimpleValue(String name, Object input) {
+  public @Nullable Object getSimpleValue(String name, Object input) {
     // if input is an optional and name is "value", let's get the optional value directly
     if (input instanceof Optional optional && name.equals("value")) return optional.orElse(null);
 
@@ -137,7 +139,7 @@ public class PropertyOrFieldSupport {
    * @return the extracted value
    */
   @SuppressWarnings("rawtypes")
-  public Object getArrayOrListValue(String name, Object input) {
+  public @Nullable Object getArrayOrListValue(String name, Object input) {
     // we could still have a map that has 'name[indexvalue]' as an actual key so we fall back
     // to getSimpleValue
     try {

@@ -19,6 +19,8 @@ import java.io.Closeable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Utility methods related to {@link Closeable}.
  * 
@@ -32,13 +34,13 @@ public final class Closeables {
    * 
    * @param closeables the {@code Closeable}s to close.
    */
-  public static void closeQuietly(Closeable... closeables) {
+  public static void closeQuietly(@Nullable Closeable... closeables) {
     for (Closeable c : closeables) {
       closeCloseable(c);
     }
   }
 
-  private static void closeCloseable(Closeable c) {
+  private static void closeCloseable(@Nullable Closeable c) {
     if (c == null) {
       return;
     }

@@ -19,6 +19,9 @@ import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import org.assertj.core.internal.annotation.Contract;
+import org.jspecify.annotations.Nullable;
+
 /**
  * Utility methods related to {@code String}s.
  * 
@@ -31,7 +34,7 @@ public final class Strings {
    * @param s the {@code String} to check.
    * @return {@code true} if the given {@code String} is {@code null} or empty, otherwise {@code false}.
    */
-  public static boolean isNullOrEmpty(String s) {
+  public static boolean isNullOrEmpty(@Nullable String s) {
     return s == null || s.isEmpty();
   }
 
@@ -43,7 +46,8 @@ public final class Strings {
    * @return the given {@code String} surrounded by single quotes, or {@code null} if the given {@code String} is
    *         {@code null}.
    */
-  public static String quote(String s) {
+  @Contract("null -> null; !null -> !null")
+  public static @Nullable String quote(@Nullable String s) {
     return s != null ? concat("'", s, "'") : null;
   }
 
@@ -54,7 +58,7 @@ public final class Strings {
    * @return the given object surrounded by single quotes, only if the object is a {@code String}.
    * @see #quote(String)
    */
-  public static Object quote(Object o) {
+  public static @Nullable Object quote(@Nullable Object o) {
     return o instanceof String ? quote(o.toString()) : o;
   }
 
@@ -65,7 +69,7 @@ public final class Strings {
    * @param objects the objects to concatenate.
    * @return a {@code String} containing the given objects.
    */
-  public static String concat(Object... objects) {
+  public static @Nullable String concat(Object @Nullable... objects) {
     if (Arrays.isNullOrEmpty(objects)) {
       return null;
     }
@@ -80,7 +84,7 @@ public final class Strings {
    * @param args args used to format the message, can be null or empty
    * @return the formatted string if any args were given
    */
-  public static String formatIfArgs(String message, Object... args) {
+  public static String formatIfArgs(String message, Object @Nullable... args) {
     return Arrays.isNullOrEmpty(args)
         // here we need to format %n but not other % since we do not have arguments.
         // => we replace all % to %% except if they are followed by a 'n'.
@@ -94,7 +98,8 @@ public final class Strings {
    * @param value the String to escape
    * @return the escaped String 
    */
-  public static String escapePercent(String value) {
+  @Contract("null -> null; !null -> !null")
+  public static @Nullable String escapePercent(@Nullable String value) {
     return value == null ? null : value.replace("%", "%%");
   }
 
@@ -109,7 +114,7 @@ public final class Strings {
    * @return an intermediate object that takes a given delimiter and knows how to join the given {@code String}s.
    * @see StringsToJoin#with(String)
    */
-  public static StringsToJoin join(String... strings) {
+  public static StringsToJoin join(String @Nullable... strings) {
     return new StringsToJoin(strings);
   }
 
@@ -137,14 +142,14 @@ public final class Strings {
   public static class StringsToJoin {
 
     /** The {@code String}s to join. */
-    private final String[] strings;
+    private final String @Nullable [] strings;
 
     /**
      * Creates a new <code>{@link StringsToJoin}</code>.
-     * 
+     *
      * @param strings the {@code String}s to join.
      */
-    StringsToJoin(String... strings) {
+    StringsToJoin(String @Nullable... strings) {
       this.strings = strings;
     }
 
@@ -165,7 +170,7 @@ public final class Strings {
      * @param escapeString the String wrapper to use.
      * @return the {@code String}s joined using the given delimiter.
      */
-    public String with(String delimiter, String escapeString) {
+    public String with(String delimiter, @Nullable String escapeString) {
       checkArgument(delimiter != null, "Delimiter should not be null");
       if (Arrays.isNullOrEmpty(strings)) {
         return "";
@@ -231,11 +236,11 @@ public final class Strings {
   }
 
   // change %%n back to %n which could have been done by calling escapePercent
-  private static String escapePercentExceptWhenFollowedBy_n(String message) {
+  private static @Nullable String escapePercentExceptWhenFollowedBy_n(String message) {
     return revertEscapingPercent_n(escapePercent(message));
   }
 
-  private static String revertEscapingPercent_n(String value) {
+  private static @Nullable String revertEscapingPercent_n(@Nullable String value) {
     return value == null ? null : value.replace("%%n", "%n");
   }
 

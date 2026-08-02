@@ -21,6 +21,8 @@ import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
 
 import java.lang.reflect.Method;
 
+import org.jspecify.annotations.NonNull;
+
 /**
  * Utility class for reflective method invocation.
  *
@@ -51,7 +53,7 @@ public class MethodSupport {
    * @throws IllegalArgumentException if method does not exist or is not public, method returns void or method accepts
    *                                  any argument
    */
-  public static Object methodResultFor(Object instance, String methodName) {
+  public static Object methodResultFor(@NonNull Object instance, String methodName) {
     requireNonNull(instance, "Object instance can not be null!");
     checkNotNullOrEmpty(methodName, "Method name can not be empty!");
     Method method = findMethod(methodName, instance.getClass());
