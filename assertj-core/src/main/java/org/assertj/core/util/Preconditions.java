@@ -20,7 +20,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.function.Supplier;
 
 import org.assertj.core.api.filter.FilterOperator;
-import org.jspecify.annotations.NonNull;
 
 /**
  * Verifies correct argument values and state. Borrowed from Guava.
@@ -39,7 +38,7 @@ public final class Preconditions {
    * @throws NullPointerException if the given {@code CharSequence} is {@code null}.
    * @throws IllegalArgumentException if the given {@code CharSequence} is empty.
    */
-  public static CharSequence checkNotNullOrEmpty(@NonNull CharSequence s) {
+  public static CharSequence checkNotNullOrEmpty(CharSequence s) {
     return checkNotNullOrEmpty(s, ARGUMENT_EMPTY);
   }
 
@@ -52,7 +51,7 @@ public final class Preconditions {
    * @throws NullPointerException if the given {@code CharSequence} is {@code null}.
    * @throws IllegalArgumentException if the given {@code CharSequence} is empty.
    */
-  public static CharSequence checkNotNullOrEmpty(@NonNull CharSequence s, String message) {
+  public static CharSequence checkNotNullOrEmpty(CharSequence s, String message) {
     requireNonNull(s, message);
     if (s.length() == 0) throwExceptionForBeingEmpty(message);
     return s;
@@ -67,7 +66,7 @@ public final class Preconditions {
    * @throws NullPointerException if the given array is {@code null}.
    * @throws IllegalArgumentException if the given array is empty.
    */
-  public static <T> T[] checkNotNullOrEmpty(@NonNull T[] array) {
+  public static <T> T[] checkNotNullOrEmpty(T[] array) {
     T[] checked = requireNonNull(array);
     if (checked.length == 0) throwExceptionForBeingEmpty();
     return checked;

@@ -25,7 +25,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.assertj.core.internal.annotation.Contract;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -62,7 +61,7 @@ public class DateUtil {
    * @return the year of the given Date
    * @throws NullPointerException if given Date is null
    */
-  public static int yearOf(@NonNull Date date) {
+  public static int yearOf(Date date) {
     return toCalendar(date).get(Calendar.YEAR);
   }
 
@@ -73,7 +72,7 @@ public class DateUtil {
    * @return the month of the given Date <b>starting at 1</b> (January=1, February=2, ...)
    * @throws NullPointerException if given Date is null
    */
-  public static int monthOf(@NonNull Date date) {
+  public static int monthOf(Date date) {
     return toCalendar(date).get(Calendar.MONTH) + 1; // based 1 month (January=1)
   }
 
@@ -84,7 +83,7 @@ public class DateUtil {
    * @return the day of month of the given Date
    * @throws NullPointerException if given Date is null
    */
-  public static int dayOfMonthOf(@NonNull Date date) {
+  public static int dayOfMonthOf(Date date) {
     return toCalendar(date).get(Calendar.DAY_OF_MONTH);
   }
 
@@ -95,7 +94,7 @@ public class DateUtil {
    * @return the day of week of the given Date
    * @throws NullPointerException if given Date is null
    */
-  public static int dayOfWeekOf(@NonNull Date date) {
+  public static int dayOfWeekOf(Date date) {
     return toCalendar(date).get(Calendar.DAY_OF_WEEK);
   }
 
@@ -106,7 +105,7 @@ public class DateUtil {
    * @return the hour of day of the given Date (24-hour clock)
    * @throws NullPointerException if given Date is null
    */
-  public static int hourOfDayOf(@NonNull Date date) {
+  public static int hourOfDayOf(Date date) {
     return toCalendar(date).get(Calendar.HOUR_OF_DAY);
   }
 
@@ -117,7 +116,7 @@ public class DateUtil {
    * @return the minute of the given Date
    * @throws NullPointerException if given Date is null
    */
-  public static int minuteOf(@NonNull Date date) {
+  public static int minuteOf(Date date) {
     return toCalendar(date).get(Calendar.MINUTE);
   }
 
@@ -128,7 +127,7 @@ public class DateUtil {
    * @return the second of the given Date
    * @throws NullPointerException if given Date is null
    */
-  public static int secondOf(@NonNull Date date) {
+  public static int secondOf(Date date) {
     return toCalendar(date).get(Calendar.SECOND);
   }
 
@@ -139,7 +138,7 @@ public class DateUtil {
    * @return the millisecond of the given Date
    * @throws NullPointerException if given Date is null
    */
-  public static int millisecondOf(@NonNull Date date) {
+  public static int millisecondOf(Date date) {
     return toCalendar(date).get(Calendar.MILLISECOND);
   }
 
@@ -151,7 +150,7 @@ public class DateUtil {
    * @return the difference between the two given dates in milliseconds
    * @throws IllegalArgumentException if one a the given Date is null.
    */
-  public static long timeDifference(@NonNull Date date1, @NonNull Date date2) {
+  public static long timeDifference(Date date1, Date date2) {
     checkArgument(date1 != null && date2 != null, "Expecting date parameter not to be null");
     return Math.abs(date1.getTime() - date2.getTime());
   }

@@ -23,8 +23,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import org.jspecify.annotations.NonNull;
-
 /**
  * Utility class for conversion between different case formats
  */
@@ -45,7 +43,7 @@ public class CaseFormatUtils {
    * @param s the string to be converted
    * @return the input string converted to camelCase
    */
-  public static String toCamelCase(@NonNull String s) {
+  public static String toCamelCase(String s) {
     List<String> words = extractWords(requireNonNull(s));
     return IntStream.range(0, words.size())
                     .mapToObj(i -> adjustWordCase(words.get(i), i > 0))

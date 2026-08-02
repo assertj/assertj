@@ -30,7 +30,6 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.assertj.core.configuration.ConfigurationProvider;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -59,7 +58,7 @@ public final class Introspection {
    * @throws NullPointerException     if the given object is {@code null}.
    * @throws IntrospectionError       if the getter for the matching property cannot be found or accessed.
    */
-  public static Method getPropertyGetter(String propertyName, @NonNull Object target) {
+  public static Method getPropertyGetter(String propertyName, Object target) {
     checkNotNullOrEmpty(propertyName);
     requireNonNull(target);
     Method getter = findGetter(propertyName, target);

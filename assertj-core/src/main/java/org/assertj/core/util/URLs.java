@@ -29,8 +29,6 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.jspecify.annotations.NonNull;
-
 /**
  * Utility methods related to URLs.
  *
@@ -64,7 +62,7 @@ public class URLs {
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
    */
-  public static String contentOf(URL url, @NonNull Charset charset) {
+  public static String contentOf(URL url, Charset charset) {
     requireNonNull(charset, "The charset should not be null");
     try {
       return loadContents(url.openStream(), charset);
@@ -83,7 +81,7 @@ public class URLs {
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
    */
-  public static List<String> linesOf(URL url, @NonNull Charset charset) {
+  public static List<String> linesOf(URL url, Charset charset) {
     requireNonNull(charset, "The charset should not be null");
     try {
       return loadLines(url.openStream(), charset);

@@ -25,8 +25,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import org.jspecify.annotations.NonNull;
-
 /**
  * Utility methods related to {@link Path}s.
  *
@@ -48,7 +46,7 @@ public class Paths {
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
    */
-  public static List<String> linesOf(Path path, @NonNull Charset charset) {
+  public static List<String> linesOf(Path path, Charset charset) {
     requireNonNull(charset, "The charset should not be null");
     try {
       return Files.readAllLines(path, charset);

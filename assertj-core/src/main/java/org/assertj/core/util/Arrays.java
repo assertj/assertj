@@ -30,7 +30,6 @@ import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -174,7 +173,7 @@ public class Arrays {
    * @return {@code true} if the given array has only {@code null} elements or is empty, {@code false} otherwise.
    * @throws NullPointerException if the given array is {@code null}.
    */
-  public static <T> boolean hasOnlyNullElements(@NonNull T[] array) {
+  public static <T> boolean hasOnlyNullElements(T[] array) {
     requireNonNull(array);
     if (isEmpty(array)) return false;
     for (T o : array) {

@@ -22,8 +22,6 @@ import static org.assertj.core.util.Objects.hashCodeFor;
 
 import java.util.function.Predicate;
 
-import org.jspecify.annotations.NonNull;
-
 /**
  * Encapsulate a {@link Predicate} description to be able to control how it is formatted in error messages using a
  * {@link Representation}.
@@ -44,7 +42,7 @@ public class PredicateDescription {
    *
    * @param description must not be null
    */
-  public PredicateDescription(@NonNull String description) {
+  public PredicateDescription(String description) {
     requireNonNull(description, "The predicate description must not be null");
     this.description = description;
   }
