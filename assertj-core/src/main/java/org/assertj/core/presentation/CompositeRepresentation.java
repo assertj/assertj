@@ -22,6 +22,8 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Delegates value formatting to representations ordered by priority.
  */
@@ -42,7 +44,7 @@ public class CompositeRepresentation implements Representation {
   }
 
   @Override
-  public String toStringOf(Object object) {
+  public @Nullable String toStringOf(@Nullable Object object) {
     // don't create streams for performance reasons and because this code is simple enough (even not as elegant as with stream)
     for (Representation representation : representations) {
       String value = representation.toStringOf(object);
@@ -52,7 +54,7 @@ public class CompositeRepresentation implements Representation {
   }
 
   @Override
-  public String unambiguousToStringOf(Object object, boolean withPackageName) {
+  public @Nullable String unambiguousToStringOf(@Nullable Object object, boolean withPackageName) {
     // don't create streams for performance reasons and because this code is simple enough (even not as elegant as with stream)
     for (Representation representation : representations) {
       String value = representation.unambiguousToStringOf(object, withPackageName);

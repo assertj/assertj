@@ -73,10 +73,12 @@ import org.assertj.core.data.MapEntry;
 import org.assertj.core.error.DescriptionFormatter;
 import org.assertj.core.error.MultipleAssertionsError;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.util.Closeables;
 import org.assertj.core.util.diff.ChangeDelta;
 import org.assertj.core.util.diff.DeleteDelta;
 import org.assertj.core.util.diff.InsertDelta;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Standard java object representation.
@@ -258,7 +260,7 @@ public class StandardRepresentation implements Representation {
    * @return the {@code toString} representation of the given object.
    */
   @Override
-  public String toStringOf(Object object) {
+  public @Nullable String toStringOf(@Nullable Object object) {
     if (object == null) return null;
     if (hasCustomFormatterFor(object)) return customFormat(object);
     if (object instanceof ComparatorBasedComparisonStrategy strategy) return toStringOf(strategy);
@@ -364,7 +366,7 @@ public class StandardRepresentation implements Representation {
    * @return the unambiguous {@code toString} representation of the given object.
    */
   @Override
-  public String unambiguousToStringOf(Object obj, boolean withPackageName) {
+  public @Nullable String unambiguousToStringOf(@Nullable Object obj, boolean withPackageName) {
     // some types have already an unambiguous toString, no need to double down
     if (hasAlreadyAnUnambiguousToStringOf(obj)) return toStringOf(obj);
     return obj == null ? null
@@ -383,7 +385,7 @@ public class StandardRepresentation implements Representation {
    * @param object the object to format
    * @return the custom representation
    */
-  protected <T> String customFormat(T object) {
+  protected <T> @Nullable String customFormat(@Nullable T object) {
     if (object == null) return null;
     @SuppressWarnings("unchecked")
     CharSequence formatted = ((Function<T, ? extends CharSequence>) customFormatterByType.get(object.getClass())).apply(object);
@@ -396,7 +398,7 @@ public class StandardRepresentation implements Representation {
    * @param object the object to check
    * @return whether a custom formatter is available
    */
-  protected boolean hasCustomFormatterFor(Object object) {
+  protected boolean hasCustomFormatterFor(@Nullable Object object) {
     if (object == null) return false;
     return customFormatterByType.containsKey(object.getClass());
   }
@@ -408,7 +410,7 @@ public class StandardRepresentation implements Representation {
    * @return true if the given object's type has a representation that is not ambiguous, false otherwise.
    */
   // not static so that it can be overridden
-  protected boolean hasAlreadyAnUnambiguousToStringOf(Object obj) {
+  protected boolean hasAlreadyAnUnambiguousToStringOf(@Nullable Object obj) {
     for (Class<?> aClass : TYPE_WITH_UNAMBIGUOUS_REPRESENTATION) {
       if (aClass.isInstance(obj)) return true;
     }
@@ -782,7 +784,8 @@ public class StandardRepresentation implements Representation {
    * @param map the map
    * @return the formatted value
    */
-  protected String toStringOf(Map<?, ?> map) {
+  @Contract("null -> null; !null -> !null")
+  protected @Nullable String toStringOf(@Nullable Map<?, ?> map) {
     if (map == null) return null;
     Map<?, ?> sortedMap = toSortedMapIfPossible(map);
     Iterator<?> entriesIterator = sortedMap.entrySet().iterator();
@@ -961,7 +964,7 @@ public class StandardRepresentation implements Representation {
    * @param o the object that is expected to be an array.
    * @return the {@code String} representation of the given array.
    */
-  protected String formatArray(Object o) {
+  protected @Nullable String formatArray(@Nullable Object o) {
     if (!isArray(o)) return null;
     return isObjectArray(o) ? smartFormat((Object[]) o) : formatPrimitiveArray(o);
   }
@@ -1022,7 +1025,10 @@ public class StandardRepresentation implements Representation {
    * @param root the root object used for cycle detection
    * @return the formatted value
    */
-  protected String format(Object[] array, String start, String end, String elementSeparator, String indentation, Object root) {
+  @Contract("null, _, _, _, _, _ -> null; !null, _, _, _, _, _ -> !null")
+  protected @Nullable String format(Object @Nullable [] array, String start, String end, String elementSeparator,
+                                    String indentation,
+                                    Object root) {
     if (array == null) return null;
     // root is used to avoid infinite recursion in case one element refers to it.
     return format(java.util.Arrays.asList(array), start, end, elementSeparator, indentation, root);
@@ -1039,11 +1045,14 @@ public class StandardRepresentation implements Representation {
    * @param root the root object used for cycle detection
    * @return the formatted value
    */
-  protected String format(List<?> elements, String start, String end, String elementSeparator, String indentation,
-                          Object root) {
+  @Contract("null, _, _, _, _, _ -> null; !null, _, _, _, _, _ -> !null")
+  protected @Nullable String format(@Nullable List<?> elements, String start, String end, String elementSeparator,
+                                    String indentation,
+                                    Object root) {
     if (elements == null) return null;
     if (elements.isEmpty()) return start + end;
-    List<String> representedElements = new TransformingList<>(elements, elem -> safeStringOf(elem, start, end, elementSeparator,
+    List<@Nullable String> representedElements = new TransformingList<>(elements,
+                                                                        elem -> safeStringOf(elem, start, end, elementSeparator,
                                                                                              indentation, root));
     return representGroup(representedElements, start, end, elementSeparator, indentation);
   }
@@ -1059,12 +1068,13 @@ public class StandardRepresentation implements Representation {
    * @param root the root object used for cycle detection
    * @return the formatted value
    */
-  protected String format(Iterable<?> iterable, String start, String end, String elementSeparator, String indentation,
-                          Object root) {
+  @Contract("null, _, _, _, _, _ -> null; !null, _, _, _, _, _ -> !null")
+  protected @Nullable String format(@Nullable Iterable<?> iterable, String start, String end, String elementSeparator,
+                                    String indentation, Object root) {
     if (iterable == null) return null;
     Iterator<?> iterator = iterable.iterator();
     if (!iterator.hasNext()) return start + end;
-    List<String> representedElements = representElements(iterable, start, end, elementSeparator, indentation, root);
+    List<@Nullable String> representedElements = representElements(iterable, start, end, elementSeparator, indentation, root);
     return representGroup(representedElements, start, end, elementSeparator, indentation);
   }
 
@@ -1079,8 +1089,8 @@ public class StandardRepresentation implements Representation {
    * @param root the root object used for cycle detection
    * @return the formatted value
    */
-  protected String safeStringOf(Object element, String start, String end, String elementSeparator, String indentation,
-                                Object root) {
+  protected @Nullable String safeStringOf(@Nullable Object element, String start, String end, String elementSeparator,
+                                          String indentation, Object root) {
     if (element == root) return isArray(root) ? "(this array)" : "(this instance)";
     // Since potentially self referencing containers have been handled, it is reasonably safe to use toStringOf.
     // What we don't track are cycles like A -> B -> A but that should be rare enough thus this solution is good enough
@@ -1094,8 +1104,8 @@ public class StandardRepresentation implements Representation {
 
   // private methods
 
-  private List<String> representElements(Iterable<?> elements, String start, String end, String elementSeparator,
-                                         String indentation, Object root) {
+  private List<@Nullable String> representElements(Iterable<?> elements, String start, String end, String elementSeparator,
+                                                   String indentation, Object root) {
     int capacity = maxElementsForPrinting / 2 + 1;
     HeadTailAccumulator<Object> accumulator = new HeadTailAccumulator<>(capacity, capacity);
     elements.forEach(accumulator::add);
@@ -1105,7 +1115,8 @@ public class StandardRepresentation implements Representation {
   }
 
   // this method only deals with max number of elements to display, the elements representation is already computed
-  private static String representGroup(List<String> representedElements, String start, String end, String elementSeparator,
+  private static String representGroup(List<@Nullable String> representedElements, String start, String end,
+                                       String elementSeparator,
                                        String indentation) {
     int size = representedElements.size();
     StringBuilder desc = new StringBuilder(start);
@@ -1215,7 +1226,7 @@ public class StandardRepresentation implements Representation {
     }
   }
 
-  private String format(Map<?, ?> map, Object o) {
+  private @Nullable String format(Map<?, ?> map, Object o) {
     return o == map ? "(this Map)" : toStringOf(o);
   }
 

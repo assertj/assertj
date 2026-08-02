@@ -17,6 +17,8 @@ package org.assertj.core.presentation;
 
 import static org.assertj.core.util.Strings.concat;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Binary object representation instead of standard java representation.
  * 
@@ -41,7 +43,7 @@ public class BinaryRepresentation extends StandardRepresentation {
    * @return the {@code toString} representation of the given object.
    */
   @Override
-  public String toStringOf(Object object) {
+  public @Nullable String toStringOf(@Nullable Object object) {
     if (hasCustomFormatterFor(object)) return customFormat(object);
     if (object instanceof Character character) return toStringOf(character);
     if (object instanceof Number number) return toStringOf(number);

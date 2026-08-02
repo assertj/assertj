@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.stream.Stream;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Accumulates the values in a stream or iterable, keeping the first and last elements and discarding everything in between.
  */
@@ -51,7 +53,7 @@ final class HeadTailAccumulator<T> {
    *
    * @param element the element to add (may be {@code null})
    */
-  void add(final T element) {
+  void add(final @Nullable T element) {
     if (!head.offer(element)) tail.offer(element);
   }
 

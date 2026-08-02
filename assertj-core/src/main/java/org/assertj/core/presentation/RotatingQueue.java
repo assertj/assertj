@@ -22,13 +22,15 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Queue with a fixed maximum size. When an element is added to a full queue, the oldest element
  * is removed before the new element is added.
  */
 final class RotatingQueue<T> extends AbstractQueue<T> {
   /** The array to provide a view of. */
-  private final Queue<T> data;
+  private final Queue<@Nullable T> data;
 
   /** The maximum number of elements that can be present. */
   private final int capacity;
@@ -56,19 +58,19 @@ final class RotatingQueue<T> extends AbstractQueue<T> {
   }
 
   @Override
-  public boolean offer(T element) {
+  public boolean offer(@Nullable T element) {
     if (capacity == 0) return false;
     if (data.size() == capacity) data.remove();
     return data.add(element);
   }
 
   @Override
-  public T poll() {
+  public @Nullable T poll() {
     return data.poll();
   }
 
   @Override
-  public T peek() {
+  public @Nullable T peek() {
     return data.peek();
   }
 }

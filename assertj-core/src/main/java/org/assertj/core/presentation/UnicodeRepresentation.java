@@ -17,6 +17,8 @@ package org.assertj.core.presentation;
 
 import java.util.Formatter;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Unicode object representation instead of standard java representation.
  *
@@ -37,7 +39,7 @@ public class UnicodeRepresentation extends StandardRepresentation {
    * @return the {@code toString} representation of the given object.
    */
   @Override
-  public String toStringOf(Object object) {
+  public @Nullable String toStringOf(@Nullable Object object) {
     if (hasCustomFormatterFor(object)) return customFormat(object);
     if (object instanceof String string) return toStringOf(string);
     if (object instanceof Character character) return toStringOf(character);
