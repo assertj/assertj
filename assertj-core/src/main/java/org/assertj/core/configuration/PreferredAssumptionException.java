@@ -18,6 +18,8 @@ package org.assertj.core.configuration;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.jspecify.annotations.Nullable;
+
 /** Supported assumption exception implementations. */
 public enum PreferredAssumptionException {
 
@@ -63,9 +65,9 @@ public enum PreferredAssumptionException {
 
   };
 
-  private final String assumptionExceptionClassName;
+  private final @Nullable String assumptionExceptionClassName;
 
-  PreferredAssumptionException(String assumptionExceptionClassName) {
+  PreferredAssumptionException(@Nullable String assumptionExceptionClassName) {
     this.assumptionExceptionClassName = assumptionExceptionClassName;
   }
 

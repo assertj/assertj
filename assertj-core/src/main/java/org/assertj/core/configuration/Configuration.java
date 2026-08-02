@@ -30,6 +30,7 @@ import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Assumptions;
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * All configuration settings for AssertJ Core.
@@ -72,7 +73,7 @@ public class Configuration {
   private int maxLengthForSingleLineDescription;
   private int maxElementsForPrinting;
   private boolean printAssertionsDescription;
-  private Consumer<Description> descriptionConsumer;
+  private @Nullable Consumer<Description> descriptionConsumer;
   private int maxStackTraceElementsDisplayed;
   private PreferredAssumptionException preferredAssumptionException;
 
@@ -320,7 +321,7 @@ public class Configuration {
    *
    * @return the description consumer
    */
-  public Consumer<Description> descriptionConsumer() {
+  public @Nullable Consumer<Description> descriptionConsumer() {
     return descriptionConsumer;
   }
 
@@ -329,7 +330,7 @@ public class Configuration {
    *
    * @param descriptionConsumer the description consumer
    */
-  public void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
+  public void setDescriptionConsumer(@Nullable Consumer<Description> descriptionConsumer) {
     this.descriptionConsumer = descriptionConsumer;
   }
 
