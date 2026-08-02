@@ -35,7 +35,7 @@ public class MultipleAssertionsError extends AssertionError {
   /** The aggregated assertion failures. */
   private final List<AssertionError> errors;
   /** The aggregated error message. */
-  private final String message;
+  private final @Nullable String message;
 
   /**
    * Creates an aggregated assertion error.
@@ -53,7 +53,7 @@ public class MultipleAssertionsError extends AssertionError {
   }
 
   @Override
-  public String getMessage() {
+  public @Nullable String getMessage() {
     return message;
   }
 

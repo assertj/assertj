@@ -23,6 +23,7 @@ import java.util.function.Predicate;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A condition to be met by an object.
@@ -59,7 +60,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
   Description description;
 
   // might not be used
-  private Predicate<T> predicate;
+  private Predicate<@Nullable T> predicate;
 
   /**
    * Creates a new <code>{@link Condition}</code>. The default description of this condition will the simple name of the
@@ -108,7 +109,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * @throws NullPointerException if the given {@link Predicate} is {@code null}.
    * @throws NullPointerException if the given description is {@code null}.
    */
-  public Condition(Predicate<T> predicate, String description, Object... args) {
+  public Condition(Predicate<@Nullable T> predicate, String description, Object... args) {
     checkPredicate(predicate);
     this.predicate = predicate;
     this.description = new TextDescription(description, args);
@@ -146,7 +147,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * @param actual the instance to evaluate the condition status against.
    * @return the description of this condition with its status.
    */
-  public Description conditionDescriptionWithStatus(T actual) {
+  public Description conditionDescriptionWithStatus(@Nullable T actual) {
     Status status = status(actual);
     return new TextDescription(status.label + " " + description().value());
   }
@@ -157,7 +158,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * @param actual the value to evaluate
    * @return the condition status
    */
-  protected Status status(T actual) {
+  protected Status status(@Nullable T actual) {
     return matches(actual) ? SUCCESS : FAIL;
   }
 
@@ -167,12 +168,12 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * @param value the value to verify.
    * @return {@code true} if the given value satisfies this condition; {@code false} otherwise.
    */
-  public boolean matches(T value) {
+  public boolean matches(@Nullable T value) {
     checkPredicate(predicate);
     return predicate.test(value);
   }
 
-  private void checkPredicate(Predicate<T> predicate) {
+  private void checkPredicate(Predicate<@Nullable T> predicate) {
     requireNonNull(predicate,
                    "Unless you subclass Condition and override matches, you need to pass a non null Predicate to build a Condition.");
   }

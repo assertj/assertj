@@ -21,17 +21,19 @@ import static org.assertj.core.util.Lists.list;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
+
 /** An ordered group of values used by extracting assertions. */
 public final class Tuple {
 
-  private final List<Object> values;
+  private final List<@Nullable Object> values;
 
   /**
    * Creates a tuple containing the given values.
    *
    * @param values the tuple values
    */
-  public Tuple(Object... values) {
+  public Tuple(@Nullable Object... values) {
     this.values = list(values);
   }
 
@@ -40,7 +42,7 @@ public final class Tuple {
    *
    * @return the tuple values
    */
-  public Object[] toArray() {
+  public @Nullable Object[] toArray() {
     return values.toArray();
   }
 
@@ -49,7 +51,7 @@ public final class Tuple {
    *
    * @return the tuple values
    */
-  public List<Object> toList() {
+  public List<@Nullable Object> toList() {
     return values;
   }
 
@@ -68,7 +70,7 @@ public final class Tuple {
 
   @Override
   public String toString() {
-    return CONFIGURATION_PROVIDER.representation().toStringOf(this);
+    return String.valueOf(CONFIGURATION_PROVIDER.representation().toStringOf(this));
   }
 
   /**
@@ -77,7 +79,7 @@ public final class Tuple {
    * @param values the tuple values
    * @return the created tuple
    */
-  public static Tuple tuple(Object... values) {
+  public static Tuple tuple(@Nullable Object... values) {
     return new Tuple(values);
   }
 

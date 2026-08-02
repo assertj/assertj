@@ -16,14 +16,15 @@
 package org.assertj.core.condition;
 
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.util.Lists.list;
 
+import java.util.List;
 import java.util.function.Function;
 
 import org.assertj.core.annotation.Beta;
 import org.assertj.core.api.Condition;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.JoinDescription;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Container {@link Condition} that maps the object under test and then check the resulting mapped value against its nested {@link Condition}.
@@ -51,8 +52,8 @@ import org.assertj.core.description.JoinDescription;
 @Beta
 public class MappedCondition<FROM, TO> extends Condition<FROM> {
 
-  private Condition<TO> condition;
-  private Function<FROM, TO> mapping;
+  private Condition<@Nullable TO> condition;
+  private Function<@Nullable FROM, @Nullable TO> mapping;
   private String mappingDescription;
 
   /**
@@ -85,7 +86,8 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws NullPointerException if the given mapping is {@code null}.
    */
-  public static <FROM, TO> MappedCondition<FROM, TO> mappedCondition(Function<FROM, TO> mapping, Condition<TO> condition,
+  public static <FROM, TO> MappedCondition<FROM, TO> mappedCondition(Function<@Nullable FROM, @Nullable TO> mapping,
+                                                                     Condition<@Nullable TO> condition,
                                                                      String mappingDescription, Object... args) {
     requireNonNull(mappingDescription, "The given mappingDescription should not be null");
     return new MappedCondition<>(mapping, condition, mappingDescription.formatted(args));
@@ -102,11 +104,13 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws NullPointerException if the given mapping is {@code null}.
    */
-  public static <FROM, TO> MappedCondition<FROM, TO> mappedCondition(Function<FROM, TO> mapping, Condition<TO> condition) {
+  public static <FROM, TO> MappedCondition<FROM, TO> mappedCondition(Function<@Nullable FROM, @Nullable TO> mapping,
+                                                                     Condition<@Nullable TO> condition) {
     return mappedCondition(mapping, condition, "");
   }
 
-  private MappedCondition(Function<FROM, TO> mapping, Condition<TO> condition, String mappingDescription) {
+  private MappedCondition(Function<@Nullable FROM, @Nullable TO> mapping, Condition<@Nullable TO> condition,
+                          String mappingDescription) {
     requireNonNull(condition, "The given condition should not be null");
     requireNonNull(mapping, "The given mapping function should not be null");
     this.mapping = mapping;
@@ -121,7 +125,7 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
    * @return {@code true} if the given mapped value satisfies the nested condition; {@code false} otherwise.
    */
   @Override
-  public boolean matches(FROM value) {
+  public boolean matches(@Nullable FROM value) {
     TO mappedObject = mapping.apply(value);
     String desc = buildMappingDescription(value, mappedObject);
     describedAs(desc);
@@ -135,11 +139,11 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
    * @param to the mapped value
    * @return the mapped condition description .
    */
-  protected String buildMappingDescription(FROM from, TO to) {
+  protected String buildMappingDescription(@Nullable FROM from, @Nullable TO to) {
     return buildMappingDescription(from, to, true);
   }
 
-  private String buildMappingDescription(FROM from, TO to, boolean withNested) {
+  private String buildMappingDescription(@Nullable FROM from, @Nullable TO to, boolean withNested) {
 
     StringBuilder sb = new StringBuilder("mapped");
     if (!mappingDescription.isEmpty()) sb.append("%n   using: %s".formatted(mappingDescription));
@@ -156,12 +160,12 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
   }
 
   @Override
-  public Description conditionDescriptionWithStatus(FROM actual) {
+  public Description conditionDescriptionWithStatus(@Nullable FROM actual) {
     TO mappedObject = mapping.apply(actual);
     Description descriptionsWithStatus = condition.conditionDescriptionWithStatus(mappedObject);
     Status status = status(actual);
     String descriptionStart = "%s %s".formatted(status, buildMappingDescription(actual, mappedObject, false));
-    return new JoinDescription(descriptionStart, "", list(descriptionsWithStatus));
+    return new JoinDescription(descriptionStart, "", List.of(descriptionsWithStatus));
   }
 
   private static String className(Object object) {

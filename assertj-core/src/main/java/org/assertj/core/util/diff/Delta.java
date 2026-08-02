@@ -134,7 +134,7 @@ public abstract class Delta<T> {
 
   @Override
   public String toString() {
-    return ConfigurationProvider.CONFIGURATION_PROVIDER.representation().toStringOf(this);
+    return String.valueOf(ConfigurationProvider.CONFIGURATION_PROVIDER.representation().toStringOf(this));
   }
 
 }

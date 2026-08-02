@@ -68,7 +68,7 @@ public final class MapEntry<K, V> implements Map.Entry<K, V> {
 
   @Override
   public String toString() {
-    return CONFIGURATION_PROVIDER.representation().toStringOf(this);
+    return String.valueOf(CONFIGURATION_PROVIDER.representation().toStringOf(this));
   }
 
   @Override

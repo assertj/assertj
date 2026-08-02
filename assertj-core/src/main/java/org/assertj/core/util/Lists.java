@@ -42,6 +42,7 @@ public final class Lists {
    * @return the created list
    */
   @SafeVarargs
+  @Contract("null -> null; !null -> !null")
   public static <T> @Nullable List<T> list(T... elements) {
     return newArrayList(elements);
   }
@@ -54,6 +55,7 @@ public final class Lists {
    * @return the created {@code ArrayList}, of {@code null} if the given array of elements is {@code null}.
    */
   @SafeVarargs
+  @Contract("null -> null; !null -> !null")
   public static <T> @Nullable ArrayList<T> newArrayList(T @Nullable... elements) {
     if (elements == null) {
       return null;
@@ -85,6 +87,7 @@ public final class Lists {
    * @param elements the elements to store in the {@code ArrayList}.
    * @return the created {@code ArrayList}, or {@code null} if the given {@code Iterator} is {@code null}.
    */
+  @Contract("null -> null; !null -> !null")
   public static <T> @Nullable ArrayList<T> newArrayList(@Nullable Iterator<? extends T> elements) {
     if (elements == null) {
       return null;

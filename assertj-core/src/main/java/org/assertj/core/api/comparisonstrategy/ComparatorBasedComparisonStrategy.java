@@ -179,7 +179,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
 
   @Override
   public String toString() {
-    return CONFIGURATION_PROVIDER.representation().toStringOf(this);
+    return String.valueOf(CONFIGURATION_PROVIDER.representation().toStringOf(this));
   }
 
   /**

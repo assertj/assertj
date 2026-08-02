@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Strings;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Extractors factory, providing convenient methods of creating common extractors.
@@ -99,7 +100,7 @@ public class Extractors {
    * @param items the items to describe
    * @return the items description
    */
-  public static String descriptionOf(Object... items) {
+  public static String descriptionOf(Object @Nullable... items) {
     if (items == null) return "";
     String[] itemsDescription = Stream.of(items).map(Object::toString).toArray(String[]::new);
     return Strings.join(itemsDescription).with(", ");

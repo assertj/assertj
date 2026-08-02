@@ -19,6 +19,7 @@ import org.assertj.core.util.Throwables;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Generic Hamcrest {@link Matcher} that reuses AssertJ assertions.
@@ -44,7 +45,7 @@ import org.hamcrest.Matcher;
  * @since 2.7.0 / 3.7.0
  */
 public abstract class AssertionMatcher<T> extends BaseMatcher<T> {
-  private AssertionError firstError;
+  private @Nullable AssertionError firstError;
 
   /** Creates a new assertion matcher. */
   public AssertionMatcher() {}
