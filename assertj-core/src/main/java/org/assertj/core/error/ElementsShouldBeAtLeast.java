@@ -16,6 +16,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.api.Condition;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies elements of a group satisfies at least n times a
@@ -34,11 +35,11 @@ public class ElementsShouldBeAtLeast extends BasicErrorMessageFactory {
    * @param condition the {@code Condition}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory elementsShouldBeAtLeast(Object actual, int times, Condition<?> condition) {
+  public static ErrorMessageFactory elementsShouldBeAtLeast(@Nullable Object actual, int times, Condition<?> condition) {
     return new ElementsShouldBeAtLeast(actual, times, condition);
   }
 
-  private ElementsShouldBeAtLeast(Object actual, int times, Condition<?> condition) {
+  private ElementsShouldBeAtLeast(@Nullable Object actual, int times, Condition<?> condition) {
     super("%nExpecting elements:%n  %s%nto be at least %s times %s", actual, times, condition);
   }
 }

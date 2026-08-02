@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for objects expected to have different hash codes. */
 public class ShouldNotHaveSameHashCode extends BasicErrorMessageFactory {
   /**
@@ -24,11 +26,11 @@ public class ShouldNotHaveSameHashCode extends BasicErrorMessageFactory {
    * @param other the comparison object
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldNotHaveSameHashCode(Object actual, Object other) {
+  public static ErrorMessageFactory shouldNotHaveSameHashCode(Object actual, @Nullable Object other) {
     return new ShouldNotHaveSameHashCode(actual, other);
   }
 
-  private ShouldNotHaveSameHashCode(Object actual, Object other) {
+  private ShouldNotHaveSameHashCode(Object actual, @Nullable Object other) {
     super("%nExpecting%n" +
           "  %s%n" +
           "not to have the same hash code as:%n" +

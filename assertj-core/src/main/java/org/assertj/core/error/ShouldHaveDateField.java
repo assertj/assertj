@@ -19,6 +19,8 @@ import java.time.Month;
 import java.time.temporal.Temporal;
 import java.util.Date;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Date} has a year, month, day, ...
  * failed.
@@ -65,7 +67,7 @@ public class ShouldHaveDateField extends BasicErrorMessageFactory {
     super("%nExpecting actual:%n  %s%nto be on %s %s", actual, fieldDescription, fieldValue);
   }
 
-  private ShouldHaveDateField(Temporal actual, String fieldDescription, Object fieldValue) {
+  private ShouldHaveDateField(Temporal actual, String fieldDescription, @Nullable Object fieldValue) {
     super("%nExpecting actual:%n  %s%nto be on %s %s", actual, fieldDescription, fieldValue);
   }
 

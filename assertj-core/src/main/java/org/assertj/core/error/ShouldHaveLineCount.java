@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a value have certain number of lines failed.
  * 
@@ -29,11 +31,11 @@ public class ShouldHaveLineCount extends BasicErrorMessageFactory {
    * @param expectedSize the expected lines count.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveLinesCount(Object actual, int actualSize, int expectedSize) {
+  public static ErrorMessageFactory shouldHaveLinesCount(@Nullable Object actual, int actualSize, int expectedSize) {
     return new ShouldHaveLineCount(actual, actualSize, expectedSize);
   }
 
-  private ShouldHaveLineCount(Object actual, int actualSize, int expectedSize) {
+  private ShouldHaveLineCount(@Nullable Object actual, int actualSize, int expectedSize) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
     // Also don't indent actual first line since the remaining lines won't have any indentation

@@ -19,6 +19,8 @@ import static java.lang.System.lineSeparator;
 import static java.util.Objects.deepEquals;
 import static org.assertj.core.util.Objects.hashCodeFor;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Wrapper record for values that should have all lines indented in error messages.
  * <p>
@@ -28,7 +30,7 @@ import static org.assertj.core.util.Objects.hashCodeFor;
  *
  * @param value the value
  */
-public record IndentWrapper(Object value) {
+public record IndentWrapper(@Nullable Object value) {
 
   private static final String INDENTATION = "  ";
 
@@ -41,11 +43,11 @@ public record IndentWrapper(Object value) {
    * @param value the value to wrap for indentation
    * @return an {@link IndentWrapper} instance
    */
-  public static IndentWrapper of(Object value) {
+  public static IndentWrapper of(@Nullable Object value) {
     return new IndentWrapper(value);
   }
 
-  static String indentAllLines(String representation) {
+  static @Nullable String indentAllLines(@Nullable String representation) {
     if (representation == null) return null;
     return representation.replace(lineSeparator(), lineSeparator() + INDENTATION);
   }

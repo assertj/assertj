@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for values expected to contain only alphanumeric characters. */
 public class ShouldBeAlphanumeric extends BasicErrorMessageFactory {
   /**
@@ -23,11 +25,11 @@ public class ShouldBeAlphanumeric extends BasicErrorMessageFactory {
    * @param actual the actual value
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldBeAlphanumeric(Object actual) {
+  public static ErrorMessageFactory shouldBeAlphanumeric(@Nullable Object actual) {
     return new ShouldBeAlphanumeric(actual);
   }
 
-  private ShouldBeAlphanumeric(Object actual) {
+  private ShouldBeAlphanumeric(@Nullable Object actual) {
     super("%nExpecting %s to be alphanumeric", actual);
   }
 }

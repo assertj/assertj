@@ -16,6 +16,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies {@link CharSequence} does not start with a
@@ -36,7 +37,8 @@ public class ShouldNotStartWithIgnoringCase extends BasicErrorMessageFactory {
     return new ShouldNotStartWithIgnoringCase(actual, expected, comparisonStrategy);
   }
 
-  private ShouldNotStartWithIgnoringCase(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
+  private ShouldNotStartWithIgnoringCase(@Nullable Object actual, @Nullable Object expected,
+                                         ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nnot to start with (ignoring case):%n  %s%n%s",
           IndentWrapper.of(actual), IndentWrapper.of(expected), comparisonStrategy);
   }

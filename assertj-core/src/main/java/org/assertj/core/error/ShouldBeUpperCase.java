@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message that indicates an assertion that verifies that a character is uppercase failed.
  * 
@@ -27,11 +29,11 @@ public class ShouldBeUpperCase extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeUpperCase(Object actual) {
+  public static ErrorMessageFactory shouldBeUpperCase(@Nullable Object actual) {
     return new ShouldBeUpperCase(actual);
   }
 
-  private ShouldBeUpperCase(Object actual) {
+  private ShouldBeUpperCase(@Nullable Object actual) {
     super("%nExpecting %s to be uppercase", actual);
   }
 }

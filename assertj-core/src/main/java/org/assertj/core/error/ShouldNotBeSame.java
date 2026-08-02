@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating an assertion that verifies that two objects do not refer to the same object failed.
  * 
@@ -28,11 +30,11 @@ public class ShouldNotBeSame extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotBeSame(Object actual) {
+  public static ErrorMessageFactory shouldNotBeSame(@Nullable Object actual) {
     return new ShouldNotBeSame(actual);
   }
 
-  private ShouldNotBeSame(Object actual) {
+  private ShouldNotBeSame(@Nullable Object actual) {
     super("%nExpected not same: %s", actual);
   }
 }

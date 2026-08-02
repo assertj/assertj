@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import java.util.Optional;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Build an error message when a value should be instance of a specific class.
  *
@@ -36,7 +38,7 @@ public class OptionalShouldContainInstanceOf extends BasicErrorMessageFactory {
    * @return an error message factory.
    * @throws java.lang.NullPointerException if optional is null.
    */
-  public static OptionalShouldContainInstanceOf shouldContainInstanceOf(Object value, Class<?> clazz) {
+  public static OptionalShouldContainInstanceOf shouldContainInstanceOf(@Nullable Object value, Class<?> clazz) {
     Optional<?> optional = (Optional<?>) value;
     if (optional.isPresent()) {
       return new OptionalShouldContainInstanceOf("%nExpecting actual:%n %s%nto contain a value that is an instance of:%n %s%nbut did contain an instance of:%n %s".formatted(optional.getClass()

@@ -24,6 +24,7 @@ import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.internal.IndexedDiff;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains exactly a given set
@@ -46,7 +47,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    * 
    */
-  public static ErrorMessageFactory shouldContainExactly(Object actual, Iterable<?> expected,
+  public static ErrorMessageFactory shouldContainExactly(@Nullable Object actual, Iterable<?> expected,
                                                          Iterable<?> notFound, Iterable<?> notExpected,
                                                          ComparisonStrategy comparisonStrategy) {
     if (isNullOrEmpty(notExpected) && isNullOrEmpty(notFound))
@@ -67,7 +68,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @param notExpected values in {@code actual} that were not in {@code expected}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainExactly(Object actual, Iterable<?> expected,
+  public static ErrorMessageFactory shouldContainExactly(@Nullable Object actual, Iterable<?> expected,
                                                          Iterable<?> notFound, Iterable<?> notExpected) {
     return shouldContainExactly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
   }
@@ -82,7 +83,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    *
    */
-  public static ErrorMessageFactory shouldContainExactlyWithIndexes(Object actual, Iterable<?> expected,
+  public static ErrorMessageFactory shouldContainExactlyWithIndexes(@Nullable Object actual, Iterable<?> expected,
                                                                     List<IndexedDiff> indexDifferences,
                                                                     ComparisonStrategy comparisonStrategy) {
     return new ShouldContainExactly(actual, expected, indexDifferences, comparisonStrategy);
@@ -97,12 +98,12 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    *
    */
-  public static ErrorMessageFactory shouldContainExactlyWithIndexes(Object actual, Iterable<?> expected,
+  public static ErrorMessageFactory shouldContainExactlyWithIndexes(@Nullable Object actual, Iterable<?> expected,
                                                                     List<IndexedDiff> indexDifferences) {
     return new ShouldContainExactly(actual, expected, indexDifferences, StandardComparisonStrategy.instance());
   }
 
-  private ShouldContainExactly(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
+  private ShouldContainExactly(@Nullable Object actual, @Nullable Object expected, ComparisonStrategy comparisonStrategy) {
     super("%n" +
           "Expecting actual:%n" +
           "  %s%n" +
@@ -111,7 +112,8 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
           actual, expected, comparisonStrategy);
   }
 
-  private ShouldContainExactly(Object actual, Object expected, Object notFound, Object notExpected,
+  private ShouldContainExactly(@Nullable Object actual, @Nullable Object expected, @Nullable Object notFound,
+                               @Nullable Object notExpected,
                                ComparisonStrategy comparisonStrategy) {
     super("%n" +
           "Expecting actual:%n" +
@@ -125,7 +127,8 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
           actual, expected, notFound, notExpected, comparisonStrategy);
   }
 
-  private ShouldContainExactly(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {
+  private ShouldContainExactly(@Nullable Object actual, @Nullable Object expected, @Nullable Object notFound,
+                               ComparisonStrategy comparisonStrategy) {
     super("%n" +
           "Expecting actual:%n" +
           "  %s%n" +
@@ -136,8 +139,8 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
           actual, expected, notFound, comparisonStrategy);
   }
 
-  private ShouldContainExactly(Object actual, Object expected, ComparisonStrategy comparisonStrategy,
-                               Object unexpected) {
+  private ShouldContainExactly(@Nullable Object actual, @Nullable Object expected, ComparisonStrategy comparisonStrategy,
+                               @Nullable Object unexpected) {
     super("%n" +
           "Expecting actual:%n" +
           "  %s%n" +
@@ -148,7 +151,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
           actual, expected, unexpected, comparisonStrategy);
   }
 
-  private ShouldContainExactly(Object actual, Object expected, List<IndexedDiff> indexDiffs,
+  private ShouldContainExactly(@Nullable Object actual, @Nullable Object expected, List<IndexedDiff> indexDiffs,
                                ComparisonStrategy comparisonStrategy) {
     super("%n" +
           "Expecting actual:%n" +
@@ -183,7 +186,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory elementsDifferAtIndex(Object actualElement, Object expectedElement,
+  public static ErrorMessageFactory elementsDifferAtIndex(@Nullable Object actualElement, @Nullable Object expectedElement,
                                                           int indexOfDifferentElements,
                                                           ComparisonStrategy comparisonStrategy) {
     return new ShouldContainExactly(actualElement, expectedElement, indexOfDifferentElements, comparisonStrategy);
@@ -198,13 +201,13 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @param indexOfDifferentElements index where actual and expect differs.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory elementsDifferAtIndex(Object actualElement, Object expectedElement,
+  public static ErrorMessageFactory elementsDifferAtIndex(@Nullable Object actualElement, @Nullable Object expectedElement,
                                                           int indexOfDifferentElements) {
     return new ShouldContainExactly(actualElement, expectedElement, indexOfDifferentElements,
                                     StandardComparisonStrategy.instance());
   }
 
-  private ShouldContainExactly(Object actualElement, Object expectedElement, int indexOfDifferentElements,
+  private ShouldContainExactly(@Nullable Object actualElement, @Nullable Object expectedElement, int indexOfDifferentElements,
                                ComparisonStrategy comparisonStrategy) {
     super("%n" +
           "Actual and expected have the same elements but not in the same order, at index %s actual element was:%n" +

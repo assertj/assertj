@@ -20,6 +20,7 @@ import java.util.Set;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
+import org.jspecify.annotations.Nullable;
 
 /** Creates errors for URIs and URLs with unexpected parameters. */
 public class ShouldHaveParameter extends BasicErrorMessageFactory {
@@ -51,7 +52,7 @@ public class ShouldHaveParameter extends BasicErrorMessageFactory {
    * @param name the parameter name
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveParameter(Object actual, String name) {
+  public static ErrorMessageFactory shouldHaveParameter(@Nullable Object actual, String name) {
     return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_BUT_WAS_MISSING, actual, name);
   }
 
@@ -63,7 +64,7 @@ public class ShouldHaveParameter extends BasicErrorMessageFactory {
    * @param expectedValue the expected value
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveParameter(Object actual, String name, String expectedValue) {
+  public static ErrorMessageFactory shouldHaveParameter(@Nullable Object actual, String name, String expectedValue) {
     if (expectedValue == null)
       return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_WITHOUT_VALUE_BUT_PARAMETER_WAS_MISSING, actual, name);
     return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_WITH_VALUE_BUT_PARAMETER_WAS_MISSING, actual, name,
@@ -79,7 +80,7 @@ public class ShouldHaveParameter extends BasicErrorMessageFactory {
    * @param actualValues the actual values
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveParameter(Object actual, String name, String expectedValue,
+  public static ErrorMessageFactory shouldHaveParameter(@Nullable Object actual, String name, String expectedValue,
                                                         List<String> actualValues) {
     if (expectedValue == null)
       return new ShouldHaveParameter(multipleValues(actualValues) ? SHOULD_HAVE_PARAMETER_WITHOUT_VALUE_BUT_HAD_VALUES
@@ -99,7 +100,7 @@ public class ShouldHaveParameter extends BasicErrorMessageFactory {
    * @param parameterNames the unexpected parameter names
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveNoParameters(Object actual, Set<String> parameterNames) {
+  public static ErrorMessageFactory shouldHaveNoParameters(@Nullable Object actual, Set<String> parameterNames) {
     String parametersDescription = parameterNames.size() == 1 ? parameterNames.iterator().next()
         : parameterNames.toString();
     return new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETERS, actual, parametersDescription);
@@ -113,7 +114,7 @@ public class ShouldHaveParameter extends BasicErrorMessageFactory {
    * @param actualValues the actual values
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveNoParameter(Object actual, String name, List<String> actualValues) {
+  public static ErrorMessageFactory shouldHaveNoParameter(@Nullable Object actual, String name, List<String> actualValues) {
     return noValueIn(actualValues)
         ? new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETER_BUT_HAD_ONE_WITHOUT_VALUE, actual, name)
         : new ShouldHaveParameter(multipleValues(actualValues) ? SHOULD_HAVE_NO_PARAMETER_BUT_HAD_MULTIPLE_VALUES
@@ -129,7 +130,7 @@ public class ShouldHaveParameter extends BasicErrorMessageFactory {
    * @param actualValues the actual values
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveNoParameter(Object actual, String name, String unwantedValue,
+  public static ErrorMessageFactory shouldHaveNoParameter(@Nullable Object actual, String name, String unwantedValue,
                                                           List<String> actualValues) {
     if (noValueIn(actualValues))
       return new ShouldHaveParameter(SHOULD_HAVE_NO_PARAMETER_WITHOUT_VALUE_BUT_FOUND_ONE, actual, name);
@@ -150,7 +151,7 @@ public class ShouldHaveParameter extends BasicErrorMessageFactory {
     return values.size() > 1;
   }
 
-  private ShouldHaveParameter(String format, Object... arguments) {
+  private ShouldHaveParameter(String format, @Nullable Object... arguments) {
     super(format, arguments);
   }
 

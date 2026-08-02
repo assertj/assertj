@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is less than another one failed.
@@ -44,7 +45,8 @@ public class ShouldBeLess extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeLess(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
+  public static ErrorMessageFactory shouldBeLess(@Nullable Object actual, @Nullable Object other,
+                                                 ComparisonStrategy comparisonStrategy) {
     return new ShouldBeLess(actual, other, comparisonStrategy);
   }
 

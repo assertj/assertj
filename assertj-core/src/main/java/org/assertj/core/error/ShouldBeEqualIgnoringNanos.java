@@ -20,6 +20,8 @@ import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that :
  * <ul>
@@ -39,7 +41,7 @@ public class ShouldBeEqualIgnoringNanos extends BasicErrorMessageFactory {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeEqualIgnoringNanos(Object actual, Object other) {
+  public static ErrorMessageFactory shouldBeEqualIgnoringNanos(@Nullable Object actual, @Nullable Object other) {
     return new ShouldBeEqualIgnoringNanos(actual, other);
   }
 
@@ -65,7 +67,7 @@ public class ShouldBeEqualIgnoringNanos extends BasicErrorMessageFactory {
     return new ShouldBeEqualIgnoringNanos(actual, other);
   }
 
-  private ShouldBeEqualIgnoringNanos(Object actual, Object other) {
+  private ShouldBeEqualIgnoringNanos(@Nullable Object actual, @Nullable Object other) {
     super("%nExpecting actual:%n  %s%nto have same year, month, day, hour, minute and second as:%n  %s%nbut had not.",
           actual, other);
   }

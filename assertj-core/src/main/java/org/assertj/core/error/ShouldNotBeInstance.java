@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import static org.assertj.core.util.Throwables.getStackTrace;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that an object is not an instance of some type failed.
  * 
@@ -30,12 +32,12 @@ public class ShouldNotBeInstance extends BasicErrorMessageFactory {
    * @param type the type {@code actual} is expected to belong to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotBeInstance(Object actual, Class<?> type) {
+  public static ErrorMessageFactory shouldNotBeInstance(@Nullable Object actual, Class<?> type) {
     return actual instanceof Throwable throwable ? new ShouldNotBeInstance(throwable, type)
         : new ShouldNotBeInstance(actual, type);
   }
 
-  private ShouldNotBeInstance(Object actual, Class<?> type) {
+  private ShouldNotBeInstance(@Nullable Object actual, Class<?> type) {
     super("%nExpecting actual:%n  %s%nnot to be an instance of: %s", actual, type);
   }
 

@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that an {@link Object} is before or equal to another one
@@ -34,7 +35,8 @@ public class ShouldBeBeforeOrEqualTo extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeBeforeOrEqualTo(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
+  public static ErrorMessageFactory shouldBeBeforeOrEqualTo(@Nullable Object actual, @Nullable Object other,
+                                                            ComparisonStrategy comparisonStrategy) {
     return new ShouldBeBeforeOrEqualTo(actual, other, comparisonStrategy);
   }
 
@@ -45,11 +47,11 @@ public class ShouldBeBeforeOrEqualTo extends BasicErrorMessageFactory {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeBeforeOrEqualTo(Object actual, Object other) {
+  public static ErrorMessageFactory shouldBeBeforeOrEqualTo(@Nullable Object actual, @Nullable Object other) {
     return new ShouldBeBeforeOrEqualTo(actual, other, StandardComparisonStrategy.instance());
   }
 
-  private ShouldBeBeforeOrEqualTo(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
+  private ShouldBeBeforeOrEqualTo(@Nullable Object actual, @Nullable Object other, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto be before or equal to:%n  %s%n%s", actual, other, comparisonStrategy);
   }
 }

@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion - that verifies that size of a value is
  * between two given values - failed.
@@ -31,11 +33,12 @@ public class ShouldHaveSizeBetween extends BasicErrorMessageFactory {
    * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveSizeBetween(Object actual, int actualSize, int lowerBoundary, int higherBoundary) {
+  public static ErrorMessageFactory shouldHaveSizeBetween(@Nullable Object actual, int actualSize, int lowerBoundary,
+                                                          int higherBoundary) {
     return new ShouldHaveSizeBetween(actual, actualSize, lowerBoundary, higherBoundary);
   }
 
-  private ShouldHaveSizeBetween(Object actual, int actualSize, int lowerBoundary, int higherBoundary) {
+  private ShouldHaveSizeBetween(@Nullable Object actual, int actualSize, int lowerBoundary, int higherBoundary) {
     super("%nExpected size to be between: %s and %s but was: %s in:%n%s".formatted(lowerBoundary, higherBoundary,
                                                                                    actualSize, "%s"),
           actual);

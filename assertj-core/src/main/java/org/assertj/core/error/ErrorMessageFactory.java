@@ -20,6 +20,7 @@ import static org.assertj.core.description.EmptyTextDescription.emptyDescription
 
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Factory of error messages.
@@ -34,7 +35,7 @@ public interface ErrorMessageFactory {
    * @param representation the representation used
    * @return the created error message.
    */
-  String create(Description description, Representation representation);
+  String create(@Nullable Description description, Representation representation);
 
   /**
    * Creates an error message using the configured representation.

@@ -15,17 +15,19 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for atomic values with an unexpected value. */
 public class ShouldHaveValue extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_VALUE_BUT_DID_NOT = "%nExpecting %s to have value:%n  %s%nbut did not.";
   private static final String SHOULD_HAVE_VALUE = "%nExpecting %s to have value:%n  %s%nbut had:%n  %s%nto update target object:%n  %s";
 
-  private <REF> ShouldHaveValue(Object actual, REF actualValue, REF expectedValue, Object objectToUpdate) {
+  private <REF> ShouldHaveValue(@Nullable Object actual, REF actualValue, REF expectedValue, @Nullable Object objectToUpdate) {
     super(SHOULD_HAVE_VALUE, actual, expectedValue, actualValue, objectToUpdate);
   }
 
-  private <REF> ShouldHaveValue(Object actual, REF expectedValue) {
+  private <REF> ShouldHaveValue(@Nullable Object actual, REF expectedValue) {
     super(SHOULD_HAVE_VALUE_BUT_DID_NOT, actual, expectedValue);
   }
 
@@ -39,8 +41,8 @@ public class ShouldHaveValue extends BasicErrorMessageFactory {
    * @param objectToUpdate the update target
    * @return the error message factory
    */
-  public static <REF> ErrorMessageFactory shouldHaveValue(Object actual, REF actualValue, REF expectedValue,
-                                                          Object objectToUpdate) {
+  public static <REF> ErrorMessageFactory shouldHaveValue(@Nullable Object actual, REF actualValue, REF expectedValue,
+                                                          @Nullable Object objectToUpdate) {
     return new ShouldHaveValue(actual, actualValue, expectedValue, objectToUpdate);
   }
 
@@ -52,7 +54,7 @@ public class ShouldHaveValue extends BasicErrorMessageFactory {
    * @param expectedValue the expected value
    * @return the error message factory
    */
-  public static <REF> ErrorMessageFactory shouldHaveValue(Object actual, REF expectedValue) {
+  public static <REF> ErrorMessageFactory shouldHaveValue(@Nullable Object actual, REF expectedValue) {
     return new ShouldHaveValue(actual, expectedValue);
   }
 }

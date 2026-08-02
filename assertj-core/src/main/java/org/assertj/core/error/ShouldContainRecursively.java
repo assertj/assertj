@@ -22,6 +22,8 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains recursively a given set of values failed.
  *
@@ -58,7 +60,7 @@ public class ShouldContainRecursively extends BasicErrorMessageFactory {
                                         filterDescription);
   }
 
-  private ShouldContainRecursively(Object actual, List<String> directoryContent, String filterDescription) {
+  private ShouldContainRecursively(@Nullable Object actual, List<String> directoryContent, String filterDescription) {
     super("%nExpecting directory or any of its subdirectories (recursively):%n" +
           "  %s%n" +
           "to contain at least one file matching %s but there was none.%n" +

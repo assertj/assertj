@@ -19,6 +19,8 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.Objects;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that a {@code File} or a {@code Path} should have extension.
  * 
@@ -53,7 +55,7 @@ public class ShouldHaveExtension extends BasicErrorMessageFactory {
     return new ShouldHaveExtension(actual, actualExtension, expectedExtension);
   }
 
-  private ShouldHaveExtension(Object actual, String actualExtension, String expectedExtension) {
+  private ShouldHaveExtension(@Nullable Object actual, String actualExtension, String expectedExtension) {
     super("%nExpecting%n  %s%nto have extension:%n  %s%nbut had:%n  %s.", actual, expectedExtension,
           actualExtension);
   }
@@ -80,7 +82,7 @@ public class ShouldHaveExtension extends BasicErrorMessageFactory {
     return new ShouldHaveExtension(actual, expectedExtension);
   }
 
-  private ShouldHaveExtension(Object actual, String expectedExtension) {
+  private ShouldHaveExtension(@Nullable Object actual, String expectedExtension) {
     super("%nExpecting%n  %s%nto have extension:%n  %s%nbut had no extension.", actual, expectedExtension);
   }
 

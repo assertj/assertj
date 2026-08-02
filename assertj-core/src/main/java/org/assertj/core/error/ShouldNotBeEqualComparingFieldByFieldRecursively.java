@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /** Creates errors for objects expected not to be recursively equal. */
 public class ShouldNotBeEqualComparingFieldByFieldRecursively extends BasicErrorMessageFactory {
@@ -30,7 +31,8 @@ public class ShouldNotBeEqualComparingFieldByFieldRecursively extends BasicError
    * @param representation the value representation
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldNotBeEqualComparingFieldByFieldRecursively(Object actual, Object other,
+  public static ErrorMessageFactory shouldNotBeEqualComparingFieldByFieldRecursively(@Nullable Object actual,
+                                                                                     @Nullable Object other,
                                                                                      RecursiveComparisonConfiguration recursiveComparisonConfiguration,
                                                                                      Representation representation) {
     String recursiveComparisonConfigurationDescription = recursiveComparisonConfiguration.multiLineDescription(representation);
@@ -56,7 +58,7 @@ public class ShouldNotBeEqualComparingFieldByFieldRecursively extends BasicError
    * @param actual the actual object
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldNotBeEqualComparingFieldByFieldRecursively(Object actual) {
+  public static ErrorMessageFactory shouldNotBeEqualComparingFieldByFieldRecursively(@Nullable Object actual) {
     if (actual == null)
       return new ShouldNotBeEqualComparingFieldByFieldRecursively("%n" +
                                                                   "Expecting actual not to be equal to other but both are null.");
@@ -65,7 +67,7 @@ public class ShouldNotBeEqualComparingFieldByFieldRecursively extends BasicError
                                                                 + "  %s%n", actual);
   }
 
-  private ShouldNotBeEqualComparingFieldByFieldRecursively(String message, Object... arguments) {
+  private ShouldNotBeEqualComparingFieldByFieldRecursively(String message, @Nullable Object... arguments) {
     super(message, arguments);
   }
 

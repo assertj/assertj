@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a class has a field/property with a value.
  *
@@ -31,12 +33,14 @@ public class ShouldHavePropertyOrFieldWithValue extends BasicErrorMessageFactory
    * @param actualValue actual value of the field of the class
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHavePropertyOrFieldWithValue(Object actual, String name, Object expectedValue,
-                                                                       Object actualValue) {
+  public static ErrorMessageFactory shouldHavePropertyOrFieldWithValue(@Nullable Object actual, String name,
+                                                                       @Nullable Object expectedValue,
+                                                                       @Nullable Object actualValue) {
     return new ShouldHavePropertyOrFieldWithValue(actual, name, expectedValue, actualValue);
   }
 
-  private ShouldHavePropertyOrFieldWithValue(Object actual, String name, Object expectedValue, Object actualValue) {
+  private ShouldHavePropertyOrFieldWithValue(@Nullable Object actual, String name, @Nullable Object expectedValue,
+                                             @Nullable Object actualValue) {
     super("%nExpecting%n  %s%nto have a property or a field named %s with value%n  %s%nbut value was:%n  %s%n(static and synthetic fields are ignored)",
           actual, name, expectedValue, actualValue);
   }

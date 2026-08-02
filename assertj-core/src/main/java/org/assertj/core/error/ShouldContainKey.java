@@ -16,6 +16,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.api.Condition;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies a map contains a key.
@@ -29,11 +30,11 @@ public class ShouldContainKey extends BasicErrorMessageFactory {
    * @param keyCondition key condition.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainKey(Object actual, Condition<?> keyCondition) {
+  public static ErrorMessageFactory shouldContainKey(@Nullable Object actual, Condition<?> keyCondition) {
     return new ShouldContainKey(actual, keyCondition);
   }
 
-  private ShouldContainKey(Object actual, Condition<?> keyCondition) {
+  private ShouldContainKey(@Nullable Object actual, Condition<?> keyCondition) {
     super("%n" +
           "Expecting actual:%n" +
           "  %s%n" +

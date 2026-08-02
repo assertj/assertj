@@ -17,13 +17,15 @@ package org.assertj.core.error;
 
 import java.util.regex.Matcher;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Build error message when an {@link Matcher} should have a named or numbered group.
  *
  * @author Harry Dent
  */
 public class MatcherShouldHaveGroup extends BasicErrorMessageFactory {
-  private MatcherShouldHaveGroup(Matcher matcher, Object groupIdentifier) {
+  private MatcherShouldHaveGroup(Matcher matcher, @Nullable Object groupIdentifier) {
     super("%nExpecting %s to have group %s", matcher, groupIdentifier);
   }
 
@@ -34,7 +36,7 @@ public class MatcherShouldHaveGroup extends BasicErrorMessageFactory {
    * @param groupIdentifier the group name or index
    * @return an error message factory.
    */
-  public static MatcherShouldHaveGroup shouldHaveGroup(Matcher matcher, Object groupIdentifier) {
+  public static MatcherShouldHaveGroup shouldHaveGroup(Matcher matcher, @Nullable Object groupIdentifier) {
     return new MatcherShouldHaveGroup(matcher, groupIdentifier);
   }
 }

@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that a group of elements should have been an array.
  * 
@@ -27,11 +29,11 @@ public class ShouldBeAnArray extends BasicErrorMessageFactory {
    * @param object the object value in the failed assertion.
    * @return the created of {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeAnArray(Object object) {
+  public static ErrorMessageFactory shouldBeAnArray(@Nullable Object object) {
     return new ShouldBeAnArray(object);
   }
 
-  private ShouldBeAnArray(Object object) {
+  private ShouldBeAnArray(@Nullable Object object) {
     super("%nExpecting an array but was: %s", object);
   }
 }

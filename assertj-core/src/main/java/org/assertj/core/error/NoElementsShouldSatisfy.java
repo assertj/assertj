@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for iterables containing elements satisfying forbidden requirements. */
 public class NoElementsShouldSatisfy extends BasicErrorMessageFactory {
 
@@ -25,11 +27,11 @@ public class NoElementsShouldSatisfy extends BasicErrorMessageFactory {
    * @param faultyElement the element satisfying the requirements
    * @return the error message factory
    */
-  public static ErrorMessageFactory noElementsShouldSatisfy(Object actual, Object faultyElement) {
+  public static ErrorMessageFactory noElementsShouldSatisfy(@Nullable Object actual, @Nullable Object faultyElement) {
     return new NoElementsShouldSatisfy(actual, faultyElement);
   }
 
-  private NoElementsShouldSatisfy(Object actual, Object faultyElement) {
+  private NoElementsShouldSatisfy(@Nullable Object actual, @Nullable Object faultyElement) {
     super("%n" +
           "Expecting no elements of:%n" +
           "  %s%n" +

@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.ErrorType.NO
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains exactly a given set
@@ -39,7 +40,8 @@ public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainExactlyInAnyOrder(Object actual, Object expected, Iterable<?> notFound,
+  public static ErrorMessageFactory shouldContainExactlyInAnyOrder(@Nullable Object actual, @Nullable Object expected,
+                                                                   Iterable<?> notFound,
                                                                    Iterable<?> notExpected,
                                                                    ComparisonStrategy comparisonStrategy) {
     if (isNullOrEmpty(notExpected)) {
@@ -53,7 +55,8 @@ public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
     return new ShouldContainExactlyInAnyOrder(actual, expected, notFound, notExpected, comparisonStrategy);
   }
 
-  private ShouldContainExactlyInAnyOrder(Object actual, Object expected, Iterable<?> notFound, Iterable<?> notExpected,
+  private ShouldContainExactlyInAnyOrder(@Nullable Object actual, @Nullable Object expected, Iterable<?> notFound,
+                                         Iterable<?> notExpected,
                                          ComparisonStrategy comparisonStrategy) {
     super("%n" +
           "Expecting actual:%n" +
@@ -67,7 +70,8 @@ public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
           expected, notFound, notExpected, comparisonStrategy);
   }
 
-  private ShouldContainExactlyInAnyOrder(Object actual, Object expected, Iterable<?> notFoundOrNotExpected, ErrorType errorType,
+  private ShouldContainExactlyInAnyOrder(@Nullable Object actual, @Nullable Object expected, Iterable<?> notFoundOrNotExpected,
+                                         ErrorType errorType,
                                          ComparisonStrategy comparisonStrategy) {
     // @format:off
     super("%n" +

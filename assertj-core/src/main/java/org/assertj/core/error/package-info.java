@@ -13,23 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@NullMarked
 package org.assertj.core.error;
 
-import org.jspecify.annotations.Nullable;
-
-/** Creates errors for values expected to contain only alphabetic characters. */
-public class ShouldBeAlphabetic extends BasicErrorMessageFactory {
-  /**
-   * Creates an alphabetic-content error.
-   *
-   * @param actual the actual value
-   * @return the error message factory
-   */
-  public static ErrorMessageFactory shouldBeAlphabetic(@Nullable Object actual) {
-    return new ShouldBeAlphabetic(actual);
-  }
-
-  private ShouldBeAlphabetic(@Nullable Object actual) {
-    super("%nExpecting %s to be alphabetic", actual);
-  }
-}
+import org.jspecify.annotations.NullMarked;

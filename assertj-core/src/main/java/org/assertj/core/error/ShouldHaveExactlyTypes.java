@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for groups with unexpected element types. */
 public class ShouldHaveExactlyTypes extends BasicErrorMessageFactory {
 
@@ -29,7 +31,7 @@ public class ShouldHaveExactlyTypes extends BasicErrorMessageFactory {
    * @param actualTypesNotExpected the unexpected types
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveTypes(Object actual, Iterable<Class<?>> expectedTypes,
+  public static ErrorMessageFactory shouldHaveTypes(@Nullable Object actual, Iterable<Class<?>> expectedTypes,
                                                     Iterable<Class<?>> expectedTypesNotFoundInActual,
                                                     Iterable<Class<?>> actualTypesNotExpected) {
     if (!isNullOrEmpty(actualTypesNotExpected) && !isNullOrEmpty(expectedTypesNotFoundInActual)) {
@@ -54,7 +56,8 @@ public class ShouldHaveExactlyTypes extends BasicErrorMessageFactory {
     return new ShouldHaveExactlyTypes(actualElement, expectedElement, indexOfDifference);
   }
 
-  private ShouldHaveExactlyTypes(Object actual, Iterable<Class<?>> expected, Iterable<Class<?>> expectedTypesNotFoundInActual,
+  private ShouldHaveExactlyTypes(@Nullable Object actual, Iterable<Class<?>> expected,
+                                 Iterable<Class<?>> expectedTypesNotFoundInActual,
                                  Iterable<Class<?>> actualTypesNotExpected) {
     super("%n" +
           "Expecting actual elements:%n" +
@@ -68,7 +71,7 @@ public class ShouldHaveExactlyTypes extends BasicErrorMessageFactory {
           actual, expected, expectedTypesNotFoundInActual, actualTypesNotExpected);
   }
 
-  private ShouldHaveExactlyTypes(Object actual, Iterable<Class<?>> expected, Iterable<Class<?>> diff,
+  private ShouldHaveExactlyTypes(@Nullable Object actual, Iterable<Class<?>> expected, Iterable<Class<?>> diff,
                                  boolean expectedTypesNotFoundInActualOnly) {
     // @format:off
     super("%n" +

@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a group of elements does not contains a
@@ -35,7 +36,7 @@ public class ShouldNotContainSubsequence extends BasicErrorMessageFactory {
    * @param index the index of the unexpected subsequence.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContainSubsequence(Object actual, Object subsequence,
+  public static ErrorMessageFactory shouldNotContainSubsequence(@Nullable Object actual, Object subsequence,
                                                                 ComparisonStrategy comparisonStrategy, int index) {
     return new ShouldNotContainSubsequence(actual, subsequence, comparisonStrategy, index);
   }
@@ -48,11 +49,11 @@ public class ShouldNotContainSubsequence extends BasicErrorMessageFactory {
    * @param index the index of the unexpected subsequence.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContainSubsequence(Object actual, Object subsequence, int index) {
+  public static ErrorMessageFactory shouldNotContainSubsequence(@Nullable Object actual, Object subsequence, int index) {
     return new ShouldNotContainSubsequence(actual, subsequence, StandardComparisonStrategy.instance(), index);
   }
 
-  private ShouldNotContainSubsequence(Object actual, Object subsequence, ComparisonStrategy comparisonStrategy,
+  private ShouldNotContainSubsequence(@Nullable Object actual, Object subsequence, ComparisonStrategy comparisonStrategy,
                                       int index) {
     super("%nExpecting actual:%n  %s%nto not contain subsequence:%n  %s%nbut was found starting at index %s%n%s",
           actual, subsequence, index, comparisonStrategy);

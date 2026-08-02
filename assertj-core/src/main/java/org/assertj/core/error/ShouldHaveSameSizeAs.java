@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a value have certain size failed.
  *
@@ -32,11 +34,13 @@ public class ShouldHaveSameSizeAs extends BasicErrorMessageFactory {
    * @param expectedSize the expected size.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveSameSizeAs(Object actual, Object expected, Object actualSize, Object expectedSize) {
+  public static ErrorMessageFactory shouldHaveSameSizeAs(@Nullable Object actual, @Nullable Object expected,
+                                                         @Nullable Object actualSize, @Nullable Object expectedSize) {
     return new ShouldHaveSameSizeAs(actual, expected, actualSize, expectedSize);
   }
 
-  private ShouldHaveSameSizeAs(Object actual, Object expected, Object actualSize, Object expectedSize) {
+  private ShouldHaveSameSizeAs(@Nullable Object actual, @Nullable Object expected, @Nullable Object actualSize,
+                               @Nullable Object expectedSize) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
     super(format("%n"

@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that the actual value is not empty.
  */
@@ -26,11 +28,11 @@ public class ActualIsNotEmpty extends BasicErrorMessageFactory {
    * @param actual the actual value
    * @return the error message factory
    */
-  public static ErrorMessageFactory actualIsNotEmpty(Object actual) {
+  public static ErrorMessageFactory actualIsNotEmpty(@Nullable Object actual) {
     return new ActualIsNotEmpty(actual);
   }
 
-  private ActualIsNotEmpty(Object actual) {
+  private ActualIsNotEmpty(@Nullable Object actual) {
     super("%nActual:%n  %s%nis not empty while group of values to look for is.", actual);
   }
 }

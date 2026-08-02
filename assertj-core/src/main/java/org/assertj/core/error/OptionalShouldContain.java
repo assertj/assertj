@@ -20,6 +20,8 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Build error message when an {@link Optional}, {@link OptionalDouble}, {@link OptionalInt} or {@link OptionalLong}
  * should contain a specific value.
@@ -34,11 +36,11 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
   private static final String EXPECTING_TO_CONTAIN = "%nExpecting actual:%n  %s%nto contain:%n  %s%nbut did not.";
   private static final String EXPECTING_TO_CONTAIN_SAME = "%nExpecting actual:%n  %s%nto contain the instance (i.e. compared with ==):%n  %s%nbut did not.";
 
-  private OptionalShouldContain(String message, Object actual, Object expected) {
+  private OptionalShouldContain(String message, @Nullable Object actual, @Nullable Object expected) {
     super(message, actual, expected);
   }
 
-  private OptionalShouldContain(Object expected) {
+  private OptionalShouldContain(@Nullable Object expected) {
     super("%nExpecting Optional to contain:%n  %s%nbut was empty.", expected);
   }
 
@@ -116,7 +118,7 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    * @param expectedValue the value we expect to be in an {@link java.util.Optional}.
    * @return a error message factory.
    */
-  public static OptionalShouldContain shouldContain(Object expectedValue) {
+  public static OptionalShouldContain shouldContain(@Nullable Object expectedValue) {
     return new OptionalShouldContain(expectedValue);
   }
 }

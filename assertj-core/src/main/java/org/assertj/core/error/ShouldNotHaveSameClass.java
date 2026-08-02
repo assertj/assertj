@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that an object has same class as another instance failed.
  * 
@@ -28,11 +30,11 @@ public class ShouldNotHaveSameClass extends BasicErrorMessageFactory {
    * @param other the type {@code actual} is expected to be.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotHaveSameClass(Object actual, Object other) {
+  public static ErrorMessageFactory shouldNotHaveSameClass(Object actual, @Nullable Object other) {
     return new ShouldNotHaveSameClass(actual, other);
   }
 
-  private ShouldNotHaveSameClass(Object actual, Object other) {
+  private ShouldNotHaveSameClass(Object actual, @Nullable Object other) {
     super("%nExpecting actual:%n  %s%nnot to have the same class as:%n  %s (%s)", actual, other, actual.getClass());
   }
 }

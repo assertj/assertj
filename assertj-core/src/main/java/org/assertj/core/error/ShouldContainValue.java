@@ -16,6 +16,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.api.Condition;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies a map contains a value.
@@ -30,7 +31,7 @@ public class ShouldContainValue extends BasicErrorMessageFactory {
    * @param value the value not found
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainValue(Object actual, Object value) {
+  public static ErrorMessageFactory shouldContainValue(@Nullable Object actual, Object value) {
     return new ShouldContainValue(actual, value);
   }
 
@@ -41,15 +42,15 @@ public class ShouldContainValue extends BasicErrorMessageFactory {
    * @param valueCondition value condition.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainValue(Object actual, Condition<?> valueCondition) {
+  public static ErrorMessageFactory shouldContainValue(@Nullable Object actual, Condition<?> valueCondition) {
     return new ShouldContainValue(actual, valueCondition);
   }
 
-  private ShouldContainValue(Object actual, Object value) {
+  private ShouldContainValue(@Nullable Object actual, Object value) {
     super("%nExpecting actual:%n  %s%nto contain value:%n  %s", actual, value);
   }
 
-  private ShouldContainValue(Object actual, Condition<?> valueCondition) {
+  private ShouldContainValue(@Nullable Object actual, Condition<?> valueCondition) {
     super("%nExpecting actual:%n  %s%nto contain a value satisfying:%n  %s", actual, valueCondition);
   }
 }

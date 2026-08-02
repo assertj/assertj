@@ -16,6 +16,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.api.Condition;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies type of elements of group and {@code Condition} A group of
@@ -32,7 +33,7 @@ public class ConditionAndGroupGenericParameterTypeShouldBeTheSame extends BasicE
    * @param actual the actual group
    * @param condition the condition with a mismatched type
    */
-  public ConditionAndGroupGenericParameterTypeShouldBeTheSame(Object actual, Condition<?> condition) {
+  public ConditionAndGroupGenericParameterTypeShouldBeTheSame(@Nullable Object actual, Condition<?> condition) {
     super("%nExpecting actual: %s to have the same generic type as condition %s", actual, condition);
   }
 
@@ -42,7 +43,8 @@ public class ConditionAndGroupGenericParameterTypeShouldBeTheSame extends BasicE
    * @param condition the {@code Condition}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeSameGenericBetweenIterableAndCondition(Object actual, Condition<?> condition) {
+  public static ErrorMessageFactory shouldBeSameGenericBetweenIterableAndCondition(@Nullable Object actual,
+                                                                                   Condition<?> condition) {
     return new ConditionAndGroupGenericParameterTypeShouldBeTheSame(actual, condition);
   }
 

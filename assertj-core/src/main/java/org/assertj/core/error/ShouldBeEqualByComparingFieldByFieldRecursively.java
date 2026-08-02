@@ -27,6 +27,7 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguratio
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.internal.UnambiguousRepresentation;
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /** Creates errors for recursive field-by-field comparison failures. */
 public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorMessageFactory {
@@ -40,7 +41,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
    * @param representation the value representation
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldBeEqualByComparingFieldByFieldRecursive(Object actual, Object other,
+  public static ErrorMessageFactory shouldBeEqualByComparingFieldByFieldRecursive(@Nullable Object actual, @Nullable Object other,
                                                                                   List<Difference> differences,
                                                                                   Representation representation) {
     List<String> descriptionOfDifferences = differences.stream()
@@ -66,7 +67,8 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
    * @param representation the value representation
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldBeEqualByComparingFieldByFieldRecursively(Object actual, Object other,
+  public static ErrorMessageFactory shouldBeEqualByComparingFieldByFieldRecursively(@Nullable Object actual,
+                                                                                    @Nullable Object other,
                                                                                     List<ComparisonDifference> differences,
                                                                                     RecursiveComparisonConfiguration recursiveComparisonConfiguration,
                                                                                     Representation representation) {
@@ -91,7 +93,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
     // @format:on
   }
 
-  private ShouldBeEqualByComparingFieldByFieldRecursively(String message, Object... arguments) {
+  private ShouldBeEqualByComparingFieldByFieldRecursively(String message, @Nullable Object... arguments) {
     super(message, arguments);
   }
 

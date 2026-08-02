@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import java.time.ZonedDateTime;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that two {@link ZonedDateTime} have same year,
  * month, and day fields failed.
@@ -32,11 +34,11 @@ public class ShouldBeEqualIgnoringHours extends BasicErrorMessageFactory {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeEqualIgnoringHours(Object actual, Object other) {
+  public static ErrorMessageFactory shouldBeEqualIgnoringHours(@Nullable Object actual, @Nullable Object other) {
     return new ShouldBeEqualIgnoringHours(actual, other);
   }
 
-  private ShouldBeEqualIgnoringHours(Object actual, Object other) {
+  private ShouldBeEqualIgnoringHours(@Nullable Object actual, @Nullable Object other) {
     super("%nExpecting actual:%n  %s%nto have same year, month and day as:%n  %s%nbut had not.", actual, other);
   }
 }

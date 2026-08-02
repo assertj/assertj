@@ -21,6 +21,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.function.Predicate;
 
 import org.assertj.core.presentation.PredicateDescription;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value satisfies a
@@ -56,7 +57,7 @@ public class ShouldMatch extends BasicErrorMessageFactory {
     return new ShouldMatch(actual, predicateDescription);
   }
 
-  private ShouldMatch(Object actual, PredicateDescription description) {
+  private ShouldMatch(@Nullable Object actual, PredicateDescription description) {
     super("%nExpecting actual:%n  %s%nto match %s predicate." + (description.isDefault() ? ADVICE : ""), actual, description);
   }
 }

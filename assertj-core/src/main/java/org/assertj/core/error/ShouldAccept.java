@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.function.Predicate;
 
 import org.assertj.core.presentation.PredicateDescription;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that
@@ -44,7 +45,7 @@ public class ShouldAccept extends BasicErrorMessageFactory {
     return new ShouldAccept(value, description);
   }
 
-  private ShouldAccept(Object value, PredicateDescription description) {
+  private ShouldAccept(@Nullable Object value, PredicateDescription description) {
     super("%nExpecting actual:%n  %s predicate%nto accept %s but it did not.", description, value);
   }
 }

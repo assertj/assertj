@@ -27,6 +27,7 @@ import java.util.Objects;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A factory of error messages typically shown when an assertion fails.
@@ -38,7 +39,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
   /** The error message format. */
   protected final String format;
   /** The error message arguments. */
-  protected final Object[] arguments;
+  protected final @Nullable Object[] arguments;
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   MessageFormatter formatter = MessageFormatter.instance();
@@ -98,14 +99,14 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
    * @param format the format string.
    * @param arguments arguments referenced by the format specifiers in the format string.
    */
-  public BasicErrorMessageFactory(String format, Object... arguments) {
+  public BasicErrorMessageFactory(String format, @Nullable Object... arguments) {
     this.format = format;
     this.arguments = arguments;
   }
 
   /** {@inheritDoc} */
   @Override
-  public String create(Description description, Representation representation) {
+  public String create(@Nullable Description description, Representation representation) {
     return formatter.format(description, representation, format, arguments);
   }
 

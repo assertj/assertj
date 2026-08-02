@@ -20,6 +20,8 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Build error message when an {@link java.util.Optional} should be empty.
  *
@@ -27,7 +29,7 @@ import java.util.OptionalLong;
  */
 public class OptionalShouldBeEmpty extends BasicErrorMessageFactory {
 
-  private OptionalShouldBeEmpty(Class<?> optionalClass, Object optionalValue) {
+  private OptionalShouldBeEmpty(Class<?> optionalClass, @Nullable Object optionalValue) {
     super("%nExpecting an empty " + optionalClass.getSimpleName() + " but was containing value: %s", optionalValue);
   }
 

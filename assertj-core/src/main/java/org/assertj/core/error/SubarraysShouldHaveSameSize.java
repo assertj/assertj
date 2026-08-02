@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that some subarray (in multidimensional arrays)
  * has certain size failed.
@@ -46,15 +48,15 @@ public class SubarraysShouldHaveSameSize extends BasicErrorMessageFactory {
    * @param index index of {@code actualSubArray}, e.g. {@code 3} when checking size (length) of {@code actual[3]}
    * @return the created {@code ErrorMessageFactory}
    */
-  public static ErrorMessageFactory subarraysShouldHaveSameSize(Object actual, Object expected, Object actualSubArray,
-                                                                int actualSubArrayLength, Object expectedSubArray,
+  public static ErrorMessageFactory subarraysShouldHaveSameSize(Object actual, Object expected, @Nullable Object actualSubArray,
+                                                                int actualSubArrayLength, @Nullable Object expectedSubArray,
                                                                 int expectedSubArrayLength, int index) {
     return new SubarraysShouldHaveSameSize(actual, expected, actualSubArray, actualSubArrayLength, expectedSubArray,
                                            expectedSubArrayLength, index);
   }
 
-  private SubarraysShouldHaveSameSize(Object actual, Object expected, Object actualSubArray, int actualSubArrayLength,
-                                      Object expectedSubArray, int expectedSubArrayLength, int index) {
+  private SubarraysShouldHaveSameSize(Object actual, Object expected, @Nullable Object actualSubArray, int actualSubArrayLength,
+                                      @Nullable Object expectedSubArray, int expectedSubArrayLength, int index) {
     // reuse %s to let representation format the arrays but don't do it for integers as we want to keep the default toString of
     // int (that would mot be the case if the representation was changed to hex representation for example).
     super(MESSAGE.formatted(index, index, actualSubArrayLength, index, expectedSubArrayLength, index, "%s", index, "%s", "%s",

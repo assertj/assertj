@@ -21,6 +21,7 @@ import static org.assertj.core.util.Strings.escapePercent;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
+import org.jspecify.annotations.Nullable;
 
 /** Creates errors for zipped elements that do not satisfy requirements. */
 public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
@@ -64,9 +65,9 @@ public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
   /** Describes one pair of zipped elements that failed its requirement. */
   public static class ZipSatisfyError {
     /** The actual element. */
-    public final Object actualElement;
+    public final @Nullable Object actualElement;
     /** The corresponding element from the other iterable. */
-    public final Object otherElement;
+    public final @Nullable Object otherElement;
     /** The assertion error message. */
     public final String error;
 
@@ -77,7 +78,7 @@ public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
      * @param otherElement the corresponding other element
      * @param error the error message
      */
-    public ZipSatisfyError(Object actualElement, Object otherElement, String error) {
+    public ZipSatisfyError(@Nullable Object actualElement, @Nullable Object otherElement, String error) {
       this.actualElement = actualElement;
       this.otherElement = otherElement;
       this.error = error;

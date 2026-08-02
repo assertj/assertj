@@ -30,6 +30,7 @@ import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are equal
@@ -50,7 +51,7 @@ public class ShouldBeEqual {
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class,
                                                                                    Object.class);
   /** The actual value. */
-  protected final Object actual;
+  protected final @Nullable Object actual;
   /** The expected value. */
   protected final Object expected;
   /** Whether the values have matching class names from different packages. */
@@ -70,7 +71,7 @@ public class ShouldBeEqual {
    * @param representation the {@link Representation} used to format values.
    * @return the created {@code AssertionErrorFactory}.
    */
-  public static ShouldBeEqual shouldBeEqual(Object actual, Object expected, Representation representation) {
+  public static ShouldBeEqual shouldBeEqual(@Nullable Object actual, Object expected, Representation representation) {
     return new ShouldBeEqual(actual, expected, StandardComparisonStrategy.instance(), representation);
   }
 
@@ -83,7 +84,7 @@ public class ShouldBeEqual {
    * @param representation     the {@link Representation} used to format values.
    * @return the created {@code AssertionErrorFactory}.
    */
-  public static ShouldBeEqual shouldBeEqual(Object actual, Object expected,
+  public static ShouldBeEqual shouldBeEqual(@Nullable Object actual, Object expected,
                                             ComparisonStrategy comparisonStrategy,
                                             Representation representation) {
     return new ShouldBeEqual(actual, expected, comparisonStrategy, representation);
@@ -97,7 +98,8 @@ public class ShouldBeEqual {
    * @param comparisonStrategy the comparison strategy
    * @param representation the value representation
    */
-  protected ShouldBeEqual(Object actual, Object expected, ComparisonStrategy comparisonStrategy, Representation representation) {
+  protected ShouldBeEqual(@Nullable Object actual, Object expected, ComparisonStrategy comparisonStrategy,
+                          Representation representation) {
     this.actual = actual;
     this.expected = expected;
     this.comparisonStrategy = comparisonStrategy;

@@ -16,6 +16,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.api.Condition;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies elements of a group satisfies exactly n times a
@@ -34,11 +35,11 @@ public class ElementsShouldBeExactly extends BasicErrorMessageFactory {
    * @param condition the {@code Condition}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory elementsShouldBeExactly(Object actual, int times, Condition<?> condition) {
+  public static ErrorMessageFactory elementsShouldBeExactly(@Nullable Object actual, int times, Condition<?> condition) {
     return new ElementsShouldBeExactly(actual, times, condition);
   }
 
-  private ElementsShouldBeExactly(Object actual, int times, Condition<?> condition) {
+  private ElementsShouldBeExactly(@Nullable Object actual, int times, Condition<?> condition) {
     super("%nExpecting elements:%n  %s%nto be exactly %s times %s", actual, times, condition);
   }
 }

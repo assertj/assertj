@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that two objects are not equal failed.
@@ -33,7 +34,8 @@ public class ShouldNotBeEqual extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to compare actual with expected.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotBeEqual(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
+  public static ErrorMessageFactory shouldNotBeEqual(@Nullable Object actual, @Nullable Object other,
+                                                     ComparisonStrategy comparisonStrategy) {
     return new ShouldNotBeEqual(actual, other, comparisonStrategy);
   }
 
@@ -43,11 +45,11 @@ public class ShouldNotBeEqual extends BasicErrorMessageFactory {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotBeEqual(Object actual, Object other) {
+  public static ErrorMessageFactory shouldNotBeEqual(@Nullable Object actual, @Nullable Object other) {
     return new ShouldNotBeEqual(actual, other, StandardComparisonStrategy.instance());
   }
 
-  private ShouldNotBeEqual(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
+  private ShouldNotBeEqual(@Nullable Object actual, @Nullable Object other, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nnot to be equal to:%n  %s%n%s", actual, other, comparisonStrategy);
   }
 

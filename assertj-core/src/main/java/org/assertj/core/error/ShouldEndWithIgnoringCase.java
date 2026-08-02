@@ -16,6 +16,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that {@link CharSequence} ends with a given value
@@ -36,7 +37,7 @@ public class ShouldEndWithIgnoringCase extends BasicErrorMessageFactory {
     return new ShouldEndWithIgnoringCase(actual, expected, comparisonStrategy);
   }
 
-  private ShouldEndWithIgnoringCase(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
+  private ShouldEndWithIgnoringCase(@Nullable Object actual, @Nullable Object expected, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto end with (ignoring case):%n  %s%n%s",
           IndentWrapper.of(actual), IndentWrapper.of(expected), comparisonStrategy);
   }

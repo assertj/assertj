@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for arrays expected to have matching dimensions. */
 public class ShouldHaveSameDimensionsAs extends BasicErrorMessageFactory {
 
@@ -28,8 +30,9 @@ public class ShouldHaveSameDimensionsAs extends BasicErrorMessageFactory {
    * @param expectedSize the expected size.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveSameDimensionsAs(Object actual, Object expected, Object actualSize,
-                                                               Object expectedSize) {
+  public static ErrorMessageFactory shouldHaveSameDimensionsAs(@Nullable Object actual, @Nullable Object expected,
+                                                               @Nullable Object actualSize,
+                                                               @Nullable Object expectedSize) {
     return new ShouldHaveSameDimensionsAs(actual, expected, actualSize, expectedSize);
   }
 
@@ -46,12 +49,14 @@ public class ShouldHaveSameDimensionsAs extends BasicErrorMessageFactory {
    * @return the error message factory
    */
   public static ErrorMessageFactory shouldHaveSameDimensionsAs(int rowIndex, int actualRowSize, int expectedRowSize,
-                                                               Object actualRow, Object expectedRow, Object actual,
-                                                               Object expected) {
+                                                               @Nullable Object actualRow, @Nullable Object expectedRow,
+                                                               @Nullable Object actual,
+                                                               @Nullable Object expected) {
     return new ShouldHaveSameDimensionsAs(rowIndex, actualRowSize, expectedRowSize, actualRow, expectedRow, actual, expected);
   }
 
-  private ShouldHaveSameDimensionsAs(Object actual, Object expected, Object actualSize, Object expectedSize) {
+  private ShouldHaveSameDimensionsAs(@Nullable Object actual, @Nullable Object expected, @Nullable Object actualSize,
+                                     @Nullable Object expectedSize) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
     super(format("%n"
@@ -64,8 +69,9 @@ public class ShouldHaveSameDimensionsAs extends BasicErrorMessageFactory {
           actual, expected);
   }
 
-  private ShouldHaveSameDimensionsAs(int rowIndex, int actualRowSize, int expectedRowSize, Object actualRow, Object expectedRow,
-                                     Object actual, Object expected) {
+  private ShouldHaveSameDimensionsAs(int rowIndex, int actualRowSize, int expectedRowSize, @Nullable Object actualRow,
+                                     @Nullable Object expectedRow,
+                                     @Nullable Object actual, @Nullable Object expected) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
     super(format("%n"

@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is greater than or equal to another one
@@ -45,7 +46,7 @@ public class ShouldBeGreaterOrEqual extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeGreaterOrEqual(Object actual, Object other,
+  public static ErrorMessageFactory shouldBeGreaterOrEqual(@Nullable Object actual, @Nullable Object other,
                                                            ComparisonStrategy comparisonStrategy) {
     return new ShouldBeGreaterOrEqual(actual, other, comparisonStrategy);
   }

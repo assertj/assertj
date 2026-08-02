@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a group of elements contains a sequence of values
@@ -34,7 +35,7 @@ public class ShouldContainSequence extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainSequence(Object actual, Object sequence,
+  public static ErrorMessageFactory shouldContainSequence(@Nullable Object actual, @Nullable Object sequence,
                                                           ComparisonStrategy comparisonStrategy) {
     return new ShouldContainSequence(actual, sequence, comparisonStrategy);
   }
@@ -45,11 +46,11 @@ public class ShouldContainSequence extends BasicErrorMessageFactory {
    * @param sequence the sequence of values expected to be in {@code actual}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainSequence(Object actual, Object sequence) {
+  public static ErrorMessageFactory shouldContainSequence(@Nullable Object actual, @Nullable Object sequence) {
     return new ShouldContainSequence(actual, sequence, StandardComparisonStrategy.instance());
   }
 
-  private ShouldContainSequence(Object actual, Object sequence, ComparisonStrategy comparisonStrategy) {
+  private ShouldContainSequence(@Nullable Object actual, @Nullable Object sequence, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n" +
           "  %s%n" +
           "to contain sequence:%n" +

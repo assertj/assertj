@@ -19,6 +19,7 @@ import java.util.Date;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is between a start and an end
@@ -68,7 +69,7 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T> ErrorMessageFactory shouldBeBetween(Object actual, Object start, Object end,
+  public static <T> ErrorMessageFactory shouldBeBetween(@Nullable Object actual, @Nullable Object start, @Nullable Object end,
                                                         boolean inclusiveStart, boolean inclusiveEnd,
                                                         ComparisonStrategy comparisonStrategy) {
     return new ShouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy);

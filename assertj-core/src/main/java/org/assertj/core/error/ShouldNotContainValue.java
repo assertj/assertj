@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies a map does not contains a value.
  * 
@@ -28,11 +30,11 @@ public class ShouldNotContainValue extends BasicErrorMessageFactory {
    * @param value the unexpected value.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContainValue(Object actual, Object value) {
+  public static ErrorMessageFactory shouldNotContainValue(@Nullable Object actual, Object value) {
     return new ShouldNotContainValue(actual, value);
   }
 
-  private ShouldNotContainValue(Object actual, Object value) {
+  private ShouldNotContainValue(@Nullable Object actual, Object value) {
     super("%nExpecting actual:%n  %s%nnot to contain value:%n  %s", actual, value);
   }
 }

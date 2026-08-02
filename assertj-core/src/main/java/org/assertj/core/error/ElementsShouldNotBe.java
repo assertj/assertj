@@ -16,6 +16,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.api.Condition;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that not verifies that each element of a group satisfies a
@@ -34,11 +35,12 @@ public class ElementsShouldNotBe extends BasicErrorMessageFactory {
    * @param condition the {@code Condition}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory elementsShouldNotBe(Object actual, Object satisfies, Condition<?> condition) {
+  public static ErrorMessageFactory elementsShouldNotBe(@Nullable Object actual, @Nullable Object satisfies,
+                                                        Condition<?> condition) {
     return new ElementsShouldNotBe(actual, satisfies, condition);
   }
 
-  private ElementsShouldNotBe(Object actual, Object satisfies, Condition<?> condition) {
+  private ElementsShouldNotBe(@Nullable Object actual, @Nullable Object satisfies, Condition<?> condition) {
     super("%nExpecting elements:%n  %s%nof%n  %s%nnot to be <%s>", satisfies, actual, condition);
   }
 }

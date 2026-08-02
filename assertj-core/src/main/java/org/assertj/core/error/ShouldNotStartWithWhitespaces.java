@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link CharSequence}
  * does not start with whitespace characters.
@@ -30,7 +32,7 @@ public class ShouldNotStartWithWhitespaces extends BasicErrorMessageFactory {
     return new ShouldNotStartWithWhitespaces(actual);
   }
 
-  private ShouldNotStartWithWhitespaces(Object actual) {
+  private ShouldNotStartWithWhitespaces(@Nullable Object actual) {
     super("%n" +
           "Expecting string not to start with whitespaces but found one, string was:%n" +
           "  %s", IndentWrapper.of(actual));

@@ -22,6 +22,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements is sorted failed.<br>
  * A group of elements can be a collection or an array.
@@ -30,7 +32,7 @@ import java.util.List;
  */
 public class ShouldBeSorted extends BasicErrorMessageFactory {
 
-  private ShouldBeSorted(String format, Object... arguments) {
+  private ShouldBeSorted(String format, @Nullable Object... arguments) {
     super(format, arguments);
   }
 
@@ -70,7 +72,7 @@ public class ShouldBeSorted extends BasicErrorMessageFactory {
    * @param actual the actual group
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveMutuallyComparableElements(Object actual) {
+  public static ErrorMessageFactory shouldHaveMutuallyComparableElements(@Nullable Object actual) {
     return new ShouldBeSorted("%nsome elements are not mutually comparable in group:%n  %s", actual);
   }
 
@@ -81,7 +83,7 @@ public class ShouldBeSorted extends BasicErrorMessageFactory {
    * @param comparator the comparator
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveComparableElementsAccordingToGivenComparator(Object actual,
+  public static ErrorMessageFactory shouldHaveComparableElementsAccordingToGivenComparator(@Nullable Object actual,
                                                                                            Comparator<?> comparator) {
     return new ShouldBeSorted("%nsome elements are not mutually comparable according to %s comparator in group:%n<%s>",
                               comparator, actual);
