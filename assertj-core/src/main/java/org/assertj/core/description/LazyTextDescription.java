@@ -19,19 +19,21 @@ import static org.assertj.core.util.Preconditions.checkState;
 
 import java.util.function.Supplier;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * A text-based description that is evaluated lazily.
  */
 public class LazyTextDescription extends Description {
 
-  private Supplier<String> descriptionSupplier;
+  private @Nullable Supplier<String> descriptionSupplier;
 
   /**
    * Creates a lazily evaluated text description.
    *
    * @param descriptionSupplier the description text supplier
    */
-  public LazyTextDescription(Supplier<String> descriptionSupplier) {
+  public LazyTextDescription(@Nullable Supplier<String> descriptionSupplier) {
     this.descriptionSupplier = descriptionSupplier;
   }
 

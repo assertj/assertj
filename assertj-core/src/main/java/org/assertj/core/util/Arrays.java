@@ -86,7 +86,7 @@ public class Arrays {
    * @param array the array to check.
    * @return {@code true} if the given array is {@code null} or empty, otherwise {@code false}.
    */
-  public static <T> boolean isNullOrEmpty(T[] array) {
+  public static <T> boolean isNullOrEmpty(T @Nullable [] array) {
     return array == null || isEmpty(array);
   }
 

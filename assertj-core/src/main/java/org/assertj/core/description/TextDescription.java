@@ -22,6 +22,7 @@ import static org.assertj.core.util.Strings.formatIfArgs;
 import java.util.Objects;
 
 import org.assertj.core.util.Arrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A text-based description.
@@ -34,7 +35,7 @@ public class TextDescription extends Description {
 
   private final String value;
 
-  final Object[] args;
+  final Object @Nullable [] args;
 
   /**
    * Creates a new <code>{@link TextDescription}</code>.
@@ -43,7 +44,7 @@ public class TextDescription extends Description {
    * @param args the replacements parameters of this description.
    * @throws NullPointerException if the given value is {@code null}.
    */
-  public TextDescription(String value, Object... args) {
+  public TextDescription(@Nullable String value, Object @Nullable... args) {
     this.value = value == null ? "" : value;
     this.args = Arrays.isNullOrEmpty(args) ? null : args.clone();
   }
