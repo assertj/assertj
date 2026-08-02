@@ -27,6 +27,7 @@
     <bnd.version>7.3.0</bnd.version>
     <jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
     <japicmp-maven-plugin.version>0.26.1</japicmp-maven-plugin.version>
+    <jspecify.version>1.0.0</jspecify.version>
     <maven-project-info-reports-plugin.version>3.9.0</maven-project-info-reports-plugin.version>
     <spotbugs-maven-plugin.version>4.10.3.0</spotbugs-maven-plugin.version>
     <versions-maven-plugin.version>2.21.0</versions-maven-plugin.version>
@@ -64,6 +65,11 @@
         <version>2.22.1</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jspecify</groupId>
+        <artifactId>jspecify</artifactId>
+        <version>${jspecify.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -180,6 +186,23 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>versions-maven-plugin</artifactId>
           <version>${versions-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>am.ik.maven</groupId>
+          <artifactId>nullability-maven-plugin</artifactId>
+          <version>0.4.0</version>
+          <extensions>true</extensions>
+          <configuration>
+            <checking>disabled</checking>
+            <skip>false</skip>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>configure</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
       </plugins>
     </pluginManagement>

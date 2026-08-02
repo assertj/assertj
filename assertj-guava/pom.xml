@@ -69,6 +69,7 @@
             <bannedDependencies>
               <includes>
                 <include>org.assertj:assertj-core</include>
+                <include>org.jspecify:jspecify</include>
               </includes>
               <excludes>
                 <exclude>org.assertj:assertj-guava</exclude>
