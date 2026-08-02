@@ -127,7 +127,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
 
   /** {@inheritDoc} */
   @Override
-  public Condition<T> describedAs(Description newDescription) {
+  public Condition<T> describedAs(@Nullable Description newDescription) {
     description = Description.emptyIfNull(newDescription);
     return this;
   }

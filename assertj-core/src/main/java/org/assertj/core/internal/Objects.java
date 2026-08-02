@@ -158,7 +158,7 @@ public class Objects {
    * @param actual the actual object
    * @param type the expected type
    */
-  public void assertIsInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
+  public void assertIsInstanceOf(AssertionInfo info, @Nullable Object actual, Class<?> type) {
     if (!isInstanceOfClass(actual, type, info)) throw failures.failure(info, shouldBeInstance(actual, type));
   }
 
@@ -169,7 +169,7 @@ public class Objects {
    * @param actual the actual object
    * @param types the expected types
    */
-  public void assertIsInstanceOfAny(AssertionInfo info, Object actual, Class<?>[] types) {
+  public void assertIsInstanceOfAny(AssertionInfo info, @Nullable Object actual, Class<?>[] types) {
     if (objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
     throw failures.failure(info, shouldBeInstanceOfAny(actual, types));
   }
@@ -194,7 +194,7 @@ public class Objects {
    * @param actual the actual object
    * @param type the prohibited type
    */
-  public void assertIsNotInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
+  public void assertIsNotInstanceOf(AssertionInfo info, @Nullable Object actual, Class<?> type) {
     if (isInstanceOfClass(actual, type, info)) throw failures.failure(info, shouldNotBeInstance(actual, type));
   }
 
@@ -211,7 +211,7 @@ public class Objects {
    * @param actual the actual object
    * @param types the prohibited types
    */
-  public void assertIsNotInstanceOfAny(AssertionInfo info, Object actual, Class<?>[] types) {
+  public void assertIsNotInstanceOfAny(AssertionInfo info, @Nullable Object actual, Class<?>[] types) {
     if (!objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
     throw failures.failure(info, shouldNotBeInstanceOfAny(actual, types));
   }
@@ -223,7 +223,7 @@ public class Objects {
    * @param actual the actual object
    * @param other the comparison object
    */
-  public void assertHasSameClassAs(AssertionInfo info, Object actual, Object other) {
+  public void assertHasSameClassAs(AssertionInfo info, @Nullable Object actual, Object other) {
     if (!haveSameClass(actual, other, info)) throw failures.failure(info, shouldHaveSameClass(actual, other));
   }
 
@@ -242,7 +242,7 @@ public class Objects {
    * @param actual the actual object
    * @param other the comparison object
    */
-  public void assertDoesNotHaveSameClassAs(AssertionInfo info, Object actual, Object other) {
+  public void assertDoesNotHaveSameClassAs(AssertionInfo info, @Nullable Object actual, Object other) {
     if (haveSameClass(actual, other, info)) throw failures.failure(info, shouldNotHaveSameClass(actual, other));
   }
 
@@ -253,7 +253,7 @@ public class Objects {
    * @param actual the actual object
    * @param type the expected type
    */
-  public void assertIsExactlyInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
+  public void assertIsExactlyInstanceOf(AssertionInfo info, @Nullable Object actual, Class<?> type) {
     if (!actualIsExactlyInstanceOfType(actual, type, info))
       throw failures.failure(info, shouldBeExactlyInstance(actual, type));
   }
@@ -271,7 +271,7 @@ public class Objects {
    * @param actual the actual object
    * @param type the prohibited exact type
    */
-  public void assertIsNotExactlyInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
+  public void assertIsNotExactlyInstanceOf(AssertionInfo info, @Nullable Object actual, Class<?> type) {
     if (actualIsExactlyInstanceOfType(actual, type, info))
       throw failures.failure(info, shouldNotBeExactlyInstance(actual, type));
   }
@@ -283,7 +283,7 @@ public class Objects {
    * @param actual the actual object
    * @param types the expected classes
    */
-  public void assertIsOfAnyClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
+  public void assertIsOfAnyClassIn(AssertionInfo info, @Nullable Object actual, Class<?>[] types) {
     boolean itemInArray = isOfOneOfGivenTypes(actual, types, info);
     if (!itemInArray) throw failures.failure(info, shouldBeOfClassIn(actual, types));
   }
@@ -301,7 +301,7 @@ public class Objects {
    * @param actual the actual object
    * @param types the prohibited classes
    */
-  public void assertIsNotOfAnyClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
+  public void assertIsNotOfAnyClassIn(AssertionInfo info, @Nullable Object actual, Class<?>[] types) {
     boolean itemInArray = isOfOneOfGivenTypes(actual, types, info);
     if (itemInArray) throw failures.failure(info, shouldNotBeOfClassIn(actual, types));
   }
@@ -318,7 +318,7 @@ public class Objects {
    * @param actual the actual object
    * @param expected the expected object
    */
-  public void assertEqual(AssertionInfo info, Object actual, Object expected) {
+  public void assertEqual(AssertionInfo info, @Nullable Object actual, @Nullable Object expected) {
     if (!areEqual(actual, expected))
       throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
   }
@@ -330,11 +330,11 @@ public class Objects {
    * @param actual the actual object
    * @param other the comparison object
    */
-  public void assertNotEqual(AssertionInfo info, Object actual, Object other) {
+  public void assertNotEqual(AssertionInfo info, @Nullable Object actual, @Nullable Object other) {
     if (areEqual(actual, other)) throw failures.failure(info, shouldNotBeEqual(actual, other, comparisonStrategy));
   }
 
-  private boolean areEqual(Object actual, Object other) {
+  private boolean areEqual(@Nullable Object actual, @Nullable Object other) {
     return comparisonStrategy.areEqual(actual, other);
   }
 
@@ -344,7 +344,7 @@ public class Objects {
    * @param info assertion information
    * @param actual the actual object
    */
-  public void assertNull(AssertionInfo info, Object actual) {
+  public void assertNull(AssertionInfo info, @Nullable Object actual) {
     if (actual != null)
       throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
   }
@@ -379,7 +379,7 @@ public class Objects {
    * @param actual the actual object
    * @param expected the expected reference
    */
-  public void assertSame(AssertionInfo info, Object actual, Object expected) {
+  public void assertSame(AssertionInfo info, @Nullable Object actual, @Nullable Object expected) {
     if (actual != expected) throw failures.failure(info, shouldBeSame(actual, expected));
   }
 
@@ -390,7 +390,7 @@ public class Objects {
    * @param actual the actual object
    * @param other the comparison reference
    */
-  public void assertNotSame(AssertionInfo info, Object actual, Object other) {
+  public void assertNotSame(AssertionInfo info, @Nullable Object actual, @Nullable Object other) {
     if (actual == other) throw failures.failure(info, shouldNotBeSame(actual));
   }
 
@@ -429,7 +429,7 @@ public class Objects {
    * @param actual the actual object
    * @param values the candidate values
    */
-  public void assertIsIn(AssertionInfo info, Object actual, Object[] values) {
+  public void assertIsIn(AssertionInfo info, @Nullable Object actual, Object[] values) {
     checkArrayIsNotNull(values);
     assertIsIn(info, actual, asList(values));
   }
@@ -441,7 +441,7 @@ public class Objects {
    * @param actual the actual object
    * @param values the prohibited values
    */
-  public void assertIsNotIn(AssertionInfo info, Object actual, Object[] values) {
+  public void assertIsNotIn(AssertionInfo info, @Nullable Object actual, Object[] values) {
     checkArrayIsNotNull(values);
     assertIsNotIn(info, actual, asList(values));
   }
@@ -464,7 +464,7 @@ public class Objects {
    * @param actual the actual object
    * @param values the candidate values
    */
-  public void assertIsIn(AssertionInfo info, Object actual, Iterable<?> values) {
+  public void assertIsIn(AssertionInfo info, @Nullable Object actual, Iterable<?> values) {
     checkNotNullIterable(values);
     if (!isActualIn(actual, values)) throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
   }
@@ -476,7 +476,7 @@ public class Objects {
    * @param actual the actual object
    * @param values the prohibited values
    */
-  public void assertIsNotIn(AssertionInfo info, Object actual, Iterable<?> values) {
+  public void assertIsNotIn(AssertionInfo info, @Nullable Object actual, Iterable<?> values) {
     checkNotNullIterable(values);
     if (isActualIn(actual, values)) throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
   }
@@ -485,7 +485,7 @@ public class Objects {
     requireNonNull(values, "The given iterable should not be null");
   }
 
-  private boolean isActualIn(Object actual, Iterable<?> values) {
+  private boolean isActualIn(@Nullable Object actual, Iterable<?> values) {
     for (Object value : values) {
       if (areEqual(actual, value)) {
         return true;

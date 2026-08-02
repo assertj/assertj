@@ -17,10 +17,11 @@ package org.assertj.core.api;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Information about an assertion.
- * 
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
@@ -30,12 +31,14 @@ public interface AssertionInfo {
    * Returns the message that, if specified, will replace the default message of an assertion failure.
    * @return the message that, if specified, will replace the default message of an assertion failure.
    */
+  @Nullable
   String overridingErrorMessage();
 
   /**
    * Returns the description of an assertion.
    * @return the description of an assertion.
    */
+  @Nullable
   Description description();
 
   /**

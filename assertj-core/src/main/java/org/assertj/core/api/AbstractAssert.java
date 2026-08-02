@@ -53,6 +53,7 @@ import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all assertions.
@@ -66,7 +67,8 @@ import org.assertj.core.presentation.Representation;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, ACTUAL> implements Assert<SELF, ACTUAL> {
+public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, ACTUAL extends @Nullable Object>
+    implements Assert<SELF, ACTUAL> {
 
   // https://github.com/assertj/assertj/issues/1128
   /**
@@ -477,7 +479,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   @CheckReturnValue
-  public SELF describedAs(Description description) {
+  public SELF describedAs(@Nullable Description description) {
     info.description(description);
     if (printAssertionsDescription) printDescriptionText();
     if (descriptionConsumer != null) descriptionConsumer.accept(description);
@@ -493,7 +495,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * {@inheritDoc}
    */
   @Override
-  public SELF isEqualTo(Object expected) {
+  public SELF isEqualTo(@Nullable Object expected) {
     if (actual instanceof AbstractAssert<?, ?> && throwUnsupportedExceptionOnEquals) {
       throw new UnsupportedOperationException("Attempted to compare an assertion object to another object using 'isEqualTo'. "
                                               + "This is not supported. Perhaps you meant 'isSameAs' instead?");
@@ -506,7 +508,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * {@inheritDoc}
    */
   @Override
-  public SELF isNotEqualTo(Object other) {
+  public SELF isNotEqualTo(@Nullable Object other) {
     if (actual instanceof AbstractAssert<?, ?> && throwUnsupportedExceptionOnEquals) {
       throw new UnsupportedOperationException("Attempted to compare an assertion object to another object using 'isNotEqualTo'. "
                                               + "This is not supported. Perhaps you meant 'isNotSameAs' instead?");
@@ -550,7 +552,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * {@inheritDoc}
    */
   @Override
-  public SELF isSameAs(Object expected) {
+  public SELF isSameAs(@Nullable Object expected) {
     return executeAssertion(() -> objects.assertSame(info, actual, expected));
   }
 
@@ -558,7 +560,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * {@inheritDoc}
    */
   @Override
-  public SELF isNotSameAs(Object other) {
+  public SELF isNotSameAs(@Nullable Object other) {
     return executeAssertion(() -> objects.assertNotSame(info, actual, other));
   }
 

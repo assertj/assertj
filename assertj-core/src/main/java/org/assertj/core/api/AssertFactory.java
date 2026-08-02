@@ -19,6 +19,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.function.Function;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * A factory that creates an {@link Assert} instance for a given value of type {@link T}.
  * <p>
@@ -35,7 +37,7 @@ import java.util.function.Function;
  * @see InstanceOfAssertFactory
  */
 @FunctionalInterface
-public interface AssertFactory<T, ASSERT extends Assert<?, ?>> {
+public interface AssertFactory<T extends @Nullable Object, ASSERT extends Assert<?, ?>> {
 
   /**
    * Creates the custom {@link Assert} instance for the given value.
@@ -76,7 +78,7 @@ public interface AssertFactory<T, ASSERT extends Assert<?, ?>> {
    * @since 3.26.0
    */
   @FunctionalInterface
-  interface ValueProvider<T> extends Function<Type, T> {
+  interface ValueProvider<T extends @Nullable Object> extends Function<Type, T> {
 
     /**
      * Provides a value compatible with the given {@code type}.

@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Mechanism for extending assertion classes.
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY" target="_blank">Emulating
@@ -24,7 +26,7 @@ package org.assertj.core.api;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public interface ExtensionPoints<SELF extends ExtensionPoints<SELF, ACTUAL>, ACTUAL> {
+public interface ExtensionPoints<SELF extends ExtensionPoints<SELF, ACTUAL>, ACTUAL extends @Nullable Object> {
 
   /**
    * Verifies that the actual value satisfies the given condition. This method is an alias for
