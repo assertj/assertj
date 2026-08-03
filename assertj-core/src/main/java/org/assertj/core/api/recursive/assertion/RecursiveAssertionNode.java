@@ -17,12 +17,14 @@ package org.assertj.core.api.recursive.assertion;
 
 import java.util.Objects;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Immutable class representing a node in the recursive assertion.
  */
 public final class RecursiveAssertionNode {
   /** The node value. */
-  public final Object value;
+  public final @Nullable Object value;
   /** The node name. */
   public final String name;
   /** The node type. */
@@ -35,7 +37,7 @@ public final class RecursiveAssertionNode {
    * @param name the node name
    * @param type the node type
    */
-  public RecursiveAssertionNode(Object value, String name, Class<?> type) {
+  public RecursiveAssertionNode(@Nullable Object value, String name, Class<?> type) {
     this.value = value;
     this.name = name;
     this.type = type;
