@@ -15,15 +15,17 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@code CharSequence}s.
  * <p>
  * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(CharSequence)}</code>.
  * </p>
- * 
+ *
  * @author Mikhail Mazursky
  */
-public class CharSequenceAssert extends AbstractCharSequenceAssert<CharSequenceAssert, CharSequence> {
+public class CharSequenceAssert extends AbstractCharSequenceAssert<CharSequenceAssert, @Nullable CharSequence> {
 
   /**
    * Creates a character sequence assertion.
@@ -31,7 +33,7 @@ public class CharSequenceAssert extends AbstractCharSequenceAssert<CharSequenceA
    * @param actual the actual character sequence
    * @return the created assertion object
    */
-  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThatCharSequence(CharSequence actual) {
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThatCharSequence(@Nullable CharSequence actual) {
     return new CharSequenceAssert(actual);
   }
 
@@ -40,7 +42,7 @@ public class CharSequenceAssert extends AbstractCharSequenceAssert<CharSequenceA
    *
    * @param actual the actual value to verify
    */
-  public CharSequenceAssert(CharSequence actual) {
+  public CharSequenceAssert(@Nullable CharSequence actual) {
     super(actual, CharSequenceAssert.class);
   }
 }
