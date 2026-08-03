@@ -22,6 +22,7 @@ import java.util.TreeSet;
 
 import org.assertj.core.util.Objects;
 import org.assertj.core.util.Streams;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implements {@link ComparisonStrategy} contract with a comparison strategy based on
@@ -77,7 +78,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
    *
    */
   @Override
-  public boolean areEqual(Object actual, Object other) {
+  public boolean areEqual(@Nullable Object actual, @Nullable Object other) {
     if (actual == null) return other == null;
     Class<?> actualClass = actual.getClass();
     if (actualClass.isArray() && other != null) {
@@ -120,7 +121,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
    *         false otherwise.
    */
   @Override
-  public boolean iterableContains(Iterable<?> iterable, Object value) {
+  public boolean iterableContains(@Nullable Iterable<?> iterable, @Nullable Object value) {
     if (iterable == null) {
       return false;
     }
@@ -131,7 +132,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
    * {@inheritDoc}
    */
   @Override
-  public void iterableRemoves(Iterable<?> iterable, Object value) {
+  public void iterableRemoves(@Nullable Iterable<?> iterable, @Nullable Object value) {
     if (iterable == null) {
       return;
     }
@@ -152,7 +153,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
    * {@inheritDoc}
    */
   @Override
-  public void iterablesRemoveFirst(Iterable<?> iterable, Object value) {
+  public void iterablesRemoveFirst(@Nullable Iterable<?> iterable, @Nullable Object value) {
     if (iterable == null) {
       return;
     }
@@ -175,7 +176,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
    */
   // overridden to write Javadoc.
   @Override
-  public Iterable<?> duplicatesFrom(Iterable<?> iterable) {
+  public Iterable<?> duplicatesFrom(@Nullable Iterable<?> iterable) {
     return super.duplicatesFrom(iterable);
   }
 
@@ -196,14 +197,14 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
-  public boolean isGreaterThan(Object actual, Object other) {
+  public boolean isGreaterThan(@Nullable Object actual, Object other) {
     if (actual instanceof Comparable comparable) return comparable.compareTo(other) > 0;
     throw new IllegalArgumentException("argument '%s' should be Comparable but is not".formatted(actual));
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
-  public boolean isLessThan(Object actual, Object other) {
+  public boolean isLessThan(@Nullable Object actual, Object other) {
     if (actual instanceof Comparable comparable) return comparable.compareTo(other) < 0;
     throw new IllegalArgumentException("argument '%s' should be Comparable but is not".formatted(actual));
   }

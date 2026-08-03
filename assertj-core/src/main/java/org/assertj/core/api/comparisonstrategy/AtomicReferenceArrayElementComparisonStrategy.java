@@ -21,6 +21,8 @@ import static org.assertj.core.util.Arrays.isArray;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Comparison strategy using a comparator for atomic reference array elements.
  *
@@ -41,7 +43,7 @@ public class AtomicReferenceArrayElementComparisonStrategy<T> extends StandardCo
 
   @SuppressWarnings("unchecked")
   @Override
-  public boolean areEqual(Object actual, Object other) {
+  public boolean areEqual(@Nullable Object actual, @Nullable Object other) {
     if (actual == null && other == null) return true;
     if (actual == null || other == null) return false;
     // expecting actual and other to be T[]

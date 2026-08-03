@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.assertj.core.internal.DescribableComparator;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implements {@link ComparisonStrategy} contract with a comparison strategy based on a {@link Comparator}.
@@ -41,7 +42,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   private final Comparator comparator;
 
   // Comparator description used in assertion messages.
-  private final String comparatorDescription;
+  private final @Nullable String comparatorDescription;
 
   /**
    * Creates a new <code>{@link ComparatorBasedComparisonStrategy}</code> specifying the comparison strategy with given
@@ -62,7 +63,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
    * @param comparatorDescription the comparator description to use in assertion messages.
    */
   public ComparatorBasedComparisonStrategy(@SuppressWarnings("rawtypes") Comparator comparator,
-                                           String comparatorDescription) {
+                                           @Nullable String comparatorDescription) {
     this.comparator = comparator;
     this.comparatorDescription = comparatorDescription;
   }
@@ -87,7 +88,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
    */
   @Override
   @SuppressWarnings("unchecked")
-  public boolean iterableContains(Iterable<?> iterable, Object value) {
+  public boolean iterableContains(@Nullable Iterable<?> iterable, @Nullable Object value) {
     if (isNullOrEmpty(iterable)) return false;
     for (Object element : iterable) {
       // avoid comparison when objects are the same or both null
@@ -109,7 +110,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
    */
   @Override
   @SuppressWarnings("unchecked")
-  public void iterableRemoves(Iterable<?> iterable, Object value) {
+  public void iterableRemoves(@Nullable Iterable<?> iterable, @Nullable Object value) {
     if (iterable == null) return;
     // Avoid O(N^2) complexity of serial removal from an iterator of collections like ArrayList
     if (iterable instanceof Collection<?> collection) {
@@ -126,7 +127,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
 
   @Override
   @SuppressWarnings("unchecked")
-  public void iterablesRemoveFirst(Iterable<?> iterable, Object value) {
+  public void iterablesRemoveFirst(@Nullable Iterable<?> iterable, @Nullable Object value) {
     if (iterable == null) return;
     Iterator<?> iterator = iterable.iterator();
     while (iterator.hasNext()) {
@@ -147,7 +148,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
    */
   @Override
   @SuppressWarnings("unchecked")
-  public boolean areEqual(Object actual, Object other) {
+  public boolean areEqual(@Nullable Object actual, @Nullable Object other) {
     // we don't check actual or expected for null, this should be done by the comparator, the rationale being that a
     // comparator might consider null to be equals to some special value (like blank String and null)
     return comparator.compare(actual, other) == 0;
@@ -162,7 +163,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
    */
   // overridden to write javadoc.
   @Override
-  public Iterable<?> duplicatesFrom(Iterable<?> iterable) {
+  public Iterable<?> duplicatesFrom(@Nullable Iterable<?> iterable) {
     return super.duplicatesFrom(iterable);
   }
 
@@ -196,7 +197,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
    *
    * @return the comparator description
    */
-  public String getComparatorDescription() {
+  public @Nullable String getComparatorDescription() {
     return comparatorDescription;
   }
 
@@ -229,7 +230,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
 
   @Override
   @SuppressWarnings("unchecked")
-  public boolean isGreaterThan(Object actual, Object other) {
+  public boolean isGreaterThan(@Nullable Object actual, Object other) {
     return comparator.compare(actual, other) > 0;
   }
 }

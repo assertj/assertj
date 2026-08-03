@@ -40,6 +40,7 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Object}s.
@@ -56,7 +57,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Libor Ondrusek
  */
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
-public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL>
+public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL extends @Nullable Object>
     extends AbstractAssertWithComparator<SELF, ACTUAL> {
 
   private Map<String, Comparator<?>> comparatorsByPropertyOrField = new TreeMap<>();
@@ -349,7 +350,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws AssertionError           if the actual object has the given field/property but not with the expected value
    * @see AbstractObjectAssert#hasFieldOrProperty(java.lang.String)
    */
-  public SELF hasFieldOrPropertyWithValue(String name, Object value) {
+  public SELF hasFieldOrPropertyWithValue(String name, @Nullable Object value) {
     return executeAssertion(() -> objects.assertHasFieldOrPropertyWithValue(info, actual, name, value));
   }
 
@@ -683,7 +684,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws NullPointerException if given {@code from} function is null
    * @see #usingComparatorForType(Comparator, Class)
    */
-  public <T> SELF returns(T expected, Function<ACTUAL, T> from) {
+  public <T> SELF returns(@Nullable T expected, Function<ACTUAL, T> from) {
     requireNonNull(from, "The given getter method/Function must not be null");
     return executeAssertion(() -> {
       isNotNull();
@@ -710,7 +711,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return {@code this} assertion object.
    * @throws NullPointerException if given {@code from} function is null
    */
-  public <T> SELF returns(T expected, Function<ACTUAL, T> from, String description) {
+  public <T> SELF returns(@Nullable T expected, Function<ACTUAL, T> from, String description) {
     as(description);
     return returns(expected, from);
   }
@@ -738,7 +739,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @see #usingComparatorForType(Comparator, Class)
    * @since 3.22.0
    */
-  public <T> SELF doesNotReturn(T expected, Function<ACTUAL, T> from) {
+  public <T> SELF doesNotReturn(@Nullable T expected, Function<ACTUAL, T> from) {
     requireNonNull(from, "The given getter method/Function must not be null");
     return executeAssertion(() -> {
       isNotNull();
@@ -747,7 +748,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     });
   }
 
-  private Objects getComparatorBasedObjectAssertions(Object value) {
+  private Objects getComparatorBasedObjectAssertions(@Nullable Object value) {
     if (value == null) return objects;
     Class<?> type = value.getClass();
     TypeComparators comparatorsByType = getComparatorsByType();

@@ -645,7 +645,8 @@ public class Objects {
    * @param name the field or property name
    * @param expectedValue the expected value
    */
-  public <A> void assertHasFieldOrPropertyWithValue(AssertionInfo info, A actual, String name, Object expectedValue) {
+  public <A> void assertHasFieldOrPropertyWithValue(AssertionInfo info, @Nullable A actual, String name,
+                                                    @Nullable Object expectedValue) {
     assertHasFieldOrProperty(info, actual, name);
     Object value = extractPropertyOrField(actual, name);
     if (!deepEquals(value, expectedValue))

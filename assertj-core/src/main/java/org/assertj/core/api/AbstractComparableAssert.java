@@ -20,6 +20,7 @@ import java.util.Comparator;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Comparables;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of <code>{@link ComparableAssert}</code>.
@@ -32,7 +33,7 @@ import org.assertj.core.internal.Comparables;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public abstract class AbstractComparableAssert<SELF extends AbstractComparableAssert<SELF, ACTUAL>, ACTUAL extends Comparable<? super ACTUAL>>
+public abstract class AbstractComparableAssert<SELF extends AbstractComparableAssert<SELF, ACTUAL>, ACTUAL extends @Nullable Comparable<? super ACTUAL>>
     extends AbstractObjectAssert<SELF, ACTUAL> implements ComparableAssert<SELF, ACTUAL> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
