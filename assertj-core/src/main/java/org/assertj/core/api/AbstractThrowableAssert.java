@@ -150,7 +150,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one.
    */
-  public SELF hasMessage(String message) {
+  public SELF hasMessage(@Nullable String message) {
     return executeAssertion(() -> throwables.assertHasMessage(info, actual, message));
   }
 
@@ -202,7 +202,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} has not the given cause.
    */
-  public SELF hasCause(Throwable cause) {
+  public SELF hasCause(@Nullable Throwable cause) {
     return executeAssertion(() -> throwables.assertHasCause(info, actual, cause));
   }
 
@@ -675,7 +675,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the actual {@code Throwable} has not the given cause.
    * @since 3.12.0
    */
-  public SELF hasRootCause(Throwable cause) {
+  public SELF hasRootCause(@Nullable Throwable cause) {
     return executeAssertion(() -> throwables.assertHasRootCause(info, actual, cause));
   }
 
@@ -751,7 +751,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *                        the given one.
    * @since 3.14.0
    */
-  public SELF hasRootCauseMessage(String message) {
+  public SELF hasRootCauseMessage(@Nullable String message) {
     return executeAssertion(() -> throwables.assertHasRootCauseMessage(info, actual, message));
   }
 

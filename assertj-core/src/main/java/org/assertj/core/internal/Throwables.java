@@ -82,7 +82,7 @@ public class Throwables {
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one.
    */
-  public void assertHasMessage(AssertionInfo info, @Nullable Throwable actual, String expectedMessage) {
+  public void assertHasMessage(AssertionInfo info, @Nullable Throwable actual, @Nullable String expectedMessage) {
     assertNotNull(info, actual);
     if (java.util.Objects.equals(actual.getMessage(), expectedMessage)) return;
     throw failures.failure(info, shouldHaveMessage(actual, expectedMessage), actual.getMessage(), expectedMessage);
@@ -95,7 +95,7 @@ public class Throwables {
    * @param actual the actual throwable
    * @param expectedCause the expected cause
    */
-  public void assertHasCause(AssertionInfo info, @Nullable Throwable actual, Throwable expectedCause) {
+  public void assertHasCause(AssertionInfo info, @Nullable Throwable actual, @Nullable Throwable expectedCause) {
     assertNotNull(info, actual);
     Throwable actualCause = actual.getCause();
     if (actualCause == expectedCause) return;
@@ -115,7 +115,7 @@ public class Throwables {
    * @param actual the given {@code Throwable}.
    * @param expectedCause the expected cause.
    */
-  public void assertHasCauseReference(AssertionInfo info, @Nullable Throwable actual, Throwable expectedCause) {
+  public void assertHasCauseReference(AssertionInfo info, @Nullable Throwable actual, @Nullable Throwable expectedCause) {
     assertNotNull(info, actual);
     Throwable actualCause = actual.getCause();
     if (actualCause != expectedCause) throw failures.failure(info, shouldHaveCauseReference(actualCause, expectedCause));
@@ -128,7 +128,7 @@ public class Throwables {
    * @param actual the given {@code Throwable}.
    * @param expectedRootCause the expected root cause.
    */
-  public void assertHasRootCause(AssertionInfo info, @Nullable Throwable actual, Throwable expectedRootCause) {
+  public void assertHasRootCause(AssertionInfo info, @Nullable Throwable actual, @Nullable Throwable expectedRootCause) {
     assertNotNull(info, actual);
     Throwable actualRootCause = getRootCause(actual);
     if (actualRootCause == expectedRootCause) return;
@@ -148,7 +148,7 @@ public class Throwables {
    * @param actual the given {@code Throwable}.
    * @param expectedMessage the expected message of the root cause.
    */
-  public void assertHasRootCauseMessage(AssertionInfo info, @Nullable Throwable actual, String expectedMessage) {
+  public void assertHasRootCauseMessage(AssertionInfo info, @Nullable Throwable actual, @Nullable String expectedMessage) {
     assertNotNull(info, actual);
     Throwable rootCause = getRootCause(actual);
     if (null == rootCause) throw failures.failure(info, shouldHaveRootCauseWithMessage(actual, rootCause, expectedMessage));
@@ -241,7 +241,7 @@ public class Throwables {
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
    */
-  public void assertHasMessageContainingAll(AssertionInfo info, Throwable actual, CharSequence... values) {
+  public void assertHasMessageContainingAll(AssertionInfo info, @Nullable Throwable actual, CharSequence... values) {
     doCommonCheckForMessages(info, actual, values);
     assertNotNull(info, actual);
     String actualMessage = actual.getMessage();
@@ -279,7 +279,7 @@ public class Throwables {
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
    */
-  public void assertHasMessageNotContainingAny(AssertionInfo info, Throwable actual, CharSequence... values) {
+  public void assertHasMessageNotContainingAny(AssertionInfo info, @Nullable Throwable actual, CharSequence... values) {
     doCommonCheckForMessages(info, actual, values);
     String actualMessage = actual.getMessage();
     Set<CharSequence> found = stream(values).filter(value -> actualMessage != null && actualMessage.contains(value))
@@ -317,7 +317,7 @@ public class Throwables {
    * @throws AssertionError if the message of the actual {@code Throwable} does not match the given regular expression.
    * @throws NullPointerException if the regex is null
    */
-  public void assertHasMessageMatching(AssertionInfo info, Throwable actual, Pattern regex) {
+  public void assertHasMessageMatching(AssertionInfo info, @Nullable Throwable actual, Pattern regex) {
     requireNonNull(regex, "regex must not be null");
     assertNotNull(info, actual);
     if (actual.getMessage() != null && regex.matcher(actual.getMessage()).matches()) return;
@@ -332,7 +332,7 @@ public class Throwables {
    * @param regex the regular expression
    * @see #assertHasMessageMatching(AssertionInfo, Throwable, Pattern)
    */
-  public void assertHasMessageMatching(AssertionInfo info, Throwable actual, String regex) {
+  public void assertHasMessageMatching(AssertionInfo info, @Nullable Throwable actual, String regex) {
     requireNonNull(regex, "regex must not be null");
     assertHasMessageMatching(info, actual, Pattern.compile(regex));
   }
@@ -348,7 +348,7 @@ public class Throwables {
    * @throws AssertionError if the message of the actual {@code Throwable} doesn't contain any sequence matching with the given regular expression
    * @throws NullPointerException if the regex is null
    */
-  public void assertHasMessageFindingMatch(AssertionInfo info, Throwable actual, String regex) {
+  public void assertHasMessageFindingMatch(AssertionInfo info, @Nullable Throwable actual, String regex) {
     requireNonNull(regex, "regex must not be null");
     assertNotNull(info, actual);
     Objects.instance().assertNotNull(info, actual.getMessage(), "exception message of actual");

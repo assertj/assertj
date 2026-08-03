@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@code String}s.
  * <p>
@@ -29,7 +31,7 @@ public class StringAssert extends AbstractStringAssert<StringAssert> {
    *
    * @param actual the actual string
    */
-  public StringAssert(String actual) {
+  public StringAssert(@Nullable String actual) {
     super(actual, StringAssert.class);
   }
 

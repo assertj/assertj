@@ -33,13 +33,15 @@ import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Failures;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for assertions on {@link String} values.
  *
  * @param <SELF> the "self" type of this assertion class
  */
-public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> extends AbstractCharSequenceAssert<SELF, String> {
+public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>>
+    extends AbstractCharSequenceAssert<SELF, @Nullable String> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
@@ -50,7 +52,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @param actual the actual string to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractStringAssert(String actual, Class<?> selfType) {
+  protected AbstractStringAssert(@Nullable String actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
