@@ -28,6 +28,7 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Filters the elements of a given <code>{@link Iterable}</code> or array according to the specified filter criteria.
@@ -240,7 +241,7 @@ public class Filters<E> {
    *           propertyOrFieldName.
    * @throws IllegalArgumentException if the given propertyOrFieldName is {@code null}.
    */
-  public Filters<E> with(String propertyOrFieldName, Object propertyValue) {
+  public Filters<E> with(String propertyOrFieldName, @Nullable Object propertyValue) {
     validatePropertyOrFieldName(propertyOrFieldName);
     propertyOrFieldNameToFilterOn = propertyOrFieldName;
     return equalsTo(propertyValue);
@@ -294,7 +295,7 @@ public class Filters<E> {
    * @return this {@link Filters} to chain other filter operation.
    * @throws IllegalArgumentException if the property name to filter on has not been set.
    */
-  public Filters<E> equalsTo(Object propertyValue) {
+  public Filters<E> equalsTo(@Nullable Object propertyValue) {
     checkPropertyNameToFilterOnIsNotNull();
     return matching(new Condition<>(elem -> deepEquals(elem, propertyValue), "equalsTo(%s)", propertyValue));
   }
@@ -310,7 +311,7 @@ public class Filters<E> {
    * @return this {@link Filters} to chain other filter operation.
    * @throws IllegalArgumentException if the property name to filter on has not been set.
    */
-  public Filters<E> notEqualsTo(Object propertyValue) {
+  public Filters<E> notEqualsTo(@Nullable Object propertyValue) {
     checkPropertyNameToFilterOnIsNotNull();
     return matching(new Condition<>(elem -> !deepEquals(elem, propertyValue), "notEqualsTo(%s)", propertyValue));
   }

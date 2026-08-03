@@ -2621,7 +2621,7 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
-  public AtomicReferenceArrayAssert<T> filteredOn(String propertyOrFieldName, Object expectedValue) {
+  public AtomicReferenceArrayAssert<T> filteredOn(String propertyOrFieldName, @Nullable Object expectedValue) {
     return internalFilteredOn(propertyOrFieldName, expectedValue);
   }
 
@@ -2845,7 +2845,7 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
    * @since 3.17.0
    */
   @CheckReturnValue
-  public <U> AtomicReferenceArrayAssert<T> filteredOn(Function<? super T, U> function, U expectedValue) {
+  public <U extends @Nullable Object> AtomicReferenceArrayAssert<T> filteredOn(Function<? super T, U> function, U expectedValue) {
     checkArgument(function != null, "The filter function should not be null");
     // call internalFilteredOn to avoid double proxying in soft assertions
     return internalFilteredOn(element -> java.util.Objects.equals(function.apply(element), expectedValue));
@@ -3632,7 +3632,7 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
     return comparatorsForElementPropertyOrFieldTypes;
   }
 
-  private AtomicReferenceArrayAssert<T> internalFilteredOn(String propertyOrFieldName, Object expectedValue) {
+  private AtomicReferenceArrayAssert<T> internalFilteredOn(String propertyOrFieldName, @Nullable Object expectedValue) {
     Iterable<? extends T> filteredIterable = filter(array).with(propertyOrFieldName, expectedValue).get();
     AtomicReferenceArrayAssert<T> result = new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filteredIterable)));
     result.withAssertionState(this);

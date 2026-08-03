@@ -2554,7 +2554,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IntrospectionError       if the given propertyOrFieldName can't be found in one of the array elements.
    */
   @CheckReturnValue
-  public SELF filteredOn(String propertyOrFieldName, Object expectedValue) {
+  public SELF filteredOn(String propertyOrFieldName, @Nullable Object expectedValue) {
     List<ELEMENT> filteredList = filter(actual).with(propertyOrFieldName, expectedValue).get();
     return newObjectArrayAssert(filteredList);
   }
@@ -2774,7 +2774,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @since 3.17.0
    */
   @CheckReturnValue
-  public <T> SELF filteredOn(Function<? super ELEMENT, T> function, T expectedValue) {
+  public <T extends @Nullable Object> SELF filteredOn(Function<? super ELEMENT, T> function, T expectedValue) {
     checkArgument(function != null, "The filter function should not be null");
     return filteredOn(element -> java.util.Objects.equals(function.apply(element), expectedValue));
   }
