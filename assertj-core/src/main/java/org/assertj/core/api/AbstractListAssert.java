@@ -25,6 +25,7 @@ import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Lists;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link List}s.
@@ -43,7 +44,7 @@ import org.assertj.core.internal.Lists;
  */
 //@format:off
 public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
-                                         ACTUAL extends List<? extends ELEMENT>,
+                                         ACTUAL extends @Nullable List<? extends ELEMENT>,
                                          ELEMENT,
                                          ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
        extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>
@@ -419,7 +420,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
    */
   // @format:off
   private static class FactoryBasedAssert<SELF extends FactoryBasedAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
-                                          ACTUAL extends List<? extends ELEMENT>,
+                                          ACTUAL extends @Nullable List<? extends ELEMENT>,
                                           ELEMENT,
                                           ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
     extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {

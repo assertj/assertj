@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.NavigableSet;
 
 import org.assertj.core.annotation.Beta;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Collection}s.
@@ -39,7 +40,7 @@ import org.assertj.core.annotation.Beta;
  */
 //@format:off
 public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
-                                               ACTUAL extends Collection<? extends ELEMENT>,
+                                               ACTUAL extends @Nullable Collection<? extends ELEMENT>,
                                                ELEMENT,
                                                ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
     extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
@@ -162,7 +163,7 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
    */
   // @format:off
   private static class FactoryBasedAssert<SELF extends FactoryBasedAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
-                                          ACTUAL extends Collection<? extends ELEMENT>,
+                                          ACTUAL extends @Nullable Collection<? extends ELEMENT>,
                                           ELEMENT,
                                           ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
     extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {

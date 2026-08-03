@@ -51,6 +51,7 @@ import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.util.Strings;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Map}s.
@@ -69,7 +70,7 @@ import org.assertj.core.util.Strings;
  * @author dorzey
  * @author Filip Hrisafov
  */
-public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACTUAL, K, V>, ACTUAL extends Map<K, V>, K, V>
+public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACTUAL, K, V>, ACTUAL extends @Nullable Map<K, V>, K, V>
     extends AbstractAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Map.Entry<? extends K, ? extends V>> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting

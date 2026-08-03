@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@code CharSequence}s.
@@ -62,7 +63,7 @@ import org.assertj.core.internal.Strings;
  * @author Nicolas Francois
  * @author Daniel Weber
  */
-public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>, ACTUAL extends CharSequence>
+public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>, ACTUAL extends @Nullable CharSequence>
     extends AbstractAssertWithComparator<SELF, ACTUAL> implements EnumerableAssert<SELF, Character> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting

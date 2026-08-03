@@ -30,6 +30,7 @@ import org.assertj.core.description.Description;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Throwable}s.
@@ -45,7 +46,7 @@ import org.assertj.core.internal.Throwables;
  * @author Mike Gilchrist
  * @author Paweł Baczyński
  */
-public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAssert<SELF, ACTUAL>, ACTUAL extends Throwable>
+public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAssert<SELF, ACTUAL>, ACTUAL extends @Nullable Throwable>
     extends AbstractObjectAssert<SELF, ACTUAL> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting

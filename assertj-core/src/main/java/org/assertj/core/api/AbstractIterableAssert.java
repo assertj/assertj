@@ -80,6 +80,7 @@ import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for implementations of <code>{@link ObjectEnumerableAssert}</code> whose actual value type is
@@ -105,7 +106,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
 //@format:off
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
-  ACTUAL extends Iterable<? extends ELEMENT>,
+  ACTUAL extends @Nullable Iterable<? extends ELEMENT>,
   ELEMENT,
   ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
   extends AbstractAssertWithComparator<SELF, ACTUAL>
@@ -3747,7 +3748,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   // @format:off
   private static class FactoryBasedAssert<SELF extends FactoryBasedAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
-    ACTUAL extends Iterable<? extends ELEMENT>,
+    ACTUAL extends @Nullable Iterable<? extends ELEMENT>,
     ELEMENT,
     ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
     extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {

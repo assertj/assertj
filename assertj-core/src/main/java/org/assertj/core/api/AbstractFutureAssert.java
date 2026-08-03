@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.assertj.core.internal.Futures;
+import org.jspecify.annotations.Nullable;
 
 /**
  * future assertion base class.
@@ -33,7 +34,7 @@ import org.assertj.core.internal.Futures;
  * @param <ACTUAL> the type of the "actual" value.
  * @param <RESULT> The result type returned by this Future's {@code get} method
  */
-public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SELF, ACTUAL, RESULT>, ACTUAL extends Future<RESULT>, RESULT>
+public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SELF, ACTUAL, RESULT>, ACTUAL extends @Nullable Future<RESULT>, RESULT>
     extends AbstractAssertWithComparator<SELF, ACTUAL> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
