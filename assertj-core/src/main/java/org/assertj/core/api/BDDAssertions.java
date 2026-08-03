@@ -105,6 +105,7 @@ import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.presentation.UnicodeRepresentation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Behavior-driven development style entry point for assertion methods for different types. Each method in this class is a static factory
@@ -874,7 +875,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <K, V> MapAssert<K, V> then(Map<K, V> actual) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> MapAssert<K, V> then(Map<K, V> actual) {
     return assertThat(actual);
   }
 

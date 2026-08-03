@@ -105,6 +105,7 @@ import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.presentation.UnicodeRepresentation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A unified entry point to all non-deprecated assertions from both the new Java 8 core API and the pre-Java 8 core API.
@@ -382,7 +383,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default <K, V> MapAssert<K, V> assertThat(final Map<K, V> actual) {
+  default <K extends @Nullable Object, V extends @Nullable Object> MapAssert<K, V> assertThat(final Map<K, V> actual) {
     return Assertions.assertThat(actual);
   }
 

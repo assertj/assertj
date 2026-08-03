@@ -70,7 +70,7 @@ import org.jspecify.annotations.Nullable;
  * @author dorzey
  * @author Filip Hrisafov
  */
-public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACTUAL, K, V>, ACTUAL extends @Nullable Map<K, V>, K, V>
+public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACTUAL, K, V>, ACTUAL extends @Nullable Map<K, V>, K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Map.Entry<? extends K, ? extends V>> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting

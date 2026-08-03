@@ -18,6 +18,7 @@ package org.assertj.core.api;
 import java.util.Map;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for the size of a map, with navigation back to the origin assertion.
@@ -30,12 +31,12 @@ import org.assertj.core.annotation.CheckReturnValue;
 //@format:off
 public abstract class AbstractMapSizeAssert<ORIGIN extends AbstractMapAssert<ORIGIN, MAP, KEY, VALUE>,
                                             MAP extends Map<KEY, VALUE>,
-                                            KEY,
-                                            VALUE>
+                                            KEY extends @Nullable Object,
+                                            VALUE extends @Nullable Object>
     extends AbstractIntegerAssert<AbstractMapSizeAssert<ORIGIN, MAP, KEY, VALUE>> {
 //@format:on
 
-  private final AbstractMapAssert<ORIGIN, MAP, KEY, VALUE> originAssert;
+  private final @Nullable AbstractMapAssert<ORIGIN, MAP, KEY, VALUE> originAssert;
 
   /**
    * Creates a new instance from an origin {@link AbstractMapAssert} instance.

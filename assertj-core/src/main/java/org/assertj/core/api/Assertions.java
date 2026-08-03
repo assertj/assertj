@@ -124,6 +124,7 @@ import org.assertj.core.util.Paths;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.Introspection;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Entry point for assertion methods for different types. Each method in this class is a static factory for a
@@ -3562,7 +3563,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> MapAssert<K, V> assertThat(Map<K, V> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
