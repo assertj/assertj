@@ -38,7 +38,7 @@ import org.jspecify.annotations.Nullable;
  * @author Maciej Wajcht
  * @since 3.17.0
  */
-public class Object2DArrayAssert<ELEMENT> extends
+public class Object2DArrayAssert<ELEMENT extends @Nullable Object> extends
     Abstract2DArrayAssert<Object2DArrayAssert<ELEMENT>, ELEMENT[][], ELEMENT> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting

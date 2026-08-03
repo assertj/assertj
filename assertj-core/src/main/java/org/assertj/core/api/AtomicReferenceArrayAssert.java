@@ -76,7 +76,7 @@ import org.jspecify.annotations.Nullable;
  * @param <T> the array element type
  */
 @SuppressWarnings({ "deprecation", "RedundantSuppression" })
-public class AtomicReferenceArrayAssert<T>
+public class AtomicReferenceArrayAssert<T extends @Nullable Object>
     extends AbstractAssertWithComparator<AtomicReferenceArrayAssert<T>, @Nullable AtomicReferenceArray<T>>
     implements IndexedObjectEnumerableAssert<AtomicReferenceArrayAssert<T>, T>,
     ArraySortedAssert<AtomicReferenceArrayAssert<T>, T> {

@@ -72,6 +72,7 @@ import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for arrays of objects.
@@ -92,7 +93,8 @@ import org.assertj.core.util.introspection.IntrospectionError;
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 // IntelliJ thinks this is redundant when it is not.
 @SuppressWarnings({ "deprecation", "RedundantSuppression" })
-public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT> extends
+public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT extends @Nullable Object>
+    extends
     AbstractAssertWithComparator<SELF, ELEMENT[]>
     implements IndexedObjectEnumerableAssert<AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT>,
     ArraySortedAssert<AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT> {

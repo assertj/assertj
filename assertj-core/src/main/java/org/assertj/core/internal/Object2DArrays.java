@@ -26,7 +26,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Maciej Wajcht
  */
-public class Object2DArrays<ELEMENT> {
+public class Object2DArrays<ELEMENT extends @Nullable Object> {
 
   /** Creates reusable two-dimensional object array assertions. */
   public Object2DArrays() {}
@@ -38,7 +38,7 @@ public class Object2DArrays<ELEMENT> {
    *
    * @return the singleton instance of this class.
    */
-  public static <ELEMENT> Object2DArrays<ELEMENT> instance() {
+  public static <ELEMENT extends @Nullable Object> Object2DArrays<ELEMENT> instance() {
     return new Object2DArrays<>();
   }
 

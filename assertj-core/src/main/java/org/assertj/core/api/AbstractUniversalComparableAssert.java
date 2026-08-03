@@ -21,6 +21,7 @@ import java.util.Comparator;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Comparables;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for {@link Comparable} assertions.
@@ -262,7 +263,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
   /** {@inheritDoc} */
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Comparable<T>> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super Comparable<T>> customComparator, @Nullable String customComparatorDescription) {
     this.comparables = new Comparables(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

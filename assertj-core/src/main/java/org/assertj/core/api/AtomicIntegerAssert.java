@@ -412,7 +412,7 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
   @Override
   @CheckReturnValue
   public AtomicIntegerAssert usingComparator(Comparator<? super AtomicInteger> customComparator,
-                                             String customComparatorDescription) {
+                                             @Nullable String customComparatorDescription) {
     integers = new Integers(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }
