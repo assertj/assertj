@@ -25,6 +25,7 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Int2DArrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for two-dimensional arrays of {@code int}s.
@@ -104,7 +105,7 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
    * @throws AssertionError if the actual {@code int[][]} is not equal to the given one.
    */
   @Override
-  public Int2DArrayAssert isEqualTo(Object expected) {
+  public Int2DArrayAssert isEqualTo(@Nullable Object expected) {
     return super.isEqualTo(expected);
   }
 

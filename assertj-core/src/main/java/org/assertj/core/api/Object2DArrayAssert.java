@@ -26,6 +26,7 @@ import java.util.Objects;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Object2DArrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for two-dimensional arrays of objects.
@@ -126,7 +127,7 @@ public class Object2DArrayAssert<ELEMENT> extends
    * @throws AssertionError if the actual {@code ELEMENT[][]} is not equal to the given one.
    */
   @Override
-  public Object2DArrayAssert<ELEMENT> isEqualTo(Object expected) {
+  public Object2DArrayAssert<ELEMENT> isEqualTo(@Nullable Object expected) {
     return super.isEqualTo(expected);
   }
 

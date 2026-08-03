@@ -25,6 +25,7 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Short2DArrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for arrays of {@code short}s.
@@ -121,7 +122,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    * @throws AssertionError if the actual {@code short[][]} is not equal to the given one.
    */
   @Override
-  public Short2DArrayAssert isEqualTo(Object expected) {
+  public Short2DArrayAssert isEqualTo(@Nullable Object expected) {
     return super.isEqualTo(expected);
   }
 

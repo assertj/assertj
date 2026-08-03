@@ -29,6 +29,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.Failures;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for {@link List}s.
@@ -160,7 +161,7 @@ public class ListAssert<ELEMENT> extends
   }
 
   @Override
-  public ListAssert<ELEMENT> isEqualTo(Object expected) {
+  public ListAssert<ELEMENT> isEqualTo(@Nullable Object expected) {
     return executeAssertion(() -> {
       if (actual instanceof ListFromStream && asListFromStream().stream == expected) {
         return;
@@ -258,7 +259,7 @@ public class ListAssert<ELEMENT> extends
   }
 
   @Override
-  public ListAssert<ELEMENT> isSameAs(Object expected) {
+  public ListAssert<ELEMENT> isSameAs(@Nullable Object expected) {
     return executeAssertion(() -> {
       if (actual instanceof ListFromStream) {
         objects.assertSame(info, asListFromStream().stream, expected);
@@ -269,7 +270,7 @@ public class ListAssert<ELEMENT> extends
   }
 
   @Override
-  public ListAssert<ELEMENT> isNotSameAs(Object expected) {
+  public ListAssert<ELEMENT> isNotSameAs(@Nullable Object expected) {
     return executeAssertion(() -> {
       if (actual instanceof ListFromStream) {
         objects.assertNotSame(info, asListFromStream().stream, expected);

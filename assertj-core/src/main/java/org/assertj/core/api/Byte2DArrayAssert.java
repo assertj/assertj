@@ -25,6 +25,7 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Byte2DArrays;
 import org.assertj.core.internal.Failures;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for two-dimensional arrays of {@code byte}s.
@@ -124,7 +125,7 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
    * @throws AssertionError if the actual {@code byte[][]} is not equal to the given one.
    */
   @Override
-  public Byte2DArrayAssert isEqualTo(Object expected) {
+  public Byte2DArrayAssert isEqualTo(@Nullable Object expected) {
     return super.isEqualTo(expected);
   }
 

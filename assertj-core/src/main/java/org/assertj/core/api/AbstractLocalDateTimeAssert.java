@@ -262,7 +262,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    *                        according to the comparator in use.
    */
   @Override
-  public SELF isEqualTo(Object other) {
+  public SELF isEqualTo(@Nullable Object other) {
     return executeAssertion(() -> {
       if (actual == null || other == null) {
         super.isEqualTo(other);
@@ -312,7 +312,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    *                        according to the comparator in use.
    */
   @Override
-  public SELF isNotEqualTo(Object other) {
+  public SELF isNotEqualTo(@Nullable Object other) {
     return executeAssertion(() -> {
       if (actual == null || other == null) {
         super.isNotEqualTo(other);

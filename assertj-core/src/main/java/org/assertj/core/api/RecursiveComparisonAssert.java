@@ -35,6 +35,7 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonIntrospectio
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.DualClass;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions comparing object graphs recursively.
@@ -42,7 +43,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @param <SELF> the assertion self type
  */
 public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SELF>>
-    extends AbstractAssertWithComparator<SELF, Object> {
+    extends AbstractAssertWithComparator<SELF, @Nullable Object> {
 
   private final RecursiveComparisonConfiguration recursiveComparisonConfiguration;
   private final RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator;
@@ -53,7 +54,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * @param actual the actual object graph
    * @param recursiveComparisonConfiguration the comparison configuration
    */
-  public RecursiveComparisonAssert(Object actual, RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+  public RecursiveComparisonAssert(@Nullable Object actual, RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     super(actual, RecursiveComparisonAssert.class);
     this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
     this.recursiveComparisonDifferenceCalculator = new RecursiveComparisonDifferenceCalculator();
@@ -157,7 +158,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * @throws IntrospectionError if one property/field to compare cannot be found.
    */
   @Override
-  public SELF isEqualTo(Object expected) {
+  public SELF isEqualTo(@Nullable Object expected) {
     return executeAssertion(() -> {
       // deals with both actual and expected being null
       if (actual == expected) return;
@@ -216,7 +217,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * @since 3.17.0
    */
   @Override
-  public SELF isNotEqualTo(Object other) {
+  public SELF isNotEqualTo(@Nullable Object other) {
     return executeAssertion(() -> {
       if (actual == other)
         throw objects.getFailures().failure(info, shouldNotBeEqualComparingFieldByFieldRecursively(actual, other,

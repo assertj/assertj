@@ -25,6 +25,7 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Float2DArrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for two-dimensional arrays of {@code float}s.
@@ -119,7 +120,7 @@ public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert
    * @throws AssertionError if the actual {@code float[][]} is not equal to the given one.
    */
   @Override
-  public Float2DArrayAssert isEqualTo(Object expected) {
+  public Float2DArrayAssert isEqualTo(@Nullable Object expected) {
     return super.isEqualTo(expected);
   }
 

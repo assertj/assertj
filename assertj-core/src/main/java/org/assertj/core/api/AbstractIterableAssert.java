@@ -2603,7 +2603,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IntrospectionError       if the given propertyOrFieldName can't be found in one of the iterable elements.
    */
   @CheckReturnValue
-  public SELF filteredOn(String propertyOrFieldName, Object expectedValue) {
+  public SELF filteredOn(String propertyOrFieldName, @Nullable Object expectedValue) {
     Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual);
     Iterable<? extends ELEMENT> filteredIterable = filter.with(propertyOrFieldName, expectedValue).get();
     return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
@@ -2799,7 +2799,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 3.17.0
    */
   @CheckReturnValue
-  public <T> SELF filteredOn(Function<? super ELEMENT, T> function, T expectedValue) {
+  public <T extends @Nullable Object> SELF filteredOn(Function<? super ELEMENT, T> function, T expectedValue) {
     checkArgument(function != null, "The filter function should not be null");
     return filteredOn(element -> java.util.Objects.equals(function.apply(element), expectedValue));
   }
@@ -3502,7 +3502,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   @Override
-  public SELF isEqualTo(Object expected) {
+  public SELF isEqualTo(@Nullable Object expected) {
     return super.isEqualTo(expected);
   }
 
@@ -3537,7 +3537,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   @Override
-  public SELF isNotEqualTo(Object other) {
+  public SELF isNotEqualTo(@Nullable Object other) {
     return super.isNotEqualTo(other);
   }
 
@@ -3577,7 +3577,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   @Override
-  public SELF isNotSameAs(Object other) {
+  public SELF isNotSameAs(@Nullable Object other) {
     return super.isNotSameAs(other);
   }
 
@@ -3587,7 +3587,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   @Override
-  public SELF isSameAs(Object expected) {
+  public SELF isSameAs(@Nullable Object expected) {
     return super.isSameAs(expected);
   }
 

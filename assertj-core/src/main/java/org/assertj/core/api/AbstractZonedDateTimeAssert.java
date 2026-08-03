@@ -351,7 +351,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    *                      to the comparator in use.
    */
   @Override
-  public SELF isEqualTo(Object expected) {
+  public SELF isEqualTo(@Nullable Object expected) {
     return executeAssertion(() -> {
       if (actual == null || expected == null) {
         super.isEqualTo(expected);
@@ -420,7 +420,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    *                to the comparator in use.
    */
   @Override
-  public SELF isNotEqualTo(Object expected) {
+  public SELF isNotEqualTo(@Nullable Object expected) {
     return executeAssertion(() -> {
       if (actual == null || expected == null) {
         super.isNotEqualTo(expected);
