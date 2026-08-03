@@ -297,7 +297,7 @@ public class Strings {
    * @param actual the actual text
    * @param array the array to compare
    */
-  public void assertHasSameSizeAs(AssertionInfo info, @Nullable CharSequence actual, Object array) {
+  public void assertHasSameSizeAs(AssertionInfo info, @Nullable CharSequence actual, @Nullable Object array) {
     assertNotNull(info, actual);
     assertIsArray(info, array);
     hasSameSizeAsCheck(info, actual, array, actual.length());

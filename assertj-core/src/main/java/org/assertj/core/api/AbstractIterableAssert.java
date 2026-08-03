@@ -315,7 +315,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   @Override
-  public SELF hasSameSizeAs(Object other) {
+  public SELF hasSameSizeAs(@Nullable Object other) {
     return executeAssertion(() -> iterables.assertHasSameSizeAs(info, actual, other));
   }
 

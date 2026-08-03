@@ -267,7 +267,7 @@ public class Double2DArrayAssert extends Abstract2DArrayAssert<Double2DArrayAsse
    * @throws AssertionError if actual {@code double[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Double2DArrayAssert hasSameDimensionsAs(Object array) {
+  public Double2DArrayAssert hasSameDimensionsAs(@Nullable Object array) {
     return executeAssertion(() -> double2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 

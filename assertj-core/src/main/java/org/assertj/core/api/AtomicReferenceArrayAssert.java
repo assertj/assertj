@@ -349,7 +349,7 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public AtomicReferenceArrayAssert<T> hasSameSizeAs(Object other) {
+  public AtomicReferenceArrayAssert<T> hasSameSizeAs(@Nullable Object other) {
     return executeAssertion(() -> arrays.assertHasSameSizeAs(info, array, other));
   }
 

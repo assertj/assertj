@@ -266,7 +266,7 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    * @throws AssertionError if actual {@code long[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Long2DArrayAssert hasSameDimensionsAs(Object array) {
+  public Long2DArrayAssert hasSameDimensionsAs(@Nullable Object array) {
     return executeAssertion(() -> long2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 

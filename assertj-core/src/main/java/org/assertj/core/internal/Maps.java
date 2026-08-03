@@ -323,7 +323,7 @@ public class Maps {
    * @param map the actual map
    * @param other the array to compare
    */
-  public void assertHasSameSizeAs(AssertionInfo info, @Nullable Map<?, ?> map, Object other) {
+  public void assertHasSameSizeAs(AssertionInfo info, @Nullable Map<?, ?> map, @Nullable Object other) {
     assertNotNull(info, map);
     assertIsArray(info, other);
     hasSameSizeAsCheck(info, map, other, map.size());

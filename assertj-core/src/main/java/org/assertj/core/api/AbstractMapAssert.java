@@ -426,7 +426,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if actual group and given array don't have the same size.
    */
   @Override
-  public SELF hasSameSizeAs(Object other) {
+  public SELF hasSameSizeAs(@Nullable Object other) {
     return executeAssertion(() -> maps.assertHasSameSizeAs(info, actual, other));
   }
 

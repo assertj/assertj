@@ -225,7 +225,7 @@ public class Arrays {
    * @param array the actual array
    * @param other the array to compare with
    */
-  public void assertHasSameSizeAs(AssertionInfo info, @Nullable Object array, Object other) {
+  public void assertHasSameSizeAs(AssertionInfo info, @Nullable Object array, @Nullable Object other) {
     assertNotNull(info, array);
     assertIsArray(info, array);
     assertIsArray(info, other);

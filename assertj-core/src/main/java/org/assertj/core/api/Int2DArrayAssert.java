@@ -179,7 +179,7 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
    * @throws AssertionError if actual {@code int[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Int2DArrayAssert hasSameDimensionsAs(Object array) {
+  public Int2DArrayAssert hasSameDimensionsAs(@Nullable Object array) {
     return executeAssertion(() -> int2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 

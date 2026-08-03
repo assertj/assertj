@@ -267,7 +267,7 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
    * @throws AssertionError if actual {@code byte[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Byte2DArrayAssert hasSameDimensionsAs(Object array) {
+  public Byte2DArrayAssert hasSameDimensionsAs(@Nullable Object array) {
     return executeAssertion(() -> byte2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 

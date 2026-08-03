@@ -262,7 +262,7 @@ public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert
    * @throws AssertionError if actual {@code float[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Float2DArrayAssert hasSameDimensionsAs(Object array) {
+  public Float2DArrayAssert hasSameDimensionsAs(@Nullable Object array) {
     return executeAssertion(() -> float2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 

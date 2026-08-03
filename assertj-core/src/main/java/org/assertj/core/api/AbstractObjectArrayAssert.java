@@ -298,7 +298,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws AssertionError if actual array and given array don't have the same size.
    */
   @Override
-  public SELF hasSameSizeAs(Object other) {
+  public SELF hasSameSizeAs(@Nullable Object other) {
     // same implementation as in AbstractArrayAssert, but can't inherit from it due to generics problem ...
     return executeAssertion(() -> arrays.assertHasSameSizeAs(info, actual, other));
   }

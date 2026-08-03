@@ -512,7 +512,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws NullPointerException if the given array is {@code null}.
    */
   @Override
-  public SELF hasSameSizeAs(Object other) {
+  public SELF hasSameSizeAs(@Nullable Object other) {
     return executeAssertion(() -> strings.assertHasSameSizeAs(info, actual, other));
   }
 

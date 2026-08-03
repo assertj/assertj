@@ -247,7 +247,7 @@ public class ObjectArrays {
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if the actual group does not have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, Object @Nullable [] actual, Object other) {
+  public void assertHasSameSizeAs(AssertionInfo info, Object @Nullable [] actual, @Nullable Object other) {
     arrays.assertHasSameSizeAs(info, actual, other);
   }
 

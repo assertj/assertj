@@ -269,7 +269,7 @@ public class Object2DArrayAssert<ELEMENT extends @Nullable Object> extends
    * @throws AssertionError if actual {@code ELEMENT[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Object2DArrayAssert<ELEMENT> hasSameDimensionsAs(Object array) {
+  public Object2DArrayAssert<ELEMENT> hasSameDimensionsAs(@Nullable Object array) {
     return executeAssertion(() -> object2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 

@@ -151,5 +151,5 @@ public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMEN
    * @throws AssertionError if the array parameter is {@code null} or is not a true array.
    * @throws AssertionError if actual array and given array don't have the same dimensions.
    */
-  SELF hasSameDimensionsAs(Object array);
+  SELF hasSameDimensionsAs(@Nullable Object array);
 }

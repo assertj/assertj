@@ -267,7 +267,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    * @throws AssertionError if actual {@code char[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Char2DArrayAssert hasSameDimensionsAs(Object array) {
+  public Char2DArrayAssert hasSameDimensionsAs(@Nullable Object array) {
     return executeAssertion(() -> char2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 

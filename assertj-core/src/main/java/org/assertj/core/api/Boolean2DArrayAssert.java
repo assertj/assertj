@@ -266,7 +266,7 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
    * @throws AssertionError if actual {@code boolean[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Boolean2DArrayAssert hasSameDimensionsAs(Object array) {
+  public Boolean2DArrayAssert hasSameDimensionsAs(@Nullable Object array) {
     return executeAssertion(() -> boolean2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 

@@ -265,7 +265,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    * @throws AssertionError if actual {@code short[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Short2DArrayAssert hasSameDimensionsAs(Object array) {
+  public Short2DArrayAssert hasSameDimensionsAs(@Nullable Object array) {
     return executeAssertion(() -> short2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 

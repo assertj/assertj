@@ -241,7 +241,7 @@ public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, 
    * @throws AssertionError if the array parameter is {@code null} or is not a true array.
    * @throws AssertionError if actual group and given array don't have the same size.
    */
-  SELF hasSameSizeAs(Object array);
+  SELF hasSameSizeAs(@Nullable Object array);
 
   /**
    * Use given custom comparator instead of relying on actual type A <code>equals</code> method to compare group
