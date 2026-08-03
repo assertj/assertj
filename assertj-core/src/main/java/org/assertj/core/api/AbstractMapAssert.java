@@ -1536,7 +1536,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
   @Override
   @CheckReturnValue
-  public SELF describedAs(Description description) {
+  public SELF describedAs(@Nullable Description description) {
     return super.describedAs(description);
   }
 

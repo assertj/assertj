@@ -411,7 +411,8 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
 
   @Override
   @CheckReturnValue
-  public AtomicLongAssert usingComparator(Comparator<? super AtomicLong> customComparator, String customComparatorDescription) {
+  public AtomicLongAssert usingComparator(Comparator<? super AtomicLong> customComparator,
+                                          @Nullable String customComparatorDescription) {
     longs = new Longs(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

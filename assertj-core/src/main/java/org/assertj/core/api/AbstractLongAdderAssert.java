@@ -26,6 +26,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Longs;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link LongAdder}s.
@@ -115,7 +116,7 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super LongAdder> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super LongAdder> customComparator, @Nullable String customComparatorDescription) {
     longs = new Longs(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

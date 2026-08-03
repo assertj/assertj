@@ -128,7 +128,7 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
   /** {@inheritDoc} */
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super TEMPORAL> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super TEMPORAL> customComparator, @Nullable String customComparatorDescription) {
     this.comparables = new Comparables(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

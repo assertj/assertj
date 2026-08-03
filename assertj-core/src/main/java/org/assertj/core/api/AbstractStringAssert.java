@@ -371,7 +371,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>>
    */
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super String> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super String> customComparator, @Nullable String customComparatorDescription) {
     this.comparables = new Comparables(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

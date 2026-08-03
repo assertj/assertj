@@ -547,7 +547,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Short> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super Short> customComparator, @Nullable String customComparatorDescription) {
     shorts = new Shorts(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

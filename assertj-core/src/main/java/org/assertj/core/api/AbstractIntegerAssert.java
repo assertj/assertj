@@ -590,7 +590,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Integer> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super Integer> customComparator, @Nullable String customComparatorDescription) {
     integers = new Integers(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

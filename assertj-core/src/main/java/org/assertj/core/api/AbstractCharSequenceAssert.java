@@ -1427,7 +1427,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, @Nullable String customComparatorDescription) {
     this.strings = new Strings(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

@@ -312,7 +312,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super BigDecimal> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super BigDecimal> customComparator, @Nullable String customComparatorDescription) {
     this.bigDecimals = new BigDecimals(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

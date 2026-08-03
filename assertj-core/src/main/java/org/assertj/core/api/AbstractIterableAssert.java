@@ -3461,7 +3461,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @Override
   @CheckReturnValue
-  public SELF describedAs(Description description) {
+  public SELF describedAs(@Nullable Description description) {
     return super.describedAs(description);
   }
 
@@ -3622,7 +3622,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, @Nullable String customComparatorDescription) {
     return super.usingComparator(customComparator, customComparatorDescription);
   }
 

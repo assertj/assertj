@@ -558,7 +558,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>>
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Long> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super Long> customComparator, @Nullable String customComparatorDescription) {
     longs = new Longs(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

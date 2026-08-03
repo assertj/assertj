@@ -85,7 +85,7 @@ public class Lists {
    *
    * @return the configured comparator
    */
-  public Comparator<?> getComparator() {
+  public @Nullable Comparator<?> getComparator() {
     return comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy ? strategy.getComparator() : null;
   }
 
@@ -101,7 +101,7 @@ public class Lists {
    *           {@code List}.
    * @throws AssertionError if the given {@code List} does not contain the given object at the given index.
    */
-  public void assertContains(AssertionInfo info, @Nullable List<?> actual, Object value, Index index) {
+  public void assertContains(AssertionInfo info, @Nullable List<?> actual, @Nullable Object value, Index index) {
     assertNotNull(info, actual);
     Iterables.instance().assertNotEmpty(info, actual);
     checkIndexValueIsValid(index, actual.size() - 1);
@@ -120,7 +120,7 @@ public class Lists {
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the given {@code List} contains the given object at the given index.
    */
-  public void assertDoesNotContain(AssertionInfo info, @Nullable List<?> actual, Object value, Index index) {
+  public void assertDoesNotContain(AssertionInfo info, @Nullable List<?> actual, @Nullable Object value, Index index) {
     assertNotNull(info, actual);
     checkIndexValueIsValid(index, Integer.MAX_VALUE);
     int indexValue = index.value;
@@ -228,7 +228,7 @@ public class Lists {
    * @throws AssertionError if the value in the given {@code List} at the given index does not satisfy the given {@code Condition}
    *           .
    */
-  public <T> void assertHas(AssertionInfo info, List<? extends T> actual, Condition<? super T> condition, Index index) {
+  public <T> void assertHas(AssertionInfo info, @Nullable List<? extends T> actual, Condition<? super T> condition, Index index) {
     if (conditionIsMetAtIndex(info, actual, condition, index)) return;
     throw failures.failure(info, shouldHaveAtIndex(actual, condition, index, actual.get(index.value)));
   }
@@ -248,7 +248,7 @@ public class Lists {
    * @throws AssertionError if the value in the given {@code List} at the given index does not satisfy the given {@code Condition}
    *           .
    */
-  public <T> void assertIs(AssertionInfo info, List<? extends T> actual, Condition<? super T> condition, Index index) {
+  public <T> void assertIs(AssertionInfo info, @Nullable List<? extends T> actual, Condition<? super T> condition, Index index) {
     if (conditionIsMetAtIndex(info, actual, condition, index)) return;
     throw failures.failure(info, shouldBeAtIndex(actual, condition, index, actual.get(index.value)));
   }
@@ -292,7 +292,7 @@ public class Lists {
     Conditions.instance().assertIsNotNull(condition);
   }
 
-  private boolean areEqual(Object actual, Object other) {
+  private boolean areEqual(@Nullable Object actual, @Nullable Object other) {
     return comparisonStrategy.areEqual(actual, other);
   }
 
