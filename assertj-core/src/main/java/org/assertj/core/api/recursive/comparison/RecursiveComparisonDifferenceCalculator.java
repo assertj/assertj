@@ -167,7 +167,7 @@ public class RecursiveComparisonDifferenceCalculator {
       registerForComparison(dualValue);
     }
 
-    private String getCustomErrorMessage(DualValue dualValue) {
+    private @Nullable String getCustomErrorMessage(DualValue dualValue) {
       String fieldName = dualValue.getConcatenatedPath();
       // field custom messages take precedence over type messages
       if (recursiveComparisonConfiguration.hasCustomMessageForField(fieldName)) {
@@ -824,7 +824,7 @@ public class RecursiveComparisonDifferenceCalculator {
     return Collectors.collectingAndThen(downstream, finisher);
   }
 
-  private static FieldLocation keyFieldLocation(FieldLocation parentFieldLocation, Object key) {
+  private static FieldLocation keyFieldLocation(FieldLocation parentFieldLocation, @Nullable Object key) {
     return key == null ? parentFieldLocation : parentFieldLocation.field(key.toString());
   }
 
@@ -1037,8 +1037,8 @@ public class RecursiveComparisonDifferenceCalculator {
     return deepEquals(actualFieldValue, expectedFieldValue);
   }
 
-  private static boolean areEqualUsingComparator(final Object actual, final Object expected, Comparator<Object> comparator,
-                                                 String fieldName) {
+  private static boolean areEqualUsingComparator(final @Nullable Object actual, final @Nullable Object expected,
+                                                 Comparator<Object> comparator, String fieldName) {
     try {
       return comparator.compare(actual, expected) == 0;
     } catch (ClassCastException e) {
