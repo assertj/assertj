@@ -25,7 +25,7 @@ import org.jspecify.annotations.Nullable;
  * An internal holder of the custom message for type. It is used to store messages for registered classes.
  * When looking for a message for a given class the holder returns the most relevant comparator.
  */
-public class TypeMessages extends TypeHolder<String> {
+public class TypeMessages extends TypeHolder<@Nullable String> {
 
   /** Creates an empty type message holder. */
   public TypeMessages() {}
@@ -62,7 +62,7 @@ public class TypeMessages extends TypeHolder<String> {
    * @param message the error message itself
    * @param <T> the type of the objects to associate with the message for
    */
-  public <T> void registerMessage(Class<T> clazz, String message) {
+  public <T> void registerMessage(Class<T> clazz, @Nullable String message) {
     super.put(clazz, message);
   }
 

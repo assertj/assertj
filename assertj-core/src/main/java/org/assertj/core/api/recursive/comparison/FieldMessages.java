@@ -23,7 +23,7 @@ import org.jspecify.annotations.Nullable;
 /**
  * An internal holder of the custom messages for fields described by their path without element index.
  */
-public class FieldMessages extends FieldHolder<String> {
+public class FieldMessages extends FieldHolder<@Nullable String> {
 
   /** Creates an empty field message registry. */
   public FieldMessages() {}
@@ -34,7 +34,7 @@ public class FieldMessages extends FieldHolder<String> {
    * @param fieldLocation the field location where to apply the giving error message
    * @param message the error message
    */
-  public void registerMessage(String fieldLocation, String message) {
+  public void registerMessage(String fieldLocation, @Nullable String message) {
     super.put(fieldLocation, message);
   }
 

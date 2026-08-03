@@ -33,7 +33,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @param <T> entity type
  */
-abstract class FieldHolder<T> {
+abstract class FieldHolder<T extends @Nullable Object> {
 
   /** Entities registered by field path. */
   protected final Map<String, T> fieldHolder;

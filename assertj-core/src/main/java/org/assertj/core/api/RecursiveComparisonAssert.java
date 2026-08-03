@@ -1893,7 +1893,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public SELF withErrorMessageForFields(String message, String... fieldLocations) {
+  public SELF withErrorMessageForFields(@Nullable String message, String... fieldLocations) {
     recursiveComparisonConfiguration.registerErrorMessageForFields(message, fieldLocations);
     return myself;
   }
@@ -1951,7 +1951,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public SELF withErrorMessageForType(String message, Class<?> type) {
+  public SELF withErrorMessageForType(@Nullable String message, Class<?> type) {
     recursiveComparisonConfiguration.registerErrorMessageForType(message, type);
     return myself;
   }
