@@ -190,7 +190,7 @@ public class Iterables {
    * @param actual the given {@code Iterable}.
    * @throws AssertionError if the given {@code Iterable} is not {@code null} *and* contains one or more elements.
    */
-  public void assertNullOrEmpty(AssertionInfo info, Iterable<?> actual) {
+  public void assertNullOrEmpty(AssertionInfo info, @Nullable Iterable<?> actual) {
     if (!isNullOrEmpty(actual)) throw failures.failure(info, shouldBeNullOrEmpty(actual));
   }
 
@@ -229,7 +229,7 @@ public class Iterables {
    * @throws AssertionError if the {@link Iterable} does not have a unique element.
    * @throws AssertionError if the {@link Iterable}'s unique element does not satisfies the given assertions.
    */
-  public <T> void assertHasOnlyOneElementSatisfying(AssertionInfo info, Iterable<? extends T> actual,
+  public <T> void assertHasOnlyOneElementSatisfying(AssertionInfo info, @Nullable Iterable<? extends T> actual,
                                                     Consumer<? super T> consumer) {
     assertHasSize(info, actual, 1);
     consumer.accept(actual.iterator().next());
@@ -348,14 +348,14 @@ public class Iterables {
    * @throws AssertionError           if the given {@code Iterable} is {@code null}.
    * @throws AssertionError           if the given {@code Iterable} does not contain the given values.
    */
-  public void assertContains(AssertionInfo info, Iterable<?> actual, Object[] values) {
+  public void assertContains(AssertionInfo info, @Nullable Iterable<?> actual, Object[] values) {
     final Collection<?> actualAsCollection = ensureActualCanBeReadMultipleTimes(actual);
     if (commonCheckThatIterableAssertionSucceeds(info, failures, actualAsCollection, values)) return;
     // check for elements in values that are missing in actual.
     assertIterableContainsGivenValues(actual.getClass(), actualAsCollection, values, info);
   }
 
-  private static Collection<?> ensureActualCanBeReadMultipleTimes(Iterable<?> actual) {
+  private static @Nullable Collection<?> ensureActualCanBeReadMultipleTimes(@Nullable Iterable<?> actual) {
     return actual instanceof Collection<?> collection ? collection : newArrayList(actual);
   }
 
@@ -392,7 +392,7 @@ public class Iterables {
    * @throws AssertionError           if the given {@code Iterable} does not contain the given values or if the given
    *                                  {@code Iterable} contains values that are not in the given array.
    */
-  public void assertContainsOnly(AssertionInfo info, Iterable<?> actual, Object[] expectedValues) {
+  public void assertContainsOnly(AssertionInfo info, @Nullable Iterable<?> actual, Object[] expectedValues) {
     final Collection<?> actualAsCollection = ensureActualCanBeReadMultipleTimes(actual);
     // don't use commonCheckThatIterableAssertionSucceeds to get a better error message when actual is not empty and
     // expectedValues is
@@ -433,7 +433,7 @@ public class Iterables {
    * @throws AssertionError           if the given {@code Iterable} does not contain the given values or if the given
    *                                  {@code Iterable} contains values that are not in the given array.
    */
-  public void assertContainsOnlyOnce(AssertionInfo info, Iterable<?> actual, Object[] values) {
+  public void assertContainsOnlyOnce(AssertionInfo info, @Nullable Iterable<?> actual, Object[] values) {
     if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, values)) return;
     // check for elements in values that are missing in actual.
     Set<Object> notFound = new LinkedHashSet<>();
@@ -481,7 +481,7 @@ public class Iterables {
    * @throws IllegalArgumentException if the given sequence is empty.
    * @throws AssertionError           if the given {@code Iterable} does not contain the given sequence of objects.
    */
-  public void assertContainsSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
+  public void assertContainsSequence(AssertionInfo info, @Nullable Iterable<?> actual, Object[] sequence) {
     // perform the checks that would have been done in commonCheckThatIterableAssertionSucceeds but do them explicitly without
     // having to create a new iterator on actual - which would break if actual were only singly-traversable.
     checkNotNullIterables(info, actual, sequence);
@@ -535,7 +535,7 @@ public class Iterables {
    * @throws IllegalArgumentException if the given sequence is empty.
    * @throws AssertionError           if the given {@code Iterable} does contain the given sequence of objects.
    */
-  public void assertDoesNotContainSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
+  public void assertDoesNotContainSequence(AssertionInfo info, @Nullable Iterable<?> actual, Object[] sequence) {
     requireNonNull(sequence, nullSequence());
     checkIsNotEmptySequence(sequence);
     assertNotNull(info, actual);
@@ -561,7 +561,7 @@ public class Iterables {
    * @throws IllegalArgumentException if the given subsequence is empty.
    * @throws AssertionError           if the given {@code Iterable} does not contain the given subsequence of objects.
    */
-  public void assertContainsSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence) {
+  public void assertContainsSubsequence(AssertionInfo info, @Nullable Iterable<?> actual, Object[] subsequence) {
     if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, subsequence)) return;
     if (sizeOf(actual) < subsequence.length) {
       throw failures.failure(info, actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence));
@@ -591,7 +591,7 @@ public class Iterables {
    * @throws IllegalArgumentException if the given subsequence is empty.
    * @throws AssertionError           if the given {@code Iterable} contains the given subsequence of objects.
    */
-  public void assertDoesNotContainSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence) {
+  public void assertDoesNotContainSubsequence(AssertionInfo info, @Nullable Iterable<?> actual, Object[] subsequence) {
     requireNonNull(subsequence, nullSubsequence());
     checkIsNotEmptySubsequence(subsequence);
     assertNotNull(info, actual);
@@ -682,7 +682,7 @@ public class Iterables {
    * @throws AssertionError           if the given {@code Iterable} is {@code null}.
    * @throws AssertionError           if the given {@code Iterable} contains any of given values.
    */
-  public void assertDoesNotContain(AssertionInfo info, Iterable<?> actual, Object[] values) {
+  public void assertDoesNotContain(AssertionInfo info, @Nullable Iterable<?> actual, Object[] values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     Set<Object> found = new LinkedHashSet<>();
@@ -704,7 +704,7 @@ public class Iterables {
    * @throws AssertionError           if the given {@code Iterable} is {@code null}.
    * @throws AssertionError           if the given {@code Iterable} contains any of given values.
    */
-  public <T> void assertDoesNotContainAnyElementsOf(AssertionInfo info, Iterable<? extends T> actual,
+  public <T> void assertDoesNotContainAnyElementsOf(AssertionInfo info, @Nullable Iterable<? extends T> actual,
                                                     Iterable<? extends T> iterable) {
     checkIsNotNullAndNotEmpty(iterable);
     List<T> values = newArrayList(iterable);
@@ -741,7 +741,7 @@ public class Iterables {
    * @throws AssertionError           if the given {@code Iterable} is {@code null}.
    * @throws AssertionError           if the given {@code Iterable} does not start with the given sequence of objects.
    */
-  public void assertStartsWith(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
+  public void assertStartsWith(AssertionInfo info, @Nullable Iterable<?> actual, Object[] sequence) {
     if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, sequence)) return;
     int i = 0;
     for (Object actualCurrentElement : actual) {
@@ -773,7 +773,7 @@ public class Iterables {
    * @throws AssertionError           if the given {@code Iterable} is {@code null}.
    * @throws AssertionError           if the given {@code Iterable} does not end with the given sequence of objects.
    */
-  public void assertEndsWith(AssertionInfo info, Iterable<?> actual, Object first, Object[] rest) {
+  public void assertEndsWith(AssertionInfo info, @Nullable Iterable<?> actual, Object first, Object[] rest) {
     Object[] sequence = prepend(first, rest);
     assertEndsWith(info, actual, sequence);
   }
@@ -791,7 +791,7 @@ public class Iterables {
    * @throws AssertionError           if the given {@code Iterable} is {@code null}.
    * @throws AssertionError           if the given {@code Iterable} does not end with the given sequence of objects.
    */
-  public void assertEndsWith(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
+  public void assertEndsWith(AssertionInfo info, @Nullable Iterable<?> actual, Object[] sequence) {
     checkNotNullIterables(info, actual, sequence);
 
     int sizeOfActual = sizeOf(actual);
@@ -806,7 +806,7 @@ public class Iterables {
     }
   }
 
-  private boolean commonCheckThatIterableAssertionSucceeds(AssertionInfo info, Failures failures, Iterable<?> actual,
+  private boolean commonCheckThatIterableAssertionSucceeds(AssertionInfo info, Failures failures, @Nullable Iterable<?> actual,
                                                            Object[] sequence) {
     checkNotNullIterables(info, actual, sequence);
     // if both actual and values are empty, then assertion passes.
@@ -815,7 +815,7 @@ public class Iterables {
     return false;
   }
 
-  private void checkNotNullIterables(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
+  private void checkNotNullIterables(AssertionInfo info, @Nullable Iterable<?> actual, Object[] sequence) {
     checkIsNotNull(sequence);
     assertNotNull(info, actual);
   }
@@ -1116,7 +1116,7 @@ public class Iterables {
    * @throws AssertionError       if the given {@code Iterable} does not contain all the elements of the other
    *                              {@code Iterable}, in any order.
    */
-  public void assertContainsAll(AssertionInfo info, Iterable<?> actual, Iterable<?> other) {
+  public void assertContainsAll(AssertionInfo info, @Nullable Iterable<?> actual, Iterable<?> other) {
     final List<?> actualAsList = newArrayList(actual);
     checkIterableIsNotNull(other);
     assertNotNull(info, actualAsList);
@@ -1135,7 +1135,7 @@ public class Iterables {
    * @throws AssertionError       if the given {@code Iterable} does not contain the given values or if the given
    *                              {@code Iterable} contains values that are not in the given array, in order.
    */
-  public void assertContainsExactly(AssertionInfo info, Iterable<?> actual, Object[] values) {
+  public void assertContainsExactly(AssertionInfo info, @Nullable Iterable<?> actual, Object[] values) {
     checkIsNotNull(values);
     assertNotNull(info, actual);
     // use actualAsList instead of actual in case actual is a singly-passable iterable
@@ -1474,7 +1474,7 @@ public class Iterables {
    * @throws AssertionError           if the given {@code Iterable} is {@code null}.
    * @throws AssertionError           if the given {@code Iterable} does not contain any of given {@code values}.
    */
-  public void assertContainsAnyOf(AssertionInfo info, Iterable<?> actual, Object[] values) {
+  public void assertContainsAnyOf(AssertionInfo info, @Nullable Iterable<?> actual, Object[] values) {
     if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, values))
       return;
 
@@ -1492,7 +1492,7 @@ public class Iterables {
    * @param actual the actual iterable
    * @param values the expected values
    */
-  public void assertContainsExactlyInAnyOrder(AssertionInfo info, Iterable<?> actual, Object[] values) {
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, @Nullable Iterable<?> actual, Object[] values) {
     checkIsNotNull(values);
     assertNotNull(info, actual);
     List<Object> notExpected = newArrayList(actual);
