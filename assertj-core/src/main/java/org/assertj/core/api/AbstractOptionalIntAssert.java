@@ -23,6 +23,7 @@ import java.util.OptionalInt;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Integers;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link java.util.OptionalInt}.
@@ -34,7 +35,7 @@ import org.assertj.core.internal.Integers;
  * @author Grzegorz Piwowarek
  */
 public abstract class AbstractOptionalIntAssert<SELF extends AbstractOptionalIntAssert<SELF>> extends
-    AbstractAssertWithComparator<SELF, OptionalInt> {
+    AbstractAssertWithComparator<SELF, @Nullable OptionalInt> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Integers integers = Integers.instance();
@@ -46,7 +47,7 @@ public abstract class AbstractOptionalIntAssert<SELF extends AbstractOptionalInt
    * @param selfType the type of the concrete assertion
    */
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-  protected AbstractOptionalIntAssert(OptionalInt actual, Class<?> selfType) {
+  protected AbstractOptionalIntAssert(@Nullable OptionalInt actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

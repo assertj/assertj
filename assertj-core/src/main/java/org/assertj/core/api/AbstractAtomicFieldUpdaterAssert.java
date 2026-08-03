@@ -18,6 +18,8 @@ package org.assertj.core.api;
 import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Base class for all fieldupdater assertions.
  *
@@ -28,7 +30,7 @@ import static org.assertj.core.util.Preconditions.checkArgument;
  * @author epeee
  * @since 2.7.0 / 3.7.0
  */
-public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtomicFieldUpdaterAssert<SELF, VALUE, ATOMIC, OBJECT>, VALUE, ATOMIC, OBJECT>
+public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtomicFieldUpdaterAssert<SELF, VALUE, ATOMIC, OBJECT>, VALUE, ATOMIC extends @Nullable Object, OBJECT>
     extends AbstractObjectAssert<SELF, ATOMIC> {
 
   private final boolean expectedNullAllowed;

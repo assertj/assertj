@@ -66,6 +66,7 @@ import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.jspecify.annotations.Nullable;
 
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 // Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
@@ -76,7 +77,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  */
 @SuppressWarnings({ "deprecation", "RedundantSuppression" })
 public class AtomicReferenceArrayAssert<T>
-    extends AbstractAssertWithComparator<AtomicReferenceArrayAssert<T>, AtomicReferenceArray<T>>
+    extends AbstractAssertWithComparator<AtomicReferenceArrayAssert<T>, @Nullable AtomicReferenceArray<T>>
     implements IndexedObjectEnumerableAssert<AtomicReferenceArrayAssert<T>, T>,
     ArraySortedAssert<AtomicReferenceArrayAssert<T>, T> {
 
@@ -94,7 +95,7 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param actual the actual atomic reference array
    */
-  public AtomicReferenceArrayAssert(AtomicReferenceArray<T> actual) {
+  public AtomicReferenceArrayAssert(@Nullable AtomicReferenceArray<T> actual) {
     super(actual, AtomicReferenceArrayAssert.class);
     array = array(actual);
   }

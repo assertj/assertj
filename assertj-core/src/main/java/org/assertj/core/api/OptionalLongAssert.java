@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.OptionalLong;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions for {@link java.util.OptionalLong}.
  *
@@ -30,7 +32,7 @@ public class OptionalLongAssert extends AbstractOptionalLongAssert<OptionalLongA
    *
    * @param actual the actual optional to verify
    */
-  protected OptionalLongAssert(OptionalLong actual) {
+  protected OptionalLongAssert(@Nullable OptionalLong actual) {
     super(actual, OptionalLongAssert.class);
   }
 }

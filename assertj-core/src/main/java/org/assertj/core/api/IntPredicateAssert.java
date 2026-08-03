@@ -20,6 +20,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions for {@link Predicate}.
  *
@@ -34,7 +36,7 @@ public class IntPredicateAssert extends AbstractPredicateLikeAssert<IntPredicate
    * @param actual the actual predicate to verify
    * @return the created assertion
    */
-  public static IntPredicateAssert assertThatIntPredicate(IntPredicate actual) {
+  public static IntPredicateAssert assertThatIntPredicate(@Nullable IntPredicate actual) {
     return new IntPredicateAssert(actual);
   }
 
@@ -43,11 +45,11 @@ public class IntPredicateAssert extends AbstractPredicateLikeAssert<IntPredicate
    *
    * @param actual the actual predicate to verify
    */
-  public IntPredicateAssert(IntPredicate actual) {
+  public IntPredicateAssert(@Nullable IntPredicate actual) {
     super(actual, toPredicate(actual), IntPredicateAssert.class);
   }
 
-  private static Predicate<Integer> toPredicate(IntPredicate actual) {
+  private static @Nullable Predicate<Integer> toPredicate(@Nullable IntPredicate actual) {
     return actual != null ? actual::test : null;
   }
 

@@ -19,6 +19,8 @@ import static org.assertj.core.error.ShouldHaveStamp.shouldHaveStamp;
 
 import java.util.concurrent.atomic.AtomicStampedReference;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link AtomicStampedReference}s.
  * <p>
@@ -30,14 +32,14 @@ import java.util.concurrent.atomic.AtomicStampedReference;
  * @since 2.7.0 / 3.7.0
  */
 public class AtomicStampedReferenceAssert<VALUE>
-    extends AbstractAtomicReferenceAssert<AtomicStampedReferenceAssert<VALUE>, VALUE, AtomicStampedReference<VALUE>> {
+    extends AbstractAtomicReferenceAssert<AtomicStampedReferenceAssert<VALUE>, VALUE, @Nullable AtomicStampedReference<VALUE>> {
 
   /**
    * Creates a new atomic stamped reference assertion.
    *
    * @param actual the actual atomic reference
    */
-  public AtomicStampedReferenceAssert(AtomicStampedReference<VALUE> actual) {
+  public AtomicStampedReferenceAssert(@Nullable AtomicStampedReference<VALUE> actual) {
     super(actual, AtomicStampedReferenceAssert.class);
   }
 

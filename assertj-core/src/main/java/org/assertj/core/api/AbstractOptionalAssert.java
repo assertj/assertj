@@ -40,6 +40,7 @@ import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.PredicateDescription;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link java.util.Optional}.
@@ -54,7 +55,7 @@ import org.assertj.core.presentation.PredicateDescription;
 // Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
 @SuppressWarnings({ "deprecation", "RedundantSuppression", "OptionalGetWithoutIsPresent", "OptionalAssignedToNull" })
 public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert<SELF, VALUE>, VALUE> extends
-    AbstractAssertWithComparator<SELF, Optional<VALUE>> {
+    AbstractAssertWithComparator<SELF, @Nullable Optional<VALUE>> {
 
   private ComparisonStrategy optionalValueComparisonStrategy;
 
@@ -65,7 +66,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @param selfType the type of the concrete assertion
    */
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-  protected AbstractOptionalAssert(Optional<VALUE> actual, Class<?> selfType) {
+  protected AbstractOptionalAssert(@Nullable Optional<VALUE> actual, Class<?> selfType) {
     super(actual, selfType);
     this.optionalValueComparisonStrategy = StandardComparisonStrategy.instance();
   }

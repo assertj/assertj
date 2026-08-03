@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.OptionalDouble;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions for {@link java.util.OptionalDouble}.
  *
@@ -30,7 +32,7 @@ public class OptionalDoubleAssert extends AbstractOptionalDoubleAssert<OptionalD
    *
    * @param actual the actual optional to verify
    */
-  protected OptionalDoubleAssert(OptionalDouble actual) {
+  protected OptionalDoubleAssert(@Nullable OptionalDouble actual) {
     super(actual, OptionalDoubleAssert.class);
   }
 }

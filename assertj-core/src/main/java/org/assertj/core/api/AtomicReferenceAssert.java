@@ -25,20 +25,22 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.assertj.core.presentation.PredicateDescription;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link AtomicReference} values.
  *
  * @param <V> the referenced value type
  */
-public class AtomicReferenceAssert<V> extends AbstractAssertWithComparator<AtomicReferenceAssert<V>, AtomicReference<V>> {
+public class AtomicReferenceAssert<V>
+    extends AbstractAssertWithComparator<AtomicReferenceAssert<V>, @Nullable AtomicReference<V>> {
 
   /**
    * Creates a new atomic reference assertion.
    *
    * @param actual the actual atomic reference
    */
-  public AtomicReferenceAssert(AtomicReference<V> actual) {
+  public AtomicReferenceAssert(@Nullable AtomicReference<V> actual) {
     super(actual, AtomicReferenceAssert.class);
   }
 
