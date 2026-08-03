@@ -1945,7 +1945,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param values the values stored in the {@link Tuple}
    * @return the built {@link Tuple}
    */
-  public static Tuple tuple(Object... values) {
+  public static Tuple tuple(@Nullable Object... values) {
     return Tuple.tuple(values);
   }
 
@@ -2002,7 +2002,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param value the value of the entry to create.
    * @return the created {@code MapEntry}.
    */
-  public static <K, V> MapEntry<K, V> entry(K key, V value) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> MapEntry<K, V> entry(K key, V value) {
     return MapEntry.entry(key, value);
   }
 

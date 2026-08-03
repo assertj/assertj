@@ -2414,7 +2414,7 @@ public class BDDAssertions extends Assertions {
    * @return the built {@link Tuple}
    * @since 3.20.0
    */
-  public static Tuple tuple(Object... values) {
+  public static Tuple tuple(@Nullable Object... values) {
     return Assertions.tuple(values);
   }
 
@@ -2477,7 +2477,7 @@ public class BDDAssertions extends Assertions {
    * @return the created {@code MapEntry}.
    * @since 3.20.0
    */
-  public static <K, V> MapEntry<K, V> entry(K key, V value) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> MapEntry<K, V> entry(K key, V value) {
     return Assertions.entry(key, value);
   }
 

@@ -71,6 +71,7 @@ import org.assertj.core.util.Files;
 import org.assertj.core.util.Paths;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Java 8 is picky when choosing the right <code>assertThat</code> method if the object under test is generic and bounded,
@@ -1160,7 +1161,7 @@ public class AssertionsForClassTypes {
    * @param values the values stored in the {@link Tuple}
    * @return the built {@link Tuple}
    */
-  public static Tuple tuple(Object... values) {
+  public static Tuple tuple(@Nullable Object... values) {
     return Tuple.tuple(values);
   }
 
@@ -1208,7 +1209,7 @@ public class AssertionsForClassTypes {
    * @param value the value of the entry to create.
    * @return the created {@code MapEntry}.
    */
-  public static <K, V> MapEntry<K, V> entry(K key, V value) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> MapEntry<K, V> entry(K key, V value) {
     return MapEntry.entry(key, value);
   }
 

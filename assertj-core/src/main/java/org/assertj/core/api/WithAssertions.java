@@ -163,7 +163,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param value the value of the entry to create.
    * @return the created {@code MapEntry}.
    */
-  default <K, V> MapEntry<K, V> entry(final K key, final V value) {
+  default <K extends @Nullable Object, V extends @Nullable Object> MapEntry<K, V> entry(final K key, final V value) {
     return Assertions.entry(key, value);
   }
 
@@ -1411,7 +1411,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param values the values stored in the {@link Tuple}
    * @return the built {@link Tuple}
    */
-  default Tuple tuple(final Object... values) {
+  default Tuple tuple(final @Nullable Object... values) {
     return Assertions.tuple(values);
   }
 
