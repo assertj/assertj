@@ -52,6 +52,7 @@ import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.TypeMessages;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.DualClass;
+import org.jspecify.annotations.Nullable;
 
 /** Configuration controlling recursive object graph comparison. */
 public class RecursiveComparisonConfiguration extends AbstractRecursiveOperationConfiguration {
@@ -1085,11 +1086,12 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                                     .collect(toSet());
   }
 
-  Set<String> getChildrenNodeNamesOf(Object instance) {
+  Set<String> getChildrenNodeNamesOf(@Nullable Object instance) {
     return introspectionStrategy.getChildrenNodeNamesOf(instance);
   }
 
-  Object getValue(String name, Object instance) {
+  @Nullable
+  Object getValue(String name, @Nullable Object instance) {
     return introspectionStrategy.getChildNodeValue(name, instance);
   }
 

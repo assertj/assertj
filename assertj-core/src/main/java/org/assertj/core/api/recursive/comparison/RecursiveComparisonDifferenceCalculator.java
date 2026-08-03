@@ -55,6 +55,8 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Based on {@link org.assertj.core.internal.DeepDifference}
  * but takes a {@link RecursiveComparisonConfiguration},
@@ -110,7 +112,7 @@ public class RecursiveComparisonDifferenceCalculator {
       addDifference(dualValue, null);
     }
 
-    void addDifference(DualValue dualValue, String description) {
+    void addDifference(DualValue dualValue, @Nullable String description) {
       // to evaluate differences on fields of compared types, we have to traverse the whole graph of objects to compare
       // and decide afterward if differences were relevant, for example if we compare only the Employee type, and we
       // come across a Company having a list of Employee, we should evaluate the Company but ignore any of its
@@ -134,7 +136,7 @@ public class RecursiveComparisonDifferenceCalculator {
       visitedDualValues.registerComparisonDifference(dualValue, comparisonDifference);
     }
 
-    void addKeyDifference(DualValue parentDualValue, Object actualKey, Object expectedKey) {
+    void addKeyDifference(DualValue parentDualValue, @Nullable Object actualKey, @Nullable Object expectedKey) {
       differences.add(new ComparisonKeyDifference(parentDualValue, actualKey, expectedKey));
     }
 

@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link RecursiveComparisonIntrospectionStrategy} that introspects fields provided their normalized name.
@@ -57,7 +58,7 @@ public abstract class ComparingNormalizedFields extends AbstractRecursiveCompari
    * @return the normalized names of the children nodes of the given object
    */
   @Override
-  public Set<String> getChildrenNodeNamesOf(Object node) {
+  public Set<String> getChildrenNodeNamesOf(@Nullable Object node) {
     if (node == null) return new HashSet<>();
     Class<?> nodeClass = node.getClass();
     Set<String> fieldsNames = getFieldsNames(nodeClass);
@@ -124,7 +125,7 @@ public abstract class ComparingNormalizedFields extends AbstractRecursiveCompari
    * @return the object field value
    */
   @Override
-  public Object getChildNodeValue(String fieldName, Object instance) {
+  public @Nullable Object getChildNodeValue(String fieldName, @Nullable Object instance) {
     // fieldName was normalized usually matching actual or expected field naming convention but not both, we first try
     // to get the value corresponding to fieldName but if that does not work it means the instance object class fields were
     // changed when normalized, to get the field value we then need to try the original field name.

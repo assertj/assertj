@@ -18,6 +18,8 @@ package org.assertj.core.api.recursive.comparison;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * An internal holder of the custom messages for fields described by their path without element index.
  */
@@ -53,7 +55,7 @@ public class FieldMessages extends FieldHolder<String> {
    * @param fieldLocation the field location that has to be associated with a message
    * @return a custom message or null
    */
-  public String getMessageForField(String fieldLocation) {
+  public @Nullable String getMessageForField(String fieldLocation) {
     return super.get(fieldLocation);
   }
 

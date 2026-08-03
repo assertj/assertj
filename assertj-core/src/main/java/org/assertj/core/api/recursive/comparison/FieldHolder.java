@@ -25,6 +25,8 @@ import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * An abstract field holder which provides to pair a specific entities for fields described by their path without
  * element index.
@@ -57,7 +59,7 @@ abstract class FieldHolder<T> {
    * @param fieldLocation the field location which has to be associated with an entity
    * @return entity or null
    */
-  public T get(String fieldLocation) {
+  public @Nullable T get(String fieldLocation) {
     return fieldHolder.get(fieldLocation);
   }
 

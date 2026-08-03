@@ -41,6 +41,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.stream.Stream;
 
+import org.jspecify.annotations.Nullable;
+
 // logically immutable
 /**
  * Holds actual and expected values together with their location in an object graph.
@@ -50,12 +52,12 @@ public final class DualValue {
   static final Class<?>[] DEFAULT_ORDERED_COLLECTION_TYPES = array(List.class, SortedSet.class, LinkedHashSet.class);
 
   final FieldLocation fieldLocation;
-  final Object actual;
-  final Object expected;
-  private final DualValue parentDualValue;
+  final @Nullable Object actual;
+  final @Nullable Object expected;
+  private final @Nullable DualValue parentDualValue;
   private final int hashCode;
 
-  static DualValue rootDualValue(Object actual, Object expected) {
+  static DualValue rootDualValue(@Nullable Object actual, @Nullable Object expected) {
     return new DualValue(rootFieldLocation(), actual, expected, null);
   }
 
@@ -67,7 +69,8 @@ public final class DualValue {
    * @param expectedFieldValue the expected field value
    * @param parentDualValue the parent dual value
    */
-  public DualValue(FieldLocation fieldLocation, Object actualFieldValue, Object expectedFieldValue, DualValue parentDualValue) {
+  public DualValue(FieldLocation fieldLocation, @Nullable Object actualFieldValue, @Nullable Object expectedFieldValue,
+                   @Nullable DualValue parentDualValue) {
     this.fieldLocation = requireNonNull(fieldLocation, "fieldLocation must not be null");
     actual = actualFieldValue;
     expected = expectedFieldValue;
@@ -182,7 +185,7 @@ public final class DualValue {
     return isActualJavaType() || isExpectedJavaType();
   }
 
-  private static boolean isJavaType(Object o) {
+  private static boolean isJavaType(@Nullable Object o) {
     if (o == null) return false;
     String className = o.getClass().getName();
     return className.startsWith("java.")
@@ -480,7 +483,7 @@ public final class DualValue {
     return isAnIterable(expected);
   }
 
-  private static boolean isAnIterable(Object value) {
+  private static boolean isAnIterable(@Nullable Object value) {
     // Don't consider Path as an Iterable as recursively comparing them leads to a stack overflow, here's why:
     // Iterable are compared element by element recursively
     // Ex: /tmp/foo.txt path has /tmp as its first element
@@ -562,7 +565,7 @@ public final class DualValue {
     return isPotentialCyclingValue(actual) && isPotentialCyclingValue(expected);
   }
 
-  private static boolean isAJsonValueNode(Object value) {
+  private static boolean isAJsonValueNode(@Nullable Object value) {
     try {
       Class<?> valueNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ValueNode");
       return valueNodeClass.isInstance(value);
@@ -572,7 +575,7 @@ public final class DualValue {
     }
   }
 
-  private static boolean isAnObjectNode(Object value) {
+  private static boolean isAnObjectNode(@Nullable Object value) {
     try {
       Class<?> objectNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ObjectNode");
       return objectNodeClass.isInstance(value);
@@ -582,11 +585,11 @@ public final class DualValue {
     }
   }
 
-  private static boolean isAnOrderedCollection(Object value) {
+  private static boolean isAnOrderedCollection(@Nullable Object value) {
     return Stream.of(DEFAULT_ORDERED_COLLECTION_TYPES).anyMatch(type -> type.isInstance(value));
   }
 
-  private static boolean isPotentialCyclingValue(Object object) {
+  private static boolean isPotentialCyclingValue(@Nullable Object object) {
     if (object == null) return false;
     // java.lang are base types that can't cycle to themselves or other types
     // we could check more types, but that's a good start

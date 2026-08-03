@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.assertj.core.annotation.Beta;
 import org.assertj.core.api.RecursiveComparisonAssert;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Defines how objects are introspected in the recursive comparison, the main operations it specifies are:
@@ -38,7 +39,7 @@ public interface RecursiveComparisonIntrospectionStrategy {
    * @param node the object to get the child nodes from
    * @return the names of the children nodes of the given object
    */
-  Set<String> getChildrenNodeNamesOf(Object node);
+  Set<String> getChildrenNodeNamesOf(@Nullable Object node);
 
   /**
    * Returns the value of the given object child node, the child node being identified by the childNodeName parameter.
@@ -51,7 +52,8 @@ public interface RecursiveComparisonIntrospectionStrategy {
    * @param object        the object to read the child node from
    * @return the object child node value
    */
-  Object getChildNodeValue(String childNodeName, Object object);
+  @Nullable
+  Object getChildNodeValue(String childNodeName, @Nullable Object object);
 
   /**
    * Returns a human-readable description of the strategy to be used in error messages.

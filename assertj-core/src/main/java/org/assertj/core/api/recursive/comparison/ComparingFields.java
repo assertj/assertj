@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.assertj.core.util.introspection.FieldSupport;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link RecursiveComparisonIntrospectionStrategy} that introspects fields including inherited ones but ignores static and
@@ -38,13 +39,13 @@ public class ComparingFields extends AbstractRecursiveComparisonIntrospectionStr
   private final Map<Class<?>, Set<String>> fieldNamesPerClass = new ConcurrentHashMap<>();
 
   @Override
-  public Set<String> getChildrenNodeNamesOf(Object node) {
+  public Set<String> getChildrenNodeNamesOf(@Nullable Object node) {
     if (node == null) return new HashSet<>();
     return fieldNamesPerClass.computeIfAbsent(node.getClass(), this::getFieldsNames);
   }
 
   @Override
-  public Object getChildNodeValue(String childNodeName, Object instance) {
+  public @Nullable Object getChildNodeValue(String childNodeName, @Nullable Object instance) {
     return FieldSupport.comparison().fieldValue(childNodeName, Object.class, instance);
   }
 
