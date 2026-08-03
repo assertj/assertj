@@ -58,6 +58,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.Classes;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Class}es.
@@ -69,7 +70,7 @@ import org.assertj.core.internal.Classes;
  * @author Mikhail Mazursky
  */
 public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>>
-    extends AbstractAssertWithComparator<SELF, Class<?>> {
+    extends AbstractAssertWithComparator<SELF, @Nullable Class<?>> {
 
   Classes classes = Classes.instance();
 
@@ -79,7 +80,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @param actual the actual class to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractClassAssert(Class<?> actual, Class<?> selfType) {
+  protected AbstractClassAssert(@Nullable Class<?> actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

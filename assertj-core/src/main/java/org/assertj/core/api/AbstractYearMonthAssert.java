@@ -33,6 +33,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
 import org.assertj.core.internal.Objects;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link YearMonth} type
@@ -43,7 +44,7 @@ import org.assertj.core.internal.Objects;
  */
 @SuppressWarnings("GrazieInspection")
 public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAssert<SELF>>
-    extends AbstractTemporalAssert<SELF, YearMonth> {
+    extends AbstractTemporalAssert<SELF, @Nullable YearMonth> {
 
   /**
    * Creates a new <code>{@link AbstractYearMonthAssert}</code>.
@@ -51,7 +52,7 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    * @param selfType the "self-type".
    * @param actual the actual value to verify.
    */
-  protected AbstractYearMonthAssert(YearMonth actual, Class<?> selfType) {
+  protected AbstractYearMonthAssert(@Nullable YearMonth actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

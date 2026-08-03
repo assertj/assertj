@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.nio.file.Path;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion class for {@link Path}s
  */
@@ -28,7 +30,7 @@ public class PathAssert extends AbstractPathAssert<PathAssert> {
    * @param actual the actual path to verify
    * @return the created assertion
    */
-  public static AbstractPathAssert<?> assertThatPath(Path actual) {
+  public static AbstractPathAssert<?> assertThatPath(@Nullable Path actual) {
     return new PathAssert(actual);
   }
 
@@ -37,7 +39,7 @@ public class PathAssert extends AbstractPathAssert<PathAssert> {
    *
    * @param actual the path to test
    */
-  public PathAssert(Path actual) {
+  public PathAssert(@Nullable Path actual) {
     super(actual, PathAssert.class);
   }
 }

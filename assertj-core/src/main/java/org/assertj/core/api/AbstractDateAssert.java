@@ -45,6 +45,7 @@ import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.Dates;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Date}s.
@@ -67,7 +68,8 @@ import org.assertj.core.internal.Dates;
  * @author Michal Kordas
  * @author Eddú Meléndez
  */
-public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> extends AbstractAssertWithComparator<SELF, Date> {
+public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>>
+    extends AbstractAssertWithComparator<SELF, @Nullable Date> {
 
   private static final String DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL = "Given date format pattern should not be null";
   private static final String DATE_FORMAT_SHOULD_NOT_BE_NULL = "Given date format should not be null";
@@ -107,7 +109,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @param actual the actual date to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractDateAssert(Date actual, Class<?> selfType) {
+  protected AbstractDateAssert(@Nullable Date actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

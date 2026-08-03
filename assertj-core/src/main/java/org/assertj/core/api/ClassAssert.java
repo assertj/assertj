@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@code Class}es.
  * <p>
@@ -31,7 +33,7 @@ public class ClassAssert extends AbstractClassAssert<ClassAssert> {
    *
    * @param actual the actual class to verify
    */
-  public ClassAssert(Class<?> actual) {
+  public ClassAssert(@Nullable Class<?> actual) {
     super(actual, ClassAssert.class);
   }
 

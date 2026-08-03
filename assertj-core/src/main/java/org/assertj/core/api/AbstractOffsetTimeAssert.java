@@ -30,6 +30,7 @@ import java.time.temporal.TemporalUnit;
 import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link java.time.OffsetTime} type from new Date &amp; Time API introduced in Java 8.
@@ -39,7 +40,7 @@ import org.assertj.core.internal.Objects;
  * @author Alexander Bischof
  */
 public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAssert<SELF>>
-    extends AbstractTemporalAssert<SELF, OffsetTime> {
+    extends AbstractTemporalAssert<SELF, @Nullable OffsetTime> {
 
   /** Error message used when the offset time to compare is {@code null}. */
   public static final String NULL_OFFSET_TIME_PARAMETER_MESSAGE = "The OffsetTime to compare actual with should not be null";
@@ -50,7 +51,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * @param selfType the "self type"
    * @param actual the actual value to verify
    */
-  protected AbstractOffsetTimeAssert(OffsetTime actual, Class<?> selfType) {
+  protected AbstractOffsetTimeAssert(@Nullable OffsetTime actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

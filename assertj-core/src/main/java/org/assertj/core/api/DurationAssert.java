@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.time.Duration;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link Duration}
  *
@@ -28,7 +30,7 @@ public class DurationAssert extends AbstractDurationAssert<DurationAssert> {
    * Creates a new <code>{@link DurationAssert}</code>
    * @param duration the actual value to verify
    */
-  public DurationAssert(Duration duration) {
+  public DurationAssert(@Nullable Duration duration) {
     super(duration, DurationAssert.class);
   }
 }

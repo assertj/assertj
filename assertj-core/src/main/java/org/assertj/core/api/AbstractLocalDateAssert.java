@@ -33,6 +33,7 @@ import java.util.Arrays;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link LocalDate} type from new Date &amp; Time API introduced in Java 8.
@@ -40,7 +41,7 @@ import org.assertj.core.internal.Objects;
  * @param <SELF> the "self" type of this assertion class.
  */
 public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAssert<SELF>>
-    extends AbstractTemporalAssert<SELF, LocalDate> {
+    extends AbstractTemporalAssert<SELF, @Nullable LocalDate> {
 
   /** Error message used when the date to compare is {@code null}. */
   public static final String NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE = "The LocalDate to compare actual with should not be null";
@@ -51,7 +52,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * @param selfType the "self type"
    * @param actual the actual value to verify
    */
-  protected AbstractLocalDateAssert(LocalDate actual, Class<?> selfType) {
+  protected AbstractLocalDateAssert(@Nullable LocalDate actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

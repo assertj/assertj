@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.time.LocalDate;
 
+import org.jspecify.annotations.Nullable;
+
 /** Assertions for {@link LocalDate} values. */
 public class LocalDateAssert extends AbstractLocalDateAssert<LocalDateAssert> {
 
@@ -25,7 +27,7 @@ public class LocalDateAssert extends AbstractLocalDateAssert<LocalDateAssert> {
    *
    * @param actual the actual value to verify
    */
-  protected LocalDateAssert(LocalDate actual) {
+  protected LocalDateAssert(@Nullable LocalDate actual) {
     super(actual, LocalDateAssert.class);
   }
 }

@@ -33,6 +33,7 @@ import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for assertions on {@link ZonedDateTime} values.
@@ -40,7 +41,7 @@ import org.assertj.core.internal.Objects;
  * @param <SELF> the "self" type of this assertion class
  */
 public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDateTimeAssert<SELF>> extends
-    AbstractTemporalAssert<SELF, ZonedDateTime> {
+    AbstractTemporalAssert<SELF, @Nullable ZonedDateTime> {
 
   /** Error message used when the date-time to compare is {@code null}. */
   public static final String NULL_DATE_TIME_PARAMETER_MESSAGE = "The ZonedDateTime to compare actual with should not be null";
@@ -903,7 +904,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @param actual the actual date-time to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractZonedDateTimeAssert(ZonedDateTime actual, Class<?> selfType) {
+  protected AbstractZonedDateTimeAssert(@Nullable ZonedDateTime actual, Class<?> selfType) {
     super(actual, selfType);
     comparables = buildDefaultComparables();
   }

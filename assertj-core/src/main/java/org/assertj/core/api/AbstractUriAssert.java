@@ -18,6 +18,7 @@ package org.assertj.core.api;
 import java.net.URI;
 
 import org.assertj.core.internal.Uris;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link URI}s.
@@ -25,7 +26,8 @@ import org.assertj.core.internal.Uris;
  * @param <SELF> the "self" type of this assertion class.
  * @see java.net.URI
  */
-public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> extends AbstractComparableAssert<SELF, URI> {
+public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>>
+    extends AbstractComparableAssert<SELF, @Nullable URI> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Internal assertions for URIs. */
@@ -37,7 +39,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @param actual the actual URI to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractUriAssert(final URI actual, final Class<?> selfType) {
+  protected AbstractUriAssert(final @Nullable URI actual, final Class<?> selfType) {
     super(actual, selfType);
   }
 
