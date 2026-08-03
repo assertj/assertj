@@ -107,7 +107,7 @@ import org.jspecify.annotations.Nullable;
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
   ACTUAL extends @Nullable Iterable<? extends ELEMENT>,
-  ELEMENT,
+  ELEMENT extends @Nullable Object,
   ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
   extends AbstractAssertWithComparator<SELF, ACTUAL>
   implements ObjectEnumerableAssert<SELF, ELEMENT> {
@@ -3749,7 +3749,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   // @format:off
   private static class FactoryBasedAssert<SELF extends FactoryBasedAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
     ACTUAL extends @Nullable Iterable<? extends ELEMENT>,
-    ELEMENT,
+    ELEMENT extends @Nullable Object,
     ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
     extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
     // @format:on

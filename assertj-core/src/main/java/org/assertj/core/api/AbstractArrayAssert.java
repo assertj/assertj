@@ -28,7 +28,7 @@ import org.jspecify.annotations.Nullable;
  * @param <ELEMENT> the type of the "actual" array element.
  * @author Joel Costigliola
  */
-public abstract class AbstractArrayAssert<SELF extends AbstractArrayAssert<SELF, ACTUAL, ELEMENT>, ACTUAL extends @Nullable Object, ELEMENT>
+public abstract class AbstractArrayAssert<SELF extends AbstractArrayAssert<SELF, ACTUAL, ELEMENT>, ACTUAL extends @Nullable Object, ELEMENT extends @Nullable Object>
     extends AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>
     implements ArraySortedAssert<AbstractArrayAssert<SELF, ACTUAL, ELEMENT>, ELEMENT> {
 

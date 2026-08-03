@@ -16,17 +16,19 @@
 package org.assertj.core.api;
 
 import org.assertj.core.data.Index;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions methods applicable to indexed groups of objects (e.g. arrays or lists.)
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY" target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <ELEMENT> the type of elements of the "actual" value.
- * 
+ *
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public interface IndexedObjectEnumerableAssert<SELF extends IndexedObjectEnumerableAssert<SELF, ELEMENT>, ELEMENT> extends
+public interface IndexedObjectEnumerableAssert<SELF extends IndexedObjectEnumerableAssert<SELF, ELEMENT>, ELEMENT extends @Nullable Object>
+    extends
     ObjectEnumerableAssert<SELF, ELEMENT> {
 
   /**

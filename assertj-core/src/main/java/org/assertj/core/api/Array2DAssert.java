@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions applicable to two-dimensional arrays.
  *
@@ -26,7 +28,7 @@ package org.assertj.core.api;
  * @author Maciej Wajcht
  * @since 3.17.0
  */
-public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMENT> {
+public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMENT extends @Nullable Object> {
 
   /**
    * Verifies that the actual array is {@code null} or empty, empty means the array has no elements,

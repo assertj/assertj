@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.Comparator;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions applicable to primitive arrays or arrays of elements either naturally {@link Comparable} or according to a given
  * {@link Comparator}.
@@ -33,7 +35,7 @@ import java.util.Comparator;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public interface ArraySortedAssert<SELF extends ArraySortedAssert<SELF, ELEMENT>, ELEMENT> {
+public interface ArraySortedAssert<SELF extends ArraySortedAssert<SELF, ELEMENT>, ELEMENT extends @Nullable Object> {
 
   /**
    * Verifies that the actual array is sorted in ascending order according to the natural ordering of its elements.

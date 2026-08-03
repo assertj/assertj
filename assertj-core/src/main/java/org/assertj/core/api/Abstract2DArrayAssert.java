@@ -27,7 +27,7 @@ import org.jspecify.annotations.Nullable;
  * @author Maciej Wajcht
  * @since 3.17.0
  */
-public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<SELF, ACTUAL, ELEMENT>, ACTUAL extends @Nullable Object, ELEMENT>
+public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<SELF, ACTUAL, ELEMENT>, ACTUAL extends @Nullable Object, ELEMENT extends @Nullable Object>
     extends AbstractAssertWithComparator<SELF, ACTUAL> implements Array2DAssert<SELF, ELEMENT> {
 
   /**

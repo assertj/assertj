@@ -45,7 +45,7 @@ import org.jspecify.annotations.Nullable;
 //@format:off
 public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
                                          ACTUAL extends @Nullable List<? extends ELEMENT>,
-                                         ELEMENT,
+                                         ELEMENT extends @Nullable Object,
                                          ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
        extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>
        implements IndexedObjectEnumerableAssert<SELF, ELEMENT> {
@@ -421,7 +421,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   // @format:off
   private static class FactoryBasedAssert<SELF extends FactoryBasedAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
                                           ACTUAL extends @Nullable List<? extends ELEMENT>,
-                                          ELEMENT,
+                                          ELEMENT extends @Nullable Object,
                                           ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
     extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
     // @format:on

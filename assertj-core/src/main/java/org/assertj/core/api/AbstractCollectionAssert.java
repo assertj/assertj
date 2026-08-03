@@ -41,7 +41,7 @@ import org.jspecify.annotations.Nullable;
 //@format:off
 public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
                                                ACTUAL extends @Nullable Collection<? extends ELEMENT>,
-                                               ELEMENT,
+                                               ELEMENT extends @Nullable Object,
                                                ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
     extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
 //@format:on
@@ -164,7 +164,7 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
   // @format:off
   private static class FactoryBasedAssert<SELF extends FactoryBasedAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
                                           ACTUAL extends @Nullable Collection<? extends ELEMENT>,
-                                          ELEMENT,
+                                          ELEMENT extends @Nullable Object,
                                           ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
     extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
   // @format:on
