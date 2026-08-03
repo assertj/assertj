@@ -23,6 +23,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
 import org.assertj.core.internal.DoubleArrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for assertions on {@code double} arrays.
@@ -30,7 +31,7 @@ import org.assertj.core.internal.DoubleArrays;
  * @param <SELF> the "self" type of this assertion class
  */
 public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArrayAssert<SELF>>
-    extends AbstractArrayAssert<SELF, double[], Double> {
+    extends AbstractArrayAssert<SELF, @Nullable double[], Double> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Internal assertions for {@code double} arrays. */
@@ -42,7 +43,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * @param actual the actual array to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractDoubleArrayAssert(double[] actual, Class<?> selfType) {
+  protected AbstractDoubleArrayAssert(double @Nullable [] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

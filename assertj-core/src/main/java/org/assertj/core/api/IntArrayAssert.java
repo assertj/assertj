@@ -19,6 +19,8 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for arrays of {@code int}s.
  * <p>
@@ -38,7 +40,7 @@ public class IntArrayAssert extends AbstractIntArrayAssert<IntArrayAssert> {
    *
    * @param actual the actual array to verify
    */
-  public IntArrayAssert(int[] actual) {
+  public IntArrayAssert(int @Nullable [] actual) {
     super(actual, IntArrayAssert.class);
   }
 
@@ -47,7 +49,7 @@ public class IntArrayAssert extends AbstractIntArrayAssert<IntArrayAssert> {
    *
    * @param actual the actual array to verify
    */
-  public IntArrayAssert(AtomicIntegerArray actual) {
+  public IntArrayAssert(@Nullable AtomicIntegerArray actual) {
     this(array(actual));
   }
 

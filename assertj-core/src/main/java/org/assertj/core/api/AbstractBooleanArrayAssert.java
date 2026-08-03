@@ -21,6 +21,7 @@ import java.util.Comparator;
 
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.BooleanArrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for assertions on {@code boolean} arrays.
@@ -28,7 +29,7 @@ import org.assertj.core.internal.BooleanArrays;
  * @param <SELF> the "self" type of this assertion class
  */
 public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArrayAssert<SELF>>
-    extends AbstractArrayAssert<SELF, boolean[], Boolean> {
+    extends AbstractArrayAssert<SELF, @Nullable boolean[], Boolean> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Internal assertions for {@code boolean} arrays. */
@@ -40,7 +41,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @param actual the actual array to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractBooleanArrayAssert(boolean[] actual, Class<?> selfType) {
+  protected AbstractBooleanArrayAssert(boolean @Nullable [] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

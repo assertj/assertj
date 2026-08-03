@@ -36,7 +36,7 @@ import org.jspecify.annotations.Nullable;
  * @author Maciej Wajcht
  * @since 3.17.0
  */
-public class Double2DArrayAssert extends Abstract2DArrayAssert<Double2DArrayAssert, double[][], Double> {
+public class Double2DArrayAssert extends Abstract2DArrayAssert<Double2DArrayAssert, double[] @Nullable [], Double> {
 
   private final Failures failures = Failures.instance();
 
@@ -49,7 +49,7 @@ public class Double2DArrayAssert extends Abstract2DArrayAssert<Double2DArrayAsse
    *
    * @param actual the actual array to verify
    */
-  public Double2DArrayAssert(double[][] actual) {
+  public Double2DArrayAssert(double[] @Nullable [] actual) {
     super(actual, Double2DArrayAssert.class);
   }
 

@@ -33,7 +33,7 @@ import org.jspecify.annotations.Nullable;
  * @author Maciej Wajcht
  * @since 3.17.0
  */
-public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert, float[][], Float> {
+public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert, float[] @Nullable [], Float> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Assertion implementation for two-dimensional float arrays. */
@@ -46,7 +46,7 @@ public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert
    *
    * @param actual the actual array to verify
    */
-  public Float2DArrayAssert(float[][] actual) {
+  public Float2DArrayAssert(float[] @Nullable [] actual) {
     super(actual, Float2DArrayAssert.class);
   }
 

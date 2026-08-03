@@ -36,7 +36,7 @@ import org.jspecify.annotations.Nullable;
  * @author Maciej Wajcht
  * @since 3.17.0
  */
-public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, int[][], Integer> {
+public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, int[] @Nullable [], Integer> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Assertion implementation for two-dimensional int arrays. */
@@ -49,7 +49,7 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
    *
    * @param actual the actual array to verify
    */
-  public Int2DArrayAssert(int[][] actual) {
+  public Int2DArrayAssert(int[] @Nullable [] actual) {
     super(actual, Int2DArrayAssert.class);
   }
 

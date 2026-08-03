@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for arrays of {@code char}s.
  * <p>
@@ -34,7 +36,7 @@ public class CharArrayAssert extends AbstractCharArrayAssert<CharArrayAssert> {
    *
    * @param actual the actual array to verify
    */
-  public CharArrayAssert(char[] actual) {
+  public CharArrayAssert(char @Nullable [] actual) {
     super(actual, CharArrayAssert.class);
   }
 

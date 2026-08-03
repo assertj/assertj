@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for arrays of {@code byte}s.
  * <p>
@@ -34,7 +36,7 @@ public class ByteArrayAssert extends AbstractByteArrayAssert<ByteArrayAssert> {
    *
    * @param actual the actual array to verify
    */
-  public ByteArrayAssert(byte[] actual) {
+  public ByteArrayAssert(byte @Nullable [] actual) {
     super(actual, ByteArrayAssert.class);
   }
 

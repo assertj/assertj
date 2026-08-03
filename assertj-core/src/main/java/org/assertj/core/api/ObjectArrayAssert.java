@@ -52,7 +52,7 @@ public class ObjectArrayAssert<ELEMENT extends @Nullable Object>
    *
    * @param actual the actual array to verify
    */
-  public ObjectArrayAssert(AtomicReferenceArray<ELEMENT> actual) {
+  public ObjectArrayAssert(@Nullable AtomicReferenceArray<ELEMENT> actual) {
     this(array(actual));
   }
 

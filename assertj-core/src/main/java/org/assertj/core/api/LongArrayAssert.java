@@ -19,6 +19,8 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.util.concurrent.atomic.AtomicLongArray;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for arrays of {@code long}s.
  * <p>
@@ -38,7 +40,7 @@ public class LongArrayAssert extends AbstractLongArrayAssert<LongArrayAssert> {
    *
    * @param actual the actual array to verify
    */
-  public LongArrayAssert(long[] actual) {
+  public LongArrayAssert(long @Nullable [] actual) {
     super(actual, LongArrayAssert.class);
   }
 
@@ -47,7 +49,7 @@ public class LongArrayAssert extends AbstractLongArrayAssert<LongArrayAssert> {
    *
    * @param actual the actual array to verify
    */
-  public LongArrayAssert(AtomicLongArray actual) {
+  public LongArrayAssert(@Nullable AtomicLongArray actual) {
     this(array(actual));
   }
 

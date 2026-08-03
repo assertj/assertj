@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for arrays of {@code float}s.
  * <p>
@@ -34,7 +36,7 @@ public class FloatArrayAssert extends AbstractFloatArrayAssert<FloatArrayAssert>
    *
    * @param actual the actual array to verify
    */
-  public FloatArrayAssert(float[] actual) {
+  public FloatArrayAssert(float @Nullable [] actual) {
     super(actual, FloatArrayAssert.class);
   }
 
