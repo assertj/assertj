@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link Long}s.
  * <p>
@@ -39,7 +41,7 @@ public class LongAssert extends AbstractLongAssert<LongAssert> {
    *
    * @param actual the actual value to verify
    */
-  public LongAssert(Long actual) {
+  public LongAssert(@Nullable Long actual) {
     super(actual, LongAssert.class);
   }
 
@@ -48,7 +50,7 @@ public class LongAssert extends AbstractLongAssert<LongAssert> {
    *
    * @param actual the actual value to verify
    */
-  public LongAssert(AtomicLong actual) {
+  public LongAssert(@Nullable AtomicLong actual) {
     this(actual == null ? null : actual.get());
   }
 

@@ -22,6 +22,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Shorts;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Short}s.
@@ -39,7 +40,8 @@ import org.assertj.core.internal.Shorts;
  * @author Nicolas François
  * @author Cal027
  */
-public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>> extends AbstractComparableAssert<SELF, Short>
+public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>>
+    extends AbstractComparableAssert<SELF, @Nullable Short>
     implements NumberAssert<SELF, Short> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -51,7 +53,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * @param actual the actual value to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractShortAssert(Short actual, Class<?> selfType) {
+  protected AbstractShortAssert(@Nullable Short actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

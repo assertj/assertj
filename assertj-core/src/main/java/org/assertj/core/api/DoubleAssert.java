@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link Double}s.
  * <p>
@@ -37,7 +39,7 @@ public class DoubleAssert extends AbstractDoubleAssert<DoubleAssert> {
    *
    * @param actual the actual value to verify
    */
-  public DoubleAssert(Double actual) {
+  public DoubleAssert(@Nullable Double actual) {
     super(actual, DoubleAssert.class);
   }
 

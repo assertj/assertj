@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link Character}s.
  * <p>
@@ -36,7 +38,7 @@ public class CharacterAssert extends AbstractCharacterAssert<CharacterAssert> {
    *
    * @param actual the actual value to verify
    */
-  public CharacterAssert(Character actual) {
+  public CharacterAssert(@Nullable Character actual) {
     super(actual, CharacterAssert.class);
   }
 

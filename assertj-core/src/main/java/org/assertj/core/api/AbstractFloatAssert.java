@@ -28,6 +28,7 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Floats;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Float}s.
@@ -44,7 +45,8 @@ import org.assertj.core.internal.Floats;
  * @author Nicolas François
  * @author Jin Kwon
  */
-public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>> extends AbstractComparableAssert<SELF, Float>
+public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>>
+    extends AbstractComparableAssert<SELF, @Nullable Float>
     implements FloatingPointNumberAssert<SELF, Float> {
 
   private static final Float NEGATIVE_ZERO = -0.0f;
@@ -60,7 +62,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @param actual the actual value to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractFloatAssert(Float actual, Class<?> selfType) {
+  protected AbstractFloatAssert(@Nullable Float actual, Class<?> selfType) {
     super(actual, selfType);
     this.isPrimitive = false;
   }

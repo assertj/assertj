@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for floats.
  * <p>
@@ -35,7 +37,7 @@ public class FloatAssert extends AbstractFloatAssert<FloatAssert> {
    *
    * @param actual the actual value to verify
    */
-  public FloatAssert(Float actual) {
+  public FloatAssert(@Nullable Float actual) {
     super(actual, FloatAssert.class);
   }
 

@@ -22,6 +22,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Longs;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Long}s.
@@ -40,7 +41,8 @@ import org.assertj.core.internal.Longs;
  * @author Nicolas François
  * @author Cal027
  */
-public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> extends AbstractComparableAssert<SELF, Long>
+public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>>
+    extends AbstractComparableAssert<SELF, @Nullable Long>
     implements NumberAssert<SELF, Long> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -52,7 +54,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * @param actual the actual value to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractLongAssert(Long actual, Class<?> selfType) {
+  protected AbstractLongAssert(@Nullable Long actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

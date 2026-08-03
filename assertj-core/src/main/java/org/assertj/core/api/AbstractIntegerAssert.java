@@ -22,6 +22,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Integers;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Integer}s.
@@ -41,7 +42,7 @@ import org.assertj.core.internal.Integers;
  * @author Cal027
  */
 public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<SELF>> extends
-    AbstractComparableAssert<SELF, Integer> implements NumberAssert<SELF, Integer> {
+    AbstractComparableAssert<SELF, @Nullable Integer> implements NumberAssert<SELF, Integer> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Integers integers = Integers.instance();
@@ -52,7 +53,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @param actual the actual value to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractIntegerAssert(Integer actual, Class<?> selfType) {
+  protected AbstractIntegerAssert(@Nullable Integer actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

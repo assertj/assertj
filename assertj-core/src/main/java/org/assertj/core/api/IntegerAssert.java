@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link Integer}s.
  * <p>
@@ -39,7 +41,7 @@ public class IntegerAssert extends AbstractIntegerAssert<IntegerAssert> {
    *
    * @param actual the actual value to verify
    */
-  public IntegerAssert(Integer actual) {
+  public IntegerAssert(@Nullable Integer actual) {
     super(actual, IntegerAssert.class);
   }
 
@@ -48,7 +50,7 @@ public class IntegerAssert extends AbstractIntegerAssert<IntegerAssert> {
    *
    * @param actual the actual value to verify
    */
-  public IntegerAssert(AtomicInteger actual) {
+  public IntegerAssert(@Nullable AtomicInteger actual) {
     this(actual == null ? null : actual.get());
   }
 

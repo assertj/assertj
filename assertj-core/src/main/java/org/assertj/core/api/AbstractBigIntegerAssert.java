@@ -23,6 +23,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigIntegers;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link BigInteger}s.
@@ -31,7 +32,7 @@ import org.assertj.core.internal.BigIntegers;
  * @since 2.7.0 / 3.7.0
  */
 public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF>> extends
-    AbstractComparableAssert<SELF, BigInteger> implements NumberAssert<SELF, BigInteger> {
+    AbstractComparableAssert<SELF, @Nullable BigInteger> implements NumberAssert<SELF, BigInteger> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BigIntegers bigIntegers = BigIntegers.instance();
@@ -42,7 +43,7 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    * @param actual the actual value to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractBigIntegerAssert(BigInteger actual, Class<?> selfType) {
+  protected AbstractBigIntegerAssert(@Nullable BigInteger actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

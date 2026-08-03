@@ -23,6 +23,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigDecimals;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link BigDecimal}s.
@@ -40,7 +41,7 @@ import org.assertj.core.internal.BigDecimals;
  * @author chanwon lee
  */
 public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAssert<SELF>> extends
-    AbstractComparableAssert<SELF, BigDecimal> implements NumberAssert<SELF, BigDecimal> {
+    AbstractComparableAssert<SELF, @Nullable BigDecimal> implements NumberAssert<SELF, BigDecimal> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BigDecimals bigDecimals = BigDecimals.instance();
@@ -51,7 +52,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * @param actual the actual value to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractBigDecimalAssert(BigDecimal actual, Class<?> selfType) {
+  protected AbstractBigDecimalAssert(@Nullable BigDecimal actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

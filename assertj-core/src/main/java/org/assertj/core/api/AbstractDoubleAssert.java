@@ -28,6 +28,7 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.Failures;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Double}s.
@@ -47,7 +48,7 @@ import org.assertj.core.internal.Failures;
  * @author Jack Gough
  */
 public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SELF>> extends
-    AbstractComparableAssert<SELF, Double> implements FloatingPointNumberAssert<SELF, Double> {
+    AbstractComparableAssert<SELF, @Nullable Double> implements FloatingPointNumberAssert<SELF, Double> {
 
   private static final Double NEGATIVE_ZERO = -0.0;
 
@@ -62,7 +63,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * @param actual the actual value to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractDoubleAssert(Double actual, Class<?> selfType) {
+  protected AbstractDoubleAssert(@Nullable Double actual, Class<?> selfType) {
     super(actual, selfType);
     this.isPrimitive = false;
   }

@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.math.BigDecimal;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link BigDecimal}s.
  * <p>
@@ -37,7 +39,7 @@ public class BigDecimalAssert extends AbstractBigDecimalAssert<BigDecimalAssert>
    *
    * @param actual the actual value to verify
    */
-  public BigDecimalAssert(BigDecimal actual) {
+  public BigDecimalAssert(@Nullable BigDecimal actual) {
     super(actual, BigDecimalAssert.class);
   }
 }

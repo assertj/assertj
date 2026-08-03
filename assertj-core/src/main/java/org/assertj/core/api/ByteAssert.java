@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link Byte}s.
  * <p>
@@ -36,7 +38,7 @@ public class ByteAssert extends AbstractByteAssert<ByteAssert> {
    *
    * @param actual the actual value to verify
    */
-  public ByteAssert(Byte actual) {
+  public ByteAssert(@Nullable Byte actual) {
     super(actual, ByteAssert.class);
   }
 
