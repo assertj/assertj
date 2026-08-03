@@ -70,13 +70,13 @@ public class PropertySupport {
    * @throws IntrospectionError if an element in the given {@code Iterable} does not have a property with a matching
    *           name.
    */
-  public <T> List<T> propertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
+  public <T> List<@Nullable T> propertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
     if (isNullOrEmpty(target)) {
       return emptyList();
     }
     if (isNestedProperty(propertyName)) {
       String firstPropertyName = popPropertyNameFrom(propertyName);
-      Iterable<Object> propertyValues = propertyValues(firstPropertyName, Object.class, target);
+      Iterable<@Nullable Object> propertyValues = propertyValues(firstPropertyName, Object.class, target);
       // extract next sub-property values until reaching the last sub-property
       return propertyValues(nextPropertyNameFrom(propertyName), clazz, propertyValues);
     }
@@ -98,7 +98,7 @@ public class PropertySupport {
     return instance().propertyValueOf(propertyName, clazz, target);
   }
 
-  private <T> List<T> simplePropertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
+  private <T> List<@Nullable T> simplePropertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
     return stream(target).map(e -> e == null ? null : propertyValue(propertyName, clazz, e))
                          .collect(collectingAndThen(toList(), Collections::unmodifiableList));
   }
@@ -147,7 +147,7 @@ public class PropertySupport {
    * @throws IntrospectionError if the given target does not have a property with a matching name.
    */
   @SuppressWarnings("unchecked")
-  public <T> T propertyValue(String propertyName, Class<T> clazz, Object target) {
+  public <T> @Nullable T propertyValue(String propertyName, Class<T> clazz, Object target) {
     Method getter = getPropertyGetter(propertyName, target);
     try {
       return (T) getter.invoke(target);
@@ -184,6 +184,7 @@ public class PropertySupport {
 
     if (isNestedProperty(propertyName)) {
       String firstPropertyName = popPropertyNameFrom(propertyName);
+      @Nullable
       Object propertyValue = propertyValue(firstPropertyName, Object.class, target);
       // extract next sub-property values until reaching the last sub-property
       return propertyValueOf(nextPropertyNameFrom(propertyName), clazz, propertyValue);
@@ -204,7 +205,7 @@ public class PropertySupport {
    * @throws IntrospectionError if an element in the given {@code Iterable} does not have a property with a matching
    *           name.
    */
-  public List<Object> propertyValues(String fieldOrPropertyName, Iterable<?> target) {
+  public List<@Nullable Object> propertyValues(String fieldOrPropertyName, Iterable<?> target) {
     return propertyValues(fieldOrPropertyName, Object.class, target);
   }
 
