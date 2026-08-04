@@ -201,6 +201,7 @@
             <execution>
               <goals>
                 <goal>configure</goal>
+                <goal>generate-package-info</goal>
               </goals>
             </execution>
           </executions>
