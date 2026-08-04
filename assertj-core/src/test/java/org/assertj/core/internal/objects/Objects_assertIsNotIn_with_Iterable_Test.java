@@ -48,6 +48,7 @@ class Objects_assertIsNotIn_with_Iterable_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_Iterable_is_null() {
     // GIVEN
     Iterable<String> iterable = null;

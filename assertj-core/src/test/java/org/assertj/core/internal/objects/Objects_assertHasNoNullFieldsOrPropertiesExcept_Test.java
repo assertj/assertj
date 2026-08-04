@@ -25,6 +25,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ObjectsBaseTest;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -54,6 +55,7 @@ class Objects_assertHasNoNullFieldsOrPropertiesExcept_Test extends ObjectsBaseTe
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_some_fields_are_null() {
     // GIVEN
     Object actual = new Data();
@@ -67,9 +69,9 @@ class Objects_assertHasNoNullFieldsOrPropertiesExcept_Test extends ObjectsBaseTe
   private static class Data {
 
     private Object field1 = "foo";
-    private Object field2 = null;
-    private Object field3 = null;
-    private static Object staticField;
+    private @Nullable Object field2 = null;
+    private @Nullable Object field3 = null;
+    private static @Nullable Object staticField;
 
     @Override
     public String toString() {

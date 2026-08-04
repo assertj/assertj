@@ -30,6 +30,7 @@ public class PotentialMvpCondition extends Condition<Player> {
   }
 
   @Override
+  @SuppressWarnings("NullAway")
   public boolean matches(Player player) {
     return player.getPointsPerGame() > 20 && (player.getAssistsPerGame() >= 8 || player.getReboundsPerGame() >= 8);
   }

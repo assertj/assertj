@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 class Float2DArrayAssert_isEmpty_Test extends Float2DArrayAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected Float2DArrayAssert invoke_api_method() {
     assertions.isEmpty();
     return null;

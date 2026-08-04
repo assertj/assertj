@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 class SoftAssertionProviderTest extends BaseAssertionsTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void proxy_should_create_soft_aware_assertion_instance() {
     // GIVEN
     TolkienCharacter frodo = TolkienCharacter.of("frodo", 33, HOBBIT);

@@ -51,6 +51,7 @@ class AtomicReferenceAssert_hasValueSatisfying_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_when_requirements_is_null() {
     // GIVEN
     String initialValue = "foo";

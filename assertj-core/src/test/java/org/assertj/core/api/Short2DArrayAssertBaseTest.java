@@ -24,6 +24,9 @@ import org.assertj.core.internal.Short2DArrays;
  * 
  * @author Maciej Wajcht
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class Short2DArrayAssertBaseTest extends BaseTestTemplate<Short2DArrayAssert, short[][]> {
   protected Short2DArrays arrays;
 

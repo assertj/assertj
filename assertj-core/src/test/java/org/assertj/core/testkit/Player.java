@@ -15,17 +15,19 @@
  */
 package org.assertj.core.testkit;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * @author Joel Costigliola
  */
 public class Player {
 
-  private Name name;
-  public Name nickname;
+  private @Nullable Name name;
+  public @Nullable Name nickname;
   private int pointsPerGame;
   private int assistsPerGame;
   private int reboundsPerGame;
-  private String team;
+  private @Nullable String team;
   // used to test private field access
   @SuppressWarnings("unused")
   private int highestScore;
@@ -37,11 +39,11 @@ public class Player {
     setTeam(team);
   }
 
-  public Name getName() {
+  public @Nullable Name getName() {
     return name;
   }
 
-  public void setName(Name name) {
+  public void setName(@Nullable Name name) {
     this.name = name;
   }
 
@@ -69,11 +71,11 @@ public class Player {
     this.reboundsPerGame = reboundsPerGame;
   }
 
-  public String getTeam() {
+  public @Nullable String getTeam() {
     return team;
   }
 
-  public void setTeam(String team) {
+  public void setTeam(@Nullable String team) {
     this.team = team;
   }
 
@@ -83,6 +85,9 @@ public class Player {
 
   @Override
   public String toString() {
-    return "%s[%s %s, team=%s]".formatted(getClass().getSimpleName(), name.getFirst(), name.getLast(), team);
+    Name playerName = name;
+    return "%s[%s %s, team=%s]".formatted(getClass().getSimpleName(),
+                                          playerName == null ? null : playerName.getFirst(),
+                                          playerName == null ? null : playerName.getLast(), team);
   }
 }

@@ -96,12 +96,14 @@ class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> doubles.assertIsNotCloseTo(INFO, ONE, null, offset(ONE)))
                                     .withMessage("The given number should not be null");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> doubles.assertIsNotCloseTo(INFO, ONE, ZERO, null))
                                     .withMessage("The given offset should not be null");

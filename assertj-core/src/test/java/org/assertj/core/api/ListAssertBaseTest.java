@@ -28,6 +28,9 @@ import org.assertj.core.internal.Lists;
  * 
  * @author Olivier Michallat
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class ListAssertBaseTest extends BaseTestTemplate<ListAssert<String>, List<? extends String>> {
 
   protected Lists lists;

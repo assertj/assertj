@@ -57,6 +57,7 @@ class StringAssert_isEqualTo_Test extends StringAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_NullPointerException_when_given_a_null_template() {
     // GIVEN
     String template = null;

@@ -24,6 +24,9 @@ import org.assertj.core.internal.Float2DArrays;
  * 
  * @author Maciej Wajcht
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class Float2DArrayAssertBaseTest extends BaseTestTemplate<Float2DArrayAssert, float[][]> {
   protected Float2DArrays arrays;
 

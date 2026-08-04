@@ -48,6 +48,7 @@ class JoinDescription_constructor_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_when_descriptions_contains_null() {
     // GIVEN
     List<Description> descriptions = list(new TestDescription("1"),

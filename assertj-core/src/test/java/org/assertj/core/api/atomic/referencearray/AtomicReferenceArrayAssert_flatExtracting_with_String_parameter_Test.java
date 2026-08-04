@@ -69,6 +69,7 @@ class AtomicReferenceArrayAssert_flatExtracting_with_String_parameter_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_illegal_argument_exception_when_extracting_from_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(new AtomicReferenceArray<>(array(homer,
                                                                                                       null))).flatExtracting("children"));

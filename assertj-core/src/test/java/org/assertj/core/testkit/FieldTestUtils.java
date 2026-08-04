@@ -29,7 +29,7 @@ public class FieldTestUtils {
     }
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "NullAway" })
   public static <T> T readField(Object target, String fieldName) {
     return (T) EXTRACTION.getValueOf(fieldName, target);
   }

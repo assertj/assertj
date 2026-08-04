@@ -37,6 +37,7 @@ class Maps_assertHasKeySatisfying_Test extends MapsBaseTest {
 
   private final Condition<String> isColor = new Condition<>("is color condition") {
     @Override
+    @SuppressWarnings("NullAway")
     public boolean matches(String value) {
       return "color".equals(value);
     }
@@ -44,12 +45,14 @@ class Maps_assertHasKeySatisfying_Test extends MapsBaseTest {
 
   private final Condition<Object> isAge = new Condition<>() {
     @Override
+    @SuppressWarnings("NullAway")
     public boolean matches(Object value) {
       return "age".equals(value);
     }
   };
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertHasKeySatisfying(INFO, actual, null))
                                     .withMessage("The condition to evaluate should not be null");

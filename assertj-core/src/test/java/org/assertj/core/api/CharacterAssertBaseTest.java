@@ -24,6 +24,9 @@ import org.assertj.core.internal.Characters;
  * 
  * @author Olivier Michallat
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class CharacterAssertBaseTest extends BaseTestTemplate<CharacterAssert, Character> {
   protected Characters characters;
 

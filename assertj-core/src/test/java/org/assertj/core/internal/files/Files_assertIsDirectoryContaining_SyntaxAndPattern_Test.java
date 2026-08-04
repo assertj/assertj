@@ -83,6 +83,7 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_pathMatcherPattern_is_null() {
     // GIVEN
     String pathMatcherPattern = null;
@@ -92,6 +93,7 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     File actual = null;

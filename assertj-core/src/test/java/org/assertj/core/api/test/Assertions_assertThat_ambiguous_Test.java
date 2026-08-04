@@ -69,6 +69,7 @@ class Assertions_solving_assertThat_ambiguous_Test {
     }
 
     @Override
+    @SuppressWarnings("NullAway")
     public T next() {
       return null;
     }

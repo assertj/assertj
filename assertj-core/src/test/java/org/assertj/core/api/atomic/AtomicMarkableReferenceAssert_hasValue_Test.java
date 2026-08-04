@@ -37,6 +37,7 @@ class AtomicMarkableReferenceAssert_hasValue_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() {
     AtomicMarkableReference<String> actual = new AtomicMarkableReference<>("actual", true);
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasReference(null))

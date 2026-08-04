@@ -45,6 +45,7 @@ class YearMonthAssert_isIn_Test extends YearMonthAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_dates_as_string_array_parameter_is_null() {
     // GIVEN
     String[] otherYearMonthsAsString = null;

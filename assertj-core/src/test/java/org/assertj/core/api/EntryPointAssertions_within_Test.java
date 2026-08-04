@@ -172,6 +172,7 @@ class EntryPointAssertions_within_Test extends EntryPointAssertionsBaseTest {
 
   @ParameterizedTest
   @MethodSource("temporal_offset_from_duration")
+  @SuppressWarnings("NullAway")
   void should_fail_if_duration_is_null(Function<Duration, TemporalUnitOffset> offsetFactory) {
     // GIVEN
     Duration duration = null;

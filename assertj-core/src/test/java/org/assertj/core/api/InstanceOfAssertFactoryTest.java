@@ -52,6 +52,7 @@ class InstanceOfAssertFactoryTest {
                                                                                                                    delegate);
 
     @Test
+    @SuppressWarnings("NullAway")
     void constructor_should_fail_if_type_is_null() {
       // WHEN
       Throwable thrown = catchThrowable(() -> new InstanceOfAssertFactory<>(null, delegate));
@@ -61,6 +62,7 @@ class InstanceOfAssertFactoryTest {
     }
 
     @Test
+    @SuppressWarnings("NullAway")
     void constructor_should_fail_if_delegate_is_null() {
       // WHEN
       Throwable thrown = catchThrowable(() -> new InstanceOfAssertFactory<>(Object.class, null));
@@ -139,6 +141,7 @@ class InstanceOfAssertFactoryTest {
                                                                                                                 delegate);
 
     @Test
+    @SuppressWarnings("NullAway")
     void constructor_should_fail_if_rawClass_is_null() {
       // WHEN
       Throwable thrown = catchThrowable(() -> new InstanceOfAssertFactory<>(null, new Class[] { Integer.class }, delegate));
@@ -148,6 +151,7 @@ class InstanceOfAssertFactoryTest {
     }
 
     @Test
+    @SuppressWarnings("NullAway")
     void constructor_should_fail_if_typeArguments_is_null() {
       // WHEN
       Throwable thrown = catchThrowable(() -> new InstanceOfAssertFactory<>(List.class, null, delegate));
@@ -157,6 +161,7 @@ class InstanceOfAssertFactoryTest {
     }
 
     @Test
+    @SuppressWarnings("NullAway")
     void constructor_should_fail_if_delegate_is_null() {
       // WHEN
       Throwable thrown = catchThrowable(() -> new InstanceOfAssertFactory<>(List.class, new Class[] { Integer.class }, null));

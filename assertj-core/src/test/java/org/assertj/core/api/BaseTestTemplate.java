@@ -54,6 +54,9 @@ import org.junit.jupiter.api.Test;
  * @param <A> the type of the "actual" value.
  * @author Olivier Michallat
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> {
   protected S assertions;
   protected Objects objects;

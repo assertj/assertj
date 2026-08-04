@@ -41,6 +41,8 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
   private Iterable<Employee> jedis = list(new Employee(1L, new Name("Yoda"), 800),
                                           new Employee(2L, new Name("Luke", "Skywalker"), 26));
 
+  // name is always populated for the employees these tests use.
+  @SuppressWarnings("NullAway")
   private static final ThrowingExtractor<Employee, Object, Exception> throwingExtractor = employee -> {
     if (employee.getAge() < 20) throw new Exception("age < 20");
     return employee.getName().getFirst();
@@ -59,6 +61,7 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_extracting_with_anonymous_class_throwing_extractor() {
     // GIVEN
     ThrowingExtractor<Employee, Object, Exception> nameThrowingExtractor = employee -> {
@@ -70,6 +73,7 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_assertion_error_if_actual_is_null() {
     // GIVEN
     jedis = null;
@@ -80,6 +84,7 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
     // GIVEN
     ThrowingCallable code = () -> assertThat(jedis).extracting(employee -> {
@@ -93,6 +98,7 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_let_throwing_extractor_runtime_exception_bubble_up() {
     // GIVEN
     ThrowingCallable code = () -> assertThat(jedis).extracting(employee -> {
@@ -152,6 +158,7 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_ThrowingExtractor_should_fail_when_actual_is_null() {
     // GIVEN
     jedis = null;
@@ -162,6 +169,7 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_ThrowingExtractors_should_fail_when_actual_is_null() {
     // GIVEN
     jedis = null;

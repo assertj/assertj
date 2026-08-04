@@ -63,6 +63,7 @@ class MapAssert_extractingByKeys_Test implements NavigationMethodBaseTest<MapAss
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_extract_null_element_from_unknown_key() {
     // WHEN
     AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> result = assertThat(map).extractingByKeys(NAME, "unknown");

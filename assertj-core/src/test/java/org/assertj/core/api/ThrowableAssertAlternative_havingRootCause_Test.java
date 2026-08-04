@@ -47,6 +47,7 @@ class ThrowableAssertAlternative_havingRootCause_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_throwable_is_null() {
     // GIVEN
     ThrowableAssertAlternative<Throwable> taa = new ThrowableAssertAlternative<>(null);

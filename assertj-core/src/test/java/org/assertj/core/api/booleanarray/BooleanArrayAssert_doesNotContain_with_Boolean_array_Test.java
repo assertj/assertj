@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 class BooleanArrayAssert_doesNotContain_with_Boolean_array_Test extends BooleanArrayAssertBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_values_is_null() {
     // GIVEN
     Boolean[] values = null;

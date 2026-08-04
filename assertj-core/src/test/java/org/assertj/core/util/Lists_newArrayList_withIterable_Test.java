@@ -37,6 +37,7 @@ class Lists_newArrayList_withIterable_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_null_if_iterable_is_null() {
     Iterable<?> elements = null;
     assertThat(Lists.newArrayList(elements)).isNull();

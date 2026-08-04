@@ -34,6 +34,7 @@ class ObjectArrayAssert_filteredOn_predicate_Test extends ObjectArrayAssert_filt
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_predicate_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       Predicate<? super Employee> predicate = null;

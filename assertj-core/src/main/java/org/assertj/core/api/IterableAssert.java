@@ -61,7 +61,7 @@ public class IterableAssert<ELEMENT extends @Nullable Object> extends
    * @param actual the actual iterable to verify
    * @return the created assertion
    */
-  public static <ELEMENT extends @Nullable Object> IterableAssert<ELEMENT> assertThatIterable(Iterable<? extends ELEMENT> actual) {
+  public static <ELEMENT extends @Nullable Object> IterableAssert<ELEMENT> assertThatIterable(@Nullable Iterable<? extends ELEMENT> actual) {
     return new IterableAssert<>(actual);
   }
 

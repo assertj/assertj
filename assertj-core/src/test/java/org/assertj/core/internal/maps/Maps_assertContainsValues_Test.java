@@ -62,6 +62,7 @@ class Maps_assertContainsValues_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_values_array_is_null() {
     // GIVEN
     String[] values = null;
@@ -127,6 +128,7 @@ class Maps_assertContainsValues_Test extends MapsBaseTest {
                                                    .withMessage(shouldContainValues(actual, notFound).create());
   }
 
+  @SuppressWarnings("NullAway")
   private static Stream<Arguments> unmodifiableMapsFailureTestCases() {
     return Stream.of(arguments(emptyMap(),
                                array("Yoda"),

@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 class Join_constructor_with_array_Test {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_Condition_array_is_null() {
     // GIVEN
     Condition<Object>[] conditions = null;
@@ -40,6 +41,7 @@ class Join_constructor_with_array_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_Condition_array_contains_nulls() {
     // GIVEN
     Condition<Object>[] conditions = array(new TestCondition<>(), null);

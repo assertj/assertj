@@ -21,6 +21,9 @@ import java.util.concurrent.atomic.LongAdder;
 
 import org.assertj.core.internal.Longs;
 
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class LongAdderAssertBaseTest extends BaseTestTemplate<LongAdderAssert, LongAdder> {
 
   protected Longs longs;

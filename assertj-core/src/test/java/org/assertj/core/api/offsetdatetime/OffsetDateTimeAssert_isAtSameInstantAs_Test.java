@@ -54,6 +54,7 @@ class OffsetDateTimeAssert_isAtSameInstantAs_Test extends OffsetDateTimeAssertBa
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_OffsetDateTime_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(REFERENCE).isAtSameInstantAs(null))
                                         .withMessage(NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE);

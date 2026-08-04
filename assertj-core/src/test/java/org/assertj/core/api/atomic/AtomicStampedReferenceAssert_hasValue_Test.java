@@ -36,6 +36,7 @@ class AtomicStampedReferenceAssert_hasValue_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_expected_value_is_null_and_does_not_contains_expected_value() {
     AtomicStampedReference<String> actual = new AtomicStampedReference<>("actual", 1234);
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasReference(null))

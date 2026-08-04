@@ -40,6 +40,7 @@ class DateUtil_minuteOf_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throws_NullPointerException_if_date_parameter_is_null() {
     assertThatNullPointerException().isThrownBy(() -> minuteOf(null));
   }

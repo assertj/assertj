@@ -162,7 +162,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractBooleanAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractBooleanAssert<?> given(Boolean actual) {
+  public static AbstractBooleanAssert<?> given(@Nullable Boolean actual) {
     return assumeThat(actual);
   }
 
@@ -191,7 +191,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractBooleanArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractBooleanArrayAssert<?> given(boolean[] actual) {
+  public static AbstractBooleanArrayAssert<?> given(boolean @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -220,7 +220,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link Boolean2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
-  public static Boolean2DArrayAssert given(boolean[][] actual) {
+  public static Boolean2DArrayAssert given(boolean[] @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -278,7 +278,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractByteAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractByteAssert<?> given(Byte actual) {
+  public static AbstractByteAssert<?> given(@Nullable Byte actual) {
     return assumeThat(actual);
   }
 
@@ -307,7 +307,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractByteArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractByteArrayAssert<?> given(byte[] actual) {
+  public static AbstractByteArrayAssert<?> given(byte @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -336,7 +336,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link Byte2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
-  public static Byte2DArrayAssert given(byte[][] actual) {
+  public static Byte2DArrayAssert given(byte[] @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -394,7 +394,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractShortAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractShortAssert<?> given(Short actual) {
+  public static AbstractShortAssert<?> given(@Nullable Short actual) {
     return assumeThat(actual);
   }
 
@@ -423,7 +423,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractShortArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractShortArrayAssert<?> given(short[] actual) {
+  public static AbstractShortArrayAssert<?> given(short @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -452,7 +452,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link Short2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
-  public static Short2DArrayAssert given(short[][] actual) {
+  public static Short2DArrayAssert given(short[] @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -510,7 +510,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractIntegerAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractIntegerAssert<?> given(Integer actual) {
+  public static AbstractIntegerAssert<?> given(@Nullable Integer actual) {
     return assumeThat(actual);
   }
 
@@ -539,7 +539,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractIntArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractIntArrayAssert<?> given(int[] actual) {
+  public static AbstractIntArrayAssert<?> given(int @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -568,7 +568,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link Int2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
-  public static Int2DArrayAssert given(int[][] actual) {
+  public static Int2DArrayAssert given(int[] @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -597,7 +597,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractBigIntegerAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractBigIntegerAssert<?> given(BigInteger actual) {
+  public static AbstractBigIntegerAssert<?> given(@Nullable BigInteger actual) {
     return assumeThat(actual);
   }
 
@@ -655,7 +655,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractLongAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractLongAssert<?> given(Long actual) {
+  public static AbstractLongAssert<?> given(@Nullable Long actual) {
     return assumeThat(actual);
   }
 
@@ -684,7 +684,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractLongArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractLongArrayAssert<?> given(long[] actual) {
+  public static AbstractLongArrayAssert<?> given(long @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -713,7 +713,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link Long2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
-  public static Long2DArrayAssert given(long[][] actual) {
+  public static Long2DArrayAssert given(long[] @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -771,7 +771,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractFloatAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractFloatAssert<?> given(Float actual) {
+  public static AbstractFloatAssert<?> given(@Nullable Float actual) {
     return assumeThat(actual);
   }
 
@@ -800,7 +800,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractFloatArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractFloatArrayAssert<?> given(float[] actual) {
+  public static AbstractFloatArrayAssert<?> given(float @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -829,7 +829,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link Float2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
-  public static Float2DArrayAssert given(float[][] actual) {
+  public static Float2DArrayAssert given(float[] @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -887,7 +887,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractDoubleAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractDoubleAssert<?> given(Double actual) {
+  public static AbstractDoubleAssert<?> given(@Nullable Double actual) {
     return assumeThat(actual);
   }
 
@@ -916,7 +916,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractDoubleArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractDoubleArrayAssert<?> given(double[] actual) {
+  public static AbstractDoubleArrayAssert<?> given(double @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -945,7 +945,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link Double2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
-  public static Double2DArrayAssert given(double[][] actual) {
+  public static Double2DArrayAssert given(double[] @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -974,7 +974,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractBigDecimalAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractBigDecimalAssert<?> given(BigDecimal actual) {
+  public static AbstractBigDecimalAssert<?> given(@Nullable BigDecimal actual) {
     return assumeThat(actual);
   }
 
@@ -1032,7 +1032,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractCharacterAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractCharacterAssert<?> given(Character actual) {
+  public static AbstractCharacterAssert<?> given(@Nullable Character actual) {
     return assumeThat(actual);
   }
 
@@ -1061,7 +1061,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractCharacterAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractCharArrayAssert<?> given(char[] actual) {
+  public static AbstractCharArrayAssert<?> given(char @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -1090,7 +1090,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link Char2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
-  public static Char2DArrayAssert given(char[][] actual) {
+  public static Char2DArrayAssert given(char[] @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -1119,7 +1119,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractCharSequenceAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractCharSequenceAssert<?, ? extends CharSequence> given(CharSequence actual) {
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> given(@Nullable CharSequence actual) {
     return assumeThat(actual);
   }
 
@@ -1162,7 +1162,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractStringAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractStringAssert<?> given(String actual) {
+  public static AbstractStringAssert<?> given(@Nullable String actual) {
     return assumeThat(actual);
   }
 
@@ -1191,7 +1191,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractCharSequenceAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractCharSequenceAssert<?, ? extends CharSequence> given(StringBuilder actual) {
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> given(@Nullable StringBuilder actual) {
     return assumeThat(actual);
   }
 
@@ -1220,7 +1220,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractCharSequenceAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractCharSequenceAssert<?, ? extends CharSequence> given(StringBuffer actual) {
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> given(@Nullable StringBuffer actual) {
     return assumeThat(actual);
   }
 
@@ -1249,7 +1249,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractClassAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static ClassAssert given(Class<?> actual) {
+  public static ClassAssert given(@Nullable Class<?> actual) {
     return assumeThat(actual);
   }
 
@@ -1313,7 +1313,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractObjectArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <T> ObjectArrayAssert<T> given(T[] actual) {
+  public static <T> ObjectArrayAssert<T> given(T @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -1343,7 +1343,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link Object2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
-  public static <T> Object2DArrayAssert<T> given(T[][] actual) {
+  public static <T> Object2DArrayAssert<T> given(T[] @Nullable [] actual) {
     return assumeThat(actual);
   }
 
@@ -1366,7 +1366,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractObjectAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <T> ObjectAssert<T> givenObject(T actual) {
+  public static <T extends @Nullable Object> ObjectAssert<T> givenObject(T actual) {
     return assumeThat(actual);
   }
 
@@ -1403,7 +1403,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractComparableAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> given(T actual) {
+  public static <T extends @Nullable Comparable<? super T>> AbstractComparableAssert<?, T> given(T actual) {
     return assumeThat(actual);
   }
 
@@ -1478,7 +1478,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractThrowableAssert} assertion object to be used for assumptions.
    * @since 4.0.0
    */
-  public static <T extends SQLException> AbstractThrowableAssert<?, T> given(T actual) {
+  public static <T extends SQLException> AbstractThrowableAssert<?, T> given(@Nullable T actual) {
     return assumeThat(actual);
   }
 
@@ -1640,7 +1640,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractIterableAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <ELEMENT> IterableAssert<ELEMENT> given(Iterable<? extends ELEMENT> actual) {
+  public static <ELEMENT> IterableAssert<ELEMENT> given(@Nullable Iterable<? extends ELEMENT> actual) {
     return assumeThat(actual);
   }
 
@@ -1685,7 +1685,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractIteratorAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <ELEMENT> IteratorAssert<ELEMENT> given(Iterator<? extends ELEMENT> actual) {
+  public static <ELEMENT> IteratorAssert<ELEMENT> given(@Nullable Iterator<? extends ELEMENT> actual) {
     return assumeThat(actual);
   }
 
@@ -1804,7 +1804,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractMapAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <K, V> MapAssert<K, V> given(Map<K, V> actual) {
+  public static <K, V> MapAssert<K, V> given(@Nullable Map<K, V> actual) {
     return assumeThat(actual);
   }
 
@@ -1834,7 +1834,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractPredicateAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <T> PredicateAssert<T> given(Predicate<T> actual) {
+  public static <T> PredicateAssert<T> given(@Nullable Predicate<T> actual) {
     return assumeThat(actual);
   }
 
@@ -1878,7 +1878,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link IntPredicateAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static IntPredicateAssert given(IntPredicate actual) {
+  public static IntPredicateAssert given(@Nullable IntPredicate actual) {
     return assumeThat(actual);
   }
 
@@ -1907,7 +1907,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link LongPredicateAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static LongPredicateAssert given(LongPredicate actual) {
+  public static LongPredicateAssert given(@Nullable LongPredicate actual) {
     return assumeThat(actual);
   }
 
@@ -1936,7 +1936,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link DoublePredicateAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static DoublePredicateAssert given(DoublePredicate actual) {
+  public static DoublePredicateAssert given(@Nullable DoublePredicate actual) {
     return assumeThat(actual);
   }
 
@@ -1966,7 +1966,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link OptionalAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <VALUE> OptionalAssert<VALUE> given(Optional<VALUE> actual) {
+  public static <VALUE> OptionalAssert<VALUE> given(@Nullable Optional<VALUE> actual) {
     return assumeThat(actual);
   }
 
@@ -1995,7 +1995,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link OptionalIntAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static OptionalIntAssert given(OptionalInt actual) {
+  public static OptionalIntAssert given(@Nullable OptionalInt actual) {
     return assumeThat(actual);
   }
 
@@ -2004,7 +2004,7 @@ public final class BDDAssumptions extends Assumptions {
    * @param actual the actual {@link Matcher} value to be validated.
    * @return the {@link Matcher} assertion object to be used for assumptions.
    */
-  public static MatcherAssert given(Matcher actual) {
+  public static MatcherAssert given(@Nullable Matcher actual) {
     return assumeThat(actual);
   }
 
@@ -2033,7 +2033,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link OptionalLongAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static OptionalLongAssert given(OptionalLong actual) {
+  public static OptionalLongAssert given(@Nullable OptionalLong actual) {
     return assumeThat(actual);
   }
 
@@ -2062,7 +2062,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link OptionalDoubleAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static OptionalDoubleAssert given(OptionalDouble actual) {
+  public static OptionalDoubleAssert given(@Nullable OptionalDouble actual) {
     return assumeThat(actual);
   }
 
@@ -2092,7 +2092,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractListAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> given(Stream<? extends ELEMENT> actual) {
+  public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> given(@Nullable Stream<? extends ELEMENT> actual) {
     return assumeThat(actual);
   }
 
@@ -2136,7 +2136,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractListAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> given(IntStream actual) {
+  public static AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> given(@Nullable IntStream actual) {
     return assumeThat(actual);
   }
 
@@ -2165,7 +2165,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractSpliteratorAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <ELEMENT> AbstractSpliteratorAssert<?, ELEMENT> given(Spliterator<ELEMENT> actual) {
+  public static <ELEMENT> AbstractSpliteratorAssert<?, ELEMENT> given(@Nullable Spliterator<ELEMENT> actual) {
     return assumeThat(actual);
   }
 
@@ -2194,7 +2194,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractListAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> given(LongStream actual) {
+  public static AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> given(@Nullable LongStream actual) {
     return assumeThat(actual);
   }
 
@@ -2223,7 +2223,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractListAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> given(DoubleStream actual) {
+  public static AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> given(@Nullable DoubleStream actual) {
     return assumeThat(actual);
   }
 
@@ -2345,7 +2345,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AtomicBooleanAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AtomicBooleanAssert given(AtomicBoolean actual) {
+  public static AtomicBooleanAssert given(@Nullable AtomicBoolean actual) {
     return assumeThat(actual);
   }
 
@@ -2374,7 +2374,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AtomicIntegerAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AtomicIntegerAssert given(AtomicInteger actual) {
+  public static AtomicIntegerAssert given(@Nullable AtomicInteger actual) {
     return assumeThat(actual);
   }
 
@@ -2403,7 +2403,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AtomicIntegerArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AtomicIntegerArrayAssert given(AtomicIntegerArray actual) {
+  public static AtomicIntegerArrayAssert given(@Nullable AtomicIntegerArray actual) {
     return assumeThat(actual);
   }
 
@@ -2443,7 +2443,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AtomicIntegerFieldUpdaterAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> given(AtomicIntegerFieldUpdater<OBJECT> actual) {
+  public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> given(@Nullable AtomicIntegerFieldUpdater<OBJECT> actual) {
     return assumeThat(actual);
   }
 
@@ -2472,7 +2472,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link LongAdderAssert} assertion object to be used for assumptions.
    * @since 3.16.0
    */
-  public static LongAdderAssert given(LongAdder actual) {
+  public static LongAdderAssert given(@Nullable LongAdder actual) {
     return assumeThat(actual);
   }
 
@@ -2501,7 +2501,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AtomicLongAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AtomicLongAssert given(AtomicLong actual) {
+  public static AtomicLongAssert given(@Nullable AtomicLong actual) {
     return assumeThat(actual);
   }
 
@@ -2530,7 +2530,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AtomicLongArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AtomicLongArrayAssert given(AtomicLongArray actual) {
+  public static AtomicLongArrayAssert given(@Nullable AtomicLongArray actual) {
     return assumeThat(actual);
   }
 
@@ -2570,7 +2570,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AtomicLongFieldUpdaterAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> given(AtomicLongFieldUpdater<OBJECT> actual) {
+  public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> given(@Nullable AtomicLongFieldUpdater<OBJECT> actual) {
     return assumeThat(actual);
   }
 
@@ -2600,7 +2600,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AtomicReferenceAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <VALUE> AtomicReferenceAssert<VALUE> given(AtomicReference<VALUE> actual) {
+  public static <VALUE> AtomicReferenceAssert<VALUE> given(@Nullable AtomicReference<VALUE> actual) {
     return assumeThat(actual);
   }
 
@@ -2630,7 +2630,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AtomicReferenceArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> given(AtomicReferenceArray<ELEMENT> actual) {
+  public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> given(@Nullable AtomicReferenceArray<ELEMENT> actual) {
     return assumeThat(actual);
   }
 
@@ -2671,7 +2671,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AtomicReferenceFieldUpdaterAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> given(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
+  public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> given(@Nullable AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
     return assumeThat(actual);
   }
 
@@ -2701,7 +2701,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AtomicMarkableReferenceAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <VALUE> AtomicMarkableReferenceAssert<VALUE> given(AtomicMarkableReference<VALUE> actual) {
+  public static <VALUE> AtomicMarkableReferenceAssert<VALUE> given(@Nullable AtomicMarkableReference<VALUE> actual) {
     return assumeThat(actual);
   }
 
@@ -2731,7 +2731,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AtomicStampedReferenceAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <VALUE> AtomicStampedReferenceAssert<VALUE> given(AtomicStampedReference<VALUE> actual) {
+  public static <VALUE> AtomicStampedReferenceAssert<VALUE> given(@Nullable AtomicStampedReference<VALUE> actual) {
     return assumeThat(actual);
   }
 
@@ -2760,7 +2760,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractDateAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractDateAssert<?> given(Date actual) {
+  public static AbstractDateAssert<?> given(@Nullable Date actual) {
     return assumeThat(actual);
   }
 
@@ -2789,7 +2789,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractLocalDateAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractLocalDateAssert<?> given(LocalDate actual) {
+  public static AbstractLocalDateAssert<?> given(@Nullable LocalDate actual) {
     return assumeThat(actual);
   }
 
@@ -2818,7 +2818,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractLocalTimeAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractLocalTimeAssert<?> given(LocalTime actual) {
+  public static AbstractLocalTimeAssert<?> given(@Nullable LocalTime actual) {
     return assumeThat(actual);
   }
 
@@ -2847,7 +2847,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractOffsetTimeAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractOffsetTimeAssert<?> given(OffsetTime actual) {
+  public static AbstractOffsetTimeAssert<?> given(@Nullable OffsetTime actual) {
     return assumeThat(actual);
   }
 
@@ -2876,7 +2876,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractLocalDateTimeAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractLocalDateTimeAssert<?> given(LocalDateTime actual) {
+  public static AbstractLocalDateTimeAssert<?> given(@Nullable LocalDateTime actual) {
     return assumeThat(actual);
   }
 
@@ -2905,7 +2905,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractInstantAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractInstantAssert<?> given(Instant actual) {
+  public static AbstractInstantAssert<?> given(@Nullable Instant actual) {
     return assumeThat(actual);
   }
 
@@ -2916,7 +2916,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the created assertion object.
    * @since 3.15.0
    */
-  public static AbstractDurationAssert<?> given(Duration actual) {
+  public static AbstractDurationAssert<?> given(@Nullable Duration actual) {
     return assumeThat(actual);
   }
 
@@ -2927,7 +2927,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  public static AbstractPeriodAssert<?> given(Period actual) {
+  public static AbstractPeriodAssert<?> given(@Nullable Period actual) {
     return assumeThat(actual);
   }
 
@@ -2956,7 +2956,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractOffsetDateTimeAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractOffsetDateTimeAssert<?> given(OffsetDateTime actual) {
+  public static AbstractOffsetDateTimeAssert<?> given(@Nullable OffsetDateTime actual) {
     return assumeThat(actual);
   }
 
@@ -2985,7 +2985,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractZonedDateTimeAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractZonedDateTimeAssert<?> given(ZonedDateTime actual) {
+  public static AbstractZonedDateTimeAssert<?> given(@Nullable ZonedDateTime actual) {
     return assumeThat(actual);
   }
 
@@ -3014,7 +3014,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractInputStreamAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractInputStreamAssert<?, ? extends InputStream> given(InputStream actual) {
+  public static AbstractInputStreamAssert<?, ? extends InputStream> given(@Nullable InputStream actual) {
     return assumeThat(actual);
   }
 
@@ -3043,7 +3043,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractFileAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractFileAssert<?> given(File actual) {
+  public static AbstractFileAssert<?> given(@Nullable File actual) {
     return assumeThat(actual);
   }
 
@@ -3072,7 +3072,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractPathAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractPathAssert<?> given(Path actual) {
+  public static AbstractPathAssert<?> given(@Nullable Path actual) {
     return assumeThat(actual);
   }
 
@@ -3115,7 +3115,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractUriAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractUriAssert<?> given(URI actual) {
+  public static AbstractUriAssert<?> given(@Nullable URI actual) {
     return assumeThat(actual);
   }
 
@@ -3144,7 +3144,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractUrlAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static AbstractUrlAssert<?> given(URL actual) {
+  public static AbstractUrlAssert<?> given(@Nullable URL actual) {
     return assumeThat(actual);
   }
 

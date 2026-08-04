@@ -86,12 +86,14 @@ class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_consumer_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(actual).zipSatisfy(other, null))
                                     .withMessage("The BiConsumer expressing the assertions requirements must not be null");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
@@ -103,6 +105,7 @@ class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_other_is_null() {
     // GIVEN
     other = null;

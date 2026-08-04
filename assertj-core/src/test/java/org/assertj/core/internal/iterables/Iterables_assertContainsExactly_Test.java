@@ -60,6 +60,7 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_actual_contains_given_values_exactly_with_null_elements() {
     // GIVEN
     actual.add(null);
@@ -90,6 +91,7 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;

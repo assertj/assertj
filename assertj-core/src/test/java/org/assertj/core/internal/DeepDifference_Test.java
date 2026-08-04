@@ -70,6 +70,7 @@ class DeepDifference_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void testEqualsWithNull() {
     Date date1 = new Date();
     assertHaveDifferences(null, date1);
@@ -137,6 +138,7 @@ class DeepDifference_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void testUnorderedCollection() {
     Set<String> a = newLinkedHashSet("one", "two", "three", "four", "five");
     Set<String> b = newLinkedHashSet("three", "five", "one", "four", "two");
@@ -302,6 +304,7 @@ class DeepDifference_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void shouldBeAbleToUseCustomComparatorForHashMap() {
     class ObjectWithMapField {
       Map<Integer, Boolean> map;

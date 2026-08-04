@@ -28,6 +28,9 @@ import org.assertj.core.internal.Comparables;
  * 
  * @author Olivier Michallat
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class BigDecimalAssertBaseTest extends ComparableAssertBaseTest<BigDecimalAssert, BigDecimal> {
 
   protected static final String ONE_AS_STRING = "1";

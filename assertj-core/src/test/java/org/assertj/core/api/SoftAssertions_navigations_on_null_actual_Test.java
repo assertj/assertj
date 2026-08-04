@@ -1054,6 +1054,7 @@ class SoftAssertions_navigations_on_null_actual_Test {
    * caller-requested {@code ASSERT}.
    */
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_factory_returning_different_assert_type_should_not_throw_class_cast() {
     // GIVEN a custom assert whose myself is NOT assignable to StringAssert
     CustomAssert custom = new CustomAssert(null);
@@ -1084,6 +1085,7 @@ class SoftAssertions_navigations_on_null_actual_Test {
       return extracting(Box::value, factory);
     }
 
+    @SuppressWarnings("NullAway")
     StringAssert extractingValueAsString() {
       AssertFactory<Object, StringAssert> factory = value -> new StringAssert((String) value);
       return extracting("value", factory);

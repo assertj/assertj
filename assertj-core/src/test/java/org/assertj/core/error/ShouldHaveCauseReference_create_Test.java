@@ -47,6 +47,7 @@ class ShouldHaveCauseReference_create_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_create_error_message_when_expected_and_actual_cause_are_not_the_same() {
     // GIVEN
     Throwable expectedCause = new IllegalStateException();

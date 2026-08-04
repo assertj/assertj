@@ -128,6 +128,7 @@ class ObjectArrayAssert_extractingResultOf_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extractingResultOf_with_string_should_fail_when_actual_is_null() {
     // GIVEN
     jedis = null;
@@ -138,6 +139,7 @@ class ObjectArrayAssert_extractingResultOf_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extractingResultOf_with_string_and_type_should_fail_when_actual_is_null() {
     // GIVEN
     jedis = null;

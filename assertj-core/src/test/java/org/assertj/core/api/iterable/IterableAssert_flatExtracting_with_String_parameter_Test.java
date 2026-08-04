@@ -79,6 +79,7 @@ class IterableAssert_flatExtracting_with_String_parameter_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_exception_when_extracting_from_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(newArrayList(homer, null)).flatExtracting("children"));
   }
@@ -133,6 +134,7 @@ class IterableAssert_flatExtracting_with_String_parameter_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_when_actual_is_null() {
     // GIVEN
     List<CartoonCharacter> characters = null;

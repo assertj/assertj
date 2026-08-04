@@ -36,6 +36,9 @@ import org.junit.jupiter.api.Test;
  *
  * @author Billy Yuan
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 class IterableDiff_Test {
 
   private List<String> actual;

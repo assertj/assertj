@@ -50,6 +50,7 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_actual_contains_given_values_only_with_null_elements() {
     actual.add(null);
     actual.add(null);
@@ -100,6 +101,7 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_array_of_values_to_look_for_is_null() {
     // GIVEN
     Object[] expected = null;
@@ -110,6 +112,7 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;

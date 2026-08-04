@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 class CharArrayAssert_contains_with_Character_array_Test extends CharArrayAssertBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_values_is_null() {
     // GIVEN
     Character[] values = null;

@@ -28,6 +28,7 @@ import org.junit.jupiter.api.Test;
 class Arrays_hasOnlyNullElements_Test {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_array_is_null() {
     assertThatNullPointerException().isThrownBy(() -> Arrays.hasOnlyNullElements(null));
   }

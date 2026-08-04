@@ -58,6 +58,7 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
@@ -69,6 +70,7 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_entries_array_is_null() {
     // GIVEN
     Entry<String, String>[] entries = null;

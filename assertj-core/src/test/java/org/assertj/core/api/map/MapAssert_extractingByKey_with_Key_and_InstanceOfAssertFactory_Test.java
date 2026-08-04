@@ -49,6 +49,7 @@ class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_throwing_npe_if_assert_factory_is_null() {
     // WHEN
     Throwable thrown = catchThrowable(() -> assertThat(map).extractingByKey(NAME, null));

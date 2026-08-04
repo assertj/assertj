@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 class Strings_join_Test {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_delimiter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> Strings.join(null, "Uno", "Dos").with(null));
   }

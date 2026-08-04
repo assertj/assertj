@@ -29,11 +29,15 @@ import org.junit.jupiter.params.provider.Arguments;
 interface HashSetFactory {
   <T> HashSet<T> createWith(T... elements);
 
+  // Sets::newLinkedHashSet is @Nullable-returning generically (null input -> null), but the varargs call here
+  // is never invoked with a null array, so it never actually returns null.
+  @SuppressWarnings("NullAway")
   static Stream<Arguments> availableFactories() {
     return Stream.of(Arguments.of(named("ordinary HashSet",
                                         new HashSetFactory() {
                                           @SafeVarargs
                                           @Override
+                                          @SuppressWarnings("NullAway")
                                           public final <T> HashSet<T> createWith(T... elements) {
                                             return newHashSet(List.of(elements));
                                           }

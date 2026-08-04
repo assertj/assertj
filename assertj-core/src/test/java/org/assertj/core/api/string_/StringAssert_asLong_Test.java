@@ -40,6 +40,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class StringAssert_asLong_Test extends StringAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected StringAssert invoke_api_method() {
     // Verify disabled as the asLong cast throws an AssertionError when the assertion's string is not a valid long.
     // Tested below.

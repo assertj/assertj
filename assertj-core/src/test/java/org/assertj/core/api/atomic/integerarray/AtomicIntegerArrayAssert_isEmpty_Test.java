@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 class AtomicIntegerArrayAssert_isEmpty_Test extends AtomicIntegerArrayAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected AtomicIntegerArrayAssert invoke_api_method() {
     assertions.isEmpty();
     return null;

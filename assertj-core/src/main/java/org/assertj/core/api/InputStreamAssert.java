@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.io.InputStream;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link InputStream}s.
  * <p>
@@ -25,14 +27,14 @@ import java.io.InputStream;
  * @author Matthieu Baechler
  * @author Mikhail Mazursky
  */
-public class InputStreamAssert extends AbstractInputStreamAssert<InputStreamAssert, InputStream> {
+public class InputStreamAssert extends AbstractInputStreamAssert<InputStreamAssert, @Nullable InputStream> {
 
   /**
    * Creates a new input stream assertion.
    *
    * @param actual the actual input stream to verify
    */
-  public InputStreamAssert(InputStream actual) {
+  public InputStreamAssert(@Nullable InputStream actual) {
     super(actual, InputStreamAssert.class);
   }
 }

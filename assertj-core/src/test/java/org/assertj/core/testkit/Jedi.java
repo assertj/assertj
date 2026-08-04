@@ -17,6 +17,8 @@ package org.assertj.core.testkit;
 
 import java.util.Random;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Object for test.
  *
@@ -29,7 +31,7 @@ public class Jedi extends Person {
   private static final String TEST = "TEst" + new Random().nextInt();
 
   public String lightSaberColor;
-  private Object strangeNotReadablePrivateField;
+  private @Nullable Object strangeNotReadablePrivateField;
 
   public Jedi(String name, String lightSaberColor) {
     super(name);
@@ -42,7 +44,7 @@ public class Jedi extends Person {
   }
 
   @SuppressWarnings("unused")
-  private Object getStrangeNotReadablePrivateField() {
+  private @Nullable Object getStrangeNotReadablePrivateField() {
     return strangeNotReadablePrivateField;
   }
 
@@ -60,7 +62,8 @@ public class Jedi extends Person {
   }
 
   @Override
-  public boolean equals(Object obj) {
+  @SuppressWarnings("NullAway")
+  public boolean equals(@Nullable Object obj) {
     if (this == obj) return true;
     if (!super.equals(obj)) return false;
     if (getClass() != obj.getClass()) return false;

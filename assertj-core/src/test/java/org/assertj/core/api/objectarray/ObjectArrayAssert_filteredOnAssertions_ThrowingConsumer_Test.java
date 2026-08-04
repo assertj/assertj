@@ -64,6 +64,7 @@ class ObjectArrayAssert_filteredOnAssertions_ThrowingConsumer_Test extends Objec
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_consumer_is_null() {
     // GIVEN
     ThrowingConsumer<? super Employee> consumer = null;

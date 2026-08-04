@@ -68,6 +68,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_keys_array_is_null() {
     // GIVEN
     String[] keys = null;
@@ -179,6 +180,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     then(actual).hasSize(initialSize);
   }
 
+  @SuppressWarnings("NullAway")
   private static Stream<Arguments> unmodifiableMapsFailureTestCases() {
     return Stream.of(arguments(emptyMap(),
                                array("name"),

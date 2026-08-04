@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.concurrent.Future;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link Future}.
  * <p>
@@ -26,14 +28,14 @@ import java.util.concurrent.Future;
  *
  * @author Ruben Dijkstra
  */
-public class FutureAssert<RESULT> extends AbstractFutureAssert<FutureAssert<RESULT>, Future<RESULT>, RESULT> {
+public class FutureAssert<RESULT> extends AbstractFutureAssert<FutureAssert<RESULT>, @Nullable Future<RESULT>, RESULT> {
 
   /**
    * Creates a new future assertion.
    *
    * @param actual the actual future to verify
    */
-  protected FutureAssert(Future<RESULT> actual) {
+  protected FutureAssert(@Nullable Future<RESULT> actual) {
     super(actual, FutureAssert.class);
   }
 

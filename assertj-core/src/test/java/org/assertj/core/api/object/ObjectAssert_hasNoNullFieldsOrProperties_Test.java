@@ -48,6 +48,7 @@ class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertBaseTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_a_public_field_is_null() {
     // GIVEN
     Jedi jedi = new Jedi("Yoda", null);
@@ -77,6 +78,7 @@ class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertBaseTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_all_fields_or_properties_are_not_set() {
     // GIVEN
     Jedi jedi = new Jedi(null, null);
@@ -91,6 +93,7 @@ class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertBaseTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_a_property_is_null() {
     // GIVEN
     Person nobody = new Person(null);
@@ -105,6 +108,7 @@ class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertBaseTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_all_fields_or_properties_but_the_ignored_ones_are_set() {
     // GIVEN
     Jedi jedi = new Jedi("Yoda", null);

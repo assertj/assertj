@@ -18,6 +18,8 @@ package org.assertj.core.testkit;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * @author Yvonne Wang
  * @author Joel Costigliola
@@ -27,16 +29,16 @@ public class Employee {
   // intentionally public to test retrieval of a public field that is not a property
   public long id;
   // name is both a public field and a property => will be accessed as a property by extracting code
-  public Name name;
+  public @Nullable Name name;
   // surname is only a public field
-  public Name surname;
+  public @Nullable Name surname;
   // keep private to test we are able to read property that is not a public field
   private int age;
   // keep private to test we are able to read private field without property
   @SuppressWarnings("unused")
   private final String city = "New York";
-  private Map<String, String> attributes;
-  private Map<String, Employee> relations;
+  private Map<String, String> attributes = new HashMap<>();
+  private Map<String, Employee> relations = new HashMap<>();
 
   public Employee() {}
 
@@ -44,15 +46,13 @@ public class Employee {
     this.id = id;
     setName(name);
     setAge(age);
-    this.attributes = new HashMap<>();
-    this.relations = new HashMap<>();
   }
 
-  public Name getName() {
+  public @Nullable Name getName() {
     return name;
   }
 
-  public void setName(Name name) {
+  public void setName(@Nullable Name name) {
     this.name = name;
   }
 
@@ -78,7 +78,7 @@ public class Employee {
   }
 
   // testing nested combinations of field/property
-  public Employee field;
+  public @Nullable Employee field;
 
   public Employee getMe() {
     return this;

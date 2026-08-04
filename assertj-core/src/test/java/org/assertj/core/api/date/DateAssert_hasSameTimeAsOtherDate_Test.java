@@ -49,6 +49,7 @@ class DateAssert_hasSameTimeAsOtherDate_Test extends DateAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_exception_when_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(new Date()).hasSameTimeAs((Date) null))
                                     .withMessage(dateToCompareActualWithIsNull());

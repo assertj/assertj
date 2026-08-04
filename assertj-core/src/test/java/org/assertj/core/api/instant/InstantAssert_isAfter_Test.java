@@ -81,6 +81,7 @@ class InstantAssert_isAfter_Test extends InstantAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_date_parameter_is_null() {
     // GIVEN
     Instant otherInstant = null;
@@ -92,6 +93,7 @@ class InstantAssert_isAfter_Test extends InstantAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_date_as_string_parameter_is_null() {
     // GIVEN
     String otherInstantAsString = null;

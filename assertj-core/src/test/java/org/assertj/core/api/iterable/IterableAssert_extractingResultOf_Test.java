@@ -44,6 +44,9 @@ import org.junit.jupiter.api.Test;
  *
  * @author Michał Piotrkowski
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 class IterableAssert_extractingResultOf_Test {
 
   private static Iterable<FluentJedi> jedis;

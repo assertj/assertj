@@ -63,6 +63,7 @@ public final class FileFixture {
     logger.info("The file %s was deleted".formatted(quote(path)));
   }
 
+  @SuppressWarnings("NullAway")
   String relativePath() {
     return parent != null ? concat(parent.relativePath(), separator, name) : name;
   }

@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 class ComparatorBasedComparisonStrategy_iterableRemove_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_remove_value_from_collections_since_it_matches_one_collections_element_according_to_given_comparator() {
     List<String> hobbits = newArrayList("Merry", "Frodo", null, "Merry", "Sam");
     assertThat(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "SAM")).isTrue();
@@ -41,6 +42,7 @@ class ComparatorBasedComparisonStrategy_iterableRemove_Test extends AbstractTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_not_remove_value_from_collections_since_it_does_not_match_any_collections_elements_according_to_given_comparator() {
     List<String> hobbits = newArrayList("Merry", "Frodo", null, "Merry", "Sam");
     assertThat(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "SAM")).isTrue();

@@ -57,7 +57,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
   private SortedSet<Employee> jedis;
   private SortedSet<TolkienCharacter> fellowshipOfTheRing;
 
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings({ "deprecation", "NullAway" })
   private static final Function<Employee, String> firstName = new Function<Employee, String>() {
     @Override
     public String apply(Employee input) {
@@ -69,6 +69,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
 
   private static final ThrowingExtractor<Employee, Object, Exception> throwingExtractor = new ThrowingExtractor<Employee, Object, Exception>() {
     @Override
+    @SuppressWarnings("NullAway")
     public Object extractThrows(Employee employee) throws Exception {
       if (employee.getAge() < 20) throw new Exception("age < 20");
       return employee.getName().getFirst();
@@ -114,6 +115,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_assertions_on_null_property_values_extracted_from_given_iterable() {
     yoda.name.setFirst(null);
     assertThat(jedis).extracting("name.first")
@@ -129,6 +131,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_assertions_on_field_values_extracted_from_given_iterable() {
     assertThat(jedis).extracting("id")
                      .as("extract field")
@@ -153,6 +156,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined() {
     // extract field that is also a property and check generic for comparator.
     assertThat(jedis).extracting("name", Name.class)
@@ -185,7 +189,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
     assertThat(jedis).extracting(age).containsOnly(26, 800);
   }
 
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings({ "deprecation", "NullAway" })
   @Test
   void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_runtimeexception() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(new Function<Employee, String>() {
@@ -200,11 +204,13 @@ class IterableAssert_extracting_with_SortedSet_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() {
     assertThat(jedis).extracting(input -> input.getName().getFirst()).containsOnly("Yoda", "Luke");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(employee -> {
       if (employee.getAge() > 100) throw new Exception("age > 100");
@@ -213,6 +219,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_let_throwing_extractor_runtime_exception_bubble_up() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(employee -> {
       if (employee.getAge() > 100) throw new RuntimeException("age > 100");
@@ -221,6 +228,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_extracting_with_throwing_extractor() {
     assertThat(jedis).extracting(employee -> {
       if (employee.getAge() < 20) throw new Exception("age < 20");
@@ -232,6 +240,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
   void should_allow_extracting_with_anonymous_class_throwing_extractor() {
     assertThat(jedis).extracting(new ThrowingExtractor<Employee, Object, Exception>() {
       @Override
+      @SuppressWarnings("NullAway")
       public Object extractThrows(Employee employee) throws Exception {
         if (employee.getAge() < 20) throw new Exception("age < 20");
         return employee.getName().getFirst();
@@ -239,7 +248,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
     }).containsOnly("Yoda", "Luke");
   }
 
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings({ "deprecation", "NullAway" })
   @Test
   void should_allow_extracting_multiple_values_using_extractor() {
     assertThat(jedis).extracting(new Function<Employee, Tuple>() {
@@ -410,6 +419,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
                                                                                       .extracting(new Function<Employee, String>() {
                                                                                         @Override
+                                                                                        @SuppressWarnings("NullAway")
                                                                                         public String apply(Employee input) {
                                                                                           return input.getName()
                                                                                                       .getFirst();

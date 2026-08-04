@@ -72,6 +72,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_entries_array_is_null() {
     // GIVEN
     Entry<String, String>[] entries = null;
@@ -153,6 +154,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_with_MultiValueMapAdapter() {
     // GIVEN
     MultiValueMapAdapter<String, String> actual = new MultiValueMapAdapter<>(mapOf(entry("name", list("Yoda"))));
@@ -165,6 +167,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_with_MultivaluedHashMap() {
     // GIVEN
     MultivaluedHashMap<String, String> actual = new MultivaluedHashMap<>(mapOf(entry("name", "Yoda")));
@@ -268,6 +271,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_with_MultiValueMapAdapter() {
     // GIVEN
     MultiValueMapAdapter<String, String> actual = new MultiValueMapAdapter<>(mapOf(entry("name", list("Yoda")),
@@ -284,6 +288,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_with_MultivaluedHashMap() {
     // GIVEN
     MultivaluedHashMap<String, String> actual = new MultivaluedHashMap<>(mapOf(entry("name", "Yoda"),

@@ -18,6 +18,7 @@ package org.assertj.core.api;
 import java.util.Spliterator;
 
 import org.assertj.core.internal.Spliterators;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link Spliterator} type.
@@ -28,7 +29,7 @@ import org.assertj.core.internal.Spliterators;
  * @author William Bakker
  */
 public class AbstractSpliteratorAssert<SELF extends AbstractSpliteratorAssert<SELF, ELEMENT>, ELEMENT> extends
-    AbstractAssertWithComparator<SELF, Spliterator<ELEMENT>> {
+    AbstractAssertWithComparator<SELF, @Nullable Spliterator<ELEMENT>> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Spliterators spliterators = Spliterators.instance();
@@ -39,7 +40,7 @@ public class AbstractSpliteratorAssert<SELF extends AbstractSpliteratorAssert<SE
    * @param actual the actual spliterator to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractSpliteratorAssert(Spliterator<ELEMENT> actual, Class<?> selfType) {
+  protected AbstractSpliteratorAssert(@Nullable Spliterator<ELEMENT> actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

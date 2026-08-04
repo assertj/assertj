@@ -41,6 +41,7 @@ class IterableAssert_filteredOn_predicate_Test extends IterableAssert_filtered_b
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_predicate_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       Predicate<? super Employee> predicate = null;

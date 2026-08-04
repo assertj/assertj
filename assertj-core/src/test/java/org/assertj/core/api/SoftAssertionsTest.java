@@ -112,6 +112,7 @@ import org.assertj.core.testkit.Person;
 import org.assertj.core.testkit.TolkienCharacter;
 import org.assertj.core.testkit.TolkienCharacterAssert;
 import org.assertj.core.util.Lists;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -137,10 +138,10 @@ class SoftAssertionsTest extends BaseAssertionsTest {
 
   private Map<String, Object> iterableMap;
 
-  private static final ThrowingExtractor<Name, String, Exception> throwingFirstNameFunction = Name::getFirst;
-  private static final ThrowingExtractor<Name, String, Exception> throwingLastNameFunction = Name::getLast;
-  private static final Function<Name, String> firstNameFunction = Name::getFirst;
-  private static final Function<Name, String> lastNameFunction = Name::getLast;
+  private static final ThrowingExtractor<Name, @Nullable String, Exception> throwingFirstNameFunction = Name::getFirst;
+  private static final ThrowingExtractor<Name, @Nullable String, Exception> throwingLastNameFunction = Name::getLast;
+  private static final Function<Name, @Nullable String> firstNameFunction = Name::getFirst;
+  private static final Function<Name, @Nullable String> lastNameFunction = Name::getLast;
 
   private static final Function<? super CartoonCharacter, ? extends Collection<CartoonCharacter>> childrenExtractor = CartoonCharacter::getChildren;
 
@@ -417,6 +418,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_when_using_extracting_with_object() {
     // GIVEN
     Name name = name("John", "Doe");
@@ -659,6 +661,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_collect_all_errors_when_using_extracting() {
     // GIVEN
     List<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
@@ -682,6 +685,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_collect_all_errors_when_using_extracting_on_object() {
     // GIVEN
     TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
@@ -720,6 +724,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_collect_all_errors_when_using_flat_extracting() {
     // GIVEN
     List<CartoonCharacter> characters = list(homer, fred);
@@ -736,6 +741,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_collect_all_errors_when_using_filtering() {
     // GIVEN
     LinkedHashSet<CartoonCharacter> dadsList = newLinkedHashSet(homer, fred);
@@ -992,6 +998,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void check_477_bugfix() {
     // GIVEN
     TolkienCharacter frodo = TolkienCharacter.of("frodo", 33, HOBBIT);
@@ -1354,6 +1361,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @Test
+  @SuppressWarnings("NullAway")
   void iterable_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     Iterable<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
@@ -1594,6 +1602,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @Test
+  @SuppressWarnings("NullAway")
   void list_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     List<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
@@ -1834,6 +1843,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @Test
+  @SuppressWarnings("NullAway")
   void object_array_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     Name[] names = array(name("John", "Doe"), name("Jane", "Doe"));
@@ -2008,7 +2018,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
-  @SuppressWarnings("removal")
+  @SuppressWarnings({ "removal", "NullAway" })
   @Test
   void object_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
@@ -2214,6 +2224,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void string_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
     // GIVEN
     String base64String = "QXNzZXJ0Sg==";
@@ -2229,6 +2240,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void byte_array_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
     // GIVEN
     byte[] byteArray = "AssertJ".getBytes();
@@ -2342,6 +2354,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_keep_registered_comparators_after_changing_the_iterable_under_test() {
     // GIVEN
     Iterable<Name> names = list(name("Manu", "Ginobili"), name("Magic", "Johnson"));
@@ -2379,6 +2392,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_keep_registered_comparators_after_changing_the_list_under_test() {
     // GIVEN
     List<Name> names = list(name("Manu", "Ginobili"), name("Magic", "Johnson"));
@@ -2416,6 +2430,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_keep_registered_comparators_after_changing_the_object_array_under_test() {
     // GIVEN
     Name[] names = array(name("Manu", "Ginobili"), name("Magic", "Johnson"));
@@ -2613,6 +2628,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void path_soft_assertions_should_work_with_content() {
     // GIVEN
     Path path = resourcePath("actual_file.txt");
@@ -2636,6 +2652,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void file_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
     // GIVEN
     File file = resourceFile("actual_file.txt");
@@ -2659,6 +2676,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void file_soft_assertions_should_work_with_navigation_methods() {
     // GIVEN
     File file = resourceFile("actual_file.txt");
@@ -2680,6 +2698,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void file_soft_assertions_should_work_with_binaryContent() {
     // GIVEN
     File file = resourceFile("actual_file.txt");
@@ -2701,6 +2720,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void path_soft_assertions_should_work_with_binaryContent() {
     // GIVEN
     Path path = resourcePath("actual_file.txt");
@@ -2736,6 +2756,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void throwable_soft_assertions_should_work_with_message_navigation_method() {
     // GIVEN
     Throwable throwable = new Throwable("Boom!");
@@ -2752,6 +2773,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void big_decimal_soft_assertions_should_work_with_scale_navigation_method() {
     // GIVEN
     BigDecimal bigDecimal = new BigDecimal(BigInteger.TEN, 5);
@@ -2785,6 +2807,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void soft_assertions_should_work_with_isThrownBy() {
     // GIVEN
     Consumer<String> runAssertions = input -> softly.assertThatExceptionOfType(Exception.class)

@@ -66,12 +66,14 @@ class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_consumer_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(actual).allSatisfy(null))
                                     .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // WHEN
     var error = expectAssertionError(() -> {

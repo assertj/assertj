@@ -18,6 +18,8 @@ package org.assertj.core.api;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions for {@link CompletableFuture}.
  *
@@ -32,7 +34,7 @@ public class CompletableFutureAssert<RESULT> extends AbstractCompletableFutureAs
    * @param actual the actual completion stage
    * @return the created assertion object
    */
-  public static <RESULT> CompletableFutureAssert<RESULT> assertThatCompletionStage(CompletionStage<RESULT> actual) {
+  public static <RESULT> CompletableFutureAssert<RESULT> assertThatCompletionStage(@Nullable CompletionStage<RESULT> actual) {
     return new CompletableFutureAssert<>(actual);
   }
 
@@ -41,7 +43,7 @@ public class CompletableFutureAssert<RESULT> extends AbstractCompletableFutureAs
    *
    * @param actual the actual future
    */
-  protected CompletableFutureAssert(CompletableFuture<RESULT> actual) {
+  protected CompletableFutureAssert(@Nullable CompletableFuture<RESULT> actual) {
     super(actual, CompletableFutureAssert.class);
   }
 
@@ -50,7 +52,7 @@ public class CompletableFutureAssert<RESULT> extends AbstractCompletableFutureAs
    *
    * @param actual the actual completion stage
    */
-  protected CompletableFutureAssert(CompletionStage<RESULT> actual) {
+  protected CompletableFutureAssert(@Nullable CompletionStage<RESULT> actual) {
     super(actual == null ? null : actual.toCompletableFuture(), CompletableFutureAssert.class);
   }
 

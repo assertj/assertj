@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 
 class ListAssert_raw_list_assertions_chained_after_superclass_method_Test {
 
-  @SuppressWarnings({ "unchecked", "rawtypes" })
+  @SuppressWarnings({ "unchecked", "rawtypes", "NullAway" })
   @Disabled
   @Test
   void raw_list_assertions_mixed_with_inherited_methods() {

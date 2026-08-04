@@ -36,6 +36,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class StringAssert_asBoolean_Test extends StringAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected StringAssert invoke_api_method() {
     assertions.asBoolean();
     return null;

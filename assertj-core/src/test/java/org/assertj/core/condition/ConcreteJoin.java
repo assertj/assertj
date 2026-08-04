@@ -34,6 +34,7 @@ public class ConcreteJoin extends Join<Object> {
   }
 
   @Override
+  @SuppressWarnings("NullAway")
   public boolean matches(Object value) {
     return false;
   }

@@ -15,11 +15,13 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Concrete generic <code>{@link ComparableAssert}</code> to be used through {@link Assertions#assertThat(java.lang.Comparable)}.
  * @param <ACTUAL> the type of the "actual" value.
  */
-public class GenericComparableAssert<ACTUAL extends Comparable<? super ACTUAL>>
+public class GenericComparableAssert<ACTUAL extends @Nullable Comparable<? super ACTUAL>>
     extends AbstractComparableAssert<GenericComparableAssert<ACTUAL>, ACTUAL> {
 
   /**

@@ -63,6 +63,7 @@ class Dates_assertIsCloseTo_Test extends DatesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_given_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> dates.assertIsCloseTo(someInfo(), actual, null, 10))
                                     .withMessage(dateToCompareActualWithIsNull());
@@ -91,6 +92,7 @@ class Dates_assertIsCloseTo_Test extends DatesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsCloseTo(someInfo(),
                                                                                                         actual, null,

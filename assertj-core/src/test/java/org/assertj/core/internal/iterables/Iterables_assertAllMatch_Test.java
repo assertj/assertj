@@ -39,6 +39,7 @@ class Iterables_assertAllMatch_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_predicate_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertAllMatch(someInfo(), actual, null,
                                                                                PredicateDescription.GIVEN))

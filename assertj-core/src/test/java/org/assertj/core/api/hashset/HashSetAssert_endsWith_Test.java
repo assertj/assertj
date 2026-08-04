@@ -57,6 +57,7 @@ class HashSetAssert_endsWith_Test extends HashSetAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_after_hashCode_changed() {
     // GIVEN
     Date first = Date.from(EPOCH.plusSeconds(1));

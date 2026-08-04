@@ -35,6 +35,7 @@ class ArrayWrapperList_wrap_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_null_if_array_is_null() {
     assertThat(ArrayWrapperList.wrap(null)).isNull();
   }

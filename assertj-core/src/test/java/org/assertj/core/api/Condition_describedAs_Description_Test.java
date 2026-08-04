@@ -52,6 +52,7 @@ class Condition_describedAs_Description_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_set_empty_description_if_description_is_null() {
     String message = null;
     condition.describedAs(message);

@@ -63,7 +63,7 @@ public class ListAssert<ELEMENT> extends
    * @param actual the actual stream to verify
    * @return the created assertion
    */
-  public static <ELEMENT> ListAssert<ELEMENT> assertThatStream(Stream<? extends ELEMENT> actual) {
+  public static <ELEMENT> ListAssert<ELEMENT> assertThatStream(@Nullable Stream<? extends ELEMENT> actual) {
     return new ListAssert<>(actual);
   }
 
@@ -73,7 +73,7 @@ public class ListAssert<ELEMENT> extends
    * @param actual the actual stream to verify
    * @return the created assertion
    */
-  public static ListAssert<Double> assertThatDoubleStream(DoubleStream actual) {
+  public static ListAssert<Double> assertThatDoubleStream(@Nullable DoubleStream actual) {
     return new ListAssert<>(actual);
   }
 
@@ -83,7 +83,7 @@ public class ListAssert<ELEMENT> extends
    * @param actual the actual stream to verify
    * @return the created assertion
    */
-  public static ListAssert<Long> assertThatLongStream(LongStream actual) {
+  public static ListAssert<Long> assertThatLongStream(@Nullable LongStream actual) {
     return new ListAssert<>(actual);
   }
 
@@ -93,7 +93,7 @@ public class ListAssert<ELEMENT> extends
    * @param actual the actual stream to verify
    * @return the created assertion
    */
-  public static ListAssert<Integer> assertThatIntStream(IntStream actual) {
+  public static ListAssert<Integer> assertThatIntStream(@Nullable IntStream actual) {
     return new ListAssert<>(actual);
   }
 

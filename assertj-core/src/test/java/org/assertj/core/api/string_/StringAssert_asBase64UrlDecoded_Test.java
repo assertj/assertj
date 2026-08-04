@@ -34,6 +34,7 @@ class StringAssert_asBase64UrlDecoded_Test extends StringAssertBaseTest
     implements NavigationMethodWithComparatorBaseTest<StringAssert> {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected StringAssert invoke_api_method() {
     assertions.asBase64UrlDecoded();
     return null;

@@ -47,6 +47,7 @@ class AtomicReferenceArrayAssert_doesNotContainSubsequence_List_Test extends Ato
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_subsequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertions.doesNotContainSubsequence((List<Object>) null))
                                     .withMessage(nullSubsequence());

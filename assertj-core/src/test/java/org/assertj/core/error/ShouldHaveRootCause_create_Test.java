@@ -40,12 +40,14 @@ class ShouldHaveRootCause_create_Test {
   private static final TestDescription DESCRIPTION = new TestDescription("TEST");
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null_for_shouldHaveRootCause() {
     thenIllegalArgumentException().isThrownBy(() -> shouldHaveRootCause(null, null, new RuntimeException()))
                                   .withMessage("actual should not be null");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null_for_shouldHaveRootCauseWithMessage() {
     thenIllegalArgumentException().isThrownBy(() -> shouldHaveRootCauseWithMessage(null, null, "message"))
                                   .withMessage("actual should not be null");

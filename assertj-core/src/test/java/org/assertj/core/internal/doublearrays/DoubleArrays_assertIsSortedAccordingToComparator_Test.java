@@ -68,6 +68,7 @@ class DoubleArrays_assertIsSortedAccordingToComparator_Test extends DoubleArrays
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_comparator_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), emptyArray(), null));
   }

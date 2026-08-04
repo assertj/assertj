@@ -48,6 +48,7 @@ public class FluentJedi {
   }
 
   @Override
+  @SuppressWarnings("NullAway")
   public String toString() {
     return name.getFirst();
   }

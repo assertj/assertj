@@ -54,6 +54,7 @@ class IterableAssert_filteredOn_condition_Test extends IterableAssert_filtered_b
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_condition_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       oldEmployees = null;

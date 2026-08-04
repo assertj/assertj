@@ -53,6 +53,7 @@ class AbstractAssert_as_with_description_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_replace_null_description_by_an_empty_one() {
     String description = null;
     ConcreteAssert concreteAssert = assertions.as(description);

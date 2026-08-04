@@ -58,6 +58,7 @@ class IterableAssert_map_with_throwing_extractor_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_assertion_error_if_actual_is_null() {
     // GIVEN
     List<TolkienCharacter> elves = null;
@@ -68,6 +69,7 @@ class IterableAssert_map_with_throwing_extractor_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_assertion_error_if_actual_is_null_when_passing_multiple_throwing_extractors() {
     // GIVEN
     List<TolkienCharacter> elves = null;

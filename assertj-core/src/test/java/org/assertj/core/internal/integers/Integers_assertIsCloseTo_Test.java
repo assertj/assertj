@@ -104,11 +104,13 @@ class Integers_assertIsCloseTo_Test extends IntegersBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> integers.assertIsCloseTo(someInfo(), ONE, null, within(ONE)));
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> integers.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }

@@ -56,6 +56,7 @@ class Objects_assertIsNotInstanceOfAny_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_array_of_types_is_null() {
     assertThatNullPointerException().isThrownBy(() -> objects.assertIsNotInstanceOfAny(someInfo(), actual, null))
                                     .withMessage("The given array of types should not be null");

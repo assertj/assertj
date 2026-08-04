@@ -21,15 +21,17 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
+import org.jspecify.annotations.Nullable;
+
 public class PersonDto {
-  public Date dateOfBirth;
+  public @Nullable Date dateOfBirth;
   public String name;
-  public Optional<String> phone;
-  public OptionalInt age;
-  public OptionalLong id;
-  public OptionalDouble weight;
+  public @Nullable Optional<String> phone;
+  public @Nullable OptionalInt age;
+  public @Nullable OptionalLong id;
+  public @Nullable OptionalDouble weight;
   public HomeDto home = new HomeDto();
-  public PersonDto neighbour;
+  public @Nullable PersonDto neighbour;
 
   public PersonDto(String name) {
     this.name = name;

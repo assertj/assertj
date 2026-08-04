@@ -82,6 +82,7 @@ class LocalDateAssert_isAfterOrEqualTo_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_date_parameter_is_null() {
     // GIVEN
     LocalDate otherLocalDate = null;
@@ -93,6 +94,7 @@ class LocalDateAssert_isAfterOrEqualTo_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_date_as_string_parameter_is_null() {
     // GIVEN
     String otherLocalDateAsString = null;

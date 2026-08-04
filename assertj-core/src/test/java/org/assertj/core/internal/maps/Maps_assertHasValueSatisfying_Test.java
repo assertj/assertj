@@ -37,6 +37,7 @@ class Maps_assertHasValueSatisfying_Test extends MapsBaseTest {
 
   private final Condition<String> isGreen = new Condition<String>("green color condition") {
     @Override
+    @SuppressWarnings("NullAway")
     public boolean matches(String value) {
       return "green".equals(value);
     }
@@ -44,12 +45,14 @@ class Maps_assertHasValueSatisfying_Test extends MapsBaseTest {
 
   private final Condition<Object> isBlack = new Condition<Object>("black color condition") {
     @Override
+    @SuppressWarnings("NullAway")
     public boolean matches(Object value) {
       return "black".equals(value);
     }
   };
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertHasValueSatisfying(INFO, actual, null))
                                     .withMessage("The condition to evaluate should not be null");

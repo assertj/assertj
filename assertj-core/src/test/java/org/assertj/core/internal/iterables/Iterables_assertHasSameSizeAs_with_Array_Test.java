@@ -50,6 +50,7 @@ class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_other_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       Iterable<?> other = null;
@@ -86,6 +87,7 @@ class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_other_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> {
       Iterable<?> other = null;

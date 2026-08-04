@@ -2237,7 +2237,7 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
   // array is guaranteed non-null once isNotNull() confirms actual is non-null, since array is derived from
   // actual in the constructor.
   @SuppressWarnings("NullAway")
-  public <U> ObjectArrayAssert<U> extracting(Function<? super T, U> extractor) {
+  public <U extends @Nullable Object> ObjectArrayAssert<U> extracting(Function<? super T, U> extractor) {
     isNotNull();
     U[] extracted = FieldsOrPropertiesExtractor.extract(array, extractor);
 
@@ -2288,7 +2288,7 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
   // array is guaranteed non-null once isNotNull() confirms actual is non-null, since array is derived from
   // actual in the constructor.
   @SuppressWarnings("NullAway")
-  public <U, EXCEPTION extends Exception> ObjectArrayAssert<U> extracting(ThrowingExtractor<? super T, U, EXCEPTION> extractor) {
+  public <U extends @Nullable Object, EXCEPTION extends Exception> ObjectArrayAssert<U> extracting(ThrowingExtractor<? super T, U, EXCEPTION> extractor) {
     isNotNull();
     U[] extracted = FieldsOrPropertiesExtractor.extract(array, extractor);
 

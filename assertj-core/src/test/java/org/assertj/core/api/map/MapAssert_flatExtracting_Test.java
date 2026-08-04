@@ -67,6 +67,7 @@ class MapAssert_flatExtracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_extract_null_from_key_with_flattened_null_values() {
     // WHEN/THEN
     assertThat(map).flatExtracting("name", "city", "id")
@@ -91,6 +92,7 @@ class MapAssert_flatExtracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     map = null;

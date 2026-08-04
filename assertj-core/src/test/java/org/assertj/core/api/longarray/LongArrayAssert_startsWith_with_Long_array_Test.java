@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 class LongArrayAssert_startsWith_with_Long_array_Test extends LongArrayAssertBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_sequence_is_null() {
     // GIVEN
     Long[] sequence = null;

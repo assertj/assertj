@@ -49,12 +49,14 @@ class Bytes_assertIsNotCloseToPercentage_Test extends BytesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> bytes.assertIsNotCloseToPercentage(someInfo(), ONE, null,
                                                                                          withPercentage(ONE)));
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_percentage_is_null() {
     assertThatNullPointerException().isThrownBy(() -> bytes.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, null));
   }

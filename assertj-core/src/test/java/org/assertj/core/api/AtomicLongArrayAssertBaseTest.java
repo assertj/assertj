@@ -23,6 +23,9 @@ import java.util.concurrent.atomic.AtomicLongArray;
 
 import org.assertj.core.internal.LongArrays;
 
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class AtomicLongArrayAssertBaseTest extends BaseTestTemplate<AtomicLongArrayAssert, AtomicLongArray> {
   protected LongArrays arrays;
 

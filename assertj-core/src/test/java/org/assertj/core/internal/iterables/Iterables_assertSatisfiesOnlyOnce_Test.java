@@ -81,6 +81,7 @@ class Iterables_assertSatisfiesOnlyOnce_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
@@ -91,6 +92,7 @@ class Iterables_assertSatisfiesOnlyOnce_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_consumer_is_null() {
     // GIVEN
     Consumer<String> requirements = null;

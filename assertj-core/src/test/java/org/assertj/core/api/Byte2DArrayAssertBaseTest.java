@@ -24,6 +24,9 @@ import org.assertj.core.internal.Byte2DArrays;
  * 
  * @author Maciej Wajcht
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class Byte2DArrayAssertBaseTest extends BaseTestTemplate<Byte2DArrayAssert, byte[][]> {
   protected Byte2DArrays arrays;
 

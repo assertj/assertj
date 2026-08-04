@@ -47,12 +47,14 @@ class Iterables_assertContainsOnlyNulls_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_actual_contains_null_more_than_once() {
     actual = newArrayList(null, null, null);
     iterables.assertContainsOnlyNulls(someInfo(), actual);
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     actual = null;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsOnlyNulls(someInfo(), actual))
@@ -70,6 +72,7 @@ class Iterables_assertContainsOnlyNulls_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_contains_null_and_non_null_elements() {
     AssertionInfo info = someInfo();
     actual = newArrayList(null, null, "person");

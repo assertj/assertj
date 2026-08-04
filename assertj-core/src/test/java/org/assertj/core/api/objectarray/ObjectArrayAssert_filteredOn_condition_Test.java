@@ -34,6 +34,7 @@ class ObjectArrayAssert_filteredOn_condition_Test extends ObjectArrayAssert_filt
     super.setUp();
     oldEmployees = new Condition<Employee>("old employees") {
       @Override
+      @SuppressWarnings("NullAway")
       public boolean matches(Employee employee) {
         return employee.getAge() > 100;
       }
@@ -51,6 +52,7 @@ class ObjectArrayAssert_filteredOn_condition_Test extends ObjectArrayAssert_filt
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_condition_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       oldEmployees = null;

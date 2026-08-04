@@ -74,6 +74,7 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());
@@ -141,6 +142,7 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
                                                                                                                actual,

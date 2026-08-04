@@ -44,6 +44,7 @@ class DateAssert_hasSameTimeAs_Test extends AbstractDateAssertWithDateArg_Test {
   }
 
   @Override
+  @SuppressWarnings("NullAway")
   protected DateAssert assertionInvocationWithInstantArg() {
     // hasSameTimeAs(Instant) was not added as it is logically equivalent to isEqualTo(Instant)
     return null;

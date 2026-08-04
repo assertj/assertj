@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 class ObjectArrayAssert_isEmpty_Test extends ObjectArrayAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected ObjectArrayAssert<Object> invoke_api_method() {
     assertions.isEmpty();
     return null;

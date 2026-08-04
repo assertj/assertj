@@ -52,6 +52,7 @@ class SoftAssertions_check_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_rethrow_checked_exception_as_runtime_exception() {
     // GIVEN
     MyProjectClass custom = new MyProjectClass("bar");
@@ -63,6 +64,7 @@ class SoftAssertions_check_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_rethrow_runtime_exception_as_is() {
     // GIVEN
     MyProjectClass custom = null;

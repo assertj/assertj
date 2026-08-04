@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 class AtomicLongArrayAssert_isEmpty_Test extends AtomicLongArrayAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected AtomicLongArrayAssert invoke_api_method() {
     assertions.isEmpty();
     return null;

@@ -48,6 +48,7 @@ class FieldSupport_fieldValues_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_empty_List_if_given_Iterable_is_null() {
     Iterable<Long> ids = fieldSupport.fieldValues("ids", Long.class, (Iterable<Long>) null);
     assertThat(ids).isEqualTo(emptyList());
@@ -60,6 +61,7 @@ class FieldSupport_fieldValues_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_null_elements_for_null_field_value() {
     List<Employee> list = newArrayList(null, null);
     Iterable<Long> ages = fieldSupport.fieldValues("id", Long.class, list);
@@ -120,6 +122,7 @@ class FieldSupport_fieldValues_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_extract_nested_field() {
     String firstName = fieldSupport.fieldValue("name.first", String.class, yoda);
     assertThat(firstName).isEqualTo("Yoda");

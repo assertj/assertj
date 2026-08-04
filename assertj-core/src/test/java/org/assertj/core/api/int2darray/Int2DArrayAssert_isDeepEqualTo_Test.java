@@ -37,6 +37,7 @@ import org.junit.jupiter.api.Test;
 class Int2DArrayAssert_isDeepEqualTo_Test {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_both_actual_and_expected_are_null() {
     // GIVEN
     int[][] actual = null;
@@ -64,6 +65,7 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     int[][] actual = null;

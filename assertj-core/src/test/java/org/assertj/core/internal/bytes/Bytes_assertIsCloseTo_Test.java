@@ -117,11 +117,13 @@ class Bytes_assertIsCloseTo_Test extends BytesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> bytes.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE)));
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> bytes.assertIsNotCloseTo(someInfo(), ONE, ZERO, null));
   }

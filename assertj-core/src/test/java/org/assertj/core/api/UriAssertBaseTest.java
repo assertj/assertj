@@ -24,6 +24,9 @@ import org.assertj.core.internal.Uris;
 /**
  * Base class for {@link UriAssert} tests.
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class UriAssertBaseTest extends BaseTestTemplate<UriAssert, URI> {
 
   protected Uris uris;

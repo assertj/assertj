@@ -71,12 +71,14 @@ class Lists_satisfies_at_index_Test extends ListsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_requirements_are_null() {
     assertThatNullPointerException().isThrownBy(() -> lists.satisfies(info, jedis, null, index))
                                     .withMessage("The Consumer expressing the assertions requirements must not be null");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_index_is_null() {
     assertThatNullPointerException().isThrownBy(() -> lists.satisfies(info, jedis, shouldBeLuke, null))
                                     .withMessage("Index should not be null");

@@ -39,6 +39,7 @@ class Files_contentOf_Test {
   private final String expectedContent = "A text file encoded in UTF-8, with diacritics:\né à";
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_exception_if_charset_is_null() {
     Charset charset = null;
     assertThatNullPointerException().isThrownBy(() -> Files.contentOf(new File("test"), charset));

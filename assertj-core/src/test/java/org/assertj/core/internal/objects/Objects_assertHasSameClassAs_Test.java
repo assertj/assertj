@@ -52,6 +52,7 @@ class Objects_assertHasSameClassAs_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_type_is_null() {
     assertThatNullPointerException().isThrownBy(() -> objects.assertHasSameClassAs(someInfo(), actual, null))
                                     .withMessage("The given object should not be null");

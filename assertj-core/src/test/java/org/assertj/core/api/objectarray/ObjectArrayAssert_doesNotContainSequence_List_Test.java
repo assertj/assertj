@@ -47,6 +47,7 @@ class ObjectArrayAssert_doesNotContainSequence_List_Test extends ObjectArrayAsse
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       List<Object> nullList = null;

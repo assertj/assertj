@@ -74,6 +74,7 @@ class BoundedQueue_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_null() {
     // GIVEN
     Queue<Integer> bounded = new BoundedQueue<>(3);

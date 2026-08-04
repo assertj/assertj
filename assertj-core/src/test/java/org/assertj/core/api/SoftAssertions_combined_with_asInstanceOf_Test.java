@@ -159,6 +159,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest {
 
   private SoftAssertions softly;

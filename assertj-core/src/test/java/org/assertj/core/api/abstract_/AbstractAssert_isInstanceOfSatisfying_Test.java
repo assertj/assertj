@@ -85,12 +85,14 @@ class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBaseTest 
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_consumer_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).isInstanceOfSatisfying(Jedi.class, null))
                                     .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_type_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).isInstanceOfSatisfying(null, jediRequirements))
                                     .withMessage("The given type should not be null");

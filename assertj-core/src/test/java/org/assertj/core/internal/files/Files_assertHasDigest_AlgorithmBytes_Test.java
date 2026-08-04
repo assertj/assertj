@@ -57,6 +57,7 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
   private final byte[] expected = new byte[0];
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     File actual = null;
@@ -99,6 +100,7 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_digest_is_null() {
     // GIVEN
     MessageDigest digest = null;
@@ -109,6 +111,7 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_expected_is_null() {
     // GIVEN
     byte[] expected = null;

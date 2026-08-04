@@ -24,6 +24,9 @@ import org.assertj.core.internal.Shorts;
  * 
  * @author Olivier Michallat
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class ShortAssertBaseTest extends BaseTestTemplate<ShortAssert, Short> {
   protected Shorts shorts;
 

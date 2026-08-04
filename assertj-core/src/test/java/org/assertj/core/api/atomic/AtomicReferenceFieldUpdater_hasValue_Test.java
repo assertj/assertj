@@ -22,13 +22,14 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 class AtomicReferenceFieldUpdater_hasValue_Test {
 
   @SuppressWarnings("unused")
   private static class Person {
-    volatile String name;
+    volatile @Nullable String name;
     volatile long age;
   }
 
@@ -42,6 +43,7 @@ class AtomicReferenceFieldUpdater_hasValue_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() {
     AtomicReferenceFieldUpdater<Person, String> fieldUpdater = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class,
                                                                                                       "name");

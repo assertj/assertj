@@ -103,11 +103,13 @@ class Longs_assertIsCloseTo_Test extends LongsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> longs.assertIsCloseTo(someInfo(), ONE, null, within(ONE)));
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> longs.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }

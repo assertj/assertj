@@ -28,6 +28,9 @@ import org.assertj.core.testkit.TolkienCharacter.Race;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+// all static fields are set by setupData(), called from the static initializer below, before any use -
+// NullAway can't verify initialization across that static-initializer/method-call boundary.
+@SuppressWarnings("NullAway")
 public abstract class BaseAssumptionsRunnerTest {
 
   {

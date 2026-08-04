@@ -51,6 +51,7 @@ class Objects_assertDoesNotHaveSameHashCodeAs_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_other_is_null() {
     assertThatNullPointerException().isThrownBy(() -> objects.assertDoesNotHaveSameHashCodeAs(someInfo(), greenYoda, null))
                                     .withMessage("The object used to compare actual's hash code with should not be null");

@@ -108,6 +108,7 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
@@ -179,6 +180,7 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     // GIVEN
     actual = null;

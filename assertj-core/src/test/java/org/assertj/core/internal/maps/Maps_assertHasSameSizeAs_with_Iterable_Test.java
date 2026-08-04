@@ -46,6 +46,7 @@ class Maps_assertHasSameSizeAs_with_Iterable_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;

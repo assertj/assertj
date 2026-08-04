@@ -35,6 +35,7 @@ class AtomicReferenceAssert_doesNotHaveNullValue_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_when_actual_has_the_null_value() {
     // GIVEN
     AtomicReference<String> actual = new AtomicReference<>(null);

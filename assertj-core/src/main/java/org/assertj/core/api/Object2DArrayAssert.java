@@ -39,7 +39,7 @@ import org.jspecify.annotations.Nullable;
  * @since 3.17.0
  */
 public class Object2DArrayAssert<ELEMENT extends @Nullable Object> extends
-    Abstract2DArrayAssert<Object2DArrayAssert<ELEMENT>, ELEMENT[][], ELEMENT> {
+    Abstract2DArrayAssert<Object2DArrayAssert<ELEMENT>, ELEMENT[] @Nullable [], ELEMENT> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Assertion implementation for two-dimensional object arrays. */
@@ -52,7 +52,7 @@ public class Object2DArrayAssert<ELEMENT extends @Nullable Object> extends
    *
    * @param actual the actual array to verify
    */
-  public Object2DArrayAssert(ELEMENT[][] actual) {
+  public Object2DArrayAssert(ELEMENT[] @Nullable [] actual) {
     super(actual, Object2DArrayAssert.class);
   }
 
@@ -77,6 +77,9 @@ public class Object2DArrayAssert<ELEMENT extends @Nullable Object> extends
    * @throws AssertionError if the actual value is not deeply equal to the given one.
    */
   @Override
+  // expected is genuinely never null here (unlike actual): the method dereferences it unconditionally
+  // (e.g. expected.length), so it must stay non-null despite ACTUAL's nullable bound in Abstract2DArrayAssert.
+  @SuppressWarnings("NullAway")
   public Object2DArrayAssert<ELEMENT> isDeepEqualTo(ELEMENT[][] expected) {
     return executeAssertion(() -> {
       if (actual == expected) return;

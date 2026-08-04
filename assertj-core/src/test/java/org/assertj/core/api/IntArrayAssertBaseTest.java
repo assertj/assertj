@@ -25,6 +25,9 @@ import org.assertj.core.internal.IntArrays;
  * 
  * @author Olivier Michallat
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class IntArrayAssertBaseTest extends BaseTestTemplate<IntArrayAssert, int[]> {
   protected IntArrays arrays;
 

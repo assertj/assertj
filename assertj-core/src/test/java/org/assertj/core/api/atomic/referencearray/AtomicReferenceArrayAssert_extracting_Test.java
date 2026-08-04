@@ -84,6 +84,7 @@ class AtomicReferenceArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() {
     assertThat(employees).extracting(input -> input.getName().getFirst()).containsOnly("Yoda", "Luke");
   }
@@ -135,6 +136,7 @@ class AtomicReferenceArrayAssert_extracting_Test {
   void should_let_anonymous_class_extractor_runtime_exception_bubble_up() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(new Function<Employee, String>() {
       @Override
+      @SuppressWarnings("NullAway")
       public String apply(Employee employee) {
         if (employee.getAge() > 100) throw new RuntimeException("age > 100");
         return employee.getName().getFirst();
@@ -146,6 +148,7 @@ class AtomicReferenceArrayAssert_extracting_Test {
   void should_let_anonymous_class_function_runtime_exception_bubble_up() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(new Function<Employee, String>() {
       @Override
+      @SuppressWarnings("NullAway")
       public String apply(Employee employee) {
         if (employee.getAge() > 100) throw new RuntimeException("age > 100");
         return employee.getName().getFirst();
@@ -154,6 +157,7 @@ class AtomicReferenceArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(employee -> {
       if (employee.getAge() > 100) throw new Exception("age > 100");
@@ -162,6 +166,7 @@ class AtomicReferenceArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_let_throwing_extractor_runtime_exception_bubble_up() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(employee -> {
       if (employee.getAge() > 100) throw new RuntimeException("age > 100");
@@ -170,6 +175,7 @@ class AtomicReferenceArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_extracting_with_throwing_extractor() {
     assertThat(employees).extracting(employee -> {
       if (employee.getAge() < 20) throw new Exception("age < 20");
@@ -181,6 +187,7 @@ class AtomicReferenceArrayAssert_extracting_Test {
   void should_allow_extracting_with_anonymous_class_throwing_extractor() {
     assertThat(employees).extracting(new ThrowingExtractor<Employee, Object, Exception>() {
       @Override
+      @SuppressWarnings("NullAway")
       public Object extractThrows(Employee employee) throws Exception {
         if (employee.getAge() < 20) throw new Exception("age < 20");
         return employee.getName().getFirst();

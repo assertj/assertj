@@ -40,6 +40,7 @@ class PathAssert_usingCharset_String_invalid_Test extends PathAssertBaseTest {
   }
 
   @Override
+  @SuppressWarnings("NullAway")
   protected PathAssert invoke_api_method() {
     // not used here
     return null;

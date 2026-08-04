@@ -57,6 +57,7 @@ class ByteArrays_assertContains_at_Index_Test extends ByteArraysBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_Index_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContains(someInfo(), actual, (byte) 8, null))
                                     .withMessage("Index should not be null");
@@ -107,6 +108,7 @@ class ByteArrays_assertContains_at_Index_Test extends ByteArraysBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_Index_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
                                                                                                         actual,

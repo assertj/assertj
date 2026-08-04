@@ -48,6 +48,7 @@ import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
 import org.assertj.core.testkit.TolkienCharacter;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -62,10 +63,11 @@ class IterableAssert_extracting_Test {
 
   private Employee yoda;
   private Employee luke;
-  private Iterable<Employee> jedis;
+  private @Nullable Iterable<Employee> jedis;
   private List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
-  @SuppressWarnings("deprecation")
+  // name is always populated for the employees these tests use.
+  @SuppressWarnings({ "deprecation", "NullAway" })
   private static final Function<Employee, String> firstName = input -> input.getName().getFirst();
 
   private static final Function<Employee, Integer> age = Employee::getAge;
@@ -105,6 +107,7 @@ class IterableAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_assertions_on_null_property_values_extracted_from_given_iterable() {
     yoda.name.setFirst(null);
     assertThat(jedis).extracting("name.first")
@@ -160,8 +163,10 @@ class IterableAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_assertion_error_if_actual_is_null_when_passing_multiple_functions() {
     // GIVEN
+    @Nullable
     List<TolkienCharacter> elves = null;
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(elves).extracting(TolkienCharacter::getName,
@@ -171,6 +176,7 @@ class IterableAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_assertions_on_field_values_extracted_from_given_iterable() {
     assertThat(jedis).extracting("id")
                      .as("extract field")
@@ -195,6 +201,7 @@ class IterableAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined() {
     // extract field that is also a property and check generic for comparator.
     assertThat(jedis).extracting("name", Name.class)
@@ -229,7 +236,7 @@ class IterableAssert_extracting_Test {
     assertThat(jedis).extracting(age).containsOnly(26, 800);
   }
 
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings({ "deprecation", "NullAway" })
   @Test
   void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_runtimeexception() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(new Function<Employee, String>() {
@@ -244,6 +251,7 @@ class IterableAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() {
     assertThat(jedis).extracting(input -> input.getName().getFirst())
                      .containsOnly("Yoda", "Luke");
@@ -424,6 +432,7 @@ class IterableAssert_extracting_Test {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
                                                                                       .extracting(new Function<Employee, String>() {
                                                                                         @Override
+                                                                                        @SuppressWarnings("NullAway")
                                                                                         public String apply(Employee input) {
                                                                                           return input.getName().getFirst();
                                                                                         }
@@ -528,6 +537,7 @@ class IterableAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_string_should_fail_when_actual_is_null() {
     // GIVEN
     fellowshipOfTheRing = null;
@@ -538,6 +548,7 @@ class IterableAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_string_and_type_should_fail_when_actual_is_null() {
     // GIVEN
     fellowshipOfTheRing = null;
@@ -548,6 +559,7 @@ class IterableAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_strings_should_fail_when_actual_is_null() {
     // GIVEN
     fellowshipOfTheRing = null;
@@ -558,6 +570,7 @@ class IterableAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_Extractor_should_fail_when_actual_is_null() {
     // GIVEN
     fellowshipOfTheRing = null;
@@ -569,6 +582,7 @@ class IterableAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_Extractors_should_fail_when_actual_is_null() {
     // GIVEN
     fellowshipOfTheRing = null;

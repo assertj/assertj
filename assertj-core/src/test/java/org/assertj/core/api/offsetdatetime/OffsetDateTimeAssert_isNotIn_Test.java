@@ -50,6 +50,7 @@ class OffsetDateTimeAssert_isNotIn_Test extends OffsetDateTimeAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_offsetDateTimes_as_string_array_parameter_is_null() {
     // GIVEN
     String[] otherOffsetDateTimesAsString = null;

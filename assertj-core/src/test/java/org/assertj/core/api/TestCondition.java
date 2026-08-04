@@ -44,6 +44,7 @@ public class TestCondition<T> extends Condition<T> {
   }
 
   @Override
+  @SuppressWarnings("NullAway")
   public boolean matches(T value) {
     return matches;
   }

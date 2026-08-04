@@ -49,6 +49,7 @@ class Objects_assertIsIn_with_Iterable_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_NullPointerException_if_Iterable_is_null() {
     // GIVEN
     Iterable<String> nullIterable = null;
@@ -73,6 +74,7 @@ class Objects_assertIsIn_with_Iterable_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_actual_is_null_and_array_contains_null() {
     objects.assertIsIn(someInfo(), null, list("Yoda", null));
   }

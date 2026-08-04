@@ -44,6 +44,7 @@ class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesBaseTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
@@ -54,6 +55,7 @@ class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesBaseTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_other_is_null() {
     // GIVEN
     Iterable<?> other = null;
@@ -82,6 +84,7 @@ class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesBaseTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     // GIVEN
     actual = null;
@@ -93,6 +96,7 @@ class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesBaseTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_other_is_null_whatever_custom_comparison_strategy_is() {
     // GIVEN
     Iterable<?> other = null;

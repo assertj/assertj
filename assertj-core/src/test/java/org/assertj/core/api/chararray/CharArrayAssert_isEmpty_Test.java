@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 class CharArrayAssert_isEmpty_Test extends CharArrayAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected CharArrayAssert invoke_api_method() {
     assertions.isEmpty();
     return null;

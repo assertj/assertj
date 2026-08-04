@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 class ThrowingConsumer_accept_Test {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_rethrow_checked_exception_as_runtime_exception() {
     // GIVEN
     IOException ioException = new IOException("boom!");
@@ -37,6 +38,7 @@ class ThrowingConsumer_accept_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_rethrow_runtime_exception_as_is() {
     // GIVEN
     RuntimeException runtimeException = new RuntimeException("boom!");
@@ -48,6 +50,7 @@ class ThrowingConsumer_accept_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_rethrow_assertion_error_as_is() {
     // GIVEN
     AssertionError assertionError = new AssertionError("boom!");

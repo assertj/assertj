@@ -35,12 +35,14 @@ import org.junit.jupiter.api.Test;
 class Files_fileNamesIn_Test extends Files_TestCase {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_directory_does_not_exist() {
     String path = concat("root", separator, "not_existing_dir");
     assertThatIllegalArgumentException().isThrownBy(() -> Files.fileNamesIn(path, false));
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_path_does_not_belong_to_a_directory() throws Exception {
     String fileName = "file_1";
     root.addFiles(fileName);
@@ -49,12 +51,14 @@ class Files_fileNamesIn_Test extends Files_TestCase {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_names_of_files_in_given_directory_but_not_subdirectories() {
     String path = concat("root", separator, "dir_1");
     assertThatContainsFiles(newArrayList("file_1_1", "file_1_2"), Files.fileNamesIn(path, false));
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_names_of_files_in_given_directory_and_its_subdirectories() {
     String path = concat("root", separator, "dir_1");
     assertThatContainsFiles(newArrayList("file_1_1", "file_1_2", "file_1_1_1"), Files.fileNamesIn(path, true));

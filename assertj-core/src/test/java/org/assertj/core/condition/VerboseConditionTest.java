@@ -27,6 +27,9 @@ import org.junit.jupiter.api.Test;
 
 class VerboseConditionTest {
 
+  // the descriptor lambda's parameter is @Nullable per VerboseCondition's own API, but this test never
+  // actually invokes it with a null actual.
+  @SuppressWarnings("NullAway")
   private static final Condition<String> VERBOSE_CONDITION = verboseCondition(actual -> actual.length() < 4,
                                                                               "shorter than 4",
                                                                               s -> " but length was %s".formatted(s.length(), s));
@@ -48,6 +51,7 @@ class VerboseConditionTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   public void should_fail_and_display_actual_description_as_per_transformation_function_with_hasCondition() {
     // GIVEN
     Condition<String> shortLength = verboseCondition(actual -> actual.length() < 4,
@@ -71,11 +75,13 @@ class VerboseConditionTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   public void should_throw_NullPointerException_if_condition_predicate_is_null() {
     assertThatNullPointerException().isThrownBy(() -> verboseCondition(null, "description", t -> ""));
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   public void should_throw_NullPointerException_if_objectUnderTestDescriptor_parameter_is_null() {
     assertThatNullPointerException().isThrownBy(() -> verboseCondition(s -> s != null, "shorter than 4", null));
   }

@@ -116,12 +116,14 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> floats.assertIsCloseTo(INFO, 6.0f, null, offset(1.0f)))
                                     .withMessage("The given number should not be null");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> floats.assertIsCloseTo(INFO, ONE, ZERO, null))
                                     .withMessage("The given offset should not be null");
@@ -210,6 +212,7 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_offset_is_null_whatever_custom_comparison_strategy_is() {
     // GIVEN
     ThrowingCallable code = () -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(INFO, 8f, 8f, null);
@@ -235,6 +238,7 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_expected_value_is_null_whatever_custom_comparison_strategy_is() {
     // GIVEN
     ThrowingCallable code = () -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(INFO, 6f, null, offset(ONE));

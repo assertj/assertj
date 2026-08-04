@@ -48,6 +48,7 @@ class OffsetTimeAssert_isEqualTo_Test extends OffsetTimeAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_offsetTime_as_string_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isEqualTo((String) null))
                                         .withMessage("The String representing the OffsetTime to compare actual with should not be null");

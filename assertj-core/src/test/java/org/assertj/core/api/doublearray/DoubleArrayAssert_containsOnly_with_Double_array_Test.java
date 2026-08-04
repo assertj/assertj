@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 class DoubleArrayAssert_containsOnly_with_Double_array_Test extends DoubleArrayAssertBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_values_is_null() {
     // GIVEN
     Double[] values = null;

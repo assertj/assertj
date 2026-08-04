@@ -52,11 +52,13 @@ class Maps_assertHasEntrySatisfying_with_key_and_condition_Test extends MapsBase
 
   @Override
   @BeforeEach
+  @SuppressWarnings("NullAway")
   public void setUp() {
     super.setUp();
     actual = mapOf(entry("name", "Yoda"), entry("color", "green"), entry(null, null));
     isDigits = new Condition<>("isDigits") {
       @Override
+      @SuppressWarnings("NullAway")
       public boolean matches(String value) {
         return IS_DIGITS.matcher(value).matches();
       }
@@ -64,6 +66,7 @@ class Maps_assertHasEntrySatisfying_with_key_and_condition_Test extends MapsBase
     isNotDigits = not(isDigits);
     isNull = new Condition<>("isNull") {
       @Override
+      @SuppressWarnings("NullAway")
       public boolean matches(Object value) {
         return value == null;
       }
@@ -98,6 +101,7 @@ class Maps_assertHasEntrySatisfying_with_key_and_condition_Test extends MapsBase
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_contains_null_key_with_value_not_matching_condition() {
     // GIVEN
     String key = null;
@@ -108,6 +112,7 @@ class Maps_assertHasEntrySatisfying_with_key_and_condition_Test extends MapsBase
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_actual_contains_null_key_with_value_match_condition() {
     maps.assertHasEntrySatisfying(INFO, actual, null, isNull);
   }

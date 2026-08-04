@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 class Double2DArrayAssert_isNullOrEmpty_Test extends Double2DArrayAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected Double2DArrayAssert invoke_api_method() {
     assertions.isNullOrEmpty();
     return null;

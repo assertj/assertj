@@ -22,6 +22,7 @@ import static org.assertj.core.error.ShouldHaveNext.shouldHaveNext;
 import java.util.Iterator;
 
 import org.assertj.core.annotation.Beta;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Iterator}s.
@@ -36,7 +37,7 @@ import org.assertj.core.annotation.Beta;
  * @since 3.12.0
  */
 public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert<SELF, ELEMENT>, ELEMENT>
-    extends AbstractAssert<SELF, Iterator<? extends ELEMENT>> {
+    extends AbstractAssert<SELF, @Nullable Iterator<? extends ELEMENT>> {
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractIteratorAssert}</code>.
@@ -44,7 +45,7 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
    * @param actual the actual value to verify
    * @param selfType the "self type"
    */
-  protected AbstractIteratorAssert(Iterator<? extends ELEMENT> actual, Class<?> selfType) {
+  protected AbstractIteratorAssert(@Nullable Iterator<? extends ELEMENT> actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

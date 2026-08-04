@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 class MapAssert_isNullOrEmpty_Test extends MapAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected MapAssert<Object, Object> invoke_api_method() {
     assertions.isNullOrEmpty();
     return null;

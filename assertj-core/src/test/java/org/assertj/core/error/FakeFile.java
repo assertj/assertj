@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import java.io.File;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * @author Yvonne Wang
  */
@@ -25,7 +27,7 @@ class FakeFile extends File {
   private final String absolutePath;
   private boolean noParent;
   @SuppressWarnings("unused")
-  private String parent;
+  private @Nullable String parent;
 
   FakeFile(String absolutePath) {
     super(absolutePath);
@@ -51,7 +53,7 @@ class FakeFile extends File {
   }
 
   @Override
-  public String getParent() {
+  public @Nullable String getParent() {
     return noParent ? null : super.getParent();
   }
 }

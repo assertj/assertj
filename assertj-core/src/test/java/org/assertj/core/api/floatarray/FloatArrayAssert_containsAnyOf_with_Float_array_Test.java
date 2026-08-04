@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 class FloatArrayAssert_containsAnyOf_with_Float_array_Test extends FloatArrayAssertBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_values_is_null() {
     // GIVEN
     Float[] values = null;

@@ -35,6 +35,9 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Michallat
  * @author Joel Costigliola
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 class BinaryDiff_diff_File_byteArray_Test {
 
   private static BinaryDiff binaryDiff;

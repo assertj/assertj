@@ -55,6 +55,7 @@ class IterableAssert_element_with_InstanceOfAssertFactory_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_throwing_npe_if_assert_factory_is_null() {
     // WHEN
     Throwable thrown = catchThrowable(() -> assertThat(iterable).element(1, null));

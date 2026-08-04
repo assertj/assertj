@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 class LongArrayAssert_isNullOrEmpty_Test extends LongArrayAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected LongArrayAssert invoke_api_method() {
     assertions.isNullOrEmpty();
     return null;

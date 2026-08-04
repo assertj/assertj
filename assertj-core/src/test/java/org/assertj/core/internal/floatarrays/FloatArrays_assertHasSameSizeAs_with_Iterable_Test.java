@@ -34,6 +34,7 @@ class FloatArrays_assertHasSameSizeAs_with_Iterable_Test extends FloatArraysBase
   private final List<String> other = list("Solo", "Leia", "Luke");
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;

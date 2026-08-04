@@ -43,6 +43,7 @@ class InstantAssert_isEqualTo_Test extends InstantAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_date_as_string_parameter_is_null() {
     // GIVEN
     String otherInstantAsString = null;

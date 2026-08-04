@@ -34,6 +34,7 @@ class AtomicReferenceArrayAssert_filteredOn_predicate_Test extends AtomicReferen
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_predicate_is_null() {
     Predicate<? super Employee> predicate = null;
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(predicate))

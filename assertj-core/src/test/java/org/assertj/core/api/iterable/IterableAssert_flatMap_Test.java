@@ -75,6 +75,7 @@ class IterableAssert_flatMap_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void flatMap_with_function_should_throw_assertion_error_if_actual_is_null() {
     // GIVEN
     List<CartoonCharacter> simpsons = null;
@@ -85,6 +86,7 @@ class IterableAssert_flatMap_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void flatMap_with_functions_should_throw_assertion_error_if_actual_is_null() {
     // GIVEN
     List<CartoonCharacter> simpsons = null;
@@ -95,6 +97,7 @@ class IterableAssert_flatMap_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_bubble_up_null_pointer_exception_from_lambda_extractor() {
     // GIVEN
     List<CartoonCharacter> cartoonCharacters = list(homer, null);

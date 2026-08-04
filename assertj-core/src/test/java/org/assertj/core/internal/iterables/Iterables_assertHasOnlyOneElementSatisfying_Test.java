@@ -56,6 +56,7 @@ class Iterables_assertHasOnlyOneElementSatisfying_Test extends IterablesBaseTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertHasOnlyOneElementSatisfying(info, actual, null));
   }
@@ -69,6 +70,7 @@ class Iterables_assertHasOnlyOneElementSatisfying_Test extends IterablesBaseTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_has_only_one_element() {
     actual.add(new Jedi("Luke", "Blue"));
 

@@ -22,6 +22,9 @@ import java.util.HashSet;
 
 import org.assertj.core.internal.Iterables;
 
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class HashSetAssertBaseTest extends BaseTestTemplate<HashSetAssert<Object>, HashSet<? extends Object>> {
   protected final Object[] someValues = { "Yoda", "Luke" };
   protected Iterables iterables;

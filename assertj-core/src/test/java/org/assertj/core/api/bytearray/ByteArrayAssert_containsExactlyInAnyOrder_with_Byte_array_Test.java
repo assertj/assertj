@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 class ByteArrayAssert_containsExactlyInAnyOrder_with_Byte_array_Test extends ByteArrayAssertBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_values_is_null() {
     // GIVEN
     Byte[] values = null;

@@ -52,6 +52,7 @@ class PropertySupport_propertyValues_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_empty_List_if_given_Iterable_is_null() {
     Iterable<Integer> ages = PropertySupport.instance().propertyValues("ages", Integer.class, null);
     assertThat(ages).isEmpty();
@@ -64,6 +65,7 @@ class PropertySupport_propertyValues_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_null_elements_for_null_property_value() {
     List<Employee> list = newArrayList(null, null);
     Iterable<Integer> ages = PropertySupport.instance().propertyValues("ages", Integer.class, list);
@@ -81,6 +83,7 @@ class PropertySupport_propertyValues_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_values_of_simple_property_as_objects() {
     Iterable<Integer> ages = PropertySupport.instance().propertyValues("age", Integer.class, employees);
     Iterable<Object> agesAsObjects = PropertySupport.instance().propertyValues("age", employees);
@@ -104,6 +107,7 @@ class PropertySupport_propertyValues_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_property_name_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> PropertySupport.instance().propertyValueOf(null, Integer.class,
                                                                                                      employees));
@@ -116,6 +120,7 @@ class PropertySupport_propertyValues_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_extract_nested_property() {
     String firstName = PropertySupport.instance().propertyValueOf("name.first", String.class, yoda);
     assertThat(firstName).isEqualTo("Yoda");

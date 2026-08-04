@@ -118,6 +118,7 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_throwing_consumer_is_null() {
     // GIVEN
     ThrowingConsumer<String> nullRequirements = null;
@@ -127,6 +128,7 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_one_of_the_consumers_is_null() {
     // GIVEN
     ThrowingConsumer<String> nullRequirement = null;

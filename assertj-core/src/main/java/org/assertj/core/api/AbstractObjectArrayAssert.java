@@ -2110,7 +2110,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return a new assertion object whose object under test is the list of extracted values.
    */
   @CheckReturnValue
-  public <U> AbstractListAssert<?, List<? extends U>, U, ObjectAssert<U>> extracting(Function<? super ELEMENT, U> extractor) {
+  public <U extends @Nullable Object> AbstractListAssert<?, List<? extends U>, U, ObjectAssert<U>> extracting(Function<? super ELEMENT, U> extractor) {
     return executeAssertionNavigation(() -> {
       isNotNull("extracting");
       List<U> values = FieldsOrPropertiesExtractor.extract(asList(actual), extractor);
@@ -2157,7 +2157,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @since 3.7.0
    */
   @CheckReturnValue
-  public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
+  public <V extends @Nullable Object, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
     return extracting((Function<? super ELEMENT, V>) extractor);
   }
 

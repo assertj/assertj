@@ -41,6 +41,7 @@ class Filter_with_matching_Test extends WithPlayerData {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_on_null_condition() {
     // GIVEN
     Condition<Integer> nullCondition = null;

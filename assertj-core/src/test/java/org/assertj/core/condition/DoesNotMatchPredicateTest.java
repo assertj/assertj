@@ -81,18 +81,21 @@ class DoesNotMatchPredicateTest implements WithAssertions {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_predicate_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).doesNotMatch(null))
                                     .withMessage(predicateIsNull());
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_predicate_with_description_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).doesNotMatch(null, "whatever ..."))
                                     .withMessage(predicateIsNull());
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_predicate_description_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).doesNotMatch(Objects::isNull, null))
                                     .withMessage("The predicate description must not be null");

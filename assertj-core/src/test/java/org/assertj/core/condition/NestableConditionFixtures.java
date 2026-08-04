@@ -21,30 +21,35 @@ import static org.assertj.core.condition.VerboseCondition.verboseCondition;
 import org.assertj.core.api.Condition;
 
 class NestableConditionFixtures {
+  @SuppressWarnings("NullAway")
   static Condition<Name> first(String expected) {
     return verboseCondition(name -> expected.equals(name.first),
                             "first: " + expected,
                             name -> " but was " + name.first);
   }
 
+  @SuppressWarnings("NullAway")
   static Condition<Name> last(String expected) {
     return verboseCondition(name -> expected.equals(name.last),
                             "last: " + expected,
                             name -> " but was " + name.last);
   }
 
+  @SuppressWarnings("NullAway")
   static Condition<Address> firstLine(String expected) {
     return verboseCondition(address -> expected.equals(address.firstLine),
                             "first line: " + expected,
                             address -> " but was " + address.firstLine);
   }
 
+  @SuppressWarnings("NullAway")
   static Condition<Address> postcode(String expected) {
     return verboseCondition(address -> expected.equals(address.postcode),
                             "postcode: " + expected,
                             address -> " but was " + address.postcode);
   }
 
+  @SuppressWarnings("NullAway")
   static Condition<Country> name(String expected) {
     return verboseCondition(country -> expected.equals(country.name),
                             "name: " + expected,
@@ -66,6 +71,7 @@ class NestableConditionFixtures {
     return nestable("customer", conditions);
   }
 
+  @SuppressWarnings("NullAway")
   static Condition<ValueCustomer> value(Integer expected) {
     return verboseCondition(valueCustomer -> expected.equals(valueCustomer.value),
                             "value: " + expected,

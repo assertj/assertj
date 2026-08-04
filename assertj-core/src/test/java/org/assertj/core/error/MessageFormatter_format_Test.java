@@ -48,11 +48,13 @@ class MessageFormatter_format_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_format_string_is_null() {
     thenNullPointerException().isThrownBy(() -> messageFormatter.format(null, null, null));
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_args_array_is_null() {
     Object[] args = null;
     thenNullPointerException().isThrownBy(() -> messageFormatter.format(null, null, "", args));

@@ -85,6 +85,7 @@ class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_npe_if_filter_is_null() {
     // GIVEN
     Predicate<File> filter = null;
@@ -94,6 +95,7 @@ class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     File actual = null;

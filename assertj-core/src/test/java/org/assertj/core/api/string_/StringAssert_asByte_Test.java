@@ -40,6 +40,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class StringAssert_asByte_Test extends StringAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected StringAssert invoke_api_method() {
     // Verify disabled as the asByte cast throws an AssertionError when the assertion's string is not a valid byte.
     // Tested below.

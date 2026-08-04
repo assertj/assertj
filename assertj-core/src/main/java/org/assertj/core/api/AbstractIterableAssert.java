@@ -1262,7 +1262,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return a new assertion object whose object under test is the list of values extracted
    */
   @CheckReturnValue
-  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(Function<? super ELEMENT, V> extractor) {
+  public <V extends @Nullable Object> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(Function<? super ELEMENT, V> extractor) {
     return internalMap(extractor, "extracting");
   }
 
@@ -1350,7 +1350,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 3.7.0
    */
   @CheckReturnValue
-  public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
+  public <V extends @Nullable Object, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
     return internalMap(extractor, "extracting");
   }
 
@@ -1392,7 +1392,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 3.19.0
    */
   @CheckReturnValue
-  public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> map(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> mapper) {
+  public <V extends @Nullable Object, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> map(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> mapper) {
     return map((Function<? super ELEMENT, V>) mapper);
   }
 

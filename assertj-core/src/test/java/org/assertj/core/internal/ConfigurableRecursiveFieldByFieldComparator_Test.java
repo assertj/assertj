@@ -28,6 +28,8 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguratio
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
 import org.junit.jupiter.api.Test;
 
+// configurableRecursiveFieldByFieldComparator is set as the first statement of each test method, not a constructor.
+@SuppressWarnings("NullAway")
 class ConfigurableRecursiveFieldByFieldComparator_Test {
 
   private ConfigurableRecursiveFieldByFieldComparator configurableRecursiveFieldByFieldComparator;
@@ -80,6 +82,7 @@ class ConfigurableRecursiveFieldByFieldComparator_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_an_NPE_if_given_RecursiveComparisonConfiguration_is_null() {
     // GIVEN
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = null;

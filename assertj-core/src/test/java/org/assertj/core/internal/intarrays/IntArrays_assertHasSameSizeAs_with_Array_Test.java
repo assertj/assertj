@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 class IntArrays_assertHasSameSizeAs_with_Array_Test extends IntArraysBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;

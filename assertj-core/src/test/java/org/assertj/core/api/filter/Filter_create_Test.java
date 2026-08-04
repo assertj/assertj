@@ -41,12 +41,14 @@ class Filter_create_Test extends WithPlayerData {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_constructor_iterable_parameter_is_null() {
     assertThatNullPointerException().isThrownBy(() -> filter((List<Player>) null))
                                     .withMessage("The iterable to filter should not be null");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_constructor_array_parameter_is_null() {
     assertThatNullPointerException().isThrownBy(() -> filter((Player[]) null))
                                     .withMessage("The array to filter should not be null");

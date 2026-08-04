@@ -52,6 +52,7 @@ class AbstractAssert_describedAs_with_text_description_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_set_empty_description_if_description_is_null() {
     String description = null;
     assertions.describedAs(description);

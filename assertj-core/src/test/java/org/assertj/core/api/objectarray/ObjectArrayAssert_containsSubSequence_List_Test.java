@@ -47,6 +47,7 @@ class ObjectArrayAssert_containsSubSequence_List_Test extends ObjectArrayAssertB
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_subsequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       List<Object> nullList = null;

@@ -22,6 +22,9 @@ import java.util.Spliterator;
 import org.assertj.core.internal.Spliterators;
 import org.assertj.core.testkit.StringSpliterator;
 
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class SpliteratorAssertBaseTest extends BaseTestTemplate<SpliteratorAssert<String>, Spliterator<String>> {
 
   protected Spliterators spliterators;

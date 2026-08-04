@@ -45,6 +45,7 @@ public final class FolderFixture {
 
   private File dir;
 
+  @SuppressWarnings("NullAway")
   public FolderFixture(String name) {
     this(name, null);
   }
@@ -94,10 +95,12 @@ public final class FolderFixture {
     logger.info("The directory %s was deleted".formatted(quote(path)));
   }
 
+  @SuppressWarnings("NullAway")
   String relativePath() {
     return parent != null ? concat(parent.relativePath(), separator, name) : name;
   }
 
+  @SuppressWarnings("NullAway")
   public FolderFixture folder(String path) {
     String[] names = path.split(separatorAsRegEx());
     if (isNullOrEmpty(names)) return null;
@@ -111,6 +114,7 @@ public final class FolderFixture {
     return current;
   }
 
+  @SuppressWarnings("NullAway")
   private FolderFixture childFolder(String folderName) {
     for (FolderFixture folder : folders)
       if (folder.name.equals(folderName)) return folder;

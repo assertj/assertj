@@ -55,6 +55,7 @@ class OffsetTimeAssert_isNotIn_Test extends OffsetTimeAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_offsetTimes_as_string_array_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isNotIn((String[]) null))
                                         .withMessage("The given OffsetTime array should not be null");

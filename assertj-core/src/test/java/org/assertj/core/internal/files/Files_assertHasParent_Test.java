@@ -45,6 +45,7 @@ class Files_assertHasParent_Test extends FilesBaseTest {
   private File expectedParent = new File("./some");
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_actual_is_null() {
     // GIVEN
     File actual = null;

@@ -63,6 +63,7 @@ class Delta_equals_hashCode_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_not_be_equal_to_null() {
     assertThat(delta.equals(null)).isFalse();
   }

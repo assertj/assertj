@@ -32,6 +32,7 @@ class ByteArrayAssert_asBase64Encoded_Test extends ByteArrayAssertBaseTest
     implements NavigationMethodWithComparatorBaseTest<ByteArrayAssert> {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected ByteArrayAssert invoke_api_method() {
     assertions.asBase64Encoded();
     return null;

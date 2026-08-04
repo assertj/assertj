@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 class AbstractAssert_withRepresentation_Test {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_description_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(new Example()).withRepresentation(null))
                                     .withMessage("The representation to use should not be null.");
@@ -50,6 +51,7 @@ class AbstractAssert_withRepresentation_Test {
 
   private class CustomRepresentation extends StandardRepresentation {
     @Override
+    @SuppressWarnings("NullAway")
     public String toStringOf(Object o) {
       if (o instanceof Example) return "Example";
       return super.toStringOf(o);

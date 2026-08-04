@@ -45,6 +45,7 @@ class DateAssert_isNotIn_with_collection_param_Test extends AbstractDateAssertWi
   }
 
   @Override
+  @SuppressWarnings("NullAway")
   protected DateAssert assertionInvocationWithInstantArg() {
     // isNotInWithInstanCollection is not implemented (a bit too specific)
     return null;

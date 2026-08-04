@@ -42,6 +42,7 @@ class Objects_assertHasAllNullFieldsOrPropertiesExcept_Test extends ObjectsBaseT
   private static final AssertionInfo INFO = someInfo();
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_all_fields_or_properties_are_null_and_no_ignored_fields_are_specified() {
     // GIVEN
     Jedi jedi = new Jedi(null, null);
@@ -50,6 +51,7 @@ class Objects_assertHasAllNullFieldsOrPropertiesExcept_Test extends ObjectsBaseT
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_all_fields_or_properties_are_null_except_for_the_ones_to_ignore() {
     // GIVEN
     Jedi jedi = new Jedi("Kenobi", null);
@@ -58,6 +60,7 @@ class Objects_assertHasAllNullFieldsOrPropertiesExcept_Test extends ObjectsBaseT
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_success_if_private_field_is_not_null_but_ignored() {
     // GIVEN
     PersonWithPrivateField person = new PersonWithPrivateField(null, "value");
@@ -66,6 +69,7 @@ class Objects_assertHasAllNullFieldsOrPropertiesExcept_Test extends ObjectsBaseT
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_one_of_the_field_or_property_is_not_null() {
     // GIVEN
     Jedi jedi = new Jedi("Kenobi", null);
@@ -96,6 +100,7 @@ class Objects_assertHasAllNullFieldsOrPropertiesExcept_Test extends ObjectsBaseT
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_private_field_is_not_null() {
     // GIVEN
     PersonWithPrivateField person = new PersonWithPrivateField(null, "value");

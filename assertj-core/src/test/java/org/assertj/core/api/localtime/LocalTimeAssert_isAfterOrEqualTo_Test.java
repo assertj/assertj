@@ -80,6 +80,7 @@ class LocalTimeAssert_isAfterOrEqualTo_Test extends LocalTimeAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_localTime_parameter_is_null() {
     // GIVEN
     LocalTime otherLocalTime = null;
@@ -91,6 +92,7 @@ class LocalTimeAssert_isAfterOrEqualTo_Test extends LocalTimeAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_localTime_as_string_parameter_is_null() {
     // GIVEN
     String otherLocalTimeAsString = null;

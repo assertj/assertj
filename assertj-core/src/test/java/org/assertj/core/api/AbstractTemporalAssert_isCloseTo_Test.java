@@ -58,6 +58,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.TemporalUnitOffset;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
@@ -164,7 +165,7 @@ class AbstractTemporalAssert_isCloseTo_Test {
       within(2, MINUTES)
   };
 
-  private static final TemporalUnitOffset[] inapplicableOffsets = { null, null, null, within(1, MINUTES),
+  private static final @Nullable TemporalUnitOffset[] inapplicableOffsets = { null, null, null, within(1, MINUTES),
       within(1, DAYS), null, null, within(1, WEEKS) };
 
   static Object[][] parameters() {
@@ -195,41 +196,50 @@ class AbstractTemporalAssert_isCloseTo_Test {
     return parameters;
   }
 
-  @SuppressWarnings("unchecked")
+  // ArgumentsAccessor.get/getString are declared @Nullable since the accessor is untyped, but none of these
+  // particular parameter slots are ever populated with null (only inapplicableOffsets is), so NullAway can't
+  // verify what the test data itself already guarantees.
+  @SuppressWarnings({ "unchecked", "NullAway" })
   private static AbstractTemporalAssert<?, Temporal> nullAssert(ArgumentsAccessor arguments) {
     return arguments.get(0, AbstractTemporalAssert.class);
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "NullAway" })
   private static AbstractTemporalAssert<?, Temporal> temporalAssert(ArgumentsAccessor arguments) {
     return arguments.get(1, AbstractTemporalAssert.class);
   }
 
+  @SuppressWarnings("NullAway")
   private static TemporalUnitOffset offset(ArgumentsAccessor arguments) {
     return arguments.get(2, TemporalUnitOffset.class);
   }
 
+  @SuppressWarnings("NullAway")
   private static Temporal closeTemporal(ArgumentsAccessor arguments) {
     return arguments.get(3, Temporal.class);
   }
 
+  @SuppressWarnings("NullAway")
   private static String closeTemporalAsString(ArgumentsAccessor arguments) {
     return arguments.getString(4);
   }
 
+  @SuppressWarnings("NullAway")
   private static Temporal farTemporal(ArgumentsAccessor arguments) {
     return arguments.get(5, Temporal.class);
   }
 
+  @SuppressWarnings("NullAway")
   private static String farTemporalAsString(ArgumentsAccessor arguments) {
     return arguments.getString(6);
   }
 
+  @SuppressWarnings("NullAway")
   private static String differenceMessage(ArgumentsAccessor arguments) {
     return arguments.getString(7);
   }
 
-  private static TemporalUnitOffset inapplicableOffset(ArgumentsAccessor arguments) {
+  private static @Nullable TemporalUnitOffset inapplicableOffset(ArgumentsAccessor arguments) {
     return arguments.get(8, TemporalUnitOffset.class);
   }
 
@@ -242,6 +252,8 @@ class AbstractTemporalAssert_isCloseTo_Test {
     then(assertionError).hasMessage(actualIsNull());
   }
 
+  // deliberately passes null to verify isCloseTo's own defensive null-check throws NPE.
+  @SuppressWarnings("NullAway")
   @ParameterizedTest
   @MethodSource("parameters")
   void should_fail_if_temporal_parameter_is_null(ArgumentsAccessor args) {
@@ -249,6 +261,8 @@ class AbstractTemporalAssert_isCloseTo_Test {
                                     .withMessage("The temporal object to compare actual with should not be null");
   }
 
+  // deliberately passes null to verify isCloseTo's own defensive null-check throws NPE.
+  @SuppressWarnings("NullAway")
   @ParameterizedTest
   @MethodSource("parameters")
   void should_fail_if_temporal_parameter_as_string_is_null(ArgumentsAccessor args) {
@@ -256,6 +270,8 @@ class AbstractTemporalAssert_isCloseTo_Test {
                                     .withMessage("The String representing of the temporal object to compare actual with should not be null");
   }
 
+  // deliberately passes null to verify isCloseTo's own defensive null-check throws NPE.
+  @SuppressWarnings("NullAway")
   @ParameterizedTest
   @MethodSource("parameters")
   void should_fail_if_offset_parameter_is_null(ArgumentsAccessor args) {
@@ -265,6 +281,7 @@ class AbstractTemporalAssert_isCloseTo_Test {
 
   @ParameterizedTest
   @MethodSource("parameters")
+  @SuppressWarnings("NullAway")
   void should_fail_when_offset_is_inapplicable(ArgumentsAccessor args) {
     // GIVEN
     TemporalUnitOffset inapplicableOffset = inapplicableOffset(args);

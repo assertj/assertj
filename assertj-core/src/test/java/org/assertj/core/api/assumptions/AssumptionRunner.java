@@ -19,6 +19,7 @@ abstract class AssumptionRunner<T> {
 
   protected final T actual;
 
+  @SuppressWarnings("NullAway")
   AssumptionRunner() {
     this.actual = null;
   }

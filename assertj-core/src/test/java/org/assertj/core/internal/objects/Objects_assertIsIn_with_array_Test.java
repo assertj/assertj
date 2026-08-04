@@ -49,6 +49,7 @@ class Objects_assertIsIn_with_array_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_array_is_null() {
     Object[] array = null;
     assertThatNullPointerException().isThrownBy(() -> objects.assertIsIn(someInfo(), "Yoda", array))
@@ -61,6 +62,7 @@ class Objects_assertIsIn_with_array_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_actual_is_null_and_array_contains_null() {
     objects.assertIsIn(someInfo(), null, array("Yoda", null));
   }

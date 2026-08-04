@@ -28,6 +28,7 @@ class DualValueDequeTest {
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_ignore_dual_values_with_a_null_first_value() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
@@ -51,6 +52,7 @@ class DualValueDequeTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_ignore_dual_values_with_a_null_second_value() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
@@ -74,6 +76,7 @@ class DualValueDequeTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_not_ignore_any_dual_values() {
     // GIVEN
     var dualValueDeque = new DualValueDeque(recursiveComparisonConfiguration);
