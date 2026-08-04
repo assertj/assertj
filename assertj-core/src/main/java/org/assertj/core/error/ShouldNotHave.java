@@ -34,7 +34,7 @@ public class ShouldNotHave extends BasicErrorMessageFactory {
    * @param condition the {@code Condition}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T> ErrorMessageFactory shouldNotHave(T actual, Condition<? super T> condition) {
+  public static <T extends @Nullable Object> ErrorMessageFactory shouldNotHave(T actual, Condition<? super T> condition) {
     return new ShouldNotHave(actual, condition);
   }
 

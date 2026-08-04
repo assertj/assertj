@@ -75,6 +75,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.error.UnsatisfiedRequirement;
+import org.assertj.core.internal.annotation.Contract;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -354,7 +355,7 @@ public class Maps {
   public <K extends @Nullable Object, V extends @Nullable Object> void assertContains(AssertionInfo info,
                                                                                       @Nullable Map<K, V> actual,
                                                                                       Entry<? extends K, ? extends V>[] entries,
-                                                                                      BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                      @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     failIfNull(entries);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
@@ -377,7 +378,7 @@ public class Maps {
   public <K extends @Nullable Object, V extends @Nullable Object> void assertContainsAllEntriesOf(AssertionInfo info,
                                                                                                   @Nullable Map<K, V> actual,
                                                                                                   Map<? extends K, ? extends V> other,
-                                                                                                  BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                                  @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     failIfNull(other);
     assertNotNull(info, actual);
     // assertion passes if other is empty since actual contains all other entries.
@@ -398,7 +399,7 @@ public class Maps {
   public <K extends @Nullable Object, V extends @Nullable Object> void assertContainsAnyOf(AssertionInfo info,
                                                                                            @Nullable Map<K, V> actual,
                                                                                            Entry<? extends K, ? extends V>[] entries,
-                                                                                           BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                           @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     failIfNull(entries);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
@@ -423,6 +424,7 @@ public class Maps {
   public <K extends @Nullable Object, V extends @Nullable Object> void assertHasEntrySatisfying(AssertionInfo info,
                                                                                                 @Nullable Map<K, V> actual, K key,
                                                                                                 Condition<? super V> valueCondition) {
+    assertNotNull(info, actual);
     assertContainsKey(info, actual, key);
     conditions.assertIsNotNull(valueCondition);
     V value = actual.get(key);
@@ -442,6 +444,7 @@ public class Maps {
   public <K extends @Nullable Object, V extends @Nullable Object> void assertHasEntrySatisfying(AssertionInfo info,
                                                                                                 @Nullable Map<K, V> actual, K key,
                                                                                                 Consumer<? super V> valueRequirements) {
+    assertNotNull(info, actual);
     assertContainsKey(info, actual, key);
     requireNonNull(valueRequirements, "The Consumer<V> expressing the assertions requirements must not be null");
     V value = actual.get(key);
@@ -547,7 +550,7 @@ public class Maps {
   public <K extends @Nullable Object, V extends @Nullable Object> void assertDoesNotContain(AssertionInfo info,
                                                                                             @Nullable Map<K, V> actual,
                                                                                             Entry<? extends K, ? extends V>[] entries,
-                                                                                            BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                            @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     failIfNullOrEmpty(entries);
     assertNotNull(info, actual);
     Set<Entry<? extends K, ? extends V>> found = new LinkedHashSet<>();
@@ -768,7 +771,7 @@ public class Maps {
    */
   public <K extends @Nullable Object, V extends @Nullable Object> void assertContainsValue(AssertionInfo info,
                                                                                            @Nullable Map<K, V> actual, V value,
-                                                                                           BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                           @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     assertNotNull(info, actual);
     if (!containsValue(actual, value, valueEquals)) throw failures.failure(info, shouldContainValue(actual, value));
   }
@@ -786,7 +789,7 @@ public class Maps {
   public <K extends @Nullable Object, V extends @Nullable Object> void assertContainsValues(AssertionInfo info,
                                                                                             @Nullable Map<K, V> actual,
                                                                                             V[] values,
-                                                                                            BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                            @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     assertNotNull(info, actual);
     requireNonNull(values, "The array of values to look for should not be null");
     if (actual.isEmpty() && values.length == 0) return;
@@ -809,13 +812,13 @@ public class Maps {
   public <K extends @Nullable Object, V extends @Nullable Object> void assertDoesNotContainValue(AssertionInfo info,
                                                                                                  @Nullable Map<K, V> actual,
                                                                                                  V value,
-                                                                                                 BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                                 @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     assertNotNull(info, actual);
     if (containsValue(actual, value, valueEquals)) throw failures.failure(info, shouldNotContainValue(actual, value));
   }
 
   private static <V extends @Nullable Object> Set<V> getNotFoundValues(Map<?, V> actual, V[] expectedValues,
-                                                                       BiPredicate<? super V, ? super V> valueEquals) {
+                                                                       @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     // Stream API avoided for performance reasons
     Set<V> notFound = new LinkedHashSet<>();
     for (V expectedValue : expectedValues) {
@@ -825,7 +828,7 @@ public class Maps {
   }
 
   private static <V extends @Nullable Object> boolean containsValue(Map<?, V> actual, V value,
-                                                                    BiPredicate<? super V, ? super V> valueEquals) {
+                                                                    @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     try {
       return valueEquals == null ? actual.containsValue(value) : containsValueAccordingToCustomEquals(actual, value, valueEquals);
     } catch (NullPointerException e) {
@@ -852,7 +855,8 @@ public class Maps {
   public <K extends @Nullable Object, V extends @Nullable Object> void assertContainsOnly(AssertionInfo info,
                                                                                           @Nullable Map<K, V> actual,
                                                                                           Entry<? extends K, ? extends V>[] entries,
-                                                                                          BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                          @Nullable BiPredicate<? super V, ? super V> valueEquals) {
+    assertNotNull(info, actual);
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
     failIfEntriesIsEmptySinceActualIsNotEmpty(info, actual, entries);
@@ -866,7 +870,7 @@ public class Maps {
 
   private <K extends @Nullable Object, V extends @Nullable Object> Set<Entry<? extends K, ? extends V>> getNotFoundEntries(Map<K, V> actual,
                                                                                                                            Entry<? extends K, ? extends V>[] entries,
-                                                                                                                           BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                                                           @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     // Stream API avoided for performance reasons
     Set<Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
     for (Entry<? extends K, ? extends V> entry : entries) {
@@ -877,7 +881,7 @@ public class Maps {
 
   private <K extends @Nullable Object, V extends @Nullable Object> Set<Entry<K, V>> getNotExpectedEntries(Map<K, V> actual,
                                                                                                           Entry<? extends K, ? extends V>[] entries,
-                                                                                                          BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                                          @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     // Stream API avoided for performance reasons
     Set<Entry<K, V>> notExpected = new LinkedHashSet<>();
     for (Entry<K, V> entry : mapWithoutExpectedEntries(actual, entries, valueEquals).entrySet()) {
@@ -889,7 +893,7 @@ public class Maps {
 
   private <K extends @Nullable Object, V extends @Nullable Object> Map<K, V> mapWithoutExpectedEntries(Map<K, V> actual,
                                                                                                        Entry<? extends K, ? extends V>[] expectedEntries,
-                                                                                                       BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                                       @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     try {
       Map<K, V> clonedMap = clone(actual);
       removeEntries(clonedMap, expectedEntries, valueEquals);
@@ -904,7 +908,7 @@ public class Maps {
 
   private <K extends @Nullable Object, V extends @Nullable Object> void removeEntries(Map<K, V> map,
                                                                                       Entry<? extends K, ? extends V>[] entries,
-                                                                                      BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                      @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     // Stream API avoided for performance reasons
     for (Entry<? extends K, ? extends V> entry : entries) {
       // must perform deep equals comparison on values as Map.remove(Object, Object) relies on
@@ -926,7 +930,8 @@ public class Maps {
   public <K extends @Nullable Object, V extends @Nullable Object> void assertContainsExactly(AssertionInfo info,
                                                                                              @Nullable Map<K, V> actual,
                                                                                              Entry<? extends K, ? extends V>[] entries,
-                                                                                             BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                             @Nullable BiPredicate<? super V, ? super V> valueEquals) {
+    assertNotNull(info, actual);
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
     failIfEntriesIsEmptySinceActualIsNotEmpty(info, actual, entries);
@@ -958,7 +963,7 @@ public class Maps {
                                                                                                            Entry<? extends K, ? extends V>[] entries,
                                                                                                            Set<Entry<? extends K, ? extends V>> notExpected,
                                                                                                            Set<Entry<? extends K, ? extends V>> notFound,
-                                                                                                           BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                                           @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     Map<K, V> expectedEntries = entriesToMap(entries);
     Map<K, V> actualEntries = new LinkedHashMap<>(actual);
     for (Entry<K, V> entry : expectedEntries.entrySet()) {
@@ -986,7 +991,7 @@ public class Maps {
   private <K extends @Nullable Object, V extends @Nullable Object> void failIfAnyEntryNotFoundInActualMap(AssertionInfo info,
                                                                                                           Map<K, V> actual,
                                                                                                           Entry<? extends K, ? extends V>[] entries,
-                                                                                                          BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                                          @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     Set<Entry<? extends K, ? extends V>> entriesWithKeyNotFound = new LinkedHashSet<>();
     Set<Entry<? extends K, ? extends V>> entriesWithWrongValue = new LinkedHashSet<>();
     for (Entry<? extends K, ? extends V> entry : entries) {
@@ -1035,7 +1040,7 @@ public class Maps {
 
   private <K extends @Nullable Object, V extends @Nullable Object> boolean containsEntry(Map<K, V> actual,
                                                                                          Entry<? extends K, ? extends V> entry,
-                                                                                         BiPredicate<? super V, ? super V> valueEquals) {
+                                                                                         @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     requireNonNull(entry, ErrorMessages.entryToLookForIsNull());
     boolean keyFound = actual.containsKey(entry.getKey());
     if (!keyFound) return false;
@@ -1044,10 +1049,12 @@ public class Maps {
     return areEqual(actualEntryValue, expectedEntryValue, valueEquals);
   }
 
-  private <V extends @Nullable Object> boolean areEqual(V actual, V expected, BiPredicate<? super V, ? super V> valueEquals) {
+  private <V extends @Nullable Object> boolean areEqual(V actual, V expected,
+                                                        @Nullable BiPredicate<? super V, ? super V> valueEquals) {
     return valueEquals != null ? valueEquals.test(actual, expected) : deepEquals(actual, expected);
   }
 
+  @Contract("_, null -> fail")
   private void assertNotNull(AssertionInfo info, @Nullable Map<?, ?> actual) {
     Objects.instance().assertNotNull(info, actual);
   }

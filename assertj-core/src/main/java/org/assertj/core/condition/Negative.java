@@ -16,6 +16,7 @@
 package org.assertj.core.condition;
 
 import org.assertj.core.api.Condition;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Inverse the condition.
@@ -24,13 +25,13 @@ import org.assertj.core.api.Condition;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public abstract class Negative<T> extends Condition<T> {
+public abstract class Negative<T extends @Nullable Object> extends Condition<T> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   final Condition<? super T> condition;
 
   @Override
-  public boolean matches(T value) {
+  public boolean matches(@Nullable T value) {
     return !condition.matches(value);
   }
 

@@ -46,12 +46,13 @@ public class ShouldBeLessOrEqual extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
+  @SuppressWarnings("NullAway")
   public static <T> ErrorMessageFactory shouldBeLessOrEqual(@Nullable Object actual, @Nullable Object other,
                                                             ComparisonStrategy comparisonStrategy) {
     return new ShouldBeLessOrEqual(actual, other, comparisonStrategy);
   }
 
-  private <T> ShouldBeLessOrEqual(T actual, T other, ComparisonStrategy comparisonStrategy) {
+  private <T extends @Nullable Object> ShouldBeLessOrEqual(T actual, T other, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto be less than or equal to:%n  %s %s", actual, other, comparisonStrategy);
   }
 

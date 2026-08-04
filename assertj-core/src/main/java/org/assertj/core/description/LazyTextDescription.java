@@ -15,8 +15,6 @@
  */
 package org.assertj.core.description;
 
-import static org.assertj.core.util.Preconditions.checkState;
-
 import java.util.function.Supplier;
 
 import org.jspecify.annotations.Nullable;
@@ -39,7 +37,7 @@ public class LazyTextDescription extends Description {
 
   @Override
   public String value() {
-    checkState(descriptionSupplier != null, "the descriptionSupplier should not be null");
+    if (descriptionSupplier == null) throw new IllegalStateException("the descriptionSupplier should not be null");
     return descriptionSupplier.get();
   }
 }

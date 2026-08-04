@@ -16,6 +16,7 @@
 package org.assertj.core.api;
 
 import org.assertj.core.description.Description;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@link ThrowableAssertAlternative} subclass used in soft assertions.
@@ -49,7 +50,7 @@ public class SoftThrowableAssertAlternative<ACTUAL extends Throwable> extends Th
   }
 
   @Override
-  public SoftThrowableAssertAlternative<ACTUAL> as(Description description) {
+  public SoftThrowableAssertAlternative<ACTUAL> as(@Nullable Description description) {
     super.as(description);
     return this;
   }

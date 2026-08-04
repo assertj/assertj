@@ -43,15 +43,13 @@ public class BooleanArrays {
     return INSTANCE;
   }
 
-  private Arrays arrays;
+  private Arrays arrays = Arrays.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  BooleanArrays() {
-    setArrays(Arrays.instance());
-  }
+  BooleanArrays() {}
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /**

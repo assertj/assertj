@@ -32,7 +32,7 @@ import org.jspecify.annotations.Nullable;
  * @param <SELF> the "self" type of this assertion class
  */
 public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAssert<SELF>>
-    extends AbstractArrayAssert<SELF, @Nullable float[], Float> {
+    extends AbstractArrayAssert<SELF, float @Nullable [], Float> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Internal assertions for {@code float} arrays. */

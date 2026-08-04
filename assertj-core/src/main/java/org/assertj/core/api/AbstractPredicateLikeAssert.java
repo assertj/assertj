@@ -40,6 +40,8 @@ abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAss
   Iterables iterables = Iterables.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  // null exactly when actual is null (see toPredicate in IntPredicateAssert/LongPredicateAssert/DoublePredicateAssert)
+  @Nullable
   Predicate<PRIMITIVE> primitivePredicate;
 
   protected AbstractPredicateLikeAssert(@Nullable PRIMITIVE_PREDICATE actual, @Nullable Predicate<PRIMITIVE> wrappedPredicate,
@@ -54,6 +56,8 @@ abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAss
    * @param value the value expected to be accepted
    * @return this assertion object
    */
+  // primitivePredicate is guaranteed non-null here: it is only null when actual is null, which isNotNull() rules out.
+  @SuppressWarnings("NullAway")
   protected SELF acceptsInternal(PRIMITIVE value) {
     return executeAssertion(() -> {
       isNotNull();
@@ -68,6 +72,8 @@ abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAss
    * @param value the value expected to be rejected
    * @return this assertion object
    */
+  // primitivePredicate is guaranteed non-null here: it is only null when actual is null, which isNotNull() rules out.
+  @SuppressWarnings("NullAway")
   protected SELF rejectsInternal(PRIMITIVE value) {
     return executeAssertion(() -> {
       isNotNull();
@@ -82,6 +88,8 @@ abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAss
    * @param values the values expected to be accepted
    * @return this assertion object
    */
+  // primitivePredicate is guaranteed non-null here: it is only null when actual is null, which isNotNull() rules out.
+  @SuppressWarnings("NullAway")
   protected SELF acceptsAllInternal(Iterable<? extends PRIMITIVE> values) {
     return executeAssertion(() -> {
       isNotNull();
@@ -95,6 +103,8 @@ abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAss
    * @param values the values expected to be rejected
    * @return this assertion object
    */
+  // primitivePredicate is guaranteed non-null here: it is only null when actual is null, which isNotNull() rules out.
+  @SuppressWarnings("NullAway")
   protected SELF rejectsAllInternal(Iterable<? extends PRIMITIVE> values) {
     return executeAssertion(() -> {
       isNotNull();

@@ -165,6 +165,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
       if (expected == null) {
         // for the assertion to pass, actual must be null, but this is not the case since actual != expected
         objects.assertNull(info, actual);
+        return;
       }
       // at this point expected is not null, which means actual must not be null for the assertion to pass
       objects.assertNotNull(info, actual);
@@ -2014,7 +2015,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  SELF withTypeComparators(TypeComparators newTypeComparators) {
+  SELF withTypeComparators(@Nullable TypeComparators newTypeComparators) {
     if (newTypeComparators != null) {
       TypeComparators typeComparators = recursiveComparisonConfiguration.getTypeComparators();
       newTypeComparators.comparatorByTypes().forEach(entry -> {

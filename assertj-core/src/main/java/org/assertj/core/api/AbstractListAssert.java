@@ -242,7 +242,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
 
   @Override
   @CheckReturnValue
-  public SELF as(Description description) {
+  public SELF as(@Nullable Description description) {
     return super.as(description);
   }
 

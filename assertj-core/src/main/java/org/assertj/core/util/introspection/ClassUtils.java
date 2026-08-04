@@ -26,6 +26,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
+import org.assertj.core.internal.annotation.Contract;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -52,6 +53,7 @@ public class ClassUtils {
    * @return the {@code List} of superclasses in order going up from this one
    * {@code null} if null input
    */
+  @Contract("null -> null; !null -> !null")
   public static @Nullable List<Class<?>> getAllSuperclasses(final @Nullable Class<?> cls) {
     if (cls == null) {
       return null;
@@ -79,6 +81,7 @@ public class ClassUtils {
    * @param cls the class to look up, may be {@code null}
    * @return the {@code List} of interfaces in order, {@code null} if null input
    */
+  @Contract("null -> null; !null -> !null")
   public static @Nullable List<Class<?>> getAllInterfaces(@Nullable Class<?> cls) {
     if (cls == null) return null;
 

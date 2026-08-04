@@ -16,7 +16,6 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
-import static org.assertj.core.util.Strings.isNullOrEmpty;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
@@ -151,7 +150,7 @@ public class Failures {
    */
   protected String assertionErrorMessage(AssertionInfo info, ErrorMessageFactory messageFactory) {
     String overridingErrorMessage = info.overridingErrorMessage();
-    return isNullOrEmpty(overridingErrorMessage)
+    return overridingErrorMessage == null || overridingErrorMessage.isEmpty()
         ? messageFactory.create(info.description(), info.representation())
         : MessageFormatter.instance().format(info.description(), info.representation(), overridingErrorMessage);
   }
@@ -164,7 +163,7 @@ public class Failures {
    */
   public @Nullable AssertionError failureIfErrorMessageIsOverridden(AssertionInfo info) {
     String overridingErrorMessage = info.overridingErrorMessage();
-    return isNullOrEmpty(overridingErrorMessage) ? null
+    return overridingErrorMessage == null || overridingErrorMessage.isEmpty() ? null
         : failure(MessageFormatter.instance().format(info.description(), info.representation(),
                                                      overridingErrorMessage));
   }
@@ -178,7 +177,7 @@ public class Failures {
    * @param message the message of the {@code AssertionError} to create.
    * @return the created <code>{@link AssertionError}</code>.
    */
-  public AssertionError failure(String message) {
+  public AssertionError failure(@Nullable String message) {
     AssertionError assertionError = assertionErrorCreator.assertionError(message);
     removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     printThreadDumpIfNeeded();

@@ -584,7 +584,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * @throws AssertionError if the actual {@code OffsetTime} is not close to the given one within the provided offset.
    */
   @Override
-  public SELF isCloseTo(OffsetTime other, TemporalOffset<? super OffsetTime> offset) {
+  public SELF isCloseTo(@Nullable OffsetTime other, TemporalOffset<? super OffsetTime> offset) {
     // overridden for javadoc
     return super.isCloseTo(other, offset);
   }

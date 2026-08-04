@@ -106,7 +106,7 @@ public final class Throwables {
    * @param errors the errors to describe
    * @return the error descriptions
    */
-  public static List<String> describeErrors(List<? extends Throwable> errors) {
+  public static List<@Nullable String> describeErrors(List<? extends Throwable> errors) {
     return extract(errors, ERROR_DESCRIPTION_EXTRACTOR);
   }
 
@@ -150,7 +150,7 @@ public final class Throwables {
     return filtered;
   }
 
-  private static @Nullable List<StackTraceElement> stackTraceInCurrentThread() {
+  private static List<StackTraceElement> stackTraceInCurrentThread() {
     return newArrayList(Thread.currentThread().getStackTrace());
   }
 
@@ -366,15 +366,17 @@ public final class Throwables {
     return buildAssertionErrorWithLineNumbersButNoActualOrExpectedValues(error, testStackTraceElement);
   }
 
-  private static String buildErrorMessageWithLineNumber(String originalErrorMessage, StackTraceElement testStackTraceElement) {
+  private static String buildErrorMessageWithLineNumber(@Nullable String originalErrorMessage,
+                                                        StackTraceElement testStackTraceElement) {
     String testClassName = simpleClassNameOf(testStackTraceElement);
     String testName = testStackTraceElement.getMethodName();
     int lineNumber = testStackTraceElement.getLineNumber();
     String atLineNumber = "at %s.%s(%s.java:%s)".formatted(testClassName, testName, testClassName, lineNumber);
-    if (originalErrorMessage.contains(atLineNumber)) {
-      return originalErrorMessage;
+    String errorMessage = String.valueOf(originalErrorMessage);
+    if (errorMessage.contains(atLineNumber)) {
+      return errorMessage;
     }
-    return format(originalErrorMessage.endsWith("%n".formatted()) ? "%s%s" : "%s%n%s", originalErrorMessage, atLineNumber);
+    return format(errorMessage.endsWith("%n".formatted()) ? "%s%s" : "%s%n%s", errorMessage, atLineNumber);
   }
 
   private static String simpleClassNameOf(StackTraceElement testStackTraceElement) {

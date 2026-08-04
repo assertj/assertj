@@ -193,7 +193,8 @@
           <version>0.4.0</version>
           <extensions>true</extensions>
           <configuration>
-            <checking>disabled</checking>
+            <checking>main</checking>
+            <jspecifyMode>true</jspecifyMode>
             <skip>false</skip>
           </configuration>
           <executions>

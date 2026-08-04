@@ -69,7 +69,7 @@ public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
     /** The corresponding element from the other iterable. */
     public final @Nullable Object otherElement;
     /** The assertion error message. */
-    public final String error;
+    public final @Nullable String error;
 
     /**
      * Creates a zipped element failure.
@@ -78,7 +78,7 @@ public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
      * @param otherElement the corresponding other element
      * @param error the error message
      */
-    public ZipSatisfyError(@Nullable Object actualElement, @Nullable Object otherElement, String error) {
+    public ZipSatisfyError(@Nullable Object actualElement, @Nullable Object otherElement, @Nullable String error) {
       this.actualElement = actualElement;
       this.otherElement = otherElement;
       this.error = error;

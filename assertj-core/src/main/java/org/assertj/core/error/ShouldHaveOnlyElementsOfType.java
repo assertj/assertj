@@ -30,11 +30,11 @@ public class ShouldHaveOnlyElementsOfType extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ShouldHaveOnlyElementsOfType shouldHaveOnlyElementsOfType(@Nullable Object actual, Class<?> expectedType,
-                                                                          Class<?> unexpectedType) {
+                                                                          @Nullable Class<?> unexpectedType) {
     return new ShouldHaveOnlyElementsOfType(actual, expectedType, unexpectedType);
   }
 
-  private ShouldHaveOnlyElementsOfType(@Nullable Object actual, Class<?> expectedType, Class<?> unexpectedType) {
+  private ShouldHaveOnlyElementsOfType(@Nullable Object actual, Class<?> expectedType, @Nullable Class<?> unexpectedType) {
     super("%nExpecting actual:%n  %s%nto only have elements of type:%n  %s%nbut found:%n  %s", actual, expectedType,
           unexpectedType);
   }

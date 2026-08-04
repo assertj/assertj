@@ -21,6 +21,8 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.util.Objects;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for throwables with an unexpected root cause. */
 public class ShouldHaveRootCause extends BasicErrorMessageFactory {
 
@@ -32,8 +34,8 @@ public class ShouldHaveRootCause extends BasicErrorMessageFactory {
    * @param expectedMessage the expected message
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveRootCauseWithMessage(Throwable actual, Throwable actualCause,
-                                                                   String expectedMessage) {
+  public static ErrorMessageFactory shouldHaveRootCauseWithMessage(Throwable actual, @Nullable Throwable actualCause,
+                                                                   @Nullable String expectedMessage) {
     checkArgument(actual != null, "actual should not be null");
     checkArgument(expectedMessage != null, "expected root cause message should not be null");
     if (actualCause == null) return new ShouldHaveRootCause(actual, expectedMessage);
@@ -48,7 +50,8 @@ public class ShouldHaveRootCause extends BasicErrorMessageFactory {
    * @param expectedCause the expected root cause
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveRootCause(Throwable actual, Throwable actualCause, Throwable expectedCause) {
+  public static ErrorMessageFactory shouldHaveRootCause(Throwable actual, @Nullable Throwable actualCause,
+                                                        Throwable expectedCause) {
     checkArgument(actual != null, "actual should not be null");
     checkArgument(expectedCause != null, "expected cause should not be null");
     // actualCause has no cause
@@ -115,7 +118,7 @@ public class ShouldHaveRootCause extends BasicErrorMessageFactory {
           expectedCauseClass.getName(), actualCause.getClass().getName());
   }
 
-  private ShouldHaveRootCause(Throwable actual, String expectedMessage) {
+  private ShouldHaveRootCause(Throwable actual, @Nullable String expectedMessage) {
     super("%n" +
           "Expecting a root cause with message:%n" +
           "  %s%n" +
@@ -126,7 +129,7 @@ public class ShouldHaveRootCause extends BasicErrorMessageFactory {
           expectedMessage);
   }
 
-  private ShouldHaveRootCause(Throwable actual, Throwable actualCause, String expectedCauseMessage) {
+  private ShouldHaveRootCause(Throwable actual, Throwable actualCause, @Nullable String expectedCauseMessage) {
     super("%n" +
           "Expecting a root cause with message:%n" +
           "  %s%n" +

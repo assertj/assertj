@@ -37,7 +37,7 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
 
   @Override
   public Iterable<?> duplicatesFrom(@Nullable Iterable<?> iterable) {
-    if (isNullOrEmpty(iterable)) return EMPTY_SET;
+    if (iterable == null || isNullOrEmpty(iterable)) return EMPTY_SET;
 
     Set<Object> noDuplicates = newSetUsingComparisonStrategy();
     Set<Object> duplicatesWithOrderPreserved = new LinkedHashSet<>();

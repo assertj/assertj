@@ -73,6 +73,9 @@ public class Double2DArrayAssert extends Abstract2DArrayAssert<Double2DArrayAsse
    * @throws AssertionError if the actual value is not deeply equal to the given one.
    */
   @Override
+  // expected is genuinely never null here (unlike actual): the method dereferences it unconditionally
+  // (e.g. expected.length), so it must stay non-null despite ACTUAL's nullable bound in Abstract2DArrayAssert.
+  @SuppressWarnings("NullAway")
   public Double2DArrayAssert isDeepEqualTo(double[][] expected) {
     return executeAssertion(() -> {
       if (actual == expected) return;

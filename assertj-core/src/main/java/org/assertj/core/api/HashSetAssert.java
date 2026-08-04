@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.internal.Iterables;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for <code>{@link HashSet}</code>, honoring the hash code comparison.
@@ -96,12 +97,12 @@ public class HashSetAssert<ELEMENT>
     }
 
     @Override
-    public boolean iterableContains(Iterable<?> iterable, Object value) {
+    public boolean iterableContains(@Nullable Iterable<?> iterable, @Nullable Object value) {
       return originalSet.contains(value) && super.iterableContains(iterable, value);
     }
 
     @Override
-    public boolean areEqual(Object actual, Object other) {
+    public boolean areEqual(@Nullable Object actual, @Nullable Object other) {
       return originalSet.contains(actual) && super.areEqual(actual, other);
     }
 

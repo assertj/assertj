@@ -69,6 +69,7 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
+  @SuppressWarnings("NullAway")
   public static <T> ErrorMessageFactory shouldBeBetween(@Nullable Object actual, @Nullable Object start, @Nullable Object end,
                                                         boolean inclusiveStart, boolean inclusiveEnd,
                                                         ComparisonStrategy comparisonStrategy) {
@@ -85,8 +86,10 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
    * @param inclusiveEnd whether to include end value in range.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T> ErrorMessageFactory shouldBeBetween(Comparable<? super T> actual,
-                                                        Comparable<? super T> start, Comparable<? super T> end,
+  @SuppressWarnings("NullAway")
+  public static <T> ErrorMessageFactory shouldBeBetween(@Nullable Comparable<? super T> actual,
+                                                        @Nullable Comparable<? super T> start,
+                                                        @Nullable Comparable<? super T> end,
                                                         boolean inclusiveStart, boolean inclusiveEnd) {
     return new ShouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, StandardComparisonStrategy.instance());
   }
@@ -97,8 +100,8 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
           (inclusiveEnd ? ']' : '[') + "%n%s", actual, start, end, comparisonStrategy);
   }
 
-  private <T> ShouldBeBetween(T actual, T start, T end, boolean inclusiveStart, boolean inclusiveEnd,
-                              ComparisonStrategy comparisonStrategy) {
+  private <T extends @Nullable Object> ShouldBeBetween(T actual, T start, T end, boolean inclusiveStart, boolean inclusiveEnd,
+                                                       ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto be between:%n  " + (inclusiveStart ? '[' : ']')
           + "%s, %s" + (inclusiveEnd ? ']' : '[') + "%n%s", actual, start, end, comparisonStrategy);
   }

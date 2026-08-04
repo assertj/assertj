@@ -40,6 +40,9 @@ public class ShouldHaveCauseExactlyInstance extends BasicErrorMessageFactory {
         : new ShouldHaveCauseExactlyInstance(actual, expectedCauseType);
   }
 
+  // actual.getCause() is guaranteed non-null here: this constructor is only reached from
+  // shouldHaveCauseExactlyInstance after it has already verified actual.getCause() != null.
+  @SuppressWarnings("NullAway")
   private ShouldHaveCauseExactlyInstance(Throwable actual, Class<? extends Throwable> expectedCauseType) {
     super("%nExpecting a throwable with cause being exactly an instance of:%n" +
           "  %s%n" +

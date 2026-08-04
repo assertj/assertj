@@ -337,7 +337,7 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public SELF isBetween(BigInteger start, BigInteger end) {
+  public SELF isBetween(@Nullable BigInteger start, @Nullable BigInteger end) {
     return executeAssertion(() -> bigIntegers.assertIsBetween(info, actual, start, end));
   }
 
@@ -357,7 +357,7 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public SELF isStrictlyBetween(BigInteger start, BigInteger end) {
+  public SELF isStrictlyBetween(@Nullable BigInteger start, @Nullable BigInteger end) {
     return executeAssertion(() -> bigIntegers.assertIsStrictlyBetween(info, actual, start, end));
   }
 

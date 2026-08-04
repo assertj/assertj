@@ -852,7 +852,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @throws AssertionError       if the actual {@code LocalDateTime} is not close to the given one for a provided offset.
    */
   @Override
-  public SELF isCloseTo(LocalDateTime other, TemporalOffset<? super LocalDateTime> offset) {
+  public SELF isCloseTo(@Nullable LocalDateTime other, TemporalOffset<? super LocalDateTime> offset) {
     return super.isCloseTo(other, offset);
   }
 

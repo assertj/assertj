@@ -21,6 +21,7 @@ import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.description.Description;
 import org.assertj.core.util.Throwables;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion class checking a {@link ThrowingCallable} throws no exception.
@@ -35,7 +36,7 @@ import org.assertj.core.util.Throwables;
 public class NotThrownAssert implements Descriptable<NotThrownAssert> {
 
   /** Optional assertion description. */
-  protected Description description;
+  protected @Nullable Description description;
 
   /** Creates an assertion representing the absence of a throwable. */
   public NotThrownAssert() {}
@@ -57,7 +58,7 @@ public class NotThrownAssert implements Descriptable<NotThrownAssert> {
   /** {@inheritDoc} */
   @Override
   @CheckReturnValue
-  public NotThrownAssert describedAs(Description description) {
+  public NotThrownAssert describedAs(@Nullable Description description) {
     this.description = description;
     return this;
   }

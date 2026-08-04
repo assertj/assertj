@@ -113,7 +113,7 @@ public interface Descriptable<SELF> {
    * @throws NullPointerException if the description is {@code null}.
    * @see #describedAs(Description)
    */
-  default SELF as(Description description) {
+  default SELF as(@Nullable Description description) {
     return describedAs(description);
   }
 
@@ -184,5 +184,5 @@ public interface Descriptable<SELF> {
    * @return {@code this} object.
    * @throws NullPointerException if the description is {@code null}.
    */
-  SELF describedAs(Description description);
+  SELF describedAs(@Nullable Description description);
 }

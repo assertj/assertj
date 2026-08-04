@@ -261,19 +261,19 @@ public final class DualValue {
   }
 
   private boolean isActualAnEmptyOptional() {
-    return isActualAnOptional() && ((Optional<?>) actual).isEmpty();
+    return actual instanceof Optional<?> optional && optional.isEmpty();
   }
 
   private boolean isActualAnEmptyOptionalInt() {
-    return isActualAnOptionalInt() && ((OptionalInt) actual).isEmpty();
+    return actual instanceof OptionalInt optionalInt && optionalInt.isEmpty();
   }
 
   private boolean isActualAnEmptyOptionalLong() {
-    return isActualAnOptionalLong() && ((OptionalLong) actual).isEmpty();
+    return actual instanceof OptionalLong optionalLong && optionalLong.isEmpty();
   }
 
   private boolean isActualAnEmptyOptionalDouble() {
-    return isActualAnOptionalDouble() && ((OptionalDouble) actual).isEmpty();
+    return actual instanceof OptionalDouble optionalDouble && optionalDouble.isEmpty();
   }
 
   /**

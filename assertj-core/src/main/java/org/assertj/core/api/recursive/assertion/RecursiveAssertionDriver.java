@@ -36,6 +36,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.recursive.comparison.FieldLocation;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.util.Arrays;
 import org.jspecify.annotations.Nullable;
 
@@ -138,7 +139,7 @@ public class RecursiveAssertionDriver {
       if (shouldRecurseOverSpecialTypes(nodeType)) {
         doRecursionForSpecialTypes(predicate, node, nodeType, fieldLocation);
       }
-    } else if (shouldRecurseIntoNode(node)) {
+    } else if (node != null && shouldRecurseIntoNode(node)) {
       evaluateFieldsOfCurrentNodeRecursively(predicate, node, fieldLocation);
     }
   }
@@ -193,7 +194,7 @@ public class RecursiveAssertionDriver {
     }
   }
 
-  private void recurseIntoOptional(Predicate<@Nullable Object> predicate, Object node, FieldLocation fieldLocation) {
+  private void recurseIntoOptional(Predicate<@Nullable Object> predicate, @Nullable Object node, FieldLocation fieldLocation) {
     // If we are here, we know the node is an optional or a primitive optional
     if (node instanceof Optional<?> optionalNode) {
       if (optionalNode.isPresent()) {
@@ -275,7 +276,8 @@ public class RecursiveAssertionDriver {
   /*
    * This is taken verbatim from org.apache.commons.lang3.ObjectUtils .
    */
-  private static String identityToString(final Object object) {
+  @Contract("null -> null; !null -> !null")
+  private static @Nullable String identityToString(final @Nullable Object object) {
     if (object == null) {
       return null;
     }

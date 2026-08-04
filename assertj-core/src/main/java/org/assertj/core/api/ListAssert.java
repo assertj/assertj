@@ -103,6 +103,9 @@ public class ListAssert<ELEMENT> extends
    * @param <ELEMENT> the element type
    * @return a null list assertion
    */
+  // used only for null-object navigation: the underlying AbstractAssert.actual is documented to tolerate null
+  // even though ListAssert's own ACTUAL type argument isn't modeled as nullable.
+  @SuppressWarnings("NullAway")
   public static <ELEMENT> ListAssert<ELEMENT> nullListAssert() {
     return new ListAssert<>((List<? extends ELEMENT>) null);
   }
@@ -121,7 +124,10 @@ public class ListAssert<ELEMENT> extends
    *
    * @param actual the actual stream to verify
    */
-  public ListAssert(Stream<? extends ELEMENT> actual) {
+  // the ListFromStream branch is always non-null; the null branch only exists as defensive handling for a null
+  // stream and is not reflected in ListAssert's own (non-nullable) ACTUAL type argument.
+  @SuppressWarnings("NullAway")
+  public ListAssert(@Nullable Stream<? extends ELEMENT> actual) {
     this(actual == null ? null : new ListFromStream<>(actual));
   }
 
@@ -130,8 +136,8 @@ public class ListAssert<ELEMENT> extends
    *
    * @param actual the actual stream to verify
    */
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  public ListAssert(IntStream actual) {
+  @SuppressWarnings({ "unchecked", "rawtypes", "NullAway" })
+  public ListAssert(@Nullable IntStream actual) {
     this(actual == null ? null : new ListFromStream(actual));
   }
 
@@ -140,8 +146,8 @@ public class ListAssert<ELEMENT> extends
    *
    * @param actual the actual stream to verify
    */
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  public ListAssert(LongStream actual) {
+  @SuppressWarnings({ "unchecked", "rawtypes", "NullAway" })
+  public ListAssert(@Nullable LongStream actual) {
     this(actual == null ? null : new ListFromStream(actual));
   }
 
@@ -150,8 +156,8 @@ public class ListAssert<ELEMENT> extends
    *
    * @param actual the actual stream to verify
    */
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  public ListAssert(DoubleStream actual) {
+  @SuppressWarnings({ "unchecked", "rawtypes", "NullAway" })
+  public ListAssert(@Nullable DoubleStream actual) {
     this(actual == null ? null : new ListFromStream(actual));
   }
 
@@ -313,7 +319,7 @@ public class ListAssert<ELEMENT> extends
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   static class ListFromStream<ELEMENT, STREAM extends BaseStream<ELEMENT, STREAM>> extends AbstractList<ELEMENT> {
     private final BaseStream<ELEMENT, STREAM> stream;
-    private List<ELEMENT> list;
+    private @Nullable List<ELEMENT> list;
 
     public ListFromStream(BaseStream<ELEMENT, STREAM> stream) {
       this.stream = stream;
@@ -321,27 +327,25 @@ public class ListAssert<ELEMENT> extends
 
     @Override
     public Stream<ELEMENT> stream() {
-      initList();
-      return list.stream();
+      return initList().stream();
     }
 
-    private void initList() {
+    private List<ELEMENT> initList() {
       if (list == null) {
         list = newArrayList(stream.iterator());
         stream.close();
       }
+      return list;
     }
 
     @Override
     public int size() {
-      initList();
-      return list.size();
+      return initList().size();
     }
 
     @Override
     public ELEMENT get(int index) {
-      initList();
-      return list.get(index);
+      return initList().get(index);
     }
 
   }

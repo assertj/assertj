@@ -22,6 +22,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
+import org.assertj.core.internal.annotation.Contract;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -590,7 +591,8 @@ public class ByteArrays {
    * @param ints the integer values
    * @return the byte array
    */
-  public byte[] toByteArray(int[] ints) {
+  @Contract("null -> null; !null -> !null")
+  public byte @Nullable [] toByteArray(int @Nullable [] ints) {
     if (ints == null) {
       return null;
     }

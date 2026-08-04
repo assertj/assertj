@@ -282,7 +282,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>>
    * assertThat(1L).isBetween(2L, 3L);</code></pre>
    */
   @Override
-  public SELF isBetween(Long start, Long end) {
+  public SELF isBetween(@Nullable Long start, @Nullable Long end) {
     return executeAssertion(() -> longs.assertIsBetween(info, actual, start, end));
   }
 
@@ -300,7 +300,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>>
    * assertThat(1L).isStrictlyBetween(2L, 3L);</code></pre>
    */
   @Override
-  public SELF isStrictlyBetween(Long start, Long end) {
+  public SELF isStrictlyBetween(@Nullable Long start, @Nullable Long end) {
     return executeAssertion(() -> longs.assertIsStrictlyBetween(info, actual, start, end));
   }
 

@@ -669,7 +669,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL extends @Nulla
    *
    * @return a string assertion object
    */
-  AbstractCharSequenceAssert<?, String> asString();
+  AbstractCharSequenceAssert<?, @Nullable String> asString();
 
   /**
    * @throws UnsupportedOperationException if this method is called.

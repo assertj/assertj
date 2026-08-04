@@ -35,7 +35,7 @@ public class ShouldHave extends BasicErrorMessageFactory {
    * @param condition the {@code Condition}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T> ErrorMessageFactory shouldHave(T actual, Condition<? super T> condition) {
+  public static <T extends @Nullable Object> ErrorMessageFactory shouldHave(T actual, Condition<? super T> condition) {
     if (condition instanceof Join<? super T> join) return new ShouldHave(actual, join);
     return new ShouldHave(actual, condition);
   }
@@ -44,7 +44,7 @@ public class ShouldHave extends BasicErrorMessageFactory {
     super("%nExpecting actual:%n  %s%nto have %s", actual, condition);
   }
 
-  private <T> ShouldHave(T actual, Join<? super T> join) {
+  private <T extends @Nullable Object> ShouldHave(T actual, Join<? super T> join) {
     super("%n" +
           "Expecting actual:%n" +
           "  %s%n" +

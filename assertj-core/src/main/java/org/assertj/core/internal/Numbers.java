@@ -170,7 +170,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in [start, end] range.
    */
-  public void assertIsBetween(AssertionInfo info, @Nullable NUMBER actual, NUMBER start, NUMBER end) {
+  public void assertIsBetween(AssertionInfo info, @Nullable NUMBER actual, @Nullable NUMBER start, @Nullable NUMBER end) {
     assertIsBetween(info, actual, start, end, true, true);
   }
 
@@ -186,7 +186,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in ]start, end[ range.
    */
-  public void assertIsStrictlyBetween(AssertionInfo info, @Nullable NUMBER actual, NUMBER start, NUMBER end) {
+  public void assertIsStrictlyBetween(AssertionInfo info, @Nullable NUMBER actual, @Nullable NUMBER start, @Nullable NUMBER end) {
     assertIsBetween(info, actual, start, end, false, false);
   }
 

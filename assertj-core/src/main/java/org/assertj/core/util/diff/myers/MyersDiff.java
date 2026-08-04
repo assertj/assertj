@@ -28,6 +28,7 @@ import org.assertj.core.util.diff.Delta;
 import org.assertj.core.util.diff.DiffAlgorithm;
 import org.assertj.core.util.diff.InsertDelta;
 import org.assertj.core.util.diff.Patch;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Copy from https://code.google.com/p/java-diff-utils/.
@@ -83,6 +84,9 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
    * @return A minimum {@link PathNode Path} across the differences graph.
    * @throws IllegalStateException if a diff path could not be found.
    */
+  // the Myers diff algorithm's own invariant guarantees diagonal[kminus]/diagonal[kplus] are populated
+  // whenever they are read below; NullAway cannot verify this algorithmic invariant.
+  @SuppressWarnings("NullAway")
   public PathNode buildPath(final List<T> orig, final List<T> rev) {
     checkArgument(orig != null, "original sequence is null");
     checkArgument(rev != null, "revised sequence is null");
@@ -94,7 +98,7 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
     final int MAX = N + M + 1;
     final int size = 1 + 2 * MAX;
     final int middle = size / 2;
-    final PathNode[] diagonal = new PathNode[size];
+    final @Nullable PathNode[] diagonal = new PathNode[size];
 
     diagonal[middle + 1] = new Snake(0, -1, null);
     for (int d = 0; d < MAX; d++) {

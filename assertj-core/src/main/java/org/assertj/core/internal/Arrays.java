@@ -164,6 +164,7 @@ public class Arrays {
    * @param info assertion information
    * @param array the value to verify
    */
+  @Contract("_, null -> fail")
   public static void assertIsArray(AssertionInfo info, @Nullable Object array) {
     if (!isArray(array)) throw Failures.instance().failure(info, shouldBeAnArray(array));
   }
@@ -242,6 +243,7 @@ public class Arrays {
    * @param values the expected values
    */
   public void assertContains(AssertionInfo info, Failures failures, @Nullable Object actual, Object values) {
+    assertNotNull(info, actual);
     if (commonChecks(info, failures, actual, values)) return;
     Set<Object> notFound = new LinkedHashSet<>();
     int valueCount = sizeOf(values);
@@ -265,7 +267,7 @@ public class Arrays {
       throw failures.failure(info, shouldContain(array, values, notFound, comparisonStrategy));
   }
 
-  void assertContains(AssertionInfo info, Failures failures, @Nullable Object array, Object value, Index index) {
+  void assertContains(AssertionInfo info, Failures failures, @Nullable Object array, @Nullable Object value, Index index) {
     assertNotNull(info, array);
     assertNotEmpty(info, failures, array);
     checkIndexValueIsValid(index, sizeOf(array) - 1);
@@ -280,7 +282,7 @@ public class Arrays {
     if (isArrayEmpty(array)) throw failures.failure(info, shouldNotBeEmpty());
   }
 
-  void assertDoesNotContain(AssertionInfo info, Failures failures, @Nullable Object array, Object value, Index index) {
+  void assertDoesNotContain(AssertionInfo info, Failures failures, @Nullable Object array, @Nullable Object value, Index index) {
     assertNotNull(info, array);
     checkIndexValueIsValid(index, Integer.MAX_VALUE);
     if (index.value >= sizeOf(array)) return;
@@ -289,6 +291,7 @@ public class Arrays {
   }
 
   void assertContainsOnly(AssertionInfo info, Failures failures, @Nullable Object actual, Object values) {
+    assertNotNull(info, actual);
     if (commonChecks(info, failures, actual, values)) return;
     List<Object> notExpected = asList(actual);
     List<Object> notFound = asList(values);
@@ -320,6 +323,7 @@ public class Arrays {
   }
 
   void assertContainsExactly(AssertionInfo info, Failures failures, @Nullable Object actual, Object values) {
+    assertNotNull(info, actual);
     if (commonChecks(info, failures, actual, values)) return;
     assertIsArray(info, actual);
     assertIsArray(info, values);
@@ -343,6 +347,7 @@ public class Arrays {
   }
 
   void assertContainsExactlyInAnyOrder(AssertionInfo info, Failures failures, @Nullable Object actual, Object values) {
+    assertNotNull(info, actual);
     if (commonChecks(info, failures, actual, values)) return;
     List<Object> notExpected = asList(actual);
     List<Object> notFound = asList(values);
@@ -360,6 +365,7 @@ public class Arrays {
   }
 
   void assertContainsOnlyOnce(AssertionInfo info, Failures failures, @Nullable Object actual, Object values) {
+    assertNotNull(info, actual);
     if (commonChecks(info, failures, actual, values))
       return;
     Iterable<?> actualDuplicates = comparisonStrategy.duplicatesFrom(asList(actual));
@@ -390,6 +396,7 @@ public class Arrays {
   }
 
   void assertContainsSequence(AssertionInfo info, Failures failures, @Nullable Object actual, Object sequence) {
+    assertNotNull(info, actual);
     if (commonChecks(info, failures, actual, sequence)) return;
     // look for given sequence, stop check when there are not enough elements remaining in actual to contain sequence
     int lastIndexWhereSequenceCanBeFound = sizeOf(actual) - sizeOf(sequence);
@@ -400,6 +407,7 @@ public class Arrays {
   }
 
   void assertDoesNotContainSequence(AssertionInfo info, Failures failures, @Nullable Object actual, Object sequence) {
+    assertNotNull(info, actual);
     if (commonChecks(info, failures, actual, sequence)) return;
 
     // look for given sequence, stop check when there are not enough elements remaining in actual to contain sequence
@@ -429,6 +437,7 @@ public class Arrays {
   }
 
   void assertContainsSubsequence(AssertionInfo info, Failures failures, @Nullable Object actual, Object subsequence) {
+    assertNotNull(info, actual);
     if (commonChecks(info, failures, actual, subsequence)) return;
 
     int sizeOfActual = sizeOf(actual);
@@ -468,6 +477,7 @@ public class Arrays {
   }
 
   void assertDoesNotContainSubsequence(AssertionInfo info, Failures failures, @Nullable Object actual, Object subsequence) {
+    assertNotNull(info, actual);
     if (commonChecks(info, failures, actual, subsequence)) return;
 
     int sizeOfActual = sizeOf(actual);
@@ -497,7 +507,7 @@ public class Arrays {
     }
   }
 
-  private boolean areEqual(Object actual, Object other) {
+  private boolean areEqual(@Nullable Object actual, @Nullable Object other) {
     return comparisonStrategy.areEqual(actual, other);
   }
 
@@ -513,7 +523,7 @@ public class Arrays {
     if (!found.isEmpty()) throw failures.failure(info, shouldNotContain(array, values, found, comparisonStrategy));
   }
 
-  private boolean arrayContains(Object array, Object value) {
+  private boolean arrayContains(Object array, @Nullable Object value) {
     return comparisonStrategy.arrayContains(array, value);
   }
 
@@ -526,6 +536,7 @@ public class Arrays {
   }
 
   void assertStartsWith(AssertionInfo info, Failures failures, @Nullable Object actual, Object sequence) {
+    assertNotNull(info, actual);
     if (commonChecks(info, failures, actual, sequence))
       return;
     int sequenceSize = sizeOf(sequence);
@@ -546,6 +557,7 @@ public class Arrays {
 
   }
 
+  @Contract("_, null, _ -> fail")
   private static void checkNulls(AssertionInfo info, @Nullable Object actual, Object sequence) {
     checkIsNotNull(sequence);
     assertNotNull(info, actual);
@@ -556,7 +568,9 @@ public class Arrays {
     return failures.failure(info, shouldStartWith(array, sequence, comparisonStrategy));
   }
 
-  void assertEndsWith(AssertionInfo info, Failures failures, @Nullable Object actual, Object first, Object[] rest) {
+  void assertEndsWith(AssertionInfo info, Failures failures, @Nullable Object actual, @Nullable Object first,
+                      @Nullable Object[] rest) {
+    @Nullable
     Object[] sequence = prepend(first, rest);
     assertEndsWith(info, failures, actual, sequence);
   }
@@ -794,6 +808,7 @@ public class Arrays {
    * @param values the values of which at least one is expected
    */
   public void assertContainsAnyOf(AssertionInfo info, Failures failures, @Nullable Object actual, Object values) {
+    assertNotNull(info, actual);
     if (commonChecks(info, failures, actual, values)) return;
     assertIsArray(info, actual);
     assertIsArray(info, values);
@@ -887,6 +902,7 @@ public class Arrays {
   }
 
   @SuppressWarnings("unchecked")
+  @Contract("null -> null; !null -> !null")
   private static <T> @Nullable List<T> asList(@Nullable Object array) {
     if (array == null) return null;
     checkArgument(isArray(array), "The object should be an array");

@@ -720,7 +720,7 @@ public class ObjectArrays {
    * @param actual the actual array
    * @param type the expected type
    */
-  public <E extends @Nullable Object> void assertHasAtLeastOneElementOfType(AssertionInfo info, @Nullable E[] actual,
+  public <E extends @Nullable Object> void assertHasAtLeastOneElementOfType(AssertionInfo info, E @Nullable [] actual,
                                                                             Class<?> type) {
     Objects.instance().assertNotNull(info, actual);
     boolean found = false;
@@ -740,7 +740,7 @@ public class ObjectArrays {
    * @param actual the actual array
    * @param type the expected type
    */
-  public <E extends @Nullable Object> void assertHasOnlyElementsOfType(AssertionInfo info, @Nullable E[] actual, Class<?> type) {
+  public <E extends @Nullable Object> void assertHasOnlyElementsOfType(AssertionInfo info, E @Nullable [] actual, Class<?> type) {
     Objects.instance().assertNotNull(info, actual);
     for (Object element : actual) {
       if (!type.isInstance(element)) {
@@ -770,7 +770,7 @@ public class ObjectArrays {
    * @param actual the actual array
    * @param expectedTypes the expected types
    */
-  public <E extends @Nullable Object> void assertHasExactlyElementsOfTypes(AssertionInfo info, @Nullable E[] actual,
+  public <E extends @Nullable Object> void assertHasExactlyElementsOfTypes(AssertionInfo info, E @Nullable [] actual,
                                                                            Class<?>... expectedTypes) {
     Objects.instance().assertNotNull(info, actual);
     List<Class<?>> actualTypeList = Stream.of(actual).map(Object::getClass).collect(toList());
@@ -781,7 +781,9 @@ public class ObjectArrays {
     // actual elements have the expected types but are they in the correct order?
     int i = 0;
     for (E actualElement : actual) {
-      if (!java.util.Objects.equals(actualElement.getClass(), expectedTypes[i])) {
+      @Nullable
+      Class<?> actualElementType = actualElement == null ? null : actualElement.getClass();
+      if (!java.util.Objects.equals(actualElementType, expectedTypes[i])) {
         throw failures.failure(info, elementsTypesDifferAtIndex(actualElement, expectedTypes[i], i));
       }
       i++;
@@ -796,7 +798,7 @@ public class ObjectArrays {
    * @param actual the actual array
    * @param unexpectedTypes the prohibited types
    */
-  public <E extends @Nullable Object> void assertDoesNotHaveAnyElementsOfTypes(AssertionInfo info, @Nullable E[] actual,
+  public <E extends @Nullable Object> void assertDoesNotHaveAnyElementsOfTypes(AssertionInfo info, E @Nullable [] actual,
                                                                                Class<?>... unexpectedTypes) {
     Objects.instance().assertNotNull(info, actual);
     Map<Class<?>, List<Object>> nonMatchingElementsByType = new LinkedHashMap<>();

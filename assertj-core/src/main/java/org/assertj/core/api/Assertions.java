@@ -698,7 +698,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> ObjectAssert<T> assertThat(T actual) {
+  public static <T extends @Nullable Object> ObjectAssert<T> assertThat(T actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -1049,7 +1049,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created {@link ThrowableAssert}.
    */
-  public static <T extends Throwable> AbstractThrowableAssert<?, T> assertThat(T actual) {
+  public static <T extends Throwable> AbstractThrowableAssert<?, T> assertThat(@Nullable T actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -1711,7 +1711,7 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   @CanIgnoreReturnValue
   @Contract("_, _ -> fail")
-  public static <T> T fail(String failureMessage, Throwable realCause) {
+  public static <T> T fail(@Nullable String failureMessage, Throwable realCause) {
     return Fail.fail(failureMessage, realCause);
   }
 
@@ -1836,7 +1836,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param descriptionConsumer the {@link Description} consumer
    * @since 3.17.0
    */
-  public static void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
+  public static void setDescriptionConsumer(@Nullable Consumer<Description> descriptionConsumer) {
     AbstractAssert.setDescriptionConsumer(descriptionConsumer);
   }
 

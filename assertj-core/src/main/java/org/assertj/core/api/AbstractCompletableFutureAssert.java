@@ -41,6 +41,7 @@ import java.util.function.Supplier;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Futures;
 import org.assertj.core.presentation.PredicateDescription;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link CompletableFuture}.
@@ -50,7 +51,7 @@ import org.assertj.core.presentation.PredicateDescription;
  */
 // TODO deprecate completed for succeeds?
 public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompletableFutureAssert<SELF, RESULT>, RESULT> extends
-    AbstractAssertWithComparator<SELF, CompletableFuture<RESULT>> {
+    AbstractAssertWithComparator<SELF, @Nullable CompletableFuture<RESULT>> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Futures futures = Futures.instance();
@@ -61,7 +62,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @param actual the actual future to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractCompletableFutureAssert(CompletableFuture<RESULT> actual, Class<?> selfType) {
+  protected AbstractCompletableFutureAssert(@Nullable CompletableFuture<RESULT> actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

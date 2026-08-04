@@ -49,6 +49,7 @@ public class LegacyRecursiveComparisonIntrospectionStrategy extends AbstractRecu
 
   @Override
   public @Nullable Object getChildNodeValue(String childNodeName, @Nullable Object instance) {
+    if (instance == null) return null;
     return COMPARISON.getSimpleValue(childNodeName, instance);
   }
 }

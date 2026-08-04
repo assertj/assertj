@@ -840,7 +840,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> ObjectAssert<T> then(T actual) {
+  public static <T extends @Nullable Object> ObjectAssert<T> then(T actual) {
     return assertThat(actual);
   }
 
@@ -1144,7 +1144,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion Throwable.
    */
-  public static <T extends Throwable> AbstractThrowableAssert<?, T> then(T actual) {
+  public static <T extends Throwable> AbstractThrowableAssert<?, T> then(@Nullable T actual) {
     return assertThat(actual);
   }
 
@@ -2194,7 +2194,7 @@ public class BDDAssertions extends Assertions {
    */
   @CanIgnoreReturnValue
   @Contract("_, _ -> fail")
-  public static <T> T fail(String failureMessage, Throwable realCause) {
+  public static <T> T fail(@Nullable String failureMessage, Throwable realCause) {
     return Assertions.fail(failureMessage, realCause);
   }
 
@@ -2301,7 +2301,7 @@ public class BDDAssertions extends Assertions {
    * @param descriptionConsumer the {@link Description} consumer
    * @since 3.20.0
    */
-  public static void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
+  public static void setDescriptionConsumer(@Nullable Consumer<Description> descriptionConsumer) {
     Assertions.setDescriptionConsumer(descriptionConsumer);
   }
 

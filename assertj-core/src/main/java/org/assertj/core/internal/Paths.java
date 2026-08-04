@@ -76,6 +76,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.util.diff.Delta;
 import org.jspecify.annotations.Nullable;
 
@@ -766,6 +767,7 @@ public class Paths {
     return actual.getFileSystem().getPathMatcher(syntaxAndPattern);
   }
 
+  @Contract("_, null -> fail")
   private static void assertNotNull(final AssertionInfo info, @Nullable final Path actual) {
     Objects.instance().assertNotNull(info, actual);
   }

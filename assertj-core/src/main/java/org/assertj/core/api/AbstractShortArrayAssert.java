@@ -31,7 +31,7 @@ import org.jspecify.annotations.Nullable;
  * @param <SELF> the "self" type of this assertion class
  */
 public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAssert<SELF>>
-    extends AbstractArrayAssert<SELF, @Nullable short[], Short> {
+    extends AbstractArrayAssert<SELF, short @Nullable [], Short> {
 
   private ShortArrays arrays = ShortArrays.instance();
 
@@ -1142,6 +1142,9 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
     return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, toShortArray(values)));
   }
 
+  // ints is always a compiler-generated, non-null array from the containsAnyOf(int...) vararg call site;
+  // the null check is kept as defensive library code even though it is unreachable from here.
+  @SuppressWarnings("NullAway")
   private static short[] toShortArray(int[] ints) {
     if (ints == null) return null;
     short[] shorts = new short[ints.length];

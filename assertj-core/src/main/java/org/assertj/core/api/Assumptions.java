@@ -78,6 +78,7 @@ import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.configuration.PreferredAssumptionException;
 import org.assertj.core.util.Throwables;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Entry point for assumption methods for different types, which allow to skip test execution on failed assumptions.
@@ -126,7 +127,7 @@ public class Assumptions {
    * @since 2.9.0 / 3.9.0
    */
   @SuppressWarnings("unchecked")
-  public static <T> ObjectAssert<T> assumeThat(T actual) {
+  public static <T extends @Nullable Object> ObjectAssert<T> assumeThat(T actual) {
     return assumption(Assertions.assertThat(actual));
   }
 
@@ -1016,7 +1017,7 @@ public class Assumptions {
    * @since 2.9.0 / 3.9.0
    */
   @SuppressWarnings("unchecked")
-  public static <T extends Throwable> AbstractThrowableAssert<?, T> assumeThat(T actual) {
+  public static <T extends Throwable> AbstractThrowableAssert<?, T> assumeThat(@Nullable T actual) {
     return assumption(Assertions.assertThat(actual));
   }
 
@@ -1163,6 +1164,9 @@ public class Assumptions {
    * @return the created {@link ThrowableAssert}.
    * @since 3.9.0
    */
+  // NullAway does not propagate assumeThat's own T extends @Nullable Throwable bound through this call, even
+  // though catchThrowable genuinely returns null when no throwable was raised.
+  @SuppressWarnings("NullAway")
   public static AbstractThrowableAssert<?, ? extends Throwable> assumeThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return assumeThat(Throwables.catchThrowable(shouldRaiseOrNotThrowable));
   }

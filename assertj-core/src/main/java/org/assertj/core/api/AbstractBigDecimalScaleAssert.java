@@ -16,6 +16,7 @@
 package org.assertj.core.api;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for BigDecimal scale assertions.
@@ -24,7 +25,7 @@ import org.assertj.core.annotation.CheckReturnValue;
 public abstract class AbstractBigDecimalScaleAssert<ORIGIN extends AbstractBigDecimalAssert<ORIGIN>>
     extends AbstractIntegerAssert<AbstractBigDecimalScaleAssert<ORIGIN>> {
 
-  private final AbstractBigDecimalAssert<ORIGIN> originAssert;
+  private final @Nullable AbstractBigDecimalAssert<ORIGIN> originAssert;
 
   /**
    * Creates a new instance from an origin {@link AbstractBigDecimalAssert} instance.

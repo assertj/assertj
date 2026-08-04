@@ -59,7 +59,7 @@ public class ShouldOnlyHaveElementsOfTypes extends BasicErrorMessageFactory {
         builder.append(", ");
       }
 
-      String formatted = CONFIGURATION_PROVIDER.representation().toStringOf(element);
+      String formatted = String.valueOf(CONFIGURATION_PROVIDER.representation().toStringOf(element));
       builder.append(formatted);
 
       if (element != null && !formatted.contains(element.getClass().getName())) {

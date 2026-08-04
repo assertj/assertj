@@ -71,7 +71,7 @@ public class TypeMessages extends TypeHolder<@Nullable String> {
    *
    * @return sequence of field-message pairs
    */
-  public Stream<Map.Entry<DualClass<?, ?>, String>> messageByTypes() {
+  public Stream<Map.Entry<DualClass<?, ?>, @Nullable String>> messageByTypes() {
     return super.entityByTypes();
   }
 }

@@ -55,6 +55,9 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
 
   /** {@inheritDoc} */
   @Override
+  // expected is genuinely never null here (unlike actual): the method dereferences it unconditionally
+  // (e.g. expected.length), so it must stay non-null despite ACTUAL's nullable bound in Abstract2DArrayAssert.
+  @SuppressWarnings("NullAway")
   public Int2DArrayAssert isDeepEqualTo(int[][] expected) {
     return executeAssertion(() -> {
       if (actual == expected) return;

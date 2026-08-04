@@ -116,7 +116,7 @@ public class HexadecimalRepresentation extends StandardRepresentation {
 
   @Override
   protected String toStringOf(Character character) {
-    return concat("'", toStringOf((short) (int) character), "'");
+    return String.valueOf(concat("'", toStringOf((short) (int) character), "'"));
   }
 
   /**
@@ -126,7 +126,7 @@ public class HexadecimalRepresentation extends StandardRepresentation {
    * @param s the string to represent
    * @return the hexadecimal representation
    */
-  protected String toStringOf(Representation representation, String s) {
+  protected @Nullable String toStringOf(Representation representation, String s) {
     return concat("\"", representation.toStringOf(s.toCharArray()), "\"");
   }
 

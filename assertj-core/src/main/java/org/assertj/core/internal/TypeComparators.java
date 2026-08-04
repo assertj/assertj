@@ -134,7 +134,7 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
    * @param <T> the type of the left objects for the comparator
    * @param <U> the type of the right objects for the comparator
    */
-  public <T, U> void registerComparator(Class<T> clazz, Class<U> otherClazz, Comparator<? super T> comparator) {
+  public <T, U> void registerComparator(Class<T> clazz, @Nullable Class<U> otherClazz, Comparator<? super T> comparator) {
     super.put(clazz, otherClazz, comparator);
   }
 

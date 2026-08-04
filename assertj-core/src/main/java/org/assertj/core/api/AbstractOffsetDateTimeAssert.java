@@ -430,7 +430,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @throws AssertionError if the actual {@code OffsetDateTime} is not close to the given one for a provided offset.
    */
   @Override
-  public SELF isCloseTo(OffsetDateTime other, TemporalOffset<? super OffsetDateTime> offset) {
+  public SELF isCloseTo(@Nullable OffsetDateTime other, TemporalOffset<? super OffsetDateTime> offset) {
     // overridden for javadoc
     return super.isCloseTo(other, offset);
   }

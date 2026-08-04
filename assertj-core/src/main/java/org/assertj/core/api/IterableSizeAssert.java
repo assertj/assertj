@@ -16,6 +16,7 @@
 package org.assertj.core.api;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for the size of an iterable.
@@ -41,7 +42,7 @@ public class IterableSizeAssert<ELEMENT>
    * @param size the known iterable size
    */
   protected IterableSizeAssert(AbstractIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> originAssert,
-                               @SuppressWarnings("unused") Integer size) {
+                               @SuppressWarnings("unused") @Nullable Integer size) {
     super(originAssert, size);
   }
 

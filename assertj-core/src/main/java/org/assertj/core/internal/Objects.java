@@ -129,7 +129,7 @@ public class Objects {
    *
    * @return the configured comparator
    */
-  public Comparator<?> getComparator() {
+  public @Nullable Comparator<?> getComparator() {
     return comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy ? strategy.getComparator() : null;
   }
 
@@ -159,6 +159,7 @@ public class Objects {
    * @param type the expected type
    */
   public void assertIsInstanceOf(AssertionInfo info, @Nullable Object actual, Class<?> type) {
+    assertNotNull(info, actual);
     if (!isInstanceOfClass(actual, type, info)) throw failures.failure(info, shouldBeInstance(actual, type));
   }
 
@@ -170,11 +171,12 @@ public class Objects {
    * @param types the expected types
    */
   public void assertIsInstanceOfAny(AssertionInfo info, @Nullable Object actual, Class<?>[] types) {
+    assertNotNull(info, actual);
     if (objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
     throw failures.failure(info, shouldBeInstanceOfAny(actual, types));
   }
 
-  private boolean objectIsInstanceOfOneOfGivenClasses(Object actual, Class<?>[] types, AssertionInfo info) {
+  private boolean objectIsInstanceOfOneOfGivenClasses(@Nullable Object actual, Class<?>[] types, AssertionInfo info) {
     checkIsNotNullAndIsNotEmpty(types);
     assertNotNull(info, actual);
     for (Class<?> type : types) {
@@ -195,10 +197,11 @@ public class Objects {
    * @param type the prohibited type
    */
   public void assertIsNotInstanceOf(AssertionInfo info, @Nullable Object actual, Class<?> type) {
+    assertNotNull(info, actual);
     if (isInstanceOfClass(actual, type, info)) throw failures.failure(info, shouldNotBeInstance(actual, type));
   }
 
-  private boolean isInstanceOfClass(Object actual, Class<?> clazz, AssertionInfo info) {
+  private boolean isInstanceOfClass(@Nullable Object actual, Class<?> clazz, AssertionInfo info) {
     assertNotNull(info, actual);
     checkTypeIsNotNull(clazz);
     return clazz.isInstance(actual);
@@ -212,6 +215,7 @@ public class Objects {
    * @param types the prohibited types
    */
   public void assertIsNotInstanceOfAny(AssertionInfo info, @Nullable Object actual, Class<?>[] types) {
+    assertNotNull(info, actual);
     if (!objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
     throw failures.failure(info, shouldNotBeInstanceOfAny(actual, types));
   }
@@ -224,10 +228,11 @@ public class Objects {
    * @param other the comparison object
    */
   public void assertHasSameClassAs(AssertionInfo info, @Nullable Object actual, Object other) {
+    assertNotNull(info, actual);
     if (!haveSameClass(actual, other, info)) throw failures.failure(info, shouldHaveSameClass(actual, other));
   }
 
-  private boolean haveSameClass(Object actual, Object other, AssertionInfo info) {
+  private boolean haveSameClass(@Nullable Object actual, Object other, AssertionInfo info) {
     assertNotNull(info, actual);
     requireNonNull(other, "The given object should not be null");
     Class<?> actualClass = actual.getClass();
@@ -243,6 +248,7 @@ public class Objects {
    * @param other the comparison object
    */
   public void assertDoesNotHaveSameClassAs(AssertionInfo info, @Nullable Object actual, Object other) {
+    assertNotNull(info, actual);
     if (haveSameClass(actual, other, info)) throw failures.failure(info, shouldNotHaveSameClass(actual, other));
   }
 
@@ -254,11 +260,12 @@ public class Objects {
    * @param type the expected type
    */
   public void assertIsExactlyInstanceOf(AssertionInfo info, @Nullable Object actual, Class<?> type) {
+    assertNotNull(info, actual);
     if (!actualIsExactlyInstanceOfType(actual, type, info))
       throw failures.failure(info, shouldBeExactlyInstance(actual, type));
   }
 
-  private boolean actualIsExactlyInstanceOfType(Object actual, Class<?> expectedType, AssertionInfo info) {
+  private boolean actualIsExactlyInstanceOfType(@Nullable Object actual, Class<?> expectedType, AssertionInfo info) {
     assertNotNull(info, actual);
     checkTypeIsNotNull(expectedType);
     return expectedType.equals(actual.getClass());
@@ -272,6 +279,7 @@ public class Objects {
    * @param type the prohibited exact type
    */
   public void assertIsNotExactlyInstanceOf(AssertionInfo info, @Nullable Object actual, Class<?> type) {
+    assertNotNull(info, actual);
     if (actualIsExactlyInstanceOfType(actual, type, info))
       throw failures.failure(info, shouldNotBeExactlyInstance(actual, type));
   }
@@ -284,11 +292,12 @@ public class Objects {
    * @param types the expected classes
    */
   public void assertIsOfAnyClassIn(AssertionInfo info, @Nullable Object actual, Class<?>[] types) {
+    assertNotNull(info, actual);
     boolean itemInArray = isOfOneOfGivenTypes(actual, types, info);
     if (!itemInArray) throw failures.failure(info, shouldBeOfClassIn(actual, types));
   }
 
-  private boolean isOfOneOfGivenTypes(Object actual, Class<?>[] types, AssertionInfo info) {
+  private boolean isOfOneOfGivenTypes(@Nullable Object actual, Class<?>[] types, AssertionInfo info) {
     assertNotNull(info, actual);
     requireNonNull(types, "The given types should not be null");
     return isItemInArray(actual.getClass(), types);
@@ -302,6 +311,7 @@ public class Objects {
    * @param types the prohibited classes
    */
   public void assertIsNotOfAnyClassIn(AssertionInfo info, @Nullable Object actual, Class<?>[] types) {
+    assertNotNull(info, actual);
     boolean itemInArray = isOfOneOfGivenTypes(actual, types, info);
     if (itemInArray) throw failures.failure(info, shouldNotBeOfClassIn(actual, types));
   }
@@ -495,7 +505,8 @@ public class Objects {
   }
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  static boolean propertyOrFieldValuesAreEqual(Object actualFieldValue, Object otherFieldValue, String fieldName,
+  static boolean propertyOrFieldValuesAreEqual(@Nullable Object actualFieldValue, @Nullable Object otherFieldValue,
+                                               String fieldName,
                                                Map<String, Comparator<?>> comparatorByPropertyOrField,
                                                TypeComparators comparatorByType) {
     // no need to look into comparators if objects are the same
@@ -504,7 +515,9 @@ public class Objects {
     Comparator fieldComparator = comparatorByPropertyOrField.get(fieldName);
     if (fieldComparator != null) return fieldComparator.compare(actualFieldValue, otherFieldValue) == 0;
     // check if a type comparators exist for the field type
-    Class fieldType = actualFieldValue != null ? actualFieldValue.getClass() : otherFieldValue.getClass();
+    // actualFieldValue and otherFieldValue can't both be null, we would have returned true above already
+    Class fieldType = actualFieldValue != null ? actualFieldValue.getClass()
+        : otherFieldValue != null ? otherFieldValue.getClass() : Object.class;
     Comparator typeComparator = comparatorByType.getComparatorForType(fieldType);
     if (typeComparator != null) return typeComparator.compare(actualFieldValue, otherFieldValue) == 0;
     // default comparison using equals
@@ -577,7 +590,7 @@ public class Objects {
     }
   }
 
-  private <A> Object getPropertyOrFieldValue(A a, String fieldName) {
+  private <A> @Nullable Object getPropertyOrFieldValue(A a, String fieldName) {
     return PropertyOrFieldSupport.COMPARISON.getValueOf(fieldName, a);
   }
 
@@ -625,6 +638,7 @@ public class Objects {
    * @param actual the actual object
    * @param name the field or property name
    */
+  @Contract("_, null, _ -> fail")
   public <A> void assertHasFieldOrProperty(AssertionInfo info, @Nullable A actual, String name) {
     assertNotNull(info, actual);
     try {
@@ -680,7 +694,7 @@ public class Objects {
     }
   }
 
-  private <A> Object extractPropertyOrField(A actual, String name) {
+  private <A> @Nullable Object extractPropertyOrField(A actual, String name) {
     return PropertyOrFieldSupport.EXTRACTION.getValueOf(name, actual);
   }
 

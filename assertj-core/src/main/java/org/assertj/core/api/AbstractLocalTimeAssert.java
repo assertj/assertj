@@ -620,7 +620,7 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
   }
 
   @Override
-  public SELF isCloseTo(LocalTime other, TemporalOffset<? super LocalTime> offset) {
+  public SELF isCloseTo(@Nullable LocalTime other, TemporalOffset<? super LocalTime> offset) {
     // overridden for javadoc link
     return super.isCloseTo(other, offset);
   }

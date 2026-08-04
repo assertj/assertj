@@ -55,7 +55,7 @@ public abstract class AbstractMapSizeAssert<ORIGIN extends AbstractMapAssert<ORI
    * @param originAssert the origin map assertion
    * @param size the actual map size
    */
-  protected AbstractMapSizeAssert(AbstractMapAssert<ORIGIN, MAP, KEY, VALUE> originAssert, Integer size) {
+  protected AbstractMapSizeAssert(AbstractMapAssert<ORIGIN, MAP, KEY, VALUE> originAssert, @Nullable Integer size) {
     super(size, AbstractMapSizeAssert.class);
     this.originAssert = originAssert;
   }

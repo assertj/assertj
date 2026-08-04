@@ -271,7 +271,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * assertThat((short) 1).isBetween((short) 2, (short) 3);</code></pre>
    */
   @Override
-  public SELF isBetween(Short start, Short end) {
+  public SELF isBetween(@Nullable Short start, @Nullable Short end) {
     return executeAssertion(() -> shorts.assertIsBetween(info, actual, start, end));
   }
 
@@ -289,7 +289,7 @@ public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>
    * assertThat((short) 1).isStrictlyBetween((short) 2, (short) 3);</code></pre>
    */
   @Override
-  public SELF isStrictlyBetween(Short start, Short end) {
+  public SELF isStrictlyBetween(@Nullable Short start, @Nullable Short end) {
     return executeAssertion(() -> shorts.assertIsStrictlyBetween(info, actual, start, end));
   }
 

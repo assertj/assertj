@@ -74,6 +74,7 @@ public class ShouldContainSubsequence extends BasicErrorMessageFactory {
   }
 
   private static Object sizeOfArrayOrIterable(@Nullable Object actual) {
+    if (actual == null) return 0;
     return isArray(actual) ? Arrays.sizeOf(actual) : IterableUtil.sizeOf((Iterable<?>) actual);
   }
 

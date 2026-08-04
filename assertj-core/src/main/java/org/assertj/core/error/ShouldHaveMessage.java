@@ -18,6 +18,8 @@ package org.assertj.core.error;
 import static org.assertj.core.util.Strings.escapePercent;
 import static org.assertj.core.util.Throwables.getStackTrace;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Throwable} have certain message failed.
  * @author Joel Costigliola
@@ -30,11 +32,11 @@ public class ShouldHaveMessage extends BasicErrorMessageFactory {
    * @param expectedMessage the expected message of actual {@link Throwable}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveMessage(Throwable actual, String expectedMessage) {
+  public static ErrorMessageFactory shouldHaveMessage(Throwable actual, @Nullable String expectedMessage) {
     return new ShouldHaveMessage(actual, expectedMessage);
   }
 
-  private ShouldHaveMessage(Throwable actual, String expectedMessage) {
+  private ShouldHaveMessage(Throwable actual, @Nullable String expectedMessage) {
     super("%n" +
           "Expecting message to be:%n" +
           "  %s%n" +

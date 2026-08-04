@@ -19,6 +19,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a class have methods.
  */
@@ -101,7 +103,7 @@ public class ShouldHaveMethods extends BasicErrorMessageFactory {
           "  %s", actual, expected, nonMatching);
   }
 
-  private ShouldHaveMethods(Class<?> actual, String modifier, boolean declared,
+  private ShouldHaveMethods(Class<?> actual, @Nullable String modifier, boolean declared,
                             Set<String> actualMethodsHavingModifier) {
     super("%n" +
           "Expecting%n" +

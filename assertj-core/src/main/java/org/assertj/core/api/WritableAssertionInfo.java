@@ -51,13 +51,13 @@ public class WritableAssertionInfo implements AssertionInfo {
    *
    * @param customRepresentation the custom representation, or {@code null} for the default
    */
-  public WritableAssertionInfo(Representation customRepresentation) {
-    useRepresentation(customRepresentation == null ? CONFIGURATION_PROVIDER.representation() : customRepresentation);
+  public WritableAssertionInfo(@Nullable Representation customRepresentation) {
+    representation = customRepresentation == null ? CONFIGURATION_PROVIDER.representation() : customRepresentation;
   }
 
   /** Creates assertion information using the default representation. */
   public WritableAssertionInfo() {
-    useRepresentation(CONFIGURATION_PROVIDER.representation());
+    representation = CONFIGURATION_PROVIDER.representation();
   }
 
   /**

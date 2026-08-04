@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for text differing only after newline normalization rules are applied. */
 public class ShouldBeEqualIgnoringNewLineDifferences extends BasicErrorMessageFactory {
 
@@ -25,11 +27,12 @@ public class ShouldBeEqualIgnoringNewLineDifferences extends BasicErrorMessageFa
    * @param expected the expected text
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldBeEqualIgnoringNewLineDifferences(CharSequence actual, CharSequence expected) {
+  public static ErrorMessageFactory shouldBeEqualIgnoringNewLineDifferences(@Nullable CharSequence actual,
+                                                                            @Nullable CharSequence expected) {
     return new ShouldBeEqualIgnoringNewLineDifferences(actual, expected);
   }
 
-  private ShouldBeEqualIgnoringNewLineDifferences(CharSequence actual, CharSequence expected) {
+  private ShouldBeEqualIgnoringNewLineDifferences(@Nullable CharSequence actual, @Nullable CharSequence expected) {
     super("%nExpecting actual:%n  %s%nto be equal to:%n  %s%nwhen ignoring newline differences ('\\r\\n' == '\\n')",
           IndentWrapper.of(actual), IndentWrapper.of(expected));
   }

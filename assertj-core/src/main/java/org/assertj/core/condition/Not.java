@@ -16,6 +16,7 @@
 package org.assertj.core.condition;
 
 import org.assertj.core.api.Condition;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Returns {@code true} if the condition is not satisfied.
@@ -24,16 +25,16 @@ import org.assertj.core.api.Condition;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class Not<T> extends Negative<T> {
+public class Not<T extends @Nullable Object> extends Negative<T> {
 
   /**
    * Creates a new <code>{@link Not}</code>.
-   * 
+   *
    * @param <T> the type of value the {@link Condition} applies to.
    * @param condition the condition to inverse.
    * @return The Not condition created.
    */
-  public static <T> Not<T> not(Condition<? super T> condition) {
+  public static <T extends @Nullable Object> Not<T> not(Condition<? super T> condition) {
     return new Not<>(condition);
   }
 

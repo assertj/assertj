@@ -43,7 +43,7 @@ public final class Lists {
    */
   @SafeVarargs
   @Contract("null -> null; !null -> !null")
-  public static <T> @Nullable List<T> list(T... elements) {
+  public static <T extends @Nullable Object> @Nullable List<T> list(T... elements) {
     return newArrayList(elements);
   }
 
@@ -56,7 +56,7 @@ public final class Lists {
    */
   @SafeVarargs
   @Contract("null -> null; !null -> !null")
-  public static <T> @Nullable ArrayList<T> newArrayList(T @Nullable... elements) {
+  public static <T extends @Nullable Object> @Nullable ArrayList<T> newArrayList(T @Nullable... elements) {
     if (elements == null) {
       return null;
     }

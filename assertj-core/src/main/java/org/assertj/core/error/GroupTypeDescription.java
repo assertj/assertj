@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import java.util.Map;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Generates a description for the type of a group of elements. The description is used in the error message.
  */
@@ -60,8 +62,8 @@ public class GroupTypeDescription {
    * @param actual the group of elements.
    * @return the created GroupTypeDescription object
    */
-  public static GroupTypeDescription getGroupTypeDescription(Object actual) {
-    return getGroupTypeDescription(actual.getClass());
+  public static GroupTypeDescription getGroupTypeDescription(@Nullable Object actual) {
+    return getGroupTypeDescription(actual == null ? Object.class : actual.getClass());
   }
 
   /**

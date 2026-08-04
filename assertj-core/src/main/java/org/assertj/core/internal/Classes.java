@@ -45,6 +45,7 @@ import java.util.SortedSet;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.util.Arrays;
 import org.jspecify.annotations.Nullable;
 
@@ -382,6 +383,7 @@ public class Classes {
     return filteredMembers;
   }
 
+  @Contract("_, null -> fail")
   private static void assertNotNull(AssertionInfo info, @Nullable Class<?> actual) {
     Objects.instance().assertNotNull(info, actual);
   }

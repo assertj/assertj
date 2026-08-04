@@ -774,7 +774,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @throws AssertionError if the actual {@code ZonedDateTime} is not close to the given one for a provided offset.
    */
   @Override
-  public SELF isCloseTo(ZonedDateTime other, TemporalOffset<? super ZonedDateTime> offset) {
+  public SELF isCloseTo(@Nullable ZonedDateTime other, TemporalOffset<? super ZonedDateTime> offset) {
     // overridden for javadoc
     return super.isCloseTo(other, offset);
   }
@@ -801,7 +801,8 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
     return dates;
   }
 
-  private ZonedDateTime[] changeToActualTimeZone(ZonedDateTime... dateTimes) {
+  private @Nullable ZonedDateTime[] changeToActualTimeZone(ZonedDateTime... dateTimes) {
+    @Nullable
     ZonedDateTime[] dates = new ZonedDateTime[dateTimes.length];
     for (int i = 0; i < dateTimes.length; i++) {
       dates[i] = sameInstantInActualTimeZone(dateTimes[i]);
@@ -825,7 +826,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
     return ZonedDateTime.parse(dateTimeAsString, DateTimeFormatter.ISO_DATE_TIME);
   }
 
-  private ZonedDateTime sameInstantInActualTimeZone(ZonedDateTime zonedDateTime) {
+  private @Nullable ZonedDateTime sameInstantInActualTimeZone(@Nullable ZonedDateTime zonedDateTime) {
     if (zonedDateTime == null) return null; // nothing to convert in actual's TZ
     if (actual == null) return zonedDateTime; // no actual => let's keep zonedDateTime as it is.
     return zonedDateTime.withZoneSameInstant(actual.getZone());

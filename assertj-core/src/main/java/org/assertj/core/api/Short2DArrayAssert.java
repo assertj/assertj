@@ -73,6 +73,9 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    * @throws AssertionError if the actual {@code short[][]} is not deeply equal to the given one.
    */
   @Override
+  // expected is genuinely never null here (unlike actual): the method dereferences it unconditionally
+  // (e.g. expected.length), so it must stay non-null despite ACTUAL's nullable bound in Abstract2DArrayAssert.
+  @SuppressWarnings("NullAway")
   public Short2DArrayAssert isDeepEqualTo(short[][] expected) {
     return executeAssertion(() -> {
       if (actual == expected) return;

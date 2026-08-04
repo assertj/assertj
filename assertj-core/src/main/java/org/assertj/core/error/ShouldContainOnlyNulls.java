@@ -48,7 +48,7 @@ public class ShouldContainOnlyNulls extends BasicErrorMessageFactory {
     return new ShouldContainOnlyNulls(actual, NON_NULL_ELEMENTS, nonNullElements);
   }
 
-  private ShouldContainOnlyNulls(@Nullable Object actual, ErrorType errorType, Iterable<?> notExpected) {
+  private ShouldContainOnlyNulls(@Nullable Object actual, ErrorType errorType, @Nullable Iterable<?> notExpected) {
     super("%n" +
           "Expecting actual:%n" +
           "  %s%n" +

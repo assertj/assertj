@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link Object}s.
  * <p>
@@ -27,7 +29,7 @@ package org.assertj.core.api;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class ObjectAssert<ACTUAL> extends AbstractObjectAssert<ObjectAssert<ACTUAL>, ACTUAL> {
+public class ObjectAssert<ACTUAL extends @Nullable Object> extends AbstractObjectAssert<ObjectAssert<ACTUAL>, ACTUAL> {
 
   /**
    * Creates a new object assertion.
@@ -44,7 +46,8 @@ public class ObjectAssert<ACTUAL> extends AbstractObjectAssert<ObjectAssert<ACTU
    * @param <ACTUAL> the actual value type
    * @return a null object assertion
    */
-  public static <ACTUAL> ObjectAssert<ACTUAL> nullObjectAssert() {
+  @SuppressWarnings("NullAway")
+  public static <ACTUAL extends @Nullable Object> ObjectAssert<ACTUAL> nullObjectAssert() {
     return new ObjectAssert<>(null);
   }
 }

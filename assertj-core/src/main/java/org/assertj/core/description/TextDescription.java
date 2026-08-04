@@ -46,7 +46,7 @@ public class TextDescription extends Description {
    */
   public TextDescription(@Nullable String value, Object @Nullable... args) {
     this.value = value == null ? "" : value;
-    this.args = Arrays.isNullOrEmpty(args) ? null : args.clone();
+    this.args = (args == null || Arrays.isNullOrEmpty(args)) ? null : args.clone();
   }
 
   @Override

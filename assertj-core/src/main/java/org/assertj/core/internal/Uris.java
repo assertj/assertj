@@ -85,7 +85,7 @@ public class Uris {
    * @param actual the actual URI
    * @param path the expected path
    */
-  public void assertHasPath(AssertionInfo info, @Nullable URI actual, String path) {
+  public void assertHasPath(AssertionInfo info, @Nullable URI actual, @Nullable String path) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getPath(), path)) throw failures.failure(info, shouldHavePath(actual, path));
   }
@@ -146,7 +146,7 @@ public class Uris {
    * @param actual the actual URI
    * @param expected the expected fragment
    */
-  public void assertHasFragment(AssertionInfo info, @Nullable URI actual, String expected) {
+  public void assertHasFragment(AssertionInfo info, @Nullable URI actual, @Nullable String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getFragment(), expected)) throw failures.failure(info, shouldHaveFragment(actual, expected));
   }
@@ -158,7 +158,7 @@ public class Uris {
    * @param actual the actual URI
    * @param expected the expected query
    */
-  public void assertHasQuery(AssertionInfo info, @Nullable URI actual, String expected) {
+  public void assertHasQuery(AssertionInfo info, @Nullable URI actual, @Nullable String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getQuery(), expected)) throw failures.failure(info, shouldHaveQuery(actual, expected));
   }
@@ -170,7 +170,7 @@ public class Uris {
    * @param actual the actual URI
    * @param expected the expected user information
    */
-  public void assertHasUserInfo(AssertionInfo info, @Nullable URI actual, String expected) {
+  public void assertHasUserInfo(AssertionInfo info, @Nullable URI actual, @Nullable String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getUserInfo(), expected)) throw failures.failure(info, shouldHaveUserInfo(actual, expected));
   }

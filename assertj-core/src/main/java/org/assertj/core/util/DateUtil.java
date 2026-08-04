@@ -164,6 +164,7 @@ public class DateUtil {
    * @param date we want to get the day part (the parameter is read only).
    * @return the truncated date.
    */
+  @Contract("null -> null; !null -> !null")
   public static @Nullable Date truncateTime(@Nullable Date date) {
     if (date == null) return null;
     Calendar cal = toCalendar(date);

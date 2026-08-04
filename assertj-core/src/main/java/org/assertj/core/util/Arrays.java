@@ -75,7 +75,7 @@ public class Arrays {
    * @return the values of the given Object as a {@code List<Object>}.
    * @throws IllegalArgumentException it the given Object is not an array.
    */
-  public static @Nullable List<Object> asList(Object array) {
+  public static List<Object> asList(Object array) {
     return newArrayList(asObjectArray(array));
   }
 
@@ -86,7 +86,7 @@ public class Arrays {
    * @param array the array to check.
    * @return {@code true} if the given array is {@code null} or empty, otherwise {@code false}.
    */
-  public static <T> boolean isNullOrEmpty(T @Nullable [] array) {
+  public static <T extends @Nullable Object> boolean isNullOrEmpty(T @Nullable [] array) {
     return array == null || isEmpty(array);
   }
 
@@ -182,7 +182,7 @@ public class Arrays {
     return true;
   }
 
-  private static <T> boolean isEmpty(T[] array) {
+  private static <T extends @Nullable Object> boolean isEmpty(T[] array) {
     return array.length == 0;
   }
 
@@ -203,7 +203,7 @@ public class Arrays {
    * @return whether the value is an array of primitives
    */
   public static boolean isArrayTypePrimitive(@Nullable Object o) {
-    return isArray(o) && o.getClass().getComponentType().isPrimitive();
+    return o != null && isArray(o) && o.getClass().getComponentType().isPrimitive();
   }
 
   /**
@@ -225,7 +225,7 @@ public class Arrays {
    * @return the resulting array
    */
   @SuppressWarnings("unchecked")
-  public static <T> T[] prepend(T first, T... rest) {
+  public static <T extends @Nullable Object> T[] prepend(T first, T... rest) {
     T[] result = (T[]) new Object[1 + rest.length];
     result[0] = first;
     System.arraycopy(rest, 0, result, 1, rest.length);

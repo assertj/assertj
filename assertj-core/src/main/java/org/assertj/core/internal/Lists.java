@@ -37,6 +37,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
+import org.assertj.core.internal.annotation.Contract;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -229,6 +230,7 @@ public class Lists {
    *           .
    */
   public <T> void assertHas(AssertionInfo info, @Nullable List<? extends T> actual, Condition<? super T> condition, Index index) {
+    assertNotNull(info, actual);
     if (conditionIsMetAtIndex(info, actual, condition, index)) return;
     throw failures.failure(info, shouldHaveAtIndex(actual, condition, index, actual.get(index.value)));
   }
@@ -249,6 +251,7 @@ public class Lists {
    *           .
    */
   public <T> void assertIs(AssertionInfo info, @Nullable List<? extends T> actual, Condition<? super T> condition, Index index) {
+    assertNotNull(info, actual);
     if (conditionIsMetAtIndex(info, actual, condition, index)) return;
     throw failures.failure(info, shouldBeAtIndex(actual, condition, index, actual.get(index.value)));
   }
@@ -284,6 +287,7 @@ public class Lists {
     return collection.stream().map(object -> (Comparable<Object>) object).collect(toList());
   }
 
+  @Contract("_, null -> fail")
   private void assertNotNull(AssertionInfo info, @Nullable List<?> actual) {
     Objects.instance().assertNotNull(info, actual);
   }

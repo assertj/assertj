@@ -28,6 +28,7 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.JoinDescription;
 import org.assertj.core.util.Streams;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Join of two or more <code>{@link Condition}</code>s.
@@ -36,7 +37,7 @@ import org.assertj.core.util.Streams;
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  */
-public abstract class Join<T> extends Condition<T> {
+public abstract class Join<T extends @Nullable Object> extends Condition<T> {
 
   /** Delimiter ending the joined condition description. */
   protected static final String SUFFIX_DELIMITER = "]";
@@ -100,7 +101,7 @@ public abstract class Join<T> extends Condition<T> {
   }
 
   @Override
-  public Description conditionDescriptionWithStatus(T actual) {
+  public Description conditionDescriptionWithStatus(@Nullable T actual) {
     List<Description> descriptionsWithStatus = conditions.stream()
                                                          .map(condition -> condition.conditionDescriptionWithStatus(actual))
                                                          .collect(toList());

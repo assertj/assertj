@@ -69,13 +69,13 @@ public class Configuration {
   private boolean extractingPrivateFields;
   private boolean bareNamePropertyExtraction;
   private boolean removeAssertJRelatedElementsFromStackTrace;
-  private List<DateFormat> additionalDateFormats;
+  private List<DateFormat> additionalDateFormats = emptyList();
   private int maxLengthForSingleLineDescription;
   private int maxElementsForPrinting;
   private boolean printAssertionsDescription;
   private @Nullable Consumer<Description> descriptionConsumer;
   private int maxStackTraceElementsDisplayed;
-  private PreferredAssumptionException preferredAssumptionException;
+  private PreferredAssumptionException preferredAssumptionException = PREFERRED_ASSUMPTION_EXCEPTION;
 
   /** Creates a configuration initialized with default values. */
   public Configuration() {

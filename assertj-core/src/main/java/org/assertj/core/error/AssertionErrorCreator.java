@@ -32,7 +32,7 @@ import org.jspecify.annotations.Nullable;
 public class AssertionErrorCreator {
 
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class, Object.class);
-  private Method valueWrapperCreateMethod;
+  private @Nullable Method valueWrapperCreateMethod;
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ConstructorInvoker constructorInvoker;
@@ -103,7 +103,7 @@ public class AssertionErrorCreator {
    * @param message the error message
    * @return the assertion error
    */
-  public AssertionError assertionError(String message) {
+  public AssertionError assertionError(@Nullable String message) {
     return new AssertionError(message);
   }
 

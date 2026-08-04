@@ -89,7 +89,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   @Override
   @SuppressWarnings("unchecked")
   public boolean iterableContains(@Nullable Iterable<?> iterable, @Nullable Object value) {
-    if (isNullOrEmpty(iterable)) return false;
+    if (iterable == null || isNullOrEmpty(iterable)) return false;
     for (Object element : iterable) {
       // avoid comparison when objects are the same or both null
       if (element == value) return true;

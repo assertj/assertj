@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /** Creates errors for maps missing expected entries. */
 public class ShouldContainEntries extends BasicErrorMessageFactory {
@@ -42,11 +43,11 @@ public class ShouldContainEntries extends BasicErrorMessageFactory {
    * @param representation the value representation
    * @return the error message factory
    */
-  public static <K, V> ErrorMessageFactory shouldContainEntries(Map<? extends K, ? extends V> actual,
-                                                                Entry<? extends K, ? extends V>[] expectedEntries,
-                                                                Set<Entry<? extends K, ? extends V>> entriesWithWrongValue,
-                                                                Set<Entry<? extends K, ? extends V>> entriesWithKeyNotFound,
-                                                                Representation representation) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> ErrorMessageFactory shouldContainEntries(Map<? extends K, ? extends V> actual,
+                                                                                                                  Entry<? extends K, ? extends V>[] expectedEntries,
+                                                                                                                  Set<Entry<? extends K, ? extends V>> entriesWithWrongValue,
+                                                                                                                  Set<Entry<? extends K, ? extends V>> entriesWithKeyNotFound,
+                                                                                                                  Representation representation) {
     if (entriesWithWrongValue.isEmpty())
       return new ShouldContainEntries(actual, expectedEntries, getKeys(entriesWithKeyNotFound));
     if (entriesWithKeyNotFound.isEmpty())
@@ -57,23 +58,25 @@ public class ShouldContainEntries extends BasicErrorMessageFactory {
                                     buildValueDifferences(actual, entriesWithWrongValue, representation));
   }
 
-  private static <K, V> List<String> buildValueDifferences(Map<? extends K, ? extends V> actual,
-                                                           Set<Entry<? extends K, ? extends V>> entriesWithWrongValues,
-                                                           Representation representation) {
+  private static <K extends @Nullable Object, V extends @Nullable Object> List<String> buildValueDifferences(Map<? extends K, ? extends V> actual,
+                                                                                                             Set<Entry<? extends K, ? extends V>> entriesWithWrongValues,
+                                                                                                             Representation representation) {
     return entriesWithWrongValues.stream()
                                  .map(entryWithWrongValue -> valueDifference(actual, entryWithWrongValue, representation))
                                  .toList();
   }
 
-  private static <K, V> List<K> getKeys(Set<Entry<? extends K, ? extends V>> entries) {
+  private static <K extends @Nullable Object, V extends @Nullable Object> List<K> getKeys(Set<Entry<? extends K, ? extends V>> entries) {
     return entries.stream()
                   .map(Entry::getKey)
                   .collect(toList());
   }
 
-  private static <K, V> String valueDifference(Map<? extends K, ? extends V> actual,
-                                               Entry<? extends K, ? extends V> entryWithWrongValue,
-                                               Representation representation) {
+  // NullAway does not propagate the wildcard-captured value type's own @Nullable bound through this entry(...) call.
+  @SuppressWarnings("NullAway")
+  private static <K extends @Nullable Object, V extends @Nullable Object> String valueDifference(Map<? extends K, ? extends V> actual,
+                                                                                                 Entry<? extends K, ? extends V> entryWithWrongValue,
+                                                                                                 Representation representation) {
     K key = entryWithWrongValue.getKey();
     MapEntry<K, ? extends V> actualEntry = entry(key, actual.get(key));
     V expectedValue = entryWithWrongValue.getValue();
@@ -81,9 +84,9 @@ public class ShouldContainEntries extends BasicErrorMessageFactory {
                                                        representation.toStringOf(expectedValue)));
   }
 
-  private <K, V> ShouldContainEntries(Map<? extends K, ? extends V> actual,
-                                      Entry<? extends K, ? extends V>[] expectedEntries,
-                                      Iterable<? extends K> keysNotFound) {
+  private <K extends @Nullable Object, V extends @Nullable Object> ShouldContainEntries(Map<? extends K, ? extends V> actual,
+                                                                                        Entry<? extends K, ? extends V>[] expectedEntries,
+                                                                                        Iterable<? extends K> keysNotFound) {
     super("%nExpecting map:%n" +
           "  %s%n" +
           "to contain entries:%n" +
@@ -93,9 +96,9 @@ public class ShouldContainEntries extends BasicErrorMessageFactory {
           actual, expectedEntries, keysNotFound);
   }
 
-  private <K, V> ShouldContainEntries(Map<? extends K, ? extends V> actual,
-                                      Entry<? extends K, ? extends V>[] expectedEntries,
-                                      List<String> valueDifferences) {
+  private <K extends @Nullable Object, V extends @Nullable Object> ShouldContainEntries(Map<? extends K, ? extends V> actual,
+                                                                                        Entry<? extends K, ? extends V>[] expectedEntries,
+                                                                                        List<String> valueDifferences) {
     super("%nExpecting map:%n" +
           "  %s%n" +
           "to contain entries:%n" +
@@ -105,10 +108,10 @@ public class ShouldContainEntries extends BasicErrorMessageFactory {
           actual, expectedEntries, valueDifferences);
   }
 
-  private <K, V> ShouldContainEntries(Map<? extends K, ? extends V> actual,
-                                      Entry<? extends K, ? extends V>[] expectedEntries,
-                                      Iterable<? extends K> keysNotFound,
-                                      List<String> valueDifferences) {
+  private <K extends @Nullable Object, V extends @Nullable Object> ShouldContainEntries(Map<? extends K, ? extends V> actual,
+                                                                                        Entry<? extends K, ? extends V>[] expectedEntries,
+                                                                                        Iterable<? extends K> keysNotFound,
+                                                                                        List<String> valueDifferences) {
     super("%nExpecting map:%n" +
           "  %s%n" +
           "to contain entries:%n" +

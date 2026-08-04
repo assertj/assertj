@@ -38,7 +38,7 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
    * @param condition the expected condition
    * @return the error message factory
    */
-  public static <T> ErrorMessageFactory shouldSatisfy(T actual, Condition<? super T> condition) {
+  public static <T extends @Nullable Object> ErrorMessageFactory shouldSatisfy(T actual, Condition<? super T> condition) {
     return new ShouldSatisfy(actual, condition);
   }
 

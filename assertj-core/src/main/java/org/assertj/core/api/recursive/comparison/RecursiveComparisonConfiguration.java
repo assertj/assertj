@@ -252,8 +252,13 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   @SuppressWarnings("rawtypes")
   @Nullable
   Comparator getComparator(DualValue dualValue) {
+    @Nullable
     Class expectedFieldType = dualValue.expected != null ? dualValue.expected.getClass() : null;
+    @Nullable
     Class actualFieldType = dualValue.actual != null ? dualValue.actual.getClass() : expectedFieldType;
+    // actual and expected can't both be null: getComparator is only called after hasCustomComparator returned true,
+    // which already checked that at least one of them is non-null.
+    if (actualFieldType == null) return null;
     Comparator typeComparator = getComparatorForDualType(actualFieldType, expectedFieldType);
     if (typeComparator == null) typeComparator = getComparatorForDualType(actualFieldType);
     return typeComparator;
@@ -275,7 +280,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * @param fieldType the field type
    * @return the registered message
    */
-  public String getMessageForType(Class<?> fieldType) {
+  public @Nullable String getMessageForType(Class<?> fieldType) {
     return typeMessages.getMessageForType(fieldType);
   }
 
@@ -1127,10 +1132,13 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     String fieldName = dualValue.getConcatenatedPath();
     if (hasComparatorForField(fieldName)) return true;
     if (dualValue.actual == null && dualValue.expected == null) return false;
+    @Nullable
     Class<?> expectedType = dualValue.expected != null ? dualValue.expected.getClass() : null;
     // use expected type when actual is null, we assume here as best effort that actual and expected have the same type
     // even though it's not true as we can compare object of different types.
+    @Nullable
     Class<?> actualType = dualValue.actual != null ? dualValue.actual.getClass() : expectedType;
+    if (actualType == null) return false; // unreachable: dualValue.actual and dualValue.expected can't both be null here
     return hasComparatorForDualTypes(actualType, expectedType) || hasComparatorForType(actualType);
   }
 
@@ -1166,6 +1174,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     }
     return !ignoreAllOverriddenEquals
            && !matchesAnIgnoredOverriddenEqualsField(dualValue)
+           && dualValue.actual != null
            && !shouldIgnoreOverriddenEqualsOf(dualValue.actual.getClass());
   }
 
@@ -1520,7 +1529,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return new Builder();
   }
 
-  void checkComparedFieldsExist(Object actual) {
+  void checkComparedFieldsExist(@Nullable Object actual) {
     if (ignoreNonExistentComparedFields) return;
     Map<FieldLocation, String> unknownComparedFields = new TreeMap<>();
     for (FieldLocation comparedField : comparedFields) {
@@ -1536,7 +1545,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     }
   }
 
-  private Optional<Entry<FieldLocation, String>> checkComparedFieldExists(Object actual, FieldLocation comparedFieldLocation) {
+  private Optional<Entry<FieldLocation, String>> checkComparedFieldExists(@Nullable Object actual,
+                                                                          FieldLocation comparedFieldLocation) {
     Object node = actual;
     int nestingLevel = 0;
     while (nestingLevel < comparedFieldLocation.getDecomposedPath().size()) {

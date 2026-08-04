@@ -68,6 +68,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.util.diff.Delta;
 import org.jspecify.annotations.Nullable;
 
@@ -407,7 +408,7 @@ public class Files {
    * @throws AssertionError       if the given {@code File} does not have a parent.
    * @throws AssertionError       if the given {@code File} parent is not equal to the expected one.
    */
-  public void assertHasParent(AssertionInfo info, File actual, File expected) {
+  public void assertHasParent(AssertionInfo info, File actual, @Nullable File expected) {
     requireNonNull(expected, "The expected parent file should not be null.");
     assertNotNull(info, actual);
     try {
@@ -708,6 +709,7 @@ public class Files {
     return file -> matcher.matches(file.toPath());
   }
 
+  @Contract("_, null -> fail")
   private static void assertNotNull(AssertionInfo info, @Nullable File actual) {
     Objects.instance().assertNotNull(info, actual);
   }

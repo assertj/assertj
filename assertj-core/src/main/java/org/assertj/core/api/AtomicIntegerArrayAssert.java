@@ -36,7 +36,7 @@ public class AtomicIntegerArrayAssert
   /** Internal assertions for integer arrays. */
   protected IntArrays arrays = IntArrays.instance();
 
-  private int[] array;
+  private int @Nullable [] array;
 
   /**
    * Creates a new atomic integer array assertion.

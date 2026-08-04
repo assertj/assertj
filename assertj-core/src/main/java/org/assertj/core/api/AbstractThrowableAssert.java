@@ -138,7 +138,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalStateException if the descriptionSupplier is {@code null} when evaluated.
    */
   @Override
-  public SELF as(Supplier<String> descriptionSupplier) {
+  public SELF as(@Nullable Supplier<String> descriptionSupplier) {
     return super.as(descriptionSupplier);
   }
 
@@ -236,7 +236,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   public AbstractThrowableAssert<?, ?> cause() {
     return executeAssertionNavigation(() -> {
       throwables.assertHasCause(info, actual);
-      return new ThrowableAssert<>(actual.getCause()).withAssertionState(myself);
+      return new ThrowableAssert<@Nullable Throwable>(actual.getCause()).withAssertionState(myself);
     }, ThrowableAssert::nullThrowableAssert);
   }
 
@@ -260,7 +260,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   public AbstractThrowableAssert<?, ?> rootCause() {
     return executeAssertionNavigation(() -> {
       throwables.assertHasRootCause(info, actual);
-      return new ThrowableAssert<>(org.assertj.core.util.Throwables.getRootCause(actual)).withAssertionState(myself);
+      return new ThrowableAssert<@Nullable Throwable>(org.assertj.core.util.Throwables.getRootCause(actual)).withAssertionState(myself);
     }, ThrowableAssert::nullThrowableAssert);
   }
 

@@ -87,7 +87,7 @@ public class Filters<E> {
   /**
    * The name of the property used for filtering.
    */
-  private String propertyOrFieldNameToFilterOn;
+  private @Nullable String propertyOrFieldNameToFilterOn;
 
   /**
    * Creates a new <code>{@link Filters}</code> with the {@link Iterable} to filter.
@@ -296,8 +296,7 @@ public class Filters<E> {
    * @throws IllegalArgumentException if the property name to filter on has not been set.
    */
   public Filters<E> equalsTo(@Nullable Object propertyValue) {
-    checkPropertyNameToFilterOnIsNotNull();
-    return matching(new Condition<>(elem -> deepEquals(elem, propertyValue), "equalsTo(%s)", propertyValue));
+    return matching(new Condition<>(elem -> deepEquals(elem, propertyValue), "equalsTo(%s)", String.valueOf(propertyValue)));
   }
 
   /**
@@ -312,8 +311,7 @@ public class Filters<E> {
    * @throws IllegalArgumentException if the property name to filter on has not been set.
    */
   public Filters<E> notEqualsTo(@Nullable Object propertyValue) {
-    checkPropertyNameToFilterOnIsNotNull();
-    return matching(new Condition<>(elem -> !deepEquals(elem, propertyValue), "notEqualsTo(%s)", propertyValue));
+    return matching(new Condition<>(elem -> !deepEquals(elem, propertyValue), "notEqualsTo(%s)", String.valueOf(propertyValue)));
   }
 
   /**
@@ -333,10 +331,10 @@ public class Filters<E> {
    * the type of the selected property.
    */
   public <T> Filters<E> matching(Condition<T> condition) {
-    checkPropertyNameToFilterOnIsNotNull();
+    String propertyOrFieldName = propertyNameToFilterOn();
     checkArgument(condition != null, "The filter condition should not be null");
     this.filteredIterable = filteredIterable.stream().filter(element -> {
-      Object propertyValueOfCurrentElement = PROPERTY_OR_FIELD_SUPPORT.getValueOf(propertyOrFieldNameToFilterOn, element);
+      Object propertyValueOfCurrentElement = PROPERTY_OR_FIELD_SUPPORT.getValueOf(propertyOrFieldName, element);
       try {
         return condition.matches((T) propertyValueOfCurrentElement);
       } catch (ClassCastException e) {
@@ -346,9 +344,12 @@ public class Filters<E> {
     return this;
   }
 
-  private void checkPropertyNameToFilterOnIsNotNull() {
-    checkArgument(propertyOrFieldNameToFilterOn != null,
-                  "The property name to filter on has not been set - no filtering is possible");
+  private String propertyNameToFilterOn() {
+    String propertyOrFieldName = propertyOrFieldNameToFilterOn;
+    if (propertyOrFieldName == null) {
+      throw new IllegalArgumentException("The property name to filter on has not been set - no filtering is possible");
+    }
+    return propertyOrFieldName;
   }
 
   /**
@@ -363,9 +364,9 @@ public class Filters<E> {
    * @throws IllegalArgumentException if the property name to filter on has not been set.
    */
   public Filters<E> in(Object... propertyValues) {
-    checkPropertyNameToFilterOnIsNotNull();
+    String propertyOrFieldName = propertyNameToFilterOn();
     this.filteredIterable = filteredIterable.stream().filter(element -> {
-      Object propertyValueOfCurrentElement = PROPERTY_OR_FIELD_SUPPORT.getValueOf(propertyOrFieldNameToFilterOn, element);
+      Object propertyValueOfCurrentElement = PROPERTY_OR_FIELD_SUPPORT.getValueOf(propertyOrFieldName, element);
       return isItemInArray(propertyValueOfCurrentElement, propertyValues);
     }).collect(toList());
     return this;
@@ -383,9 +384,9 @@ public class Filters<E> {
    * @throws IllegalArgumentException if the property name to filter on has not been set.
    */
   public Filters<E> notIn(Object... propertyValues) {
-    checkPropertyNameToFilterOnIsNotNull();
+    String propertyOrFieldName = propertyNameToFilterOn();
     this.filteredIterable = filteredIterable.stream().filter(element -> {
-      Object propertyValueOfCurrentElement = PROPERTY_OR_FIELD_SUPPORT.getValueOf(propertyOrFieldNameToFilterOn, element);
+      Object propertyValueOfCurrentElement = PROPERTY_OR_FIELD_SUPPORT.getValueOf(propertyOrFieldName, element);
       return !isItemInArray(propertyValueOfCurrentElement, propertyValues);
     }).collect(toList());
     return this;
@@ -398,7 +399,7 @@ public class Filters<E> {
    * @param arrayOfValues the array of values
    * @return <code>true</code> if given item is in given array, <code>false</code> otherwise.
    */
-  private static boolean isItemInArray(Object item, Object[] arrayOfValues) {
+  private static boolean isItemInArray(@Nullable Object item, Object[] arrayOfValues) {
     for (Object value : arrayOfValues)
       if (deepEquals(value, item)) return true;
     return false;

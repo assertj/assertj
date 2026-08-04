@@ -43,7 +43,7 @@ public class ObjectArrayAssert<ELEMENT extends @Nullable Object>
    *
    * @param actual the actual array to verify
    */
-  public ObjectArrayAssert(ELEMENT[] actual) {
+  public ObjectArrayAssert(ELEMENT @Nullable [] actual) {
     super(actual, ObjectArrayAssert.class);
   }
 

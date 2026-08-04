@@ -39,7 +39,7 @@ import org.jspecify.annotations.Nullable;
  * @param <T> the type of object this condition accepts.
  * @since 2.9.0 / 3.9.0
  */
-public class HamcrestCondition<T> extends Condition<T> {
+public class HamcrestCondition<T extends @Nullable Object> extends Condition<T> {
 
   private Matcher<? extends T> matcher;
 

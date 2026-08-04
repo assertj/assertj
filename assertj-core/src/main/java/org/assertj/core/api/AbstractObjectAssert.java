@@ -61,7 +61,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     extends AbstractAssertWithComparator<SELF, ACTUAL> {
 
   private Map<String, Comparator<?>> comparatorsByPropertyOrField = new TreeMap<>();
-  private TypeComparators comparatorsByType;
+  private @Nullable TypeComparators comparatorsByType;
 
   /**
    * Creates a new object assertion.
@@ -75,7 +75,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
   @Override
   @CheckReturnValue
-  public SELF as(Description description) {
+  public SELF as(@Nullable Description description) {
     return super.as(description);
   }
 
@@ -493,7 +493,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
-    AssertFactory<Object, AbstractObjectAssert<?, Object>> assertFactory = this::newObjectAssert;
+    AssertFactory<@Nullable Object, AbstractObjectAssert<?, @Nullable Object>> assertFactory = this::newObjectAssert;
     return super.extracting(propertyOrField, assertFactory);
   }
 
@@ -542,7 +542,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
                                                                  InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    AssertFactory<Object, AbstractObjectAssert<?, Object>> assertFactory1 = this::newObjectAssert;
+    AssertFactory<@Nullable Object, AbstractObjectAssert<?, @Nullable Object>> assertFactory1 = this::newObjectAssert;
     return super.extracting(propertyOrField, assertFactory1).asInstanceOf(assertFactory);
   }
 
@@ -751,9 +751,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   private Objects getComparatorBasedObjectAssertions(@Nullable Object value) {
     if (value == null) return objects;
     Class<?> type = value.getClass();
-    TypeComparators comparatorsByType = getComparatorsByType();
-    if (comparatorsByType.hasComparatorForType(type)) {
-      return new Objects(new ComparatorBasedComparisonStrategy(comparatorsByType.getComparatorForType(type)));
+    Comparator<?> comparatorForType = getComparatorsByType().getComparatorForType(type);
+    if (comparatorForType != null) {
+      return new Objects(new ComparatorBasedComparisonStrategy(comparatorForType));
     }
     return objects;
   }
@@ -946,8 +946,11 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param objectUnderTest the value to assert on
    * @return the new object assertion
    */
-  protected <T> AbstractObjectAssert<?, T> newObjectAssert(T objectUnderTest) {
-    return new ObjectAssert<>(objectUnderTest);
+  // NullAway does not propagate T's @Nullable bound through this constructor call, even though
+  // ObjectAssert<ACTUAL extends @Nullable Object> accepts it.
+  @SuppressWarnings("NullAway")
+  protected <T extends @Nullable Object> AbstractObjectAssert<?, T> newObjectAssert(@Nullable T objectUnderTest) {
+    return new ObjectAssert<T>(objectUnderTest);
   }
 
   @SuppressWarnings({ "rawtypes" })
@@ -960,7 +963,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     return super.withAssertionState(assertInstance);
   }
 
-  SELF withTypeComparator(TypeComparators comparatorsByType) {
+  SELF withTypeComparator(@Nullable TypeComparators comparatorsByType) {
     this.comparatorsByType = comparatorsByType;
     return myself;
   }

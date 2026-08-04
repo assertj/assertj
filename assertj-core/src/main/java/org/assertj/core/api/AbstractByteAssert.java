@@ -318,7 +318,7 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>>
    *
    */
   @Override
-  public SELF isBetween(Byte start, Byte end) {
+  public SELF isBetween(@Nullable Byte start, @Nullable Byte end) {
     return executeAssertion(() -> bytes.assertIsBetween(info, actual, start, end));
   }
 
@@ -337,7 +337,7 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>>
    *
    */
   @Override
-  public SELF isStrictlyBetween(Byte start, Byte end) {
+  public SELF isStrictlyBetween(@Nullable Byte start, @Nullable Byte end) {
     return executeAssertion(() -> bytes.assertIsStrictlyBetween(info, actual, start, end));
   }
 

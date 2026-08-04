@@ -51,7 +51,7 @@ public class ShouldHaveExactlyTypes extends BasicErrorMessageFactory {
    * @param indexOfDifference the element index
    * @return the error message factory
    */
-  public static ErrorMessageFactory elementsTypesDifferAtIndex(Object actualElement, Class<?> expectedElement,
+  public static ErrorMessageFactory elementsTypesDifferAtIndex(@Nullable Object actualElement, Class<?> expectedElement,
                                                                int indexOfDifference) {
     return new ShouldHaveExactlyTypes(actualElement, expectedElement, indexOfDifference);
   }
@@ -87,12 +87,12 @@ public class ShouldHaveExactlyTypes extends BasicErrorMessageFactory {
     // @format:on
   }
 
-  private ShouldHaveExactlyTypes(Object actualElement, Class<?> expectedType, int indexOfDifference) {
+  private ShouldHaveExactlyTypes(@Nullable Object actualElement, Class<?> expectedType, int indexOfDifference) {
     super("%n" +
           "actual element at index %s does not have the expected type, element was:%s%n" +
           "actual element type: %s%n" +
           "expected type      : %s",
-          indexOfDifference, actualElement, actualElement.getClass(), expectedType);
+          indexOfDifference, actualElement, actualElement == null ? null : actualElement.getClass(), expectedType);
   }
 
 }

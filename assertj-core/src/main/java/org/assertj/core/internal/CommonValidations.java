@@ -41,6 +41,8 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
+import org.assertj.core.internal.annotation.Contract;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides validation helpers shared by internal assertion implementations.
@@ -73,7 +75,7 @@ public final class CommonValidations {
     requireNonNull(number, "The given number should not be null");
   }
 
-  static void checkIsNotEmpty(Object[] values) {
+  static void checkIsNotEmpty(@Nullable Object[] values) {
     if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();
   }
 
@@ -86,7 +88,8 @@ public final class CommonValidations {
    *
    * @param values the values to check
    */
-  public static void checkIsNotNull(Object[] values) {
+  @Contract("null -> fail")
+  public static void checkIsNotNull(@Nullable Object @Nullable [] values) {
     if (values == null) throw arrayOfValuesToLookForIsNull();
   }
 
@@ -94,7 +97,8 @@ public final class CommonValidations {
     if (iterable == null) throw iterableOfValuesToLookForIsNull();
   }
 
-  static void checkIsNotNullAndNotEmpty(Object[] values) {
+  @Contract("null -> fail")
+  static void checkIsNotNullAndNotEmpty(@Nullable Object @Nullable [] values) {
     checkIsNotNull(values);
     checkIsNotEmpty(values);
   }

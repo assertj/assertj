@@ -53,7 +53,7 @@ public class ShouldBeEqual {
   /** The actual value. */
   protected final @Nullable Object actual;
   /** The expected value. */
-  protected final Object expected;
+  protected final @Nullable Object expected;
   /** Whether the values have matching class names from different packages. */
   protected final boolean haveSameClassNameInDifferentPackages;
   /** Formatter used to build the failure message. */
@@ -71,7 +71,7 @@ public class ShouldBeEqual {
    * @param representation the {@link Representation} used to format values.
    * @return the created {@code AssertionErrorFactory}.
    */
-  public static ShouldBeEqual shouldBeEqual(@Nullable Object actual, Object expected, Representation representation) {
+  public static ShouldBeEqual shouldBeEqual(@Nullable Object actual, @Nullable Object expected, Representation representation) {
     return new ShouldBeEqual(actual, expected, StandardComparisonStrategy.instance(), representation);
   }
 
@@ -84,7 +84,7 @@ public class ShouldBeEqual {
    * @param representation     the {@link Representation} used to format values.
    * @return the created {@code AssertionErrorFactory}.
    */
-  public static ShouldBeEqual shouldBeEqual(@Nullable Object actual, Object expected,
+  public static ShouldBeEqual shouldBeEqual(@Nullable Object actual, @Nullable Object expected,
                                             ComparisonStrategy comparisonStrategy,
                                             Representation representation) {
     return new ShouldBeEqual(actual, expected, comparisonStrategy, representation);
@@ -98,7 +98,7 @@ public class ShouldBeEqual {
    * @param comparisonStrategy the comparison strategy
    * @param representation the value representation
    */
-  protected ShouldBeEqual(@Nullable Object actual, Object expected, ComparisonStrategy comparisonStrategy,
+  protected ShouldBeEqual(@Nullable Object actual, @Nullable Object expected, ComparisonStrategy comparisonStrategy,
                           Representation representation) {
     this.actual = actual;
     this.expected = expected;
@@ -124,7 +124,7 @@ public class ShouldBeEqual {
    * @param representation the {@link Representation} used to format values.
    * @return the created {@code AssertionError}.
    */
-  public AssertionError toAssertionError(Description description, Representation representation) {
+  public AssertionError toAssertionError(@Nullable Description description, Representation representation) {
     String message = smartErrorMessage(description, representation);
     // only use JUnit error message if the comparison strategy used was standard, otherwise we need to mention
     // comparison strategy in the assertion error message to make it clear to the user it was used.
@@ -160,7 +160,7 @@ public class ShouldBeEqual {
    *                       of actual and expected.
    * @return the error message from description using {@link #expected} and {@link #actual} "smart" representation.
    */
-  protected String smartErrorMessage(Description description, Representation representation) {
+  protected String smartErrorMessage(@Nullable Description description, Representation representation) {
     if (actualAndExpectedHaveSameStringRepresentation()) {
       // This happens, for example, when actual = 42f and expected = 42d, which will give this error:
       // actual: "42" and expected: "42".
@@ -181,19 +181,19 @@ public class ShouldBeEqual {
                                   expected, actual, comparisonStrategy);
   }
 
-  private String errorMessageForMultilineValues(Description description,
-                                                String actualRepresentation,
-                                                String expectedRepresentation) {
+  private String errorMessageForMultilineValues(@Nullable Description description,
+                                                @Nullable String actualRepresentation,
+                                                @Nullable String expectedRepresentation) {
     String desc = DescriptionFormatter.instance().format(description);
     return desc + messageForMultilineValues(actualRepresentation, expectedRepresentation);
   }
 
-  private boolean hasMultilineValue(String actualRepresentation, String expectedRepresentation) {
+  private boolean hasMultilineValue(@Nullable String actualRepresentation, @Nullable String expectedRepresentation) {
     return (actualRepresentation != null && actualRepresentation.contains(lineSeparator())) ||
            (expectedRepresentation != null && expectedRepresentation.contains(lineSeparator()));
   }
 
-  private String messageForMultilineValues(String actualRepresentation, String expectedRepresentation) {
+  private String messageForMultilineValues(@Nullable String actualRepresentation, @Nullable String expectedRepresentation) {
     return comparisonStrategy.isStandard()
         ? EXPECTED_BUT_WAS_MESSAGE.formatted(indent(expectedRepresentation), indent(actualRepresentation))
         : EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR.formatted(indent(expectedRepresentation), indent(actualRepresentation),
@@ -206,7 +206,7 @@ public class ShouldBeEqual {
    * @param valueRepresentation the representation to indent
    * @return the indented representation
    */
-  protected String indent(String valueRepresentation) {
+  protected String indent(@Nullable String valueRepresentation) {
     return "%n%s".formatted(valueRepresentation).replace(lineSeparator(), lineSeparator() + "  ");
   }
 
@@ -220,7 +220,7 @@ public class ShouldBeEqual {
    * @return the error message from description using {@link #detailedExpected()} and {@link #detailedActual()}
    * <b>detailed</b> representation.
    */
-  protected String defaultDetailedErrorMessage(Description description, Representation representation) {
+  protected String defaultDetailedErrorMessage(@Nullable Description description, Representation representation) {
     String actualRepresentation = detailedActual();
     String expectedRepresentation = detailedExpected();
     if (hasMultilineValue(actualRepresentation, expectedRepresentation)) {
@@ -234,7 +234,7 @@ public class ShouldBeEqual {
                                   actualRepresentation);
   }
 
-  private AssertionError assertionFailedError(String message, Representation representation) {
+  private @Nullable AssertionError assertionFailedError(String message, Representation representation) {
     try {
       Object o = constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
                                                 MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR,
@@ -256,7 +256,7 @@ public class ShouldBeEqual {
    *
    * @return the detailed actual representation
    */
-  protected String detailedActual() {
+  protected @Nullable String detailedActual() {
     return representation.unambiguousToStringOf(actual, haveSameClassNameInDifferentPackages);
   }
 
@@ -265,7 +265,7 @@ public class ShouldBeEqual {
    *
    * @return the detailed expected representation
    */
-  protected String detailedExpected() {
+  protected @Nullable String detailedExpected() {
     return representation.unambiguousToStringOf(expected, haveSameClassNameInDifferentPackages);
   }
 

@@ -51,7 +51,7 @@ public class Extractors {
    * @param fieldOrProperty the name of the field/property to extract
    * @return the built {@link Function}
    */
-  public static Function<Object, Object> byName(String fieldOrProperty) {
+  public static Function<Object, @Nullable Object> byName(String fieldOrProperty) {
     return new ByNameSingleExtractor(fieldOrProperty);
   }
 

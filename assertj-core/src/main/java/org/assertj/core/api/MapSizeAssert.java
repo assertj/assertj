@@ -45,7 +45,7 @@ public class MapSizeAssert<KEY extends @Nullable Object, VALUE extends @Nullable
    * @param size the known map size
    */
   protected MapSizeAssert(AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> originAssert,
-                          @SuppressWarnings("unused") Integer size) {
+                          @SuppressWarnings("unused") @Nullable Integer size) {
     super(originAssert, size);
   }
 

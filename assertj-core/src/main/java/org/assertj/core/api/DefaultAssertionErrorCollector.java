@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Default in-memory assertion error collector.
  */
@@ -34,7 +36,7 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
 
   private final List<AfterAssertionErrorCollected> callbacks = synchronizedList(new ArrayList<>());
 
-  private AssertionErrorCollector delegate = null;
+  private @Nullable AssertionErrorCollector delegate = null;
 
   /** Creates a new assertion error collector. */
   public DefaultAssertionErrorCollector() {

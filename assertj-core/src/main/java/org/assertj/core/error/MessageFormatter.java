@@ -71,6 +71,7 @@ public class MessageFormatter {
 
   private @Nullable Object[] format(Representation p, @Nullable Object[] args) {
     int argCount = args.length;
+    @Nullable
     String[] formatted = new String[argCount];
     for (int i = 0; i < argCount; i++) {
       formatted[i] = asText(p, args[i]);

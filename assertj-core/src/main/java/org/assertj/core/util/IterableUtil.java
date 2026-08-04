@@ -68,7 +68,7 @@ public final class IterableUtil {
    *         {@code Iterable} is {@code null}.
    */
   public static <T> List<T> nonNullElementsIn(@Nullable Iterable<? extends T> i) {
-    if (isNullOrEmpty(i)) return emptyList();
+    if (i == null || isNullOrEmpty(i)) return emptyList();
     return Streams.stream(i).filter(Objects::nonNull).collect(toList());
   }
 
@@ -116,6 +116,7 @@ public final class IterableUtil {
    * @param iterable the iterable to copy
    * @return a collection containing the elements
    */
+  @Contract("null -> null; !null -> !null")
   public static <T> @Nullable Collection<T> toCollection(@Nullable Iterable<T> iterable) {
     return iterable instanceof Collection ? (Collection<T>) iterable : newArrayList(iterable);
   }
@@ -128,6 +129,7 @@ public final class IterableUtil {
    * @return an iterable over the elements
    */
   @SafeVarargs
+  @Contract("null -> null; !null -> !null")
   public static <T> @Nullable Iterable<T> iterable(T @Nullable... elements) {
     if (elements == null) return null;
     ArrayList<T> list = newArrayList();

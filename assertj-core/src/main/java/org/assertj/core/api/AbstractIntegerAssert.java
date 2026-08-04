@@ -314,7 +314,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * assertThat(1).isBetween(2, 3);</code></pre>
    */
   @Override
-  public SELF isBetween(Integer start, Integer end) {
+  public SELF isBetween(@Nullable Integer start, @Nullable Integer end) {
     return executeAssertion(() -> integers.assertIsBetween(info, actual, start, end));
   }
 
@@ -332,7 +332,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * assertThat(1).isStrictlyBetween(2, 3);</code></pre>
    */
   @Override
-  public SELF isStrictlyBetween(Integer start, Integer end) {
+  public SELF isStrictlyBetween(@Nullable Integer start, @Nullable Integer end) {
     return executeAssertion(() -> integers.assertIsStrictlyBetween(info, actual, start, end));
   }
 

@@ -81,14 +81,14 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
     implements IndexedObjectEnumerableAssert<AtomicReferenceArrayAssert<T>, T>,
     ArraySortedAssert<AtomicReferenceArrayAssert<T>, T> {
 
-  private final T[] array;
+  private final T @Nullable [] array;
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ObjectArrays arrays = ObjectArrays.instance();
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
-  private TypeComparators comparatorsByType;
-  private TypeComparators comparatorsForElementPropertyOrFieldTypes;
+  private @Nullable TypeComparators comparatorsByType;
+  private @Nullable TypeComparators comparatorsForElementPropertyOrFieldTypes;
 
   /**
    * Creates a new atomic reference array assertion.
@@ -102,7 +102,7 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
 
   @Override
   @CheckReturnValue
-  public AtomicReferenceArrayAssert<T> as(Description description) {
+  public AtomicReferenceArrayAssert<T> as(@Nullable Description description) {
     return super.as(description);
   }
 
@@ -2058,7 +2058,11 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
+  // array is guaranteed non-null once isNotNull() confirms actual is non-null, since array is derived from
+  // actual in the constructor.
+  @SuppressWarnings("NullAway")
   public ObjectArrayAssert<Object> extracting(String fieldOrProperty) {
+    isNotNull();
     Object[] values = FieldsOrPropertiesExtractor.extract(array, byName(fieldOrProperty));
     String extractedDescription = extractedDescriptionOf(fieldOrProperty);
     String description = mostRelevantDescription(info.description(), extractedDescription);
@@ -2111,7 +2115,11 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
+  // array is guaranteed non-null once isNotNull() confirms actual is non-null, since array is derived from
+  // actual in the constructor.
+  @SuppressWarnings("NullAway")
   public <P> ObjectArrayAssert<P> extracting(String fieldOrProperty, Class<P> extractingType) {
+    isNotNull();
     @SuppressWarnings("unchecked")
     P[] values = (P[]) FieldsOrPropertiesExtractor.extract(array, byName(fieldOrProperty));
     String extractedDescription = extractedDescriptionOf(fieldOrProperty);
@@ -2171,7 +2179,11 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
    *                            Iterable's element.
    */
   @CheckReturnValue
+  // array is guaranteed non-null once isNotNull() confirms actual is non-null, since array is derived from
+  // actual in the constructor.
+  @SuppressWarnings("NullAway")
   public ObjectArrayAssert<Tuple> extracting(String... propertiesOrFields) {
+    isNotNull();
     Object[] values = FieldsOrPropertiesExtractor.extract(array, byName(propertiesOrFields));
     Tuple[] result = Arrays.copyOf(values, values.length, Tuple[].class);
     String extractedDescription = extractedDescriptionOf(propertiesOrFields);
@@ -2222,7 +2234,11 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
+  // array is guaranteed non-null once isNotNull() confirms actual is non-null, since array is derived from
+  // actual in the constructor.
+  @SuppressWarnings("NullAway")
   public <U> ObjectArrayAssert<U> extracting(Function<? super T, U> extractor) {
+    isNotNull();
     U[] extracted = FieldsOrPropertiesExtractor.extract(array, extractor);
 
     return new ObjectArrayAssert<>(extracted);
@@ -2269,7 +2285,11 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
    * @since 3.7.0
    */
   @CheckReturnValue
+  // array is guaranteed non-null once isNotNull() confirms actual is non-null, since array is derived from
+  // actual in the constructor.
+  @SuppressWarnings("NullAway")
   public <U, EXCEPTION extends Exception> ObjectArrayAssert<U> extracting(ThrowingExtractor<? super T, U, EXCEPTION> extractor) {
+    isNotNull();
     U[] extracted = FieldsOrPropertiesExtractor.extract(array, extractor);
 
     return new ObjectArrayAssert<>(extracted);
@@ -2397,10 +2417,15 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
+  // array is guaranteed non-null once isNotNull() confirms actual is non-null, since array is derived from
+  // actual in the constructor.
+  @SuppressWarnings("NullAway")
   public ObjectArrayAssert<Object> flatExtracting(String propertyName) {
+    isNotNull();
     List<Object> extractedValues = newArrayList();
-    List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(Arrays.asList(array), byName(propertyName));
-    for (Object group : extractedGroups) {
+    List<@Nullable Object> extractedGroups = FieldsOrPropertiesExtractor.extract(Arrays.asList(array), byName(propertyName));
+    for (@Nullable
+    Object group : extractedGroups) {
       // expecting AtomicReferenceArray to be an iterable or an array
       if (isArray(group)) {
         int size = Array.getLength(group);
@@ -2460,7 +2485,11 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
+  // array is guaranteed non-null once isNotNull() confirms actual is non-null, since array is derived from
+  // actual in the constructor.
+  @SuppressWarnings("NullAway")
   public ObjectArrayAssert<Object> extractingResultOf(String method) {
+    isNotNull();
     Object[] values = FieldsOrPropertiesExtractor.extract(array, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
     String description = mostRelevantDescription(info.description(), extractedDescription);
@@ -2511,7 +2540,11 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
+  // array is guaranteed non-null once isNotNull() confirms actual is non-null, since array is derived from
+  // actual in the constructor.
+  @SuppressWarnings("NullAway")
   public <P> ObjectArrayAssert<P> extractingResultOf(String method, Class<P> extractingType) {
+    isNotNull();
     @SuppressWarnings("unchecked")
     P[] values = (P[]) FieldsOrPropertiesExtractor.extract(array, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
@@ -2742,7 +2775,11 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
+  // array is guaranteed non-null once isNotNull() confirms actual is non-null, since array is derived from
+  // actual in the constructor.
+  @SuppressWarnings("NullAway")
   public AtomicReferenceArrayAssert<T> filteredOn(String propertyOrFieldName, FilterOperator<?> filterOperator) {
+    isNotNull();
     checkNotNull(filterOperator);
     Filters<? extends T> filter = filter(array).with(propertyOrFieldName);
     filterOperator.applyOn(filter);
@@ -2785,7 +2822,11 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
+  // array is guaranteed non-null once isNotNull() confirms actual is non-null, since array is derived from
+  // actual in the constructor.
+  @SuppressWarnings("NullAway")
   public AtomicReferenceArrayAssert<T> filteredOn(Condition<? super T> condition) {
+    isNotNull();
     Iterable<? extends T> filteredIterable = filter(array).being(condition).get();
     AtomicReferenceArrayAssert<T> result = new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filteredIterable)));
     result.withAssertionState(this);
@@ -3632,7 +3673,11 @@ public class AtomicReferenceArrayAssert<T extends @Nullable Object>
     return comparatorsForElementPropertyOrFieldTypes;
   }
 
+  // array is guaranteed non-null once isNotNull() confirms actual is non-null, since array is derived from
+  // actual in the constructor.
+  @SuppressWarnings("NullAway")
   private AtomicReferenceArrayAssert<T> internalFilteredOn(String propertyOrFieldName, @Nullable Object expectedValue) {
+    isNotNull();
     Iterable<? extends T> filteredIterable = filter(array).with(propertyOrFieldName, expectedValue).get();
     AtomicReferenceArrayAssert<T> result = new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filteredIterable)));
     result.withAssertionState(this);

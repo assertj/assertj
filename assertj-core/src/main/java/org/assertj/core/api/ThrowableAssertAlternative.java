@@ -57,7 +57,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
   }
 
   @Override
-  public ThrowableAssertAlternative<ACTUAL> as(Description description) {
+  public ThrowableAssertAlternative<ACTUAL> as(@Nullable Description description) {
     return super.as(description);
   }
 

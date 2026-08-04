@@ -16,6 +16,7 @@
 package org.assertj.core.condition;
 
 import org.assertj.core.api.Condition;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Returns {@code true} if any of the joined conditions is satisfied.
@@ -24,7 +25,7 @@ import org.assertj.core.api.Condition;
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  */
-public class AnyOf<T> extends Join<T> {
+public class AnyOf<T extends @Nullable Object> extends Join<T> {
 
   /**
    * Creates a new <code>{@link AnyOf}</code>
@@ -36,7 +37,7 @@ public class AnyOf<T> extends Join<T> {
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
   @SafeVarargs
-  public static <T> Condition<T> anyOf(Condition<? super T>... conditions) {
+  public static <T extends @Nullable Object> Condition<T> anyOf(Condition<? super T>... conditions) {
     return new AnyOf<>(conditions);
   }
 
@@ -48,7 +49,7 @@ public class AnyOf<T> extends Join<T> {
    * @throws NullPointerException if the given iterable is {@code null}.
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
-  public static <T> Condition<T> anyOf(Iterable<? extends Condition<? super T>> conditions) {
+  public static <T extends @Nullable Object> Condition<T> anyOf(Iterable<? extends Condition<? super T>> conditions) {
     return new AnyOf<>(conditions);
   }
 
@@ -63,7 +64,7 @@ public class AnyOf<T> extends Join<T> {
 
   /** {@inheritDoc} */
   @Override
-  public boolean matches(T value) {
+  public boolean matches(@Nullable T value) {
     return conditions.stream().anyMatch(condition -> condition.matches(value));
   }
 

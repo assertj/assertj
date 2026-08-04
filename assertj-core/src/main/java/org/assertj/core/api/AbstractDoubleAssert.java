@@ -704,7 +704,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * @throws AssertionError if the actual value is greater than the given one.
    */
   @Override
-  public SELF isLessThanOrEqualTo(Double other) {
+  public SELF isLessThanOrEqualTo(@Nullable Double other) {
     // overridden for javadoc
     return super.isLessThanOrEqualTo(other);
   }
@@ -786,7 +786,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * @throws AssertionError if the actual value is less than the given one.
    */
   @Override
-  public SELF isGreaterThanOrEqualTo(Double other) {
+  public SELF isGreaterThanOrEqualTo(@Nullable Double other) {
     // overridden for javadoc
     return super.isGreaterThanOrEqualTo(other);
   }
@@ -805,7 +805,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * assertThat(1d).isBetween(2d, 3d);</code></pre>
    */
   @Override
-  public SELF isBetween(Double start, Double end) {
+  public SELF isBetween(@Nullable Double start, @Nullable Double end) {
     return executeAssertion(() -> doubles.assertIsBetween(info, actual, start, end));
   }
 
@@ -824,7 +824,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    *
    */
   @Override
-  public SELF isStrictlyBetween(Double start, Double end) {
+  public SELF isStrictlyBetween(@Nullable Double start, @Nullable Double end) {
     return executeAssertion(() -> doubles.assertIsStrictlyBetween(info, actual, start, end));
   }
 

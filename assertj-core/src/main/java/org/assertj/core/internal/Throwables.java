@@ -46,6 +46,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.annotation.Contract;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -478,6 +479,7 @@ public class Throwables {
     throw failures.failure(info, shouldHaveSuppressedException(actual, expectedSuppressedException));
   }
 
+  @Contract("_, null, _ -> fail")
   private static void doCommonCheckForMessages(AssertionInfo info, @Nullable Throwable actual, CharSequence[] values) {
     assertNotNull(info, actual);
     checkIsNotNull(values);
@@ -485,6 +487,7 @@ public class Throwables {
     checkCharSequenceArrayDoesNotHaveNullElements(values);
   }
 
+  @Contract("_, null -> fail")
   private static void assertNotNull(AssertionInfo info, @Nullable Throwable actual) {
     Objects.instance().assertNotNull(info, actual);
   }

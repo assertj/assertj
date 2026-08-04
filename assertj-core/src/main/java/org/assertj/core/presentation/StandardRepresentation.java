@@ -16,7 +16,6 @@
 package org.assertj.core.presentation;
 
 import static java.lang.Integer.toHexString;
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
 import static org.assertj.core.util.Arrays.isObjectArray;
@@ -41,6 +40,7 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
@@ -388,7 +388,9 @@ public class StandardRepresentation implements Representation {
   protected <T> @Nullable String customFormat(@Nullable T object) {
     if (object == null) return null;
     @SuppressWarnings("unchecked")
-    CharSequence formatted = ((Function<T, ? extends CharSequence>) customFormatterByType.get(object.getClass())).apply(object);
+    Function<T, ? extends CharSequence> customFormatter = (Function<T, ? extends CharSequence>) customFormatterByType.get(object.getClass());
+    if (customFormatter == null) return null;
+    CharSequence formatted = customFormatter.apply(object);
     return formatted != null ? formatted.toString() : null;
   }
 
@@ -553,7 +555,7 @@ public class StandardRepresentation implements Representation {
   }
 
   private static String concatWithDoubleQuotes(CharSequence s) {
-    return concat("\"", s, "\"");
+    return String.valueOf(concat("\"", s, "\""));
   }
 
   /**
@@ -563,7 +565,7 @@ public class StandardRepresentation implements Representation {
    * @return the formatted character
    */
   protected String toStringOf(Character c) {
-    return concat("'", c, "'");
+    return String.valueOf(concat("'", c, "'"));
   }
 
   /**
@@ -731,20 +733,21 @@ public class StandardRepresentation implements Representation {
    */
   protected String toStringOf(Future<?> future) {
     String className = future.getClass().getSimpleName();
-    if (!future.isDone()) return concat(className, "[Incomplete]");
+    if (!future.isDone()) return String.valueOf(concat(className, "[Incomplete]"));
     try {
       Object joinResult = future.get();
       // avoid stack overflow error if future join on itself or another future that cycles back to the first
+      @Nullable
       Object joinResultRepresentation = joinResult instanceof Future ? joinResult : toStringOf(joinResult);
-      return concat(className, "[Completed: ", joinResultRepresentation, "]");
+      return String.valueOf(concat(className, "[Completed: ", joinResultRepresentation, "]"));
     } catch (CancellationException e) {
-      return concat(className, "[Cancelled]");
+      return String.valueOf(concat(className, "[Cancelled]"));
     } catch (InterruptedException e) {
-      return concat(className, "[Interrupted]");
+      return String.valueOf(concat(className, "[Interrupted]"));
     } catch (ExecutionException e) {
       // get the stack trace of the cause (if any) to avoid polluting it with the exception from trying to join the future
       String stackTrace = e.getCause() != null ? getStackTrace(e.getCause()) : getStackTrace(e);
-      return concat(className, "[Failed with the following stack trace:", "%n%s".formatted(stackTrace), "]");
+      return String.valueOf(concat(className, "[Failed with the following stack trace:", "%n%s".formatted(stackTrace), "]"));
     }
   }
 
@@ -822,7 +825,7 @@ public class StandardRepresentation implements Representation {
     List<? extends AssertionError> assertionErrors = multipleAssertionsError.getErrors();
     int errorsCount = assertionErrors.size();
 
-    if (errorsCount == 0) return multipleAssertionsError.getMessage();
+    if (errorsCount == 0) return String.valueOf(multipleAssertionsError.getMessage());
 
     String formattedDescription = DescriptionFormatter.instance().format(multipleAssertionsError.getDescription());
     formattedDescription = formattedDescription.isEmpty() ? "" : "%s%n".formatted(formattedDescription);
@@ -834,12 +837,12 @@ public class StandardRepresentation implements Representation {
                                                          .append(errorsCount == 1 ? "" : "s")
                                                          .append(objectUnderTestDescription)
                                                          .append(LINE_SEPARATOR);
-    List<String> errorDescriptions = describeErrors(assertionErrors);
+    List<@Nullable String> errorDescriptions = describeErrors(assertionErrors);
     String errorSeparator = LINE_SEPARATOR + "-- error %d --";
 
     for (int i = 0; i < errorsCount; i++) {
       builder.append(errorSeparator.formatted(i + 1));
-      String message = errorDescriptions.get(i);
+      String message = String.valueOf(errorDescriptions.get(i));
       // add a line before for readability unless the message has already one
       if (!message.startsWith(LINE_SEPARATOR)) builder.append(LINE_SEPARATOR);
       builder.append(message);
@@ -965,7 +968,7 @@ public class StandardRepresentation implements Representation {
    * @return the {@code String} representation of the given array.
    */
   protected @Nullable String formatArray(@Nullable Object o) {
-    if (!isArray(o)) return null;
+    if (o == null || !isArray(o)) return null;
     return isObjectArray(o) ? smartFormat((Object[]) o) : formatPrimitiveArray(o);
   }
 
@@ -1051,9 +1054,8 @@ public class StandardRepresentation implements Representation {
                                     Object root) {
     if (elements == null) return null;
     if (elements.isEmpty()) return start + end;
-    List<@Nullable String> representedElements = new TransformingList<>(elements,
-                                                                        elem -> safeStringOf(elem, start, end, elementSeparator,
-                                                                                             indentation, root));
+    Function<Object, @Nullable String> transform = elem -> safeStringOf(elem, start, end, elementSeparator, indentation, root);
+    List<@Nullable String> representedElements = new TransformingList<>(elements, transform);
     return representGroup(representedElements, start, end, elementSeparator, indentation);
   }
 
@@ -1110,8 +1112,11 @@ public class StandardRepresentation implements Representation {
     HeadTailAccumulator<Object> accumulator = new HeadTailAccumulator<>(capacity, capacity);
     elements.forEach(accumulator::add);
 
-    return accumulator.stream().map(element -> safeStringOf(element, start, end, elementSeparator, indentation, root))
-                      .collect(toList());
+    List<@Nullable String> representedElements = new ArrayList<>();
+    accumulator.stream()
+               .forEach(element -> representedElements.add(safeStringOf(element, start, end, elementSeparator, indentation,
+                                                                        root)));
+    return representedElements;
   }
 
   // this method only deals with max number of elements to display, the elements representation is already computed

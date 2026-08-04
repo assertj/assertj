@@ -223,7 +223,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   @CanIgnoreReturnValue
   @Contract("_, _ -> fail")
-  default <T> T fail(String failureMessage, Throwable realCause) {
+  default <T> T fail(@Nullable String failureMessage, Throwable realCause) {
     return Assertions.fail(failureMessage, realCause);
   }
 
@@ -445,7 +445,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default <T> ObjectAssert<T> assertThat(final T actual) {
+  default <T extends @Nullable Object> ObjectAssert<T> assertThat(final T actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -476,7 +476,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created {@link ThrowableAssert}.
    */
-  default <T extends Throwable> AbstractThrowableAssert<?, T> assertThat(final T actual) {
+  default <T extends Throwable> AbstractThrowableAssert<?, T> assertThat(final @Nullable T actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -2220,7 +2220,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param descriptionConsumer the {@link Description} consumer
    * @since 3.17.0
    */
-  static void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
+  static void setDescriptionConsumer(@Nullable Consumer<Description> descriptionConsumer) {
     Assertions.setDescriptionConsumer(descriptionConsumer);
   }
 

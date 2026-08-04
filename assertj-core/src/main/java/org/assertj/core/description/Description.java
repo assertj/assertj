@@ -61,8 +61,9 @@ public abstract class Description {
    * @return the most relevant description
    */
   public static String mostRelevantDescription(@Nullable Description existingDescription, String newDescription) {
-    boolean isDescriptionSet = existingDescription != null && !isNullOrEmpty(existingDescription.value());
-    return isDescriptionSet ? existingDescription.value() : newDescription;
+    return existingDescription != null && !isNullOrEmpty(existingDescription.value())
+        ? existingDescription.value()
+        : newDescription;
   }
 
 }

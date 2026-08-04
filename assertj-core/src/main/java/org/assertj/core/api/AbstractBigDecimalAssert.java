@@ -187,7 +187,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * considered equal in value unlike {@link BigDecimal#equals(Object)}.
    */
   @Override
-  public SELF isBetween(BigDecimal start, BigDecimal end) {
+  public SELF isBetween(@Nullable BigDecimal start, @Nullable BigDecimal end) {
     return executeAssertion(() -> bigDecimals.assertIsBetween(info, actual, start, end));
   }
 
@@ -205,7 +205,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    *
    */
   @Override
-  public SELF isStrictlyBetween(BigDecimal start, BigDecimal end) {
+  public SELF isStrictlyBetween(@Nullable BigDecimal start, @Nullable BigDecimal end) {
     return executeAssertion(() -> bigDecimals.assertIsStrictlyBetween(info, actual, start, end));
   }
 
@@ -481,7 +481,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * @throws AssertionError if the actual value is greater than the given one.
    */
   @Override
-  public SELF isLessThanOrEqualTo(BigDecimal other) {
+  public SELF isLessThanOrEqualTo(@Nullable BigDecimal other) {
     return super.isLessThanOrEqualTo(other);
   }
 
@@ -507,7 +507,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * @throws AssertionError if the actual value is less than the given one.
    */
   @Override
-  public SELF isGreaterThanOrEqualTo(BigDecimal other) {
+  public SELF isGreaterThanOrEqualTo(@Nullable BigDecimal other) {
     return super.isGreaterThanOrEqualTo(other);
   }
 

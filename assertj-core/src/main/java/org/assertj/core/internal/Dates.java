@@ -62,6 +62,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.error.ShouldBeEqualWithTimePrecision;
+import org.assertj.core.internal.annotation.Contract;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -107,7 +108,7 @@ public class Dates {
    *
    * @return the configured comparator or {@code null}
    */
-  public Comparator<?> getComparator() {
+  public @Nullable Comparator<?> getComparator() {
     return comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy ? strategy.getComparator() : null;
   }
 
@@ -759,6 +760,7 @@ public class Dates {
     requireNonNull(end, "The end date of period to compare actual with should not be null");
   }
 
+  @Contract("_, null -> fail")
   private void assertNotNull(AssertionInfo info, @Nullable Date actual) {
     Objects.instance().assertNotNull(info, actual);
   }

@@ -22,6 +22,7 @@ import java.net.URL;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
+import org.jspecify.annotations.Nullable;
 
 /** Creates errors for URIs and URLs with an unexpected path. */
 public class ShouldHavePath extends BasicErrorMessageFactory {
@@ -36,7 +37,7 @@ public class ShouldHavePath extends BasicErrorMessageFactory {
    * @param expectedPath the expected path
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHavePath(URI actual, String expectedPath) {
+  public static ErrorMessageFactory shouldHavePath(URI actual, @Nullable String expectedPath) {
     return expectedPath == null ? new ShouldHavePath(actual) : new ShouldHavePath(actual, expectedPath);
   }
 

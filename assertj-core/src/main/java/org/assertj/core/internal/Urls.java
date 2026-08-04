@@ -153,7 +153,7 @@ public class Urls {
    * @param actual the actual URL
    * @param expected the expected query
    */
-  public void assertHasQuery(AssertionInfo info, @Nullable URL actual, String expected) {
+  public void assertHasQuery(AssertionInfo info, @Nullable URL actual, @Nullable String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getQuery(), expected)) throw failures.failure(info, shouldHaveQuery(actual, expected));
   }
@@ -165,7 +165,7 @@ public class Urls {
    * @param actual the actual URL
    * @param expected the expected anchor
    */
-  public void assertHasAnchor(AssertionInfo info, @Nullable URL actual, String expected) {
+  public void assertHasAnchor(AssertionInfo info, @Nullable URL actual, @Nullable String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getRef(), expected)) throw failures.failure(info, shouldHaveAnchor(actual, expected));
   }
@@ -177,7 +177,7 @@ public class Urls {
    * @param actual the actual URL
    * @param expected the expected user information
    */
-  public void assertHasUserInfo(AssertionInfo info, @Nullable URL actual, String expected) {
+  public void assertHasUserInfo(AssertionInfo info, @Nullable URL actual, @Nullable String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getUserInfo(), expected)) throw failures.failure(info, shouldHaveUserInfo(actual, expected));
   }

@@ -134,10 +134,13 @@ public abstract class ComparingNormalizedFields extends AbstractRecursiveCompari
     // - introspect actual and expected differently
     // - keep a mapping of which actual field should be matched to which expected field
     // This is not a straightforward change and might quite a bit more complexity to an already rather complex feature.
+    if (instance == null) return null;
     try {
       return COMPARISON.getSimpleValue(fieldName, instance);
     } catch (Exception e) {
+      @Nullable
       String originalFieldName = getOriginalFieldName(fieldName, instance);
+      if (originalFieldName == null) throw new IntrospectionError(NO_FIELD_FOUND.formatted(instance, fieldName, null), e);
       try {
         return COMPARISON.getSimpleValue(originalFieldName, instance);
       } catch (Exception ex) {
@@ -146,12 +149,14 @@ public abstract class ComparingNormalizedFields extends AbstractRecursiveCompari
     }
   }
 
-  private String getOriginalFieldName(String fieldName, Object instance) {
+  private @Nullable String getOriginalFieldName(String fieldName, @Nullable Object instance) {
     // call getChildrenNodeNamesOf to populate originalFieldNamesByNormalizedFieldNameByNode, the recursive comparison
     // should already do this if this is used outside then getChildNodeValue would fail
+    if (instance == null) return null;
     Class<?> instanceClass = instance.getClass();
     if (!originalFieldNameByNormalizedFieldNameByType.containsKey(instanceClass)) getChildrenNodeNamesOf(instance);
-    return originalFieldNameByNormalizedFieldNameByType.get(instanceClass).get(fieldName);
+    Map<String, String> originalFieldNameByNormalizedFieldName = originalFieldNameByNormalizedFieldNameByType.get(instanceClass);
+    return originalFieldNameByNormalizedFieldName == null ? null : originalFieldNameByNormalizedFieldName.get(fieldName);
   }
 
   @Override

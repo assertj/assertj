@@ -29,8 +29,8 @@ import org.jspecify.annotations.Nullable;
  */
 public class AbstractShouldHaveTextContent extends BasicErrorMessageFactory {
 
-  /** The textual representation of the content differences. */
-  protected String diffs;
+  /** The textual representation of the content differences, set by subclasses right after construction. */
+  protected String diffs = "";
 
   /**
    * Creates a new text content error message.

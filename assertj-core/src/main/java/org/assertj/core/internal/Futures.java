@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.annotation.Contract;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -217,6 +218,7 @@ public class Futures {
     }
   }
 
+  @Contract("_, null -> fail")
   private void assertNotNull(AssertionInfo info, @Nullable Future<?> actual) {
     Objects.instance().assertNotNull(info, actual);
   }

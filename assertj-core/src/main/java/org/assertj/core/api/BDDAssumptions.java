@@ -72,6 +72,7 @@ import java.util.stream.Stream;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.configuration.PreferredAssumptionException;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Behavior-driven development style entry point for assumption methods for different types, which allow to skip test execution when assumptions are not met.
@@ -1282,7 +1283,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractObjectAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <T> ObjectAssert<T> given(T actual) {
+  public static <T extends @Nullable Object> ObjectAssert<T> given(T actual) {
     return assumeThat(actual);
   }
 
@@ -1447,7 +1448,7 @@ public final class BDDAssumptions extends Assumptions {
    * @return the {@link AbstractThrowableAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
-  public static <T extends Throwable> AbstractThrowableAssert<?, T> given(T actual) {
+  public static <T extends Throwable> AbstractThrowableAssert<?, T> given(@Nullable T actual) {
     return assumeThat(actual);
   }
 

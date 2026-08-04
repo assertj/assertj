@@ -36,7 +36,7 @@ public class AtomicLongArrayAssert
   /** Internal assertions for long arrays. */
   protected LongArrays arrays = LongArrays.instance();
 
-  private long[] array;
+  private long @Nullable [] array;
 
   /**
    * Creates a new atomic long array assertion.

@@ -45,12 +45,15 @@ public class ShouldBeLess extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
+  // NullAway does not propagate the constructor's own T extends @Nullable Object bound through this generic
+  // constructor call.
+  @SuppressWarnings("NullAway")
   public static ErrorMessageFactory shouldBeLess(@Nullable Object actual, @Nullable Object other,
                                                  ComparisonStrategy comparisonStrategy) {
     return new ShouldBeLess(actual, other, comparisonStrategy);
   }
 
-  private <T> ShouldBeLess(T actual, T other, ComparisonStrategy comparisonStrategy) {
+  private <T extends @Nullable Object> ShouldBeLess(T actual, T other, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto be less than:%n  %s %s", actual, other, comparisonStrategy);
   }
 

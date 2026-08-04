@@ -64,7 +64,7 @@ public class FieldMessages extends FieldHolder<@Nullable String> {
    *
    * @return sequence of field-message pairs
    */
-  public Stream<Entry<String, String>> messageByFields() {
+  public Stream<Entry<String, @Nullable String>> messageByFields() {
     return super.entryByField();
   }
 }

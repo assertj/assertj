@@ -101,6 +101,7 @@ import java.util.stream.Collectors;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.annotation.Contract;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -323,7 +324,7 @@ public class Strings {
    * @param actual the actual text
    * @param values the expected values
    */
-  public void assertContains(AssertionInfo info, @Nullable CharSequence actual, CharSequence... values) {
+  public void assertContains(AssertionInfo info, @Nullable CharSequence actual, CharSequence @Nullable... values) {
     doCommonCheckForCharSequence(info, actual, values);
     Set<CharSequence> notFound = stream(values).filter(value -> !stringContains(actual, value))
                                                .collect(toCollection(LinkedHashSet::new));
@@ -362,7 +363,8 @@ public class Strings {
     }
   }
 
-  private static void checkIsNotNull(CharSequence... values) {
+  @Contract("null -> fail")
+  private static void checkIsNotNull(CharSequence @Nullable... values) {
     if (values == null) throw arrayOfValuesToLookForIsNull();
   }
 
@@ -435,7 +437,7 @@ public class Strings {
    * @param actual the actual text
    * @param values the prohibited values
    */
-  public void assertDoesNotContain(AssertionInfo info, @Nullable CharSequence actual, CharSequence... values) {
+  public void assertDoesNotContain(AssertionInfo info, @Nullable CharSequence actual, CharSequence @Nullable... values) {
     doCommonCheckForCharSequence(info, actual, values);
     Set<CharSequence> found = stream(values).filter(value -> stringContains(actual, value))
                                             .collect(toCollection(LinkedHashSet::new));
@@ -446,7 +448,7 @@ public class Strings {
     throw failures.failure(info, shouldNotContain(actual, values, found, comparisonStrategy));
   }
 
-  private static void checkCharSequenceIsNotNull(CharSequence sequence) {
+  private static void checkCharSequenceIsNotNull(@Nullable CharSequence sequence) {
     requireNonNull(sequence, "The char sequence to look for should not be null");
   }
 
@@ -496,6 +498,7 @@ public class Strings {
                              normalizedExpected);
   }
 
+  @Contract("null -> null; !null -> !null")
   private static @Nullable String normalizeNewlines(@Nullable CharSequence charSequence) {
     return charSequence != null ? charSequence.toString().replace("\r\n", "\n") : null;
   }
@@ -875,6 +878,7 @@ public class Strings {
     if (matcher == null) throw new NullPointerException("The matcher should not be null");
   }
 
+  @Contract("_, null -> fail")
   private static void assertNotNull(AssertionInfo info, @Nullable CharSequence actual) {
     Objects.instance().assertNotNull(info, actual);
   }
@@ -886,7 +890,7 @@ public class Strings {
    * @param actual the actual text
    * @param sequence the expected sequence
    */
-  public void assertContainsSequence(AssertionInfo info, @Nullable CharSequence actual, CharSequence[] sequence) {
+  public void assertContainsSequence(AssertionInfo info, @Nullable CharSequence actual, CharSequence @Nullable [] sequence) {
     doCommonCheckForCharSequence(info, actual, sequence);
 
     Set<CharSequence> notFound = stream(sequence).filter(value -> !stringContains(actual, value))
@@ -918,7 +922,8 @@ public class Strings {
    * @param actual the actual text
    * @param subsequence the expected subsequence
    */
-  public void assertContainsSubsequence(AssertionInfo info, @Nullable CharSequence actual, CharSequence[] subsequence) {
+  public void assertContainsSubsequence(AssertionInfo info, @Nullable CharSequence actual,
+                                        CharSequence @Nullable [] subsequence) {
     doCommonCheckForCharSequence(info, actual, subsequence);
 
     Map<CharSequence, Integer> notFound = getNotFoundSubsequence(actual, subsequence);
@@ -1048,7 +1053,8 @@ public class Strings {
    * @param actual the actual text
    * @param sequence the prohibited sequence
    */
-  public void assertDoesNotContainSequence(AssertionInfo info, @Nullable CharSequence actual, CharSequence[] sequence) {
+  public void assertDoesNotContainSequence(AssertionInfo info, @Nullable CharSequence actual,
+                                           CharSequence @Nullable [] sequence) {
     doCommonCheckForCharSequence(info, actual, sequence);
 
     String strActual = actual.toString();
@@ -1067,7 +1073,8 @@ public class Strings {
    * @param actual the actual text
    * @param subsequence the prohibited subsequence
    */
-  public void assertDoesNotContainSubsequence(AssertionInfo info, @Nullable CharSequence actual, CharSequence[] subsequence) {
+  public void assertDoesNotContainSubsequence(AssertionInfo info, @Nullable CharSequence actual,
+                                              CharSequence @Nullable [] subsequence) {
     doCommonCheckForCharSequence(info, actual, subsequence);
 
     String strActual = actual.toString();
@@ -1274,7 +1281,9 @@ public class Strings {
    * @param actual the actual text
    * @param sequence the expected sequence
    */
-  public static void doCommonCheckForCharSequence(AssertionInfo info, @Nullable CharSequence actual, CharSequence[] sequence) {
+  @Contract("_, null, _ -> fail; _, _, null -> fail")
+  public static void doCommonCheckForCharSequence(AssertionInfo info, @Nullable CharSequence actual,
+                                                  CharSequence @Nullable [] sequence) {
     assertNotNull(info, actual);
     checkIsNotNull(sequence);
     checkIsNotEmpty(sequence);

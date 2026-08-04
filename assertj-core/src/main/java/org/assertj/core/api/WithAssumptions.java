@@ -72,6 +72,7 @@ import java.util.stream.Stream;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.configuration.PreferredAssumptionException;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A unified entry point to all assumptions from both the new Java 8 core API and the pre-Java 8 core API.
@@ -182,7 +183,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default <T> ObjectAssert<T> assumeThat(final T actual) {
+  default <T extends @Nullable Object> ObjectAssert<T> assumeThat(final T actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -216,7 +217,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default <T extends Throwable> AbstractThrowableAssert<?, T> assumeThat(final T actual) {
+  default <T extends Throwable> AbstractThrowableAssert<?, T> assumeThat(final @Nullable T actual) {
     return Assumptions.assumeThat(actual);
   }
 

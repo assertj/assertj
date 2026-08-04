@@ -16,14 +16,12 @@
 package org.assertj.core.util.introspection;
 
 import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Streams.stream;
 import static org.assertj.core.util.introspection.Introspection.getPropertyGetter;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -98,9 +96,15 @@ public class PropertySupport {
     return instance().propertyValueOf(propertyName, clazz, target);
   }
 
+  // Collections.unmodifiableList's own type parameter isn't nullable-bound, so NullAway can't verify the
+  // wrapped List<@Nullable T> stays List<@Nullable T> through the JDK call, even though it genuinely does.
+  @SuppressWarnings("NullAway")
   private <T> List<@Nullable T> simplePropertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
-    return stream(target).map(e -> e == null ? null : propertyValue(propertyName, clazz, e))
-                         .collect(collectingAndThen(toList(), Collections::unmodifiableList));
+    List<@Nullable T> propertyValues = new ArrayList<>();
+    for (Object e : target) {
+      propertyValues.add(e == null ? null : propertyValue(propertyName, clazz, e));
+    }
+    return Collections.unmodifiableList(propertyValues);
   }
 
   private String popPropertyNameFrom(String propertyNameChain) {

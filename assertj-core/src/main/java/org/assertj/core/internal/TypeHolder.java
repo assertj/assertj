@@ -42,7 +42,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @param <T> entity type
  */
-abstract class TypeHolder<T> {
+abstract class TypeHolder<T extends @Nullable Object> {
 
   private static final Comparator<DualClass<?, ?>> DEFAULT_DUAL_CLASS_COMPARATOR = new DualClassComparator(ClassNameComparator.INSTANCE,
                                                                                                            ClassNameComparator.INSTANCE);

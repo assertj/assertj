@@ -69,7 +69,7 @@ public final class Strings {
    * @param objects the objects to concatenate.
    * @return a {@code String} containing the given objects.
    */
-  public static @Nullable String concat(Object @Nullable... objects) {
+  public static @Nullable String concat(@Nullable Object @Nullable... objects) {
     if (Arrays.isNullOrEmpty(objects)) {
       return null;
     }
@@ -84,7 +84,7 @@ public final class Strings {
    * @param args args used to format the message, can be null or empty
    * @return the formatted string if any args were given
    */
-  public static String formatIfArgs(String message, Object @Nullable... args) {
+  public static String formatIfArgs(String message, @Nullable Object @Nullable... args) {
     return Arrays.isNullOrEmpty(args)
         // here we need to format %n but not other % since we do not have arguments.
         // => we replace all % to %% except if they are followed by a 'n'.
@@ -172,7 +172,7 @@ public final class Strings {
      */
     public String with(String delimiter, @Nullable String escapeString) {
       checkArgument(delimiter != null, "Delimiter should not be null");
-      if (Arrays.isNullOrEmpty(strings)) {
+      if (strings == null || Arrays.isNullOrEmpty(strings)) {
         return "";
       }
       String escape = escapeString == null ? "" : escapeString;
@@ -227,6 +227,9 @@ public final class Strings {
      * @return a {@code String} containing the target {@code String} with the given {@code String} to append added to
      *         the end.
      */
+    // concat(s, toAppend) is called with 2 non-null arguments, so the resulting array is never null or
+    // empty and concat(...) can never actually return null here, but NullAway can't verify that.
+    @SuppressWarnings("NullAway")
     public String to(String s) {
       if (!s.endsWith(toAppend)) {
         return concat(s, toAppend);
@@ -236,10 +239,11 @@ public final class Strings {
   }
 
   // change %%n back to %n which could have been done by calling escapePercent
-  private static @Nullable String escapePercentExceptWhenFollowedBy_n(String message) {
+  private static String escapePercentExceptWhenFollowedBy_n(String message) {
     return revertEscapingPercent_n(escapePercent(message));
   }
 
+  @Contract("null -> null; !null -> !null")
   private static @Nullable String revertEscapingPercent_n(@Nullable String value) {
     return value == null ? null : value.replace("%%n", "%n");
   }

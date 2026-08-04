@@ -23,6 +23,7 @@ import java.util.function.Predicate;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
+import org.assertj.core.internal.annotation.Contract;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -32,7 +33,7 @@ import org.jspecify.annotations.Nullable;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class Condition<T> implements Descriptable<Condition<T>> {
+public class Condition<T extends @Nullable Object> implements Descriptable<Condition<T>> {
 
   /**
    * Describes the condition status after being evaluated.
@@ -60,14 +61,14 @@ public class Condition<T> implements Descriptable<Condition<T>> {
   Description description;
 
   // might not be used
-  private Predicate<@Nullable T> predicate;
+  private @Nullable Predicate<@Nullable T> predicate;
 
   /**
    * Creates a new <code>{@link Condition}</code>. The default description of this condition will the simple name of the
    * condition's class.
    */
   public Condition() {
-    as(getClass().getSimpleName());
+    description = new TextDescription(getClass().getSimpleName());
   }
 
   /**
@@ -77,7 +78,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * @throws NullPointerException if the given description is {@code null}.
    */
   public Condition(String description) {
-    as(description);
+    this.description = new TextDescription(description);
   }
 
   /**
@@ -122,7 +123,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * @throws NullPointerException if the given description is {@code null}.
    */
   public Condition(Description description) {
-    as(description);
+    this.description = Description.emptyIfNull(description);
   }
 
   /** {@inheritDoc} */
@@ -173,7 +174,8 @@ public class Condition<T> implements Descriptable<Condition<T>> {
     return predicate.test(value);
   }
 
-  private void checkPredicate(Predicate<@Nullable T> predicate) {
+  @Contract("null -> fail")
+  private void checkPredicate(@Nullable Predicate<@Nullable T> predicate) {
     requireNonNull(predicate,
                    "Unless you subclass Condition and override matches, you need to pass a non null Predicate to build a Condition.");
   }

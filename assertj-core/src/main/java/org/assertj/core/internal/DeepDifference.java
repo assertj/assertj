@@ -390,7 +390,8 @@ public class DeepDifference {
     String fieldName = dualKey.getConcatenatedPath();
     if (comparatorByPropertyOrField.containsKey(fieldName)) return true;
     // we know that dualKey.key1 != dualKey.key2 at this point, so one the key is not null
-    Class<?> keyType = dualKey.key1 != null ? dualKey.key1.getClass() : dualKey.key2.getClass();
+    Class<?> keyType = dualKey.key1 != null ? dualKey.key1.getClass()
+        : dualKey.key2 != null ? dualKey.key2.getClass() : Object.class;
     return comparatorByType.getComparatorForType(keyType) != null;
   }
 
@@ -399,7 +400,7 @@ public class DeepDifference {
                                           TypeComparators comparatorByType) {
     Deque<DualKey> stack = new LinkedList<>();
     boolean isRootObject = parentPath == null;
-    List<String> currentPath = isRootObject ? new ArrayList<>() : parentPath;
+    List<String> currentPath = parentPath == null ? new ArrayList<>() : parentPath;
     DualKey basicDualKey = new DualKey(currentPath, a, b);
     if (a != null && b != null && !isContainerType(a) && !isContainerType(b)
         && (isRootObject || !hasCustomComparator(basicDualKey, comparatorByPropertyOrField, comparatorByType))) {

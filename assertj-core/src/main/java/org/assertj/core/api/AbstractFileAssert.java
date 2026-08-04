@@ -608,7 +608,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>>
    * @param expected the expected parent file path.
    * @return {@code this} assertion object.
    */
-  public SELF hasParent(String expected) {
+  public SELF hasParent(@Nullable String expected) {
     return executeAssertion(() -> files.assertHasParent(info, actual, expected != null ? new File(expected) : null));
   }
 

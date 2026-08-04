@@ -729,7 +729,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @throws AssertionError if the actual value is greater than the given one.
    */
   @Override
-  public SELF isLessThanOrEqualTo(Float other) {
+  public SELF isLessThanOrEqualTo(@Nullable Float other) {
     // overridden for javadoc
     return super.isLessThanOrEqualTo(other);
   }
@@ -810,7 +810,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @throws AssertionError if the actual value is less than the given one.
    */
   @Override
-  public SELF isGreaterThanOrEqualTo(Float other) {
+  public SELF isGreaterThanOrEqualTo(@Nullable Float other) {
     // overridden for javadoc
     return super.isGreaterThanOrEqualTo(other);
   }
@@ -829,7 +829,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * assertThat(1f).isBetween(2f, 3f);</code></pre>
    */
   @Override
-  public SELF isBetween(Float start, Float end) {
+  public SELF isBetween(@Nullable Float start, @Nullable Float end) {
     return executeAssertion(() -> floats.assertIsBetween(info, actual, start, end));
   }
 
@@ -848,7 +848,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    *
    */
   @Override
-  public SELF isStrictlyBetween(Float start, Float end) {
+  public SELF isStrictlyBetween(@Nullable Float start, @Nullable Float end) {
     return executeAssertion(() -> floats.assertIsStrictlyBetween(info, actual, start, end));
   }
 

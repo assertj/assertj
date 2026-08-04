@@ -507,7 +507,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> ObjectAssert<T> assertThat(T actual) {
+  public static <T extends @Nullable Object> ObjectAssert<T> assertThat(T actual) {
     return new ObjectAssert<>(actual);
   }
 
@@ -739,7 +739,10 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created {@link ThrowableAssert}.
    */
-  public static <T extends Throwable> AbstractThrowableAssert<?, T> assertThat(T actual) {
+  // ThrowableAssert's own ACTUAL type parameter is nullable-bound and its constructor tolerates a null
+  // actual throughout, but NullAway can't verify that through this diamond-inferred constructor call.
+  @SuppressWarnings("NullAway")
+  public static <T extends Throwable> AbstractThrowableAssert<?, T> assertThat(@Nullable T actual) {
     return new ThrowableAssert<>(actual);
   }
 
@@ -889,6 +892,9 @@ public class AssertionsForClassTypes {
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @since 3.7.0
    */
+  // NullAway does not propagate assertThat's own T extends @Nullable Throwable bound through this call, even
+  // though actual is genuinely allowed to be null here (no throwable raised).
+  @SuppressWarnings("NullAway")
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     Throwable actual = null;
     try {

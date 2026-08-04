@@ -29,7 +29,7 @@ import org.jspecify.annotations.Nullable;
 public class UnsatisfiedRequirement {
 
   private final @Nullable Object elementNotSatisfyingRequirements;
-  private final String errorMessage;
+  private final @Nullable String errorMessage;
   private final AssertionError error;
 
   /**
@@ -88,7 +88,7 @@ public class UnsatisfiedRequirement {
                                                 .collect(joining("%n%n".formatted())));
   }
 
-  private String describeError(Representation representation) {
+  private @Nullable String describeError(Representation representation) {
     return error != null ? representation.toStringOf(error) : errorMessage;
   }
 }

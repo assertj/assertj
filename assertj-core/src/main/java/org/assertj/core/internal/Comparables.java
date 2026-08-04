@@ -414,7 +414,7 @@ public class Comparables {
    * @throws NullPointerException if end value is {@code null}.
    * @throws IllegalArgumentException if end value is less than start value.
    */
-  public <T> void assertIsBetween(AssertionInfo info, @Nullable Comparable<? super T> actual, T start, T end,
+  public <T> void assertIsBetween(AssertionInfo info, @Nullable Comparable<? super T> actual, @Nullable T start, @Nullable T end,
                                   boolean inclusiveStart, boolean inclusiveEnd) {
     assertNotNull(info, actual);
     requireNonNull(start, "The start range to compare actual with should not be null");

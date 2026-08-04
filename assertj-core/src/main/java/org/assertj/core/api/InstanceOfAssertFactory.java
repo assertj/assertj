@@ -25,6 +25,8 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Objects;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * {@link AssertFactory} decorator that casts the input value to the given type before invoking the decorated factory.
  * Default implementations for common Java types are provided by {@link InstanceOfAssertFactories}.
@@ -128,7 +130,7 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
     }
 
     @Override
-    public Type getOwnerType() {
+    public @Nullable Type getOwnerType() {
       return null;
     }
 
