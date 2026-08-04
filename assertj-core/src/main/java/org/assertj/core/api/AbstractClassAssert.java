@@ -36,6 +36,7 @@ import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
 import static org.assertj.core.error.ShouldBeSealed.shouldBeSealed;
 import static org.assertj.core.error.ShouldBeSealed.shouldNotBeSealed;
 import static org.assertj.core.error.ShouldHaveEnclosingClass.shouldHaveEnclosingClass;
+import static org.assertj.core.error.ShouldHaveNoEnclosingClass.shouldHaveNoEnclosingClass;
 import static org.assertj.core.error.ShouldHaveNoPackage.shouldHaveNoPackage;
 import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
 import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
@@ -841,6 +842,47 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     if (actualEnclosingClass == null || !actualEnclosingClass.equals(enclosingClass)) {
       throw assertionError(shouldHaveEnclosingClass(actual, enclosingClass));
     }
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has no enclosing class (as in {@link Class#getEnclosingClass()}, when
+   * {@code null} is returned), which is the case for top-level classes.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class Outer {
+   *
+   *   static class Nested { }
+   * }
+   *
+   * // this assertion succeeds as Outer is a top-level class:
+   * assertThat(Outer.class).hasNoEnclosingClass();
+   *
+   * // this assertion succeeds as array classes have no enclosing class, even for nested component types:
+   * assertThat(Outer.Nested[].class).hasNoEnclosingClass();
+   *
+   * // this assertion succeeds as primitive types have no enclosing class:
+   * assertThat(Integer.TYPE).hasNoEnclosingClass();
+   *
+   * // this assertion succeeds as void type has no enclosing class:
+   * assertThat(Void.TYPE).hasNoEnclosingClass();
+   *
+   * // this assertion fails as Nested is enclosed in Outer:
+   * assertThat(Outer.Nested.class).hasNoEnclosingClass();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} has an enclosing class.
+   * @since 3.28.0
+   * @see #hasEnclosingClass(Class)
+   */
+  public SELF hasNoEnclosingClass() {
+    isNotNull();
+    assertHasNoEnclosingClass();
+    return myself;
+  }
+
+  private void assertHasNoEnclosingClass() {
+    if (actual.getEnclosingClass() != null) throw assertionError(shouldHaveNoEnclosingClass(actual));
   }
 
   /**
