@@ -42,6 +42,10 @@
       <scope>provided</scope>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>org.jspecify</groupId>
+      <artifactId>jspecify</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -192,6 +196,10 @@
       <plugin>
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>am.ik.maven</groupId>
+        <artifactId>nullability-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>

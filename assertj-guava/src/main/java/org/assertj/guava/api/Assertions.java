@@ -16,6 +16,7 @@
 package org.assertj.guava.api;
 
 import org.assertj.core.data.MapEntry;
+import org.jspecify.annotations.Nullable;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Multimap;
@@ -154,7 +155,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @return the built entry
    */
-  public static <K, V> MapEntry<K, V> entry(K key, V value) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> MapEntry<K, V> entry(K key, V value) {
     return MapEntry.entry(key, value);
   }
 
