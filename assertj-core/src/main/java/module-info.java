@@ -54,6 +54,7 @@ module org.assertj.core {
   requires static java.sql;
   requires static java.xml; // used for XML pretty print
   requires static org.hamcrest;
+  requires static org.jspecify;
   requires static org.junit.jupiter.api;
   requires static org.opentest4j; // to throw AssertionFailedError which is IDE friendly
 

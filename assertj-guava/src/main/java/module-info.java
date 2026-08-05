@@ -19,7 +19,7 @@
 module org.assertj.guava {
   requires transitive org.assertj.core;
   requires com.google.common;
-  requires org.jspecify;
+  requires static org.jspecify;
 
   exports org.assertj.guava.api;
   exports org.assertj.guava.error;
