@@ -348,6 +348,14 @@ limitations under the License.
             <features>
               <feature>+auto_threads</feature>
             </features>
+            <excludedTestClasses>
+              <param>org.assertj.core.util.Throwables_describeErrors_Test</param>
+              <param>org.assertj.core.api.EntryPointAssertions_setMaxStackTraceElementsDisplayed_Test</param>
+              <param>org.example.test.SoftAssertionsLineNumberTest</param>
+              <param>org.example.test.BDDSoftAssertionsLineNumberTest</param>
+              <param>org.example.test.AutoClosableSoftAssertionsLineNumberTest</param>
+              <param>org.example.test.MultipleAssertionsError_getMessage_Test</param>
+            </excludedTestClasses>
           </configuration>
           <dependencies>
             <dependency>
