@@ -279,6 +279,7 @@ limitations under the License.
               <additionalOption>--allow-script-in-comments</additionalOption>
             </additionalOptions>
             <javadocDirectory>${rootDirectory}/javadoc-theme</javadocDirectory>
+            <sourcepath>${project.basedir}/src/main/java</sourcepath>
             <addStylesheets>
               <stylesheet>assertj-theme.css</stylesheet>
               <stylesheet>hljs-theme.css</stylesheet>

@@ -34,6 +34,8 @@ public @interface Contract {
   /**
    * Contains the contract clauses describing causal relations between call
    * arguments and the returned value.
+   *
+   * @return the contract clauses
    */
   String value();
 
