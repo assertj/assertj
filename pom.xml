@@ -357,6 +357,7 @@ limitations under the License.
               <param>org.example.test.MultipleAssertionsError_getMessage_Test</param>
               <param>org.example.test.Throwables_getFirstStackTraceElementFromTest_Test</param>
               <param>org.assertj.tests.core.Module_Test</param>
+              <param>org.assertj.tests.guava.Module_Test</param>
               <param>org.assertj.tests.core.api.Assertions_assertThatCode_Test</param>
               <param>org.assertj.tests.core.api.Assertions_assertThatNoException_Test</param>
               <param>org.assertj.tests.core.api.Assertions_linesOf_Test</param>
