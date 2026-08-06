@@ -355,6 +355,13 @@ limitations under the License.
               <param>org.example.test.BDDSoftAssertionsLineNumberTest</param>
               <param>org.example.test.AutoClosableSoftAssertionsLineNumberTest</param>
               <param>org.example.test.MultipleAssertionsError_getMessage_Test</param>
+              <param>org.example.test.Throwables_getFirstStackTraceElementFromTest_Test</param>
+              <param>org.assertj.tests.core.Module_Test</param>
+              <param>org.assertj.tests.core.api.Assertions_assertThatCode_Test</param>
+              <param>org.assertj.tests.core.api.Assertions_assertThatNoException_Test</param>
+              <param>org.assertj.tests.core.api.Assertions_linesOf_Test</param>
+              <param>org.assertj.tests.core.api.recursive.assertion.RecursiveAssertionDriver_JavaClassLibraryRecursionTest</param>
+              <param>org.assertj.tests.core.presentation.StandardRepresentation_throwable_format_Test</param>
             </excludedTestClasses>
           </configuration>
           <dependencies>
