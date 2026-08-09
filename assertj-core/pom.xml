@@ -59,8 +59,6 @@
     <dependency>
       <groupId>org.jspecify</groupId>
       <artifactId>jspecify</artifactId>
-      <scope>provided</scope>
-      <optional>true</optional>
     </dependency>
     <!-- Test -->
     <dependency>
@@ -259,6 +257,9 @@
         <configuration>
           <rules combine.children="append">
             <bannedDependencies>
+              <includes>
+                <include>org.jspecify:jspecify</include>
+              </includes>
               <excludes>
                 <exclude>org.assertj:assertj-core</exclude>
                 <exclude>org.hamcrest:hamcrest-core</exclude>
