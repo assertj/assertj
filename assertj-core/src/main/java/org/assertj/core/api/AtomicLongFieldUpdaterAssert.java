@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link AtomicLongFieldUpdater}s.
  * <p>
@@ -28,14 +30,15 @@ import java.util.concurrent.atomic.AtomicLongFieldUpdater;
  * @since 2.7.0 / 3.7.0
  */
 public class AtomicLongFieldUpdaterAssert<OBJECT>
-    extends AbstractAtomicFieldUpdaterAssert<AtomicLongFieldUpdaterAssert<OBJECT>, Long, AtomicLongFieldUpdater<OBJECT>, OBJECT> {
+    extends
+    AbstractAtomicFieldUpdaterAssert<AtomicLongFieldUpdaterAssert<OBJECT>, Long, @Nullable AtomicLongFieldUpdater<OBJECT>, OBJECT> {
 
   /**
    * Creates a new atomic long field updater assertion.
    *
    * @param actual the actual field updater
    */
-  public AtomicLongFieldUpdaterAssert(AtomicLongFieldUpdater<OBJECT> actual) {
+  public AtomicLongFieldUpdaterAssert(@Nullable AtomicLongFieldUpdater<OBJECT> actual) {
     super(actual, AtomicLongFieldUpdaterAssert.class, false);
   }
 

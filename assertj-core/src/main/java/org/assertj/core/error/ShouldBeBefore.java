@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Object} is before another one failed.
@@ -32,7 +33,8 @@ public class ShouldBeBefore extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeBefore(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
+  public static ErrorMessageFactory shouldBeBefore(@Nullable Object actual, @Nullable Object other,
+                                                   ComparisonStrategy comparisonStrategy) {
     return new ShouldBeBefore(actual, other, comparisonStrategy);
   }
 
@@ -42,11 +44,11 @@ public class ShouldBeBefore extends BasicErrorMessageFactory {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeBefore(Object actual, Object other) {
+  public static ErrorMessageFactory shouldBeBefore(@Nullable Object actual, @Nullable Object other) {
     return new ShouldBeBefore(actual, other, StandardComparisonStrategy.instance());
   }
 
-  private ShouldBeBefore(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
+  private ShouldBeBefore(@Nullable Object actual, @Nullable Object other, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto be strictly before:%n  %s%n%s", actual, other, comparisonStrategy);
   }
 }

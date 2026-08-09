@@ -65,6 +65,7 @@ class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesBaseTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_given_iterable_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertDoesNotContainAnyElementsOf(someInfo(), actual,
                                                                                                   null))

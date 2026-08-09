@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link CharSequence}
  * does not end with whitespace characters.
@@ -30,7 +32,7 @@ public class ShouldNotEndWithWhitespaces extends BasicErrorMessageFactory {
     return new ShouldNotEndWithWhitespaces(actual);
   }
 
-  private ShouldNotEndWithWhitespaces(Object actual) {
+  private ShouldNotEndWithWhitespaces(@Nullable Object actual) {
     super("%n" +
           "Expecting string not to end with whitespaces but found one, string was:%n" +
           "  %s", IndentWrapper.of(actual));

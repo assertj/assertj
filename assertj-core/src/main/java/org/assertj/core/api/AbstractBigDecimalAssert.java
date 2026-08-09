@@ -23,6 +23,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigDecimals;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link BigDecimal}s.
@@ -40,7 +41,7 @@ import org.assertj.core.internal.BigDecimals;
  * @author chanwon lee
  */
 public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAssert<SELF>> extends
-    AbstractComparableAssert<SELF, BigDecimal> implements NumberAssert<SELF, BigDecimal> {
+    AbstractComparableAssert<SELF, @Nullable BigDecimal> implements NumberAssert<SELF, BigDecimal> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BigDecimals bigDecimals = BigDecimals.instance();
@@ -51,7 +52,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * @param actual the actual value to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractBigDecimalAssert(BigDecimal actual, Class<?> selfType) {
+  protected AbstractBigDecimalAssert(@Nullable BigDecimal actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -186,7 +187,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * considered equal in value unlike {@link BigDecimal#equals(Object)}.
    */
   @Override
-  public SELF isBetween(BigDecimal start, BigDecimal end) {
+  public SELF isBetween(@Nullable BigDecimal start, @Nullable BigDecimal end) {
     return executeAssertion(() -> bigDecimals.assertIsBetween(info, actual, start, end));
   }
 
@@ -204,7 +205,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    *
    */
   @Override
-  public SELF isStrictlyBetween(BigDecimal start, BigDecimal end) {
+  public SELF isStrictlyBetween(@Nullable BigDecimal start, @Nullable BigDecimal end) {
     return executeAssertion(() -> bigDecimals.assertIsStrictlyBetween(info, actual, start, end));
   }
 
@@ -311,7 +312,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super BigDecimal> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super BigDecimal> customComparator, @Nullable String customComparatorDescription) {
     this.bigDecimals = new BigDecimals(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }
@@ -480,7 +481,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * @throws AssertionError if the actual value is greater than the given one.
    */
   @Override
-  public SELF isLessThanOrEqualTo(BigDecimal other) {
+  public SELF isLessThanOrEqualTo(@Nullable BigDecimal other) {
     return super.isLessThanOrEqualTo(other);
   }
 
@@ -506,7 +507,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * @throws AssertionError if the actual value is less than the given one.
    */
   @Override
-  public SELF isGreaterThanOrEqualTo(BigDecimal other) {
+  public SELF isGreaterThanOrEqualTo(@Nullable BigDecimal other) {
     return super.isGreaterThanOrEqualTo(other);
   }
 

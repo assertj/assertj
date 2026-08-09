@@ -74,6 +74,7 @@ class ByNameSingleExtractorTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_exception_when_given_name_is_null() {
     // GIVEN
     ByNameSingleExtractor underTest = new ByNameSingleExtractor(null);
@@ -144,6 +145,7 @@ class ByNameSingleExtractorTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_exception_if_no_object_is_given() {
     // GIVEN
     ByNameSingleExtractor underTest = new ByNameSingleExtractor("id");
@@ -176,6 +178,7 @@ class ByNameSingleExtractorTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_extract_null_from_map_by_key_with_null_value() {
     // GIVEN
     Map<String, Employee> map = mapOf(entry("key", null));
@@ -229,6 +232,7 @@ class ByNameSingleExtractorTest {
   static class BareOptionalIntHolder {
     private final Integer value;
 
+    @SuppressWarnings("NullAway")
     BareOptionalIntHolder() {
       value = null;
     }

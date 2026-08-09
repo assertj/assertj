@@ -20,6 +20,7 @@ import java.util.function.Function;
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.ObjectArrayAssert;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Function converting an element to another element. Used in {@link ListAssert#extracting(ThrowingExtractor)},
@@ -31,7 +32,7 @@ import org.assertj.core.api.ObjectArrayAssert;
  * @param <EXCEPTION> type of exception which might be thrown during conversion
  */
 @FunctionalInterface
-public interface ThrowingExtractor<F, T, EXCEPTION extends Exception> extends Function<F, T> {
+public interface ThrowingExtractor<F, T extends @Nullable Object, EXCEPTION extends Exception> extends Function<F, T> {
 
   @Override
   default T apply(final F input) {

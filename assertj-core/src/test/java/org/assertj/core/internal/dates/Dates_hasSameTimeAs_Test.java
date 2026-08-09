@@ -46,6 +46,7 @@ class Dates_hasSameTimeAs_Test extends DatesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
@@ -56,6 +57,7 @@ class Dates_hasSameTimeAs_Test extends DatesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_expected_is_null() {
     // GIVEN
     Date expected = null;

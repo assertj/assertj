@@ -19,6 +19,8 @@ import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that two {@link ZonedDateTime} have same year,
  * month, day, hour and minute failed.
@@ -41,11 +43,11 @@ public class ShouldBeEqualIgnoringSeconds extends BasicErrorMessageFactory {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeEqualIgnoringSeconds(Object actual, Object other) {
+  public static ErrorMessageFactory shouldBeEqualIgnoringSeconds(@Nullable Object actual, @Nullable Object other) {
     return new ShouldBeEqualIgnoringSeconds(actual, other);
   }
 
-  private ShouldBeEqualIgnoringSeconds(Object actual, Object other) {
+  private ShouldBeEqualIgnoringSeconds(@Nullable Object actual, @Nullable Object other) {
     super("%nExpecting actual:%n  %s%nto have same year, month, day, hour and minute as:%n  %s%nbut had not.", actual, other);
   }
 

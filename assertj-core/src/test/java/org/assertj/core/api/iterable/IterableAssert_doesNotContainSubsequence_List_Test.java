@@ -48,6 +48,7 @@ class IterableAssert_doesNotContainSubsequence_List_Test extends IterableAssertB
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_subsequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       List<Object> nullList = null;

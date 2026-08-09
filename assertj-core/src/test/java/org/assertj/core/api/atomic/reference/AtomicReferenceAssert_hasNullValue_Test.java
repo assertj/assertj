@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 class AtomicReferenceAssert_hasNullValue_Test {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_when_actual_has_the_null_value() {
     // GIVEN
     AtomicReference<String> actual = new AtomicReference<>(null);
@@ -35,6 +36,7 @@ class AtomicReferenceAssert_hasNullValue_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_when_actual_does_not_have_the_null_value() {
     // GIVEN
     AtomicReference<String> actual = new AtomicReference<>("foo");

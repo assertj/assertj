@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.Spliterator;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@code Spliterator}s.
  * <p>
@@ -35,7 +37,7 @@ public class SpliteratorAssert<ELEMENT> extends AbstractSpliteratorAssert<Splite
    * @param actual the actual spliterator
    * @return the created assertion
    */
-  public static <ELEMENT> SpliteratorAssert<ELEMENT> assertThatSpliterator(Spliterator<ELEMENT> actual) {
+  public static <ELEMENT> SpliteratorAssert<ELEMENT> assertThatSpliterator(@Nullable Spliterator<ELEMENT> actual) {
     return new SpliteratorAssert<>(actual);
   }
 
@@ -44,7 +46,7 @@ public class SpliteratorAssert<ELEMENT> extends AbstractSpliteratorAssert<Splite
    *
    * @param actual the actual value to verify
    */
-  protected SpliteratorAssert(Spliterator<ELEMENT> actual) {
+  protected SpliteratorAssert(@Nullable Spliterator<ELEMENT> actual) {
     super(actual, SpliteratorAssert.class);
   }
 }

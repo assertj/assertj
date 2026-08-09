@@ -38,6 +38,7 @@ class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test extends M
 
   private final Condition<String> isColor = new Condition<>("is color condition") {
     @Override
+    @SuppressWarnings("NullAway")
     public boolean matches(String value) {
       return "color".equals(value);
     }
@@ -45,6 +46,7 @@ class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test extends M
 
   private final Condition<String> isGreen = new Condition<>("green color condition") {
     @Override
+    @SuppressWarnings("NullAway")
     public boolean matches(String value) {
       return "green".equals(value);
     }
@@ -52,6 +54,7 @@ class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test extends M
 
   private final Condition<Object> isAge = new Condition<>() {
     @Override
+    @SuppressWarnings("NullAway")
     public boolean matches(Object value) {
       return "age".equals(value);
     }
@@ -59,12 +62,14 @@ class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test extends M
 
   private final Condition<Object> isBlack = new Condition<>("black color condition") {
     @Override
+    @SuppressWarnings("NullAway")
     public boolean matches(Object value) {
       return "black".equals(value);
     }
   };
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_key_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertHasEntrySatisfyingConditions(INFO, actual, null,
                                                                                               isGreen))
@@ -72,6 +77,7 @@ class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test extends M
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_value_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertHasEntrySatisfyingConditions(INFO, actual,
                                                                                               isColor, null))

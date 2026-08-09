@@ -20,6 +20,7 @@ import java.net.URL;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
+import org.jspecify.annotations.Nullable;
 
 /** Creates errors for URIs and URLs with unexpected user information. */
 public class ShouldHaveUserInfo extends BasicErrorMessageFactory {
@@ -34,7 +35,7 @@ public class ShouldHaveUserInfo extends BasicErrorMessageFactory {
    * @param expectedUserInfo the expected user information
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveUserInfo(URI actual, String expectedUserInfo) {
+  public static ErrorMessageFactory shouldHaveUserInfo(URI actual, @Nullable String expectedUserInfo) {
     return expectedUserInfo == null ? new ShouldHaveUserInfo(actual) : new ShouldHaveUserInfo(actual, expectedUserInfo);
   }
 
@@ -53,7 +54,7 @@ public class ShouldHaveUserInfo extends BasicErrorMessageFactory {
    * @param expectedUserInfo the expected user information
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveUserInfo(URL actual, String expectedUserInfo) {
+  public static ErrorMessageFactory shouldHaveUserInfo(URL actual, @Nullable String expectedUserInfo) {
     return expectedUserInfo == null ? new ShouldHaveUserInfo(actual) : new ShouldHaveUserInfo(actual, expectedUserInfo);
   }
 

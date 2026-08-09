@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are
  * lenient equal by accepting fields failed.
@@ -37,7 +39,7 @@ public class ShouldBeEqualByComparingOnlyGivenFields extends BasicErrorMessageFa
    * @param acceptedFields fields on which is based the lenient equality
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeEqualComparingOnlyGivenFields(Object actual, List<String> rejectedFields,
+  public static ErrorMessageFactory shouldBeEqualComparingOnlyGivenFields(@Nullable Object actual, List<String> rejectedFields,
                                                                           List<Object> rejectedValues,
                                                                           List<Object> expectedValues,
                                                                           List<String> acceptedFields) {
@@ -50,7 +52,8 @@ public class ShouldBeEqualByComparingOnlyGivenFields extends BasicErrorMessageFa
                                                        acceptedFields);
   }
 
-  private ShouldBeEqualByComparingOnlyGivenFields(Object actual, List<String> rejectedFields, List<Object> rejectedValues,
+  private ShouldBeEqualByComparingOnlyGivenFields(@Nullable Object actual, List<String> rejectedFields,
+                                                  List<Object> rejectedValues,
                                                   List<Object> expectedValue, List<String> acceptedFields) {
     super("%nExpecting values:%n"
           + "  %s%n"
@@ -63,7 +66,8 @@ public class ShouldBeEqualByComparingOnlyGivenFields extends BasicErrorMessageFa
           expectedValue, rejectedFields, rejectedValues, actual, acceptedFields);
   }
 
-  private ShouldBeEqualByComparingOnlyGivenFields(Object actual, String rejectedField, Object rejectedValue, Object expectedValue,
+  private ShouldBeEqualByComparingOnlyGivenFields(@Nullable Object actual, String rejectedField, @Nullable Object rejectedValue,
+                                                  @Nullable Object expectedValue,
                                                   List<String> acceptedFields) {
     super("%nExpecting value %s in field %s but was %s in %s", expectedValue, rejectedField, rejectedValue, actual,
           acceptedFields);

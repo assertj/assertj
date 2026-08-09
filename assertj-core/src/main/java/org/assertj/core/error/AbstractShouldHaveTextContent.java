@@ -22,14 +22,15 @@ import java.util.List;
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.diff.Delta;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for text content error.
  */
 public class AbstractShouldHaveTextContent extends BasicErrorMessageFactory {
 
-  /** The textual representation of the content differences. */
-  protected String diffs;
+  /** The textual representation of the content differences, set by subclasses right after construction. */
+  protected String diffs = "";
 
   /**
    * Creates a new text content error message.
@@ -37,12 +38,12 @@ public class AbstractShouldHaveTextContent extends BasicErrorMessageFactory {
    * @param format the message format
    * @param arguments the message arguments
    */
-  public AbstractShouldHaveTextContent(String format, Object... arguments) {
+  public AbstractShouldHaveTextContent(String format, @Nullable Object... arguments) {
     super(format, arguments);
   }
 
   @Override
-  public String create(Description description, Representation representation) {
+  public String create(@Nullable Description description, Representation representation) {
     // we append diffs here as we can't add in super constructor call, see why below.
     //
     // case 1 - append diffs to String passed in super :

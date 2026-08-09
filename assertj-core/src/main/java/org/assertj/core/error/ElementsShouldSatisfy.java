@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.assertj.core.api.AssertionInfo;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates error messages for elements that do not satisfy requirements.
@@ -37,7 +38,7 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
    * @param info assertion information
    * @return the error message factory
    */
-  public static ErrorMessageFactory elementsShouldSatisfyAny(Object actual,
+  public static ErrorMessageFactory elementsShouldSatisfyAny(@Nullable Object actual,
                                                              List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements,
                                                              AssertionInfo info) {
     return new ElementsShouldSatisfy("%n" +
@@ -55,7 +56,7 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
    * @param info assertion information
    * @return the error message factory
    */
-  public static ErrorMessageFactory elementsShouldSatisfy(Object actual,
+  public static ErrorMessageFactory elementsShouldSatisfy(@Nullable Object actual,
                                                           List<UnsatisfiedRequirement> elementsNotSatisfyingRestrictions,
                                                           AssertionInfo info) {
     return new ElementsShouldSatisfy("%n" +
@@ -73,7 +74,7 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
    * @param info assertion information
    * @return the error message factory
    */
-  public static ErrorMessageFactory elementsShouldSatisfyExactly(Object actual,
+  public static ErrorMessageFactory elementsShouldSatisfyExactly(@Nullable Object actual,
                                                                  Map<Integer, UnsatisfiedRequirement> unsatisfiedRequirements,
                                                                  AssertionInfo info) {
     return new ElementsShouldSatisfy("%n" +
@@ -83,12 +84,14 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
                                      actual, unsatisfiedRequirements, info);
   }
 
-  private ElementsShouldSatisfy(String message, Object actual, List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements,
+  private ElementsShouldSatisfy(String message, @Nullable Object actual,
+                                List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements,
                                 AssertionInfo info) {
     super(message + UnsatisfiedRequirement.describeErrors(elementsNotSatisfyingRequirements, info), actual);
   }
 
-  private ElementsShouldSatisfy(String message, Object actual, Map<Integer, UnsatisfiedRequirement> unsatisfiedRequirements,
+  private ElementsShouldSatisfy(String message, @Nullable Object actual,
+                                Map<Integer, UnsatisfiedRequirement> unsatisfiedRequirements,
                                 AssertionInfo info) {
     super(message + describeErrors(unsatisfiedRequirements, info), actual);
   }

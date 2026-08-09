@@ -40,6 +40,7 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -80,6 +81,7 @@ import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for implementations of <code>{@link ObjectEnumerableAssert}</code> whose actual value type is
@@ -105,8 +107,8 @@ import org.assertj.core.util.introspection.IntrospectionError;
 //@format:off
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
-  ACTUAL extends Iterable<? extends ELEMENT>,
-  ELEMENT,
+  ACTUAL extends @Nullable Iterable<? extends ELEMENT>,
+  ELEMENT extends @Nullable Object,
   ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
   extends AbstractAssertWithComparator<SELF, ACTUAL>
   implements ObjectEnumerableAssert<SELF, ELEMENT> {
@@ -114,9 +116,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   private static final String ASSERT = "Assert";
 
-  private TypeComparators comparatorsByType;
+  private @Nullable TypeComparators comparatorsByType;
   private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
-  private TypeComparators comparatorsForElementPropertyOrFieldTypes;
+  private @Nullable TypeComparators comparatorsForElementPropertyOrFieldTypes;
 
   /** Internal assertions for iterable values. */
   protected Iterables iterables = Iterables.instance();
@@ -314,7 +316,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   @Override
-  public SELF hasSameSizeAs(Object other) {
+  public SELF hasSameSizeAs(@Nullable Object other) {
     return executeAssertion(() -> iterables.assertHasSameSizeAs(info, actual, other));
   }
 
@@ -935,7 +937,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertionNavigation(() -> {
       String extractedDescription = extractedDescriptionOf(propertyOrField);
       isNotNull(extractedDescription);
-      List<Object> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
+      List<@Nullable Object> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
       String description = mostRelevantDescription(info.description(), extractedDescription);
       return newListAssertInstanceForMethodsChangingElementType(values).as(description);
     }, ListAssert::nullListAssert);
@@ -1125,7 +1127,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertionNavigation(() -> {
       String extractedDescription = extractedDescriptionOf(propertyOrField);
       isNotNull(extractedDescription);
-      List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
+      List<@Nullable Object> extractedValues = FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
+      @SuppressWarnings("unchecked")
+      List<P> values = (List<P>) extractedValues;
       String description = mostRelevantDescription(info.description(), extractedDescription);
       return newListAssertInstanceForMethodsChangingElementType(values).as(description);
     }, ListAssert::nullListAssert);
@@ -1258,7 +1262,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return a new assertion object whose object under test is the list of values extracted
    */
   @CheckReturnValue
-  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(Function<? super ELEMENT, V> extractor) {
+  public <V extends @Nullable Object> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(Function<? super ELEMENT, V> extractor) {
     return internalMap(extractor, "extracting");
   }
 
@@ -1346,7 +1350,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 3.7.0
    */
   @CheckReturnValue
-  public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
+  public <V extends @Nullable Object, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
     return internalMap(extractor, "extracting");
   }
 
@@ -1388,7 +1392,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 3.19.0
    */
   @CheckReturnValue
-  public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> map(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> mapper) {
+  public <V extends @Nullable Object, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> map(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> mapper) {
     return map((Function<? super ELEMENT, V>) mapper);
   }
 
@@ -1396,7 +1400,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Should be used after any methods changing the elements type like {@link #extracting(Function)} as it will propagate the
    * correct assertions state, that is everything but the element comparator (since the element type has changed).
    */
-  private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> newListAssertInstanceForMethodsChangingElementType(List<V> values) {
+  private <V extends @Nullable Object> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> newListAssertInstanceForMethodsChangingElementType(List<V> values) {
     if (actual instanceof SortedSet) {
       // Reset the natural element comparator set when building an iterable assert instance for a SortedSet as it is likely not
       // compatible with extracted values type, example with a SortedSet<Person> using a comparator on the Person's age, after
@@ -1772,8 +1776,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertionNavigation(() -> {
       isNotNull("flatExtracting: " + fieldOrPropertyName);
       List<Object> extractedValues = newArrayList();
-      List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrPropertyName));
-      for (Object group : extractedGroups) {
+      List<@Nullable Object> extractedGroups = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrPropertyName));
+      for (@Nullable
+      Object group : extractedGroups) {
         // expecting group to be an iterable or an array
         if (isArray(group)) {
           int size = Array.getLength(group);
@@ -1959,9 +1964,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertionNavigation(() -> {
       String flatExtractingDescription = "flatExtracting: " + descriptionOf(fieldOrPropertyNames);
       isNotNull(flatExtractingDescription);
-      List<Object> extractedValues = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrPropertyNames)).stream()
-                                                                .flatMap(tuple -> tuple.toList().stream())
-                                                                .collect(toList());
+      List<Tuple> tuples = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrPropertyNames));
+      List<@Nullable Object> extractedValues = new ArrayList<>();
+      for (Tuple tuple : tuples) {
+        extractedValues.addAll(tuple.toList());
+      }
       String description = mostRelevantDescription(info.description(), flatExtractingDescription);
       return newListAssertInstanceForMethodsChangingElementType(extractedValues).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);
@@ -2602,7 +2609,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IntrospectionError       if the given propertyOrFieldName can't be found in one of the iterable elements.
    */
   @CheckReturnValue
-  public SELF filteredOn(String propertyOrFieldName, Object expectedValue) {
+  public SELF filteredOn(String propertyOrFieldName, @Nullable Object expectedValue) {
     Filters<? extends ELEMENT> filter = filter((Iterable<? extends ELEMENT>) actual);
     Iterable<? extends ELEMENT> filteredIterable = filter.with(propertyOrFieldName, expectedValue).get();
     return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
@@ -2798,7 +2805,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 3.17.0
    */
   @CheckReturnValue
-  public <T> SELF filteredOn(Function<? super ELEMENT, T> function, T expectedValue) {
+  public <T extends @Nullable Object> SELF filteredOn(Function<? super ELEMENT, T> function, T expectedValue) {
     checkArgument(function != null, "The filter function should not be null");
     return filteredOn(element -> java.util.Objects.equals(function.apply(element), expectedValue));
   }
@@ -3227,8 +3234,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return toAssert(actual.iterator().next(), navigationDescription("check single element"));
   }
 
+  // ELEMENT's bound already allows @Nullable, but NullAway doesn't propagate that through this call.
+  @SuppressWarnings("NullAway")
   private ELEMENT_ASSERT nullElementNavigationAssert(String description) {
-    return toAssert(null, navigationDescription(description));
+    ELEMENT nullElement = null;
+    return toAssert(nullElement, navigationDescription(description));
   }
 
   /**
@@ -3454,13 +3464,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @Override
   @CheckReturnValue
-  public SELF as(Description description) {
+  public SELF as(@Nullable Description description) {
     return super.as(description);
   }
 
   @Override
   @CheckReturnValue
-  public SELF describedAs(Description description) {
+  public SELF describedAs(@Nullable Description description) {
     return super.describedAs(description);
   }
 
@@ -3501,7 +3511,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   @Override
-  public SELF isEqualTo(Object expected) {
+  public SELF isEqualTo(@Nullable Object expected) {
     return super.isEqualTo(expected);
   }
 
@@ -3536,7 +3546,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   @Override
-  public SELF isNotEqualTo(Object other) {
+  public SELF isNotEqualTo(@Nullable Object other) {
     return super.isNotEqualTo(other);
   }
 
@@ -3576,7 +3586,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   @Override
-  public SELF isNotSameAs(Object other) {
+  public SELF isNotSameAs(@Nullable Object other) {
     return super.isNotSameAs(other);
   }
 
@@ -3586,7 +3596,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   @Override
-  public SELF isSameAs(Object expected) {
+  public SELF isSameAs(@Nullable Object expected) {
     return super.isSameAs(expected);
   }
 
@@ -3621,7 +3631,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, @Nullable String customComparatorDescription) {
     return super.usingComparator(customComparator, customComparatorDescription);
   }
 
@@ -3726,7 +3736,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  SELF withTypeComparators(TypeComparators comparatorsByType) {
+  SELF withTypeComparators(@Nullable TypeComparators comparatorsByType) {
     this.comparatorsByType = comparatorsByType;
     return myself;
   }
@@ -3736,7 +3746,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  SELF withComparatorsForElementPropertyOrFieldTypes(TypeComparators comparatorsForElementPropertyOrFieldTypes) {
+  SELF withComparatorsForElementPropertyOrFieldTypes(@Nullable TypeComparators comparatorsForElementPropertyOrFieldTypes) {
     this.comparatorsForElementPropertyOrFieldTypes = comparatorsForElementPropertyOrFieldTypes;
     return myself;
   }
@@ -3747,8 +3757,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   // @format:off
   private static class FactoryBasedAssert<SELF extends FactoryBasedAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
-    ACTUAL extends Iterable<? extends ELEMENT>,
-    ELEMENT,
+    ACTUAL extends @Nullable Iterable<? extends ELEMENT>,
+    ELEMENT extends @Nullable Object,
     ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
     extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
     // @format:on

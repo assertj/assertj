@@ -18,6 +18,8 @@ package org.assertj.core.error;
 import java.io.File;
 import java.nio.file.Path;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements is not empty failed. A group of
  * elements can be a collection, an array, a {@code String}, a {@code File} or a {@code Path}.
@@ -54,7 +56,7 @@ public class ShouldNotBeEmpty extends BasicErrorMessageFactory {
     return new ShouldNotBeEmpty("%nExpecting path %s not to be empty", actual);
   }
 
-  private ShouldNotBeEmpty(String format, Object... arguments) {
+  private ShouldNotBeEmpty(String format, @Nullable Object... arguments) {
     super(format, arguments);
   }
 }

@@ -19,6 +19,9 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Comparables;
 
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class ComparableAssertBaseTest<ASSERT extends AbstractComparableAssert<ASSERT, TYPE>, TYPE extends Comparable<? super TYPE>>
     extends BaseTestTemplate<ASSERT, TYPE> {
 

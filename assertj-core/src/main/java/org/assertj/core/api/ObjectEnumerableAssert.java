@@ -19,6 +19,8 @@ import java.util.HashSet;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions methods applicable to groups of objects (e.g. arrays or collections.)
  *
@@ -34,7 +36,7 @@ import java.util.function.Predicate;
  * @author Nicolas François
  * @author Florent Biville
  */
-public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF, ELEMENT>, ELEMENT>
+public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF, ELEMENT>, ELEMENT extends @Nullable Object>
     extends EnumerableAssert<SELF, ELEMENT> {
 
   /**

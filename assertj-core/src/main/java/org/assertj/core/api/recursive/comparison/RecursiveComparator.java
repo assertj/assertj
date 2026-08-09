@@ -18,6 +18,8 @@ package org.assertj.core.api.recursive.comparison;
 import java.util.Comparator;
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * {@code Comparator} comparing objects recursively as in {@link org.assertj.core.api.RecursiveComparisonAssert}.
  * <p>
@@ -26,7 +28,7 @@ import java.util.List;
  *
  * @since 3.24.0
  */
-public class RecursiveComparator implements Comparator<Object> {
+public class RecursiveComparator implements Comparator<@Nullable Object> {
 
   private final RecursiveComparisonConfiguration recursiveComparisonConfiguration;
   private final RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator;
@@ -74,7 +76,7 @@ public class RecursiveComparator implements Comparator<Object> {
    * @return zero if the arguments are recursively equal to each other, or non-zero otherwise.
    */
   @Override
-  public int compare(Object actual, Object other) {
+  public int compare(@Nullable Object actual, @Nullable Object other) {
     if (actual == other) return 0;
     if (actual != null && other != null) return determineDifferencesWith(actual, other).size();
     // either actual or other is null but not both => can't be equal

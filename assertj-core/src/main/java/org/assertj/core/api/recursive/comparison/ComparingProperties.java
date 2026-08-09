@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.assertj.core.util.introspection.PropertySupport;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link RecursiveComparisonIntrospectionStrategy} that introspects properties by looking at public getters like
@@ -49,13 +50,13 @@ public class ComparingProperties extends AbstractRecursiveComparisonIntrospectio
   private final Map<Class<?>, Set<String>> propertiesNamesPerClass = new ConcurrentHashMap<>();
 
   @Override
-  public Set<String> getChildrenNodeNamesOf(Object node) {
+  public Set<String> getChildrenNodeNamesOf(@Nullable Object node) {
     if (node == null) return new HashSet<>();
     return propertiesNamesPerClass.computeIfAbsent(node.getClass(), ComparingProperties::getPropertiesNamesOf);
   }
 
   @Override
-  public Object getChildNodeValue(String childNodeName, Object instance) {
+  public @Nullable Object getChildNodeValue(String childNodeName, @Nullable Object instance) {
     return PropertySupport.instance().propertyValueOf(childNodeName, Object.class, instance);
   }
 

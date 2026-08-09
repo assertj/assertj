@@ -67,6 +67,9 @@ public class CollectionAssert<ELEMENT> extends
    * @param <ELEMENT> the collection element type
    * @return the null-navigation assertion
    */
+  // used only for null-object navigation: the underlying AbstractAssert.actual is documented to tolerate null
+  // even though CollectionAssert's own ACTUAL type argument isn't modeled as nullable.
+  @SuppressWarnings("NullAway")
   public static <ELEMENT> CollectionAssert<ELEMENT> nullCollectionAssert() {
     return new CollectionAssert<>(null);
   }

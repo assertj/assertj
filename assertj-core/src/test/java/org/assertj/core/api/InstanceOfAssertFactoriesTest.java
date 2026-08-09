@@ -213,6 +213,7 @@ import org.assertj.core.api.AssertFactory.ValueProvider;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.assertj.core.util.Strings;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -235,6 +236,7 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = (Predicate<Object>) Objects::isNull;
 
     @Test
+    @SuppressWarnings("NullAway")
     void createAssert() {
       // WHEN
       PredicateAssert<Object> result = PREDICATE.createAssert(actual);
@@ -243,6 +245,7 @@ class InstanceOfAssertFactoriesTest {
     }
 
     @Test
+    @SuppressWarnings("NullAway")
     void createAssert_with_ValueProvider() {
       // GIVEN
       ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
@@ -2238,6 +2241,7 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new AtomicReference<>();
 
     @Test
+    @SuppressWarnings("NullAway")
     void createAssert() {
       // WHEN
       AtomicReferenceAssert<Object> result = ATOMIC_REFERENCE.createAssert(actual);
@@ -2246,6 +2250,7 @@ class InstanceOfAssertFactoriesTest {
     }
 
     @Test
+    @SuppressWarnings("NullAway")
     void createAssert_with_ValueProvider() {
       // GIVEN
       ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
@@ -2342,6 +2347,7 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = AtomicReferenceFieldUpdater.newUpdater(Container.class, String.class, "stringField");
 
     @Test
+    @SuppressWarnings("NullAway")
     void createAssert() {
       // WHEN
       AtomicReferenceFieldUpdaterAssert<Object, Object> result = ATOMIC_REFERENCE_FIELD_UPDATER.createAssert(actual);
@@ -2350,6 +2356,7 @@ class InstanceOfAssertFactoriesTest {
     }
 
     @Test
+    @SuppressWarnings("NullAway")
     void createAssert_with_ValueProvider() {
       // GIVEN
       ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
@@ -2362,7 +2369,7 @@ class InstanceOfAssertFactoriesTest {
 
     private static class Container {
 
-      volatile String stringField;
+      volatile @Nullable String stringField;
 
     }
 
@@ -2374,6 +2381,7 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = AtomicReferenceFieldUpdater.newUpdater(Container.class, String.class, "stringField");
 
     @Test
+    @SuppressWarnings("NullAway")
     void createAssert() {
       // WHEN
       AtomicReferenceFieldUpdaterAssert<String, Container> result = atomicReferenceFieldUpdater(String.class,
@@ -2383,6 +2391,7 @@ class InstanceOfAssertFactoriesTest {
     }
 
     @Test
+    @SuppressWarnings("NullAway")
     void createAssert_with_ValueProvider() {
       // GIVEN
       ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
@@ -2397,7 +2406,7 @@ class InstanceOfAssertFactoriesTest {
 
     private static class Container {
 
-      volatile String stringField;
+      volatile @Nullable String stringField;
 
     }
 
@@ -2409,6 +2418,7 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new AtomicMarkableReference<>(null, false);
 
     @Test
+    @SuppressWarnings("NullAway")
     void createAssert() {
       // WHEN
       AtomicMarkableReferenceAssert<Object> result = ATOMIC_MARKABLE_REFERENCE.createAssert(actual);
@@ -2417,6 +2427,7 @@ class InstanceOfAssertFactoriesTest {
     }
 
     @Test
+    @SuppressWarnings("NullAway")
     void createAssert_with_ValueProvider() {
       // GIVEN
       ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
@@ -2461,6 +2472,7 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new AtomicStampedReference<>(null, 0);
 
     @Test
+    @SuppressWarnings("NullAway")
     void createAssert() {
       // WHEN
       AtomicStampedReferenceAssert<Object> result = ATOMIC_STAMPED_REFERENCE.createAssert(actual);
@@ -2469,6 +2481,7 @@ class InstanceOfAssertFactoriesTest {
     }
 
     @Test
+    @SuppressWarnings("NullAway")
     void createAssert_with_ValueProvider() {
       // GIVEN
       ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
@@ -3376,7 +3389,7 @@ class InstanceOfAssertFactoriesTest {
                                                      .returns(null, from(ParameterizedType::getOwnerType)));
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "NullAway" })
   private static <T> T convert(Object instance, Type type) {
     return (T) SPRING_CONVERSION_SERVICE.convert(instance, new TypeDescriptor(ResolvableType.forType(type), null, null));
   }

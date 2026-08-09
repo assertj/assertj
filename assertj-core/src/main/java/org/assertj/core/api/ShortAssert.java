@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link Short}s.
  * <p>
@@ -36,7 +38,7 @@ public class ShortAssert extends AbstractShortAssert<ShortAssert> {
    *
    * @param actual the actual value to verify
    */
-  public ShortAssert(Short actual) {
+  public ShortAssert(@Nullable Short actual) {
     super(actual, ShortAssert.class);
   }
 

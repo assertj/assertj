@@ -20,6 +20,7 @@ import java.util.Comparator;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Characters;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Character}s.
@@ -36,7 +37,7 @@ import org.assertj.core.internal.Characters;
  * @author Mikhail Mazursky
  */
 public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAssert<SELF>> extends
-    AbstractComparableAssert<SELF, Character> {
+    AbstractComparableAssert<SELF, @Nullable Character> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Characters characters = Characters.instance();
@@ -47,7 +48,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * @param actual the actual value to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractCharacterAssert(Character actual, Class<?> selfType) {
+  protected AbstractCharacterAssert(@Nullable Character actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -254,7 +255,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Character> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super Character> customComparator, @Nullable String customComparatorDescription) {
     this.characters = new Characters(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

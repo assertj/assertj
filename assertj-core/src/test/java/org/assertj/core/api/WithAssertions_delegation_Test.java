@@ -66,6 +66,7 @@ import java.util.stream.Stream;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.Lists;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.util.concurrent.Futures;
@@ -84,6 +85,7 @@ class WithAssertions_delegation_Test implements WithAssertions {
     private final Set<String> jedis = newLinkedHashSet("Luke", "Yoda", "Obiwan");
 
     @Override
+    @SuppressWarnings("NullAway")
     public boolean matches(final String value) {
       return jedis.contains(value);
     }
@@ -554,6 +556,7 @@ class WithAssertions_delegation_Test implements WithAssertions {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void withAssertions_assertThat_AtomicReferenceFieldUpdater_Test() {
     assertThat(AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class, "name")).isNotNull();
   }
@@ -561,7 +564,7 @@ class WithAssertions_delegation_Test implements WithAssertions {
   static class Person {
     volatile int age;
     volatile long number;
-    volatile String name;
+    volatile @Nullable String name;
   }
 
   @Test

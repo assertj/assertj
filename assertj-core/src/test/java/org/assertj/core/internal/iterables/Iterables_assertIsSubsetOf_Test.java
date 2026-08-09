@@ -84,6 +84,7 @@ class Iterables_assertIsSubsetOf_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_set_is_null() {
     actual = newArrayList("Yoda", "Luke");
     assertThatNullPointerException().isThrownBy(() -> iterables.assertIsSubsetOf(someInfo(), actual, null))
@@ -91,6 +92,7 @@ class Iterables_assertIsSubsetOf_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_actual_is_null() {
     actual = null;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertIsSubsetOf(someInfo(), actual,

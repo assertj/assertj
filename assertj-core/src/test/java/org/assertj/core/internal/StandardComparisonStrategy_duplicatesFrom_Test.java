@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Test;
 class StandardComparisonStrategy_duplicatesFrom_Test extends AbstractTest_StandardComparisonStrategy {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_existing_duplicates_in_order() {
     // GIVEN
     List<String> list = list("Merry", "Frodo", null, null, "Merry", "Sam", "Frodo");

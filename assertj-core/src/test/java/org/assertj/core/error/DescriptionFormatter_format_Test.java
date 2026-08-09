@@ -52,6 +52,7 @@ class DescriptionFormatter_format_Test {
     then(formatter.format(testDescription)).isEmpty();
   }
 
+  @SuppressWarnings("NullAway")
   public static Stream<TestDescription> descriptionGeneratorDataProvider() {
     return Stream.of(null, new TestDescription(null), new TestDescription(""));
   }

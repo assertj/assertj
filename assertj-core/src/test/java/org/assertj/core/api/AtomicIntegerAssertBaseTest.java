@@ -21,6 +21,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.assertj.core.internal.Integers;
 
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class AtomicIntegerAssertBaseTest extends BaseTestTemplate<AtomicIntegerAssert, AtomicInteger> {
   protected Integers integers;
 

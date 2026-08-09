@@ -18,6 +18,8 @@ package org.assertj.core.error;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that two {@link java.time.OffsetTime} have same
  * time fields except the timezone.
@@ -48,7 +50,7 @@ public class ShouldBeEqualIgnoringTimezone extends BasicErrorMessageFactory {
     return new ShouldBeEqualIgnoringTimezone(actual, other);
   }
 
-  private ShouldBeEqualIgnoringTimezone(Object actual, Object other) {
+  private ShouldBeEqualIgnoringTimezone(@Nullable Object actual, @Nullable Object other) {
     super("%nExpecting actual:%n  %s%nto have same time fields except timezone as:%n  %s%nbut had not.", actual, other);
   }
 }

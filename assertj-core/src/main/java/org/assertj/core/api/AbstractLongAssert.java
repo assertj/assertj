@@ -22,6 +22,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Longs;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Long}s.
@@ -40,7 +41,8 @@ import org.assertj.core.internal.Longs;
  * @author Nicolas François
  * @author Cal027
  */
-public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> extends AbstractComparableAssert<SELF, Long>
+public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>>
+    extends AbstractComparableAssert<SELF, @Nullable Long>
     implements NumberAssert<SELF, Long> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -52,7 +54,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * @param actual the actual value to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractLongAssert(Long actual, Class<?> selfType) {
+  protected AbstractLongAssert(@Nullable Long actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -280,7 +282,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * assertThat(1L).isBetween(2L, 3L);</code></pre>
    */
   @Override
-  public SELF isBetween(Long start, Long end) {
+  public SELF isBetween(@Nullable Long start, @Nullable Long end) {
     return executeAssertion(() -> longs.assertIsBetween(info, actual, start, end));
   }
 
@@ -298,7 +300,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
    * assertThat(1L).isStrictlyBetween(2L, 3L);</code></pre>
    */
   @Override
-  public SELF isStrictlyBetween(Long start, Long end) {
+  public SELF isStrictlyBetween(@Nullable Long start, @Nullable Long end) {
     return executeAssertion(() -> longs.assertIsStrictlyBetween(info, actual, start, end));
   }
 
@@ -556,7 +558,7 @@ public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> 
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Long> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super Long> customComparator, @Nullable String customComparatorDescription) {
     longs = new Longs(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

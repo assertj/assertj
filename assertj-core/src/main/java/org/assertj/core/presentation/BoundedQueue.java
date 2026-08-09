@@ -22,10 +22,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.jspecify.annotations.Nullable;
+
 /** A queue with a fixed maximum size. Once the queue is full, no more elements can be added until an element is removed. */
 final class BoundedQueue<T> extends AbstractQueue<T> {
   /** Queue that never holds more than {@code capacity} elements. */
-  private final Queue<T> data;
+  private final Queue<@Nullable T> data;
 
   /** The maximum number of elements that can be present. */
   private final int capacity;
@@ -53,17 +55,17 @@ final class BoundedQueue<T> extends AbstractQueue<T> {
   }
 
   @Override
-  public boolean offer(T element) {
+  public boolean offer(@Nullable T element) {
     return data.size() < capacity && data.offer(element);
   }
 
   @Override
-  public T poll() {
+  public @Nullable T poll() {
     return data.poll();
   }
 
   @Override
-  public T peek() {
+  public @Nullable T peek() {
     return data.peek();
   }
 }

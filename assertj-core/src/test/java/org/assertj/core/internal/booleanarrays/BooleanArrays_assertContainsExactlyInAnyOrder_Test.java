@@ -65,6 +65,7 @@ class BooleanArrays_assertContainsExactlyInAnyOrder_Test extends BooleanArraysBa
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(),
                                                                                              actual,

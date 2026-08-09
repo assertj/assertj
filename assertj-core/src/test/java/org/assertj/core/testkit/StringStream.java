@@ -37,6 +37,8 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 // dummy stream for testing purpose
+// every method returns null since this fake is never actually invoked, only passed around by reference in tests.
+@SuppressWarnings("NullAway")
 public class StringStream implements Stream<String> {
 
   @Override

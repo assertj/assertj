@@ -24,6 +24,7 @@ import static org.assertj.core.error.ShouldHavePeriod.shouldHaveYears;
 import java.time.Period;
 
 import org.assertj.core.internal.Failures;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link Period} type.
@@ -34,14 +35,14 @@ import org.assertj.core.internal.Failures;
  * @since 3.17.0
  */
 public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SELF>>
-    extends AbstractAssertWithComparator<SELF, Period> {
+    extends AbstractAssertWithComparator<SELF, @Nullable Period> {
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractPeriodAssert}</code>
    * @param period the actual value to verify
    * @param selfType the "self type"
    */
-  protected AbstractPeriodAssert(Period period, Class<?> selfType) {
+  protected AbstractPeriodAssert(@Nullable Period period, Class<?> selfType) {
     super(period, selfType);
   }
 

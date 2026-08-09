@@ -33,7 +33,9 @@ import org.junit.jupiter.api.Test;
  * @author Filip Hrisafov
  * @author Clement Mathieu
  */
-@SuppressWarnings("unused")
+// the nested Api/Asssert types are pure compile-time type-inference fixtures: methods always return null
+// since they're never actually invoked, only referenced for their declared generic signatures.
+@SuppressWarnings({ "unused", "NullAway" })
 class TypeCanonizerTest {
   private interface Asssert<T> {
   }

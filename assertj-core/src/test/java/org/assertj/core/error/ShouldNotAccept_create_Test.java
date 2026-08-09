@@ -48,6 +48,7 @@ class ShouldNotAccept_create_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_predicate_description_is_null() {
     thenNullPointerException().isThrownBy(() -> shouldNotAccept(color -> color.equals("red"), "Yoda", null))
                               .withMessage("The predicate description must not be null");

@@ -37,6 +37,7 @@ class Preconditions_checkNotNullOrEmpty_GenericArray_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_NullPointerException_if_array_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       String[] array = null;

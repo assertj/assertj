@@ -24,6 +24,9 @@ import org.assertj.core.internal.Boolean2DArrays;
  * 
  * @author Maciej Wajcht
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class Boolean2DArrayAssertBaseTest extends BaseTestTemplate<Boolean2DArrayAssert, boolean[][]> {
   protected Boolean2DArrays arrays;
 

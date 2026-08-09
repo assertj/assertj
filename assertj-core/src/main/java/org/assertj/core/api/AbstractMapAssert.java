@@ -51,6 +51,7 @@ import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.util.Strings;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Map}s.
@@ -69,12 +70,12 @@ import org.assertj.core.util.Strings;
  * @author dorzey
  * @author Filip Hrisafov
  */
-public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACTUAL, K, V>, ACTUAL extends Map<K, V>, K, V>
+public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACTUAL, K, V>, ACTUAL extends @Nullable Map<K, V>, K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Map.Entry<? extends K, ? extends V>> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Maps maps = Maps.instance();
-  private BiPredicate<? super V, ? super V> valueEquals;
+  private @Nullable BiPredicate<? super V, ? super V> valueEquals;
 
   /**
    * Creates a new map assertion.
@@ -425,7 +426,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if actual group and given array don't have the same size.
    */
   @Override
-  public SELF hasSameSizeAs(Object other) {
+  public SELF hasSameSizeAs(@Nullable Object other) {
     return executeAssertion(() -> maps.assertHasSameSizeAs(info, actual, other));
   }
 
@@ -1489,7 +1490,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return {@code this} assertion object.
    * @since 4.0.0
    */
-  public SELF usingEqualsForValues(BiPredicate<? super V, ? super V> valuesEqualsPredicate) {
+  public SELF usingEqualsForValues(@Nullable BiPredicate<? super V, ? super V> valuesEqualsPredicate) {
     valueEquals = valuesEqualsPredicate;
     return myself;
   }
@@ -1529,13 +1530,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
   @Override
   @CheckReturnValue
-  public SELF as(Description description) {
+  public SELF as(@Nullable Description description) {
     return super.as(description);
   }
 
   @Override
   @CheckReturnValue
-  public SELF describedAs(Description description) {
+  public SELF describedAs(@Nullable Description description) {
     return super.describedAs(description);
   }
 
@@ -1576,7 +1577,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   @Override
-  public SELF isEqualTo(Object expected) {
+  public SELF isEqualTo(@Nullable Object expected) {
     return super.isEqualTo(expected);
   }
 
@@ -1611,7 +1612,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   @Override
-  public SELF isNotEqualTo(Object other) {
+  public SELF isNotEqualTo(@Nullable Object other) {
     return super.isNotEqualTo(other);
   }
 
@@ -1651,7 +1652,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   @Override
-  public SELF isNotSameAs(Object other) {
+  public SELF isNotSameAs(@Nullable Object other) {
     return super.isNotSameAs(other);
   }
 
@@ -1661,7 +1662,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   @Override
-  public SELF isSameAs(Object expected) {
+  public SELF isSameAs(@Nullable Object expected) {
     return super.isSameAs(expected);
   }
 
@@ -1786,6 +1787,9 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 3.14.0
    */
   @CheckReturnValue
+  // NullAway does not propagate V's own @Nullable bound through this diamond-operator constructor call, even
+  // though ObjectAssert<ACTUAL extends @Nullable Object> already permits a nullable value.
+  @SuppressWarnings("NullAway")
   public AbstractObjectAssert<?, V> extractingByKey(K key) {
     return executeAssertionNavigation(() -> {
       String extractingByKeyDescription = "extractingByKey: " + key;
@@ -1971,7 +1975,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
       String extractedPropertiesOrFieldsDescription = Strings.join(keys).with(", ");
       isNotNull("flatExtracting: " + extractedPropertiesOrFieldsDescription);
       Tuple values = byName(keys).apply(actual);
-      List<Object> valuesFlattened = flatten(values.toList());
+      List<@Nullable Object> valuesFlattened = flatten(values.toList());
       String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
       return newListAssertInstance(valuesFlattened).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);
@@ -2159,9 +2163,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     return super.usingRecursiveAssertion(recursiveAssertionConfiguration);
   }
 
-  private static List<Object> flatten(Iterable<Object> collectionToFlatten) {
-    List<Object> result = new ArrayList<>();
-    for (Object item : collectionToFlatten) {
+  private static List<@Nullable Object> flatten(Iterable<@Nullable Object> collectionToFlatten) {
+    List<@Nullable Object> result = new ArrayList<>();
+    for (@Nullable
+    Object item : collectionToFlatten) {
       if (item instanceof Iterable<?> iterable) result.addAll(toCollection(iterable));
       else if (isArray(item)) result.addAll(org.assertj.core.util.Arrays.asList(item));
       else result.add(item);

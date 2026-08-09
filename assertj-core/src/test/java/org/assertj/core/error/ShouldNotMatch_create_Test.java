@@ -53,6 +53,7 @@ class ShouldNotMatch_create_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_predicate_description_is_null() {
     thenNullPointerException().isThrownBy(() -> shouldNotMatch("Yoda", color -> color.equals("green"), null))
                               .withMessage("The predicate description must not be null");

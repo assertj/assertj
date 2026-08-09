@@ -25,6 +25,7 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Int2DArrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for two-dimensional arrays of {@code int}s.
@@ -35,7 +36,7 @@ import org.assertj.core.internal.Int2DArrays;
  * @author Maciej Wajcht
  * @since 3.17.0
  */
-public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, int[][], Integer> {
+public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, int[] @Nullable [], Integer> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Assertion implementation for two-dimensional int arrays. */
@@ -48,12 +49,15 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
    *
    * @param actual the actual array to verify
    */
-  public Int2DArrayAssert(int[][] actual) {
+  public Int2DArrayAssert(int[] @Nullable [] actual) {
     super(actual, Int2DArrayAssert.class);
   }
 
   /** {@inheritDoc} */
   @Override
+  // expected is genuinely never null here (unlike actual): the method dereferences it unconditionally
+  // (e.g. expected.length), so it must stay non-null despite ACTUAL's nullable bound in Abstract2DArrayAssert.
+  @SuppressWarnings("NullAway")
   public Int2DArrayAssert isDeepEqualTo(int[][] expected) {
     return executeAssertion(() -> {
       if (actual == expected) return;
@@ -104,7 +108,7 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
    * @throws AssertionError if the actual {@code int[][]} is not equal to the given one.
    */
   @Override
-  public Int2DArrayAssert isEqualTo(Object expected) {
+  public Int2DArrayAssert isEqualTo(@Nullable Object expected) {
     return super.isEqualTo(expected);
   }
 
@@ -178,7 +182,7 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
    * @throws AssertionError if actual {@code int[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Int2DArrayAssert hasSameDimensionsAs(Object array) {
+  public Int2DArrayAssert hasSameDimensionsAs(@Nullable Object array) {
     return executeAssertion(() -> int2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 

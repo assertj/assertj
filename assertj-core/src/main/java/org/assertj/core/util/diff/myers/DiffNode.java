@@ -15,6 +15,8 @@
  */
 package org.assertj.core.util.diff.myers;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Copy from https://code.google.com/p/java-diff-utils/.
  * <p>
@@ -45,7 +47,7 @@ public final class DiffNode extends PathNode {
    * @param j the position in the revised sequence
    * @param prev the previous node in the path.
    */
-  public DiffNode(int i, int j, PathNode prev) {
+  public DiffNode(int i, int j, @Nullable PathNode prev) {
     super(i, j, (prev == null ? null : prev.previousSnake()));
   }
 

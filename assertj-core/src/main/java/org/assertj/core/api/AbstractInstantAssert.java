@@ -28,6 +28,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
 import org.assertj.core.internal.Failures;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link Instant} type from new Date &amp; Time API introduced in Java 8.
@@ -36,7 +37,7 @@ import org.assertj.core.internal.Failures;
  * @since 3.7.0
  */
 public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
-    extends AbstractTemporalAssert<SELF, Instant> {
+    extends AbstractTemporalAssert<SELF, @Nullable Instant> {
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractInstantAssert}</code>.
@@ -44,7 +45,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
    * @param selfType the "self type"
    * @param actual the actual value to verify
    */
-  protected AbstractInstantAssert(Instant actual, Class<?> selfType) {
+  protected AbstractInstantAssert(@Nullable Instant actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

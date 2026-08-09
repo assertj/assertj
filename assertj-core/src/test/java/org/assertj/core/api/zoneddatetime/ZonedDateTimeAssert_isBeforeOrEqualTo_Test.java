@@ -48,6 +48,7 @@ class ZonedDateTimeAssert_isBeforeOrEqualTo_Test extends AbstractZonedDateTimeAs
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_zonedDateTime_parameter_is_null() {
     // GIVEN
     ZonedDateTime otherZonedDateTime = null;
@@ -59,6 +60,7 @@ class ZonedDateTimeAssert_isBeforeOrEqualTo_Test extends AbstractZonedDateTimeAs
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_zonedDateTime_as_string_parameter_is_null() {
     // GIVEN
     String otherZonedDateTimeAsString = null;

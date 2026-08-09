@@ -19,6 +19,7 @@ import java.util.function.Consumer;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.description.Description;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Condition} or a list of {@link Consumer}s cannot
@@ -37,7 +38,7 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
    * @param condition the expected condition
    * @return the error message factory
    */
-  public static <T> ErrorMessageFactory shouldSatisfy(T actual, Condition<? super T> condition) {
+  public static <T extends @Nullable Object> ErrorMessageFactory shouldSatisfy(T actual, Condition<? super T> condition) {
     return new ShouldSatisfy(actual, condition);
   }
 
@@ -52,7 +53,7 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
     return new ShouldSatisfy(actual);
   }
 
-  private ShouldSatisfy(Object actual, Condition<?> condition) {
+  private ShouldSatisfy(@Nullable Object actual, Condition<?> condition) {
     super(CONDITION_SHOULD_BE_SATISFIED, actual, condition);
   }
 
@@ -63,11 +64,11 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
    * @param d the requirement description
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldSatisfyAll(Object actual, Description d) {
+  public static ErrorMessageFactory shouldSatisfyAll(@Nullable Object actual, Description d) {
     return new ShouldSatisfy(actual, d);
   }
 
-  private ShouldSatisfy(Object actual, Description d) {
+  private ShouldSatisfy(@Nullable Object actual, Description d) {
     super(CONDITION_SHOULD_BE_SATISFIED, actual, d);
   }
 

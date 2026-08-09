@@ -17,6 +17,8 @@ package org.assertj.core.testkit;
 
 import java.util.Objects;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * A person.
  *
@@ -50,7 +52,7 @@ public class Person implements Comparable<Person> {
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;

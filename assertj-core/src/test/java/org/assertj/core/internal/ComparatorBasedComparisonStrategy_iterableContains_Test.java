@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 class ComparatorBasedComparisonStrategy_iterableContains_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_true_if_collections_contains_value_according_to_given_comparator() {
     List<String> hobbits = newArrayList("Merry", "Frodo", null, "Merry", "Sam");
     assertThat(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "Sam")).isTrue();
@@ -41,6 +42,7 @@ class ComparatorBasedComparisonStrategy_iterableContains_Test extends AbstractTe
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_false_if_collections_does_not_contain_value_according_to_given_comparator() {
     List<String> hobbits = newArrayList("Merry", "Frodo", "Merry", null, "Sam");
     assertThat(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "Pippin")).isFalse();

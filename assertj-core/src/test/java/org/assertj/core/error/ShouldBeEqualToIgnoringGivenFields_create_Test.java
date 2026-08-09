@@ -34,6 +34,8 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
+// factory is set as the first statement of each test method, not a constructor.
+@SuppressWarnings("NullAway")
 class ShouldBeEqualToIgnoringGivenFields_create_Test {
 
   private ErrorMessageFactory factory;

@@ -18,6 +18,7 @@ package org.assertj.core.error;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains a value at a given index
@@ -38,7 +39,8 @@ public class ShouldContainAtIndex extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainAtIndex(Object actual, Object expected, Index index, Object found,
+  public static ErrorMessageFactory shouldContainAtIndex(@Nullable Object actual, @Nullable Object expected, Index index,
+                                                         @Nullable Object found,
                                                          ComparisonStrategy comparisonStrategy) {
     return new ShouldContainAtIndex(actual, expected, index, found, comparisonStrategy);
   }
@@ -51,11 +53,13 @@ public class ShouldContainAtIndex extends BasicErrorMessageFactory {
    * @param found the value in {@code actual} stored under {@code index}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainAtIndex(Object actual, Object expected, Index index, Object found) {
+  public static ErrorMessageFactory shouldContainAtIndex(@Nullable Object actual, @Nullable Object expected, Index index,
+                                                         @Nullable Object found) {
     return new ShouldContainAtIndex(actual, expected, index, found, StandardComparisonStrategy.instance());
   }
 
-  private ShouldContainAtIndex(Object actual, Object expected, Index index, Object found, ComparisonStrategy comparisonStrategy) {
+  private ShouldContainAtIndex(@Nullable Object actual, @Nullable Object expected, Index index, @Nullable Object found,
+                               ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nat index %s but found:%n  %s%nin:%n  %s%n%s", expected, index.value, found, actual,
           comparisonStrategy);
   }

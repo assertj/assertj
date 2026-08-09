@@ -91,11 +91,13 @@ class ObjectArrayAssert_flatExtracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_null_pointer_exception_when_extracting_from_null_with_extractor() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(array(homer, null)).flatExtracting(childrenExtractor));
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_null_pointer_exception_when_extracting_from_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(array(homer, null)).flatExtracting(children));
   }

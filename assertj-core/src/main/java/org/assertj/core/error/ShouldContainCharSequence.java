@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} contains another
@@ -216,12 +217,12 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
 
   }
 
-  private ShouldContainCharSequence(String format, CharSequence actual, CharSequence sequence,
+  private ShouldContainCharSequence(String format, @Nullable CharSequence actual, CharSequence sequence,
                                     ComparisonStrategy comparisonStrategy) {
     super(format, IndentWrapper.of(actual), IndentWrapper.of(sequence), comparisonStrategy);
   }
 
-  private ShouldContainCharSequence(String format, CharSequence actual, CharSequence[] values,
+  private ShouldContainCharSequence(String format, @Nullable CharSequence actual, CharSequence[] values,
                                     Set<? extends CharSequence> notFound,
                                     ComparisonStrategy comparisonStrategy) {
     super(format, IndentWrapper.of(actual), IndentWrapper.of(values), notFound, comparisonStrategy);

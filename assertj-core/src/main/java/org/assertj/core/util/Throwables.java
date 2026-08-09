@@ -36,6 +36,7 @@ import java.util.stream.Stream;
 import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utility methods related to <code>{@link Throwable}</code>s.
@@ -51,7 +52,7 @@ public final class Throwables {
 
   private Throwables() {}
 
-  private static final Function<Throwable, String> ERROR_DESCRIPTION_EXTRACTOR = throwable -> {
+  private static final Function<Throwable, @Nullable String> ERROR_DESCRIPTION_EXTRACTOR = throwable -> {
     int maxStackTraceElements = StandardRepresentation.getMaxStackTraceElementsDisplayed();
     Throwable cause = throwable.getCause();
     if (cause == null) {
@@ -105,7 +106,7 @@ public final class Throwables {
    * @param errors the errors to describe
    * @return the error descriptions
    */
-  public static List<String> describeErrors(List<? extends Throwable> errors) {
+  public static List<@Nullable String> describeErrors(List<? extends Throwable> errors) {
     return extract(errors, ERROR_DESCRIPTION_EXTRACTOR);
   }
 
@@ -115,7 +116,7 @@ public final class Throwables {
    * @param shouldRaiseThrowable The lambda with the code that should raise the throwable.
    * @return The captured throwable or null if no throwable was raised.
    */
-  public static Throwable catchThrowable(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
+  public static @Nullable Throwable catchThrowable(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
     try {
       shouldRaiseThrowable.call();
     } catch (Throwable throwable) {
@@ -184,7 +185,7 @@ public final class Throwables {
    *
    * @param throwable the {@code Throwable} to filter stack trace.
    */
-  public static void removeAssertJRelatedElementsFromStackTrace(Throwable throwable) {
+  public static void removeAssertJRelatedElementsFromStackTrace(@Nullable Throwable throwable) {
     if (throwable == null) return;
     List<StackTraceElement> purgedStack = list();
     boolean firstAssertjStackTraceElementFound = false;
@@ -224,7 +225,7 @@ public final class Throwables {
    * @param throwable the {@code Throwable} to get root cause from.
    * @return the root cause if any, else {@code null}.
    */
-  public static Throwable getRootCause(Throwable throwable) {
+  public static @Nullable Throwable getRootCause(Throwable throwable) {
     if (throwable.getCause() == null) return null;
     Throwable cause;
     while ((cause = throwable.getCause()) != null)
@@ -276,7 +277,7 @@ public final class Throwables {
    * @param stacktrace the stack trace
    * @return the first test stack trace element, or {@code null}
    */
-  public static StackTraceElement getFirstStackTraceElementFromTest(StackTraceElement[] stacktrace) {
+  public static @Nullable StackTraceElement getFirstStackTraceElementFromTest(StackTraceElement[] stacktrace) {
     for (StackTraceElement element : stacktrace) {
       String className = element.getClassName();
       if (className.startsWith("sun.reflect")
@@ -365,15 +366,17 @@ public final class Throwables {
     return buildAssertionErrorWithLineNumbersButNoActualOrExpectedValues(error, testStackTraceElement);
   }
 
-  private static String buildErrorMessageWithLineNumber(String originalErrorMessage, StackTraceElement testStackTraceElement) {
+  private static String buildErrorMessageWithLineNumber(@Nullable String originalErrorMessage,
+                                                        StackTraceElement testStackTraceElement) {
     String testClassName = simpleClassNameOf(testStackTraceElement);
     String testName = testStackTraceElement.getMethodName();
     int lineNumber = testStackTraceElement.getLineNumber();
     String atLineNumber = "at %s.%s(%s.java:%s)".formatted(testClassName, testName, testClassName, lineNumber);
-    if (originalErrorMessage.contains(atLineNumber)) {
-      return originalErrorMessage;
+    String errorMessage = String.valueOf(originalErrorMessage);
+    if (errorMessage.contains(atLineNumber)) {
+      return errorMessage;
     }
-    return format(originalErrorMessage.endsWith("%n".formatted()) ? "%s%s" : "%s%n%s", originalErrorMessage, atLineNumber);
+    return format(errorMessage.endsWith("%n".formatted()) ? "%s%s" : "%s%n%s", errorMessage, atLineNumber);
   }
 
   private static String simpleClassNameOf(StackTraceElement testStackTraceElement) {

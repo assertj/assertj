@@ -46,6 +46,8 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.annotation.Contract;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for <code>{@link Throwable}</code>s.
@@ -81,7 +83,7 @@ public class Throwables {
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one.
    */
-  public void assertHasMessage(AssertionInfo info, Throwable actual, String expectedMessage) {
+  public void assertHasMessage(AssertionInfo info, @Nullable Throwable actual, @Nullable String expectedMessage) {
     assertNotNull(info, actual);
     if (java.util.Objects.equals(actual.getMessage(), expectedMessage)) return;
     throw failures.failure(info, shouldHaveMessage(actual, expectedMessage), actual.getMessage(), expectedMessage);
@@ -94,7 +96,7 @@ public class Throwables {
    * @param actual the actual throwable
    * @param expectedCause the expected cause
    */
-  public void assertHasCause(AssertionInfo info, Throwable actual, Throwable expectedCause) {
+  public void assertHasCause(AssertionInfo info, @Nullable Throwable actual, @Nullable Throwable expectedCause) {
     assertNotNull(info, actual);
     Throwable actualCause = actual.getCause();
     if (actualCause == expectedCause) return;
@@ -114,7 +116,7 @@ public class Throwables {
    * @param actual the given {@code Throwable}.
    * @param expectedCause the expected cause.
    */
-  public void assertHasCauseReference(AssertionInfo info, Throwable actual, Throwable expectedCause) {
+  public void assertHasCauseReference(AssertionInfo info, @Nullable Throwable actual, @Nullable Throwable expectedCause) {
     assertNotNull(info, actual);
     Throwable actualCause = actual.getCause();
     if (actualCause != expectedCause) throw failures.failure(info, shouldHaveCauseReference(actualCause, expectedCause));
@@ -127,7 +129,7 @@ public class Throwables {
    * @param actual the given {@code Throwable}.
    * @param expectedRootCause the expected root cause.
    */
-  public void assertHasRootCause(AssertionInfo info, Throwable actual, Throwable expectedRootCause) {
+  public void assertHasRootCause(AssertionInfo info, @Nullable Throwable actual, @Nullable Throwable expectedRootCause) {
     assertNotNull(info, actual);
     Throwable actualRootCause = getRootCause(actual);
     if (actualRootCause == expectedRootCause) return;
@@ -147,7 +149,7 @@ public class Throwables {
    * @param actual the given {@code Throwable}.
    * @param expectedMessage the expected message of the root cause.
    */
-  public void assertHasRootCauseMessage(AssertionInfo info, Throwable actual, String expectedMessage) {
+  public void assertHasRootCauseMessage(AssertionInfo info, @Nullable Throwable actual, @Nullable String expectedMessage) {
     assertNotNull(info, actual);
     Throwable rootCause = getRootCause(actual);
     if (null == rootCause) throw failures.failure(info, shouldHaveRootCauseWithMessage(actual, rootCause, expectedMessage));
@@ -164,7 +166,7 @@ public class Throwables {
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} has a cause.
    */
-  public void assertHasNoCause(AssertionInfo info, Throwable actual) {
+  public void assertHasNoCause(AssertionInfo info, @Nullable Throwable actual) {
     assertNotNull(info, actual);
     Throwable actualCause = actual.getCause();
     if (actualCause == null) return;
@@ -179,7 +181,7 @@ public class Throwables {
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} does not have a cause.
    */
-  public void assertHasCause(AssertionInfo info, Throwable actual) {
+  public void assertHasCause(AssertionInfo info, @Nullable Throwable actual) {
     assertNotNull(info, actual);
     Throwable actualCause = actual.getCause();
     if (actualCause != null) return;
@@ -194,7 +196,7 @@ public class Throwables {
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} does not have a root cause.
    */
-  public void assertHasRootCause(AssertionInfo info, Throwable actual) {
+  public void assertHasRootCause(AssertionInfo info, @Nullable Throwable actual) {
     assertNotNull(info, actual);
     Throwable rootCause = getRootCause(actual);
     if (rootCause != null) return;
@@ -210,7 +212,7 @@ public class Throwables {
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} does not start with the given description.
    */
-  public void assertHasMessageStartingWith(AssertionInfo info, Throwable actual, String description) {
+  public void assertHasMessageStartingWith(AssertionInfo info, @Nullable Throwable actual, String description) {
     assertNotNull(info, actual);
     if (actual.getMessage() != null && actual.getMessage().startsWith(description)) return;
     throw failures.failure(info, shouldStartWith(actual.getMessage(), description));
@@ -225,7 +227,7 @@ public class Throwables {
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
    */
-  public void assertHasMessageContaining(AssertionInfo info, Throwable actual, String description) {
+  public void assertHasMessageContaining(AssertionInfo info, @Nullable Throwable actual, String description) {
     assertNotNull(info, actual);
     if (actual.getMessage() != null && actual.getMessage().contains(description)) return;
     throw failures.failure(info, shouldContain(actual, description));
@@ -240,7 +242,7 @@ public class Throwables {
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
    */
-  public void assertHasMessageContainingAll(AssertionInfo info, Throwable actual, CharSequence... values) {
+  public void assertHasMessageContainingAll(AssertionInfo info, @Nullable Throwable actual, CharSequence... values) {
     doCommonCheckForMessages(info, actual, values);
     assertNotNull(info, actual);
     String actualMessage = actual.getMessage();
@@ -263,7 +265,7 @@ public class Throwables {
    * @throws AssertionError if the message of the actual {@code Throwable} contains the given content.
    * @since 3.12.0
    */
-  public void assertHasMessageNotContaining(AssertionInfo info, Throwable actual, String content) {
+  public void assertHasMessageNotContaining(AssertionInfo info, @Nullable Throwable actual, String content) {
     assertNotNull(info, actual);
     if (actual.getMessage() == null || !actual.getMessage().contains(content)) return;
     throw failures.failure(info, shouldNotContain(actual, content), actual.getMessage(), content);
@@ -278,7 +280,7 @@ public class Throwables {
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
    */
-  public void assertHasMessageNotContainingAny(AssertionInfo info, Throwable actual, CharSequence... values) {
+  public void assertHasMessageNotContainingAny(AssertionInfo info, @Nullable Throwable actual, CharSequence... values) {
     doCommonCheckForMessages(info, actual, values);
     String actualMessage = actual.getMessage();
     Set<CharSequence> found = stream(values).filter(value -> actualMessage != null && actualMessage.contains(value))
@@ -299,7 +301,7 @@ public class Throwables {
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the stack trace of the actual {@code Throwable} does not contain the given description.
    */
-  public void assertHasStackTraceContaining(AssertionInfo info, Throwable actual, String description) {
+  public void assertHasStackTraceContaining(AssertionInfo info, @Nullable Throwable actual, String description) {
     assertNotNull(info, actual);
     String stackTrace = org.assertj.core.util.Throwables.getStackTrace(actual);
     if (stackTrace != null && stackTrace.contains(description)) return;
@@ -316,7 +318,7 @@ public class Throwables {
    * @throws AssertionError if the message of the actual {@code Throwable} does not match the given regular expression.
    * @throws NullPointerException if the regex is null
    */
-  public void assertHasMessageMatching(AssertionInfo info, Throwable actual, Pattern regex) {
+  public void assertHasMessageMatching(AssertionInfo info, @Nullable Throwable actual, Pattern regex) {
     requireNonNull(regex, "regex must not be null");
     assertNotNull(info, actual);
     if (actual.getMessage() != null && regex.matcher(actual.getMessage()).matches()) return;
@@ -331,7 +333,7 @@ public class Throwables {
    * @param regex the regular expression
    * @see #assertHasMessageMatching(AssertionInfo, Throwable, Pattern)
    */
-  public void assertHasMessageMatching(AssertionInfo info, Throwable actual, String regex) {
+  public void assertHasMessageMatching(AssertionInfo info, @Nullable Throwable actual, String regex) {
     requireNonNull(regex, "regex must not be null");
     assertHasMessageMatching(info, actual, Pattern.compile(regex));
   }
@@ -347,7 +349,7 @@ public class Throwables {
    * @throws AssertionError if the message of the actual {@code Throwable} doesn't contain any sequence matching with the given regular expression
    * @throws NullPointerException if the regex is null
    */
-  public void assertHasMessageFindingMatch(AssertionInfo info, Throwable actual, String regex) {
+  public void assertHasMessageFindingMatch(AssertionInfo info, @Nullable Throwable actual, String regex) {
     requireNonNull(regex, "regex must not be null");
     assertNotNull(info, actual);
     Objects.instance().assertNotNull(info, actual.getMessage(), "exception message of actual");
@@ -364,7 +366,7 @@ public class Throwables {
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} does not end with the given description.
    */
-  public void assertHasMessageEndingWith(AssertionInfo info, Throwable actual, String description) {
+  public void assertHasMessageEndingWith(AssertionInfo info, @Nullable Throwable actual, String description) {
     assertNotNull(info, actual);
     if (actual.getMessage() != null && actual.getMessage().endsWith(description)) return;
     throw failures.failure(info, shouldEndWith(actual.getMessage(), description));
@@ -381,7 +383,7 @@ public class Throwables {
    * @throws AssertionError if the actual {@code Throwable} has no cause.
    * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
    */
-  public void assertHasCauseInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
+  public void assertHasCauseInstanceOf(AssertionInfo info, @Nullable Throwable actual, Class<? extends Throwable> type) {
     assertNotNull(info, actual);
     checkTypeIsNotNull(type);
     if (type.isInstance(actual.getCause())) return;
@@ -400,7 +402,7 @@ public class Throwables {
    * @throws AssertionError if the cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the given
    *           type.
    */
-  public void assertHasCauseExactlyInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
+  public void assertHasCauseExactlyInstanceOf(AssertionInfo info, @Nullable Throwable actual, Class<? extends Throwable> type) {
     assertNotNull(info, actual);
     checkTypeIsNotNull(type);
     Throwable cause = actual.getCause();
@@ -419,7 +421,7 @@ public class Throwables {
    * @throws AssertionError if the actual {@code Throwable} has no cause.
    * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
    */
-  public void assertHasRootCauseInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
+  public void assertHasRootCauseInstanceOf(AssertionInfo info, @Nullable Throwable actual, Class<? extends Throwable> type) {
     assertNotNull(info, actual);
     checkTypeIsNotNull(type);
     if (type.isInstance(getRootCause(actual))) return;
@@ -438,7 +440,8 @@ public class Throwables {
    * @throws AssertionError if the root cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the
    *           given type.
    */
-  public void assertHasRootCauseExactlyInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
+  public void assertHasRootCauseExactlyInstanceOf(AssertionInfo info, @Nullable Throwable actual,
+                                                  Class<? extends Throwable> type) {
     assertNotNull(info, actual);
     checkTypeIsNotNull(type);
     Throwable rootCause = getRootCause(actual);
@@ -452,7 +455,7 @@ public class Throwables {
    * @param info assertion information
    * @param actual the actual throwable
    */
-  public void assertHasNoSuppressedExceptions(AssertionInfo info, Throwable actual) {
+  public void assertHasNoSuppressedExceptions(AssertionInfo info, @Nullable Throwable actual) {
     assertNotNull(info, actual);
     Throwable[] suppressed = actual.getSuppressed();
     if (suppressed.length != 0) throw failures.failure(info, shouldHaveNoSuppressedExceptions(actual));
@@ -465,7 +468,7 @@ public class Throwables {
    * @param actual the actual throwable
    * @param expectedSuppressedException the expected suppressed exception
    */
-  public void assertHasSuppressedException(AssertionInfo info, Throwable actual,
+  public void assertHasSuppressedException(AssertionInfo info, @Nullable Throwable actual,
                                            Throwable expectedSuppressedException) {
     assertNotNull(info, actual);
     requireNonNull(expectedSuppressedException, "The expected suppressed exception should not be null");
@@ -476,14 +479,16 @@ public class Throwables {
     throw failures.failure(info, shouldHaveSuppressedException(actual, expectedSuppressedException));
   }
 
-  private static void doCommonCheckForMessages(AssertionInfo info, Throwable actual, CharSequence[] values) {
+  @Contract("_, null, _ -> fail")
+  private static void doCommonCheckForMessages(AssertionInfo info, @Nullable Throwable actual, CharSequence[] values) {
     assertNotNull(info, actual);
     checkIsNotNull(values);
     checkIsNotEmpty(values);
     checkCharSequenceArrayDoesNotHaveNullElements(values);
   }
 
-  private static void assertNotNull(AssertionInfo info, Throwable actual) {
+  @Contract("_, null -> fail")
+  private static void assertNotNull(AssertionInfo info, @Nullable Throwable actual) {
     Objects.instance().assertNotNull(info, actual);
   }
 

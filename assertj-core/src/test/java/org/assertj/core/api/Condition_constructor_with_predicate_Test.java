@@ -32,6 +32,7 @@ class Condition_constructor_with_predicate_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_predicate_is_null() {
     assertThatNullPointerException().isThrownBy(() -> new Condition<>(null, ""));
   }

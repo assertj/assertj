@@ -108,6 +108,7 @@ class IterableAssert_flatExtracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void flatExtracting_with_functions_should_throw_an_AssertionError_with_contextual_description_if_actual_is_null() {
     // GIVEN
     List<CartoonCharacter> simpsons = null;
@@ -118,6 +119,7 @@ class IterableAssert_flatExtracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void flatExtracting_with_strings_should_throw_an_AssertionError_with_contextual_description_if_actual_is_null() {
     // GIVEN
     List<CartoonCharacter> simpsons = null;
@@ -128,6 +130,7 @@ class IterableAssert_flatExtracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_bubble_up_null_pointer_exception_from_extractor() {
     // GIVEN
     List<CartoonCharacter> cartoonCharacters = list(homer, null);
@@ -136,6 +139,7 @@ class IterableAssert_flatExtracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_bubble_up_null_pointer_exception_from_lambda_extractor() {
     // GIVEN
     List<CartoonCharacter> cartoonCharacters = list(homer, null);
@@ -341,6 +345,7 @@ class IterableAssert_flatExtracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_Extractor_should_fail_when_actual_is_null() {
     // GIVEN
     List<CartoonCharacter> characters = null;
@@ -351,6 +356,7 @@ class IterableAssert_flatExtracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_ThrowingExtractor_should_fail_when_actual_is_null() {
     // GIVEN
     List<CartoonCharacter> characters = null;

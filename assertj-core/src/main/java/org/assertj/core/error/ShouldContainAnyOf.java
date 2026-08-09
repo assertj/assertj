@@ -16,6 +16,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /** Creates errors for groups missing all candidate values. */
 public class ShouldContainAnyOf extends BasicErrorMessageFactory {
@@ -36,7 +37,7 @@ public class ShouldContainAnyOf extends BasicErrorMessageFactory {
    * @param comparisonStrategy the comparison strategy
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldContainAnyOf(Object actual, Object expected,
+  public static ErrorMessageFactory shouldContainAnyOf(@Nullable Object actual, @Nullable Object expected,
                                                        ComparisonStrategy comparisonStrategy) {
     return new ShouldContainAnyOf(actual, expected, comparisonStrategy);
   }
@@ -48,15 +49,15 @@ public class ShouldContainAnyOf extends BasicErrorMessageFactory {
    * @param expected the candidate values
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldContainAnyOf(Object actual, Object expected) {
+  public static ErrorMessageFactory shouldContainAnyOf(@Nullable Object actual, @Nullable Object expected) {
     return new ShouldContainAnyOf(actual, expected);
   }
 
-  private ShouldContainAnyOf(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
+  private ShouldContainAnyOf(@Nullable Object actual, @Nullable Object expected, ComparisonStrategy comparisonStrategy) {
     super(FORMAT_WITH_COMPARISON_STRATEGY, actual, expected, comparisonStrategy);
   }
 
-  private ShouldContainAnyOf(Object actual, Object expected) {
+  private ShouldContainAnyOf(@Nullable Object actual, @Nullable Object expected) {
     super(DEFAULT_FORMAT, actual, expected);
   }
 

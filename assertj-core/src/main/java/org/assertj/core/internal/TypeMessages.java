@@ -19,12 +19,13 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import org.assertj.core.util.DualClass;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An internal holder of the custom message for type. It is used to store messages for registered classes.
  * When looking for a message for a given class the holder returns the most relevant comparator.
  */
-public class TypeMessages extends TypeHolder<String> {
+public class TypeMessages extends TypeHolder<@Nullable String> {
 
   /** Creates an empty type message holder. */
   public TypeMessages() {}
@@ -40,7 +41,7 @@ public class TypeMessages extends TypeHolder<String> {
    * @param clazz the class for which to find an error message
    * @return the most relevant error message, or {@code null} if no message could be found
    */
-  public String getMessageForType(Class<?> clazz) {
+  public @Nullable String getMessageForType(Class<?> clazz) {
     return super.get(clazz);
   }
 
@@ -61,7 +62,7 @@ public class TypeMessages extends TypeHolder<String> {
    * @param message the error message itself
    * @param <T> the type of the objects to associate with the message for
    */
-  public <T> void registerMessage(Class<T> clazz, String message) {
+  public <T> void registerMessage(Class<T> clazz, @Nullable String message) {
     super.put(clazz, message);
   }
 
@@ -70,7 +71,7 @@ public class TypeMessages extends TypeHolder<String> {
    *
    * @return sequence of field-message pairs
    */
-  public Stream<Map.Entry<DualClass<?, ?>, String>> messageByTypes() {
+  public Stream<Map.Entry<DualClass<?, ?>, @Nullable String>> messageByTypes() {
     return super.entityByTypes();
   }
 }

@@ -19,6 +19,7 @@ import static java.lang.String.format;
 
 import org.assertj.core.internal.UnambiguousRepresentation;
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Describes a map key difference found during recursive comparison.
@@ -29,8 +30,8 @@ public class ComparisonKeyDifference extends ComparisonDifference {
                                                     "- actual key  : %s%n" +
                                                     "- expected key: %s";
 
-  final Object actualKey;
-  final Object expectedKey;
+  final @Nullable Object actualKey;
+  final @Nullable Object expectedKey;
 
   /**
    * Creates a map key comparison difference.
@@ -39,7 +40,7 @@ public class ComparisonKeyDifference extends ComparisonDifference {
    * @param actualKey the actual map key
    * @param expectedKey the expected map key
    */
-  public ComparisonKeyDifference(DualValue dualValue, Object actualKey, Object expectedKey) {
+  public ComparisonKeyDifference(DualValue dualValue, @Nullable Object actualKey, @Nullable Object expectedKey) {
     super(dualValue);
     this.actualKey = actualKey;
     this.expectedKey = expectedKey;

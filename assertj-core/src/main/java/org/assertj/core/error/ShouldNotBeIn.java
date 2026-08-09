@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is not in a group of values (e.g. an array or
@@ -34,7 +35,8 @@ public class ShouldNotBeIn extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotBeIn(Object actual, Object values, ComparisonStrategy comparisonStrategy) {
+  public static ErrorMessageFactory shouldNotBeIn(@Nullable Object actual, @Nullable Object values,
+                                                  ComparisonStrategy comparisonStrategy) {
     return new ShouldNotBeIn(actual, values, comparisonStrategy);
   }
 
@@ -44,11 +46,11 @@ public class ShouldNotBeIn extends BasicErrorMessageFactory {
    * @param values the group of values where {@code actual} is expected to be in.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotBeIn(Object actual, Object values) {
+  public static ErrorMessageFactory shouldNotBeIn(@Nullable Object actual, @Nullable Object values) {
     return new ShouldNotBeIn(actual, values, StandardComparisonStrategy.instance());
   }
 
-  private ShouldNotBeIn(Object actual, Object values, ComparisonStrategy comparisonStrategy) {
+  private ShouldNotBeIn(@Nullable Object actual, @Nullable Object values, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nnot to be in:%n  %s%n%s", actual, values, comparisonStrategy);
   }
 

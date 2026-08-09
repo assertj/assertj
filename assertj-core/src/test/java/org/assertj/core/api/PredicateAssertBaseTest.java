@@ -26,6 +26,9 @@ import org.assertj.core.internal.Iterables;
  *
  * @author Filip Hrisafov
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class PredicateAssertBaseTest extends BaseTestTemplate<PredicateAssert<Boolean>, Predicate<Boolean>> {
 
   protected Iterables iterables;

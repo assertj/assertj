@@ -81,6 +81,7 @@ class YearMonthAssert_isBefore_Test extends YearMonthAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_year_month_parameter_is_null() {
     // GIVEN
     YearMonth otherYearMonth = null;
@@ -92,6 +93,7 @@ class YearMonthAssert_isBefore_Test extends YearMonthAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_year_month_as_string_parameter_is_null() {
     // GIVEN
     String otherYearMonthAsString = null;

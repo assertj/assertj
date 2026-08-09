@@ -67,6 +67,7 @@ class AtomicReferenceAssert_hasValueMatching_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_when_predicate_is_null() {
     // GIVEN
     String initialValue = "foo";

@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.math.BigDecimal;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods applicable to <code>{@link Comparable}</code>s.
  * 
@@ -29,7 +31,7 @@ import java.math.BigDecimal;
  * @author Ted M. Young
  * @author Mikhail Mazursky
  */
-public interface ComparableAssert<SELF extends ComparableAssert<SELF, ACTUAL>, ACTUAL extends Comparable<? super ACTUAL>> {
+public interface ComparableAssert<SELF extends ComparableAssert<SELF, ACTUAL>, ACTUAL extends @Nullable Comparable<? super ACTUAL>> {
 
   /**
    * Verifies that the actual value is equal to the given one by invoking

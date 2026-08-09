@@ -53,6 +53,7 @@ class Iterables_assertHaveAtLeast_Test extends IterablesWithConditionsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       actual = newArrayList("Yoda", "Luke");

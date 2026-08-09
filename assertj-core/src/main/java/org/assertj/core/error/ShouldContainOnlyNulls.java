@@ -18,6 +18,8 @@ package org.assertj.core.error;
 import static org.assertj.core.error.ShouldContainOnlyNulls.ErrorType.EMPTY;
 import static org.assertj.core.error.ShouldContainOnlyNulls.ErrorType.NON_NULL_ELEMENTS;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains only null elements failed. A group
  * of elements can be a collection or an array.
@@ -31,7 +33,7 @@ public class ShouldContainOnlyNulls extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainOnlyNulls(Object actual) {
+  public static ErrorMessageFactory shouldContainOnlyNulls(@Nullable Object actual) {
     return new ShouldContainOnlyNulls(actual, EMPTY, null);
   }
 
@@ -42,11 +44,11 @@ public class ShouldContainOnlyNulls extends BasicErrorMessageFactory {
    * @param nonNullElements the non-null elements
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldContainOnlyNulls(Object actual, Iterable<?> nonNullElements) {
+  public static ErrorMessageFactory shouldContainOnlyNulls(@Nullable Object actual, Iterable<?> nonNullElements) {
     return new ShouldContainOnlyNulls(actual, NON_NULL_ELEMENTS, nonNullElements);
   }
 
-  private ShouldContainOnlyNulls(Object actual, ErrorType errorType, Iterable<?> notExpected) {
+  private ShouldContainOnlyNulls(@Nullable Object actual, ErrorType errorType, @Nullable Iterable<?> notExpected) {
     super("%n" +
           "Expecting actual:%n" +
           "  %s%n" +

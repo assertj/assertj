@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.time.YearMonth;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions for {@link YearMonth} type from new Date &amp; Time API introduced in Java 8.
  * 
@@ -29,7 +31,7 @@ public class YearMonthAssert extends AbstractYearMonthAssert<YearMonthAssert> {
    *
    * @param actual the actual value to verify
    */
-  protected YearMonthAssert(YearMonth actual) {
+  protected YearMonthAssert(@Nullable YearMonth actual) {
     super(actual, YearMonthAssert.class);
   }
 }

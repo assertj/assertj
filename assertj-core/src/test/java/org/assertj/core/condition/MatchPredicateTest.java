@@ -74,12 +74,14 @@ class MatchPredicateTest implements WithAssertions {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_predicate_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).matches(null))
                                     .withMessage(predicateIsNull());
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_predicate_with_description_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).matches(null,
                                                                                "whatever ..."))
@@ -87,6 +89,7 @@ class MatchPredicateTest implements WithAssertions {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_predicate_description_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).matches(x -> x.lightSaberColor.equals("Red"),
                                                                                null))

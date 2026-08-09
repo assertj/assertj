@@ -27,6 +27,9 @@ import org.assertj.core.internal.Paths;
 /**
  * Base class for {@link PathAssert} tests.
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class PathAssertBaseTest extends BaseTestTemplate<PathAssert, Path> {
 
   protected Paths paths;

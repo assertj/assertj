@@ -51,6 +51,7 @@ class IterableUtil_nonNullElementsIn_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_a_list_without_null_elements() {
     List<String> c = newArrayList("Frodo", null, "Sam", null);
     List<String> nonNull = IterableUtil.nonNullElementsIn(c);

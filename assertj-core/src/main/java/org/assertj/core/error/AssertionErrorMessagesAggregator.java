@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import java.util.List;
 
+import org.assertj.core.presentation.StandardRepresentation;
+
 /**
  * Aggregates multiple assertion error messages into a single formatted message.
  *
@@ -41,7 +43,7 @@ public class AssertionErrorMessagesAggregator {
     for (int i = 0; i < errors.size(); i++) {
       msg.append(i + 1).append(") ").append(errors.get(i)).append("%n");
     }
-    return MessageFormatter.instance().format(null, null, msg.toString());
+    return MessageFormatter.instance().format(null, StandardRepresentation.STANDARD_REPRESENTATION, msg.toString());
   }
 
   private static void countAssertions(List<String> errors, StringBuilder msg) {

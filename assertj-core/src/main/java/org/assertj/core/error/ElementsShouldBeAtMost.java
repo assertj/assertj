@@ -16,6 +16,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.api.Condition;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies elements of a group satisfies at most n times a
@@ -34,11 +35,11 @@ public class ElementsShouldBeAtMost extends BasicErrorMessageFactory {
    * @param condition the {@code Condition}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory elementsShouldBeAtMost(Object actual, int times, Condition<?> condition) {
+  public static ErrorMessageFactory elementsShouldBeAtMost(@Nullable Object actual, int times, Condition<?> condition) {
     return new ElementsShouldBeAtMost(actual, times, condition);
   }
 
-  private ElementsShouldBeAtMost(Object actual, int times, Condition<?> condition) {
+  private ElementsShouldBeAtMost(@Nullable Object actual, int times, Condition<?> condition) {
     super("%nExpecting elements:%n  %s%nto be at most %s times %s", actual, times, condition);
   }
 }

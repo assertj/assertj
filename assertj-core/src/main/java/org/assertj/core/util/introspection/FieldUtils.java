@@ -23,6 +23,8 @@ import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Shameless copy from Apache commons lang and then modified to keep only the interesting stuff for AssertJ.
  *
@@ -49,7 +51,7 @@ class FieldUtils {
    * @throws IllegalArgumentException if the class or field name is null
    * @throws IllegalAccessException if field exists but is not public
    */
-  static Field getField(final Class<?> cls, String fieldName, boolean forceAccess) throws IllegalAccessException {
+  static @Nullable Field getField(final Class<?> cls, String fieldName, boolean forceAccess) throws IllegalAccessException {
     checkArgument(cls != null, "The class must not be null");
     checkArgument(fieldName != null, "The field name must not be null");
     // Sun Java 1.3 has a bugged implementation of getField hence we write the
@@ -109,6 +111,10 @@ class FieldUtils {
    * @return the {@link Field} corresponding to the given fieldName for the specified class.
    * @throws NoSuchFieldException bubbled up from the call to {@link Class#getDeclaredField(String)}
    */
+  // fieldsPerClass.get(acls) is never null past the computeIfAbsent call above, and any value cached
+  // under fieldName was itself put as a non-null Field, but NullAway can't verify either across a
+  // Map<K, V> cache lookup.
+  @SuppressWarnings("NullAway")
   private static Field getDeclaredField(String fieldName, Class<?> acls) throws NoSuchFieldException {
     fieldsPerClass.computeIfAbsent(acls, unused -> new ConcurrentHashMap<>());
     // can't use computeIfAbsent for fieldName as getDeclaredField throws a checked exception
@@ -127,7 +133,7 @@ class FieldUtils {
    * @throws IllegalArgumentException if the field is null
    * @throws IllegalAccessException if the field is not accessible
    */
-  private static Object readField(Field field, Object target) throws IllegalAccessException {
+  private static @Nullable Object readField(Field field, @Nullable Object target) throws IllegalAccessException {
     return readField(field, target, false);
   }
 
@@ -141,7 +147,8 @@ class FieldUtils {
    * @throws IllegalArgumentException if the field is null
    * @throws IllegalAccessException if the field is not made accessible
    */
-  private static Object readField(Field field, Object target, boolean forceAccess) throws IllegalAccessException {
+  private static @Nullable Object readField(Field field, @Nullable Object target,
+                                            boolean forceAccess) throws IllegalAccessException {
     checkArgument(field != null, "The field must not be null");
     if (forceAccess && !field.canAccess(target)) {
       field.setAccessible(true);
@@ -164,11 +171,11 @@ class FieldUtils {
    * @throws IllegalArgumentException if the class or field name is null or the field can not be found.
    * @throws IllegalAccessException if the named field is not made accessible
    */
-  static Object readField(Object target, String fieldName, boolean forceAccess) throws IllegalAccessException {
+  static @Nullable Object readField(Object target, String fieldName, boolean forceAccess) throws IllegalAccessException {
     checkArgument(target != null, "target object must not be null");
     Class<?> cls = target.getClass();
     Field field = getField(cls, fieldName, forceAccess);
-    checkArgument(field != null, "Cannot locate field %s on %s", fieldName, cls);
+    if (field == null) throw new IllegalArgumentException("Cannot locate field %s on %s".formatted(fieldName, cls));
     checkArgument(!isStatic(field.getModifiers()), "Reading static field is not supported and field %s is static on %s",
                   fieldName, cls);
     checkArgument(!field.isSynthetic(), "Reading synthetic field is not supported and field %s is", fieldName);

@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that two {@code CharSequence}s are equal, ignoring case
  * considerations, failed.
@@ -29,11 +31,11 @@ public class ShouldBeEqualIgnoringCase extends BasicErrorMessageFactory {
    * @param expected the expected value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeEqual(CharSequence actual, CharSequence expected) {
+  public static ErrorMessageFactory shouldBeEqual(@Nullable CharSequence actual, @Nullable CharSequence expected) {
     return new ShouldBeEqualIgnoringCase(actual, expected);
   }
 
-  private ShouldBeEqualIgnoringCase(CharSequence actual, CharSequence expected) {
+  private ShouldBeEqualIgnoringCase(@Nullable CharSequence actual, @Nullable CharSequence expected) {
     super("%nexpected: %s%n but was: %s%nignoring case considerations",
           IndentWrapper.of(expected), IndentWrapper.of(actual));
   }

@@ -30,6 +30,7 @@ import java.util.List;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -39,7 +40,7 @@ import org.junit.jupiter.api.Test;
  */
 class Iterables_assertContainsNull_Test extends IterablesBaseTest {
 
-  private List<String> actual = newArrayList("Luke", "Yoda", null);
+  private List<@Nullable String> actual = newArrayList("Luke", "Yoda", null);
 
   @Test
   void should_pass_if_actual_contains_null() {
@@ -47,6 +48,7 @@ class Iterables_assertContainsNull_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_actual_contains_only_null_values() {
     actual = newArrayList(null, null);
     iterables.assertContainsNull(someInfo(), actual);
@@ -81,6 +83,7 @@ class Iterables_assertContainsNull_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_actual_contains_only_null_values_whatever_custom_comparison_strategy_is() {
     actual = newArrayList(null, null);
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsNull(someInfo(), actual);

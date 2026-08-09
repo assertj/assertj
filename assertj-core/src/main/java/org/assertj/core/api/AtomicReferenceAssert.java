@@ -25,20 +25,22 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.assertj.core.presentation.PredicateDescription;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link AtomicReference} values.
  *
  * @param <V> the referenced value type
  */
-public class AtomicReferenceAssert<V> extends AbstractAssertWithComparator<AtomicReferenceAssert<V>, AtomicReference<V>> {
+public class AtomicReferenceAssert<V extends @Nullable Object>
+    extends AbstractAssertWithComparator<AtomicReferenceAssert<V>, @Nullable AtomicReference<V>> {
 
   /**
    * Creates a new atomic reference assertion.
    *
    * @param actual the actual atomic reference
    */
-  public AtomicReferenceAssert(AtomicReference<V> actual) {
+  public AtomicReferenceAssert(@Nullable AtomicReference<V> actual) {
     super(actual, AtomicReferenceAssert.class);
   }
 
@@ -193,6 +195,8 @@ public class AtomicReferenceAssert<V> extends AbstractAssertWithComparator<Atomi
    * @throws AssertionError if the atomic under test does not have the null value.
    * @since 3.25.0
    */
+  // NullAway does not propagate V's own @Nullable bound through this null literal call.
+  @SuppressWarnings("NullAway")
   public AtomicReferenceAssert<V> hasNullValue() {
     return hasValue(null);
   }
@@ -211,6 +215,8 @@ public class AtomicReferenceAssert<V> extends AbstractAssertWithComparator<Atomi
    * @throws AssertionError if the atomic under test has the null value.
    * @since 3.25.0
    */
+  // NullAway does not propagate V's own @Nullable bound through this null literal call.
+  @SuppressWarnings("NullAway")
   public AtomicReferenceAssert<V> doesNotHaveNullValue() {
     return doesNotHaveValue(null);
   }

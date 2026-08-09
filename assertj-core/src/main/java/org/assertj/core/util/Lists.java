@@ -22,6 +22,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.assertj.core.internal.annotation.Contract;
+import org.jspecify.annotations.Nullable;
+
 /**
  * Utility methods related to {@link List}s.
  *
@@ -39,7 +42,8 @@ public final class Lists {
    * @return the created list
    */
   @SafeVarargs
-  public static <T> List<T> list(T... elements) {
+  @Contract("null -> null; !null -> !null")
+  public static <T extends @Nullable Object> @Nullable List<T> list(T... elements) {
     return newArrayList(elements);
   }
 
@@ -51,7 +55,8 @@ public final class Lists {
    * @return the created {@code ArrayList}, of {@code null} if the given array of elements is {@code null}.
    */
   @SafeVarargs
-  public static <T> ArrayList<T> newArrayList(T... elements) {
+  @Contract("null -> null; !null -> !null")
+  public static <T extends @Nullable Object> @Nullable ArrayList<T> newArrayList(T @Nullable... elements) {
     if (elements == null) {
       return null;
     }
@@ -67,7 +72,8 @@ public final class Lists {
    * @param elements the elements to store in the {@code ArrayList}.
    * @return the created {@code ArrayList}, or {@code null} if the given {@code Iterable} is {@code null}.
    */
-  public static <T> ArrayList<T> newArrayList(Iterable<? extends T> elements) {
+  @Contract("null -> null; !null -> !null")
+  public static <T> @Nullable ArrayList<T> newArrayList(@Nullable Iterable<? extends T> elements) {
     if (elements == null) {
       return null;
     }
@@ -81,7 +87,8 @@ public final class Lists {
    * @param elements the elements to store in the {@code ArrayList}.
    * @return the created {@code ArrayList}, or {@code null} if the given {@code Iterator} is {@code null}.
    */
-  public static <T> ArrayList<T> newArrayList(Iterator<? extends T> elements) {
+  @Contract("null -> null; !null -> !null")
+  public static <T> @Nullable ArrayList<T> newArrayList(@Nullable Iterator<? extends T> elements) {
     if (elements == null) {
       return null;
     }

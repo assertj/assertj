@@ -111,6 +111,7 @@ class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_requirements_are_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertAnySatisfy(INFO, greatPlayers, null))
                                     .withMessage("The BiConsumer<K, V> expressing the assertions requirements must not be null");

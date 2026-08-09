@@ -122,6 +122,7 @@ class Iterables_assertSatisfiesExactly_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_requirements_is_null() {
     // GIVEN
     Consumer<Object>[] requirements = null;

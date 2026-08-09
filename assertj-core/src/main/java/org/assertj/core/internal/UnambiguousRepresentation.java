@@ -20,6 +20,7 @@ import static org.assertj.core.util.introspection.ClassUtils.haveSameClassNameIn
 import java.util.Objects;
 
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utility class around {@link Representation} to provide the {@link Representation#toStringOf(Object) toStringOf}
@@ -39,18 +40,18 @@ public class UnambiguousRepresentation {
    * @param actual the actual value
    * @param expected the expected value
    */
-  public UnambiguousRepresentation(Representation representation, Object actual, Object expected) {
+  public UnambiguousRepresentation(Representation representation, @Nullable Object actual, @Nullable Object expected) {
     String actualRepresentation = representation.toStringOf(actual);
     String expectedRepresentation = representation.toStringOf(expected);
 
     boolean sameRepresentation = Objects.equals(actualRepresentation, expectedRepresentation);
     boolean sameClassNameInDifferentPackages = haveSameClassNameInDifferentPackages(actual, expected);
-    this.actual = sameRepresentation
+    this.actual = String.valueOf(sameRepresentation
         ? representation.unambiguousToStringOf(actual, sameClassNameInDifferentPackages)
-        : actualRepresentation;
-    this.expected = sameRepresentation
+        : actualRepresentation);
+    this.expected = String.valueOf(sameRepresentation
         ? representation.unambiguousToStringOf(expected, sameClassNameInDifferentPackages)
-        : expectedRepresentation;
+        : expectedRepresentation);
   }
 
   /**

@@ -32,6 +32,9 @@ import org.assertj.core.internal.Objects;
  * @author William Delanoue
  * 
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class ClassAssertBaseTest extends BaseTestTemplate<ClassAssert, Class<?>> {
 
   protected Classes classes;

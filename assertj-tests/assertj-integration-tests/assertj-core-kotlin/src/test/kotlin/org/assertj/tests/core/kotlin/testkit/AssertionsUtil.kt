@@ -21,7 +21,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable
 
 object AssertionsUtil {
 
-  fun expectAssertionError(shouldRaiseAssertionError: ThrowingCallable?): AssertionError {
+  fun expectAssertionError(shouldRaiseAssertionError: ThrowingCallable): AssertionError {
     val error = catchThrowableOfType(AssertionError::class.java, shouldRaiseAssertionError)
     assertThat(error).`as`("The code under test should have raised an AssertionError").isNotNull
     return error

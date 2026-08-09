@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 class ShortArrayAssert_endsWith_with_Short_array_Test extends ShortArrayAssertBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_values_is_null() {
     // GIVEN
     Short[] sequence = null;

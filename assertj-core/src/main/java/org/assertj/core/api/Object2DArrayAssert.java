@@ -26,6 +26,7 @@ import java.util.Objects;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Object2DArrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for two-dimensional arrays of objects.
@@ -37,8 +38,8 @@ import org.assertj.core.internal.Object2DArrays;
  * @author Maciej Wajcht
  * @since 3.17.0
  */
-public class Object2DArrayAssert<ELEMENT> extends
-    Abstract2DArrayAssert<Object2DArrayAssert<ELEMENT>, ELEMENT[][], ELEMENT> {
+public class Object2DArrayAssert<ELEMENT extends @Nullable Object> extends
+    Abstract2DArrayAssert<Object2DArrayAssert<ELEMENT>, ELEMENT[] @Nullable [], ELEMENT> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Assertion implementation for two-dimensional object arrays. */
@@ -51,7 +52,7 @@ public class Object2DArrayAssert<ELEMENT> extends
    *
    * @param actual the actual array to verify
    */
-  public Object2DArrayAssert(ELEMENT[][] actual) {
+  public Object2DArrayAssert(ELEMENT[] @Nullable [] actual) {
     super(actual, Object2DArrayAssert.class);
   }
 
@@ -76,6 +77,9 @@ public class Object2DArrayAssert<ELEMENT> extends
    * @throws AssertionError if the actual value is not deeply equal to the given one.
    */
   @Override
+  // expected is genuinely never null here (unlike actual): the method dereferences it unconditionally
+  // (e.g. expected.length), so it must stay non-null despite ACTUAL's nullable bound in Abstract2DArrayAssert.
+  @SuppressWarnings("NullAway")
   public Object2DArrayAssert<ELEMENT> isDeepEqualTo(ELEMENT[][] expected) {
     return executeAssertion(() -> {
       if (actual == expected) return;
@@ -126,7 +130,7 @@ public class Object2DArrayAssert<ELEMENT> extends
    * @throws AssertionError if the actual {@code ELEMENT[][]} is not equal to the given one.
    */
   @Override
-  public Object2DArrayAssert<ELEMENT> isEqualTo(Object expected) {
+  public Object2DArrayAssert<ELEMENT> isEqualTo(@Nullable Object expected) {
     return super.isEqualTo(expected);
   }
 
@@ -268,7 +272,7 @@ public class Object2DArrayAssert<ELEMENT> extends
    * @throws AssertionError if actual {@code ELEMENT[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Object2DArrayAssert<ELEMENT> hasSameDimensionsAs(Object array) {
+  public Object2DArrayAssert<ELEMENT> hasSameDimensionsAs(@Nullable Object array) {
     return executeAssertion(() -> object2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 

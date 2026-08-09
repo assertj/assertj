@@ -24,6 +24,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
 import org.assertj.core.internal.FloatArrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for assertions on {@code float} arrays.
@@ -31,7 +32,7 @@ import org.assertj.core.internal.FloatArrays;
  * @param <SELF> the "self" type of this assertion class
  */
 public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAssert<SELF>>
-    extends AbstractArrayAssert<SELF, float[], Float> {
+    extends AbstractArrayAssert<SELF, float @Nullable [], Float> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Internal assertions for {@code float} arrays. */
@@ -43,7 +44,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    * @param actual the actual array to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractFloatArrayAssert(float[] actual, Class<?> selfType) {
+  protected AbstractFloatArrayAssert(float @Nullable [] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

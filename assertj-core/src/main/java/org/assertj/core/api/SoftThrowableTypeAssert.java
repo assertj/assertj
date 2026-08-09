@@ -17,6 +17,7 @@ package org.assertj.core.api;
 
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.description.Description;
+import org.jspecify.annotations.Nullable;
 
 /**
  * ThrowableTypeAssert for soft assertions.
@@ -44,8 +45,12 @@ public class SoftThrowableTypeAssert<T extends Throwable> extends ThrowableTypeA
     return new SoftThrowableAssertAlternative<>(throwable, softAssertionsProvider);
   }
 
+  // unlike the hard-assertion base class (which always throws before returning when throwable is null), this
+  // override collects the AssertionError instead of rethrowing it, so it can genuinely return null here; kept
+  // consistent with the base class's non-null signature since callers build a soft assertion around the result.
+  @SuppressWarnings("NullAway")
   @Override
-  protected Throwable checkThrowableType(Throwable throwable) {
+  protected Throwable checkThrowableType(@Nullable Throwable throwable) {
     try {
       super.checkThrowableType(throwable);
     } catch (AssertionError error) {
@@ -56,7 +61,7 @@ public class SoftThrowableTypeAssert<T extends Throwable> extends ThrowableTypeA
 
   @Override
   @CheckReturnValue
-  public SoftThrowableTypeAssert<T> describedAs(Description description) {
+  public SoftThrowableTypeAssert<T> describedAs(@Nullable Description description) {
     this.description = description;
     return this;
   }

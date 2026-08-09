@@ -44,6 +44,7 @@ class Condition_as_String_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_empty_description_if_no_description_was_set() {
     String description = null;
     condition.as(description);

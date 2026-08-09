@@ -73,6 +73,7 @@ class ObjectArrayAssert_filteredOn_not_Test extends ObjectArrayAssert_filtered_b
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_property_or_field_name_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn((String) null, not(800)))
                                         .withMessage("The property/field name to filter on should not be null or empty");
@@ -85,6 +86,7 @@ class ObjectArrayAssert_filteredOn_not_Test extends ObjectArrayAssert_filtered_b
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_expected_value_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn("name", null))
                                         .withMessage(format("The expected value should not be null.%n"

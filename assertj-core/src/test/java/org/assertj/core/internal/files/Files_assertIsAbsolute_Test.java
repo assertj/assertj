@@ -37,6 +37,7 @@ import org.junit.jupiter.api.Test;
 class Files_assertIsAbsolute_Test extends FilesBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     File actual = null;

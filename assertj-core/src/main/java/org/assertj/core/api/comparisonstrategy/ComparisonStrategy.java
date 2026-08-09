@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api.comparisonstrategy;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Describes the contract to implement a <b>consistent</b> comparison strategy that covers :<br>
  * - comparing two objects for equality and order<br>
@@ -33,7 +35,7 @@ public interface ComparisonStrategy {
    * @param other the object to compare to actual
    * @return true if actual and other are equal according to the underlying comparison strategy.
    */
-  boolean areEqual(Object actual, Object other);
+  boolean areEqual(@Nullable Object actual, @Nullable Object other);
 
   /**
    * Returns true if actual is greater than other, false otherwise.
@@ -43,7 +45,7 @@ public interface ComparisonStrategy {
    * @return true if actual is greater than other, false otherwise.
    * @throws UnsupportedOperationException if operation is not supported by a concrete implementation.
    */
-  boolean isGreaterThan(Object actual, Object other);
+  boolean isGreaterThan(@Nullable Object actual, Object other);
 
   /**
    * Returns true if actual is greater than or equal to other, false otherwise.
@@ -53,7 +55,7 @@ public interface ComparisonStrategy {
    * @return true if actual is greater than or equal to other, false otherwise.
    * @throws UnsupportedOperationException if operation is not supported by a concrete implementation.
    */
-  boolean isGreaterThanOrEqualTo(Object actual, Object other);
+  boolean isGreaterThanOrEqualTo(@Nullable Object actual, Object other);
 
   /**
    * Returns true if actual is less than other, false otherwise.
@@ -63,7 +65,7 @@ public interface ComparisonStrategy {
    * @return true if actual is less than other, false otherwise.
    * @throws UnsupportedOperationException if operation is not supported by a concrete implementation.
    */
-  boolean isLessThan(Object actual, Object other);
+  boolean isLessThan(@Nullable Object actual, Object other);
 
   /**
    * Returns true if actual is less than or equal to other, false otherwise.
@@ -73,7 +75,7 @@ public interface ComparisonStrategy {
    * @return true if actual is less than or equal to other, false otherwise.
    * @throws UnsupportedOperationException if operation is not supported by a concrete implementation.
    */
-  boolean isLessThanOrEqualTo(Object actual, Object other);
+  boolean isLessThanOrEqualTo(@Nullable Object actual, Object other);
 
   /**
    * Returns true if given {@link Iterable} contains given value according to the implemented comparison strategy, false
@@ -85,7 +87,7 @@ public interface ComparisonStrategy {
    * @return true if given {@link Iterable} contains given value according to the implemented comparison strategy, false
    *         otherwise.
    */
-  boolean iterableContains(Iterable<?> collection, Object value);
+  boolean iterableContains(@Nullable Iterable<?> collection, @Nullable Object value);
 
   /**
    * Look for given value in given {@link Iterable} according to the implemented comparison strategy, if value is found it is
@@ -95,7 +97,7 @@ public interface ComparisonStrategy {
    * @param iterable the {@link Iterable} we want to remove value from
    * @param value object to remove from given {@link Iterable}
    */
-  void iterableRemoves(Iterable<?> iterable, Object value);
+  void iterableRemoves(@Nullable Iterable<?> iterable, @Nullable Object value);
 
   /**
    * Removes the first value in {@code iterable} that matches the {@code value} according to the implemented comparison
@@ -104,7 +106,7 @@ public interface ComparisonStrategy {
    * @param iterable the {@link Iterable} we want to remove value from
    * @param value object to remove from given {@link Iterable}
    */
-  void iterablesRemoveFirst(Iterable<?> iterable, Object value);
+  void iterablesRemoveFirst(@Nullable Iterable<?> iterable, @Nullable Object value);
 
   /**
    * Returns any duplicate elements from the given {@link Iterable} according to the implemented comparison strategy.
@@ -113,7 +115,7 @@ public interface ComparisonStrategy {
    * @return an {@link Iterable} containing the duplicate elements of the given one. If no duplicates are found, an empty
    *         {@link Iterable} is returned.
    */
-  Iterable<?> duplicatesFrom(Iterable<?> iterable);
+  Iterable<?> duplicatesFrom(@Nullable Iterable<?> iterable);
 
   /**
    * Returns true if given array contains given value according to the implemented comparison strategy, false otherwise.
@@ -122,7 +124,7 @@ public interface ComparisonStrategy {
    * @param value the object to look for in given array
    * @return true if given array contains given value according to the implemented comparison strategy, false otherwise.
    */
-  boolean arrayContains(Object array, Object value);
+  boolean arrayContains(Object array, @Nullable Object value);
 
   /**
    * Returns true if given string contains given sequence according to the implemented comparison strategy, false otherwise.

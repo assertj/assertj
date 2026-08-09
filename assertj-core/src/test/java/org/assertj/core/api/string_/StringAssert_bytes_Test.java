@@ -40,6 +40,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 class StringAssert_bytes_Test extends StringAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected StringAssert invoke_api_method() {
     // Tested below.
     return null;
@@ -122,6 +123,7 @@ class StringAssert_bytes_Test extends StringAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_exception_for_null_charset() {
     assertThatNullPointerException().isThrownBy(() -> assertThat("abc").bytes((Charset) null))
                                     .withMessage("The charset must not be null");
@@ -154,6 +156,7 @@ class StringAssert_bytes_Test extends StringAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_exception_for_null_charset_name() {
     assertThatNullPointerException().isThrownBy(() -> assertThat("abc").bytes((String) null))
                                     .withMessage("The charsetName must not be null");

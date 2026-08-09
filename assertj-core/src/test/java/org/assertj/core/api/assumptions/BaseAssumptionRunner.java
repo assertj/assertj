@@ -23,6 +23,7 @@ class BaseAssumptionRunner<T> extends AssumptionRunner<T> {
   private Consumer<T> failingAssumption;
   private Consumer<T> passingAssumption;
 
+  @SuppressWarnings("NullAway")
   BaseAssumptionRunner() {
     this.actual = null;
   }

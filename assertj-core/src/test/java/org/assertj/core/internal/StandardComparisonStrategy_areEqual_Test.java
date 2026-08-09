@@ -332,6 +332,7 @@ class StandardComparisonStrategy_areEqual_Test {
                      arguments("Luke", "Yoda", false));
   }
 
+  @SuppressWarnings("NullAway")
   private static Stream<Arguments> contractViolatingEquals() {
     AlwaysTrue alwaysTrue = new AlwaysTrue();
     AlwaysFalse alwaysFalse = new AlwaysFalse();

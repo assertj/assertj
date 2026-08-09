@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 class AtomicReferenceArrayAssert_isEmpty_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {
     assertions.isEmpty();
     return null;

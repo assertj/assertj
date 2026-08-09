@@ -24,6 +24,8 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Default field-based introspection strategy for recursive assertions.
  */
@@ -51,7 +53,7 @@ public class DefaultRecursiveAssertionIntrospectionStrategy implements Recursive
     return new RecursiveAssertionNode(fieldValue, fieldName, fieldType);
   }
 
-  private static Class<?> getFieldType(Object fieldValue, String fieldName, Object targetObject) {
+  private static Class<?> getFieldType(@Nullable Object fieldValue, String fieldName, Object targetObject) {
     return fieldValue != null ? fieldValue.getClass() : getFieldType(fieldName, targetObject.getClass());
   }
 

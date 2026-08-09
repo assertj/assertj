@@ -100,6 +100,7 @@ class IterableAssert_elements_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_indices_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(iterable).elements((int[]) null))
                                         .withMessageContaining("indices must not be null");

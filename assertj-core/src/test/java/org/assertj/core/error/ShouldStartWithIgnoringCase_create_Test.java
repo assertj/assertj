@@ -26,6 +26,8 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.util.OtherStringTestComparator;
 import org.junit.jupiter.api.Test;
 
+// factory is set as the first statement of each test method, not a constructor.
+@SuppressWarnings("NullAway")
 class ShouldStartWithIgnoringCase_create_Test {
 
   private ErrorMessageFactory factory;

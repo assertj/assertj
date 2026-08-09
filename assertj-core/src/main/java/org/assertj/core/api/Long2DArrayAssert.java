@@ -25,6 +25,7 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Long2DArrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for two-dimensional arrays of {@code long}s.
@@ -35,7 +36,7 @@ import org.assertj.core.internal.Long2DArrays;
  * @author Maciej Wajcht
  * @since 3.17.0
  */
-public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, long[][], Long> {
+public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, long[] @Nullable [], Long> {
 
   private final Failures failures = Failures.instance();
 
@@ -48,7 +49,7 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    *
    * @param actual the actual array to verify
    */
-  public Long2DArrayAssert(long[][] actual) {
+  public Long2DArrayAssert(long[] @Nullable [] actual) {
     super(actual, Long2DArrayAssert.class);
   }
 
@@ -72,6 +73,9 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    * @throws AssertionError if the actual value is not deeply equal to the given one.
    */
   @Override
+  // expected is genuinely never null here (unlike actual): the method dereferences it unconditionally
+  // (e.g. expected.length), so it must stay non-null despite ACTUAL's nullable bound in Abstract2DArrayAssert.
+  @SuppressWarnings("NullAway")
   public Long2DArrayAssert isDeepEqualTo(long[][] expected) {
     return executeAssertion(() -> {
       if (actual == expected) return;
@@ -122,7 +126,7 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    * @throws AssertionError if the actual {@code long[][]} is not equal to the given one.
    */
   @Override
-  public Long2DArrayAssert isEqualTo(Object expected) {
+  public Long2DArrayAssert isEqualTo(@Nullable Object expected) {
     return super.isEqualTo(expected);
   }
 
@@ -265,7 +269,7 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    * @throws AssertionError if actual {@code long[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Long2DArrayAssert hasSameDimensionsAs(Object array) {
+  public Long2DArrayAssert hasSameDimensionsAs(@Nullable Object array) {
     return executeAssertion(() -> long2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 

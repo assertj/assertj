@@ -38,6 +38,7 @@ class IterableUtil_sizeOf_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throws_exception_if_iterable_is_null() {
     assertThatNullPointerException().isThrownBy(() -> IterableUtil.sizeOf(null));
   }

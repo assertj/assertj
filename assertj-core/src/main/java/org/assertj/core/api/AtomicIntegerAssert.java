@@ -27,11 +27,12 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Integers;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link AtomicInteger} values.
  */
-public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicIntegerAssert, AtomicInteger> {
+public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicIntegerAssert, @Nullable AtomicInteger> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Comparables comparables = new Comparables();
@@ -44,7 +45,7 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
    *
    * @param actual the actual atomic integer
    */
-  public AtomicIntegerAssert(AtomicInteger actual) {
+  public AtomicIntegerAssert(@Nullable AtomicInteger actual) {
     super(actual, AtomicIntegerAssert.class);
   }
 
@@ -411,7 +412,7 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
   @Override
   @CheckReturnValue
   public AtomicIntegerAssert usingComparator(Comparator<? super AtomicInteger> customComparator,
-                                             String customComparatorDescription) {
+                                             @Nullable String customComparatorDescription) {
     integers = new Integers(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

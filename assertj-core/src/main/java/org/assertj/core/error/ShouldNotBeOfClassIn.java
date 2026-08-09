@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that an object is not of type in group of types failed.
  * 
@@ -28,11 +30,11 @@ public class ShouldNotBeOfClassIn extends BasicErrorMessageFactory {
    * @param types contains the types {@code actual} is not expected to be in.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotBeOfClassIn(Object actual, Object types) {
+  public static ErrorMessageFactory shouldNotBeOfClassIn(Object actual, @Nullable Object types) {
     return new ShouldNotBeOfClassIn(actual, types);
   }
 
-  private ShouldNotBeOfClassIn(Object actual, Object types) {
+  private ShouldNotBeOfClassIn(Object actual, @Nullable Object types) {
     super("%nExpecting actual:%n  %s%nnot to be of any type in:%n  %s%nbut was of type: %s", actual, types, actual.getClass());
   }
 }

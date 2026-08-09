@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies {@link CharSequence}
  * is not blank.
@@ -30,7 +32,7 @@ public class ShouldNotBeBlank extends BasicErrorMessageFactory {
     return new ShouldNotBeBlank(actual);
   }
 
-  private ShouldNotBeBlank(Object actual) {
+  private ShouldNotBeBlank(@Nullable Object actual) {
     super("%n" +
           "Expecting not blank but was:%n" +
           "  %s", IndentWrapper.of(actual));

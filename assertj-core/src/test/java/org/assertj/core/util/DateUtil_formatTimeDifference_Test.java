@@ -56,12 +56,14 @@ class DateUtil_formatTimeDifference_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throws_IllegalArgumentException_if_first_date_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> formatTimeDifference(new Date(), null))
                                         .withMessage("Expecting date parameter not to be null");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throws_IllegalArgumentException_if_second_date_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> formatTimeDifference(null, new Date()))
                                         .withMessage("Expecting date parameter not to be null");

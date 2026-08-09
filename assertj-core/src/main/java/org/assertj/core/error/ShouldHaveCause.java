@@ -21,6 +21,8 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.util.Objects;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for throwables with an unexpected cause. */
 public class ShouldHaveCause extends BasicErrorMessageFactory {
 
@@ -55,6 +57,9 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
                                         actualCause);
   }
 
+  // actual.getCause() is guaranteed non-null here: this constructor is only reached from shouldHaveCause(actual,
+  // expectedCause) after it has already verified actual.getCause() != null.
+  @SuppressWarnings("NullAway")
   private ShouldHaveCause(Throwable actual, Throwable expectedCause) {
     super("%n" +
           "Expecting a cause with type:%n" +
@@ -81,6 +86,9 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
           expectedCause.getClass().getName(), expectedCause.getMessage());
   }
 
+  // actual.getCause() is guaranteed non-null here: this constructor is only reached from shouldHaveCause(actual,
+  // expectedCause) after it has already verified actual.getCause() != null.
+  @SuppressWarnings("NullAway")
   private ShouldHaveCause(Throwable actual, Class<? extends Throwable> expectedCauseClass) {
     super("%n" +
           "Expecting a cause with type:%n" +
@@ -92,7 +100,10 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
           expectedCauseClass.getName(), actual.getCause().getClass().getName());
   }
 
-  private ShouldHaveCause(Throwable actual, String expectedCauseMessage) {
+  // actual.getCause() is guaranteed non-null here: this constructor is only reached from shouldHaveCause(actual,
+  // expectedCause) after it has already verified actual.getCause() != null.
+  @SuppressWarnings("NullAway")
+  private ShouldHaveCause(Throwable actual, @Nullable String expectedCauseMessage) {
     super("%n" +
           "Expecting a cause with message:%n" +
           "  %s%n" +

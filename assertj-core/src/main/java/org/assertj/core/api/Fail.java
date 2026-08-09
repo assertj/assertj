@@ -18,6 +18,7 @@ package org.assertj.core.api;
 import org.assertj.core.annotation.CanIgnoreReturnValue;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.annotation.Contract;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Common failures.
@@ -93,7 +94,7 @@ public final class Fail {
    */
   @CanIgnoreReturnValue
   @Contract("_, _ -> fail")
-  public static <T> T fail(String failureMessage, Throwable realCause) {
+  public static <T> T fail(@Nullable String failureMessage, Throwable realCause) {
     AssertionError error = Failures.instance().failure(failureMessage);
     error.initCause(realCause);
     throw error;

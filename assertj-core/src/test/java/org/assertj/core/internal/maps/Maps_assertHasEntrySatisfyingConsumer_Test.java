@@ -47,12 +47,14 @@ class Maps_assertHasEntrySatisfyingConsumer_Test extends MapsBaseTest {
 
   @Override
   @BeforeEach
+  @SuppressWarnings("NullAway")
   public void setUp() {
     super.setUp();
     actual = mapOf(entry("name", "Yoda"), entry("color", "green"), entry(null, null));
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_actual_contains_null_key_with_value_matching_condition() {
     maps.assertHasEntrySatisfying(INFO, actual, null, s -> assertThat(s).isNull());
   }
@@ -87,6 +89,7 @@ class Maps_assertHasEntrySatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_contains_null_key_with_value_does_not_matching_condition() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(INFO, actual, null,
                                                                                                    s -> assertThat(s).isNotNull()))

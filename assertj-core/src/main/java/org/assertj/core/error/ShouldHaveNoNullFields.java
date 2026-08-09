@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that an object
  * has no null fields failed.
@@ -38,7 +40,7 @@ public class ShouldHaveNoNullFields extends BasicErrorMessageFactory {
    * @param rejectedFields the null fields
    * @param ignoredFields the ignored fields
    */
-  public ShouldHaveNoNullFields(Object actual, List<String> rejectedFields, List<String> ignoredFields) {
+  public ShouldHaveNoNullFields(@Nullable Object actual, List<String> rejectedFields, List<String> ignoredFields) {
     super(EXPECTED_MULTIPLE + EXCLUDING, actual, rejectedFields, ignoredFields);
   }
 
@@ -48,7 +50,7 @@ public class ShouldHaveNoNullFields extends BasicErrorMessageFactory {
    * @param actual the actual object
    * @param rejectedFields the null fields
    */
-  public ShouldHaveNoNullFields(Object actual, List<String> rejectedFields) {
+  public ShouldHaveNoNullFields(@Nullable Object actual, List<String> rejectedFields) {
     super(EXPECTED_MULTIPLE + COMPARISON + DOT, actual, rejectedFields);
   }
 
@@ -58,7 +60,7 @@ public class ShouldHaveNoNullFields extends BasicErrorMessageFactory {
    * @param actual the actual object
    * @param rejectedField the null field
    */
-  public ShouldHaveNoNullFields(Object actual, String rejectedField) {
+  public ShouldHaveNoNullFields(@Nullable Object actual, String rejectedField) {
     super(EXPECTED_SINGLE + COMPARISON + DOT, actual, rejectedField);
   }
 
@@ -69,7 +71,7 @@ public class ShouldHaveNoNullFields extends BasicErrorMessageFactory {
    * @param rejectedField the null field
    * @param ignoredFields the ignored fields
    */
-  public ShouldHaveNoNullFields(Object actual, String rejectedField, List<String> ignoredFields) {
+  public ShouldHaveNoNullFields(@Nullable Object actual, String rejectedField, List<String> ignoredFields) {
     super(EXPECTED_SINGLE + EXCLUDING, actual, rejectedField, ignoredFields);
   }
 
@@ -81,7 +83,7 @@ public class ShouldHaveNoNullFields extends BasicErrorMessageFactory {
    * @param ignoredFields the ignored fields
    * @return the error message factory
    */
-  public static ShouldHaveNoNullFields shouldHaveNoNullFieldsExcept(Object actual, List<String> rejectedFields,
+  public static ShouldHaveNoNullFields shouldHaveNoNullFieldsExcept(@Nullable Object actual, List<String> rejectedFields,
                                                                     List<String> ignoredFields) {
     if (rejectedFields.size() == 1) {
       if (ignoredFields.isEmpty()) {

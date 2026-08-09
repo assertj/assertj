@@ -61,6 +61,7 @@ class Lists_assertContains_Test extends ListsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_Index_is_null() {
     assertThatNullPointerException().isThrownBy(() -> lists.assertContains(someInfo(), actual, "Yoda", null))
                                     .withMessage("Index should not be null");

@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.assertj.core.configuration.ConfigurationProvider;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utility methods for fields access.
@@ -206,7 +207,7 @@ public enum FieldSupport {
    * @return the value of the given field name
    * @throws IntrospectionError if the given target does not have a field with a matching name.
    */
-  public <T> T fieldValue(String fieldName, Class<T> fieldClass, Object target) {
+  public <T> @Nullable T fieldValue(String fieldName, Class<T> fieldClass, @Nullable Object target) {
     if (target == null) return null;
 
     if (isNestedField(fieldName)) {
@@ -218,8 +219,11 @@ public enum FieldSupport {
     return readSimpleField(fieldName, fieldClass, target);
   }
 
-  @SuppressWarnings("unchecked")
-  private <T> T readSimpleField(String fieldName, Class<T> clazz, Object target) {
+  // a field declared with a primitive type can never actually hold null, so the unboxing casts below are
+  // safe by construction, and clazz.cast(fieldValue) can only see a null fieldValue when T is a reference
+  // type (already reflected in this method's @Nullable return type) - NullAway can't verify either.
+  @SuppressWarnings({ "unchecked", "NullAway" })
+  private <T extends @Nullable Object> @Nullable T readSimpleField(String fieldName, Class<T> clazz, Object target) {
     try {
       Object fieldValue = readField(target, fieldName, allowUsingPrivateFields);
       if (clazz.isPrimitive()) {

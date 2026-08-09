@@ -90,6 +90,7 @@ class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_start_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       Date end = parseDate("2011-09-30");
@@ -98,6 +99,7 @@ class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_end_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       Date start = parseDate("2011-09-01");
@@ -106,6 +108,7 @@ class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       Date start = parseDate("2011-09-01");
@@ -194,6 +197,7 @@ class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_start_date_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> {
       Date end = parseDate("2011-09-30");
@@ -202,6 +206,7 @@ class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_end_date_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> {
       Date start = parseDate("2011-09-01");
@@ -210,6 +215,7 @@ class Dates_assertIsNotBetween_Test extends DatesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       Date start = parseDate("2011-09-01");

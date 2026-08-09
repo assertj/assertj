@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for values expected to contain only ASCII characters. */
 public class ShouldBeASCII extends BasicErrorMessageFactory {
   /**
@@ -23,11 +25,11 @@ public class ShouldBeASCII extends BasicErrorMessageFactory {
    * @param actual the actual value
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldBeASCII(Object actual) {
+  public static ErrorMessageFactory shouldBeASCII(@Nullable Object actual) {
     return new ShouldBeASCII(actual);
   }
 
-  private ShouldBeASCII(Object actual) {
+  private ShouldBeASCII(@Nullable Object actual) {
     super("%nExpecting %s to be ASCII", actual);
   }
 }

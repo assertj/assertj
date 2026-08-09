@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 class LongArrayAssert_containsOnlyOnce_with_Long_array_Test extends LongArrayAssertBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_values_is_null() {
     // GIVEN
     Long[] values = null;

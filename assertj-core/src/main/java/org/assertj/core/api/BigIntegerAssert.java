@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.math.BigInteger;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link BigInteger}s.
  * <p>
@@ -31,7 +33,7 @@ public class BigIntegerAssert extends AbstractBigIntegerAssert<BigIntegerAssert>
    *
    * @param actual the actual value to verify
    */
-  public BigIntegerAssert(BigInteger actual) {
+  public BigIntegerAssert(@Nullable BigInteger actual) {
     super(actual, BigIntegerAssert.class);
   }
 }

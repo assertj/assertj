@@ -23,6 +23,9 @@ import java.math.BigInteger;
 import org.assertj.core.internal.BigIntegers;
 import org.assertj.core.internal.Comparables;
 
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class BigIntegerAssertBaseTest extends ComparableAssertBaseTest<BigIntegerAssert, BigInteger> {
 
   protected static final String ONE_AS_STRING = "1";

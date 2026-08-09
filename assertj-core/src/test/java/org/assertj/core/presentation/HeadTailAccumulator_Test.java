@@ -62,6 +62,7 @@ class HeadTailAccumulator_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_null() {
     // GIVEN
     HeadTailAccumulator<Integer> accumulator = new HeadTailAccumulator<>(1, 1);

@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains elements that
  * are not an instance of one of the given types. A group of elements can be an iterable or an array of objects.
@@ -33,12 +35,12 @@ public class ShouldOnlyHaveElementsOfTypes extends BasicErrorMessageFactory {
    * @param mismatches elements that are not an instance of one of the given types.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ShouldOnlyHaveElementsOfTypes shouldOnlyHaveElementsOfTypes(Object actual, Class<?>[] types,
+  public static ShouldOnlyHaveElementsOfTypes shouldOnlyHaveElementsOfTypes(@Nullable Object actual, Class<?>[] types,
                                                                             Iterable<?> mismatches) {
     return new ShouldOnlyHaveElementsOfTypes(actual, types, mismatches);
   }
 
-  private ShouldOnlyHaveElementsOfTypes(Object actual, Class<?>[] types, Iterable<?> nonMatchingElements) {
+  private ShouldOnlyHaveElementsOfTypes(@Nullable Object actual, Class<?>[] types, Iterable<?> nonMatchingElements) {
     super("%n" +
           "Expecting actual:%n" +
           "  %s%n" +
@@ -57,7 +59,7 @@ public class ShouldOnlyHaveElementsOfTypes extends BasicErrorMessageFactory {
         builder.append(", ");
       }
 
-      String formatted = CONFIGURATION_PROVIDER.representation().toStringOf(element);
+      String formatted = String.valueOf(CONFIGURATION_PROVIDER.representation().toStringOf(element));
       builder.append(formatted);
 
       if (element != null && !formatted.contains(element.getClass().getName())) {

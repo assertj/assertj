@@ -59,6 +59,7 @@ class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_one_entry_does_not_satisfy_the_given_requirements() {
     // WHEN
     var error = expectAssertionError(() -> maps.assertAllSatisfy(INFO, greatPlayers, (team, player) -> {
@@ -78,6 +79,7 @@ class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_report_all_the_entries_not_satisfying_the_given_requirements() {
     // WHEN
     var error = expectAssertionError(() -> maps.assertAllSatisfy(INFO, greatPlayers, (team, player) -> {
@@ -106,6 +108,7 @@ class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_requirements_are_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertAllSatisfy(INFO, greatPlayers, null))
                                     .withMessage("The BiConsumer<K, V> expressing the assertions requirements must not be null");

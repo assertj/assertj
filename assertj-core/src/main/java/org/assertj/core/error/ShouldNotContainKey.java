@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies a map does not contains a key failed.
  * 
@@ -28,11 +30,11 @@ public class ShouldNotContainKey extends BasicErrorMessageFactory {
    * @param key the unexpected key.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContainKey(Object actual, Object key) {
+  public static ErrorMessageFactory shouldNotContainKey(@Nullable Object actual, Object key) {
     return new ShouldNotContainKey(actual, key);
   }
 
-  private ShouldNotContainKey(Object actual, Object key) {
+  private ShouldNotContainKey(@Nullable Object actual, Object key) {
     super("%nExpecting actual:%n  %s%nnot to contain key:%n  %s", actual, key);
   }
 }

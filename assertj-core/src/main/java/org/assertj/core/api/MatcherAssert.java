@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.regex.Matcher;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions for {@link java.util.regex.Matcher}.
  *
@@ -29,7 +31,7 @@ public class MatcherAssert extends AbstractMatcherAssert<MatcherAssert> {
    *
    * @param actual the actual matcher to verify
    */
-  protected MatcherAssert(Matcher actual) {
+  protected MatcherAssert(@Nullable Matcher actual) {
     super(actual, MatcherAssert.class);
   }
 }

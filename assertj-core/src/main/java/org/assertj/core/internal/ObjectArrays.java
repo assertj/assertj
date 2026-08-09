@@ -39,6 +39,7 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for arrays of objects.
@@ -88,7 +89,7 @@ public class ObjectArrays {
    *
    * @return the configured comparator
    */
-  public Comparator<?> getComparator() {
+  public @Nullable Comparator<?> getComparator() {
     return arrays.getComparator();
   }
 
@@ -115,7 +116,7 @@ public class ObjectArrays {
    * @param actual the given array.
    * @throws AssertionError if the given array is not {@code null} *and* contains one or more elements.
    */
-  public void assertNullOrEmpty(AssertionInfo info, Object[] actual) {
+  public void assertNullOrEmpty(AssertionInfo info, Object @Nullable [] actual) {
     arrays.assertNullOrEmpty(info, failures, actual);
   }
 
@@ -127,7 +128,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array is not empty.
    */
-  public void assertEmpty(AssertionInfo info, Object[] actual) {
+  public void assertEmpty(AssertionInfo info, Object @Nullable [] actual) {
     arrays.assertEmpty(info, failures, actual);
   }
 
@@ -139,7 +140,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array is empty.
    */
-  public void assertNotEmpty(AssertionInfo info, Object[] actual) {
+  public void assertNotEmpty(AssertionInfo info, Object @Nullable [] actual) {
     arrays.assertNotEmpty(info, failures, actual);
   }
 
@@ -152,7 +153,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is different than the expected one.
    */
-  public void assertHasSize(AssertionInfo info, Object[] actual, int expectedSize) {
+  public void assertHasSize(AssertionInfo info, Object @Nullable [] actual, int expectedSize) {
     arrays.assertHasSize(info, actual, expectedSize);
   }
 
@@ -165,7 +166,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not greater than the boundary.
    */
-  public void assertHasSizeGreaterThan(AssertionInfo info, Object[] actual, int boundary) {
+  public void assertHasSizeGreaterThan(AssertionInfo info, Object @Nullable [] actual, int boundary) {
     arrays.assertHasSizeGreaterThan(info, actual, boundary);
   }
 
@@ -178,7 +179,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not greater than or equal to the boundary.
    */
-  public void assertHasSizeGreaterThanOrEqualTo(AssertionInfo info, Object[] actual, int boundary) {
+  public void assertHasSizeGreaterThanOrEqualTo(AssertionInfo info, Object @Nullable [] actual, int boundary) {
     arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
   }
 
@@ -191,7 +192,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not less than the boundary.
    */
-  public void assertHasSizeLessThan(AssertionInfo info, Object[] actual, int boundary) {
+  public void assertHasSizeLessThan(AssertionInfo info, Object @Nullable [] actual, int boundary) {
     arrays.assertHasSizeLessThan(info, actual, boundary);
   }
 
@@ -204,7 +205,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not less than or equal to the boundary.
    */
-  public void assertHasSizeLessThanOrEqualTo(AssertionInfo info, Object[] actual, int boundary) {
+  public void assertHasSizeLessThanOrEqualTo(AssertionInfo info, Object @Nullable [] actual, int boundary) {
     arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
   }
 
@@ -218,7 +219,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is not between the boundaries.
    */
-  public void assertHasSizeBetween(AssertionInfo info, Object[] actual, int lowerBoundary, int higherBoundary) {
+  public void assertHasSizeBetween(AssertionInfo info, Object @Nullable [] actual, int lowerBoundary, int higherBoundary) {
     arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
   }
 
@@ -232,7 +233,7 @@ public class ObjectArrays {
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if the actual group does not have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, Object[] actual, Iterable<?> other) {
+  public void assertHasSameSizeAs(AssertionInfo info, Object @Nullable [] actual, Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
   }
 
@@ -246,7 +247,7 @@ public class ObjectArrays {
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if the actual group does not have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, Object[] actual, Object other) {
+  public void assertHasSameSizeAs(AssertionInfo info, Object @Nullable [] actual, @Nullable Object other) {
     arrays.assertHasSameSizeAs(info, actual, other);
   }
 
@@ -261,7 +262,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array does not contain the given values.
    */
-  public void assertContains(AssertionInfo info, Object[] actual, Object[] values) {
+  public void assertContains(AssertionInfo info, Object @Nullable [] actual, @Nullable Object[] values) {
     arrays.assertContains(info, failures, actual, values);
   }
 
@@ -278,7 +279,7 @@ public class ObjectArrays {
    *           the given array.
    * @throws AssertionError if the given array does not contain the given object at the given index.
    */
-  public void assertContains(AssertionInfo info, Object[] actual, Object value, Index index) {
+  public void assertContains(AssertionInfo info, Object @Nullable [] actual, @Nullable Object value, Index index) {
     arrays.assertContains(info, failures, actual, value, index);
   }
 
@@ -293,7 +294,7 @@ public class ObjectArrays {
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the given array contains the given object at the given index.
    */
-  public void assertDoesNotContain(AssertionInfo info, Object[] actual, Object value, Index index) {
+  public void assertDoesNotContain(AssertionInfo info, Object @Nullable [] actual, @Nullable Object value, Index index) {
     arrays.assertDoesNotContain(info, failures, actual, value, index);
   }
 
@@ -309,7 +310,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array does not contain the given values or if the given array contains values
    *           that are not in the given array.
    */
-  public void assertContainsOnly(AssertionInfo info, Object[] actual, Object[] values) {
+  public void assertContainsOnly(AssertionInfo info, Object @Nullable [] actual, @Nullable Object[] values) {
     arrays.assertContainsOnly(info, failures, actual, values);
   }
 
@@ -320,7 +321,7 @@ public class ObjectArrays {
    * @param actual the actual array
    * @param values the expected values
    */
-  public void assertContainsExactly(AssertionInfo info, Object[] actual, Object[] values) {
+  public void assertContainsExactly(AssertionInfo info, Object @Nullable [] actual, @Nullable Object[] values) {
     arrays.assertContainsExactly(info, failures, actual, values);
   }
 
@@ -331,7 +332,7 @@ public class ObjectArrays {
    * @param actual the actual array
    * @param values the expected values
    */
-  public void assertContainsExactlyInAnyOrder(AssertionInfo info, Object[] actual, Object[] values) {
+  public void assertContainsExactlyInAnyOrder(AssertionInfo info, Object @Nullable [] actual, @Nullable Object[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
   }
 
@@ -347,7 +348,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array does not contain the given values or if the given array contains values
    *           that are not in the given array.
    */
-  public void assertContainsOnlyOnce(AssertionInfo info, Object[] actual, Object[] values) {
+  public void assertContainsOnlyOnce(AssertionInfo info, Object @Nullable [] actual, @Nullable Object[] values) {
     arrays.assertContainsOnlyOnce(info, failures, actual, values);
   }
 
@@ -360,7 +361,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array does not contain at least a null element
    *           or contains values that are not null elements.
    */
-  public void assertContainsOnlyNulls(AssertionInfo info, Object[] actual) {
+  public void assertContainsOnlyNulls(AssertionInfo info, Object @Nullable [] actual) {
     arrays.assertContainsOnlyNulls(info, failures, actual);
   }
 
@@ -375,7 +376,7 @@ public class ObjectArrays {
    * @throws IllegalArgumentException if the given sequence is empty.
    * @throws AssertionError if the given array does not contain the given sequence of objects.
    */
-  public void assertContainsSequence(AssertionInfo info, Object[] actual, Object[] sequence) {
+  public void assertContainsSequence(AssertionInfo info, Object @Nullable [] actual, @Nullable Object[] sequence) {
     arrays.assertContainsSequence(info, failures, actual, sequence);
   }
 
@@ -390,7 +391,7 @@ public class ObjectArrays {
    * @throws IllegalArgumentException if the given sequence is empty.
    * @throws AssertionError if the given array does contain the given sequence of objects in order.
    */
-  public void assertDoesNotContainSequence(AssertionInfo info, Object[] actual, Object[] sequence) {
+  public void assertDoesNotContainSequence(AssertionInfo info, Object @Nullable [] actual, @Nullable Object[] sequence) {
     arrays.assertDoesNotContainSequence(info, failures, actual, sequence);
   }
 
@@ -405,7 +406,7 @@ public class ObjectArrays {
    * @throws IllegalArgumentException if the given subsequence is empty.
    * @throws AssertionError if the given array does not contain the given subsequence of objects.
    */
-  public void assertContainsSubsequence(AssertionInfo info, Object[] actual, Object[] subsequence) {
+  public void assertContainsSubsequence(AssertionInfo info, Object @Nullable [] actual, @Nullable Object[] subsequence) {
     arrays.assertContainsSubsequence(info, failures, actual, subsequence);
   }
 
@@ -421,7 +422,7 @@ public class ObjectArrays {
    * @throws IllegalArgumentException if the given subsequence is empty.
    * @throws AssertionError if the given array contains the given subsequence of objects.
    */
-  public void assertDoesNotContainSubsequence(AssertionInfo info, Object[] actual, Object[] subsequence) {
+  public void assertDoesNotContainSubsequence(AssertionInfo info, Object @Nullable [] actual, @Nullable Object[] subsequence) {
     arrays.assertDoesNotContainSubsequence(info, failures, actual, subsequence);
   }
 
@@ -436,7 +437,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array contains any of given values.
    */
-  public void assertDoesNotContain(AssertionInfo info, Object[] actual, Object[] values) {
+  public void assertDoesNotContain(AssertionInfo info, Object @Nullable [] actual, @Nullable Object[] values) {
     arrays.assertDoesNotContain(info, failures, actual, values);
   }
 
@@ -448,8 +449,8 @@ public class ObjectArrays {
    * @param actual the actual array
    * @param iterable the prohibited elements
    */
-  public <T> void assertDoesNotContainAnyElementsOf(AssertionInfo info, Object[] actual,
-                                                    Iterable<? extends T> iterable) {
+  public <T extends @Nullable Object> void assertDoesNotContainAnyElementsOf(AssertionInfo info, Object @Nullable [] actual,
+                                                                             Iterable<? extends T> iterable) {
     checkIsNotNullAndNotEmpty(iterable);
     List<T> values = newArrayList(iterable);
     assertDoesNotContain(info, actual, values.toArray());
@@ -465,7 +466,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array contains duplicate values.
    */
-  public void assertDoesNotHaveDuplicates(AssertionInfo info, Object[] actual) {
+  public void assertDoesNotHaveDuplicates(AssertionInfo info, Object @Nullable [] actual) {
     arrays.assertDoesNotHaveDuplicates(info, failures, actual);
   }
 
@@ -482,7 +483,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array does not start with the given sequence of objects.
    */
-  public void assertStartsWith(AssertionInfo info, Object[] actual, Object[] sequence) {
+  public void assertStartsWith(AssertionInfo info, Object @Nullable [] actual, @Nullable Object[] sequence) {
     arrays.assertStartsWith(info, failures, actual, sequence);
   }
 
@@ -499,7 +500,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array does not end with the given sequence of objects.
    */
-  public void assertEndsWith(AssertionInfo info, Object[] actual, Object first, Object[] rest) {
+  public void assertEndsWith(AssertionInfo info, Object @Nullable [] actual, @Nullable Object first, @Nullable Object[] rest) {
     arrays.assertEndsWith(info, failures, actual, first, rest);
   }
 
@@ -515,7 +516,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array does not end with the given sequence of objects.
    */
-  public void assertEndsWith(AssertionInfo info, Object[] actual, Object[] sequence) {
+  public void assertEndsWith(AssertionInfo info, Object @Nullable [] actual, @Nullable Object[] sequence) {
     arrays.assertEndsWith(info, failures, actual, sequence);
   }
 
@@ -526,7 +527,7 @@ public class ObjectArrays {
    * @param actual the actual array
    * @param values the allowed values
    */
-  public void assertIsSubsetOf(AssertionInfo info, Object actual, Iterable<?> values) {
+  public void assertIsSubsetOf(AssertionInfo info, @Nullable Object actual, Iterable<?> values) {
     arrays.assertIsSubsetOf(info, failures, actual, values);
   }
 
@@ -538,7 +539,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array does not contain a null element.
    */
-  public void assertContainsNull(AssertionInfo info, Object[] actual) {
+  public void assertContainsNull(AssertionInfo info, Object @Nullable [] actual) {
     arrays.assertContainsNull(info, failures, actual);
   }
 
@@ -550,7 +551,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array contains a null element.
    */
-  public void assertDoesNotContainNull(AssertionInfo info, Object[] actual) {
+  public void assertDoesNotContainNull(AssertionInfo info, Object @Nullable [] actual) {
     arrays.assertDoesNotContainNull(info, failures, actual);
   }
 
@@ -564,7 +565,7 @@ public class ObjectArrays {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if one or more elements do not satisfy the given condition.
    */
-  public <E> void assertAre(AssertionInfo info, E[] actual, Condition<? super E> condition) {
+  public <E extends @Nullable Object> void assertAre(AssertionInfo info, E @Nullable [] actual, Condition<? super E> condition) {
     arrays.assertAre(info, failures, conditions, actual, condition);
   }
 
@@ -578,7 +579,8 @@ public class ObjectArrays {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if one or more elements satisfy the given condition.
    */
-  public <E> void assertAreNot(AssertionInfo info, E[] actual, Condition<? super E> condition) {
+  public <E extends @Nullable Object> void assertAreNot(AssertionInfo info, E @Nullable [] actual,
+                                                        Condition<? super E> condition) {
     arrays.assertAreNot(info, failures, conditions, actual, condition);
   }
 
@@ -592,7 +594,7 @@ public class ObjectArrays {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if one or more elements do not satisfy the given condition.
    */
-  public <E> void assertHave(AssertionInfo info, E[] actual, Condition<? super E> condition) {
+  public <E extends @Nullable Object> void assertHave(AssertionInfo info, E @Nullable [] actual, Condition<? super E> condition) {
     arrays.assertHave(info, failures, conditions, actual, condition);
   }
 
@@ -606,7 +608,8 @@ public class ObjectArrays {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if one or more elements satisfy the given condition.
    */
-  public <E> void assertDoNotHave(AssertionInfo info, E[] actual, Condition<? super E> condition) {
+  public <E extends @Nullable Object> void assertDoNotHave(AssertionInfo info, E @Nullable [] actual,
+                                                           Condition<? super E> condition) {
     arrays.assertHaveNot(info, failures, conditions, actual, condition);
   }
 
@@ -621,7 +624,8 @@ public class ObjectArrays {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
    */
-  public <E> void assertAreAtLeast(AssertionInfo info, E[] actual, int n, Condition<? super E> condition) {
+  public <E extends @Nullable Object> void assertAreAtLeast(AssertionInfo info, E @Nullable [] actual, int n,
+                                                            Condition<? super E> condition) {
     arrays.assertAreAtLeast(info, failures, conditions, actual, n, condition);
   }
 
@@ -636,7 +640,8 @@ public class ObjectArrays {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
    */
-  public <E> void assertAreAtMost(AssertionInfo info, E[] actual, int n, Condition<? super E> condition) {
+  public <E extends @Nullable Object> void assertAreAtMost(AssertionInfo info, E @Nullable [] actual, int n,
+                                                           Condition<? super E> condition) {
     arrays.assertAreAtMost(info, failures, conditions, actual, n, condition);
   }
 
@@ -651,7 +656,8 @@ public class ObjectArrays {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
    */
-  public <E> void assertAreExactly(AssertionInfo info, E[] actual, int n, Condition<? super E> condition) {
+  public <E extends @Nullable Object> void assertAreExactly(AssertionInfo info, E @Nullable [] actual, int n,
+                                                            Condition<? super E> condition) {
     arrays.assertAreExactly(info, failures, conditions, actual, n, condition);
   }
 
@@ -667,7 +673,8 @@ public class ObjectArrays {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
    */
-  public <E> void assertHaveAtLeast(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
+  public <E extends @Nullable Object> void assertHaveAtLeast(AssertionInfo info, E @Nullable [] actual, int times,
+                                                             Condition<? super E> condition) {
     arrays.assertHaveAtLeast(info, failures, conditions, actual, times, condition);
   }
 
@@ -683,7 +690,8 @@ public class ObjectArrays {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
    */
-  public <E> void assertHaveAtMost(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
+  public <E extends @Nullable Object> void assertHaveAtMost(AssertionInfo info, E @Nullable [] actual, int times,
+                                                            Condition<? super E> condition) {
     arrays.assertHaveAtMost(info, failures, conditions, actual, times, condition);
   }
 
@@ -699,7 +707,8 @@ public class ObjectArrays {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
    */
-  public <E> void assertHaveExactly(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
+  public <E extends @Nullable Object> void assertHaveExactly(AssertionInfo info, E @Nullable [] actual, int times,
+                                                             Condition<? super E> condition) {
     arrays.assertHaveExactly(info, failures, conditions, actual, times, condition);
   }
 
@@ -711,7 +720,8 @@ public class ObjectArrays {
    * @param actual the actual array
    * @param type the expected type
    */
-  public <E> void assertHasAtLeastOneElementOfType(AssertionInfo info, E[] actual, Class<?> type) {
+  public <E extends @Nullable Object> void assertHasAtLeastOneElementOfType(AssertionInfo info, E @Nullable [] actual,
+                                                                            Class<?> type) {
     Objects.instance().assertNotNull(info, actual);
     boolean found = false;
     for (Object o : actual) {
@@ -730,7 +740,7 @@ public class ObjectArrays {
    * @param actual the actual array
    * @param type the expected type
    */
-  public <E> void assertHasOnlyElementsOfType(AssertionInfo info, E[] actual, Class<?> type) {
+  public <E extends @Nullable Object> void assertHasOnlyElementsOfType(AssertionInfo info, E @Nullable [] actual, Class<?> type) {
     Objects.instance().assertNotNull(info, actual);
     for (Object element : actual) {
       if (!type.isInstance(element)) {
@@ -747,7 +757,8 @@ public class ObjectArrays {
    * @param actual the actual array
    * @param types the allowed types
    */
-  public <E> void assertHasOnlyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... types) {
+  public <E extends @Nullable Object> void assertHasOnlyElementsOfTypes(AssertionInfo info, E @Nullable [] actual,
+                                                                        Class<?>... types) {
     arrays.assertHasOnlyElementsOfTypes(info, failures, actual, types);
   }
 
@@ -759,7 +770,8 @@ public class ObjectArrays {
    * @param actual the actual array
    * @param expectedTypes the expected types
    */
-  public <E> void assertHasExactlyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... expectedTypes) {
+  public <E extends @Nullable Object> void assertHasExactlyElementsOfTypes(AssertionInfo info, E @Nullable [] actual,
+                                                                           Class<?>... expectedTypes) {
     Objects.instance().assertNotNull(info, actual);
     List<Class<?>> actualTypeList = Stream.of(actual).map(Object::getClass).collect(toList());
     IterableDiff<Class<?>> typesDiff = diff(actualTypeList, list(expectedTypes));
@@ -769,7 +781,9 @@ public class ObjectArrays {
     // actual elements have the expected types but are they in the correct order?
     int i = 0;
     for (E actualElement : actual) {
-      if (!java.util.Objects.equals(actualElement.getClass(), expectedTypes[i])) {
+      @Nullable
+      Class<?> actualElementType = actualElement == null ? null : actualElement.getClass();
+      if (!java.util.Objects.equals(actualElementType, expectedTypes[i])) {
         throw failures.failure(info, elementsTypesDifferAtIndex(actualElement, expectedTypes[i], i));
       }
       i++;
@@ -784,7 +798,8 @@ public class ObjectArrays {
    * @param actual the actual array
    * @param unexpectedTypes the prohibited types
    */
-  public <E> void assertDoesNotHaveAnyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... unexpectedTypes) {
+  public <E extends @Nullable Object> void assertDoesNotHaveAnyElementsOfTypes(AssertionInfo info, E @Nullable [] actual,
+                                                                               Class<?>... unexpectedTypes) {
     Objects.instance().assertNotNull(info, actual);
     Map<Class<?>, List<Object>> nonMatchingElementsByType = new LinkedHashMap<>();
     for (E element : actual) {
@@ -808,7 +823,7 @@ public class ObjectArrays {
    * @param info contains information about the assertion.
    * @param actual the given array.
    */
-  public void assertIsSorted(AssertionInfo info, Object[] actual) {
+  public void assertIsSorted(AssertionInfo info, Object @Nullable [] actual) {
     arrays.assertIsSorted(info, failures, actual);
   }
 
@@ -820,8 +835,8 @@ public class ObjectArrays {
    * @param actual the given array.
    * @param comparator the {@link Comparator} used to compare array elements
    */
-  public <E> void assertIsSortedAccordingToComparator(AssertionInfo info, E[] actual,
-                                                      Comparator<? super E> comparator) {
+  public <E extends @Nullable Object> void assertIsSortedAccordingToComparator(AssertionInfo info, E @Nullable [] actual,
+                                                                               Comparator<? super E> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 
@@ -837,7 +852,8 @@ public class ObjectArrays {
    * @throws AssertionError if the given {@code Iterable} does not contain all the elements of the other
    *           {@code Iterable}, in any order.
    */
-  public <E> void assertContainsAll(AssertionInfo info, E[] actual, Iterable<? extends E> other) {
+  public <E extends @Nullable Object> void assertContainsAll(AssertionInfo info, E @Nullable [] actual,
+                                                             Iterable<? extends E> other) {
     arrays.assertcontainsAll(info, failures, actual, other);
   }
 
@@ -848,7 +864,7 @@ public class ObjectArrays {
    * @param actual the actual array
    * @param values the expected values
    */
-  public void assertContainsAnyOf(AssertionInfo info, Object[] actual, Object[] values) {
+  public void assertContainsAnyOf(AssertionInfo info, Object @Nullable [] actual, @Nullable Object[] values) {
     arrays.assertContainsAnyOf(info, failures, actual, values);
   }
 

@@ -17,14 +17,16 @@ package org.assertj.core.internal;
 
 import java.util.Objects;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Immutable class modeling the actual and expected elements at a given index.
  */
 public class IndexedDiff {
   /** The actual differing value. */
-  public final Object actual;
+  public final @Nullable Object actual;
   /** The expected differing value. */
-  public final Object expected;
+  public final @Nullable Object expected;
   /** The index where the difference occurred. */
   public final int index;
 
@@ -34,7 +36,7 @@ public class IndexedDiff {
    * @param expected the expected value of the diff.
    * @param index the index the diff occurred at.
    */
-  public IndexedDiff(Object actual, Object expected, int index) {
+  public IndexedDiff(@Nullable Object actual, @Nullable Object expected, int index) {
     this.actual = actual;
     this.expected = expected;
     this.index = index;

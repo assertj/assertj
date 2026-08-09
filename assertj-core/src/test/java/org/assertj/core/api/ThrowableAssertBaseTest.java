@@ -25,6 +25,9 @@ import org.assertj.core.internal.Throwables;
  * @author Olivier Michallat
  * @author Libor Ondrusek
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class ThrowableAssertBaseTest extends BaseTestTemplate<ThrowableAssert<Throwable>, Throwable> {
   protected Throwables throwables;
 

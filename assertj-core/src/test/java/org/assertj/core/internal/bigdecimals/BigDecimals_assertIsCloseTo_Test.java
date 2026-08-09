@@ -80,6 +80,7 @@ class BigDecimals_assertIsCloseTo_Test extends BigDecimalsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(),
                                                                               new BigDecimal(6.0),
@@ -88,6 +89,7 @@ class BigDecimals_assertIsCloseTo_Test extends BigDecimalsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
@@ -139,6 +141,7 @@ class BigDecimals_assertIsCloseTo_Test extends BigDecimalsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_offset_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(),
                                                                                                             ONE,
@@ -169,6 +172,7 @@ class BigDecimals_assertIsCloseTo_Test extends BigDecimalsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_expected_value_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(),
                                                                                                             TWO,

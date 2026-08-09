@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Provides helper methods for navigating a list property in a generated assertion class so we can chain assertions
  * through deeply nested models more easily.
@@ -31,8 +33,8 @@ package org.assertj.core.api;
 //@format:off
 @Deprecated
 public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNavigableIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
-                                                 ACTUAL extends Iterable<? extends ELEMENT>, 
-                                                 ELEMENT, 
+                                                 ACTUAL extends @Nullable Iterable<? extends ELEMENT>,
+                                                 ELEMENT extends @Nullable Object,
                                                  ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
        extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
 // @format:on

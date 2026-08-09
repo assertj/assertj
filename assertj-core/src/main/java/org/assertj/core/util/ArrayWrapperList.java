@@ -20,6 +20,9 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import java.lang.reflect.Array;
 import java.util.AbstractList;
 
+import org.assertj.core.internal.annotation.Contract;
+import org.jspecify.annotations.Nullable;
+
 /**
  * A list-like wrapper for arrays. This class does not provide type-safety in order to handle both arrays of objects
  * and arrays of primitives.
@@ -36,7 +39,8 @@ public class ArrayWrapperList extends AbstractList<Object> {
    * @return the wrapped array or {@code null} if the given array was already {@code null}.
    * @throws IllegalArgumentException if the {@code array} is not an array.
    */
-  public static ArrayWrapperList wrap(Object array) {
+  @Contract("null -> null; !null -> !null")
+  public static @Nullable ArrayWrapperList wrap(@Nullable Object array) {
     if (array == null) {
       return null;
     }

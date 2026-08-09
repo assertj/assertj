@@ -64,6 +64,7 @@ class ByNameMultipleExtractorTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_exception_when_given_name_is_null() {
     // GIVEN
     ByNameMultipleExtractor underTest = new ByNameMultipleExtractor((String[]) null);
@@ -86,6 +87,7 @@ class ByNameMultipleExtractorTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_exception_when_no_object_is_given() {
     // GIVEN
     ByNameMultipleExtractor underTest = new ByNameMultipleExtractor("id", "name.first", "age");
@@ -97,6 +99,7 @@ class ByNameMultipleExtractorTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_extract_multiple_values_from_map_by_keys() {
     // GIVEN
     Employee luke = new Employee(2L, new Name("Luke"), 22);

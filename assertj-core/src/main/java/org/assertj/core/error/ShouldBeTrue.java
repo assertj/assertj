@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for boolean values expected to be true. */
 public class ShouldBeTrue extends BasicErrorMessageFactory {
 
@@ -28,7 +30,7 @@ public class ShouldBeTrue extends BasicErrorMessageFactory {
     return new ShouldBeTrue(actual);
   }
 
-  private ShouldBeTrue(Object actual) {
+  private ShouldBeTrue(@Nullable Object actual) {
     super("%nExpecting value to be true but was %s", actual);
   }
 }

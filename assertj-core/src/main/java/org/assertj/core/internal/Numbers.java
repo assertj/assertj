@@ -30,6 +30,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class of reusable assertions for numbers.
@@ -78,7 +79,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to zero.
    */
-  public void assertIsZero(AssertionInfo info, NUMBER actual) {
+  public void assertIsZero(AssertionInfo info, @Nullable NUMBER actual) {
     assertEqualByComparison(info, actual, zero());
   }
 
@@ -91,7 +92,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to zero.
    */
-  public void assertIsNotZero(AssertionInfo info, NUMBER actual) {
+  public void assertIsNotZero(AssertionInfo info, @Nullable NUMBER actual) {
     assertNotEqualByComparison(info, actual, zero());
   }
 
@@ -104,7 +105,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to one.
    */
-  public void assertIsOne(AssertionInfo info, NUMBER actual) {
+  public void assertIsOne(AssertionInfo info, @Nullable NUMBER actual) {
     assertEqualByComparison(info, actual, one());
   }
 
@@ -116,7 +117,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not negative: it is either equal to or greater than zero.
    */
-  public void assertIsNegative(AssertionInfo info, NUMBER actual) {
+  public void assertIsNegative(AssertionInfo info, @Nullable NUMBER actual) {
     assertLessThan(info, actual, zero());
   }
 
@@ -128,7 +129,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not positive: it is either equal to or less than zero.
    */
-  public void assertIsPositive(AssertionInfo info, NUMBER actual) {
+  public void assertIsPositive(AssertionInfo info, @Nullable NUMBER actual) {
     assertGreaterThan(info, actual, zero());
   }
 
@@ -140,7 +141,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is negative.
    */
-  public void assertIsNotNegative(AssertionInfo info, NUMBER actual) {
+  public void assertIsNotNegative(AssertionInfo info, @Nullable NUMBER actual) {
     assertGreaterThanOrEqualTo(info, actual, zero());
   }
 
@@ -152,7 +153,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is positive.
    */
-  public void assertIsNotPositive(AssertionInfo info, NUMBER actual) {
+  public void assertIsNotPositive(AssertionInfo info, @Nullable NUMBER actual) {
     assertLessThanOrEqualTo(info, actual, zero());
   }
 
@@ -169,7 +170,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in [start, end] range.
    */
-  public void assertIsBetween(AssertionInfo info, NUMBER actual, NUMBER start, NUMBER end) {
+  public void assertIsBetween(AssertionInfo info, @Nullable NUMBER actual, @Nullable NUMBER start, @Nullable NUMBER end) {
     assertIsBetween(info, actual, start, end, true, true);
   }
 
@@ -185,7 +186,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in ]start, end[ range.
    */
-  public void assertIsStrictlyBetween(AssertionInfo info, NUMBER actual, NUMBER start, NUMBER end) {
+  public void assertIsStrictlyBetween(AssertionInfo info, @Nullable NUMBER actual, @Nullable NUMBER start, @Nullable NUMBER end) {
     assertIsBetween(info, actual, start, end, false, false);
   }
 
@@ -200,7 +201,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @param expected the value to compare actual too.
    * @param offset the given positive offset.
    */
-  public void assertIsCloseTo(final AssertionInfo info, final NUMBER actual, final NUMBER expected,
+  public void assertIsCloseTo(final AssertionInfo info, @Nullable final NUMBER actual, final NUMBER expected,
                               final Offset<NUMBER> offset) {
     assertNotNull(info, actual);
     checkOffsetIsNotNull(offset);
@@ -221,7 +222,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @param expected the value to compare actual too.
    * @param offset the given positive offset.
    */
-  public void assertIsNotCloseTo(final AssertionInfo info, final NUMBER actual, final NUMBER expected,
+  public void assertIsNotCloseTo(final AssertionInfo info, @Nullable final NUMBER actual, final NUMBER expected,
                                  final Offset<NUMBER> offset) {
     assertNotNull(info, actual);
     checkOffsetIsNotNull(offset);
@@ -246,7 +247,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @param other the expected value.
    * @param percentage the given positive percentage.
    */
-  public void assertIsCloseToPercentage(final AssertionInfo info, final NUMBER actual, final NUMBER other,
+  public void assertIsCloseToPercentage(final AssertionInfo info, @Nullable final NUMBER actual, final NUMBER other,
                                         final Percentage percentage) {
     assertNotNull(info, actual);
     checkPercentageIsNotNull(percentage);
@@ -267,7 +268,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * @param other the expected value.
    * @param percentage the given positive percentage.
    */
-  public void assertIsNotCloseToPercentage(final AssertionInfo info, final NUMBER actual, final NUMBER other,
+  public void assertIsNotCloseToPercentage(final AssertionInfo info, @Nullable final NUMBER actual, final NUMBER other,
                                            final Percentage percentage) {
     assertNotNull(info, actual);
     checkPercentageIsNotNull(percentage);

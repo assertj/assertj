@@ -42,6 +42,7 @@ class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_an_element_is_null() {
     List<String> actual = newArrayList("123", null, "12345");
     iterables.assertAnyMatch(someInfo(), actual, Objects::isNull, PredicateDescription.GIVEN);
@@ -71,6 +72,7 @@ class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       actual = null;
@@ -79,6 +81,7 @@ class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_predicate_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertAnyMatch(someInfo(), actual, null,
                                                                                PredicateDescription.GIVEN))

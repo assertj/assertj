@@ -18,6 +18,8 @@ package org.assertj.core.api;
 import java.text.DateFormat;
 import java.util.Date;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions for {@link Date}s.
  * <p>
@@ -41,7 +43,7 @@ public class DateAssert extends AbstractDateAssert<DateAssert> {
    * Creates a new {@link DateAssert}.
    * @param actual the target to verify.
    */
-  public DateAssert(Date actual) {
+  public DateAssert(@Nullable Date actual) {
     super(actual, DateAssert.class);
   }
 }

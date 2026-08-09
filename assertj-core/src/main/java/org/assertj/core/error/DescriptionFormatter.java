@@ -18,6 +18,7 @@ package org.assertj.core.error;
 import static org.assertj.core.util.Strings.isNullOrEmpty;
 
 import org.assertj.core.description.Description;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Formats the <code>{@link Description}</code>s to be included in assertion errors.
@@ -45,7 +46,7 @@ public class DescriptionFormatter {
    * @param d the description to format. It can be {@code null}.
    * @return the formatted description, or an empty {@code String} if the {@code Description} is {@code null}.
    */
-  public String format(Description d) {
+  public String format(@Nullable Description d) {
     String s = (d != null) ? d.value() : null;
     if (isNullOrEmpty(s)) return "";
     return "[%s] ".formatted(s);

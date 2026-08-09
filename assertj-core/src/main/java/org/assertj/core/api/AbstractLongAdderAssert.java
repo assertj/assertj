@@ -26,6 +26,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Longs;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link LongAdder}s.
@@ -38,7 +39,7 @@ import org.assertj.core.internal.Longs;
  * @since 3.16.0
  */
 public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
-    extends AbstractAssertWithComparator<SELF, LongAdder>
+    extends AbstractAssertWithComparator<SELF, @Nullable LongAdder>
     implements NumberAssert<SELF, Long>, ComparableAssert<SELF, Long> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -50,7 +51,7 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
    * @param longAdder the actual value to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractLongAdderAssert(LongAdder longAdder, Class<?> selfType) {
+  protected AbstractLongAdderAssert(@Nullable LongAdder longAdder, Class<?> selfType) {
     super(longAdder, selfType);
   }
 
@@ -115,7 +116,7 @@ public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super LongAdder> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super LongAdder> customComparator, @Nullable String customComparatorDescription) {
     longs = new Longs(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

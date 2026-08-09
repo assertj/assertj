@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for values expected to contain only printable characters. */
 public class ShouldBePrintable extends BasicErrorMessageFactory {
   /**
@@ -23,11 +25,11 @@ public class ShouldBePrintable extends BasicErrorMessageFactory {
    * @param actual the actual value
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldBePrintable(Object actual) {
+  public static ErrorMessageFactory shouldBePrintable(@Nullable Object actual) {
     return new ShouldBePrintable(actual);
   }
 
-  private ShouldBePrintable(Object actual) {
+  private ShouldBePrintable(@Nullable Object actual) {
     super("%nExpecting %s to be printable", actual);
   }
 }

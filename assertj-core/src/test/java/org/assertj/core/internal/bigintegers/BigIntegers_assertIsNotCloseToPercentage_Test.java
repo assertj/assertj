@@ -48,12 +48,14 @@ class BigIntegers_assertIsNotCloseToPercentage_Test extends BigIntegersBaseTest 
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), ONE, null,
                                                                                            withPercentage(1)));
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_percentage_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, null));
   }

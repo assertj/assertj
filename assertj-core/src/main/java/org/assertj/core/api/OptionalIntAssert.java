@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.OptionalInt;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions for {@link java.util.OptionalInt}.
  *
@@ -30,7 +32,7 @@ public class OptionalIntAssert extends AbstractOptionalIntAssert<OptionalIntAsse
    *
    * @param actual the actual optional to verify
    */
-  protected OptionalIntAssert(OptionalInt actual) {
+  protected OptionalIntAssert(@Nullable OptionalInt actual) {
     super(actual, OptionalIntAssert.class);
   }
 }

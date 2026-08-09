@@ -24,6 +24,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.description.Description;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Building block to define precise conditions on complex objects.
@@ -115,7 +116,7 @@ import org.assertj.core.description.Description;
  *
  * @author Alessandro Ciccimarra
  */
-public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
+public class NestableCondition<ACTUAL extends @Nullable Object, NESTED extends @Nullable Object> extends Join<ACTUAL> {
   private final String descriptionPrefix;
 
   /**
@@ -128,9 +129,10 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
    * @param <NESTED> the type of object nested into {@literal K}
    */
   @SafeVarargs
-  public static <ACTUAL, NESTED> Condition<ACTUAL> nestable(String descriptionPrefix,
-                                                            Function<? super ACTUAL, ? extends NESTED> extractor,
-                                                            Condition<? super NESTED>... conditions) {
+  public static <ACTUAL extends @Nullable Object, NESTED extends @Nullable Object> Condition<ACTUAL> nestable(
+                                                                                                              String descriptionPrefix,
+                                                                                                              Function<? super ACTUAL, ? extends NESTED> extractor,
+                                                                                                              Condition<? super NESTED>... conditions) {
     return new NestableCondition<>(descriptionPrefix, stream(conditions), extractor);
   }
 
@@ -142,7 +144,8 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
    * @param <ACTUAL> the type of object the resulting condition accepts
    */
   @SafeVarargs
-  public static <ACTUAL> Condition<ACTUAL> nestable(String descriptionPrefix, Condition<? super ACTUAL>... conditions) {
+  public static <ACTUAL extends @Nullable Object> Condition<ACTUAL> nestable(String descriptionPrefix,
+                                                                             Condition<? super ACTUAL>... conditions) {
     return new NestableCondition<ACTUAL, ACTUAL>(descriptionPrefix, stream(conditions));
   }
 
@@ -158,7 +161,7 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
   }
 
   @Override
-  public boolean matches(ACTUAL value) {
+  public boolean matches(@Nullable ACTUAL value) {
     return conditions.stream().allMatch(condition -> condition.matches(value));
   }
 
@@ -167,21 +170,27 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
     return descriptionPrefix;
   }
 
-  private static <ACTUAL, NESTED> List<Condition<? super ACTUAL>> compose(Stream<? extends Condition<? super NESTED>> conditions,
-                                                                          Function<? super ACTUAL, ? extends NESTED> extractor) {
+  private static <ACTUAL extends @Nullable Object, NESTED extends @Nullable Object> List<Condition<? super ACTUAL>> compose(
+                                                                                                                            Stream<? extends Condition<? super NESTED>> conditions,
+                                                                                                                            Function<? super ACTUAL, ? extends NESTED> extractor) {
     return conditions.map(condition -> compose(condition, extractor)).collect(toList());
   }
 
-  private static <ACTUAL, NESTED> Condition<ACTUAL> compose(Condition<? super NESTED> condition,
-                                                            Function<? super ACTUAL, ? extends NESTED> extractor) {
+  private static <ACTUAL extends @Nullable Object, NESTED extends @Nullable Object> Condition<ACTUAL> compose(
+                                                                                                              Condition<? super NESTED> condition,
+                                                                                                              Function<? super ACTUAL, ? extends NESTED> extractor) {
     return new Condition<ACTUAL>(condition.description()) {
+      // extractor is user-supplied and may not tolerate a null actual, matching the extractor's own contract
+      // rather than a nullability gap in this wrapper.
+      @SuppressWarnings("NullAway")
       @Override
-      public boolean matches(ACTUAL value) {
+      public boolean matches(@Nullable ACTUAL value) {
         return condition.matches(extractor.apply(value));
       }
 
+      @SuppressWarnings("NullAway")
       @Override
-      public Description conditionDescriptionWithStatus(ACTUAL actual) {
+      public Description conditionDescriptionWithStatus(@Nullable ACTUAL actual) {
         return condition.conditionDescriptionWithStatus(extractor.apply(actual));
       }
     };

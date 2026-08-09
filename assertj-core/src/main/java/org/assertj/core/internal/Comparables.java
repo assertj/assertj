@@ -37,7 +37,9 @@ import org.assertj.core.error.ShouldBeGreater;
 import org.assertj.core.error.ShouldBeGreaterOrEqual;
 import org.assertj.core.error.ShouldBeLess;
 import org.assertj.core.error.ShouldBeLessOrEqual;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.util.TriFunction;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for types that can be compared between each other, most of the time it means <code>{@link Comparable}</code>s 
@@ -76,7 +78,7 @@ public class Comparables {
    *
    * @return the configured comparator or {@code null}
    */
-  public Comparator<?> getComparator() {
+  public @Nullable Comparator<?> getComparator() {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
       return strategy.getComparator();
     }
@@ -125,7 +127,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the expected one.
    */
-  public <T> void assertEqual(AssertionInfo info, T actual, T expected) {
+  public <T> void assertEqual(AssertionInfo info, @Nullable T actual, T expected) {
     assertNotNull(info, actual);
     if (areEqual(actual, expected)) return;
     throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
@@ -153,7 +155,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the other one.
    */
-  public <T> void assertNotEqual(AssertionInfo info, T actual, T other) {
+  public <T> void assertNotEqual(AssertionInfo info, @Nullable T actual, T other) {
     assertNotNull(info, actual);
     if (!areEqual(actual, other))
       return;
@@ -172,7 +174,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the expected one.
    */
-  public <T> void assertEqualByComparison(AssertionInfo info, Comparable<? super T> actual, T expected) {
+  public <T> void assertEqualByComparison(AssertionInfo info, @Nullable Comparable<? super T> actual, T expected) {
     assertNotNull(info, actual);
     // we don't delegate to comparisonStrategy, as this assertion makes it clear it relies on Comparable
     if (actual.compareTo(expected) != 0) throw failures.failure(info, shouldBeEqual(actual, expected, info.representation()));
@@ -190,7 +192,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the other one.
    */
-  public <T> void assertNotEqualByComparison(AssertionInfo info, Comparable<? super T> actual, T other) {
+  public <T> void assertNotEqualByComparison(AssertionInfo info, @Nullable Comparable<? super T> actual, T other) {
     assertNotNull(info, actual);
     // we don't delegate to comparisonStrategy, as this assertion makes it clear it relies on Comparable
     if (actual.compareTo(other) == 0) throw failures.failure(info, shouldNotBeEqual(actual, other));
@@ -207,7 +209,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is not less than the other one: this assertion will fail if the actual
    *           value is equal to or greater than the other value.
    */
-  public <T> void assertLessThan(AssertionInfo info, Comparable<? super T> actual, T other) {
+  public <T> void assertLessThan(AssertionInfo info, @Nullable Comparable<? super T> actual, T other) {
     assertLessThan(info, actual, other, ShouldBeLess::shouldBeLess);
   }
 
@@ -222,7 +224,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is not before the other one: this assertion will fail if the actual
    *           value is equal to or greater than the other value.
    */
-  public <T> void assertIsBefore(AssertionInfo info, Comparable<? super T> actual, T other) {
+  public <T> void assertIsBefore(AssertionInfo info, @Nullable Comparable<? super T> actual, T other) {
     assertLessThan(info, actual, other,
                    (actual1, other1, comparisonStrategy1) -> ShouldBeBefore.shouldBeBefore(actual1, other1, comparisonStrategy1));
   }
@@ -239,7 +241,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is not before the other one: this assertion will fail if the actual
    *           value is equal to or after the other value.
    */
-  private <T> void assertLessThan(AssertionInfo info, Comparable<? super T> actual, T other,
+  private <T> void assertLessThan(AssertionInfo info, @Nullable Comparable<? super T> actual, T other,
                                   TriFunction<Comparable<? super T>, T, ComparisonStrategy, ErrorMessageFactory> errorMessageFactory) {
     assertNotNull(info, actual);
     if (isLessThan(actual, other)) return;
@@ -254,7 +256,7 @@ public class Comparables {
    * @param actual the actual value
    * @param other the value to compare with
    */
-  public <T> void assertIsBeforeOrEqualTo(AssertionInfo info, Comparable<? super T> actual, T other) {
+  public <T> void assertIsBeforeOrEqualTo(AssertionInfo info, @Nullable Comparable<? super T> actual, T other) {
     assertLessThanOrEqualTo(info, actual, other, ShouldBeBeforeOrEqualTo::shouldBeBeforeOrEqualTo);
   }
 
@@ -266,7 +268,7 @@ public class Comparables {
    * @param actual the actual value
    * @param other the value to compare with
    */
-  public <T> void assertLessThanOrEqualTo(AssertionInfo info, Comparable<? super T> actual, T other) {
+  public <T> void assertLessThanOrEqualTo(AssertionInfo info, @Nullable Comparable<? super T> actual, T other) {
     assertLessThanOrEqualTo(info, actual, other, ShouldBeLessOrEqual::shouldBeLessOrEqual);
   }
 
@@ -281,7 +283,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is greater than the other one.
    */
-  private <T> void assertLessThanOrEqualTo(AssertionInfo info, Comparable<? super T> actual, T other,
+  private <T> void assertLessThanOrEqualTo(AssertionInfo info, @Nullable Comparable<? super T> actual, T other,
                                            TriFunction<Comparable<? super T>, T, ComparisonStrategy, ErrorMessageFactory> errorMessageFactory) {
     assertNotNull(info, actual);
     if (!isGreaterThan(actual, other))
@@ -297,7 +299,7 @@ public class Comparables {
    * @param actual the actual value
    * @param other the value to compare with
    */
-  public <T> void assertIsAfter(AssertionInfo info, Comparable<? super T> actual, T other) {
+  public <T> void assertIsAfter(AssertionInfo info, @Nullable Comparable<? super T> actual, T other) {
     assertGreaterThan(info, actual, other, ShouldBeAfter::shouldBeAfter);
   }
 
@@ -309,7 +311,7 @@ public class Comparables {
    * @param actual the actual value
    * @param other the value to compare with
    */
-  public <T> void assertGreaterThan(AssertionInfo info, Comparable<? super T> actual, T other) {
+  public <T> void assertGreaterThan(AssertionInfo info, @Nullable Comparable<? super T> actual, T other) {
     assertGreaterThan(info, actual, other, ShouldBeGreater::shouldBeGreater);
   }
 
@@ -325,7 +327,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is not greater than the other one: this assertion will fail if the
    *           actual value is equal to or less than the other value.
    */
-  private <T> void assertGreaterThan(AssertionInfo info, Comparable<? super T> actual, T other,
+  private <T> void assertGreaterThan(AssertionInfo info, @Nullable Comparable<? super T> actual, T other,
                                      TriFunction<Comparable<? super T>, T, ComparisonStrategy, ErrorMessageFactory> errorMessageFactory) {
     assertNotNull(info, actual);
     if (isGreaterThan(actual, other))
@@ -345,7 +347,7 @@ public class Comparables {
    * @param actual the actual value
    * @param other the value to compare with
    */
-  public <T> void assertGreaterThanOrEqualTo(AssertionInfo info, Comparable<? super T> actual, T other) {
+  public <T> void assertGreaterThanOrEqualTo(AssertionInfo info, @Nullable Comparable<? super T> actual, T other) {
     assertGreaterThanOrEqualTo(info, actual, other, ShouldBeGreaterOrEqual::shouldBeGreaterOrEqual);
   }
 
@@ -357,7 +359,7 @@ public class Comparables {
    * @param actual the actual value
    * @param other the value to compare with
    */
-  public <T> void assertIsAfterOrEqualTo(AssertionInfo info, Comparable<? super T> actual, T other) {
+  public <T> void assertIsAfterOrEqualTo(AssertionInfo info, @Nullable Comparable<? super T> actual, T other) {
     assertGreaterThanOrEqualTo(info, actual, other, ShouldBeAfterOrEqualTo::shouldBeAfterOrEqualTo);
   }
 
@@ -372,7 +374,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is less than the other one.
    */
-  private <T> void assertGreaterThanOrEqualTo(AssertionInfo info, Comparable<? super T> actual, T other,
+  private <T> void assertGreaterThanOrEqualTo(AssertionInfo info, @Nullable Comparable<? super T> actual, T other,
                                               TriFunction<Comparable<? super T>, T, ComparisonStrategy, ErrorMessageFactory> errorMessageFactory) {
     assertNotNull(info, actual);
     if (!isLessThan(actual, other))
@@ -391,7 +393,8 @@ public class Comparables {
    * @param info assertion information
    * @param actual the actual value
    */
-  protected static <T> void assertNotNull(AssertionInfo info, T actual) {
+  @Contract("_, null -> fail")
+  protected static <T> void assertNotNull(AssertionInfo info, @Nullable T actual) {
     Objects.instance().assertNotNull(info, actual);
   }
 
@@ -411,7 +414,7 @@ public class Comparables {
    * @throws NullPointerException if end value is {@code null}.
    * @throws IllegalArgumentException if end value is less than start value.
    */
-  public <T> void assertIsBetween(AssertionInfo info, Comparable<? super T> actual, T start, T end,
+  public <T> void assertIsBetween(AssertionInfo info, @Nullable Comparable<? super T> actual, @Nullable T start, @Nullable T end,
                                   boolean inclusiveStart, boolean inclusiveEnd) {
     assertNotNull(info, actual);
     requireNonNull(start, "The start range to compare actual with should not be null");

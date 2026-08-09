@@ -82,6 +82,7 @@ class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeAssertBa
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_offsetDateTime_as_string_parameter_is_null() {
     // GIVEN
     String otherOffsetDateTimeAsString = null;

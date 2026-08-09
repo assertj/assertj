@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.assertj.core.api.AssertionInfo;
+import org.jspecify.annotations.Nullable;
 
 /** Reusable assertions for {@link URI} values. */
 public class Uris {
@@ -72,7 +73,7 @@ public class Uris {
    * @param actual the actual URI
    * @param scheme the expected scheme
    */
-  public void assertHasScheme(final AssertionInfo info, final URI actual, final String scheme) {
+  public void assertHasScheme(final AssertionInfo info, @Nullable final URI actual, final String scheme) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getScheme(), scheme)) throw failures.failure(info, shouldHaveScheme(actual, scheme));
   }
@@ -84,7 +85,7 @@ public class Uris {
    * @param actual the actual URI
    * @param path the expected path
    */
-  public void assertHasPath(AssertionInfo info, URI actual, String path) {
+  public void assertHasPath(AssertionInfo info, @Nullable URI actual, @Nullable String path) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getPath(), path)) throw failures.failure(info, shouldHavePath(actual, path));
   }
@@ -96,7 +97,7 @@ public class Uris {
    * @param actual the actual URI
    * @param expected the expected port
    */
-  public void assertHasPort(AssertionInfo info, URI actual, Integer expected) {
+  public void assertHasPort(AssertionInfo info, @Nullable URI actual, Integer expected) {
     assertNotNull(info, actual);
     if (actual.getPort() != expected) throw failures.failure(info, shouldHavePort(actual, expected));
   }
@@ -108,7 +109,7 @@ public class Uris {
    * @param actual the actual URI
    * @param expected the expected host
    */
-  public void assertHasHost(AssertionInfo info, URI actual, String expected) {
+  public void assertHasHost(AssertionInfo info, @Nullable URI actual, String expected) {
     assertNotNull(info, actual);
     requireNonNull(expected, "The expected host should not be null");
     if (!Objects.equals(actual.getHost(), expected)) throw failures.failure(info, shouldHaveHost(actual, expected));
@@ -120,7 +121,7 @@ public class Uris {
    * @param info assertion information
    * @param actual the actual URI
    */
-  public void assertHasNoHost(AssertionInfo info, URI actual) {
+  public void assertHasNoHost(AssertionInfo info, @Nullable URI actual) {
     assertNotNull(info, actual);
     if (actual.getHost() != null) throw failures.failure(info, shouldHaveNoHost(actual));
   }
@@ -132,7 +133,7 @@ public class Uris {
    * @param actual the actual URI
    * @param expected the expected authority
    */
-  public void assertHasAuthority(AssertionInfo info, URI actual, String expected) {
+  public void assertHasAuthority(AssertionInfo info, @Nullable URI actual, String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getAuthority(), expected))
       throw failures.failure(info, shouldHaveAuthority(actual, expected));
@@ -145,7 +146,7 @@ public class Uris {
    * @param actual the actual URI
    * @param expected the expected fragment
    */
-  public void assertHasFragment(AssertionInfo info, URI actual, String expected) {
+  public void assertHasFragment(AssertionInfo info, @Nullable URI actual, @Nullable String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getFragment(), expected)) throw failures.failure(info, shouldHaveFragment(actual, expected));
   }
@@ -157,7 +158,7 @@ public class Uris {
    * @param actual the actual URI
    * @param expected the expected query
    */
-  public void assertHasQuery(AssertionInfo info, URI actual, String expected) {
+  public void assertHasQuery(AssertionInfo info, @Nullable URI actual, @Nullable String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getQuery(), expected)) throw failures.failure(info, shouldHaveQuery(actual, expected));
   }
@@ -169,7 +170,7 @@ public class Uris {
    * @param actual the actual URI
    * @param expected the expected user information
    */
-  public void assertHasUserInfo(AssertionInfo info, URI actual, String expected) {
+  public void assertHasUserInfo(AssertionInfo info, @Nullable URI actual, @Nullable String expected) {
     assertNotNull(info, actual);
     if (!Objects.equals(actual.getUserInfo(), expected)) throw failures.failure(info, shouldHaveUserInfo(actual, expected));
   }
@@ -215,7 +216,7 @@ public class Uris {
    * @param actual the actual URI
    * @param name the parameter name
    */
-  public void assertHasParameter(AssertionInfo info, URI actual, String name) {
+  public void assertHasParameter(AssertionInfo info, @Nullable URI actual, String name) {
     assertNotNull(info, actual);
 
     Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
@@ -230,7 +231,7 @@ public class Uris {
    * @param expectedParameterName the parameter name
    * @param expectedParameterValue the parameter value
    */
-  public void assertHasParameter(AssertionInfo info, URI actual, String expectedParameterName,
+  public void assertHasParameter(AssertionInfo info, @Nullable URI actual, String expectedParameterName,
                                  String expectedParameterValue) {
     assertNotNull(info, actual);
 
@@ -250,7 +251,7 @@ public class Uris {
    * @param info assertion information
    * @param actual the actual URI
    */
-  public void assertHasNoParameters(AssertionInfo info, URI actual) {
+  public void assertHasNoParameters(AssertionInfo info, @Nullable URI actual) {
     assertNotNull(info, actual);
 
     Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
@@ -264,7 +265,7 @@ public class Uris {
    * @param actual the actual URI
    * @param name the prohibited parameter name
    */
-  public void assertHasNoParameter(AssertionInfo info, URI actual, String name) {
+  public void assertHasNoParameter(AssertionInfo info, @Nullable URI actual, String name) {
     assertNotNull(info, actual);
 
     Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
@@ -280,7 +281,7 @@ public class Uris {
    * @param name the parameter name
    * @param unwantedValue the prohibited parameter value
    */
-  public void assertHasNoParameter(AssertionInfo info, URI actual, String name, String unwantedValue) {
+  public void assertHasNoParameter(AssertionInfo info, @Nullable URI actual, String name, String unwantedValue) {
     assertNotNull(info, actual);
 
     Map<String, List<String>> parameters = getParameters(actual.getRawQuery());

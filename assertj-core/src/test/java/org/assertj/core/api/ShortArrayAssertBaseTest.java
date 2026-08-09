@@ -27,6 +27,9 @@ import org.junit.jupiter.api.AfterEach;
  * 
  * @author Olivier Michallat
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class ShortArrayAssertBaseTest extends BaseTestTemplate<ShortArrayAssert, short[]> {
   protected ShortArrays arrays;
 

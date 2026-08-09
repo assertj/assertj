@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link CharSequence} contains one or more
  * whitespaces.
@@ -30,7 +32,7 @@ public class ShouldContainOneOrMoreWhitespaces extends BasicErrorMessageFactory 
     return new ShouldContainOneOrMoreWhitespaces(actual);
   }
 
-  private ShouldContainOneOrMoreWhitespaces(Object actual) {
+  private ShouldContainOneOrMoreWhitespaces(@Nullable Object actual) {
     super("%n" +
           "Expecting string to contain one or more whitespaces but did not, string was:%n" +
           "  %s",

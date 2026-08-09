@@ -23,6 +23,7 @@ import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ShortArrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for assertions on {@code short} arrays.
@@ -30,7 +31,7 @@ import org.assertj.core.internal.ShortArrays;
  * @param <SELF> the "self" type of this assertion class
  */
 public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAssert<SELF>>
-    extends AbstractArrayAssert<SELF, short[], Short> {
+    extends AbstractArrayAssert<SELF, short @Nullable [], Short> {
 
   private ShortArrays arrays = ShortArrays.instance();
 
@@ -40,7 +41,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @param actual the actual array to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractShortArrayAssert(short[] actual, Class<?> selfType) {
+  protected AbstractShortArrayAssert(short @Nullable [] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -1141,6 +1142,9 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
     return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, toShortArray(values)));
   }
 
+  // ints is always a compiler-generated, non-null array from the containsAnyOf(int...) vararg call site;
+  // the null check is kept as defensive library code even though it is unreachable from here.
+  @SuppressWarnings("NullAway")
   private static short[] toShortArray(int[] ints) {
     if (ints == null) return null;
     short[] shorts = new short[ints.length];

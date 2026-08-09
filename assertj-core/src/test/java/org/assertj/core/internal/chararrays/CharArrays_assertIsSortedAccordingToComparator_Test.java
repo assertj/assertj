@@ -71,6 +71,7 @@ class CharArrays_assertIsSortedAccordingToComparator_Test extends CharArraysBase
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_comparator_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), emptyArray(), null));
   }

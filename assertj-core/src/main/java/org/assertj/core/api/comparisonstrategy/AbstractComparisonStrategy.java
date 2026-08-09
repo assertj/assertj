@@ -23,6 +23,8 @@ import java.lang.reflect.Array;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Base implementation of {@link ComparisonStrategy} contract.
  *
@@ -34,8 +36,8 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
   public AbstractComparisonStrategy() {}
 
   @Override
-  public Iterable<?> duplicatesFrom(Iterable<?> iterable) {
-    if (isNullOrEmpty(iterable)) return EMPTY_SET;
+  public Iterable<?> duplicatesFrom(@Nullable Iterable<?> iterable) {
+    if (iterable == null || isNullOrEmpty(iterable)) return EMPTY_SET;
 
     Set<Object> noDuplicates = newSetUsingComparisonStrategy();
     Set<Object> duplicatesWithOrderPreserved = new LinkedHashSet<>();
@@ -57,7 +59,7 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
   protected abstract Set<Object> newSetUsingComparisonStrategy();
 
   @Override
-  public boolean arrayContains(Object array, Object value) {
+  public boolean arrayContains(Object array, @Nullable Object value) {
     for (int i = 0; i < getLength(array); i++) {
       Object element = Array.get(array, i);
       if (areEqual(element, value)) return true;
@@ -66,17 +68,17 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
   }
 
   @Override
-  public boolean isLessThan(Object actual, Object other) {
+  public boolean isLessThan(@Nullable Object actual, Object other) {
     return !isGreaterThanOrEqualTo(actual, other);
   }
 
   @Override
-  public boolean isLessThanOrEqualTo(Object actual, Object other) {
+  public boolean isLessThanOrEqualTo(@Nullable Object actual, Object other) {
     return !isGreaterThan(actual, other);
   }
 
   @Override
-  public boolean isGreaterThanOrEqualTo(Object actual, Object other) {
+  public boolean isGreaterThanOrEqualTo(@Nullable Object actual, Object other) {
     return areEqual(actual, other) || isGreaterThan(actual, other);
   }
 

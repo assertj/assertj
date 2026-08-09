@@ -21,6 +21,7 @@ import static org.assertj.core.error.ShouldBeTrue.shouldBeTrue;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 
 import org.assertj.core.internal.Failures;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Boolean}s.
@@ -35,7 +36,8 @@ import org.assertj.core.internal.Failures;
  * @author Ansgar Konermann
  * @author Mikhail Mazursky
  */
-public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<SELF>> extends AbstractAssert<SELF, Boolean> {
+public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<SELF>>
+    extends AbstractAssert<SELF, @Nullable Boolean> {
 
   /**
    * Creates a new {@link Boolean} assertion.
@@ -43,7 +45,7 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * @param actual the actual value to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractBooleanAssert(Boolean actual, Class<?> selfType) {
+  protected AbstractBooleanAssert(@Nullable Boolean actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

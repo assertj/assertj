@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements does not contain null elements failed.
  * A group of elements can be a collection or an array.
@@ -28,11 +30,11 @@ public class ShouldNotContainNull extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContainNull(Object actual) {
+  public static ErrorMessageFactory shouldNotContainNull(@Nullable Object actual) {
     return new ShouldNotContainNull(actual);
   }
 
-  private ShouldNotContainNull(Object actual) {
+  private ShouldNotContainNull(@Nullable Object actual) {
     super("%nExpecting actual:%n  %s%nnot to contain null elements", actual);
   }
 }

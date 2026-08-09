@@ -45,6 +45,7 @@ class Iterables_assertEndsWithFirstAndRest_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertEndsWith(someInfo(), actual, "Luke", null));
   }

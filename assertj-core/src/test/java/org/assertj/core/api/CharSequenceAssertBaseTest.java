@@ -27,6 +27,9 @@ import org.assertj.core.internal.Strings;
  * @author Olivier Michallat
  * @author Mikhail Mazursky
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class CharSequenceAssertBaseTest extends BaseTestTemplate<CharSequenceAssert, CharSequence> {
   protected Strings strings;
 

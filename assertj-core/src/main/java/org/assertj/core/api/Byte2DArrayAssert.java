@@ -25,6 +25,7 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Byte2DArrays;
 import org.assertj.core.internal.Failures;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for two-dimensional arrays of {@code byte}s.
@@ -35,7 +36,7 @@ import org.assertj.core.internal.Failures;
  * @author Maciej Wajcht
  * @since 3.17.0
  */
-public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, byte[][], Byte> {
+public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, byte[] @Nullable [], Byte> {
 
   private final Failures failures = Failures.instance();
 
@@ -48,7 +49,7 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
    *
    * @param actual the actual array to verify
    */
-  public Byte2DArrayAssert(byte[][] actual) {
+  public Byte2DArrayAssert(byte[] @Nullable [] actual) {
     super(actual, Byte2DArrayAssert.class);
   }
 
@@ -72,6 +73,9 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
    * @throws AssertionError if the actual value is not deeply equal to the given one.
    */
   @Override
+  // expected is genuinely never null here (unlike actual): the method dereferences it unconditionally
+  // (e.g. expected.length), so it must stay non-null despite ACTUAL's nullable bound in Abstract2DArrayAssert.
+  @SuppressWarnings("NullAway")
   public Byte2DArrayAssert isDeepEqualTo(byte[][] expected) {
     return executeAssertion(() -> {
       if (actual == expected) return;
@@ -124,7 +128,7 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
    * @throws AssertionError if the actual {@code byte[][]} is not equal to the given one.
    */
   @Override
-  public Byte2DArrayAssert isEqualTo(Object expected) {
+  public Byte2DArrayAssert isEqualTo(@Nullable Object expected) {
     return super.isEqualTo(expected);
   }
 
@@ -266,7 +270,7 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
    * @throws AssertionError if actual {@code byte[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Byte2DArrayAssert hasSameDimensionsAs(Object array) {
+  public Byte2DArrayAssert hasSameDimensionsAs(@Nullable Object array) {
     return executeAssertion(() -> byte2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 

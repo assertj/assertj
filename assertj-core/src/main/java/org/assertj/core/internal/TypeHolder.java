@@ -35,13 +35,14 @@ import java.util.stream.Stream;
 import org.assertj.core.util.ClassNameComparator;
 import org.assertj.core.util.DualClass;
 import org.assertj.core.util.DualClassComparator;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An abstract type holder which provides to pair a specific entities for types.
  *
  * @param <T> entity type
  */
-abstract class TypeHolder<T> {
+abstract class TypeHolder<T extends @Nullable Object> {
 
   private static final Comparator<DualClass<?, ?>> DEFAULT_DUAL_CLASS_COMPARATOR = new DualClassComparator(ClassNameComparator.INSTANCE,
                                                                                                            ClassNameComparator.INSTANCE);
@@ -68,7 +69,7 @@ abstract class TypeHolder<T> {
    * @param clazz the class for which to find an entity
    * @return the most relevant entity, or {@code null} if on entity could be found
    */
-  public T get(Class<?> clazz) {
+  public @Nullable T get(Class<?> clazz) {
     return get(clazz, null);
   }
 
@@ -89,7 +90,7 @@ abstract class TypeHolder<T> {
    *                   This may be {@code null} to find the entity bound only to the {@code clazz}
    * @return the most relevant entity, or {@code null} if on entity could be found
    */
-  public T get(Class<?> clazz, Class<?> otherClazz) {
+  public @Nullable T get(Class<?> clazz, @Nullable Class<?> otherClazz) {
     Class<?> relevantType = getRelevantClass(clazz);
     if (relevantType == null) return null;
     return typeHolder.get(dualClass(relevantType, getRelevantClass(relevantType, otherClazz)));
@@ -113,7 +114,7 @@ abstract class TypeHolder<T> {
    *                   {@code clazz}
    * @param entity     the entity itself
    */
-  public void put(Class<?> clazz, Class<?> otherClazz, T entity) {
+  public void put(Class<?> clazz, @Nullable Class<?> otherClazz, T entity) {
     typeHolder.put(dualClass(clazz, otherClazz), entity);
   }
 
@@ -134,7 +135,7 @@ abstract class TypeHolder<T> {
    * @param otherType the additional type for which to check an entity
    * @return is the giving type associated with any entity
    */
-  public boolean hasEntity(Class<?> type, Class<?> otherType) {
+  public boolean hasEntity(Class<?> type, @Nullable Class<?> otherType) {
     return get(type, otherType) != null;
   }
 
@@ -177,7 +178,7 @@ abstract class TypeHolder<T> {
    * @param cls type to find a relevant class.
    * @return the most relevant class.
    */
-  private Class<?> getRelevantClass(Class<?> cls) {
+  private @Nullable Class<?> getRelevantClass(Class<?> cls) {
     Set<DualClass<?, ?>> dualClasses = typeHolder.keySet();
     if (dualClasses.stream().anyMatch(c -> c.actual() == cls)) return cls;
 
@@ -190,7 +191,7 @@ abstract class TypeHolder<T> {
     return null;
   }
 
-  private Class<?> getRelevantClass(Class<?> cls, Class<?> otherCls) {
+  private @Nullable Class<?> getRelevantClass(Class<?> cls, @Nullable Class<?> otherCls) {
     if (otherCls == null) return null;
 
     Set<DualClass<?, ?>> registeredDualClasses = typeHolder.keySet();

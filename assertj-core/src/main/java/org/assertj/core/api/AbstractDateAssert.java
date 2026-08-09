@@ -45,6 +45,8 @@ import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.Dates;
+import org.assertj.core.internal.annotation.Contract;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Date}s.
@@ -67,7 +69,8 @@ import org.assertj.core.internal.Dates;
  * @author Michal Kordas
  * @author Eddú Meléndez
  */
-public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> extends AbstractAssertWithComparator<SELF, Date> {
+public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>>
+    extends AbstractAssertWithComparator<SELF, @Nullable Date> {
 
   private static final String DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL = "Given date format pattern should not be null";
   private static final String DATE_FORMAT_SHOULD_NOT_BE_NULL = "Given date format should not be null";
@@ -107,7 +110,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @param actual the actual date to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractDateAssert(Date actual, Class<?> selfType) {
+  protected AbstractDateAssert(@Nullable Date actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -289,6 +292,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public SELF isIn(String... datesAsString) {
+    @Nullable
     Date[] dates = toDateArray(datesAsString, this::parse);
     return isIn((Object[]) dates);
   }
@@ -307,6 +311,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if actual is not in given dates represented as {@code Instant}.
    */
   public SELF isIn(Instant... instants) {
+    @Nullable
     Date[] dates = toDateArray(instants, Date::from);
     return isIn((Object[]) dates);
   }
@@ -407,6 +412,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public SELF isNotIn(String... datesAsString) {
+    @Nullable
     Date[] dates = toDateArray(datesAsString, this::parse);
     return isNotIn((Object[]) dates);
   }
@@ -426,6 +432,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isNotIn(Instant... instants) {
+    @Nullable
     Date[] dates = toDateArray(instants, Date::from);
     return isNotIn((Object[]) dates);
   }
@@ -2599,7 +2606,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the string can't be parsed as a Date
    */
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Date parse(String dateAsString) {
+  @Contract("null -> null; !null -> !null")
+  @Nullable
+  Date parse(@Nullable String dateAsString) {
     if (dateAsString == null) return null;
     // parse with date format specified by user if any, otherwise use default formats
     // no synchronization needed as userCustomDateFormat is thread local
@@ -2623,12 +2632,13 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     return formattedDateFormats.stream().collect(joining(format(",%n"), "[", "]"));
   }
 
-  private Date parseDateWithDefaultDateParsers(final String dateAsString) {
+  private @Nullable Date parseDateWithDefaultDateParsers(final String dateAsString) {
     // try from more specific to less specific ISO formats, then try timestamp
     return parseDateWithDateParsers(dateAsString, DEFAULT_DATE_PARSERS);
   }
 
-  private Date parseDateWithDateParsers(final String dateAsString, final Collection<Function<String, Date>> dateParsers) {
+  private @Nullable Date parseDateWithDateParsers(final String dateAsString,
+                                                  final Collection<Function<String, Date>> dateParsers) {
     for (Function<String, Date> dateParser : dateParsers) {
       try {
         return dateParser.apply(dateAsString);
@@ -2641,7 +2651,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     return null;
   }
 
-  private Date parseDateWith(final String dateAsString, final Collection<DateFormat> dateFormats) {
+  private @Nullable Date parseDateWith(final String dateAsString, final Collection<DateFormat> dateFormats) {
     for (DateFormat defaultDateFormat : dateFormats) {
       try {
         return defaultDateFormat.parse(dateAsString);
@@ -2652,7 +2662,8 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     return null;
   }
 
-  private static <T> Date[] toDateArray(T[] values, Function<T, Date> converter) {
+  private static <T> @Nullable Date[] toDateArray(T[] values, Function<T, @Nullable Date> converter) {
+    @Nullable
     Date[] dates = new Date[values.length];
     for (int i = 0; i < values.length; i++) {
       dates[i] = converter.apply(values[i]);
@@ -2668,7 +2679,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Date> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super Date> customComparator, @Nullable String customComparatorDescription) {
     this.dates = new Dates(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

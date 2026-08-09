@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 class StandardComparisonStrategy_arrayContains_Test extends AbstractTest_StandardComparisonStrategy {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_true_if_array_contains_value() {
     String[] hobbits = array("Merry", "Frodo", null, "Merry", "Sam");
     assertThat(standardComparisonStrategy.arrayContains(hobbits, "Sam")).isTrue();

@@ -52,6 +52,7 @@ import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.TypeMessages;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.DualClass;
+import org.jspecify.annotations.Nullable;
 
 /** Configuration controlling recursive object graph comparison. */
 public class RecursiveComparisonConfiguration extends AbstractRecursiveOperationConfiguration {
@@ -184,7 +185,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * @param fieldName the field path
    * @return the registered comparator
    */
-  public Comparator<?> getComparatorForField(String fieldName) {
+  public @Nullable Comparator<?> getComparatorForField(String fieldName) {
     return fieldComparators.getComparatorForField(fieldName);
   }
 
@@ -204,7 +205,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * @param fieldName the field path
    * @return the registered message
    */
-  public String getMessageForField(String fieldName) {
+  public @Nullable String getMessageForField(String fieldName) {
     return fieldMessages.getMessageForField(fieldName);
   }
 
@@ -221,7 +222,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return hasComparatorForDualTypes(keyType, null);
   }
 
-  private boolean hasComparatorForDualTypes(Class<?> type1, Class<?> type2) {
+  private boolean hasComparatorForDualTypes(Class<?> type1, @Nullable Class<?> type2) {
     return typeComparators.hasComparatorForDualTypes(type1, type2);
   }
 
@@ -240,18 +241,24 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * @param fieldType the field type
    * @return the registered comparator
    */
-  public Comparator<?> getComparatorForDualType(Class<?> fieldType) {
+  public @Nullable Comparator<?> getComparatorForDualType(Class<?> fieldType) {
     return getComparatorForDualType(fieldType, null);
   }
 
-  private Comparator<?> getComparatorForDualType(Class<?> fieldType, Class<?> otherFieldType) {
+  private @Nullable Comparator<?> getComparatorForDualType(Class<?> fieldType, @Nullable Class<?> otherFieldType) {
     return typeComparators.getComparatorForDualTypes(fieldType, otherFieldType);
   }
 
   @SuppressWarnings("rawtypes")
+  @Nullable
   Comparator getComparator(DualValue dualValue) {
+    @Nullable
     Class expectedFieldType = dualValue.expected != null ? dualValue.expected.getClass() : null;
+    @Nullable
     Class actualFieldType = dualValue.actual != null ? dualValue.actual.getClass() : expectedFieldType;
+    // actual and expected can't both be null: getComparator is only called after hasCustomComparator returned true,
+    // which already checked that at least one of them is non-null.
+    if (actualFieldType == null) return null;
     Comparator typeComparator = getComparatorForDualType(actualFieldType, expectedFieldType);
     if (typeComparator == null) typeComparator = getComparatorForDualType(actualFieldType);
     return typeComparator;
@@ -273,7 +280,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * @param fieldType the field type
    * @return the registered message
    */
-  public String getMessageForType(Class<?> fieldType) {
+  public @Nullable String getMessageForType(Class<?> fieldType) {
     return typeMessages.getMessageForType(fieldType);
   }
 
@@ -781,7 +788,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * @param message        the error message that will be thrown when comparison error occurred
    * @param fieldLocations the field locations the error message should be used for
    */
-  public void registerErrorMessageForFields(String message, String... fieldLocations) {
+  public void registerErrorMessageForFields(@Nullable String message, String... fieldLocations) {
     Stream.of(fieldLocations).forEach(fieldLocation -> fieldMessages.registerMessage(fieldLocation, message));
   }
 
@@ -796,7 +803,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * @param message the error message that will be thrown when comparison error occurred
    * @param clazz   the type the error message should be used for
    */
-  public void registerErrorMessageForType(String message, Class<?> clazz) {
+  public void registerErrorMessageForType(@Nullable String message, Class<?> clazz) {
     typeMessages.registerMessage(clazz, message);
   }
 
@@ -1085,11 +1092,12 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                                     .collect(toSet());
   }
 
-  Set<String> getChildrenNodeNamesOf(Object instance) {
+  Set<String> getChildrenNodeNamesOf(@Nullable Object instance) {
     return introspectionStrategy.getChildrenNodeNamesOf(instance);
   }
 
-  Object getValue(String name, Object instance) {
+  @Nullable
+  Object getValue(String name, @Nullable Object instance) {
     return introspectionStrategy.getChildNodeValue(name, instance);
   }
 
@@ -1124,10 +1132,13 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     String fieldName = dualValue.getConcatenatedPath();
     if (hasComparatorForField(fieldName)) return true;
     if (dualValue.actual == null && dualValue.expected == null) return false;
+    @Nullable
     Class<?> expectedType = dualValue.expected != null ? dualValue.expected.getClass() : null;
     // use expected type when actual is null, we assume here as best effort that actual and expected have the same type
     // even though it's not true as we can compare object of different types.
+    @Nullable
     Class<?> actualType = dualValue.actual != null ? dualValue.actual.getClass() : expectedType;
+    if (actualType == null) return false; // unreachable: dualValue.actual and dualValue.expected can't both be null here
     return hasComparatorForDualTypes(actualType, expectedType) || hasComparatorForType(actualType);
   }
 
@@ -1163,6 +1174,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     }
     return !ignoreAllOverriddenEquals
            && !matchesAnIgnoredOverriddenEqualsField(dualValue)
+           && dualValue.actual != null
            && !shouldIgnoreOverriddenEqualsOf(dualValue.actual.getClass());
   }
 
@@ -1517,7 +1529,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return new Builder();
   }
 
-  void checkComparedFieldsExist(Object actual) {
+  void checkComparedFieldsExist(@Nullable Object actual) {
     if (ignoreNonExistentComparedFields) return;
     Map<FieldLocation, String> unknownComparedFields = new TreeMap<>();
     for (FieldLocation comparedField : comparedFields) {
@@ -1533,7 +1545,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     }
   }
 
-  private Optional<Entry<FieldLocation, String>> checkComparedFieldExists(Object actual, FieldLocation comparedFieldLocation) {
+  private Optional<Entry<FieldLocation, String>> checkComparedFieldExists(@Nullable Object actual,
+                                                                          FieldLocation comparedFieldLocation) {
     Object node = actual;
     int nestingLevel = 0;
     while (nestingLevel < comparedFieldLocation.getDecomposedPath().size()) {
@@ -1556,7 +1569,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return Optional.empty();
   }
 
-  private Object unwrapContainer(Object container) {
+  private @Nullable Object unwrapContainer(Object container) {
     if (container instanceof Optional) {
       return ((Optional<?>) container).orElse(null);
     }
@@ -1616,7 +1629,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * Builder to build {@link RecursiveComparisonConfiguration}.
    */
   public static final class Builder extends AbstractBuilder<Builder> {
-    private Representation representation;
+    private @Nullable Representation representation;
     private boolean strictTypeChecking;
     private boolean ignoreAllActualNullFields;
     private boolean ignoreAllActualEmptyOptionalFields;
@@ -1992,7 +2005,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      * @return this builder.
      * @throws NullPointerException if the giving list of arguments is null.
      */
-    public Builder withErrorMessageForFields(String message, String... fields) {
+    public Builder withErrorMessageForFields(@Nullable String message, String... fields) {
       Stream.of(fields).forEach(fieldLocation -> fieldMessages.registerMessage(fieldLocation, message));
       return this;
     }
@@ -2010,7 +2023,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      * @param type    the type the error message should be used for
      * @return this builder
      */
-    public Builder withErrorMessageForType(String message, Class<?> type) {
+    public Builder withErrorMessageForType(@Nullable String message, Class<?> type) {
       this.typeMessages.registerMessage(type, message);
       return this;
     }

@@ -66,6 +66,7 @@ class LocalTimeAssert_hasSameHourAs_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_given_localtimetime_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refLocalTime).hasSameHourAs(null))
                                         .withMessage(NULL_LOCAL_TIME_PARAMETER_MESSAGE);

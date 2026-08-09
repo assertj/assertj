@@ -42,6 +42,7 @@ class FileAssert_usingCharset_String_invalid_Test extends FileAssertBaseTest {
   }
 
   @Override
+  @SuppressWarnings("NullAway")
   protected FileAssert invoke_api_method() {
     // not used here
     return null;

@@ -21,6 +21,7 @@ import static org.assertj.core.util.Strings.formatIfArgs;
 import org.assertj.core.api.comparisonstrategy.AbstractComparisonStrategy;
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Formats the messages to be included in assertion errors.
@@ -62,14 +63,15 @@ public class MessageFormatter {
    * @throws NullPointerException if the format string is {@code null}.
    * @return A formatted {@code String}.
    */
-  public String format(Description d, Representation p, String format, Object... args) {
+  public String format(@Nullable Description d, Representation p, String format, @Nullable Object... args) {
     requireNonNull(format);
     requireNonNull(args);
     return descriptionFormatter.format(d) + formatIfArgs(format, format(p, args));
   }
 
-  private Object[] format(Representation p, Object[] args) {
+  private @Nullable Object[] format(Representation p, @Nullable Object[] args) {
     int argCount = args.length;
+    @Nullable
     String[] formatted = new String[argCount];
     for (int i = 0; i < argCount; i++) {
       formatted[i] = asText(p, args[i]);
@@ -77,7 +79,7 @@ public class MessageFormatter {
     return formatted;
   }
 
-  private String asText(Representation p, Object o) {
+  private @Nullable String asText(Representation p, @Nullable Object o) {
     if (o instanceof AbstractComparisonStrategy strategy) {
       return strategy.asText();
     }

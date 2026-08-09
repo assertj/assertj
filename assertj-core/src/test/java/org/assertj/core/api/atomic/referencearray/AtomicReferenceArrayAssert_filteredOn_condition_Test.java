@@ -34,6 +34,7 @@ class AtomicReferenceArrayAssert_filteredOn_condition_Test extends AtomicReferen
     super.setUp();
     oldEmployees = new Condition<Employee>("old employees") {
       @Override
+      @SuppressWarnings("NullAway")
       public boolean matches(Employee employee) {
         return employee.getAge() > 100;
       }
@@ -51,6 +52,7 @@ class AtomicReferenceArrayAssert_filteredOn_condition_Test extends AtomicReferen
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_condition_is_null() {
     Condition<Employee> condition = null;
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(condition))

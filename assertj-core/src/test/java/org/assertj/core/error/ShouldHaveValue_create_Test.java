@@ -29,6 +29,9 @@ import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 class ShouldHaveValue_create_Test {
 
   private static final TestDescription TEST_DESCRIPTION = new TestDescription("TEST");

@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 class BooleanArrayAssert_isEmpty_Test extends BooleanArrayAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected BooleanArrayAssert invoke_api_method() {
     assertions.isEmpty();
     return null;

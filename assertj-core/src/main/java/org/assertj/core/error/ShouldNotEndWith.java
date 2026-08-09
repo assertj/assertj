@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a group of elements does not end with a
@@ -34,7 +35,7 @@ public class ShouldNotEndWith extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotEndWith(Object actual, Object expected,
+  public static ErrorMessageFactory shouldNotEndWith(@Nullable Object actual, @Nullable Object expected,
                                                      ComparisonStrategy comparisonStrategy) {
     return new ShouldNotEndWith(actual, expected, comparisonStrategy);
   }
@@ -46,11 +47,11 @@ public class ShouldNotEndWith extends BasicErrorMessageFactory {
    * @param expected the value or sequence of values that {@code actual} is expected to not end with.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotEndWith(Object actual, Object expected) {
+  public static ErrorMessageFactory shouldNotEndWith(@Nullable Object actual, @Nullable Object expected) {
     return new ShouldNotEndWith(actual, expected, StandardComparisonStrategy.instance());
   }
 
-  private ShouldNotEndWith(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
+  private ShouldNotEndWith(@Nullable Object actual, @Nullable Object expected, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nnot to end with:%n  %s%n%s",
           IndentWrapper.of(actual), IndentWrapper.of(expected), comparisonStrategy);
   }

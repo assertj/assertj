@@ -16,6 +16,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.presentation.PredicateDescription;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates error messages for elements that do not match a predicate.
@@ -34,18 +35,18 @@ public class ElementsShouldMatch extends BasicErrorMessageFactory {
    * @param predicateDescription the predicate description
    * @return the error message factory
    */
-  public static <T> ErrorMessageFactory elementsShouldMatch(Object actual, T elementsNotMatchingPredicate,
+  public static <T> ErrorMessageFactory elementsShouldMatch(@Nullable Object actual, T elementsNotMatchingPredicate,
                                                             PredicateDescription predicateDescription) {
     return elementsNotMatchingPredicate instanceof Iterable<?> iterable
         ? new ElementsShouldMatch(actual, iterable, predicateDescription)
         : new ElementsShouldMatch(actual, elementsNotMatchingPredicate, predicateDescription);
   }
 
-  private ElementsShouldMatch(Object actual, Object notMatching, PredicateDescription predicateDescription) {
+  private ElementsShouldMatch(@Nullable Object actual, @Nullable Object notMatching, PredicateDescription predicateDescription) {
     super(SINGLE_NON_MATCHING_ELEMENT, actual, predicateDescription, notMatching);
   }
 
-  private ElementsShouldMatch(Object actual, Iterable<?> notMatching, PredicateDescription predicateDescription) {
+  private ElementsShouldMatch(@Nullable Object actual, Iterable<?> notMatching, PredicateDescription predicateDescription) {
     super(MULTIPLE_NON_MATCHING_ELEMENT, actual, predicateDescription, notMatching);
   }
 

@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.core.util.introspection.PropertySupport;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Extracts the values of a specified property from the elements of a given <code>{@link Iterable}</code> or array.
@@ -106,7 +107,7 @@ public class Properties<T> {
    * @return the values of the previously specified property extracted from the given {@code Iterable}.
    * @throws IntrospectionError if an element in the given {@code Iterable} does not have a property with a matching name.
    */
-  public List<T> from(Iterable<?> c) {
+  public List<@Nullable T> from(Iterable<?> c) {
     return propertySupport.propertyValues(propertyName, propertyType, c);
   }
 
@@ -117,7 +118,7 @@ public class Properties<T> {
    * @return the values of the previously specified property extracted from the given array.
    * @throws IntrospectionError if an element in the given array does not have a property with a matching name.
    */
-  public List<T> from(Object[] array) {
+  public List<@Nullable T> from(Object[] array) {
     return propertySupport.propertyValues(propertyName, propertyType, wrap(array));
   }
 }

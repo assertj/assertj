@@ -19,6 +19,7 @@ import java.util.ServiceLoader;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.configuration.Configuration;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Controls the formatting (String representation) of types in assertion error messages.
@@ -65,7 +66,8 @@ public interface Representation {
    * @param object the object to represent.
    * @return the {@code toString} representation of the given object.
    */
-  String toStringOf(Object object);
+  @Nullable
+  String toStringOf(@Nullable Object object);
 
   /**
    * Override this method to return a {@code String} representation of the given object that is unambiguous so that it can
@@ -78,7 +80,7 @@ public interface Representation {
    * @param withPackageName if the object's representation includes the package name or not
    * @return the unambiguous {@code toString} representation of the given object.
    */
-  default String unambiguousToStringOf(Object object, boolean withPackageName) {
+  default @Nullable String unambiguousToStringOf(@Nullable Object object, boolean withPackageName) {
     return toStringOf(object);
   }
 
@@ -92,7 +94,7 @@ public interface Representation {
    * @param object the object to represent.
    * @return the unambiguous {@code toString} representation of the given object.
    */
-  default String unambiguousToStringOf(Object object) {
+  default @Nullable String unambiguousToStringOf(@Nullable Object object) {
     return unambiguousToStringOf(object, false);
   }
 

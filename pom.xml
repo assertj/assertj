@@ -279,6 +279,7 @@ limitations under the License.
               <additionalOption>--allow-script-in-comments</additionalOption>
             </additionalOptions>
             <javadocDirectory>${rootDirectory}/javadoc-theme</javadocDirectory>
+            <sourcepath>${project.basedir}/src/main/java</sourcepath>
             <addStylesheets>
               <stylesheet>assertj-theme.css</stylesheet>
               <stylesheet>hljs-theme.css</stylesheet>
@@ -347,6 +348,22 @@ limitations under the License.
             <features>
               <feature>+auto_threads</feature>
             </features>
+            <excludedTestClasses>
+              <param>org.assertj.core.util.Throwables_describeErrors_Test</param>
+              <param>org.assertj.core.api.EntryPointAssertions_setMaxStackTraceElementsDisplayed_Test</param>
+              <param>org.example.test.SoftAssertionsLineNumberTest</param>
+              <param>org.example.test.BDDSoftAssertionsLineNumberTest</param>
+              <param>org.example.test.AutoClosableSoftAssertionsLineNumberTest</param>
+              <param>org.example.test.MultipleAssertionsError_getMessage_Test</param>
+              <param>org.example.test.Throwables_getFirstStackTraceElementFromTest_Test</param>
+              <param>org.assertj.tests.core.Module_Test</param>
+              <param>org.assertj.tests.guava.Module_Test</param>
+              <param>org.assertj.tests.core.api.Assertions_assertThatCode_Test</param>
+              <param>org.assertj.tests.core.api.Assertions_assertThatNoException_Test</param>
+              <param>org.assertj.tests.core.api.Assertions_linesOf_Test</param>
+              <param>org.assertj.tests.core.api.recursive.assertion.RecursiveAssertionDriver_JavaClassLibraryRecursionTest</param>
+              <param>org.assertj.tests.core.presentation.StandardRepresentation_throwable_format_Test</param>
+            </excludedTestClasses>
           </configuration>
           <dependencies>
             <dependency>

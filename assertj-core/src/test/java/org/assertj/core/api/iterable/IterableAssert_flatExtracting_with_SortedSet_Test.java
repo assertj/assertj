@@ -108,6 +108,7 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_bubble_up_null_pointer_exception_from_extractor() {
     // GIVEN
     SortedSet<CartoonCharacter> setWithNullElements = newSortedSet(homer, null);
@@ -116,6 +117,7 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_bubble_up_null_pointer_exception_from_lambda_extractor() {
     // GIVEN
     SortedSet<CartoonCharacter> setWithNullElements = newSortedSet(homer, null);

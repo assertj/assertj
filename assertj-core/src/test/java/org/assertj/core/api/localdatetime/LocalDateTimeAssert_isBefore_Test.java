@@ -48,6 +48,7 @@ class LocalDateTimeAssert_isBefore_Test extends AbstractLocalDateTimeAssertBaseT
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_dateTime_parameter_is_null() {
     // GIVEN
     LocalDateTime otherDateTime = null;
@@ -59,6 +60,7 @@ class LocalDateTimeAssert_isBefore_Test extends AbstractLocalDateTimeAssertBaseT
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_dateTime_as_string_parameter_is_null() {
     // GIVEN
     String otherDateTimeAsString = null;

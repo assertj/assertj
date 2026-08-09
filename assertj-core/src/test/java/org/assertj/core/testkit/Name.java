@@ -20,19 +20,22 @@ import static java.util.Comparator.comparing;
 import java.util.Comparator;
 import java.util.Objects;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
 public class Name implements Comparable<Name> {
 
-  public static final Comparator<Name> lastNameComparator = comparing(Name::getLast);
+  public static final Comparator<Name> lastNameComparator = comparing(Name::getLast,
+                                                                      Comparator.nullsFirst(Comparator.naturalOrder()));
 
   // intentionally public to test field retrieval
   // getter have been created to test property retrieval
-  public String first;
+  public @Nullable String first;
   // keep private to test we are able to read property but not field
-  private String last;
+  private @Nullable String last;
 
   public Name() {}
 
@@ -49,19 +52,19 @@ public class Name implements Comparable<Name> {
     return new Name(first, last);
   }
 
-  public String getFirst() {
+  public @Nullable String getFirst() {
     return first;
   }
 
-  public void setFirst(String first) {
+  public void setFirst(@Nullable String first) {
     this.first = first;
   }
 
-  public String getLast() {
+  public @Nullable String getLast() {
     return last;
   }
 
-  public void setLast(String last) {
+  public void setLast(@Nullable String last) {
     this.last = last;
   }
 
@@ -81,7 +84,7 @@ public class Name implements Comparable<Name> {
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;

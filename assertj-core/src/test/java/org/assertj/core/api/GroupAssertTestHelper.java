@@ -24,17 +24,26 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
 public class GroupAssertTestHelper {
 
+  // the field is always eagerly initialized by the assertion class itself; reflection-based retrieval is
+  // just declared @Nullable generically, NullAway can't verify this specific field is always present.
+  @SuppressWarnings("NullAway")
   public static TypeComparators comparatorsByTypeOf(AbstractIterableAssert<?, ?, ?, ?> assertion) {
     return (TypeComparators) PropertyOrFieldSupport.EXTRACTION.getValueOf("comparatorsByType", assertion);
   }
 
+  @SuppressWarnings("NullAway")
   public static TypeComparators comparatorForElementFieldsWithTypeOf(AbstractIterableAssert<?, ?, ?, ?> assertion) {
     return (TypeComparators) PropertyOrFieldSupport.EXTRACTION.getValueOf("comparatorsForElementPropertyOrFieldTypes", assertion);
   }
 
+  // employee.name is null only in the dedicated null-name test scenarios, never for callers of these helpers.
+  @SuppressWarnings("NullAway")
   public static final Function<Employee, String> lastNameFunction = employee -> employee.name.getLast();
+  @SuppressWarnings("NullAway")
   public static final Function<Employee, String> firstNameFunction = employee -> employee.name.first;
+  @SuppressWarnings("NullAway")
   public static final ThrowingExtractor<Employee, String, Exception> throwingFirstNameExtractor = employee -> employee.name.first;
+  @SuppressWarnings("NullAway")
   public static final ThrowingExtractor<Employee, String, Exception> throwingLastNameExtractor = employee -> employee.name.getLast();
 
 }

@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements does not contain a given set of values
@@ -41,7 +42,7 @@ public class ShouldNotContain extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContain(Object actual, Object expected, Object found,
+  public static ErrorMessageFactory shouldNotContain(@Nullable Object actual, @Nullable Object expected, @Nullable Object found,
                                                      ComparisonStrategy comparisonStrategy) {
     return new ShouldNotContain(actual, expected, found, comparisonStrategy);
   }
@@ -53,11 +54,12 @@ public class ShouldNotContain extends BasicErrorMessageFactory {
    * @param found the values in {@code expected} found in {@code actual}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContain(Object actual, Object expected, Object found) {
+  public static ErrorMessageFactory shouldNotContain(@Nullable Object actual, @Nullable Object expected, @Nullable Object found) {
     return new ShouldNotContain(actual, expected, found, StandardComparisonStrategy.instance());
   }
 
-  private ShouldNotContain(Object actual, Object expected, Object found, ComparisonStrategy comparisonStrategy) {
+  private ShouldNotContain(@Nullable Object actual, @Nullable Object expected, @Nullable Object found,
+                           ComparisonStrategy comparisonStrategy) {
     super("%nExpecting%n  %s%nnot to contain%n  %s%nbut found%n  %s%n%s", actual, expected, found, comparisonStrategy);
   }
 
@@ -97,7 +99,7 @@ public class ShouldNotContain extends BasicErrorMessageFactory {
                 .collect(toList());
   }
 
-  private ShouldNotContain(Object actual, List<String> matchingContent, String filterDescription) {
+  private ShouldNotContain(@Nullable Object actual, List<String> matchingContent, String filterDescription) {
     // not passing matchingContent and filterDescription as parameter to avoid AssertJ default String formatting
     super("%nExpecting directory:%n" +
           "  %s%n" +

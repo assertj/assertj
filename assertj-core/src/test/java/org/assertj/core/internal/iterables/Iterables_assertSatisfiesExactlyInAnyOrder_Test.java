@@ -138,6 +138,7 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
@@ -150,6 +151,7 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_consumer_array_is_null() {
     // GIVEN
     Consumer<String>[] consumers = null;
@@ -159,6 +161,7 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_consumer_var_arg_is_null() {
     // GIVEN
     Consumer<String> consumer = null;
@@ -201,6 +204,7 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
     }
 
     @Override
+    @SuppressWarnings("NullAway")
     public boolean equals(Object o) {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;

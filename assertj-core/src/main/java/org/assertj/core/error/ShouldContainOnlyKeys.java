@@ -19,6 +19,7 @@ import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies map contains only a given set of keys and
@@ -37,8 +38,9 @@ public class ShouldContainOnlyKeys extends BasicErrorMessageFactory {
    * @param notExpected values in {@code actual} that were not in {@code expected}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainOnlyKeys(Object actual, Object expected, Object notFound,
-                                                          Object notExpected) {
+  public static ErrorMessageFactory shouldContainOnlyKeys(@Nullable Object actual, @Nullable Object expected,
+                                                          @Nullable Object notFound,
+                                                          @Nullable Object notExpected) {
     return new ShouldContainOnlyKeys(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
   }
 
@@ -51,7 +53,8 @@ public class ShouldContainOnlyKeys extends BasicErrorMessageFactory {
    * @param notExpected values in {@code actual} that were not in {@code expected}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainOnlyKeys(Object actual, Object expected, Object notFound,
+  public static ErrorMessageFactory shouldContainOnlyKeys(@Nullable Object actual, @Nullable Object expected,
+                                                          @Nullable Object notFound,
                                                           Iterable<?> notExpected) {
     if (isNullOrEmpty(notExpected)) {
       return new ShouldContainOnlyKeys(actual, expected, notFound, StandardComparisonStrategy.instance());
@@ -59,7 +62,8 @@ public class ShouldContainOnlyKeys extends BasicErrorMessageFactory {
     return new ShouldContainOnlyKeys(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
   }
 
-  private ShouldContainOnlyKeys(Object actual, Object expected, Object notFound, Object notExpected,
+  private ShouldContainOnlyKeys(@Nullable Object actual, @Nullable Object expected, @Nullable Object notFound,
+                                @Nullable Object notExpected,
                                 ComparisonStrategy comparisonStrategy) {
     super("%n" +
           "Expecting actual:%n" +
@@ -73,7 +77,8 @@ public class ShouldContainOnlyKeys extends BasicErrorMessageFactory {
           expected, notFound, notExpected, comparisonStrategy);
   }
 
-  private ShouldContainOnlyKeys(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {
+  private ShouldContainOnlyKeys(@Nullable Object actual, @Nullable Object expected, @Nullable Object notFound,
+                                ComparisonStrategy comparisonStrategy) {
     super("%n" +
           "Expecting actual:%n" +
           "  %s%n" +

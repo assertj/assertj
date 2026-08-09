@@ -24,6 +24,9 @@ import org.assertj.core.internal.Char2DArrays;
  *
  * @author Maciej Wajcht
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class Char2DArrayAssertBaseTest extends BaseTestTemplate<Char2DArrayAssert, char[][]> {
   protected Char2DArrays arrays;
 

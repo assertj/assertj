@@ -149,7 +149,7 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
 
   @Override
   protected ObjectAssert<T> toAssert(T value) {
-    return null;
+    return new ObjectAssert<>(value);
   }
 
   @Override

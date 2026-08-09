@@ -22,6 +22,7 @@ import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains only a given set of
@@ -44,7 +45,7 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
+  public static ErrorMessageFactory shouldContainOnly(@Nullable Object actual, @Nullable Object expected, Iterable<?> notFound,
                                                       Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
     GroupTypeDescription groupTypeDescription = getGroupTypeDescription(actual);
     return shouldContainOnly(actual, expected, notFound, notExpected, comparisonStrategy, groupTypeDescription);
@@ -60,13 +61,13 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
    * @param groupTypeDescription the group type description
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
+  public static ErrorMessageFactory shouldContainOnly(@Nullable Object actual, @Nullable Object expected, Iterable<?> notFound,
                                                       Iterable<?> notExpected, GroupTypeDescription groupTypeDescription) {
     return shouldContainOnly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance(),
                              groupTypeDescription);
   }
 
-  private static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
+  private static ErrorMessageFactory shouldContainOnly(@Nullable Object actual, @Nullable Object expected, Iterable<?> notFound,
                                                        Iterable<?> notExpected, ComparisonStrategy comparisonStrategy,
                                                        GroupTypeDescription groupTypeDescription) {
     if (isNullOrEmpty(notExpected))
@@ -85,12 +86,12 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
    * @param notExpected values in {@code actual} that were not in {@code expected}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
+  public static ErrorMessageFactory shouldContainOnly(@Nullable Object actual, @Nullable Object expected, Iterable<?> notFound,
                                                       Iterable<?> notExpected) {
     return shouldContainOnly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
   }
 
-  private ShouldContainOnly(Object actual, Object expected, Iterable<?> notFound, Iterable<?> notExpected,
+  private ShouldContainOnly(@Nullable Object actual, @Nullable Object expected, Iterable<?> notFound, Iterable<?> notExpected,
                             ComparisonStrategy comparisonStrategy, GroupTypeDescription groupTypeDescription) {
     super("%n" +
           "Expecting " + groupTypeDescription.getGroupTypeName() + ":%n" +
@@ -104,7 +105,8 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
           expected, notFound, notExpected, comparisonStrategy);
   }
 
-  private ShouldContainOnly(Object actual, Object expected, Iterable<?> notFoundOrNotExpected, ErrorType errorType,
+  private ShouldContainOnly(@Nullable Object actual, @Nullable Object expected, Iterable<?> notFoundOrNotExpected,
+                            ErrorType errorType,
                             ComparisonStrategy comparisonStrategy, GroupTypeDescription groupTypeDescription) {
     // @format:off
     super("%n" +

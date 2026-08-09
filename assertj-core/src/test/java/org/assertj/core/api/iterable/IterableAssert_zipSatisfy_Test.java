@@ -25,6 +25,9 @@ import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 class IterableAssert_zipSatisfy_Test extends IterableAssertBaseTest {
 
   private BiConsumer<Object, String> requirements;

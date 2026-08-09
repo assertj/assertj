@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.time.Period;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link java.time.Period}
  *
@@ -30,7 +32,7 @@ public class PeriodAssert extends AbstractPeriodAssert<PeriodAssert> {
    *
    * @param period   the actual value to verify
    */
-  public PeriodAssert(Period period) {
+  public PeriodAssert(@Nullable Period period) {
     super(period, PeriodAssert.class);
   }
 }

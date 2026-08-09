@@ -53,6 +53,7 @@ import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all assertions.
@@ -66,7 +67,8 @@ import org.assertj.core.presentation.Representation;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, ACTUAL> implements Assert<SELF, ACTUAL> {
+public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, ACTUAL extends @Nullable Object>
+    implements Assert<SELF, ACTUAL> {
 
   // https://github.com/assertj/assertj/issues/1128
   /**
@@ -102,7 +104,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   // = ConfigurationProvider.CONFIGURATION_PROVIDER.representation(); ?
-  static Representation customRepresentation = null;
+  static @Nullable Representation customRepresentation = null;
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   AssertionErrorCreator assertionErrorCreator;
@@ -110,10 +112,11 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   static boolean printAssertionsDescription;
 
-  private static Consumer<Description> descriptionConsumer;
+  private static @Nullable Consumer<Description> descriptionConsumer;
 
   // When non-null, assertion errors are handled by this handler instead of being thrown directly.
   // Used by soft assertions (collect errors) and assumptions (convert to assumption exceptions).
+  @Nullable
   AssertionErrorHandler assertionErrorHandler;
 
   // When true in soft-assertion mode, all subsequent assertions on this instance are no-ops.
@@ -477,7 +480,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   @CheckReturnValue
-  public SELF describedAs(Description description) {
+  public SELF describedAs(@Nullable Description description) {
     info.description(description);
     if (printAssertionsDescription) printDescriptionText();
     if (descriptionConsumer != null) descriptionConsumer.accept(description);
@@ -493,7 +496,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * {@inheritDoc}
    */
   @Override
-  public SELF isEqualTo(Object expected) {
+  public SELF isEqualTo(@Nullable Object expected) {
     if (actual instanceof AbstractAssert<?, ?> && throwUnsupportedExceptionOnEquals) {
       throw new UnsupportedOperationException("Attempted to compare an assertion object to another object using 'isEqualTo'. "
                                               + "This is not supported. Perhaps you meant 'isSameAs' instead?");
@@ -506,7 +509,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * {@inheritDoc}
    */
   @Override
-  public SELF isNotEqualTo(Object other) {
+  public SELF isNotEqualTo(@Nullable Object other) {
     if (actual instanceof AbstractAssert<?, ?> && throwUnsupportedExceptionOnEquals) {
       throw new UnsupportedOperationException("Attempted to compare an assertion object to another object using 'isNotEqualTo'. "
                                               + "This is not supported. Perhaps you meant 'isNotSameAs' instead?");
@@ -550,7 +553,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * {@inheritDoc}
    */
   @Override
-  public SELF isSameAs(Object expected) {
+  public SELF isSameAs(@Nullable Object expected) {
     return executeAssertion(() -> objects.assertSame(info, actual, expected));
   }
 
@@ -558,7 +561,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * {@inheritDoc}
    */
   @Override
-  public SELF isNotSameAs(Object other) {
+  public SELF isNotSameAs(@Nullable Object other) {
     return executeAssertion(() -> objects.assertNotSame(info, actual, other));
   }
 
@@ -1248,7 +1251,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param descriptionConsumer the description consumer
    */
-  public static void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
+  public static void setDescriptionConsumer(@Nullable Consumer<Description> descriptionConsumer) {
     AbstractAssert.descriptionConsumer = descriptionConsumer;
   }
 
@@ -1366,7 +1369,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @CheckReturnValue
   protected <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
-                                                                    AssertFactory<Object, ASSERT> assertFactory) {
+                                                                    AssertFactory<@Nullable Object, ASSERT> assertFactory) {
     return executeAssertionNavigation(() -> {
       requireNonNull(propertyOrField, shouldNotBeNull("propertyOrField")::create);
       requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
@@ -1386,7 +1389,26 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param assertFactory the assertion factory
    * @return the assertion created for a {@code null} value
    */
-  protected static <ASSERT extends AbstractAssert<?, ?>> ASSERT nullValueAssert(AssertFactory<Object, ASSERT> assertFactory) {
+  protected static <ASSERT extends AbstractAssert<?, ?>> ASSERT nullValueAssert(AssertFactory<@Nullable Object, ASSERT> assertFactory) {
+    return assertFactory.createAssert((Object) null);
+  }
+
+  /**
+   * Creates an assertion for a {@code null} value using the given {@link InstanceOfAssertFactory}.
+   * <p>
+   * {@link InstanceOfAssertFactory#createAssert(Object)} casts its argument with {@link Class#cast(Object)}, which
+   * tolerates {@code null}, and every built-in {@code assertThat} delegate it wraps already supports a {@code null}
+   * actual value, so this is safe despite {@link InstanceOfAssertFactory} itself being declared over a non-null
+   * {@code Object}.
+   *
+   * @param <ASSERT> the assertion type
+   * @param assertFactory the assertion factory
+   * @return the assertion created for a {@code null} value
+   */
+  @SuppressWarnings("NullAway")
+  protected static <ASSERT extends AbstractAssert<?, ?>> ASSERT nullValueAssert(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+    // explicit (Object) cast: an unqualified null would resolve to the more specific
+    // createAssert(ValueProvider<?>) overload instead of createAssert(Object).
     return assertFactory.createAssert((Object) null);
   }
 
@@ -1405,8 +1427,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @since 3.16.0
    */
   @CheckReturnValue
-  protected <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, ? extends T> extractor,
-                                                                       AssertFactory<T, ASSERT> assertFactory) {
+  protected <T extends @Nullable Object, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, ? extends T> extractor,
+                                                                                                AssertFactory<T, ASSERT> assertFactory) {
     return executeAssertionNavigation(() -> {
       requireNonNull(extractor, shouldNotBeNull("extractor")::create);
       requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
@@ -1414,8 +1436,23 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
       T extractedValue = extractor.apply(actual);
       // noinspection unchecked
       return (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
-    }, () -> assertFactory.createAssert((T) null));
+    }, () -> createAssertForNullValue(assertFactory));
+  }
 
+  /**
+   * Creates the assertion for a {@code null} extracted value using the given factory.
+   * <p>
+   * {@code T}'s bound already allows {@code null}, but NullAway does not propagate that through a
+   * lambda-captured generic-typed {@code null}, so the {@code null} literal is passed directly here instead.
+   *
+   * @param <T> the expected extracted value type
+   * @param <ASSERT> the type of the resulting {@code Assert}
+   * @param assertFactory the factory for the creation of the new {@code Assert}
+   * @return the assertion created for a {@code null} value
+   */
+  @SuppressWarnings({ "unchecked", "NullAway" })
+  private static <T extends @Nullable Object, ASSERT extends AbstractAssert<?, ?>> ASSERT createAssertForNullValue(AssertFactory<T, ASSERT> assertFactory) {
+    return assertFactory.createAssert((T) null);
   }
 
   /**

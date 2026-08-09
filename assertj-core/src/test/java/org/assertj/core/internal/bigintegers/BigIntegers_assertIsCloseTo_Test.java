@@ -100,11 +100,13 @@ class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if__expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), ONE, null, within(ONE)));
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
@@ -118,12 +120,14 @@ class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), SIX, null, offset(ONE)))
                                     .withMessage("The given number should not be null");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
@@ -175,6 +179,7 @@ class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_offset_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), ONE, TWO,
                                                                                                             null))
@@ -203,6 +208,7 @@ class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_expected_value_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), TWO, null,
                                                                                                             offset(ONE)))

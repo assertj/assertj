@@ -42,6 +42,8 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Tests two objects for differences by doing a 'deep' comparison.
  *
@@ -62,10 +64,10 @@ public class DeepDifference {
   private final static class DualKey {
 
     private final List<String> path;
-    private final Object key1;
-    private final Object key2;
+    private final @Nullable Object key1;
+    private final @Nullable Object key2;
 
-    private DualKey(List<String> path, Object key1, Object key2) {
+    private DualKey(List<String> path, @Nullable Object key1, @Nullable Object key2) {
       this.path = path;
       this.key1 = key1;
       this.key2 = key2;
@@ -106,7 +108,9 @@ public class DeepDifference {
   public static class Difference {
 
     List<String> path;
+    @Nullable
     Object actual;
+    @Nullable
     Object other;
     Optional<String> description;
 
@@ -117,7 +121,7 @@ public class DeepDifference {
      * @param actual the actual value
      * @param other the compared value
      */
-    public Difference(List<String> path, Object actual, Object other) {
+    public Difference(List<String> path, @Nullable Object actual, @Nullable Object other) {
       this(path, actual, other, null);
     }
 
@@ -129,7 +133,7 @@ public class DeepDifference {
      * @param other the compared value
      * @param description the difference description
      */
-    public Difference(List<String> path, Object actual, Object other, String description) {
+    public Difference(List<String> path, @Nullable Object actual, @Nullable Object other, @Nullable String description) {
       this.path = path;
       this.actual = actual;
       this.other = other;
@@ -150,7 +154,7 @@ public class DeepDifference {
      *
      * @return the actual value
      */
-    public Object getActual() {
+    public @Nullable Object getActual() {
       return actual;
     }
 
@@ -159,7 +163,7 @@ public class DeepDifference {
      *
      * @return the compared value
      */
-    public Object getOther() {
+    public @Nullable Object getOther() {
       return other;
     }
 
@@ -202,9 +206,9 @@ public class DeepDifference {
    *         either at the field level or via the respectively encountered overridden
    *         .equals() methods during traversal.
    */
-  public static List<Difference> determineDifferences(Object a, Object b,
-                                                      Map<String, Comparator<?>> comparatorByPropertyOrField,
-                                                      TypeComparators comparatorByType) {
+  public static List<Difference> determineDifferences(@Nullable Object a, @Nullable Object b,
+                                                      @Nullable Map<String, Comparator<?>> comparatorByPropertyOrField,
+                                                      @Nullable TypeComparators comparatorByType) {
     // replace null comparators groups by empty one to simplify code afterwards
     comparatorByPropertyOrField = comparatorByPropertyOrField == null
         ? new TreeMap<>()
@@ -213,7 +217,8 @@ public class DeepDifference {
     return determineDifferences(a, b, null, comparatorByPropertyOrField, comparatorByType);
   }
 
-  private static List<Difference> determineDifferences(Object a, Object b, List<String> parentPath,
+  private static List<Difference> determineDifferences(@Nullable Object a, @Nullable Object b,
+                                                       @Nullable List<String> parentPath,
                                                        Map<String, Comparator<?>> comparatorByPropertyOrField,
                                                        TypeComparators comparatorByType) {
     final Set<DualKey> visited = new HashSet<>();
@@ -385,16 +390,17 @@ public class DeepDifference {
     String fieldName = dualKey.getConcatenatedPath();
     if (comparatorByPropertyOrField.containsKey(fieldName)) return true;
     // we know that dualKey.key1 != dualKey.key2 at this point, so one the key is not null
-    Class<?> keyType = dualKey.key1 != null ? dualKey.key1.getClass() : dualKey.key2.getClass();
+    Class<?> keyType = dualKey.key1 != null ? dualKey.key1.getClass()
+        : dualKey.key2 != null ? dualKey.key2.getClass() : Object.class;
     return comparatorByType.getComparatorForType(keyType) != null;
   }
 
-  private static Deque<DualKey> initStack(Object a, Object b, List<String> parentPath,
+  private static Deque<DualKey> initStack(@Nullable Object a, @Nullable Object b, @Nullable List<String> parentPath,
                                           Map<String, Comparator<?>> comparatorByPropertyOrField,
                                           TypeComparators comparatorByType) {
     Deque<DualKey> stack = new LinkedList<>();
     boolean isRootObject = parentPath == null;
-    List<String> currentPath = isRootObject ? new ArrayList<>() : parentPath;
+    List<String> currentPath = parentPath == null ? new ArrayList<>() : parentPath;
     DualKey basicDualKey = new DualKey(currentPath, a, b);
     if (a != null && b != null && !isContainerType(a) && !isContainerType(b)
         && (isRootObject || !hasCustomComparator(basicDualKey, comparatorByPropertyOrField, comparatorByType))) {
@@ -431,7 +437,7 @@ public class DeepDifference {
     return fieldNames;
   }
 
-  private static boolean isContainerType(Object o) {
+  private static boolean isContainerType(@Nullable Object o) {
     return o instanceof Collection || o instanceof Map;
   }
 
@@ -707,7 +713,7 @@ public class DeepDifference {
    * @param obj Object who hashCode is desired.
    * @return the 'deep' hashCode value for the passed in object.
    */
-  static int deepHashCode(Object obj) {
+  static int deepHashCode(@Nullable Object obj) {
     Set<Object> visited = new HashSet<>();
     LinkedList<Object> stack = new LinkedList<>();
     stack.addFirst(obj);

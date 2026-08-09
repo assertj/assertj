@@ -37,6 +37,7 @@ class Maps_assertHasEntrySatisfying_with_entry_condition_Test extends MapsBaseTe
 
   private final Condition<Map.Entry<String, String>> greenColorCondition = new Condition<>("green color condition") {
     @Override
+    @SuppressWarnings("NullAway")
     public boolean matches(Map.Entry<String, String> entry) {
       return entry.getKey().equals("color") && entry.getValue().equals("green");
     }
@@ -44,12 +45,14 @@ class Maps_assertHasEntrySatisfying_with_entry_condition_Test extends MapsBaseTe
 
   private final Condition<Map.Entry<String, String>> blackColorCondition = new Condition<>("black color condition") {
     @Override
+    @SuppressWarnings("NullAway")
     public boolean matches(Map.Entry<String, String> entry) {
       return entry.getKey().equals("color") && entry.getValue().equals("black");
     }
   };
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_entry_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertHasEntrySatisfying(INFO, actual, null))
                                     .withMessage("The condition to evaluate should not be null");

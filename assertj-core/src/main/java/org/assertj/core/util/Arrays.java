@@ -30,6 +30,8 @@ import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Utility methods related to arrays.
  *
@@ -45,7 +47,7 @@ public class Arrays {
    * @param o the given object.
    * @return {@code true} if the given object is not {@code null} and is an array, otherwise {@code false}.
    */
-  public static boolean isArray(Object o) {
+  public static boolean isArray(@Nullable Object o) {
     return o != null && o.getClass().isArray();
   }
 
@@ -84,7 +86,7 @@ public class Arrays {
    * @param array the array to check.
    * @return {@code true} if the given array is {@code null} or empty, otherwise {@code false}.
    */
-  public static <T> boolean isNullOrEmpty(T[] array) {
+  public static <T extends @Nullable Object> boolean isNullOrEmpty(T @Nullable [] array) {
     return array == null || isEmpty(array);
   }
 
@@ -106,7 +108,7 @@ public class Arrays {
    * @param atomicIntegerArray the {@link AtomicIntegerArray} to convert to int[].
    * @return an int[].
    */
-  public static int[] array(AtomicIntegerArray atomicIntegerArray) {
+  public static int @Nullable [] array(@Nullable AtomicIntegerArray atomicIntegerArray) {
     if (atomicIntegerArray == null) return null;
     int[] array = new int[atomicIntegerArray.length()];
     for (int i = 0; i < array.length; i++) {
@@ -121,7 +123,7 @@ public class Arrays {
    * @param atomicLongArray the {@link AtomicLongArray} to convert to long[].
    * @return an long[].
    */
-  public static long[] array(AtomicLongArray atomicLongArray) {
+  public static long @Nullable [] array(@Nullable AtomicLongArray atomicLongArray) {
     if (atomicLongArray == null) return null;
     long[] array = new long[atomicLongArray.length()];
     for (int i = 0; i < array.length; i++) {
@@ -138,7 +140,7 @@ public class Arrays {
    * @return an T[].
    */
   @SuppressWarnings("unchecked")
-  public static <T> T[] array(AtomicReferenceArray<T> atomicReferenceArray) {
+  public static <T> T @Nullable [] array(@Nullable AtomicReferenceArray<T> atomicReferenceArray) {
     if (atomicReferenceArray == null) return null;
     int length = atomicReferenceArray.length();
     if (length == 0) return array();
@@ -157,7 +159,7 @@ public class Arrays {
    * @return all the non-{@code null} elements in the given array. An empty list is returned if the given array is
    *         {@code null}.
    */
-  public static <T> List<T> nonNullElementsIn(T[] array) {
+  public static <T> List<T> nonNullElementsIn(T @Nullable [] array) {
     if (array == null) return emptyList();
     return stream(array).filter(Objects::nonNull).collect(toList());
   }
@@ -180,7 +182,7 @@ public class Arrays {
     return true;
   }
 
-  private static <T> boolean isEmpty(T[] array) {
+  private static <T extends @Nullable Object> boolean isEmpty(T[] array) {
     return array.length == 0;
   }
 
@@ -190,7 +192,7 @@ public class Arrays {
    * @param o the value to check
    * @return whether the value is an object array
    */
-  public static boolean isObjectArray(Object o) {
+  public static boolean isObjectArray(@Nullable Object o) {
     return isArray(o) && !isArrayTypePrimitive(o);
   }
 
@@ -200,8 +202,8 @@ public class Arrays {
    * @param o the value to check
    * @return whether the value is an array of primitives
    */
-  public static boolean isArrayTypePrimitive(Object o) {
-    return isArray(o) && o.getClass().getComponentType().isPrimitive();
+  public static boolean isArrayTypePrimitive(@Nullable Object o) {
+    return o != null && isArray(o) && o.getClass().getComponentType().isPrimitive();
   }
 
   /**
@@ -223,7 +225,7 @@ public class Arrays {
    * @return the resulting array
    */
   @SuppressWarnings("unchecked")
-  public static <T> T[] prepend(T first, T... rest) {
+  public static <T extends @Nullable Object> T[] prepend(T first, T... rest) {
     T[] result = (T[]) new Object[1 + rest.length];
     result[0] = first;
     System.arraycopy(rest, 0, result, 1, rest.length);

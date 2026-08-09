@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 class ByteArrays_assertHasSameSizeAs_with_Iterable_Test extends ByteArraysBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;

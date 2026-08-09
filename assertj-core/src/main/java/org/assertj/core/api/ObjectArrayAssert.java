@@ -19,6 +19,8 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for arrays of objects.
  * <p>
@@ -33,14 +35,15 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert<ELEMENT> extends AbstractObjectArrayAssert<ObjectArrayAssert<ELEMENT>, ELEMENT> {
+public class ObjectArrayAssert<ELEMENT extends @Nullable Object>
+    extends AbstractObjectArrayAssert<ObjectArrayAssert<ELEMENT>, ELEMENT> {
 
   /**
    * Creates a new object array assertion.
    *
    * @param actual the actual array to verify
    */
-  public ObjectArrayAssert(ELEMENT[] actual) {
+  public ObjectArrayAssert(ELEMENT @Nullable [] actual) {
     super(actual, ObjectArrayAssert.class);
   }
 
@@ -49,7 +52,7 @@ public class ObjectArrayAssert<ELEMENT> extends AbstractObjectArrayAssert<Object
    *
    * @param actual the actual array to verify
    */
-  public ObjectArrayAssert(AtomicReferenceArray<ELEMENT> actual) {
+  public ObjectArrayAssert(@Nullable AtomicReferenceArray<ELEMENT> actual) {
     this(array(actual));
   }
 

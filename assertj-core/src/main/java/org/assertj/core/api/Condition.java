@@ -23,6 +23,8 @@ import java.util.function.Predicate;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
+import org.assertj.core.internal.annotation.Contract;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A condition to be met by an object.
@@ -31,7 +33,7 @@ import org.assertj.core.description.TextDescription;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class Condition<T> implements Descriptable<Condition<T>> {
+public class Condition<T extends @Nullable Object> implements Descriptable<Condition<T>> {
 
   /**
    * Describes the condition status after being evaluated.
@@ -59,14 +61,14 @@ public class Condition<T> implements Descriptable<Condition<T>> {
   Description description;
 
   // might not be used
-  private Predicate<T> predicate;
+  private @Nullable Predicate<@Nullable T> predicate;
 
   /**
    * Creates a new <code>{@link Condition}</code>. The default description of this condition will the simple name of the
    * condition's class.
    */
   public Condition() {
-    as(getClass().getSimpleName());
+    description = new TextDescription(getClass().getSimpleName());
   }
 
   /**
@@ -76,7 +78,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * @throws NullPointerException if the given description is {@code null}.
    */
   public Condition(String description) {
-    as(description);
+    this.description = new TextDescription(description);
   }
 
   /**
@@ -108,7 +110,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * @throws NullPointerException if the given {@link Predicate} is {@code null}.
    * @throws NullPointerException if the given description is {@code null}.
    */
-  public Condition(Predicate<T> predicate, String description, Object... args) {
+  public Condition(Predicate<@Nullable T> predicate, String description, Object... args) {
     checkPredicate(predicate);
     this.predicate = predicate;
     this.description = new TextDescription(description, args);
@@ -121,12 +123,12 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * @throws NullPointerException if the given description is {@code null}.
    */
   public Condition(Description description) {
-    as(description);
+    this.description = Description.emptyIfNull(description);
   }
 
   /** {@inheritDoc} */
   @Override
-  public Condition<T> describedAs(Description newDescription) {
+  public Condition<T> describedAs(@Nullable Description newDescription) {
     description = Description.emptyIfNull(newDescription);
     return this;
   }
@@ -146,7 +148,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * @param actual the instance to evaluate the condition status against.
    * @return the description of this condition with its status.
    */
-  public Description conditionDescriptionWithStatus(T actual) {
+  public Description conditionDescriptionWithStatus(@Nullable T actual) {
     Status status = status(actual);
     return new TextDescription(status.label + " " + description().value());
   }
@@ -157,7 +159,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * @param actual the value to evaluate
    * @return the condition status
    */
-  protected Status status(T actual) {
+  protected Status status(@Nullable T actual) {
     return matches(actual) ? SUCCESS : FAIL;
   }
 
@@ -167,12 +169,13 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * @param value the value to verify.
    * @return {@code true} if the given value satisfies this condition; {@code false} otherwise.
    */
-  public boolean matches(T value) {
+  public boolean matches(@Nullable T value) {
     checkPredicate(predicate);
     return predicate.test(value);
   }
 
-  private void checkPredicate(Predicate<T> predicate) {
+  @Contract("null -> fail")
+  private void checkPredicate(@Nullable Predicate<@Nullable T> predicate) {
     requireNonNull(predicate,
                    "Unless you subclass Condition and override matches, you need to pass a non null Predicate to build a Condition.");
   }

@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for arrays of {@code boolean}s.
  * <p>
@@ -34,7 +36,7 @@ public class BooleanArrayAssert extends AbstractBooleanArrayAssert<BooleanArrayA
    *
    * @param actual the actual array to verify
    */
-  public BooleanArrayAssert(boolean[] actual) {
+  public BooleanArrayAssert(boolean @Nullable [] actual) {
     super(actual, BooleanArrayAssert.class);
   }
 

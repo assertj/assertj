@@ -28,6 +28,7 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Floats;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Float}s.
@@ -44,7 +45,8 @@ import org.assertj.core.internal.Floats;
  * @author Nicolas François
  * @author Jin Kwon
  */
-public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>> extends AbstractComparableAssert<SELF, Float>
+public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>>
+    extends AbstractComparableAssert<SELF, @Nullable Float>
     implements FloatingPointNumberAssert<SELF, Float> {
 
   private static final Float NEGATIVE_ZERO = -0.0f;
@@ -60,7 +62,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @param actual the actual value to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractFloatAssert(Float actual, Class<?> selfType) {
+  protected AbstractFloatAssert(@Nullable Float actual, Class<?> selfType) {
     super(actual, selfType);
     this.isPrimitive = false;
   }
@@ -727,7 +729,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @throws AssertionError if the actual value is greater than the given one.
    */
   @Override
-  public SELF isLessThanOrEqualTo(Float other) {
+  public SELF isLessThanOrEqualTo(@Nullable Float other) {
     // overridden for javadoc
     return super.isLessThanOrEqualTo(other);
   }
@@ -808,7 +810,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @throws AssertionError if the actual value is less than the given one.
    */
   @Override
-  public SELF isGreaterThanOrEqualTo(Float other) {
+  public SELF isGreaterThanOrEqualTo(@Nullable Float other) {
     // overridden for javadoc
     return super.isGreaterThanOrEqualTo(other);
   }
@@ -827,7 +829,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * assertThat(1f).isBetween(2f, 3f);</code></pre>
    */
   @Override
-  public SELF isBetween(Float start, Float end) {
+  public SELF isBetween(@Nullable Float start, @Nullable Float end) {
     return executeAssertion(() -> floats.assertIsBetween(info, actual, start, end));
   }
 
@@ -846,7 +848,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    *
    */
   @Override
-  public SELF isStrictlyBetween(Float start, Float end) {
+  public SELF isStrictlyBetween(@Nullable Float start, @Nullable Float end) {
     return executeAssertion(() -> floats.assertIsStrictlyBetween(info, actual, start, end));
   }
 
@@ -858,7 +860,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Float> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super Float> customComparator, @Nullable String customComparatorDescription) {
     floats = new Floats(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

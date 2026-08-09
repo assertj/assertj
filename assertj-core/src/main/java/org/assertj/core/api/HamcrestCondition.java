@@ -18,6 +18,7 @@ package org.assertj.core.api;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Allows to use a Hamcrest matcher as a condition.
@@ -38,7 +39,7 @@ import org.hamcrest.StringDescription;
  * @param <T> the type of object this condition accepts.
  * @since 2.9.0 / 3.9.0
  */
-public class HamcrestCondition<T> extends Condition<T> {
+public class HamcrestCondition<T extends @Nullable Object> extends Condition<T> {
 
   private Matcher<? extends T> matcher;
 
@@ -74,7 +75,7 @@ public class HamcrestCondition<T> extends Condition<T> {
    * {@inheritDoc}
    */
   @Override
-  public boolean matches(T value) {
+  public boolean matches(@Nullable T value) {
     return matcher.matches(value);
   }
 

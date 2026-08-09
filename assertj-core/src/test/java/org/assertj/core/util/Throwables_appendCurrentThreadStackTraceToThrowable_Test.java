@@ -63,6 +63,7 @@ class Throwables_appendCurrentThreadStackTraceToThrowable_Test {
                                                   "org.assertj.core.util.Throwables_appendCurrentThreadStackTraceToThrowable_Test.should_add_stack_trace_of_current_thread");
   }
 
+  @SuppressWarnings("NullAway")
   private String asString(StackTraceElement e) {
     return concat(e.getClassName(), ".", e.getMethodName());
   }

@@ -53,6 +53,7 @@ public abstract class AbstractTest_equals_filter extends WithPlayerData {
   protected abstract Iterable<Player> filterIterable(Iterable<Player> players, String propertyName, Object propertyValue);
 
   @Test
+  @SuppressWarnings("NullAway")
   public void should_fail_if_property_to_filter_on_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> filterIterable(players, null, 6000L))
                                         .withMessage("The property/field name to filter on should not be null or empty");

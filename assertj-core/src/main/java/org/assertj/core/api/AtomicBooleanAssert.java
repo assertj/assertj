@@ -19,17 +19,19 @@ import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions for {@link AtomicBoolean} values.
  */
-public class AtomicBooleanAssert extends AbstractAssert<AtomicBooleanAssert, AtomicBoolean> {
+public class AtomicBooleanAssert extends AbstractAssert<AtomicBooleanAssert, @Nullable AtomicBoolean> {
 
   /**
    * Creates a new atomic boolean assertion.
    *
    * @param actual the actual atomic boolean
    */
-  public AtomicBooleanAssert(AtomicBoolean actual) {
+  public AtomicBooleanAssert(@Nullable AtomicBoolean actual) {
     super(actual, AtomicBooleanAssert.class);
   }
 

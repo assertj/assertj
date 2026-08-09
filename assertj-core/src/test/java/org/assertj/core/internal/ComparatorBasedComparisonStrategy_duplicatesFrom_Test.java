@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Test;
 class ComparatorBasedComparisonStrategy_duplicatesFrom_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_existing_duplicates() {
     Iterable<?> duplicates = caseInsensitiveComparisonStrategy.duplicatesFrom(newArrayList("Merry", "Frodo", "Merry", "Sam",
                                                                                            "FrODO",

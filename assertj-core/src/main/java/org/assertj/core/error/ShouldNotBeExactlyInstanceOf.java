@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import static org.assertj.core.util.Throwables.getStackTrace;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that an object is not exactly an instance of some type
  * failed.
@@ -31,12 +33,12 @@ public class ShouldNotBeExactlyInstanceOf extends BasicErrorMessageFactory {
    * @param type the type {@code actual} is expected to be.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotBeExactlyInstance(Object actual, Class<?> type) {
+  public static ErrorMessageFactory shouldNotBeExactlyInstance(@Nullable Object actual, Class<?> type) {
     return actual instanceof Throwable throwable ? new ShouldNotBeExactlyInstanceOf(throwable, type)
         : new ShouldNotBeExactlyInstanceOf(actual, type);
   }
 
-  private ShouldNotBeExactlyInstanceOf(Object actual, Class<?> type) {
+  private ShouldNotBeExactlyInstanceOf(@Nullable Object actual, Class<?> type) {
     super("%nExpecting%n  %s%nnot to be of exact type:%n  %s", actual, type);
   }
 

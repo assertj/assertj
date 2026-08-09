@@ -50,6 +50,7 @@ class ZonedDateTimeAssert_isIn_errors_Test extends ZonedDateTimeAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_dateTimes_as_string_array_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(ZonedDateTime.now()).isIn((String[]) null))
                                         .withMessage("The given ZonedDateTime array should not be null");

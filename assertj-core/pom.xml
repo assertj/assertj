@@ -56,6 +56,10 @@
       <scope>provided</scope>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>org.jspecify</groupId>
+      <artifactId>jspecify</artifactId>
+    </dependency>
     <!-- Test -->
     <dependency>
       <groupId>commons-io</groupId>
@@ -209,6 +213,16 @@
     </pluginManagement>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <compilerArgs combine.children="append">
+            <arg>-Xmaxerrs</arg>
+            <arg>10000</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>biz.aQute.bnd</groupId>
         <artifactId>bnd-maven-plugin</artifactId>
         <executions>
@@ -243,6 +257,9 @@
         <configuration>
           <rules combine.children="append">
             <bannedDependencies>
+              <includes>
+                <include>org.jspecify:jspecify</include>
+              </includes>
               <excludes>
                 <exclude>org.assertj:assertj-core</exclude>
                 <exclude>org.hamcrest:hamcrest-core</exclude>
@@ -299,6 +316,10 @@
       <plugin>
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>am.ik.maven</groupId>
+        <artifactId>nullability-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>

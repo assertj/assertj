@@ -17,6 +17,7 @@ package org.assertj.guava.error;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
+import org.jspecify.annotations.Nullable;
 
 import com.google.common.collect.Table;
 
@@ -41,11 +42,11 @@ public class TableShouldContainCell extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <R, C, V> ErrorMessageFactory tableShouldContainCell(Table<R, C, V> actual, R row, C column, V expectedValue,
-                                                                     V actualValue) {
+                                                                     @Nullable V actualValue) {
     return new TableShouldContainCell(actual, row, column, expectedValue, actualValue);
   }
 
-  private <R, C, V> TableShouldContainCell(Table<R, C, V> actual, R row, C column, V expectedValue, V actualValue) {
+  private <R, C, V> TableShouldContainCell(Table<R, C, V> actual, R row, C column, V expectedValue, @Nullable V actualValue) {
     // Except for actual, format values using the standard representation instead of a specific one like Hexadecimal
     super("%nExpecting row: %s and column: %s to have value:%n  %s%nbut was:%n  %s%nin:%n  %s".formatted(row, column,
                                                                                                          expectedValue,

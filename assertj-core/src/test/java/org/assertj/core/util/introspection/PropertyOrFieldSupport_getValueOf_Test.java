@@ -158,6 +158,7 @@ class PropertyOrFieldSupport_getValueOf_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_exception_when_given_property_or_field_name_is_null() {
     // WHEN
     Throwable thrown = catchThrowable(() -> underTest.getValueOf(null, yoda));
@@ -184,6 +185,7 @@ class PropertyOrFieldSupport_getValueOf_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_exception_if_no_object_is_given() {
     // WHEN
     Throwable thrown = catchThrowable(() -> underTest.getValueOf("name", null));
@@ -192,6 +194,7 @@ class PropertyOrFieldSupport_getValueOf_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_extract_single_value_from_maps_by_key() {
     String key1 = "key1";
     String key2 = "key2";

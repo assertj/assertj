@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 class Byte2DArrayAssert_isEmpty_Test extends Byte2DArrayAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected Byte2DArrayAssert invoke_api_method() {
     assertions.isEmpty();
     return null;

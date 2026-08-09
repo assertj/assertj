@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 class LocalDateTimeAssert_hasMonth_Test {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_month_is_null() {
     // GIVEN
     LocalDateTime actual = LocalDateTime.now();

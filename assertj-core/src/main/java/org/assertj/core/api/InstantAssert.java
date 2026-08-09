@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.time.Instant;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link Instant}s.
  * <p>
@@ -32,7 +34,7 @@ public class InstantAssert extends AbstractInstantAssert<InstantAssert> {
    * @param actual   the actual value to verify
    * @since 3.7.0
    */
-  public InstantAssert(Instant actual) {
+  public InstantAssert(@Nullable Instant actual) {
     super(actual, InstantAssert.class);
   }
 }

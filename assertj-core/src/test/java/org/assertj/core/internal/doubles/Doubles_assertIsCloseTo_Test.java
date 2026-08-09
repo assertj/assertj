@@ -116,12 +116,14 @@ class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> doubles.assertIsCloseTo(INFO, 6.0, null, offset(1.0)))
                                     .withMessage("The given number should not be null");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> doubles.assertIsCloseTo(INFO, ONE, ZERO, null))
                                     .withMessage("The given offset should not be null");
@@ -210,6 +212,7 @@ class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_offset_is_null_whatever_custom_comparison_strategy_is() {
     // GIVEN
     ThrowingCallable code = () -> doublesWithAbsValueComparisonStrategy.assertIsCloseTo(INFO, 8d, 8d, null);
@@ -235,6 +238,7 @@ class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_expected_value_is_null_whatever_custom_comparison_strategy_is() {
     // GIVEN
     ThrowingCallable code = () -> doublesWithAbsValueComparisonStrategy.assertIsCloseTo(INFO, 6d, null, offset(1d));

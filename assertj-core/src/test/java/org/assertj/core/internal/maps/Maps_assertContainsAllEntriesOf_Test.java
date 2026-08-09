@@ -62,6 +62,7 @@ class Maps_assertContainsAllEntriesOf_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_map_of_entries_to_look_for_is_null() {
     // GIVEN
     Map<String, String> other = null;

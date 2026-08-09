@@ -22,6 +22,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Integers;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Integer}s.
@@ -41,7 +42,7 @@ import org.assertj.core.internal.Integers;
  * @author Cal027
  */
 public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<SELF>> extends
-    AbstractComparableAssert<SELF, Integer> implements NumberAssert<SELF, Integer> {
+    AbstractComparableAssert<SELF, @Nullable Integer> implements NumberAssert<SELF, Integer> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Integers integers = Integers.instance();
@@ -52,7 +53,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @param actual the actual value to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractIntegerAssert(Integer actual, Class<?> selfType) {
+  protected AbstractIntegerAssert(@Nullable Integer actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -313,7 +314,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * assertThat(1).isBetween(2, 3);</code></pre>
    */
   @Override
-  public SELF isBetween(Integer start, Integer end) {
+  public SELF isBetween(@Nullable Integer start, @Nullable Integer end) {
     return executeAssertion(() -> integers.assertIsBetween(info, actual, start, end));
   }
 
@@ -331,7 +332,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * assertThat(1).isStrictlyBetween(2, 3);</code></pre>
    */
   @Override
-  public SELF isStrictlyBetween(Integer start, Integer end) {
+  public SELF isStrictlyBetween(@Nullable Integer start, @Nullable Integer end) {
     return executeAssertion(() -> integers.assertIsStrictlyBetween(info, actual, start, end));
   }
 
@@ -589,7 +590,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Integer> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super Integer> customComparator, @Nullable String customComparatorDescription) {
     integers = new Integers(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

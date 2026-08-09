@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for values expected to contain only alphabetic characters. */
 public class ShouldBeAlphabetic extends BasicErrorMessageFactory {
   /**
@@ -23,11 +25,11 @@ public class ShouldBeAlphabetic extends BasicErrorMessageFactory {
    * @param actual the actual value
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldBeAlphabetic(Object actual) {
+  public static ErrorMessageFactory shouldBeAlphabetic(@Nullable Object actual) {
     return new ShouldBeAlphabetic(actual);
   }
 
-  private ShouldBeAlphabetic(Object actual) {
+  private ShouldBeAlphabetic(@Nullable Object actual) {
     super("%nExpecting %s to be alphabetic", actual);
   }
 }

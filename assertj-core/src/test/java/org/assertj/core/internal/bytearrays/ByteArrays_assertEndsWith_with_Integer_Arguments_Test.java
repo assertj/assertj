@@ -44,6 +44,7 @@ class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteArraysBa
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertEndsWith(someInfo(), actual, (int[]) null))
                                     .withMessage(valuesToLookForIsNull());
@@ -108,6 +109,7 @@ class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteArraysBa
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(),
                                                                                                         actual,

@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 class IntArrayAssert_startsWith_with_Int_array_Test extends IntArrayAssertBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_values_is_null() {
     // GIVEN
     Integer[] sequence = null;

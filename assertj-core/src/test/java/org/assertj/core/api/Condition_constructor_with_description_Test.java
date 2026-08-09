@@ -34,6 +34,7 @@ class Condition_constructor_with_description_Test {
     Description d = new TextDescription("always in motion is the future");
     Condition<Object> condition = new Condition<Object>(d) {
       @Override
+      @SuppressWarnings("NullAway")
       public boolean matches(Object value) {
         return false;
       }
@@ -42,9 +43,11 @@ class Condition_constructor_with_description_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_set_empty_description_if_description_is_null() {
     Condition<Object> condition = new Condition<Object>((Description) null) {
       @Override
+      @SuppressWarnings("NullAway")
       public boolean matches(Object value) {
         return false;
       }

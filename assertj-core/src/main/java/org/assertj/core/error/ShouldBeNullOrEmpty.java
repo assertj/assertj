@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements is {@code null} or empty failed. A
  * group of elements can be a collection, an array or a {@code String}.
@@ -29,11 +31,11 @@ public class ShouldBeNullOrEmpty extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @return the created of {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeNullOrEmpty(Object actual) {
+  public static ErrorMessageFactory shouldBeNullOrEmpty(@Nullable Object actual) {
     return new ShouldBeNullOrEmpty(actual);
   }
 
-  private ShouldBeNullOrEmpty(Object actual) {
+  private ShouldBeNullOrEmpty(@Nullable Object actual) {
     super("%nExpecting null or empty but was: %s", actual);
   }
 }

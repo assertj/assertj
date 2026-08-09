@@ -33,6 +33,7 @@ public class AbstractAssert_isNull_Test extends AbstractAssertBaseTest {
   public void should_verify_that_actual_value_is_null() {}
 
   @Override
+  @SuppressWarnings("NullAway")
   protected ConcreteAssert invoke_api_method() {
     assertions.isNull();
     return null;

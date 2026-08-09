@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that two {@code CharSequence}s are equal,
  * after the whitespace of both strings has been normalized, failed.
@@ -29,11 +31,12 @@ public class ShouldBeEqualNormalizingWhitespace extends BasicErrorMessageFactory
    * @param expected the expected value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeEqualNormalizingWhitespace(CharSequence actual, CharSequence expected) {
+  public static ErrorMessageFactory shouldBeEqualNormalizingWhitespace(@Nullable CharSequence actual,
+                                                                       @Nullable CharSequence expected) {
     return new ShouldBeEqualNormalizingWhitespace(actual, expected);
   }
 
-  private ShouldBeEqualNormalizingWhitespace(CharSequence actual, CharSequence expected) {
+  private ShouldBeEqualNormalizingWhitespace(@Nullable CharSequence actual, @Nullable CharSequence expected) {
     super("%nExpecting actual:%n  %s%nto be equal to:%n  %s%nafter whitespace differences are normalized",
           IndentWrapper.of(actual), IndentWrapper.of(expected));
   }

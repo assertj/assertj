@@ -25,6 +25,9 @@ import org.assertj.core.internal.Urls;
 /**
  * Base class for {@link UrlAssert} tests.
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class UrlAssertBaseTest extends BaseTestTemplate<UrlAssert, URL> {
 
   protected Urls urls;

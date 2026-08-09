@@ -42,6 +42,7 @@ import org.assertj.core.internal.Diff;
 import org.assertj.core.internal.DigestDiff;
 import org.assertj.core.internal.Digests;
 import org.assertj.core.util.diff.Delta;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link InputStream}s.
@@ -54,7 +55,7 @@ import org.assertj.core.util.diff.Delta;
  * @author Mikhail Mazursky
  * @author Stefan Birkner
  */
-public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStreamAssert<SELF, ACTUAL>, ACTUAL extends InputStream>
+public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStreamAssert<SELF, ACTUAL>, ACTUAL extends @Nullable InputStream>
     extends AbstractAssertWithComparator<SELF, ACTUAL> {
 
   private final Diff diff = new Diff();

@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.internal.Iterables;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for <code>{@link HashSet}</code>, honoring the hash code comparison.
@@ -46,7 +47,8 @@ import org.assertj.core.internal.Iterables;
  * @author Mateusz Chrzonstowski
  */
 public class HashSetAssert<ELEMENT>
-    extends AbstractCollectionAssert<HashSetAssert<ELEMENT>, HashSet<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
+    extends
+    AbstractCollectionAssert<HashSetAssert<ELEMENT>, @Nullable HashSet<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
   private final Iterables originalIterables;
 
@@ -55,7 +57,7 @@ public class HashSetAssert<ELEMENT>
    *
    * @param elements the actual elements to verify
    */
-  public HashSetAssert(HashSet<? extends ELEMENT> elements) {
+  public HashSetAssert(@Nullable HashSet<? extends ELEMENT> elements) {
     super(elements, HashSetAssert.class);
     originalIterables = iterables;
     iterables = new Iterables(new InHashSetComparisonStrategy(actual));
@@ -88,21 +90,21 @@ public class HashSetAssert<ELEMENT>
   }
 
   private static class InHashSetComparisonStrategy extends StandardComparisonStrategy {
-    private final HashSet<?> originalSet;
+    private final @Nullable HashSet<?> originalSet;
 
-    InHashSetComparisonStrategy(HashSet<?> originalSet) {
+    InHashSetComparisonStrategy(@Nullable HashSet<?> originalSet) {
       super();
       this.originalSet = originalSet;
     }
 
     @Override
-    public boolean iterableContains(Iterable<?> iterable, Object value) {
-      return originalSet.contains(value) && super.iterableContains(iterable, value);
+    public boolean iterableContains(@Nullable Iterable<?> iterable, @Nullable Object value) {
+      return originalSet != null && originalSet.contains(value) && super.iterableContains(iterable, value);
     }
 
     @Override
-    public boolean areEqual(Object actual, Object other) {
-      return originalSet.contains(actual) && super.areEqual(actual, other);
+    public boolean areEqual(@Nullable Object actual, @Nullable Object other) {
+      return originalSet != null && originalSet.contains(actual) && super.areEqual(actual, other);
     }
 
     @Override

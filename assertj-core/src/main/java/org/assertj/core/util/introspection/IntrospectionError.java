@@ -18,6 +18,8 @@ package org.assertj.core.util.introspection;
 import java.io.Serial;
 import java.util.Optional;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Error that occurred when using <a href="http://java.sun.com/docs/books/tutorial/javabeans/introspection/index.html">JavaBeans
  * Introspection</a>.
@@ -34,7 +36,7 @@ public class IntrospectionError extends RuntimeException {
    * during the invocation of a getter/accessor method. This allows us to reference
    * or rethrow it if alternative means of resolving the field are unsuccessful.
    */
-  private final Throwable getterInvocationException;
+  private final @Nullable Throwable getterInvocationException;
 
   /**
    * Creates a new <code>{@link IntrospectionError}</code>.
@@ -60,7 +62,7 @@ public class IntrospectionError extends RuntimeException {
    * @param cause the original cause.
    * @param getterInvocationException the original exception thrown by the tested code.
    */
-  public IntrospectionError(String message, Throwable cause, Throwable getterInvocationException) {
+  public IntrospectionError(String message, Throwable cause, @Nullable Throwable getterInvocationException) {
     super(message, cause);
     this.getterInvocationException = getterInvocationException;
   }

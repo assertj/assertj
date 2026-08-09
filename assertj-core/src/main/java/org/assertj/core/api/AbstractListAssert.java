@@ -25,6 +25,7 @@ import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Lists;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link List}s.
@@ -43,8 +44,8 @@ import org.assertj.core.internal.Lists;
  */
 //@format:off
 public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
-                                         ACTUAL extends List<? extends ELEMENT>,
-                                         ELEMENT,
+                                         ACTUAL extends @Nullable List<? extends ELEMENT>,
+                                         ELEMENT extends @Nullable Object,
                                          ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
        extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>
        implements IndexedObjectEnumerableAssert<SELF, ELEMENT> {
@@ -241,13 +242,13 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
 
   @Override
   @CheckReturnValue
-  public SELF as(Description description) {
+  public SELF as(@Nullable Description description) {
     return super.as(description);
   }
 
   @Override
   @CheckReturnValue
-  public SELF describedAs(Description description) {
+  public SELF describedAs(@Nullable Description description) {
     return super.describedAs(description);
   }
 
@@ -288,7 +289,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   }
 
   @Override
-  public SELF isEqualTo(Object expected) {
+  public SELF isEqualTo(@Nullable Object expected) {
     return super.isEqualTo(expected);
   }
 
@@ -323,7 +324,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   }
 
   @Override
-  public SELF isNotEqualTo(Object other) {
+  public SELF isNotEqualTo(@Nullable Object other) {
     return super.isNotEqualTo(other);
   }
 
@@ -363,7 +364,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   }
 
   @Override
-  public SELF isNotSameAs(Object other) {
+  public SELF isNotSameAs(@Nullable Object other) {
     return super.isNotSameAs(other);
   }
 
@@ -373,7 +374,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   }
 
   @Override
-  public SELF isSameAs(Object expected) {
+  public SELF isSameAs(@Nullable Object expected) {
     return super.isSameAs(expected);
   }
 
@@ -397,7 +398,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, @Nullable String customComparatorDescription) {
     return super.usingComparator(customComparator, customComparatorDescription);
   }
 
@@ -419,8 +420,8 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
    */
   // @format:off
   private static class FactoryBasedAssert<SELF extends FactoryBasedAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
-                                          ACTUAL extends List<? extends ELEMENT>,
-                                          ELEMENT,
+                                          ACTUAL extends @Nullable List<? extends ELEMENT>,
+                                          ELEMENT extends @Nullable Object,
                                           ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
     extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
     // @format:on

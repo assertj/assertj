@@ -30,6 +30,7 @@ import java.util.function.Function;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link Duration} type.
@@ -40,14 +41,14 @@ import org.assertj.core.presentation.StandardRepresentation;
  * @since 3.15.0
  */
 public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert<SELF>>
-    extends AbstractComparableAssert<SELF, Duration> {
+    extends AbstractComparableAssert<SELF, @Nullable Duration> {
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractDurationAssert}</code>
    * @param duration the actual value to verify
    * @param selfType the "self type"
    */
-  protected AbstractDurationAssert(Duration duration, Class<?> selfType) {
+  protected AbstractDurationAssert(@Nullable Duration duration, Class<?> selfType) {
     super(duration, selfType);
   }
 

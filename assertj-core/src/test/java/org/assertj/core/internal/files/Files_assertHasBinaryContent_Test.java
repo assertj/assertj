@@ -58,6 +58,7 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_expected_is_null() {
     // GIVEN
     byte[] expectedContent = null;
@@ -68,6 +69,7 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     File actual = null;

@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies a maximum size failed.
  *
@@ -32,11 +34,12 @@ public class ShouldHaveSizeLessThanOrEqualTo extends BasicErrorMessageFactory {
    * @param expectedMaxSize the expected size.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveSizeLessThanOrEqualTo(Object actual, int actualSize, int expectedMaxSize) {
+  public static ErrorMessageFactory shouldHaveSizeLessThanOrEqualTo(@Nullable Object actual, int actualSize,
+                                                                    int expectedMaxSize) {
     return new ShouldHaveSizeLessThanOrEqualTo(actual, actualSize, expectedMaxSize);
   }
 
-  private ShouldHaveSizeLessThanOrEqualTo(Object actual, int actualSize, int expectedSize) {
+  private ShouldHaveSizeLessThanOrEqualTo(@Nullable Object actual, int actualSize, int expectedSize) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
     // %%s is going to be formatted to %s to be replaced by actual later on.

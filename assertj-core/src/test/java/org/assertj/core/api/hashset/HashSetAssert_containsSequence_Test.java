@@ -57,6 +57,7 @@ class HashSetAssert_containsSequence_Test extends HashSetAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_after_hashCode_changed() {
     // GIVEN
     Date first = Date.from(EPOCH.plusSeconds(1));
@@ -73,6 +74,7 @@ class HashSetAssert_containsSequence_Test extends HashSetAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_after_hashCode_changed_for_Iterable() {
     // GIVEN
     Date first = Date.from(EPOCH.plusSeconds(1));

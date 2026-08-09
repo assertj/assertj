@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.io.File;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link File}s.
  * <p>
@@ -37,7 +39,7 @@ public class FileAssert extends AbstractFileAssert<FileAssert> {
    *
    * @param actual the actual file to verify
    */
-  public FileAssert(File actual) {
+  public FileAssert(@Nullable File actual) {
     super(actual, FileAssert.class);
   }
 }

@@ -60,6 +60,7 @@ class Closeables_closeQuietly_Test {
     boolean closed;
     IOException toThrow;
 
+    @SuppressWarnings("NullAway")
     public CloseableStub() {}
 
     public CloseableStub(IOException toThrow) {

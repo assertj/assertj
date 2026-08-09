@@ -36,6 +36,7 @@ import org.junit.jupiter.api.Test;
 class LongArrays_assertHasSameSizeAs_with_Array_Test extends LongArraysBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;

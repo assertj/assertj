@@ -139,6 +139,7 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     }
 
     @Override
+    @SuppressWarnings("NullAway")
     public String toString() {
       return concat("Person[name=", name, "]");
     }
@@ -153,6 +154,7 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
 
   public static class ToStringIsNull {
     @Override
+    @SuppressWarnings("NullAway")
     public String toString() {
       return null;
     }

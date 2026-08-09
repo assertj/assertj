@@ -27,6 +27,8 @@ import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
+import org.jspecify.annotations.Nullable;
+
 /** Utility methods used by recursive assertions. */
 public class RecursiveHelper {
 
@@ -39,7 +41,7 @@ public class RecursiveHelper {
    * @param o the object to check
    * @return whether the object is a container
    */
-  public static boolean isContainer(Object o) {
+  public static boolean isContainer(@Nullable Object o) {
     return o instanceof Iterable ||
            o instanceof Map ||
            o instanceof Optional ||

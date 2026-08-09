@@ -43,6 +43,7 @@ class Files_assertHasExtension_Test extends FilesBaseTest {
   private final String expectedExtension = "java";
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     String expected = "txt";
@@ -53,6 +54,7 @@ class Files_assertHasExtension_Test extends FilesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_expected_extension_is_null() {
     // GIVEN
     File actual = new File("file.txt");

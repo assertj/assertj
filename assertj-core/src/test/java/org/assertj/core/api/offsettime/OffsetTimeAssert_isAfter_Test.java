@@ -58,12 +58,14 @@ class OffsetTimeAssert_isAfter_Test extends OffsetTimeAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_offsetTime_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isAfter((OffsetTime) null))
                                         .withMessage("The OffsetTime to compare actual with should not be null");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_offsetTime_as_string_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isAfter((String) null))
                                         .withMessage("The String representing the OffsetTime to compare actual with should not be null");

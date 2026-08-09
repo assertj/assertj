@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.net.URI;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion class for {@link java.net.URI}s
  */
@@ -26,7 +28,7 @@ public class UriAssert extends AbstractUriAssert<UriAssert> {
    *
    * @param actual the url to test
    */
-  public UriAssert(URI actual) {
+  public UriAssert(@Nullable URI actual) {
     super(actual, UriAssert.class);
   }
 }

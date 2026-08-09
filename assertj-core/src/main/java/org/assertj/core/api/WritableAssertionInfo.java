@@ -30,6 +30,7 @@ import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.UnicodeRepresentation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Writable information about an assertion.
@@ -40,9 +41,9 @@ import org.assertj.core.presentation.UnicodeRepresentation;
 public class WritableAssertionInfo implements AssertionInfo {
 
   private static final String EMPTY_STRING = "";
-  private Supplier<String> overridingErrorMessageSupplier;
-  private String overridingErrorMessage;
-  private Description description;
+  private @Nullable Supplier<String> overridingErrorMessageSupplier;
+  private @Nullable String overridingErrorMessage;
+  private @Nullable Description description;
   private Representation representation;
 
   /**
@@ -50,20 +51,20 @@ public class WritableAssertionInfo implements AssertionInfo {
    *
    * @param customRepresentation the custom representation, or {@code null} for the default
    */
-  public WritableAssertionInfo(Representation customRepresentation) {
-    useRepresentation(customRepresentation == null ? CONFIGURATION_PROVIDER.representation() : customRepresentation);
+  public WritableAssertionInfo(@Nullable Representation customRepresentation) {
+    representation = customRepresentation == null ? CONFIGURATION_PROVIDER.representation() : customRepresentation;
   }
 
   /** Creates assertion information using the default representation. */
   public WritableAssertionInfo() {
-    useRepresentation(CONFIGURATION_PROVIDER.representation());
+    representation = CONFIGURATION_PROVIDER.representation();
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public String overridingErrorMessage() {
+  public @Nullable String overridingErrorMessage() {
     // at this point we can have only one of overridingErrorMessageSupplier or overridingErrorMessage
     return overridingErrorMessageSupplier != null ? overridingErrorMessageSupplier.get() : overridingErrorMessage;
   }
@@ -74,7 +75,7 @@ public class WritableAssertionInfo implements AssertionInfo {
    * @param newErrorMessage the new message. It can be {@code null}.
    * @throws IllegalStateException if the message has already been overridden with {@link #overridingErrorMessage(Supplier)}.
    */
-  public void overridingErrorMessage(String newErrorMessage) {
+  public void overridingErrorMessage(@Nullable String newErrorMessage) {
     checkState(overridingErrorMessageSupplier == null,
                "An error message has already been set with overridingErrorMessage(Supplier<String> supplier)");
     overridingErrorMessage = newErrorMessage;
@@ -86,7 +87,7 @@ public class WritableAssertionInfo implements AssertionInfo {
    * @param supplier the new message by a supplier. It can be {@code null}.
    * @throws IllegalStateException if the message has already been overridden with {@link #overridingErrorMessage(String)}.
    */
-  public void overridingErrorMessage(Supplier<String> supplier) {
+  public void overridingErrorMessage(@Nullable Supplier<String> supplier) {
     checkState(overridingErrorMessage == null,
                "An error message has already been set with overridingErrorMessage(String newErrorMessage)");
     overridingErrorMessageSupplier = supplier;
@@ -96,7 +97,7 @@ public class WritableAssertionInfo implements AssertionInfo {
    * {@inheritDoc}
    */
   @Override
-  public Description description() {
+  public @Nullable Description description() {
     return description;
   }
 
@@ -125,7 +126,7 @@ public class WritableAssertionInfo implements AssertionInfo {
    * @param args           if {@code newDescription} is a format String, {@code args} is argument of {@link String#format(String, Object...)}
    * @see #description(Description)
    */
-  public void description(String newDescription, Object... args) {
+  public void description(@Nullable String newDescription, Object @Nullable... args) {
     description = new TextDescription(newDescription, args);
   }
 
@@ -137,7 +138,7 @@ public class WritableAssertionInfo implements AssertionInfo {
    *
    * @param newDescription the new description.
    */
-  public void description(Description newDescription) {
+  public void description(@Nullable Description newDescription) {
     description = Description.emptyIfNull(newDescription);
   }
 

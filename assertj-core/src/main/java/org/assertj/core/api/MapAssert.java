@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.Map;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions for {@link Map}s.
  * <p>
@@ -31,7 +33,8 @@ import java.util.Map;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> {
+public class MapAssert<KEY extends @Nullable Object, VALUE extends @Nullable Object>
+    extends AbstractMapAssert<MapAssert<KEY, VALUE>, @Nullable Map<KEY, VALUE>, KEY, VALUE> {
 
   /**
    * Creates a new map assertion.
@@ -41,7 +44,7 @@ public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALU
    * @param actual the actual map to verify
    * @return the created assertion
    */
-  public static <K, V> MapAssert<K, V> assertThatMap(Map<K, V> actual) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> MapAssert<K, V> assertThatMap(@Nullable Map<K, V> actual) {
     return new MapAssert<>(actual);
   }
 
@@ -50,7 +53,7 @@ public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALU
    *
    * @param actual the actual map to verify
    */
-  public MapAssert(Map<KEY, VALUE> actual) {
+  public MapAssert(@Nullable Map<KEY, VALUE> actual) {
     super(actual, MapAssert.class);
   }
 

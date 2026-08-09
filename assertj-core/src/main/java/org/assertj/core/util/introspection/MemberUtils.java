@@ -19,6 +19,8 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Member;
 import java.lang.reflect.Modifier;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Shameless copy from Apache commons lang and then modified to keep only the interesting stuff for AssertJ.
  * 
@@ -42,7 +44,7 @@ abstract class MemberUtils {
    * accepted.
    * @param o the AccessibleObject to set as accessible
    */
-  static void setAccessibleWorkaround(AccessibleObject o) {
+  static void setAccessibleWorkaround(@Nullable AccessibleObject o) {
     if (o == null) {
       return;
     }

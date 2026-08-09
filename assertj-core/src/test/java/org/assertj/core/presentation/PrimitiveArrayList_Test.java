@@ -34,6 +34,7 @@ class PrimitiveArrayList_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_not_be_able_to_be_created_from_a_null_input() {
     // WHEN
     IllegalArgumentException illegalArgumentException = catchIllegalArgumentException(() -> new PrimitiveArrayList(null));

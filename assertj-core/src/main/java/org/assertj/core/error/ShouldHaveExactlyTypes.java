@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for groups with unexpected element types. */
 public class ShouldHaveExactlyTypes extends BasicErrorMessageFactory {
 
@@ -29,7 +31,7 @@ public class ShouldHaveExactlyTypes extends BasicErrorMessageFactory {
    * @param actualTypesNotExpected the unexpected types
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveTypes(Object actual, Iterable<Class<?>> expectedTypes,
+  public static ErrorMessageFactory shouldHaveTypes(@Nullable Object actual, Iterable<Class<?>> expectedTypes,
                                                     Iterable<Class<?>> expectedTypesNotFoundInActual,
                                                     Iterable<Class<?>> actualTypesNotExpected) {
     if (!isNullOrEmpty(actualTypesNotExpected) && !isNullOrEmpty(expectedTypesNotFoundInActual)) {
@@ -49,12 +51,13 @@ public class ShouldHaveExactlyTypes extends BasicErrorMessageFactory {
    * @param indexOfDifference the element index
    * @return the error message factory
    */
-  public static ErrorMessageFactory elementsTypesDifferAtIndex(Object actualElement, Class<?> expectedElement,
+  public static ErrorMessageFactory elementsTypesDifferAtIndex(@Nullable Object actualElement, Class<?> expectedElement,
                                                                int indexOfDifference) {
     return new ShouldHaveExactlyTypes(actualElement, expectedElement, indexOfDifference);
   }
 
-  private ShouldHaveExactlyTypes(Object actual, Iterable<Class<?>> expected, Iterable<Class<?>> expectedTypesNotFoundInActual,
+  private ShouldHaveExactlyTypes(@Nullable Object actual, Iterable<Class<?>> expected,
+                                 Iterable<Class<?>> expectedTypesNotFoundInActual,
                                  Iterable<Class<?>> actualTypesNotExpected) {
     super("%n" +
           "Expecting actual elements:%n" +
@@ -68,7 +71,7 @@ public class ShouldHaveExactlyTypes extends BasicErrorMessageFactory {
           actual, expected, expectedTypesNotFoundInActual, actualTypesNotExpected);
   }
 
-  private ShouldHaveExactlyTypes(Object actual, Iterable<Class<?>> expected, Iterable<Class<?>> diff,
+  private ShouldHaveExactlyTypes(@Nullable Object actual, Iterable<Class<?>> expected, Iterable<Class<?>> diff,
                                  boolean expectedTypesNotFoundInActualOnly) {
     // @format:off
     super("%n" +
@@ -84,12 +87,12 @@ public class ShouldHaveExactlyTypes extends BasicErrorMessageFactory {
     // @format:on
   }
 
-  private ShouldHaveExactlyTypes(Object actualElement, Class<?> expectedType, int indexOfDifference) {
+  private ShouldHaveExactlyTypes(@Nullable Object actualElement, Class<?> expectedType, int indexOfDifference) {
     super("%n" +
           "actual element at index %s does not have the expected type, element was:%s%n" +
           "actual element type: %s%n" +
           "expected type      : %s",
-          indexOfDifference, actualElement, actualElement.getClass(), expectedType);
+          indexOfDifference, actualElement, actualElement == null ? null : actualElement.getClass(), expectedType);
   }
 
 }

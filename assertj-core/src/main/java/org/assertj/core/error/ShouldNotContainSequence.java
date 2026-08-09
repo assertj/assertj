@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a group of elements does not contain a
@@ -34,7 +35,7 @@ public class ShouldNotContainSequence extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContainSequence(Object actual, Object sequence, int index,
+  public static ErrorMessageFactory shouldNotContainSequence(Object actual, @Nullable Object sequence, int index,
                                                              ComparisonStrategy comparisonStrategy) {
     return new ShouldNotContainSequence(actual, sequence, index, comparisonStrategy);
   }
@@ -46,11 +47,11 @@ public class ShouldNotContainSequence extends BasicErrorMessageFactory {
    * @param index the index where the sequence was found.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContainSequence(Object actual, Object sequence, int index) {
+  public static ErrorMessageFactory shouldNotContainSequence(Object actual, @Nullable Object sequence, int index) {
     return new ShouldNotContainSequence(actual, sequence, index, StandardComparisonStrategy.instance());
   }
 
-  private ShouldNotContainSequence(Object actual, Object sequence, int index, ComparisonStrategy comparisonStrategy) {
+  private ShouldNotContainSequence(Object actual, @Nullable Object sequence, int index, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto not contain sequence:%n  %s%nbut was found at index %s%n%s", actual, sequence, index,
           comparisonStrategy);
   }

@@ -33,6 +33,7 @@ import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for assertions on {@link ZonedDateTime} values.
@@ -40,7 +41,7 @@ import org.assertj.core.internal.Objects;
  * @param <SELF> the "self" type of this assertion class
  */
 public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDateTimeAssert<SELF>> extends
-    AbstractTemporalAssert<SELF, ZonedDateTime> {
+    AbstractTemporalAssert<SELF, @Nullable ZonedDateTime> {
 
   /** Error message used when the date-time to compare is {@code null}. */
   public static final String NULL_DATE_TIME_PARAMETER_MESSAGE = "The ZonedDateTime to compare actual with should not be null";
@@ -350,7 +351,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    *                      to the comparator in use.
    */
   @Override
-  public SELF isEqualTo(Object expected) {
+  public SELF isEqualTo(@Nullable Object expected) {
     return executeAssertion(() -> {
       if (actual == null || expected == null) {
         super.isEqualTo(expected);
@@ -419,7 +420,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    *                to the comparator in use.
    */
   @Override
-  public SELF isNotEqualTo(Object expected) {
+  public SELF isNotEqualTo(@Nullable Object expected) {
     return executeAssertion(() -> {
       if (actual == null || expected == null) {
         super.isNotEqualTo(expected);
@@ -773,7 +774,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @throws AssertionError if the actual {@code ZonedDateTime} is not close to the given one for a provided offset.
    */
   @Override
-  public SELF isCloseTo(ZonedDateTime other, TemporalOffset<? super ZonedDateTime> offset) {
+  public SELF isCloseTo(@Nullable ZonedDateTime other, TemporalOffset<? super ZonedDateTime> offset) {
     // overridden for javadoc
     return super.isCloseTo(other, offset);
   }
@@ -800,7 +801,8 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
     return dates;
   }
 
-  private ZonedDateTime[] changeToActualTimeZone(ZonedDateTime... dateTimes) {
+  private @Nullable ZonedDateTime[] changeToActualTimeZone(ZonedDateTime... dateTimes) {
+    @Nullable
     ZonedDateTime[] dates = new ZonedDateTime[dateTimes.length];
     for (int i = 0; i < dateTimes.length; i++) {
       dates[i] = sameInstantInActualTimeZone(dateTimes[i]);
@@ -824,7 +826,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
     return ZonedDateTime.parse(dateTimeAsString, DateTimeFormatter.ISO_DATE_TIME);
   }
 
-  private ZonedDateTime sameInstantInActualTimeZone(ZonedDateTime zonedDateTime) {
+  private @Nullable ZonedDateTime sameInstantInActualTimeZone(@Nullable ZonedDateTime zonedDateTime) {
     if (zonedDateTime == null) return null; // nothing to convert in actual's TZ
     if (actual == null) return zonedDateTime; // no actual => let's keep zonedDateTime as it is.
     return zonedDateTime.withZoneSameInstant(actual.getZone());
@@ -903,7 +905,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @param actual the actual date-time to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractZonedDateTimeAssert(ZonedDateTime actual, Class<?> selfType) {
+  protected AbstractZonedDateTimeAssert(@Nullable ZonedDateTime actual, Class<?> selfType) {
     super(actual, selfType);
     comparables = buildDefaultComparables();
   }

@@ -23,6 +23,7 @@ import java.util.function.Predicate;
 
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.presentation.PredicateDescription;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link Predicate}.
@@ -33,7 +34,7 @@ import org.assertj.core.presentation.PredicateDescription;
  * @author Filip Hrisafov
  */
 public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAssert<SELF, T>, T> extends
-    AbstractAssertWithComparator<SELF, Predicate<T>> {
+    AbstractAssertWithComparator<SELF, @Nullable Predicate<T>> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Iterables iterables = Iterables.instance();
@@ -44,7 +45,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    * @param actual the actual predicate to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractPredicateAssert(Predicate<T> actual, Class<?> selfType) {
+  protected AbstractPredicateAssert(@Nullable Predicate<T> actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.internal.ObjectsBaseTest;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
@@ -135,6 +136,7 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_field_or_property_name_is_null() {
     // GIVEN
     Object actual = new Data();
@@ -155,6 +157,7 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_rethrow_getter_exception_if_field_is_missing() {
     // GIVEN
     Object actual = new Data();
@@ -169,12 +172,13 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
   private static class Data {
 
     private final Object field1 = "foo";
-    private Object field2;
+    private @Nullable Object field2;
     private final List<String> listField = new ArrayList<>(1);
     private final String[] arrayField = new String[] { "bar", "baz" };
     private final Object fieldWithGetterThrowing = "dummy";
-    private static Object staticField;
+    private static @Nullable Object staticField;
 
+    @SuppressWarnings("NullAway")
     public Data() {
       listField.add("bar");
       listField.add("baz");

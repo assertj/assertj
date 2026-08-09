@@ -16,6 +16,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.presentation.PredicateDescription;
+import org.jspecify.annotations.Nullable;
 
 /** Creates errors for iterables containing an element matching a forbidden predicate. */
 public class NoElementsShouldMatch extends BasicErrorMessageFactory {
@@ -29,12 +30,12 @@ public class NoElementsShouldMatch extends BasicErrorMessageFactory {
    * @param predicateDescription the predicate description
    * @return the error message factory
    */
-  public static <T> ErrorMessageFactory noElementsShouldMatch(Object actual, T elementMatchingPredicate,
+  public static <T> ErrorMessageFactory noElementsShouldMatch(@Nullable Object actual, T elementMatchingPredicate,
                                                               PredicateDescription predicateDescription) {
     return new NoElementsShouldMatch(actual, elementMatchingPredicate, predicateDescription);
   }
 
-  private NoElementsShouldMatch(Object actual, Object satisfies, PredicateDescription predicateDescription) {
+  private NoElementsShouldMatch(@Nullable Object actual, @Nullable Object satisfies, PredicateDescription predicateDescription) {
     super("%nExpecting no elements of:%n  %s%nto match %s predicate but this element did:%n  %s", actual,
           predicateDescription, satisfies);
   }

@@ -51,6 +51,7 @@ class LocalDateTimeAssert_isNotEqualTo_Test extends AbstractLocalDateTimeAssertB
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_dateTime_as_string_parameter_is_null() {
     // GIVEN
     String otherDateTimeAsString = null;

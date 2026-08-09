@@ -32,6 +32,7 @@ class Condition_constructor_with_text_description_Test {
     String text = "your eyes can deceive you; don't trust them";
     Condition<Object> condition = new Condition<Object>(text) {
       @Override
+      @SuppressWarnings("NullAway")
       public boolean matches(Object value) {
         return false;
       }
@@ -40,9 +41,11 @@ class Condition_constructor_with_text_description_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_set_empty_description_if_description_is_null() {
     Condition<Object> condition = new Condition<Object>((String) null) {
       @Override
+      @SuppressWarnings("NullAway")
       public boolean matches(Object value) {
         return false;
       }

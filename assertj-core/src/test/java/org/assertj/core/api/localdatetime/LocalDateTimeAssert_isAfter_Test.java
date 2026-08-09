@@ -48,6 +48,7 @@ class LocalDateTimeAssert_isAfter_Test extends AbstractLocalDateTimeAssertBaseTe
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_localDateTime_parameter_is_null() {
     // GIVEN
     LocalDateTime otherDateTime = null;
@@ -59,6 +60,7 @@ class LocalDateTimeAssert_isAfter_Test extends AbstractLocalDateTimeAssertBaseTe
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_localDateTime_as_string_parameter_is_null() {
     // GIVEN
     String otherDateTimeAsString = null;

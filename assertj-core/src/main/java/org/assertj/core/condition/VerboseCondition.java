@@ -23,6 +23,7 @@ import java.util.function.Predicate;
 import org.assertj.core.annotation.Beta;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Condition;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@link Condition} that shows the value under test when the condition fails thanks to the specified {@code objectUnderTestDescriptor} function.
@@ -57,9 +58,9 @@ import org.assertj.core.api.Condition;
  * @author Stefan Bischof
  */
 @Beta
-public final class VerboseCondition<T> extends Condition<T> {
+public final class VerboseCondition<T extends @Nullable Object> extends Condition<T> {
 
-  private Function<T, String> objectUnderTestDescriptor;
+  private Function<@Nullable T, String> objectUnderTestDescriptor;
 
   // needed to avoid an incorrect description when matches is run multiple times.
   private String description;
@@ -100,12 +101,14 @@ public final class VerboseCondition<T> extends Condition<T> {
    * @throws NullPointerException if the predicate is {@code null}.
    * @throws NullPointerException if the objectUnderTestDescriptor is {@code null}.
    */
-  public static <T> VerboseCondition<T> verboseCondition(Predicate<T> predicate, String description,
-                                                         Function<T, String> objectUnderTestDescriptor) {
+  public static <T extends @Nullable Object> VerboseCondition<T> verboseCondition(Predicate<@Nullable T> predicate,
+                                                                                  String description,
+                                                                                  Function<@Nullable T, String> objectUnderTestDescriptor) {
     return new VerboseCondition<>(predicate, description, objectUnderTestDescriptor);
   }
 
-  private VerboseCondition(Predicate<T> predicate, String description, Function<T, String> objectUnderTestDescriptor) {
+  private VerboseCondition(Predicate<@Nullable T> predicate, String description,
+                           Function<@Nullable T, String> objectUnderTestDescriptor) {
     super(predicate, description);
     this.description = description;
     this.objectUnderTestDescriptor = requireNonNull(objectUnderTestDescriptor,
@@ -113,7 +116,7 @@ public final class VerboseCondition<T> extends Condition<T> {
   }
 
   @Override
-  public boolean matches(T objectUnderTest) {
+  public boolean matches(@Nullable T objectUnderTest) {
     boolean matches = super.matches(objectUnderTest);
     describedAs(buildVerboseDescription(objectUnderTest, matches));
     return matches;
@@ -126,7 +129,7 @@ public final class VerboseCondition<T> extends Condition<T> {
    * @param matches the result of the match operation
    * @return the verbose condition description.
    */
-  protected String buildVerboseDescription(T objectUnderTest, boolean matches) {
+  protected String buildVerboseDescription(@Nullable T objectUnderTest, boolean matches) {
     StringBuilder sb = new StringBuilder("%s".formatted(description));
     if (!matches) sb.append(objectUnderTestDescriptor.apply(objectUnderTest));
     return sb.toString();

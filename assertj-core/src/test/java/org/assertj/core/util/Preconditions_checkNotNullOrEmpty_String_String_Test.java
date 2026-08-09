@@ -38,6 +38,7 @@ class Preconditions_checkNotNullOrEmpty_String_String_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_nullpointerexception_if_string_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       String string = null;

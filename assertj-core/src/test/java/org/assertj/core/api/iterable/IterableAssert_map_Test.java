@@ -55,6 +55,7 @@ class IterableAssert_map_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_assertion_error_if_actual_is_null() {
     // GIVEN
     List<TolkienCharacter> elves = null;
@@ -65,6 +66,7 @@ class IterableAssert_map_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_assertion_error_if_actual_is_null_when_passing_multiple_functions() {
     // GIVEN
     List<TolkienCharacter> elves = null;

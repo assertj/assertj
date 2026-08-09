@@ -35,6 +35,7 @@ public class IterableAssert_filtered_baseTest {
   protected List<Employee> employees;
 
   @BeforeEach
+  @SuppressWarnings("NullAway")
   public void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     obiwan = new Employee(2L, new Name("Obi"), 800);

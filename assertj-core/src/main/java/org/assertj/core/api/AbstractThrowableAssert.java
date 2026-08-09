@@ -30,6 +30,7 @@ import org.assertj.core.description.Description;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Throwable}s.
@@ -45,7 +46,7 @@ import org.assertj.core.internal.Throwables;
  * @author Mike Gilchrist
  * @author Paweł Baczyński
  */
-public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAssert<SELF, ACTUAL>, ACTUAL extends Throwable>
+public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAssert<SELF, ACTUAL>, ACTUAL extends @Nullable Throwable>
     extends AbstractObjectAssert<SELF, ACTUAL> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -137,7 +138,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalStateException if the descriptionSupplier is {@code null} when evaluated.
    */
   @Override
-  public SELF as(Supplier<String> descriptionSupplier) {
+  public SELF as(@Nullable Supplier<String> descriptionSupplier) {
     return super.as(descriptionSupplier);
   }
 
@@ -149,7 +150,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one.
    */
-  public SELF hasMessage(String message) {
+  public SELF hasMessage(@Nullable String message) {
     return executeAssertion(() -> throwables.assertHasMessage(info, actual, message));
   }
 
@@ -201,7 +202,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} has not the given cause.
    */
-  public SELF hasCause(Throwable cause) {
+  public SELF hasCause(@Nullable Throwable cause) {
     return executeAssertion(() -> throwables.assertHasCause(info, actual, cause));
   }
 
@@ -235,7 +236,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   public AbstractThrowableAssert<?, ?> cause() {
     return executeAssertionNavigation(() -> {
       throwables.assertHasCause(info, actual);
-      return new ThrowableAssert<>(actual.getCause()).withAssertionState(myself);
+      return new ThrowableAssert<@Nullable Throwable>(actual.getCause()).withAssertionState(myself);
     }, ThrowableAssert::nullThrowableAssert);
   }
 
@@ -259,7 +260,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   public AbstractThrowableAssert<?, ?> rootCause() {
     return executeAssertionNavigation(() -> {
       throwables.assertHasRootCause(info, actual);
-      return new ThrowableAssert<>(org.assertj.core.util.Throwables.getRootCause(actual)).withAssertionState(myself);
+      return new ThrowableAssert<@Nullable Throwable>(org.assertj.core.util.Throwables.getRootCause(actual)).withAssertionState(myself);
     }, ThrowableAssert::nullThrowableAssert);
   }
 
@@ -674,7 +675,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the actual {@code Throwable} has not the given cause.
    * @since 3.12.0
    */
-  public SELF hasRootCause(Throwable cause) {
+  public SELF hasRootCause(@Nullable Throwable cause) {
     return executeAssertion(() -> throwables.assertHasRootCause(info, actual, cause));
   }
 
@@ -750,7 +751,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *                        the given one.
    * @since 3.14.0
    */
-  public SELF hasRootCauseMessage(String message) {
+  public SELF hasRootCauseMessage(@Nullable String message) {
     return executeAssertion(() -> throwables.assertHasRootCauseMessage(info, actual, message));
   }
 

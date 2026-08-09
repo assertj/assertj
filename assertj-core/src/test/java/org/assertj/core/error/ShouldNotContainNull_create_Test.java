@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 class ShouldNotContainNull_create_Test {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_create_error_message() {
     // GIVEN
     String[] array = array("Luke", "Yoda", null);

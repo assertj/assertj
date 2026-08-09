@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.Comparator;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions applicable to groups of values that can be enumerated (e.g. arrays, collections or strings.)
  *
@@ -30,7 +32,7 @@ import java.util.Comparator;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, ELEMENT> {
+public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, ELEMENT extends @Nullable Object> {
 
   /**
    * Verifies that the actual group of values is {@code null} or empty.
@@ -239,7 +241,7 @@ public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, 
    * @throws AssertionError if the array parameter is {@code null} or is not a true array.
    * @throws AssertionError if actual group and given array don't have the same size.
    */
-  SELF hasSameSizeAs(Object array);
+  SELF hasSameSizeAs(@Nullable Object array);
 
   /**
    * Use given custom comparator instead of relying on actual type A <code>equals</code> method to compare group

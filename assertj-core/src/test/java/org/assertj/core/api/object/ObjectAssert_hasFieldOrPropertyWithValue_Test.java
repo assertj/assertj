@@ -45,6 +45,7 @@ class ObjectAssert_hasFieldOrPropertyWithValue_Test extends ObjectAssertBaseTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_both_are_null() {
     Jedi jedi = new Jedi(null, "Blue");
 

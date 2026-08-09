@@ -77,6 +77,7 @@ class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_comparator_is_null() {
     assertThatNullPointerException().isThrownBy(() -> lists.assertIsSortedAccordingToComparator(someInfo(), newArrayList(),
                                                                                                 null));

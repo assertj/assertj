@@ -77,6 +77,7 @@ import java.util.stream.Stream;
 import org.assertj.core.annotation.CanIgnoreReturnValue;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides BDD-style proxied assertions that collect assertion errors.
@@ -90,7 +91,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default BigDecimalAssert then(BigDecimal actual) {
+  default BigDecimalAssert then(@Nullable BigDecimal actual) {
     return (BigDecimalAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -101,7 +102,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  default BigIntegerAssert then(BigInteger actual) {
+  default BigIntegerAssert then(@Nullable BigInteger actual) {
     return (BigIntegerAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -121,7 +122,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default BooleanAssert then(Boolean actual) {
+  default BooleanAssert then(@Nullable Boolean actual) {
     return (BooleanAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -131,7 +132,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default BooleanArrayAssert then(boolean[] actual) {
+  default BooleanArrayAssert then(boolean @Nullable [] actual) {
     return (BooleanArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -142,7 +143,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Boolean2DArrayAssert then(boolean[][] actual) {
+  default Boolean2DArrayAssert then(boolean[] @Nullable [] actual) {
     return (Boolean2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -162,7 +163,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default ByteAssert then(Byte actual) {
+  default ByteAssert then(@Nullable Byte actual) {
     return (ByteAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -172,7 +173,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default ByteArrayAssert then(byte[] actual) {
+  default ByteArrayAssert then(byte @Nullable [] actual) {
     return (ByteArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -183,7 +184,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Byte2DArrayAssert then(byte[][] actual) {
+  default Byte2DArrayAssert then(byte[] @Nullable [] actual) {
     return (Byte2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -203,7 +204,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default CharArrayAssert then(char[] actual) {
+  default CharArrayAssert then(char @Nullable [] actual) {
     return (CharArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -214,7 +215,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Char2DArrayAssert then(char[][] actual) {
+  default Char2DArrayAssert then(char[] @Nullable [] actual) {
     return (Char2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -224,7 +225,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default CharacterAssert then(Character actual) {
+  default CharacterAssert then(@Nullable Character actual) {
     return (CharacterAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -236,7 +237,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default ClassAssert then(Class<?> actual) {
+  default ClassAssert then(@Nullable Class<?> actual) {
     return (ClassAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -304,7 +305,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <T> IterableAssert<T> then(Iterable<? extends T> actual) {
+  default <T> IterableAssert<T> then(@Nullable Iterable<? extends T> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -333,7 +334,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <T> IteratorAssert<T> then(Iterator<? extends T> actual) {
+  default <T> IteratorAssert<T> then(@Nullable Iterator<? extends T> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -368,7 +369,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default DoubleAssert then(Double actual) {
+  default DoubleAssert then(@Nullable Double actual) {
     return (DoubleAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -378,7 +379,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default DoubleArrayAssert then(double[] actual) {
+  default DoubleArrayAssert then(double @Nullable [] actual) {
     return (DoubleArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -389,7 +390,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Double2DArrayAssert then(double[][] actual) {
+  default Double2DArrayAssert then(double[] @Nullable [] actual) {
     return (Double2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -399,7 +400,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default FileAssert then(File actual) {
+  default FileAssert then(@Nullable File actual) {
     return (FileAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -412,7 +413,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 2.7.0 / 3.7.0
    */
   @SuppressWarnings("unchecked")
-  default <RESULT> FutureAssert<RESULT> then(Future<RESULT> actual) {
+  default <RESULT> FutureAssert<RESULT> then(@Nullable Future<RESULT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -422,7 +423,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default InputStreamAssert then(InputStream actual) {
+  default InputStreamAssert then(@Nullable InputStream actual) {
     return (InputStreamAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -442,7 +443,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default FloatAssert then(Float actual) {
+  default FloatAssert then(@Nullable Float actual) {
     return (FloatAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -452,7 +453,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default FloatArrayAssert then(float[] actual) {
+  default FloatArrayAssert then(float @Nullable [] actual) {
     return (FloatArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -463,7 +464,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Float2DArrayAssert then(float[][] actual) {
+  default Float2DArrayAssert then(float[] @Nullable [] actual) {
     return (Float2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -483,7 +484,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default IntArrayAssert then(int[] actual) {
+  default IntArrayAssert then(int @Nullable [] actual) {
     return (IntArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -494,7 +495,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Int2DArrayAssert then(int[][] actual) {
+  default Int2DArrayAssert then(int[] @Nullable [] actual) {
     return (Int2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -504,7 +505,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default IntegerAssert then(Integer actual) {
+  default IntegerAssert then(@Nullable Integer actual) {
     return (IntegerAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -551,7 +552,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default LongAssert then(Long actual) {
+  default LongAssert then(@Nullable Long actual) {
     return (LongAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -561,7 +562,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default LongArrayAssert then(long[] actual) {
+  default LongArrayAssert then(long @Nullable [] actual) {
     return (LongArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -572,7 +573,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Long2DArrayAssert then(long[][] actual) {
+  default Long2DArrayAssert then(long[] @Nullable [] actual) {
     return (Long2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -584,7 +585,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <T> ObjectAssert<T> then(T actual) {
+  default <T extends @Nullable Object> ObjectAssert<T> then(T actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -596,7 +597,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <T> ObjectArrayAssert<T> then(T[] actual) {
+  default <T> ObjectArrayAssert<T> then(T @Nullable [] actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -609,7 +610,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   @SuppressWarnings("unchecked")
-  default <T> Object2DArrayAssert<T> then(T[][] actual) {
+  default <T> Object2DArrayAssert<T> then(T[] @Nullable [] actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -624,7 +625,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <K, V> MapAssert<K, V> then(Map<K, V> actual) {
+  default <K, V> MapAssert<K, V> then(@Nullable Map<K, V> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -644,7 +645,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default ShortAssert then(Short actual) {
+  default ShortAssert then(@Nullable Short actual) {
     return (ShortAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -654,7 +655,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default ShortArrayAssert then(short[] actual) {
+  default ShortArrayAssert then(short @Nullable [] actual) {
     return (ShortArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -665,7 +666,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Short2DArrayAssert then(short[][] actual) {
+  default Short2DArrayAssert then(short[] @Nullable [] actual) {
     return (Short2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -675,7 +676,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default CharSequenceAssert then(CharSequence actual) {
+  default CharSequenceAssert then(@Nullable CharSequence actual) {
     return (CharSequenceAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -700,7 +701,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.11.0
    */
-  default CharSequenceAssert then(StringBuilder actual) {
+  default CharSequenceAssert then(@Nullable StringBuilder actual) {
     return (CharSequenceAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -711,7 +712,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.11.0
    */
-  default CharSequenceAssert then(StringBuffer actual) {
+  default CharSequenceAssert then(@Nullable StringBuffer actual) {
     return (CharSequenceAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -721,7 +722,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default StringAssert then(String actual) {
+  default StringAssert then(@Nullable String actual) {
     return (StringAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -731,7 +732,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default DateAssert then(Date actual) {
+  default DateAssert then(@Nullable Date actual) {
     return (DateAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -742,7 +743,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  default AtomicBooleanAssert then(AtomicBoolean actual) {
+  default AtomicBooleanAssert then(@Nullable AtomicBoolean actual) {
     return (AtomicBooleanAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -753,7 +754,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  default AtomicIntegerAssert then(AtomicInteger actual) {
+  default AtomicIntegerAssert then(@Nullable AtomicInteger actual) {
     return (AtomicIntegerAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -764,7 +765,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  default AtomicIntegerArrayAssert then(AtomicIntegerArray actual) {
+  default AtomicIntegerArrayAssert then(@Nullable AtomicIntegerArray actual) {
     return (AtomicIntegerArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -777,7 +778,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 2.7.0 / 3.7.0
    */
   @SuppressWarnings("unchecked")
-  default <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> then(AtomicIntegerFieldUpdater<OBJECT> actual) {
+  default <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> then(@Nullable AtomicIntegerFieldUpdater<OBJECT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -788,7 +789,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  default AtomicLongAssert then(AtomicLong actual) {
+  default AtomicLongAssert then(@Nullable AtomicLong actual) {
     return (AtomicLongAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -799,7 +800,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  default AtomicLongArrayAssert then(AtomicLongArray actual) {
+  default AtomicLongArrayAssert then(@Nullable AtomicLongArray actual) {
     return (AtomicLongArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -812,7 +813,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 2.7.0 / 3.7.0
    */
   @SuppressWarnings("unchecked")
-  default <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> then(AtomicLongFieldUpdater<OBJECT> actual) {
+  default <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> then(@Nullable AtomicLongFieldUpdater<OBJECT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -825,7 +826,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 2.7.0 / 3.7.0
    */
   @SuppressWarnings("unchecked")
-  default <VALUE> AtomicReferenceAssert<VALUE> then(AtomicReference<VALUE> actual) {
+  default <VALUE> AtomicReferenceAssert<VALUE> then(@Nullable AtomicReference<VALUE> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -838,7 +839,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 2.7.0 / 3.7.0
    */
   @SuppressWarnings("unchecked")
-  default <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> then(AtomicReferenceArray<ELEMENT> actual) {
+  default <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> then(@Nullable AtomicReferenceArray<ELEMENT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -852,7 +853,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 2.7.0 / 3.7.0
    */
   @SuppressWarnings("unchecked")
-  default <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> then(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
+  default <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> then(@Nullable AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -865,7 +866,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 2.7.0 / 3.7.0
    */
   @SuppressWarnings("unchecked")
-  default <VALUE> AtomicMarkableReferenceAssert<VALUE> then(AtomicMarkableReference<VALUE> actual) {
+  default <VALUE> AtomicMarkableReferenceAssert<VALUE> then(@Nullable AtomicMarkableReference<VALUE> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -878,7 +879,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 2.7.0 / 3.7.0
    */
   @SuppressWarnings("unchecked")
-  default <VALUE> AtomicStampedReferenceAssert<VALUE> then(AtomicStampedReference<VALUE> actual) {
+  default <VALUE> AtomicStampedReferenceAssert<VALUE> then(@Nullable AtomicStampedReference<VALUE> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -890,7 +891,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion Throwable.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  default <T extends Throwable> ThrowableAssert<T> then(T actual) {
+  default <T extends Throwable> ThrowableAssert<T> then(@Nullable T actual) {
     return (ThrowableAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -902,7 +903,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion for SQLException.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  default <T extends SQLException> ThrowableAssert<T> then(T actual) {
+  default <T extends SQLException> ThrowableAssert<T> then(@Nullable T actual) {
     return (ThrowableAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1050,7 +1051,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.12.0
    */
-  default <T> ObjectAssert<T> thenObject(T actual) {
+  default <T extends @Nullable Object> ObjectAssert<T> thenObject(T actual) {
     return then(actual);
   }
 
@@ -1060,7 +1061,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default UriAssert then(URI actual) {
+  default UriAssert then(@Nullable URI actual) {
     return (UriAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1070,7 +1071,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractUrlAssert<?> then(URL actual) {
+  default AbstractUrlAssert<?> then(@Nullable URL actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1180,7 +1181,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the path
    * @return the created assertion object
    */
-  default PathAssert then(Path actual) {
+  default PathAssert then(@Nullable Path actual) {
     return (PathAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1207,7 +1208,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <VALUE> OptionalAssert<VALUE> then(Optional<VALUE> actual) {
+  default <VALUE> OptionalAssert<VALUE> then(@Nullable Optional<VALUE> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1218,7 +1219,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @return the created assertion object.
    */
-  default OptionalDoubleAssert then(OptionalDouble actual) {
+  default OptionalDoubleAssert then(@Nullable OptionalDouble actual) {
     return (OptionalDoubleAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1229,7 +1230,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @return the created assertion object.
    */
-  default OptionalIntAssert then(OptionalInt actual) {
+  default OptionalIntAssert then(@Nullable OptionalInt actual) {
     return (OptionalIntAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1240,7 +1241,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @return the created assertion object.
    */
-  default OptionalLongAssert then(OptionalLong actual) {
+  default OptionalLongAssert then(@Nullable OptionalLong actual) {
     return (OptionalLongAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1252,7 +1253,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  default MatcherAssert then(Matcher actual) {
+  default MatcherAssert then(@Nullable Matcher actual) {
     return (MatcherAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1273,7 +1274,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   * @param actual the actual value.
   * @return the created assertion object.
   */
-  default LocalDateAssert then(LocalDate actual) {
+  default LocalDateAssert then(@Nullable LocalDate actual) {
     return (LocalDateAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1284,7 +1285,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.26.0
    */
-  default YearMonthAssert then(YearMonth actual) {
+  default YearMonthAssert then(@Nullable YearMonth actual) {
     return (YearMonthAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1294,7 +1295,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default LocalDateTimeAssert then(LocalDateTime actual) {
+  default LocalDateTimeAssert then(@Nullable LocalDateTime actual) {
     return (LocalDateTimeAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1304,7 +1305,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default ZonedDateTimeAssert then(ZonedDateTime actual) {
+  default ZonedDateTimeAssert then(@Nullable ZonedDateTime actual) {
     return (ZonedDateTimeAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1314,7 +1315,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default LocalTimeAssert then(LocalTime actual) {
+  default LocalTimeAssert then(@Nullable LocalTime actual) {
     return (LocalTimeAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1324,7 +1325,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default OffsetTimeAssert then(OffsetTime actual) {
+  default OffsetTimeAssert then(@Nullable OffsetTime actual) {
     return (OffsetTimeAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1334,7 +1335,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default OffsetDateTimeAssert then(OffsetDateTime actual) {
+  default OffsetDateTimeAssert then(@Nullable OffsetDateTime actual) {
     return (OffsetDateTimeAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1345,7 +1346,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.7.0
    */
-  default InstantAssert then(Instant actual) {
+  default InstantAssert then(@Nullable Instant actual) {
     return (InstantAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1356,7 +1357,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.15.0
    */
-  default DurationAssert then(Duration actual) {
+  default DurationAssert then(@Nullable Duration actual) {
     return (DurationAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1367,7 +1368,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default PeriodAssert then(Period actual) {
+  default PeriodAssert then(@Nullable Period actual) {
     return (PeriodAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1380,7 +1381,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <RESULT> CompletableFutureAssert<RESULT> then(CompletableFuture<RESULT> actual) {
+  default <RESULT> CompletableFutureAssert<RESULT> then(@Nullable CompletableFuture<RESULT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1395,7 +1396,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <RESULT> CompletableFutureAssert<RESULT> then(CompletionStage<RESULT> actual) {
+  default <RESULT> CompletableFutureAssert<RESULT> then(@Nullable CompletionStage<RESULT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1410,7 +1411,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.5.0
    */
   @SuppressWarnings("unchecked")
-  default <T> PredicateAssert<T> then(Predicate<T> actual) {
+  default <T> PredicateAssert<T> then(@Nullable Predicate<T> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1436,7 +1437,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.5.0
    */
-  default IntPredicateAssert then(IntPredicate actual) {
+  default IntPredicateAssert then(@Nullable IntPredicate actual) {
     return (IntPredicateAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1447,7 +1448,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.5.0
    */
-  default DoublePredicateAssert then(DoublePredicate actual) {
+  default DoublePredicateAssert then(@Nullable DoublePredicate actual) {
     return (DoublePredicateAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1458,7 +1459,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.5.0
    */
-  default LongPredicateAssert then(LongPredicate actual) {
+  default LongPredicateAssert then(@Nullable LongPredicate actual) {
     return (LongPredicateAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1474,7 +1475,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> then(Stream<? extends ELEMENT> actual) {
+  default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> then(@Nullable Stream<? extends ELEMENT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1509,7 +1510,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> then(DoubleStream actual) {
+  default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> then(@Nullable DoubleStream actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1524,7 +1525,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> then(LongStream actual) {
+  default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> then(@Nullable LongStream actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1539,7 +1540,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> then(IntStream actual) {
+  default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> then(@Nullable IntStream actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1552,7 +1553,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.14.0
    */
   @SuppressWarnings("unchecked")
-  default <ELEMENT> SpliteratorAssert<ELEMENT> then(Spliterator<ELEMENT> actual) {
+  default <ELEMENT> SpliteratorAssert<ELEMENT> then(@Nullable Spliterator<ELEMENT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1564,7 +1565,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 4.0.0
    */
-  default <ELEMENT> HashSetAssert<ELEMENT> then(HashSet<? extends ELEMENT> actual) {
+  default <ELEMENT> HashSetAssert<ELEMENT> then(@Nullable HashSet<? extends ELEMENT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1575,7 +1576,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.16.0
    */
-  default LongAdderAssert then(LongAdder actual) {
+  default LongAdderAssert then(@Nullable LongAdder actual) {
     return (LongAdderAssert) soft(Assertions.assertThat(actual));
   }
 

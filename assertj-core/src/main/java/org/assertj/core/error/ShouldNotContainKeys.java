@@ -19,6 +19,8 @@ import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
 
 import java.util.Set;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies a map does not contain keys.
  *
@@ -34,12 +36,12 @@ public class ShouldNotContainKeys extends BasicErrorMessageFactory {
    * @param keys the unexpected keys
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <K> ErrorMessageFactory shouldNotContainKeys(Object actual, Set<K> keys) {
+  public static <K> ErrorMessageFactory shouldNotContainKeys(@Nullable Object actual, Set<K> keys) {
     if (keys.size() == 1) return shouldNotContainKey(actual, keys.iterator().next());
     return new ShouldNotContainKeys(actual, keys);
   }
 
-  private <K> ShouldNotContainKeys(Object actual, Set<K> key) {
+  private <K> ShouldNotContainKeys(@Nullable Object actual, Set<K> key) {
     super("%nExpecting actual:%n  %s%nnot to contain keys:%n  %s", actual, key);
   }
 }

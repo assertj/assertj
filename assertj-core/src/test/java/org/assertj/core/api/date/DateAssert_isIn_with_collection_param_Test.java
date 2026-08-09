@@ -45,6 +45,7 @@ class DateAssert_isIn_with_collection_param_Test extends AbstractDateAssertWithD
   }
 
   @Override
+  @SuppressWarnings("NullAway")
   protected DateAssert assertionInvocationWithInstantArg() {
     // not supported (seems not super useful)
     return null;

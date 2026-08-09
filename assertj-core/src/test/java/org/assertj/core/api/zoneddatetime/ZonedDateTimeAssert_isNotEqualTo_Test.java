@@ -74,6 +74,7 @@ class ZonedDateTimeAssert_isNotEqualTo_Test extends AbstractZonedDateTimeAssertB
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_string_parameter_is_null() {
     // GIVEN
     String otherZonedDateTimeAsString = null;

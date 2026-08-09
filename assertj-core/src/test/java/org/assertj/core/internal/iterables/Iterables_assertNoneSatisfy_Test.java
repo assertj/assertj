@@ -85,6 +85,7 @@ class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_consumer_restrictions_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertNoneSatisfy(someInfo(), actual, null))
                                     .withMessage("The Consumer<T> expressing the restrictions must not be null");

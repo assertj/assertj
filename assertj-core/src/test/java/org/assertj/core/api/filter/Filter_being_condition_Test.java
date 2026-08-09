@@ -37,6 +37,7 @@ class Filter_being_condition_Test extends WithPlayerData {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_filter_condition_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> filter(players).being(null))
                                         .withMessage("The filter condition should not be null");

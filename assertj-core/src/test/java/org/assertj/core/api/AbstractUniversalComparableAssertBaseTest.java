@@ -28,6 +28,9 @@ import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class AbstractUniversalComparableAssertBaseTest {
 
   protected UniversalComparableAssert<String> assertions;

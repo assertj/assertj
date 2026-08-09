@@ -68,7 +68,9 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.util.diff.Delta;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for <code>{@link File}</code>s.
@@ -248,7 +250,7 @@ public class Files {
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file is not an existing file.
    */
-  public void assertIsFile(AssertionInfo info, File actual) {
+  public void assertIsFile(AssertionInfo info, @Nullable File actual) {
     assertNotNull(info, actual);
     if (actual.isFile()) return;
     throw failures.failure(info, shouldBeFile(actual));
@@ -262,7 +264,7 @@ public class Files {
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file is not an existing directory.
    */
-  public void assertIsDirectory(AssertionInfo info, File actual) {
+  public void assertIsDirectory(AssertionInfo info, @Nullable File actual) {
     assertNotNull(info, actual);
     if (actual.isDirectory()) return;
     throw failures.failure(info, shouldBeDirectory(actual));
@@ -302,7 +304,7 @@ public class Files {
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file does not exist.
    */
-  public void assertExists(AssertionInfo info, File actual) {
+  public void assertExists(AssertionInfo info, @Nullable File actual) {
     assertNotNull(info, actual);
     if (actual.exists()) return;
     throw failures.failure(info, shouldExist(actual));
@@ -316,7 +318,7 @@ public class Files {
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file exists.
    */
-  public void assertDoesNotExist(AssertionInfo info, File actual) {
+  public void assertDoesNotExist(AssertionInfo info, @Nullable File actual) {
     assertNotNull(info, actual);
     if (!actual.exists()) return;
     throw failures.failure(info, shouldNotExist(actual));
@@ -330,7 +332,7 @@ public class Files {
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file can not be modified.
    */
-  public void assertCanWrite(AssertionInfo info, File actual) {
+  public void assertCanWrite(AssertionInfo info, @Nullable File actual) {
     assertNotNull(info, actual);
     if (actual.canWrite()) return;
     throw failures.failure(info, shouldBeWritable(actual));
@@ -374,7 +376,7 @@ public class Files {
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file can not be modified.
    */
-  public void assertCanRead(AssertionInfo info, File actual) {
+  public void assertCanRead(AssertionInfo info, @Nullable File actual) {
     assertNotNull(info, actual);
     if (actual.canRead()) return;
     throw failures.failure(info, shouldBeReadable(actual));
@@ -388,7 +390,7 @@ public class Files {
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file can not be executed.
    */
-  public void assertIsExecutable(AssertionInfo info, File actual) {
+  public void assertIsExecutable(AssertionInfo info, @Nullable File actual) {
     assertNotNull(info, actual);
     if (actual.canExecute()) return;
     throw failures.failure(info, shouldBeExecutable(actual));
@@ -406,7 +408,7 @@ public class Files {
    * @throws AssertionError       if the given {@code File} does not have a parent.
    * @throws AssertionError       if the given {@code File} parent is not equal to the expected one.
    */
-  public void assertHasParent(AssertionInfo info, File actual, File expected) {
+  public void assertHasParent(AssertionInfo info, File actual, @Nullable File expected) {
     requireNonNull(expected, "The expected parent file should not be null.");
     assertNotNull(info, actual);
     try {
@@ -459,7 +461,7 @@ public class Files {
    * @throws AssertionError       if the actual {@code File} is {@code null}.
    * @throws AssertionError       if the actual {@code File} does not have the expected name.
    */
-  public void assertHasName(AssertionInfo info, File actual, String expected) {
+  public void assertHasName(AssertionInfo info, @Nullable File actual, String expected) {
     assertNotNull(info, actual);
     requireNonNull(expected, "The expected name should not be null.");
     if (expected.equals(actual.getName())) return;
@@ -474,7 +476,7 @@ public class Files {
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} has a parent.
    */
-  public void assertHasNoParent(AssertionInfo info, File actual) {
+  public void assertHasNoParent(AssertionInfo info, @Nullable File actual) {
     assertNotNull(info, actual);
     if (actual.getParentFile() == null) return;
     throw failures.failure(info, shouldHaveNoParent(actual));
@@ -701,13 +703,14 @@ public class Files {
     }
   }
 
-  private static FileFilter fileFilter(AssertionInfo info, File actual, String syntaxAndPattern) {
+  private static FileFilter fileFilter(AssertionInfo info, @Nullable File actual, String syntaxAndPattern) {
     assertNotNull(info, actual);
     PathMatcher matcher = actual.toPath().getFileSystem().getPathMatcher(syntaxAndPattern);
     return file -> matcher.matches(file.toPath());
   }
 
-  private static void assertNotNull(AssertionInfo info, File actual) {
+  @Contract("_, null -> fail")
+  private static void assertNotNull(AssertionInfo info, @Nullable File actual) {
     Objects.instance().assertNotNull(info, actual);
   }
 
@@ -720,7 +723,7 @@ public class Files {
     checkArgument(expected.isFile(), "Expected file:<'%s'> should be an existing file", expected);
   }
 
-  private boolean isAbsolutePath(AssertionInfo info, File actual) {
+  private boolean isAbsolutePath(AssertionInfo info, @Nullable File actual) {
     assertNotNull(info, actual);
     return actual.isAbsolute();
   }

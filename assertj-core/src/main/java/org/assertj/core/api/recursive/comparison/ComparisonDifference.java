@@ -27,6 +27,7 @@ import java.util.Optional;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.UnambiguousRepresentation;
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Describes a difference found during recursive comparison.
@@ -51,8 +52,8 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
 
   final List<String> decomposedPath;
   final String concatenatedPath;
-  final Object actual;
-  final Object expected;
+  final @Nullable Object actual;
+  final @Nullable Object expected;
   final Optional<String> additionalInformation;
   final String template;
 
@@ -71,7 +72,7 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
    * @param dualValue the compared values and their path
    * @param additionalInformation additional difference information
    */
-  public ComparisonDifference(DualValue dualValue, String additionalInformation) {
+  public ComparisonDifference(DualValue dualValue, @Nullable String additionalInformation) {
     this(dualValue, additionalInformation, DEFAULT_TEMPLATE);
   }
 
@@ -82,12 +83,12 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
    * @param additionalInformation additional difference information
    * @param template the description template
    */
-  public ComparisonDifference(DualValue dualValue, String additionalInformation, String template) {
+  public ComparisonDifference(DualValue dualValue, @Nullable String additionalInformation, @Nullable String template) {
     this(dualValue.getDecomposedPath(), dualValue.actual, dualValue.expected, additionalInformation, template);
   }
 
-  private ComparisonDifference(List<String> decomposedPath, Object actual, Object other, String additionalInformation,
-                               String template) {
+  private ComparisonDifference(List<String> decomposedPath, @Nullable Object actual, @Nullable Object other,
+                               @Nullable String additionalInformation, @Nullable String template) {
     this.decomposedPath = unmodifiableList(requireNonNull(decomposedPath, "a path can't be null"));
     this.concatenatedPath = toConcatenatedPath(decomposedPath);
     this.actual = actual;
@@ -104,7 +105,8 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
    * @param additionalInformation additional difference information
    * @return the root comparison difference
    */
-  public static ComparisonDifference rootComparisonDifference(Object actual, Object other, String additionalInformation) {
+  public static ComparisonDifference rootComparisonDifference(@Nullable Object actual, @Nullable Object other,
+                                                              @Nullable String additionalInformation) {
     return new ComparisonDifference(rootDualValue(actual, other), additionalInformation);
   }
 
@@ -113,7 +115,7 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
    *
    * @return the actual value
    */
-  public Object getActual() {
+  public @Nullable Object getActual() {
     return actual;
   }
 
@@ -122,7 +124,7 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
    *
    * @return the expected value
    */
-  public Object getExpected() {
+  public @Nullable Object getExpected() {
     return expected;
   }
 

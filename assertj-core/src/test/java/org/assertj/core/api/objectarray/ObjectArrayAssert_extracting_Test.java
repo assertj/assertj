@@ -63,6 +63,7 @@ class ObjectArrayAssert_extracting_Test {
   private TolkienCharacter[] fellowshipOfTheRing;
 
   @BeforeEach
+  @SuppressWarnings("NullAway")
   void setUpOnce() {
     Employee yoda = new Employee(1L, new Name("Yoda"), 800);
     Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
@@ -78,6 +79,8 @@ class ObjectArrayAssert_extracting_Test {
     fellowshipOfTheRing[7] = TolkienCharacter.of("Boromir", 37, MAN);
   }
 
+  // name is always populated for the employees these tests use.
+  @SuppressWarnings("NullAway")
   private static final ThrowingExtractor<Employee, Object, Exception> THROWING_EXTRACTOR = employee -> {
     if (employee.getAge() < 20) throw new Exception("age < 20");
     return employee.getName().getFirst();
@@ -122,11 +125,13 @@ class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility() {
     assertThat(jedis).extracting(input -> input.getName().getFirst()).containsOnly("Yoda", "Luke");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_RuntimeException() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(input -> {
       if (input.getAge() > 100) throw new RuntimeException("age > 100");
@@ -135,11 +140,13 @@ class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() {
     assertThat(jedis).extracting(input -> input.getName().getFirst()).containsOnly("Yoda", "Luke");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(employee -> {
       if (employee.getAge() > 100) throw new Exception("age > 100");
@@ -148,6 +155,7 @@ class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_let_throwing_extractor_runtime_exception_bubble_up() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(employee -> {
       if (employee.getAge() > 100) throw new RuntimeException("age > 100");
@@ -161,6 +169,7 @@ class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_extracting_with_anonymous_class_throwing_extractor() {
     assertThat(jedis).extracting((ThrowingExtractor<Employee, Object, Exception>) employee -> {
       if (employee.getAge() < 20) throw new Exception("age < 20");
@@ -330,6 +339,7 @@ class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_keep_existing_description_if_set_when_extracting_using_extractor() {
     assertThatAssertionErrorIsThrownBy(() -> assertThat(jedis).as("check employees first name")
                                                               .extracting(input -> input.getName()
@@ -448,6 +458,7 @@ class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_string_should_fail_when_actual_is_null() {
     // GIVEN
     fellowshipOfTheRing = null;
@@ -458,6 +469,7 @@ class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_string_and_type_should_fail_when_actual_is_null() {
     // GIVEN
     fellowshipOfTheRing = null;
@@ -468,6 +480,7 @@ class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_strings_should_fail_when_actual_is_null() {
     // GIVEN
     fellowshipOfTheRing = null;
@@ -478,6 +491,7 @@ class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_Extractor_should_fail_when_actual_is_null() {
     // GIVEN
     fellowshipOfTheRing = null;
@@ -489,6 +503,7 @@ class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_Extractors_should_fail_when_actual_is_null() {
     // GIVEN
     fellowshipOfTheRing = null;
@@ -501,6 +516,7 @@ class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_ThrowingExtractor_should_fail_when_actual_is_null() {
     // GIVEN
     jedis = null;
@@ -511,6 +527,7 @@ class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void extracting_with_ThrowingExtractors_should_fail_when_actual_is_null() {
     // GIVEN
     jedis = null;

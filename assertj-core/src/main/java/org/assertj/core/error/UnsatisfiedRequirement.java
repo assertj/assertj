@@ -23,12 +23,13 @@ import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /** Describes an element that did not satisfy an assertion requirement. */
 public class UnsatisfiedRequirement {
 
-  private final Object elementNotSatisfyingRequirements;
-  private final String errorMessage;
+  private final @Nullable Object elementNotSatisfyingRequirements;
+  private final @Nullable String errorMessage;
   private final AssertionError error;
 
   /**
@@ -37,7 +38,7 @@ public class UnsatisfiedRequirement {
    * @param elementNotSatisfyingRequirements the failing element
    * @param error the assertion error
    */
-  public UnsatisfiedRequirement(Object elementNotSatisfyingRequirements, AssertionError error) {
+  public UnsatisfiedRequirement(@Nullable Object elementNotSatisfyingRequirements, AssertionError error) {
     this.elementNotSatisfyingRequirements = elementNotSatisfyingRequirements;
     this.errorMessage = error.getMessage();
     this.error = error;
@@ -87,7 +88,7 @@ public class UnsatisfiedRequirement {
                                                 .collect(joining("%n%n".formatted())));
   }
 
-  private String describeError(Representation representation) {
+  private @Nullable String describeError(Representation representation) {
     return error != null ? representation.toStringOf(error) : errorMessage;
   }
 }

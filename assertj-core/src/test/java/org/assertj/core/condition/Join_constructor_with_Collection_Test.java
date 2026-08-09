@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 class Join_constructor_with_Collection_Test {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_Condition_collection_is_null() {
     // GIVEN
     Collection<Condition<Object>> conditions = null;
@@ -42,6 +43,7 @@ class Join_constructor_with_Collection_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_Condition_collection_contains_nulls() {
     // GIVEN
     Collection<Condition<Object>> conditions = list(new TestCondition<>(), null);

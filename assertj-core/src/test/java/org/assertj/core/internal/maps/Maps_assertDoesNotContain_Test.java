@@ -52,6 +52,7 @@ class Maps_assertDoesNotContain_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertDoesNotContain(INFO, actual, null, null))
                                     .withMessage(entriesToLookForIsNull());

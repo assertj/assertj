@@ -20,6 +20,7 @@ import java.util.Date;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Date} is after another one failed.
@@ -36,7 +37,8 @@ public class ShouldBeAfter extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeAfter(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
+  public static ErrorMessageFactory shouldBeAfter(@Nullable Object actual, @Nullable Object other,
+                                                  ComparisonStrategy comparisonStrategy) {
     return new ShouldBeAfter(actual, other, comparisonStrategy);
   }
 
@@ -47,7 +49,7 @@ public class ShouldBeAfter extends BasicErrorMessageFactory {
    * @param other  the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeAfter(Object actual, Object other) {
+  public static ErrorMessageFactory shouldBeAfter(@Nullable Object actual, @Nullable Object other) {
     return new ShouldBeAfter(actual, other, StandardComparisonStrategy.instance());
   }
 
@@ -62,7 +64,7 @@ public class ShouldBeAfter extends BasicErrorMessageFactory {
     return new ShouldBeAfter(actual, LocalDate.of(year, 1, 1), StandardComparisonStrategy.instance());
   }
 
-  private ShouldBeAfter(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
+  private ShouldBeAfter(@Nullable Object actual, @Nullable Object other, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto be strictly after:%n  %s%n%s", actual, other, comparisonStrategy);
   }
 }

@@ -46,6 +46,7 @@ class AtomicReferenceArrayAssert_filteredOn_function_Test extends AtomicReferenc
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_function_is_null() {
     // GIVEN
     Function<? super Employee, String> function = null;

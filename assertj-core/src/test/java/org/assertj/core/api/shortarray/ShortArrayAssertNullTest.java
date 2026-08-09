@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 public abstract class ShortArrayAssertNullTest extends ShortArrayAssertBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   public void should_throw_exception_on_null_argument() {
     // GIVEN
     int[] nullContent = null;

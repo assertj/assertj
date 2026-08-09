@@ -55,6 +55,8 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Based on {@link org.assertj.core.internal.DeepDifference}
  * but takes a {@link RecursiveComparisonConfiguration},
@@ -110,7 +112,7 @@ public class RecursiveComparisonDifferenceCalculator {
       addDifference(dualValue, null);
     }
 
-    void addDifference(DualValue dualValue, String description) {
+    void addDifference(DualValue dualValue, @Nullable String description) {
       // to evaluate differences on fields of compared types, we have to traverse the whole graph of objects to compare
       // and decide afterward if differences were relevant, for example if we compare only the Employee type, and we
       // come across a Company having a list of Employee, we should evaluate the Company but ignore any of its
@@ -134,7 +136,7 @@ public class RecursiveComparisonDifferenceCalculator {
       visitedDualValues.registerComparisonDifference(dualValue, comparisonDifference);
     }
 
-    void addKeyDifference(DualValue parentDualValue, Object actualKey, Object expectedKey) {
+    void addKeyDifference(DualValue parentDualValue, @Nullable Object actualKey, @Nullable Object expectedKey) {
       differences.add(new ComparisonKeyDifference(parentDualValue, actualKey, expectedKey));
     }
 
@@ -165,7 +167,7 @@ public class RecursiveComparisonDifferenceCalculator {
       registerForComparison(dualValue);
     }
 
-    private String getCustomErrorMessage(DualValue dualValue) {
+    private @Nullable String getCustomErrorMessage(DualValue dualValue) {
       String fieldName = dualValue.getConcatenatedPath();
       // field custom messages take precedence over type messages
       if (recursiveComparisonConfiguration.hasCustomMessageForField(fieldName)) {
@@ -186,6 +188,7 @@ public class RecursiveComparisonDifferenceCalculator {
       return null;
     }
 
+    @Nullable
     String toStringOf(Object value) {
       return recursiveComparisonConfiguration.getRepresentation().toStringOf(value);
     }
@@ -492,9 +495,7 @@ public class RecursiveComparisonDifferenceCalculator {
       if (dualValue.actual != dualValue.expected) comparisonState.addDifference(dualValue);
       return;
     }
-    if (dualValue.isActualAnEnum() && dualValue.isExpectedAnEnum()) {
-      Enum<?> expectedEnum = (Enum<?>) dualValue.expected;
-      Enum<?> actualEnum = (Enum<?>) dualValue.actual;
+    if (dualValue.actual instanceof Enum<?> actualEnum && dualValue.expected instanceof Enum<?> expectedEnum) {
       // we must only compare actual and expected enum by value but not by type
       if (!actualEnum.name().equals(expectedEnum.name())) comparisonState.addDifference(dualValue);
       return;
@@ -504,14 +505,12 @@ public class RecursiveComparisonDifferenceCalculator {
       enumComparedToDifferentTypeError(dualValue, comparisonState);
       return;
     }
-    if (dualValue.isExpectedAnEnum() && dualValue.actual instanceof String) {
-      Enum<?> expectedEnum = (Enum<?>) dualValue.expected;
-      if (!expectedEnum.name().equals(dualValue.actual.toString())) comparisonState.addDifference(dualValue);
+    if (dualValue.expected instanceof Enum<?> expectedEnum && dualValue.actual instanceof String actualString) {
+      if (!expectedEnum.name().equals(actualString)) comparisonState.addDifference(dualValue);
       return;
     }
-    if (dualValue.isActualAnEnum() && dualValue.expected instanceof String) {
-      Enum<?> actualEnum = (Enum<?>) dualValue.actual;
-      if (!actualEnum.name().equals(dualValue.expected.toString())) comparisonState.addDifference(dualValue);
+    if (dualValue.actual instanceof Enum<?> actualEnum && dualValue.expected instanceof String expectedString) {
+      if (!actualEnum.name().equals(expectedString)) comparisonState.addDifference(dualValue);
       return;
     }
     // either actual or expected is not an enum and the other type is not a string so invalid type
@@ -525,6 +524,9 @@ public class RecursiveComparisonDifferenceCalculator {
     comparisonState.addDifference(dualValue, typeErrorMessage);
   }
 
+  // dualValue.actual/expected are guaranteed non-null here: this is only reached from the main comparison loop,
+  // past its null-check gate (see the loop in determineDifferences).
+  @SuppressWarnings("NullAway")
   private static void compareAsThrowables(final DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAThrowable()) {
       comparisonState.addDifference(dualValue, actualFieldTypeDifferentFromExpectedErrorMessage(dualValue));
@@ -575,6 +577,9 @@ public class RecursiveComparisonDifferenceCalculator {
     }
   }
 
+  // dualValue.actual/expected are guaranteed non-null here: this is only reached from the main comparison loop,
+  // past its null-check gate (see the loop in determineDifferences).
+  @SuppressWarnings("NullAway")
   private static void compareUnorderedArrays(DualValue dualValue, ComparisonState comparisonState) {
     int actualArrayLength = Array.getLength(dualValue.actual);
     int expectedArrayLength = Array.getLength(dualValue.expected);
@@ -600,6 +605,9 @@ public class RecursiveComparisonDifferenceCalculator {
   /*
    * Deeply compare two Collections that must be same length and in same order.
    */
+  // dualValue.actual/expected are guaranteed non-null here: this is only reached from the main comparison loop,
+  // past its null-check gate (see the loop in determineDifferences).
+  @SuppressWarnings("NullAway")
   private static void compareOrderedCollections(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAnOrderedCollection()) {
       // at the moment if expected is an ordered collection then actual should also be one
@@ -635,6 +643,9 @@ public class RecursiveComparisonDifferenceCalculator {
                                                                           dualValue.getExpectedTypeDescription());
   }
 
+  // dualValue.actual/expected are guaranteed non-null here: this is only reached from the main comparison loop,
+  // past its null-check gate (see the loop in determineDifferences).
+  @SuppressWarnings("NullAway")
   private static void compareUnorderedIterables(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAnIterable()) {
       // at the moment we only compare iterable with iterables (but we might allow arrays too)
@@ -718,6 +729,9 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   // TODO replace by ordered map
+  // dualValue.actual/expected are guaranteed non-null here: this is only reached from the main comparison loop,
+  // past its null-check gate (see the loop in determineDifferences).
+  @SuppressWarnings("NullAway")
   private static <K, V> void compareSortedMap(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualASortedMap()) {
       // at the moment we only compare iterable with iterables (but we might allow arrays too)
@@ -755,7 +769,9 @@ public class RecursiveComparisonDifferenceCalculator {
     }
   }
 
-  @SuppressWarnings({ "unchecked", "rawtypes" })
+  // dualValue.actual/expected are guaranteed non-null here: this is only reached from the main comparison loop,
+  // past its null-check gate (see the loop in determineDifferences).
+  @SuppressWarnings({ "unchecked", "rawtypes", "NullAway" })
   private static void compareUnorderedMap(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAMap()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "a map"));
@@ -822,10 +838,13 @@ public class RecursiveComparisonDifferenceCalculator {
     return Collectors.collectingAndThen(downstream, finisher);
   }
 
-  private static FieldLocation keyFieldLocation(FieldLocation parentFieldLocation, Object key) {
+  private static FieldLocation keyFieldLocation(FieldLocation parentFieldLocation, @Nullable Object key) {
     return key == null ? parentFieldLocation : parentFieldLocation.field(key.toString());
   }
 
+  // dualValue.actual/expected are guaranteed non-null here: this is only reached from the main comparison loop,
+  // past its null-check gate (see the loop in determineDifferences).
+  @SuppressWarnings("NullAway")
   private static void compareOptional(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAnOptional()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an Optional"));
@@ -847,6 +866,9 @@ public class RecursiveComparisonDifferenceCalculator {
                                                         dualValue));
   }
 
+  // dualValue.actual/expected are guaranteed non-null here: this is only reached from the main comparison loop,
+  // past its null-check gate (see the loop in determineDifferences).
+  @SuppressWarnings("NullAway")
   private static void compareAtomicBoolean(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAnAtomicBoolean()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicBoolean"));
@@ -861,6 +883,9 @@ public class RecursiveComparisonDifferenceCalculator {
                                                         dualValue));
   }
 
+  // dualValue.actual/expected are guaranteed non-null here: this is only reached from the main comparison loop,
+  // past its null-check gate (see the loop in determineDifferences).
+  @SuppressWarnings("NullAway")
   private static void compareAtomicInteger(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAnAtomicInteger()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicInteger"));
@@ -875,7 +900,9 @@ public class RecursiveComparisonDifferenceCalculator {
                                                         dualValue));
   }
 
-  @SuppressWarnings("DuplicatedCode")
+  // dualValue.actual/expected are guaranteed non-null here: this is only reached from the main comparison loop,
+  // past its null-check gate (see the loop in determineDifferences).
+  @SuppressWarnings({ "DuplicatedCode", "NullAway" })
   private static void compareAtomicIntegerArray(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAnAtomicIntegerArray()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicIntegerArray"));
@@ -904,6 +931,9 @@ public class RecursiveComparisonDifferenceCalculator {
     }
   }
 
+  // dualValue.actual/expected are guaranteed non-null here: this is only reached from the main comparison loop,
+  // past its null-check gate (see the loop in determineDifferences).
+  @SuppressWarnings("NullAway")
   private static void compareAtomicLong(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAnAtomicLong()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicLong"));
@@ -918,7 +948,9 @@ public class RecursiveComparisonDifferenceCalculator {
                                                         dualValue));
   }
 
-  @SuppressWarnings("DuplicatedCode")
+  // dualValue.actual/expected are guaranteed non-null here: this is only reached from the main comparison loop,
+  // past its null-check gate (see the loop in determineDifferences).
+  @SuppressWarnings({ "DuplicatedCode", "NullAway" })
   private static void compareAtomicLongArray(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAnAtomicLongArray()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicLongArray"));
@@ -946,7 +978,9 @@ public class RecursiveComparisonDifferenceCalculator {
     }
   }
 
-  @SuppressWarnings("DuplicatedCode")
+  // dualValue.actual/expected are guaranteed non-null here: this is only reached from the main comparison loop,
+  // past its null-check gate (see the loop in determineDifferences).
+  @SuppressWarnings({ "DuplicatedCode", "NullAway" })
   private static void compareAtomicReferenceArray(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAnAtomicReferenceArray()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicReferenceArray"));
@@ -975,6 +1009,9 @@ public class RecursiveComparisonDifferenceCalculator {
     }
   }
 
+  // dualValue.actual/expected are guaranteed non-null here: this is only reached from the main comparison loop,
+  // past its null-check gate (see the loop in determineDifferences).
+  @SuppressWarnings("NullAway")
   private static void compareAtomicReference(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAnAtomicReference()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicReference"));
@@ -1035,8 +1072,8 @@ public class RecursiveComparisonDifferenceCalculator {
     return deepEquals(actualFieldValue, expectedFieldValue);
   }
 
-  private static boolean areEqualUsingComparator(final Object actual, final Object expected, Comparator<Object> comparator,
-                                                 String fieldName) {
+  private static boolean areEqualUsingComparator(final @Nullable Object actual, final @Nullable Object expected,
+                                                 Comparator<Object> comparator, String fieldName) {
     try {
       return comparator.compare(actual, expected) == 0;
     } catch (ClassCastException e) {
@@ -1052,6 +1089,9 @@ public class RecursiveComparisonDifferenceCalculator {
     }
   }
 
+  // dualValue.actual/expected are guaranteed non-null in all call sites of this method (root value or past the main
+  // comparison loop's null-check gate).
+  @SuppressWarnings("NullAway")
   private static boolean typesDiffer(DualValue dualValue) {
     return !dualValue.actual.getClass().equals(dualValue.expected.getClass());
   }

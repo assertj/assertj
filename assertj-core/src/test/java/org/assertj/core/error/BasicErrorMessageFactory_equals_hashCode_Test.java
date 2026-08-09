@@ -67,6 +67,7 @@ class BasicErrorMessageFactory_equals_hashCode_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_not_be_equal_to_null() {
     then(factory.equals(null)).isFalse();
   }

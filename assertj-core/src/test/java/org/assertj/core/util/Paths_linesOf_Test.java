@@ -47,6 +47,7 @@ class Paths_linesOf_Test {
   public static final String UTF_8 = "UTF-8";
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_exception_when_charset_is_null() {
     Charset charset = null;
     assertThatNullPointerException().isThrownBy(() -> linesOf(SAMPLE_UNIX_FILE, charset));

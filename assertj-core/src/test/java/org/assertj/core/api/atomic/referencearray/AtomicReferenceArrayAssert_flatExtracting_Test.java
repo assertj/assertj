@@ -86,12 +86,14 @@ class AtomicReferenceArrayAssert_flatExtracting_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_null_pointer_exception_when_extracting_from_null_with_extractor() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(new AtomicReferenceArray<>(array(homer,
                                                                                                   null))).flatExtracting(childrenExtractor));
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_null_pointer_exception_when_extracting_from_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(new AtomicReferenceArray<>(array(homer,
                                                                                                   null))).flatExtracting(children));

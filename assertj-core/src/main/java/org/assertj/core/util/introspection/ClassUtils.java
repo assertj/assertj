@@ -26,6 +26,9 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
+import org.assertj.core.internal.annotation.Contract;
+import org.jspecify.annotations.Nullable;
+
 /**
  * Utility methods for working with classes.
  */
@@ -50,7 +53,8 @@ public class ClassUtils {
    * @return the {@code List} of superclasses in order going up from this one
    * {@code null} if null input
    */
-  public static List<Class<?>> getAllSuperclasses(final Class<?> cls) {
+  @Contract("null -> null; !null -> !null")
+  public static @Nullable List<Class<?>> getAllSuperclasses(final @Nullable Class<?> cls) {
     if (cls == null) {
       return null;
     }
@@ -77,7 +81,8 @@ public class ClassUtils {
    * @param cls the class to look up, may be {@code null}
    * @return the {@code List} of interfaces in order, {@code null} if null input
    */
-  public static List<Class<?>> getAllInterfaces(Class<?> cls) {
+  @Contract("null -> null; !null -> !null")
+  public static @Nullable List<Class<?>> getAllInterfaces(@Nullable Class<?> cls) {
     if (cls == null) return null;
 
     LinkedHashSet<Class<?>> interfacesFound = new LinkedHashSet<>();
@@ -92,7 +97,7 @@ public class ClassUtils {
    * @param cls             the class to look up, may be {@code null}
    * @param interfacesFound the {@code Set} of interfaces for the class
    */
-  static void getAllInterfaces(Class<?> cls, HashSet<Class<?>> interfacesFound) {
+  static void getAllInterfaces(@Nullable Class<?> cls, HashSet<Class<?>> interfacesFound) {
     while (cls != null) {
       Class<?>[] interfaces = cls.getInterfaces();
 
@@ -119,7 +124,7 @@ public class ClassUtils {
    * {@link Character}, {@link Short}, {@link Integer}, {@link Long}, {@link Double}, {@link Float}, {@link Void}).
    * @since 3.24.0
    */
-  public static boolean isPrimitiveOrWrapper(final Class<?> type) {
+  public static boolean isPrimitiveOrWrapper(final @Nullable Class<?> type) {
     if (type == null) {
       return false;
     }
@@ -137,7 +142,7 @@ public class ClassUtils {
    * {@link OptionalLong}, {@link OptionalDouble}).
    * @since 3.24.0
    */
-  public static boolean isOptionalOrPrimitiveOptional(final Class<?> type) {
+  public static boolean isOptionalOrPrimitiveOptional(final @Nullable Class<?> type) {
     if (type == null) {
       return false;
     }
@@ -151,7 +156,7 @@ public class ClassUtils {
    * @return true the given {@code type} belongs to the java.lang package itself or one of its subpackage, false otherwise.
    * @since 3.25.0
    */
-  public static boolean isInJavaLangPackage(final Class<?> type) {
+  public static boolean isInJavaLangPackage(final @Nullable Class<?> type) {
     return type != null && type.getName().startsWith("java.lang");
   }
 
@@ -163,7 +168,7 @@ public class ClassUtils {
    * @return true if the given {@code object1} types have the same name as {@code object2} but is
    * in a different package
    */
-  public static boolean haveSameClassNameInDifferentPackages(Object object1, Object object2) {
+  public static boolean haveSameClassNameInDifferentPackages(@Nullable Object object1, @Nullable Object object2) {
     if (object1 != null && object2 != null) {
       Class<?> type1 = object1.getClass();
       Class<?> type2 = object2.getClass();

@@ -17,6 +17,8 @@ package org.assertj.core.presentation;
 
 import static org.assertj.core.util.Strings.concat;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Hexadecimal object representation instead of standard java representation.
  * 
@@ -43,7 +45,7 @@ public class HexadecimalRepresentation extends StandardRepresentation {
    * @return the {@code toString} representation of the given object.
    */
   @Override
-  public String toStringOf(Object object) {
+  public @Nullable String toStringOf(@Nullable Object object) {
     if (hasCustomFormatterFor(object)) return customFormat(object);
     if (object instanceof Number number) return toStringOf(number);
     else if (object instanceof String string) return toStringOf(this, string);
@@ -114,7 +116,7 @@ public class HexadecimalRepresentation extends StandardRepresentation {
 
   @Override
   protected String toStringOf(Character character) {
-    return concat("'", toStringOf((short) (int) character), "'");
+    return String.valueOf(concat("'", toStringOf((short) (int) character), "'"));
   }
 
   /**
@@ -124,7 +126,7 @@ public class HexadecimalRepresentation extends StandardRepresentation {
    * @param s the string to represent
    * @return the hexadecimal representation
    */
-  protected String toStringOf(Representation representation, String s) {
+  protected @Nullable String toStringOf(Representation representation, String s) {
     return concat("\"", representation.toStringOf(s.toCharArray()), "\"");
   }
 

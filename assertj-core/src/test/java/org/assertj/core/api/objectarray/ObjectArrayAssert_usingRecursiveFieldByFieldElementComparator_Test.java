@@ -35,8 +35,8 @@ import org.junit.jupiter.api.Test;
 
 class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test extends ObjectArrayAssertBaseTest {
 
-  private static final String DEFAULT_RECURSIVE_COMPARATOR_DESCRIPTION = CONFIGURATION_PROVIDER.representation()
-                                                                                               .toStringOf(new ConfigurableRecursiveFieldByFieldComparator(new RecursiveComparisonConfiguration()));
+  private static final String DEFAULT_RECURSIVE_COMPARATOR_DESCRIPTION = String.valueOf(CONFIGURATION_PROVIDER.representation()
+                                                                                                              .toStringOf(new ConfigurableRecursiveFieldByFieldComparator(new RecursiveComparisonConfiguration())));
   private ObjectArrays arraysBefore;
 
   @BeforeEach

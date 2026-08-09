@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.Iterator;
 
 import org.assertj.core.util.Streams;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for {@link Iterable}.
@@ -36,15 +37,15 @@ import org.assertj.core.util.Streams;
  * @author Mikhail Mazursky
  * @author Julien Meddah
  */
-public class IterableAssert<ELEMENT> extends
-    FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
+public class IterableAssert<ELEMENT extends @Nullable Object> extends
+    FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, @Nullable Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
   /**
    * Creates a new iterable assertion.
    *
    * @param actual the actual iterable to verify
    */
-  public IterableAssert(Iterable<? extends ELEMENT> actual) {
+  public IterableAssert(@Nullable Iterable<? extends ELEMENT> actual) {
     super(actual, IterableAssert.class, ObjectAssert::new);
   }
 
@@ -60,7 +61,7 @@ public class IterableAssert<ELEMENT> extends
    * @param actual the actual iterable to verify
    * @return the created assertion
    */
-  public static <ELEMENT> IterableAssert<ELEMENT> assertThatIterable(Iterable<? extends ELEMENT> actual) {
+  public static <ELEMENT extends @Nullable Object> IterableAssert<ELEMENT> assertThatIterable(@Nullable Iterable<? extends ELEMENT> actual) {
     return new IterableAssert<>(actual);
   }
 
@@ -70,7 +71,8 @@ public class IterableAssert<ELEMENT> extends
    * @param <ELEMENT> the element type
    * @return a null iterable assertion
    */
-  public static <ELEMENT> IterableAssert<ELEMENT> nullIterableAssert() {
+  @SuppressWarnings("NullAway")
+  public static <ELEMENT extends @Nullable Object> IterableAssert<ELEMENT> nullIterableAssert() {
     return new IterableAssert<>((Iterable<? extends ELEMENT>) null);
   }
 

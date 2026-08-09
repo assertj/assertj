@@ -35,6 +35,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.error.ShouldHaveDimensions;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for object and primitive two-dimensional arrays. It trades off performance for DRY.
@@ -66,7 +67,7 @@ public class Arrays2D {
    * @param failures failure handler
    * @param array the actual array
    */
-  public void assertNullOrEmpty(AssertionInfo info, Failures failures, Object array) {
+  public void assertNullOrEmpty(AssertionInfo info, Failures failures, @Nullable Object array) {
     if (array == null) return;
     if (countArrayElements(array) > 0) throw failures.failure(info, shouldBeNullOrEmpty(array));
   }
@@ -79,7 +80,7 @@ public class Arrays2D {
    * @param failures failure handler
    * @param array the actual array
    */
-  public void assertEmpty(AssertionInfo info, Failures failures, Object array) {
+  public void assertEmpty(AssertionInfo info, Failures failures, @Nullable Object array) {
     assertNotNull(info, array);
     // need to check that all rows are empty
     int numberOfRows = sizeOf(array);
@@ -99,7 +100,7 @@ public class Arrays2D {
    * @param expectedNumberOfRows the expected row count
    * @param expectedRowSize the expected row size
    */
-  public void assertHasDimensions(AssertionInfo info, Failures failures, Object array2d, int expectedNumberOfRows,
+  public void assertHasDimensions(AssertionInfo info, Failures failures, @Nullable Object array2d, int expectedNumberOfRows,
                                   int expectedRowSize) {
     assertNumberOfRows(info, failures, array2d, expectedNumberOfRows);
     for (int i = 0; i < expectedNumberOfRows; i++) {
@@ -117,14 +118,15 @@ public class Arrays2D {
    * @param array the actual array
    * @param expectedSize the expected row count
    */
-  public void assertNumberOfRows(AssertionInfo info, Failures failures, Object array, int expectedSize) {
+  public void assertNumberOfRows(AssertionInfo info, Failures failures, @Nullable Object array, int expectedSize) {
     assertNotNull(info, array);
     int sizeOfActual = sizeOf(array);
     if (sizeOfActual != expectedSize)
       throw failures.failure(info, ShouldHaveDimensions.shouldHaveFirstDimension(array, sizeOfActual, expectedSize));
   }
 
-  private void assertSecondDimension(AssertionInfo info, Failures failures, Object actual, int expectedSize, int rowIndex) {
+  private void assertSecondDimension(AssertionInfo info, Failures failures, @Nullable Object actual, int expectedSize,
+                                     int rowIndex) {
     assertNotNull(info, actual);
     checkArraySizes(actual, failures, sizeOf(actual), expectedSize, info, rowIndex);
   }
@@ -144,7 +146,7 @@ public class Arrays2D {
    * @param actual the actual array
    * @param other the array to compare with
    */
-  public void assertHasSameDimensionsAs(AssertionInfo info, Object actual, Object other) {
+  public void assertHasSameDimensionsAs(AssertionInfo info, @Nullable Object actual, @Nullable Object other) {
     assertNotNull(info, actual);
     assertIsArray(info, actual);
     assertIsArray(info, other);
@@ -184,7 +186,7 @@ public class Arrays2D {
    * @param value the expected row value
    * @param index the row index
    */
-  public void assertContains(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
+  public void assertContains(AssertionInfo info, Failures failures, @Nullable Object array, Object value, Index index) {
     assertNotNull(info, array);
     assertNotEmpty(info, failures, array);
     checkIndexValueIsValid(index, sizeOf(array) - 1);
@@ -202,7 +204,7 @@ public class Arrays2D {
    * @param failures failure handler
    * @param array the actual array
    */
-  public void assertNotEmpty(AssertionInfo info, Failures failures, Object array) {
+  public void assertNotEmpty(AssertionInfo info, Failures failures, @Nullable Object array) {
     assertNotNull(info, array);
     if (countArrayElements(array) == 0) throw failures.failure(info, shouldNotBeEmpty());
   }
@@ -229,7 +231,7 @@ public class Arrays2D {
    * @param value the value expected to be absent
    * @param index the row index
    */
-  public void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
+  public void assertDoesNotContain(AssertionInfo info, Failures failures, @Nullable Object array, Object value, Index index) {
     assertNotNull(info, array);
     checkIndexValueIsValid(index, Integer.MAX_VALUE);
     if (index.value >= sizeOf(array)) return;

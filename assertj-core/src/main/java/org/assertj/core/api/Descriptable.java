@@ -20,6 +20,7 @@ import java.util.function.Supplier;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.LazyTextDescription;
 import org.assertj.core.description.TextDescription;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An object that has a description.
@@ -92,7 +93,7 @@ public interface Descriptable<SELF> {
    * @return {@code this} object.
    * @throws IllegalStateException if the descriptionSupplier is {@code null} when evaluated.
    */
-  default SELF as(final Supplier<String> descriptionSupplier) {
+  default SELF as(final @Nullable Supplier<String> descriptionSupplier) {
     return describedAs(descriptionSupplier);
   }
 
@@ -112,7 +113,7 @@ public interface Descriptable<SELF> {
    * @throws NullPointerException if the description is {@code null}.
    * @see #describedAs(Description)
    */
-  default SELF as(Description description) {
+  default SELF as(@Nullable Description description) {
     return describedAs(description);
   }
 
@@ -164,7 +165,7 @@ public interface Descriptable<SELF> {
    * @return {@code this} object.
    * @throws IllegalStateException if the descriptionSupplier is {@code null} when evaluated.
    */
-  default SELF describedAs(final Supplier<String> descriptionSupplier) {
+  default SELF describedAs(final @Nullable Supplier<String> descriptionSupplier) {
     return describedAs(new LazyTextDescription(descriptionSupplier));
   }
 
@@ -183,5 +184,5 @@ public interface Descriptable<SELF> {
    * @return {@code this} object.
    * @throws NullPointerException if the description is {@code null}.
    */
-  SELF describedAs(Description description);
+  SELF describedAs(@Nullable Description description);
 }

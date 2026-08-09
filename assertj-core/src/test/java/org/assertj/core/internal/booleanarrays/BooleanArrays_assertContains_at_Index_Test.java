@@ -56,6 +56,7 @@ class BooleanArrays_assertContains_at_Index_Test extends BooleanArraysBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_Index_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContains(someInfo(), actual, true, null))
                                     .withMessage("Index should not be null");

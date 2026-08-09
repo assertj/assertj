@@ -61,6 +61,7 @@ public interface NavigationMethodWithComparatorBaseTest<ASSERT extends AbstractA
                 .isEqualTo(underTest.info);
   }
 
+  @SuppressWarnings("NullAway")
   static Object extractObjectField(AbstractAssert<?, ?> assertion) {
     return PropertyOrFieldSupport.EXTRACTION.getValueOf("objects", assertion);
   }

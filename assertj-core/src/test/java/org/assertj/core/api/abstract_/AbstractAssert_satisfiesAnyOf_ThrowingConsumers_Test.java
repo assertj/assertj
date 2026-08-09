@@ -39,6 +39,7 @@ import org.mockito.ArgumentCaptor;
 class AbstractAssert_satisfiesAnyOf_ThrowingConsumers_Test extends AbstractAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected ConcreteAssert invoke_api_method() {
     ThrowingConsumer<Object> isZero = i -> assertThat(i).isNull();
     ThrowingConsumer<Object> isNegative = i -> assertThat(i).isInstanceOf(String.class);
@@ -102,6 +103,7 @@ class AbstractAssert_satisfiesAnyOf_ThrowingConsumers_Test extends AbstractAsser
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_an_IllegalArgumentException_if_one_of_the_given_assertions_group_is_null() {
     // GIVEN
     ThrowingConsumer<FileReader> hasReachedEOF = reader -> assertThat(reader.read()).isEqualTo(-1);

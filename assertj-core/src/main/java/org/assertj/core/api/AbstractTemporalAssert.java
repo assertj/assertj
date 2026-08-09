@@ -28,6 +28,7 @@ import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Temporal}s.
@@ -36,7 +37,7 @@ import org.assertj.core.internal.Objects;
  * @param <TEMPORAL>>  the Temporal type of this assertion class.
  * @since 3.7.0
  */
-public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert<SELF, TEMPORAL>, TEMPORAL extends Temporal>
+public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert<SELF, TEMPORAL>, TEMPORAL extends @Nullable Temporal>
     extends AbstractAssertWithComparator<SELF, TEMPORAL> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -127,7 +128,7 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
   /** {@inheritDoc} */
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super TEMPORAL> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super TEMPORAL> customComparator, @Nullable String customComparatorDescription) {
     this.comparables = new Comparables(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

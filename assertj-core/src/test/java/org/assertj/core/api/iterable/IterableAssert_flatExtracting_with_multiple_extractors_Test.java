@@ -73,6 +73,7 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_assertion_error_if_actual_is_null() {
     // GIVEN
     List<TolkienCharacter> hobbits = null;
@@ -91,6 +92,7 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_IllegalArgumentException_when_null_fields_or_properties_vararg() {
     // GIVEN
     String[] fields = null;
@@ -168,6 +170,7 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void flatExtracting_with_strings_should_fail_when_actual_is_null() {
     // GIVEN
     fellowshipOfTheRing = null;
@@ -178,6 +181,7 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void flatExtracting_with_Extractors_should_fail_when_actual_is_null() {
     // GIVEN
     fellowshipOfTheRing = null;
@@ -188,6 +192,7 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void flatExtracting_with_ThrowingExtractors_should_fail_when_actual_is_null() {
     // GIVEN
     fellowshipOfTheRing = null;

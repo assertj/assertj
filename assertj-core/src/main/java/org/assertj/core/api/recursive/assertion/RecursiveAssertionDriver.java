@@ -36,7 +36,9 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.recursive.comparison.FieldLocation;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.util.Arrays;
+import org.jspecify.annotations.Nullable;
 
 /** Traverses an object graph and applies a recursive assertion predicate. */
 public class RecursiveAssertionDriver {
@@ -66,7 +68,7 @@ public class RecursiveAssertionDriver {
    * @param graphNode the object graph root
    * @return locations that failed the predicate
    */
-  public List<FieldLocation> assertOverObjectGraph(Predicate<Object> predicate, Object graphNode) {
+  public List<FieldLocation> assertOverObjectGraph(Predicate<@Nullable Object> predicate, Object graphNode) {
     assertRecursively(predicate, graphNode, graphNode.getClass(), rootFieldLocation());
     return fieldsFailingTheAssertion.stream().sorted().collect(toList());
   }
@@ -77,7 +79,8 @@ public class RecursiveAssertionDriver {
     fieldsFailingTheAssertion.clear();
   }
 
-  private void assertRecursively(Predicate<Object> predicate, Object node, Class<?> nodeType, FieldLocation fieldLocation) {
+  private void assertRecursively(Predicate<@Nullable Object> predicate, @Nullable Object node, Class<?> nodeType,
+                                 FieldLocation fieldLocation) {
     if (nodeMustBeIgnored(node, nodeType, fieldLocation)) return;
 
     boolean nodeAlreadyVisited = markNodeAsVisited(node);
@@ -89,7 +92,7 @@ public class RecursiveAssertionDriver {
     recurseIntoFieldsOfCurrentNode(predicate, node, nodeType, fieldLocation);
   }
 
-  private boolean nodeMustBeIgnored(Object node, Class<?> nodeType, FieldLocation fieldLocation) {
+  private boolean nodeMustBeIgnored(@Nullable Object node, Class<?> nodeType, FieldLocation fieldLocation) {
     return isNullWhichAreIgnored(node)
            || isPrimitiveWhichAreIgnored(nodeType)
            || configuration.matchesAnIgnoredField(fieldLocation)
@@ -101,7 +104,7 @@ public class RecursiveAssertionDriver {
     return fieldLocation.equals(rootFieldLocation());
   }
 
-  private boolean isNullWhichAreIgnored(Object node) {
+  private boolean isNullWhichAreIgnored(@Nullable Object node) {
     return node == null && configuration.shouldIgnoreAllNullFields();
   }
 
@@ -109,13 +112,13 @@ public class RecursiveAssertionDriver {
     return configuration.shouldIgnorePrimitiveFields() && isPrimitiveOrWrapper(nodeType);
   }
 
-  private void evaluateAssertion(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
+  private void evaluateAssertion(Predicate<@Nullable Object> predicate, @Nullable Object node, FieldLocation fieldLocation) {
     if (assertionFails(predicate, node)) {
       fieldsFailingTheAssertion.add(fieldLocation);
     }
   }
 
-  private boolean assertionFails(Predicate<Object> predicate, Object node) {
+  private boolean assertionFails(Predicate<@Nullable Object> predicate, @Nullable Object node) {
     return !predicate.test(node);
   }
 
@@ -130,13 +133,13 @@ public class RecursiveAssertionDriver {
     return isIterable(nodeType) || isArray(nodeType);
   }
 
-  private void recurseIntoFieldsOfCurrentNode(Predicate<Object> predicate, Object node, Class<?> nodeType,
+  private void recurseIntoFieldsOfCurrentNode(Predicate<@Nullable Object> predicate, @Nullable Object node, Class<?> nodeType,
                                               FieldLocation fieldLocation) {
     if (isTypeRequiringSpecificHandling(nodeType)) {
       if (shouldRecurseOverSpecialTypes(nodeType)) {
         doRecursionForSpecialTypes(predicate, node, nodeType, fieldLocation);
       }
-    } else if (shouldRecurseIntoNode(node)) {
+    } else if (node != null && shouldRecurseIntoNode(node)) {
       evaluateFieldsOfCurrentNodeRecursively(predicate, node, fieldLocation);
     }
   }
@@ -154,7 +157,7 @@ public class RecursiveAssertionDriver {
     return recurseOverContainer || recurseOverMap || recurseOverOptional;
   }
 
-  private void doRecursionForSpecialTypes(Predicate<Object> predicate, Object node, Class<?> nodeType,
+  private void doRecursionForSpecialTypes(Predicate<@Nullable Object> predicate, @Nullable Object node, Class<?> nodeType,
                                           FieldLocation fieldLocation) {
     if (isArray(nodeType)) {
       recurseIntoArray(predicate, node, nodeType, fieldLocation);
@@ -167,7 +170,8 @@ public class RecursiveAssertionDriver {
     }
   }
 
-  private void recurseIntoIterable(Predicate<Object> predicate, Iterable<?> iterable, FieldLocation fieldLocation) {
+  private void recurseIntoIterable(Predicate<@Nullable Object> predicate, @Nullable Iterable<?> iterable,
+                                   FieldLocation fieldLocation) {
     if (iterable == null) {
       return; // no way to recurse into the iterable, anyway the iterable node has already been visited
     }
@@ -178,7 +182,8 @@ public class RecursiveAssertionDriver {
     }
   }
 
-  private void recurseIntoArray(Predicate<Object> predicate, Object node, Class<?> nodeType, FieldLocation fieldLocation) {
+  private void recurseIntoArray(Predicate<@Nullable Object> predicate, @Nullable Object node, Class<?> nodeType,
+                                FieldLocation fieldLocation) {
     if (node == null) {
       return; // no way to recursive into the array, anyway the array node has already been visited
     }
@@ -189,7 +194,7 @@ public class RecursiveAssertionDriver {
     }
   }
 
-  private void recurseIntoOptional(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
+  private void recurseIntoOptional(Predicate<@Nullable Object> predicate, @Nullable Object node, FieldLocation fieldLocation) {
     // If we are here, we know the node is an optional or a primitive optional
     if (node instanceof Optional<?> optionalNode) {
       if (optionalNode.isPresent()) {
@@ -211,7 +216,7 @@ public class RecursiveAssertionDriver {
     }
   }
 
-  private void recurseIntoMap(Predicate<Object> predicate, Map<?, ?> node, FieldLocation fieldLocation) {
+  private void recurseIntoMap(Predicate<@Nullable Object> predicate, @Nullable Map<?, ?> node, FieldLocation fieldLocation) {
     // If we are here, we can assume the policy is not MAP_OBJECT_ONLY
     // For both policies VALUES_ONLY and MAP_OBJECT_AND_ENTRIES we have to recurse over the values.
     if (node == null) {
@@ -223,26 +228,26 @@ public class RecursiveAssertionDriver {
     }
   }
 
-  private void recurseIntoMapValues(Predicate<Object> predicate, Map<?, ?> currentNode, FieldLocation fieldLocation) {
+  private void recurseIntoMapValues(Predicate<@Nullable Object> predicate, Map<?, ?> currentNode, FieldLocation fieldLocation) {
     currentNode.values().forEach(nextNode -> recurseIntoMapElement(predicate, fieldLocation, nextNode, VALUE_FORMAT));
   }
 
-  private void recurseIntoMapKeys(Predicate<Object> predicate, Map<?, ?> currentNode, FieldLocation fieldLocation) {
+  private void recurseIntoMapKeys(Predicate<@Nullable Object> predicate, Map<?, ?> currentNode, FieldLocation fieldLocation) {
     currentNode.keySet().forEach(nextNode -> recurseIntoMapElement(predicate, fieldLocation, nextNode, KEY_FORMAT));
   }
 
-  private void recurseIntoMapElement(Predicate<Object> predicate, FieldLocation fieldLocation, Object nextNode,
-                                     String msgFormat) {
+  private void recurseIntoMapElement(Predicate<@Nullable Object> predicate, FieldLocation fieldLocation,
+                                     @Nullable Object nextNode, String msgFormat) {
     Class<?> nextNodeType = safeGetClass(nextNode);
     String nextNodeFieldName = nextNode != null ? nextNode.toString() : NULL;
     assertRecursively(predicate, nextNode, nextNodeType, fieldLocation.field(msgFormat.formatted(nextNodeFieldName)));
   }
 
-  private static Class<?> safeGetClass(Object object) {
+  private static Class<?> safeGetClass(@Nullable Object object) {
     return object != null ? object.getClass() : Object.class;
   }
 
-  private boolean shouldRecurseIntoNode(Object node) {
+  private boolean shouldRecurseIntoNode(@Nullable Object node) {
     return node != null && !nodeIsJavaTypeToIgnore(node);
   }
 
@@ -254,12 +259,13 @@ public class RecursiveAssertionDriver {
     return isJCLType && configuration.shouldSkipJavaLibraryTypeObjects();
   }
 
-  private void evaluateFieldsOfCurrentNodeRecursively(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
+  private void evaluateFieldsOfCurrentNodeRecursively(Predicate<@Nullable Object> predicate, Object node,
+                                                      FieldLocation fieldLocation) {
     configuration.getIntrospectionStrategy().getChildNodesOf(node)
                  .forEach(field -> assertRecursively(predicate, field.value, field.type, fieldLocation.field(field.name)));
   }
 
-  private boolean markNodeAsVisited(Object node) {
+  private boolean markNodeAsVisited(@Nullable Object node) {
     // Cannot mark null nodes, so just lie and say marking succeeded...
     if (node == null) return false;
 
@@ -270,7 +276,8 @@ public class RecursiveAssertionDriver {
   /*
    * This is taken verbatim from org.apache.commons.lang3.ObjectUtils .
    */
-  private static String identityToString(final Object object) {
+  @Contract("null -> null; !null -> !null")
+  private static @Nullable String identityToString(final @Nullable Object object) {
     if (object == null) {
       return null;
     }

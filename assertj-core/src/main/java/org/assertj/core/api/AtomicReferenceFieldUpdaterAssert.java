@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link AtomicReferenceFieldUpdater}s.
  * <p>
@@ -29,14 +31,14 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
  * @since 2.7.0 / 3.7.0
  */
 public class AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> extends
-    AbstractAtomicFieldUpdaterAssert<AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT>, FIELD, AtomicReferenceFieldUpdater<OBJECT, FIELD>, OBJECT> {
+    AbstractAtomicFieldUpdaterAssert<AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT>, FIELD, @Nullable AtomicReferenceFieldUpdater<OBJECT, FIELD>, OBJECT> {
 
   /**
    * Creates a new atomic reference field updater assertion.
    *
    * @param actual the actual field updater
    */
-  public AtomicReferenceFieldUpdaterAssert(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
+  public AtomicReferenceFieldUpdaterAssert(@Nullable AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
     super(actual, AtomicReferenceFieldUpdaterAssert.class, true);
   }
 

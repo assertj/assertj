@@ -63,6 +63,7 @@ class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_keys_array_is_null() {
     // GIVEN
     String[] keys = null;
@@ -84,6 +85,7 @@ class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
                            .isThrownBy(() -> maps.assertDoesNotContainKeys(info, actual, expected));
   }
 
+  @SuppressWarnings("NullAway")
   private static Stream<Arguments> unmodifiableMapsSuccessfulTestCases() {
     return Stream.of(arguments(emptyMap(), array("name")),
                      arguments(singletonMap("name", "Yoda"), array("color")),

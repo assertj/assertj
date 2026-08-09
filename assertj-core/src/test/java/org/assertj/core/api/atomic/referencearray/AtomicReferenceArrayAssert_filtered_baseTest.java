@@ -30,6 +30,7 @@ class AtomicReferenceArrayAssert_filtered_baseTest {
   protected AtomicReferenceArray<Employee> employees;
 
   @BeforeEach
+  @SuppressWarnings("NullAway")
   void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     obiwan = new Employee(2L, new Name("Obi"), 800);

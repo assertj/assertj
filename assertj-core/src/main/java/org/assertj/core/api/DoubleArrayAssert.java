@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for arrays of {@code double}s.
  * <p>
@@ -34,7 +36,7 @@ public class DoubleArrayAssert extends AbstractDoubleArrayAssert<DoubleArrayAsse
    *
    * @param actual the actual array to verify
    */
-  public DoubleArrayAssert(double[] actual) {
+  public DoubleArrayAssert(double @Nullable [] actual) {
     super(actual, DoubleArrayAssert.class);
   }
 }

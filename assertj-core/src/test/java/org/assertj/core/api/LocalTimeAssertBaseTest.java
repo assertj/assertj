@@ -21,6 +21,9 @@ import java.time.LocalTime;
 
 import org.assertj.core.internal.Comparables;
 
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class LocalTimeAssertBaseTest extends BaseTestTemplate<LocalTimeAssert, LocalTime> {
 
   protected Comparables comparables;

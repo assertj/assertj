@@ -38,6 +38,7 @@ class Objects_assertDoesNotHaveToString_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_actual_toString_is_not_equal_to_the_other_toString() {
     objects.assertDoesNotHaveToString(someInfo(), actual, "bar");
     objects.assertDoesNotHaveToString(someInfo(), actual, null);

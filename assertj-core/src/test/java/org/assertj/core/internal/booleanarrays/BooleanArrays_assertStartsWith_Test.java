@@ -41,6 +41,7 @@ import org.junit.jupiter.api.Test;
 class BooleanArrays_assertStartsWith_Test extends BooleanArraysBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertStartsWith(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());

@@ -24,6 +24,9 @@ import org.assertj.core.internal.Longs;
  * 
  * @author Olivier Michallat
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class LongAssertBaseTest extends BaseTestTemplate<LongAssert, Long> {
 
   protected Longs longs;

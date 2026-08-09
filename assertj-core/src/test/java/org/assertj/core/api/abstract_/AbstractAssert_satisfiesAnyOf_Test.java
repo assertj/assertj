@@ -56,6 +56,7 @@ class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
   private final Consumer<TolkienCharacter> isDragon = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(DRAGON);
 
   @Override
+  @SuppressWarnings("NullAway")
   protected ConcreteAssert invoke_api_method() {
     Consumer<Object> isZero = i -> assertThat(i).isNull();
     Consumer<Object> isNegative = i -> assertThat(i).isInstanceOf(String.class);
@@ -124,6 +125,7 @@ class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_an_IllegalArgumentException_if_one_of_the_given_assertions_group_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(frodo).satisfiesAnyOf(isHobbit, null))
                                         .withMessage("No assertions group should be null");

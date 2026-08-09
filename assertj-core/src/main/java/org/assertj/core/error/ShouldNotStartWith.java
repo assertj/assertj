@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a group of elements does not start with a
@@ -34,7 +35,7 @@ public class ShouldNotStartWith extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotStartWith(Object actual, Object expected,
+  public static ErrorMessageFactory shouldNotStartWith(@Nullable Object actual, @Nullable Object expected,
                                                        ComparisonStrategy comparisonStrategy) {
     return new ShouldNotStartWith(actual, expected, comparisonStrategy);
   }
@@ -46,11 +47,11 @@ public class ShouldNotStartWith extends BasicErrorMessageFactory {
    * @param expected the value or sequence of values that {@code actual} is expected not to start with.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotStartWith(Object actual, Object expected) {
+  public static ErrorMessageFactory shouldNotStartWith(@Nullable Object actual, @Nullable Object expected) {
     return new ShouldNotStartWith(actual, expected, StandardComparisonStrategy.instance());
   }
 
-  private ShouldNotStartWith(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
+  private ShouldNotStartWith(@Nullable Object actual, @Nullable Object expected, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nnot to start with:%n  %s%n%s",
           IndentWrapper.of(actual), IndentWrapper.of(expected), comparisonStrategy);
   }

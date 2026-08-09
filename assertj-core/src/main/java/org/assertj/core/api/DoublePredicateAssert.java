@@ -20,6 +20,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions for {@link Predicate}.
  *
@@ -34,7 +36,7 @@ public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePre
    * @param actual the actual predicate
    * @return the created assertion object
    */
-  public static DoublePredicateAssert assertThatDoublePredicate(DoublePredicate actual) {
+  public static DoublePredicateAssert assertThatDoublePredicate(@Nullable DoublePredicate actual) {
     return new DoublePredicateAssert(actual);
   }
 
@@ -43,11 +45,11 @@ public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePre
    *
    * @param actual the actual predicate
    */
-  public DoublePredicateAssert(DoublePredicate actual) {
+  public DoublePredicateAssert(@Nullable DoublePredicate actual) {
     super(actual, toPredicate(actual), DoublePredicateAssert.class);
   }
 
-  private static Predicate<Double> toPredicate(DoublePredicate actual) {
+  private static @Nullable Predicate<Double> toPredicate(@Nullable DoublePredicate actual) {
     return actual != null ? actual::test : null;
   }
 

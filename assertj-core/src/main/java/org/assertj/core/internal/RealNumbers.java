@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class of reusable assertions for real numbers (float and double).
@@ -55,7 +56,7 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
    * @param actual the actual value.
    * @throws AssertionError if the actual value is not equal to {@code NaN}.
    */
-  public void assertIsNaN(AssertionInfo info, NUMBER actual) {
+  public void assertIsNaN(AssertionInfo info, @Nullable NUMBER actual) {
     assertEqualByComparison(info, actual, NaN());
   }
 
@@ -85,7 +86,7 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
    * @param actual the actual value.
    * @throws AssertionError if the actual value is equal to {@code NaN}.
    */
-  public void assertIsNotNaN(AssertionInfo info, NUMBER actual) {
+  public void assertIsNotNaN(AssertionInfo info, @Nullable NUMBER actual) {
     assertNotEqualByComparison(info, actual, NaN());
   }
 
@@ -100,7 +101,7 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
    * @param info assertion information
    * @param actual the actual number
    */
-  public void assertIsFinite(AssertionInfo info, NUMBER actual) {
+  public void assertIsFinite(AssertionInfo info, @Nullable NUMBER actual) {
     assertNotNull(info, actual);
     if (isFinite(actual)) return;
     throw failures.failure(info, shouldBeFinite(actual));
@@ -120,7 +121,7 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
    * @param info assertion information
    * @param actual the actual number
    */
-  public void assertIsNotFinite(AssertionInfo info, NUMBER actual) {
+  public void assertIsNotFinite(AssertionInfo info, @Nullable NUMBER actual) {
     assertNotNull(info, actual);
     if (isNotFinite(actual)) return;
     throw failures.failure(info, shouldNotBeFinite(actual));
@@ -140,7 +141,7 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
    * @param info assertion information
    * @param actual the actual number
    */
-  public void assertIsInfinite(AssertionInfo info, NUMBER actual) {
+  public void assertIsInfinite(AssertionInfo info, @Nullable NUMBER actual) {
     assertNotNull(info, actual);
     if (isInfinite(actual)) return;
     throw failures.failure(info, shouldBeInfinite(actual));
@@ -160,7 +161,7 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
    * @param info assertion information
    * @param actual the actual number
    */
-  public void assertIsNotInfinite(AssertionInfo info, NUMBER actual) {
+  public void assertIsNotInfinite(AssertionInfo info, @Nullable NUMBER actual) {
     assertNotNull(info, actual);
     if (isNotInfinite(actual)) return;
     throw failures.failure(info, shouldNotBeInfinite(actual));

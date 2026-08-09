@@ -40,6 +40,7 @@ public class StringSpliterator implements Spliterator<String> {
   }
 
   @Override
+  @SuppressWarnings("NullAway")
   public Spliterator<String> trySplit() {
     return null;
   }

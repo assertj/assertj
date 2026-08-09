@@ -30,6 +30,7 @@ import java.util.Arrays;
 import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link LocalTime} type from new Date &amp; Time API introduced in Java 8.
@@ -37,7 +38,7 @@ import org.assertj.core.internal.Objects;
  * @param <SELF>  the "self" type of this assertion class.
  */
 public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAssert<SELF>>
-    extends AbstractTemporalAssert<SELF, LocalTime> {
+    extends AbstractTemporalAssert<SELF, @Nullable LocalTime> {
 
   /** Error message used when the time to compare is {@code null}. */
   public static final String NULL_LOCAL_TIME_PARAMETER_MESSAGE = "The LocalTime to compare actual with should not be null";
@@ -48,7 +49,7 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * @param selfType the "self type"
    * @param actual the actual value to verify
    */
-  protected AbstractLocalTimeAssert(LocalTime actual, Class<?> selfType) {
+  protected AbstractLocalTimeAssert(@Nullable LocalTime actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -619,7 +620,7 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
   }
 
   @Override
-  public SELF isCloseTo(LocalTime other, TemporalOffset<? super LocalTime> offset) {
+  public SELF isCloseTo(@Nullable LocalTime other, TemporalOffset<? super LocalTime> offset) {
     // overridden for javadoc link
     return super.isCloseTo(other, offset);
   }

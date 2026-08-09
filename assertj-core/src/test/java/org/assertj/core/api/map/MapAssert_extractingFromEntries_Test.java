@@ -76,6 +76,7 @@ class MapAssert_extractingFromEntries_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null_when_extracting_multiple_values() {
     // GIVEN
     map = null;
@@ -87,6 +88,7 @@ class MapAssert_extractingFromEntries_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null_when_extracting_one_value() {
     // GIVEN
     map = null;

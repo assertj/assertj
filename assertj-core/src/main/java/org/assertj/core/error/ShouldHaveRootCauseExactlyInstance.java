@@ -42,6 +42,9 @@ public class ShouldHaveRootCauseExactlyInstance extends BasicErrorMessageFactory
         : new ShouldHaveRootCauseExactlyInstance(actual, expectedCauseType);
   }
 
+  // Throwables.getRootCause(actual) is guaranteed non-null here: this constructor is only reached from
+  // shouldHaveRootCauseExactlyInstance after it has already verified getRootCause(actual) != null.
+  @SuppressWarnings("NullAway")
   private ShouldHaveRootCauseExactlyInstance(Throwable actual, Class<? extends Throwable> expectedCauseType) {
     super("%nExpecting a throwable with root cause being exactly an instance of:%n  %s%nbut was an instance of:%n  %s%n" +
           "%nThrowable that failed the check:%n" + escapePercent(getStackTrace(actual)),

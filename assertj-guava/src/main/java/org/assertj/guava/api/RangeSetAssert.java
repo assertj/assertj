@@ -153,7 +153,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
     requireNonNull(values, shouldNotBeNull("values")::create);
     if (actual.isEmpty() && !values.iterator().hasNext()) return;
     failIfEmpty(values, "values");
-    assertRangeSetContainsGivenValues(actual, toArray(values, Comparable.class));
+    assertRangeSetContainsGivenValues(actual, requireNonNull(toArray(values, Comparable.class)));
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -227,7 +227,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
     requireNonNull(values, shouldNotBeNull("values")::create);
     if (actual.isEmpty() && !values.iterator().hasNext()) return;
     failIfEmpty(values, "values");
-    assertRangeSetContainsAnyGivenValues(actual, toArray(values, Comparable.class));
+    assertRangeSetContainsAnyGivenValues(actual, requireNonNull(toArray(values, Comparable.class)));
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -298,7 +298,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   private void assertDoesNotContainAll(Iterable<T> values) {
     requireNonNull(values, shouldNotBeNull("values")::create);
     failIfEmpty(values, "values");
-    assertRangeSetDoesNotContainGivenValues(actual, toArray(values, Comparable.class));
+    assertRangeSetDoesNotContainGivenValues(actual, requireNonNull(toArray(values, Comparable.class)));
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -446,7 +446,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
     // Should pass if both actual and expected are empty
     if (actual.isEmpty() && rangeSet.isEmpty()) return;
     failIfEmpty(rangeSet);
-    assertRangeSetIntersectsGivenValues(toArray(rangeSet.asRanges(), Range.class));
+    assertRangeSetIntersectsGivenValues(requireNonNull(toArray(rangeSet.asRanges(), Range.class)));
   }
 
   /**
@@ -482,7 +482,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
     requireNonNull(ranges, shouldNotBeNull("ranges")::create);
     if (actual.isEmpty() && !ranges.iterator().hasNext()) return;
     failIfEmpty(ranges, "ranges");
-    assertRangeSetIntersectsGivenValues(toArray(ranges, Range.class));
+    assertRangeSetIntersectsGivenValues(requireNonNull(toArray(ranges, Range.class)));
   }
 
   private void assertRangeSetIntersectsGivenValues(Range<T>[] ranges) {
@@ -559,7 +559,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
     requireNonNull(ranges, shouldNotBeNull("ranges")::create);
     if (actual.isEmpty() && !ranges.iterator().hasNext()) return;
     failIfEmpty(ranges, "ranges");
-    assertRangeSetIntersectsAnyOfGivenValues(toArray(ranges, Range.class));
+    assertRangeSetIntersectsAnyOfGivenValues(requireNonNull(toArray(ranges, Range.class)));
   }
 
   /**
@@ -595,7 +595,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
     requireNonNull(rangeSet, shouldNotBeNull("rangeSet")::create);
     if (actual.isEmpty() && rangeSet.isEmpty()) return;
     failIfEmpty(rangeSet);
-    assertRangeSetIntersectsAnyOfGivenValues(toArray(rangeSet.asRanges(), Range.class));
+    assertRangeSetIntersectsAnyOfGivenValues(requireNonNull(toArray(rangeSet.asRanges(), Range.class)));
   }
 
   private void assertRangeSetIntersectsAnyOfGivenValues(Range<T>[] ranges) {
@@ -668,7 +668,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   private void assertDoesNotIntersectAnyRangeFrom(RangeSet<T> rangeSet) {
     requireNonNull(rangeSet, shouldNotBeNull("rangeSet")::create);
     failIfEmpty(rangeSet);
-    assertRangeSetDoesNotIntersectGivenValues(toArray(rangeSet.asRanges(), Range.class));
+    assertRangeSetDoesNotIntersectGivenValues(requireNonNull(toArray(rangeSet.asRanges(), Range.class)));
   }
 
   /**
@@ -703,7 +703,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   private void assertDoesNotIntersectAnyRangeFrom(Iterable<Range<T>> ranges) {
     requireNonNull(ranges, shouldNotBeNull("ranges")::create);
     failIfEmpty(ranges, "ranges");
-    assertRangeSetDoesNotIntersectGivenValues(toArray(ranges, Range.class));
+    assertRangeSetDoesNotIntersectGivenValues(requireNonNull(toArray(ranges, Range.class)));
   }
 
   private void assertRangeSetDoesNotIntersectGivenValues(Range<T>[] ranges) {
@@ -780,7 +780,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
     requireNonNull(ranges, shouldNotBeNull("ranges")::create);
     if (actual.isEmpty() && !ranges.iterator().hasNext()) return;
     failIfEmpty(ranges, "ranges");
-    assertRangeSetEnclosesGivenValues(toArray(ranges, Range.class));
+    assertRangeSetEnclosesGivenValues(requireNonNull(toArray(ranges, Range.class)));
   }
 
   /**
@@ -814,7 +814,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
     requireNonNull(rangeSet, shouldNotBeNull("rangeSet")::create);
     if (actual.isEmpty() && rangeSet.isEmpty()) return;
     failIfEmpty(rangeSet);
-    assertRangeSetEnclosesGivenValues(toArray(rangeSet.asRanges(), Range.class));
+    assertRangeSetEnclosesGivenValues(requireNonNull(toArray(rangeSet.asRanges(), Range.class)));
   }
 
   private void assertRangeSetEnclosesGivenValues(Range<T>[] ranges) {
@@ -891,7 +891,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
     requireNonNull(ranges, shouldNotBeNull("ranges")::create);
     if (actual.isEmpty() && !ranges.iterator().hasNext()) return;
     failIfEmpty(ranges, "ranges");
-    assertRangeSetEnclosesAnyOfGivenValues(toArray(ranges, Range.class));
+    assertRangeSetEnclosesAnyOfGivenValues(requireNonNull(toArray(ranges, Range.class)));
   }
 
   /**
@@ -931,7 +931,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
     requireNonNull(rangeSet, shouldNotBeNull("rangeSet")::create);
     if (actual.isEmpty() && rangeSet.isEmpty()) return;
     failIfEmpty(rangeSet);
-    assertRangeSetEnclosesAnyOfGivenValues(toArray(rangeSet.asRanges(), Range.class));
+    assertRangeSetEnclosesAnyOfGivenValues(requireNonNull(toArray(rangeSet.asRanges(), Range.class)));
   }
 
   private void assertRangeSetEnclosesAnyOfGivenValues(Range<T>[] ranges) {
@@ -1006,7 +1006,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   private void assertDoesNotEncloseAnyRangesOf(Iterable<Range<T>> ranges) {
     requireNonNull(ranges, shouldNotBeNull("ranges")::create);
     failIfEmpty(ranges, "ranges");
-    assertRangeSetDoesNotEncloseGivenValues(toArray(ranges, Range.class));
+    assertRangeSetDoesNotEncloseGivenValues(requireNonNull(toArray(ranges, Range.class)));
   }
 
   /**
@@ -1045,7 +1045,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   private void assertDoesNotEncloseAnyRangesOf(RangeSet<T> rangeSet) {
     requireNonNull(rangeSet, shouldNotBeNull("rangeSet")::create);
     failIfEmpty(rangeSet);
-    assertRangeSetDoesNotEncloseGivenValues(toArray(rangeSet.asRanges(), Range.class));
+    assertRangeSetDoesNotEncloseGivenValues(requireNonNull(toArray(rangeSet.asRanges(), Range.class)));
   }
 
   private void assertRangeSetDoesNotEncloseGivenValues(Range<T>[] ranges) {

@@ -19,6 +19,7 @@ import java.util.IllegalFormatException;
 
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.description.Description;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for {@link Throwable} similar to {@link ThrowableAssert} but with assertions methods named
@@ -56,7 +57,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
   }
 
   @Override
-  public ThrowableAssertAlternative<ACTUAL> as(Description description) {
+  public ThrowableAssertAlternative<ACTUAL> as(@Nullable Description description) {
     return super.as(description);
   }
 
@@ -618,7 +619,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
   /** {@inheritDoc} */
   @Override
   @CheckReturnValue
-  public ThrowableAssertAlternative<ACTUAL> describedAs(Description description) {
+  public ThrowableAssertAlternative<ACTUAL> describedAs(@Nullable Description description) {
     getDelegate().describedAs(description);
     return super.describedAs(description);
   }

@@ -52,6 +52,7 @@ class Dates_assertIsBeforeOrEqualTo_Test extends DatesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_given_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> dates.assertIsBeforeOrEqualTo(someInfo(), actual, null))
                                     .withMessage(dateToCompareActualWithIsNull());
@@ -87,6 +88,7 @@ class Dates_assertIsBeforeOrEqualTo_Test extends DatesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsBeforeOrEqualTo(someInfo(),
                                                                                                                 actual,

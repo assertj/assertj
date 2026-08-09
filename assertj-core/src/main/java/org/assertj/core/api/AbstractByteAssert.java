@@ -22,6 +22,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Bytes;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Byte}s.
@@ -39,7 +40,8 @@ import org.assertj.core.internal.Bytes;
  * @author Nicolas François
  * @author Cal027
  */
-public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> extends AbstractComparableAssert<SELF, Byte>
+public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>>
+    extends AbstractComparableAssert<SELF, @Nullable Byte>
     implements NumberAssert<SELF, Byte> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -51,7 +53,7 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
    * @param actual the actual value to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractByteAssert(Byte actual, Class<?> selfType) {
+  protected AbstractByteAssert(@Nullable Byte actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -316,7 +318,7 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
    *
    */
   @Override
-  public SELF isBetween(Byte start, Byte end) {
+  public SELF isBetween(@Nullable Byte start, @Nullable Byte end) {
     return executeAssertion(() -> bytes.assertIsBetween(info, actual, start, end));
   }
 
@@ -335,7 +337,7 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
    *
    */
   @Override
-  public SELF isStrictlyBetween(Byte start, Byte end) {
+  public SELF isStrictlyBetween(@Nullable Byte start, @Nullable Byte end) {
     return executeAssertion(() -> bytes.assertIsStrictlyBetween(info, actual, start, end));
   }
 
@@ -591,7 +593,7 @@ public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> 
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Byte> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super Byte> customComparator, @Nullable String customComparatorDescription) {
     this.bytes = new Bytes(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

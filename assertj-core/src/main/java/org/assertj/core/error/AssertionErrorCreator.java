@@ -24,6 +24,7 @@ import java.util.Optional;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.Representation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates assertion errors, using OpenTest4J types when available.
@@ -31,7 +32,7 @@ import org.assertj.core.presentation.Representation;
 public class AssertionErrorCreator {
 
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class, Object.class);
-  private Method valueWrapperCreateMethod;
+  private @Nullable Method valueWrapperCreateMethod;
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ConstructorInvoker constructorInvoker;
@@ -67,11 +68,12 @@ public class AssertionErrorCreator {
    * @param representation the value representation
    * @return the assertion error
    */
-  public AssertionError assertionError(String message, Object actual, Object expected, Representation representation) {
+  public AssertionError assertionError(String message, @Nullable Object actual, @Nullable Object expected,
+                                       Representation representation) {
     return assertionFailedError(message, actual, expected, representation).orElse(assertionError(message));
   }
 
-  private Optional<AssertionError> assertionFailedError(String message, Object actual, Object expected,
+  private Optional<AssertionError> assertionFailedError(String message, @Nullable Object actual, @Nullable Object expected,
                                                         Representation representation) {
     try {
       Object o = constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
@@ -86,7 +88,7 @@ public class AssertionErrorCreator {
     return Optional.empty();
   }
 
-  private Object valueWrapper(Object value, Representation representation) {
+  private @Nullable Object valueWrapper(@Nullable Object value, Representation representation) {
     if (valueWrapperCreateMethod == null) return value;
     try {
       return valueWrapperCreateMethod.invoke(null, value, representation.toStringOf(value));
@@ -101,7 +103,7 @@ public class AssertionErrorCreator {
    * @param message the error message
    * @return the assertion error
    */
-  public AssertionError assertionError(String message) {
+  public AssertionError assertionError(@Nullable String message) {
     return new AssertionError(message);
   }
 
@@ -125,7 +127,8 @@ public class AssertionErrorCreator {
    * @param errors the assertion errors
    * @return the aggregate assertion error
    */
-  public AssertionError multipleAssertionsError(Description description, Object objectUnderTest, List<AssertionError> errors) {
+  public AssertionError multipleAssertionsError(@Nullable Description description, @Nullable Object objectUnderTest,
+                                                List<AssertionError> errors) {
     MultipleAssertionsError multipleAssertionsError = new MultipleAssertionsError(description, objectUnderTest, errors);
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(multipleAssertionsError);
     return multipleAssertionsError;

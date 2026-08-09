@@ -48,6 +48,7 @@ class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_actual_contains_given_values_exactly_with_null_elements() {
     iterables.assertContainsExactlyInAnyOrder(someInfo(), actual, array("Leia", "Yoda", "Luke"));
     actual.add(null);

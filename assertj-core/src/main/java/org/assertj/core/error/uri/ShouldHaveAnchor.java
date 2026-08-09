@@ -19,6 +19,7 @@ import java.net.URL;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
+import org.jspecify.annotations.Nullable;
 
 /** Creates errors for URLs with an unexpected anchor. */
 public class ShouldHaveAnchor extends BasicErrorMessageFactory {
@@ -33,7 +34,7 @@ public class ShouldHaveAnchor extends BasicErrorMessageFactory {
    * @param expectedAnchor the expected anchor
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveAnchor(URL actual, String expectedAnchor) {
+  public static ErrorMessageFactory shouldHaveAnchor(URL actual, @Nullable String expectedAnchor) {
     return expectedAnchor == null ? new ShouldHaveAnchor(actual) : new ShouldHaveAnchor(actual, expectedAnchor);
   }
 

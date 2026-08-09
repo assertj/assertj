@@ -20,6 +20,8 @@ import static org.assertj.core.util.Arrays.isArray;
 
 import java.util.Comparator;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Comparison strategy applying a comparator to object array elements.
  *
@@ -40,7 +42,7 @@ public class ObjectArrayElementComparisonStrategy<T> extends StandardComparisonS
 
   @SuppressWarnings("unchecked")
   @Override
-  public boolean areEqual(Object actual, Object other) {
+  public boolean areEqual(@Nullable Object actual, @Nullable Object other) {
     if (actual == null && other == null) return true;
     if (actual == null || other == null) return false;
     // expecting actual and other to be T[]

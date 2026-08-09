@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.time.OffsetDateTime;
 
+import org.jspecify.annotations.Nullable;
+
 /** Assertions for offset date-time values. */
 public class OffsetDateTimeAssert extends AbstractOffsetDateTimeAssert<OffsetDateTimeAssert> {
 
@@ -25,7 +27,7 @@ public class OffsetDateTimeAssert extends AbstractOffsetDateTimeAssert<OffsetDat
    *
    * @param actual the actual value to verify
    */
-  protected OffsetDateTimeAssert(OffsetDateTime actual) {
+  protected OffsetDateTimeAssert(@Nullable OffsetDateTime actual) {
     super(actual, OffsetDateTimeAssert.class);
   }
 }

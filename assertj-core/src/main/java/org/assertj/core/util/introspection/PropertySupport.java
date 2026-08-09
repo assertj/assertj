@@ -16,16 +16,16 @@
 package org.assertj.core.util.introspection;
 
 import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Streams.stream;
 import static org.assertj.core.util.introspection.Introspection.getPropertyGetter;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utility methods for properties access.
@@ -68,13 +68,13 @@ public class PropertySupport {
    * @throws IntrospectionError if an element in the given {@code Iterable} does not have a property with a matching
    *           name.
    */
-  public <T> List<T> propertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
+  public <T> List<@Nullable T> propertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
     if (isNullOrEmpty(target)) {
       return emptyList();
     }
     if (isNestedProperty(propertyName)) {
       String firstPropertyName = popPropertyNameFrom(propertyName);
-      Iterable<Object> propertyValues = propertyValues(firstPropertyName, Object.class, target);
+      Iterable<@Nullable Object> propertyValues = propertyValues(firstPropertyName, Object.class, target);
       // extract next sub-property values until reaching the last sub-property
       return propertyValues(nextPropertyNameFrom(propertyName), clazz, propertyValues);
     }
@@ -92,13 +92,19 @@ public class PropertySupport {
    * @return a the values of the given property name
    * @throws IntrospectionError if the given target does not have a property with a matching name.
    */
-  public static <T> T propertyValueOf(String propertyName, Object target, Class<T> clazz) {
+  public static <T> @Nullable T propertyValueOf(String propertyName, Object target, Class<T> clazz) {
     return instance().propertyValueOf(propertyName, clazz, target);
   }
 
-  private <T> List<T> simplePropertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
-    return stream(target).map(e -> e == null ? null : propertyValue(propertyName, clazz, e))
-                         .collect(collectingAndThen(toList(), Collections::unmodifiableList));
+  // Collections.unmodifiableList's own type parameter isn't nullable-bound, so NullAway can't verify the
+  // wrapped List<@Nullable T> stays List<@Nullable T> through the JDK call, even though it genuinely does.
+  @SuppressWarnings("NullAway")
+  private <T> List<@Nullable T> simplePropertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
+    List<@Nullable T> propertyValues = new ArrayList<>();
+    for (Object e : target) {
+      propertyValues.add(e == null ? null : propertyValue(propertyName, clazz, e));
+    }
+    return Collections.unmodifiableList(propertyValues);
   }
 
   private String popPropertyNameFrom(String propertyNameChain) {
@@ -145,7 +151,7 @@ public class PropertySupport {
    * @throws IntrospectionError if the given target does not have a property with a matching name.
    */
   @SuppressWarnings("unchecked")
-  public <T> T propertyValue(String propertyName, Class<T> clazz, Object target) {
+  public <T> @Nullable T propertyValue(String propertyName, Class<T> clazz, Object target) {
     Method getter = getPropertyGetter(propertyName, target);
     try {
       return (T) getter.invoke(target);
@@ -174,7 +180,7 @@ public class PropertySupport {
    * @throws IntrospectionError if target object does not have a property with a matching name.
    * @throws IllegalArgumentException if propertyName is null.
    */
-  public <T> T propertyValueOf(String propertyName, Class<T> clazz, Object target) {
+  public <T> @Nullable T propertyValueOf(String propertyName, Class<T> clazz, @Nullable Object target) {
     checkArgument(propertyName != null, "the property name should not be null.");
     // returns null if target is null as we can't extract a property from a null object
     // but don't want to raise an exception if we were looking at a nested property
@@ -182,6 +188,7 @@ public class PropertySupport {
 
     if (isNestedProperty(propertyName)) {
       String firstPropertyName = popPropertyNameFrom(propertyName);
+      @Nullable
       Object propertyValue = propertyValue(firstPropertyName, Object.class, target);
       // extract next sub-property values until reaching the last sub-property
       return propertyValueOf(nextPropertyNameFrom(propertyName), clazz, propertyValue);
@@ -202,7 +209,7 @@ public class PropertySupport {
    * @throws IntrospectionError if an element in the given {@code Iterable} does not have a property with a matching
    *           name.
    */
-  public List<Object> propertyValues(String fieldOrPropertyName, Iterable<?> target) {
+  public List<@Nullable Object> propertyValues(String fieldOrPropertyName, Iterable<?> target) {
     return propertyValues(fieldOrPropertyName, Object.class, target);
   }
 

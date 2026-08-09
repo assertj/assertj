@@ -49,6 +49,7 @@ class TransformingList_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_not_be_able_to_be_created_from_a_null_list() {
     // WHEN
     NullPointerException nullPointerException = catchNullPointerException(() -> new TransformingList<>(null, Object::toString));
@@ -57,6 +58,7 @@ class TransformingList_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_not_be_able_to_be_created_with_a_null_function() {
     // WHEN
     NullPointerException nullPointerException = catchNullPointerException(() -> new TransformingList<>(emptyList(), null));

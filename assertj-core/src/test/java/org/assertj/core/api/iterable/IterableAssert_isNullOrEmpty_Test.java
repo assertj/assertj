@@ -35,6 +35,7 @@ class IterableAssert_isNullOrEmpty_Test extends IterableAssertBaseTest {
   public void should_verify_actual_is_null_or_empty() {}
 
   @Override
+  @SuppressWarnings("NullAway")
   protected ConcreteIterableAssert<Object> invoke_api_method() {
     assertions.isNullOrEmpty();
     return null;

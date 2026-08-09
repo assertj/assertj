@@ -17,6 +17,8 @@ package org.assertj.core.presentation;
 
 import static org.assertj.core.util.Strings.concat;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Binary object representation instead of standard java representation.
  * 
@@ -41,7 +43,7 @@ public class BinaryRepresentation extends StandardRepresentation {
    * @return the {@code toString} representation of the given object.
    */
   @Override
-  public String toStringOf(Object object) {
+  public @Nullable String toStringOf(@Nullable Object object) {
     if (hasCustomFormatterFor(object)) return customFormat(object);
     if (object instanceof Character character) return toStringOf(character);
     if (object instanceof Number number) return toStringOf(number);
@@ -56,10 +58,13 @@ public class BinaryRepresentation extends StandardRepresentation {
    * @param s the string to format
    * @return the formatted string
    */
-  protected String toStringOf(Representation representation, String s) {
+  protected @Nullable String toStringOf(Representation representation, String s) {
     return concat("\"", representation.toStringOf(s.toCharArray()), "\"");
   }
 
+  // number is never actually null here (only ever called from toStringOf(Object) after an instanceof Number
+  // check), but the null check is kept as defensive library code since this method is protected and overridable.
+  @SuppressWarnings("NullAway")
   @Override
   protected String toStringOf(Number number) {
     if (number instanceof Byte b) return toStringOf(b);
@@ -126,7 +131,7 @@ public class BinaryRepresentation extends StandardRepresentation {
   /** {@inheritDoc} */
   @Override
   protected String toStringOf(Character character) {
-    return concat("'", toStringOf((short) (int) character), "'");
+    return String.valueOf(concat("'", toStringOf((short) (int) character), "'"));
   }
 
   private static String toGroupedBinary(String value, int size) {

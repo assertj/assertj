@@ -31,6 +31,7 @@ import java.util.function.Predicate;
 
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.internal.Files;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link File}s.
@@ -50,7 +51,8 @@ import org.assertj.core.internal.Files;
  * @author Nikolaos Georgiou
  * @author Rostyslav Ivankiv
  */
-public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> extends AbstractAssertWithComparator<SELF, File> {
+public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>>
+    extends AbstractAssertWithComparator<SELF, @Nullable File> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Files files = Files.instance();
@@ -64,7 +66,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @param actual the actual file to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractFileAssert(File actual, Class<?> selfType) {
+  protected AbstractFileAssert(@Nullable File actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -606,7 +608,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @param expected the expected parent file path.
    * @return {@code this} assertion object.
    */
-  public SELF hasParent(String expected) {
+  public SELF hasParent(@Nullable String expected) {
     return executeAssertion(() -> files.assertHasParent(info, actual, expected != null ? new File(expected) : null));
   }
 

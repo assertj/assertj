@@ -42,6 +42,7 @@ class IterableAssert_filteredOnAssertions_consumer_Test extends IterableAssert_f
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_consumer_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       Consumer<? super Employee> consumer = null;

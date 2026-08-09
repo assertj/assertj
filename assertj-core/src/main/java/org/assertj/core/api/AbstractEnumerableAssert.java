@@ -19,6 +19,7 @@ import static org.assertj.core.internal.Arrays.assertIsArray;
 
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.internal.Arrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base implementation for Enumerable class assertions.
@@ -28,7 +29,7 @@ import org.assertj.core.internal.Arrays;
  * @param <ELEMENT> the type of the "actual" array element.
  * @author Joel Costigliola
  */
-public abstract class AbstractEnumerableAssert<SELF extends AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>, ACTUAL, ELEMENT>
+public abstract class AbstractEnumerableAssert<SELF extends AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>, ACTUAL extends @Nullable Object, ELEMENT extends @Nullable Object>
     extends AbstractAssertWithComparator<SELF, ACTUAL>
     implements EnumerableAssert<AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>, ELEMENT> {
 
@@ -56,7 +57,7 @@ public abstract class AbstractEnumerableAssert<SELF extends AbstractEnumerableAs
    * assertThat(new byte[]{ 1, 2 }).hasSameSizeAs(new byte[]{ 1, 2, 3 });</code></pre>
    */
   @Override
-  public SELF hasSameSizeAs(Object other) {
+  public SELF hasSameSizeAs(@Nullable Object other) {
     return executeAssertion(() -> {
       assertIsArray(info, other);
       new Arrays().assertHasSameSizeAs(info, actual, other);

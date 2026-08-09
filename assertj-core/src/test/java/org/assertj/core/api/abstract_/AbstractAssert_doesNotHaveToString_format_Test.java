@@ -38,6 +38,7 @@ class AbstractAssert_doesNotHaveToString_format_Test extends AbstractAssertBaseT
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void nullStringArgumentsThrowAnException() {
     assertThatNullPointerException().isThrownBy(() -> assertions.doesNotHaveToString(null, "foo", "bar"))
                                     .withMessage("The expectedStringTemplate must not be null");

@@ -50,6 +50,7 @@ class Files_assertHasName_Test extends FilesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_npe_if_name_is_null() {
     // GIVEN
     String expectedName = null;

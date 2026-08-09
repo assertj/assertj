@@ -18,6 +18,7 @@ package org.assertj.core.api;
 import java.util.Map;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for the size of a map.
@@ -25,7 +26,8 @@ import org.assertj.core.annotation.CheckReturnValue;
  * @param <KEY> the map key type
  * @param <VALUE> the map value type
  */
-public class MapSizeAssert<KEY, VALUE> extends AbstractMapSizeAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> {
+public class MapSizeAssert<KEY extends @Nullable Object, VALUE extends @Nullable Object>
+    extends AbstractMapSizeAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> {
 
   /**
    * Creates a map size assertion.
@@ -43,7 +45,7 @@ public class MapSizeAssert<KEY, VALUE> extends AbstractMapSizeAssert<MapAssert<K
    * @param size the known map size
    */
   protected MapSizeAssert(AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> originAssert,
-                          @SuppressWarnings("unused") Integer size) {
+                          @SuppressWarnings("unused") @Nullable Integer size) {
     super(originAssert, size);
   }
 

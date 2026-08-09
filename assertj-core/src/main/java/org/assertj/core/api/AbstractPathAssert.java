@@ -35,6 +35,7 @@ import java.util.function.Predicate;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.exception.PathsException;
 import org.assertj.core.internal.Paths;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link Path} objects
@@ -86,7 +87,8 @@ import org.assertj.core.internal.Paths;
  *
  * @author Valeriy Vyrva
  */
-public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> extends AbstractComparableAssert<SELF, Path> {
+public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>>
+    extends AbstractComparableAssert<SELF, @Nullable Path> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Internal assertions for paths. */
@@ -101,7 +103,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @param actual the actual path to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractPathAssert(final Path actual, final Class<?> selfType) {
+  protected AbstractPathAssert(final @Nullable Path actual, final Class<?> selfType) {
     super(actual, selfType);
   }
 

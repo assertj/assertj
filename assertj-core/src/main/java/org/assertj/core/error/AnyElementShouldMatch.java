@@ -16,6 +16,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.presentation.PredicateDescription;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that no element matched a predicate.
@@ -30,11 +31,11 @@ public class AnyElementShouldMatch extends BasicErrorMessageFactory {
    * @param predicateDescription the predicate description
    * @return the error message factory
    */
-  public static ErrorMessageFactory anyElementShouldMatch(Object actual, PredicateDescription predicateDescription) {
+  public static ErrorMessageFactory anyElementShouldMatch(@Nullable Object actual, PredicateDescription predicateDescription) {
     return new AnyElementShouldMatch(actual, predicateDescription);
   }
 
-  private AnyElementShouldMatch(Object actual, PredicateDescription predicateDescription) {
+  private AnyElementShouldMatch(@Nullable Object actual, PredicateDescription predicateDescription) {
     super(NON_MATCHING_ELEMENT, actual, predicateDescription);
   }
 }

@@ -53,6 +53,7 @@ class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass_if_actual_contains_given_values_only_once_with_null_element() {
     actual.add(null);
     iterables.assertContainsOnlyOnce(someInfo(), actual, array("Luke", null, "Yoda", "Leia", null));
@@ -64,6 +65,7 @@ class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_contains_given_values_more_than_once() {
     AssertionInfo info = someInfo();
     actual.addAll(newArrayList("Luke", "Luke", null, null));
@@ -77,6 +79,7 @@ class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_does_not_contains_null_value() {
     AssertionInfo info = someInfo();
     actual.addAll(newArrayList("Luke", "Luke"));

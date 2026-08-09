@@ -19,6 +19,8 @@ import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
 
 import java.util.Set;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies a map contains a values.
  * 
@@ -34,12 +36,12 @@ public class ShouldContainValues extends BasicErrorMessageFactory {
    * @param values the expected values.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <V> ErrorMessageFactory shouldContainValues(Object actual, Set<V> values) {
+  public static <V> ErrorMessageFactory shouldContainValues(@Nullable Object actual, Set<V> values) {
     if (values.size() == 1) return shouldContainValue(actual, values.iterator().next());
     return new ShouldContainValues(actual, values);
   }
 
-  private <V> ShouldContainValues(Object actual, Set<V> values) {
+  private <V> ShouldContainValues(@Nullable Object actual, Set<V> values) {
     super("%nExpecting actual:%n  %s%nto contain values:%n  %s", actual, values);
   }
 }

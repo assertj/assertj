@@ -73,6 +73,7 @@ class OffsetDateTimeAssert_isAfter_Test extends AbstractOffsetDateTimeAssertBase
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_offsetDateTime_parameter_is_null() {
     // GIVEN
     OffsetDateTime otherOffsetDateTime = null;
@@ -84,6 +85,7 @@ class OffsetDateTimeAssert_isAfter_Test extends AbstractOffsetDateTimeAssertBase
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_offsetDateTime_as_string_parameter_is_null() {
     // GIVEN
     String otherOffsetDateTimeAsString = null;

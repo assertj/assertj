@@ -18,8 +18,9 @@ package org.assertj.core.extractor;
 import java.util.function.Function;
 
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
+import org.jspecify.annotations.Nullable;
 
-class ByNameSingleExtractor implements Function<Object, Object> {
+class ByNameSingleExtractor implements Function<Object, @Nullable Object> {
 
   private final String propertyOrFieldName;
 
@@ -28,7 +29,7 @@ class ByNameSingleExtractor implements Function<Object, Object> {
   }
 
   @Override
-  public Object apply(Object input) {
+  public @Nullable Object apply(Object input) {
     return PropertyOrFieldSupport.EXTRACTION.getValueOf(propertyOrFieldName, input);
   }
 

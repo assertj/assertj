@@ -17,6 +17,7 @@ package org.assertj.core.error.array2d;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two 2D arrays are deeply equal
@@ -43,12 +44,14 @@ public class Array2dElementShouldBeDeepEqual extends BasicErrorMessageFactory {
    * @param columnIndex the column index
    * @return the error message factory
    */
-  public static ErrorMessageFactory elementShouldBeEqual(Object actualElement, Object expectedElement, int rowIndex,
+  public static ErrorMessageFactory elementShouldBeEqual(@Nullable Object actualElement, @Nullable Object expectedElement,
+                                                         int rowIndex,
                                                          int columnIndex) {
     return new Array2dElementShouldBeDeepEqual(actualElement, expectedElement, rowIndex, columnIndex);
   }
 
-  private Array2dElementShouldBeDeepEqual(Object actualElement, Object expectedElement, int rowIndex, int columnIndex) {
+  private Array2dElementShouldBeDeepEqual(@Nullable Object actualElement, @Nullable Object expectedElement, int rowIndex,
+                                          int columnIndex) {
     super(MESSAGE, rowIndex, columnIndex, rowIndex, columnIndex, actualElement, rowIndex, columnIndex, expectedElement);
   }
 

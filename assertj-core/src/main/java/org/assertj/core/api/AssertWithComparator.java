@@ -18,13 +18,15 @@ package org.assertj.core.api;
 import java.util.Comparator;
 import java.util.function.BiPredicate;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion contract supporting custom comparison strategies.
  *
  * @param <SELF> the "self" type of the assertion
  * @param <ACTUAL> the type of the actual value
  */
-public interface AssertWithComparator<SELF extends Assert<SELF, ACTUAL>, ACTUAL> {
+public interface AssertWithComparator<SELF extends Assert<SELF, ACTUAL>, ACTUAL extends @Nullable Object> {
   /**
    * Use the given custom comparator instead of relying on actual type A equals method for incoming assertion checks.
    * <p>
@@ -60,7 +62,7 @@ public interface AssertWithComparator<SELF extends Assert<SELF, ACTUAL>, ACTUAL>
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given comparator is {@code null}.
    */
-  SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription);
+  SELF usingComparator(Comparator<? super ACTUAL> customComparator, @Nullable String customComparatorDescription);
 
   /**
    * Uses the given custom {@link BiPredicate} instead of relying on actual type A {@code equals} method
@@ -98,7 +100,7 @@ public interface AssertWithComparator<SELF extends Assert<SELF, ACTUAL>, ACTUAL>
    * @throws NullPointerException if the given comparator is {@code null}.
    */
   @SuppressWarnings("ComparatorMethodParameterNotUsed")
-  default SELF usingEquals(BiPredicate<? super ACTUAL, ? super ACTUAL> predicate, String customEqualsDescription) {
+  default SELF usingEquals(BiPredicate<? super ACTUAL, ? super ACTUAL> predicate, @Nullable String customEqualsDescription) {
     return usingComparator(new Comparator<>() {
       @Override
       public int compare(ACTUAL o1, ACTUAL o2) {

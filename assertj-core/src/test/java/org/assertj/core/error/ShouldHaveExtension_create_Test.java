@@ -52,6 +52,7 @@ class ShouldHaveExtension_create_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_create_error_message_when_actual_does_not_have_extension() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveExtension(actual, null, expectedExtension);

@@ -18,6 +18,7 @@ package org.assertj.core.error;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements does not contain a value at a given
@@ -37,7 +38,7 @@ public class ShouldNotContainAtIndex extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContainAtIndex(Object actual, Object expected, Index index,
+  public static ErrorMessageFactory shouldNotContainAtIndex(@Nullable Object actual, @Nullable Object expected, Index index,
                                                             ComparisonStrategy comparisonStrategy) {
     return new ShouldNotContainAtIndex(actual, expected, index, comparisonStrategy);
   }
@@ -49,11 +50,12 @@ public class ShouldNotContainAtIndex extends BasicErrorMessageFactory {
    * @param index the index of the expected value.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContainAtIndex(Object actual, Object expected, Index index) {
+  public static ErrorMessageFactory shouldNotContainAtIndex(@Nullable Object actual, @Nullable Object expected, Index index) {
     return new ShouldNotContainAtIndex(actual, expected, index, StandardComparisonStrategy.instance());
   }
 
-  private ShouldNotContainAtIndex(Object actual, Object expected, Index index, ComparisonStrategy comparisonStrategy) {
+  private ShouldNotContainAtIndex(@Nullable Object actual, @Nullable Object expected, Index index,
+                                  ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nnot to contain:%n  %s%nat index %s%n%s", actual, expected, index.value, comparisonStrategy);
   }
 }

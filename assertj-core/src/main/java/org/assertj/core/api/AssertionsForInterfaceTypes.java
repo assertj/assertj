@@ -33,6 +33,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
@@ -96,7 +97,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(CharSequence actual) {
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(@Nullable CharSequence actual) {
     return CharSequenceAssert.assertThatCharSequence(actual);
   }
 
@@ -107,7 +108,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <ELEMENT> IterableAssert<ELEMENT> assertThat(Iterable<? extends ELEMENT> actual) {
+  public static <ELEMENT> IterableAssert<ELEMENT> assertThat(@Nullable Iterable<? extends ELEMENT> actual) {
     return IterableAssert.assertThatIterable(actual);
   }
 
@@ -133,7 +134,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <ELEMENT> IteratorAssert<ELEMENT> assertThat(Iterator<? extends ELEMENT> actual) {
+  public static <ELEMENT> IteratorAssert<ELEMENT> assertThat(@Nullable Iterator<? extends ELEMENT> actual) {
     return IteratorAssert.assertThatIterator(actual);
   }
 
@@ -232,7 +233,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */
-  public static <ELEMENT> ListAssert<ELEMENT> assertThat(Stream<? extends ELEMENT> actual) {
+  public static <ELEMENT> ListAssert<ELEMENT> assertThat(@Nullable Stream<? extends ELEMENT> actual) {
     return ListAssert.assertThatStream(actual);
   }
 
@@ -297,7 +298,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual {@link DoubleStream} value.
    * @return the created assertion object.
    */
-  public static ListAssert<Double> assertThat(DoubleStream actual) {
+  public static ListAssert<Double> assertThat(@Nullable DoubleStream actual) {
     return ListAssert.assertThatDoubleStream(actual);
   }
 
@@ -327,7 +328,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual {@link LongStream} value.
    * @return the created assertion object.
    */
-  public static ListAssert<Long> assertThat(LongStream actual) {
+  public static ListAssert<Long> assertThat(@Nullable LongStream actual) {
     return ListAssert.assertThatLongStream(actual);
   }
 
@@ -357,7 +358,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual {@link IntStream} value.
    * @return the created assertion object.
    */
-  public static ListAssert<Integer> assertThat(IntStream actual) {
+  public static ListAssert<Integer> assertThat(@Nullable IntStream actual) {
     return ListAssert.assertThatIntStream(actual);
   }
 
@@ -367,7 +368,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the path to test
    * @return the created assertion object
    */
-  public static AbstractPathAssert<?> assertThat(Path actual) {
+  public static AbstractPathAssert<?> assertThat(@Nullable Path actual) {
     return PathAssert.assertThatPath(actual);
   }
 
@@ -396,7 +397,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
+  public static <K, V> MapAssert<K, V> assertThat(@Nullable Map<K, V> actual) {
     return MapAssert.assertThatMap(actual);
   }
 
@@ -408,7 +409,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
+  public static <T extends @Nullable Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
     return new GenericComparableAssert<>(actual);
   }
 
@@ -491,7 +492,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @return the created assertion object.
    * @since 3.5.0
    */
-  public static <T> PredicateAssert<T> assertThat(Predicate<T> actual) {
+  public static <T> PredicateAssert<T> assertThat(@Nullable Predicate<T> actual) {
     return PredicateAssert.assertThatPredicate(actual);
   }
 
@@ -517,7 +518,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @return the created assertion object.
    * @since 3.5.0
    */
-  public static IntPredicateAssert assertThat(IntPredicate actual) {
+  public static IntPredicateAssert assertThat(@Nullable IntPredicate actual) {
     return IntPredicateAssert.assertThatIntPredicate(actual);
   }
 
@@ -528,7 +529,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @return the created assertion object.
    * @since 3.5.0
    */
-  public static LongPredicateAssert assertThat(LongPredicate actual) {
+  public static LongPredicateAssert assertThat(@Nullable LongPredicate actual) {
     return LongPredicateAssert.assertThatLongPredicate(actual);
   }
 
@@ -539,7 +540,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @return the created assertion object.
    * @since 3.5.0
    */
-  public static DoublePredicateAssert assertThat(DoublePredicate actual) {
+  public static DoublePredicateAssert assertThat(@Nullable DoublePredicate actual) {
     return DoublePredicateAssert.assertThatDoublePredicate(actual);
   }
 
@@ -553,7 +554,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    *
    * @return the created assertion object.
    */
-  public static <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletionStage<RESULT> actual) {
+  public static <RESULT> CompletableFutureAssert<RESULT> assertThat(@Nullable CompletionStage<RESULT> actual) {
     return CompletableFutureAssert.assertThatCompletionStage(actual);
   }
 
@@ -565,7 +566,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    *
    * @return the created assertion object.
    */
-  public static <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(Spliterator<ELEMENT> actual) {
+  public static <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(@Nullable Spliterator<ELEMENT> actual) {
     return SpliteratorAssert.assertThatSpliterator(actual);
   }
 }

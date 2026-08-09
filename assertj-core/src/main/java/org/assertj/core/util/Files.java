@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Utility methods related to files.
  *
@@ -101,8 +103,8 @@ public class Files {
    * @return the created file.
    */
   public static File newTemporaryFile() {
-    String tempFileName = concat(UUID.randomUUID().toString(), ".txt");
-    return newFile(concat(temporaryFolderPath(), tempFileName));
+    String tempFileName = requireNonNull(concat(UUID.randomUUID().toString(), ".txt"));
+    return newFile(requireNonNull(concat(temporaryFolderPath(), tempFileName)));
   }
 
   /**
@@ -113,7 +115,7 @@ public class Files {
    */
   public static File newTemporaryFolder() {
     String tempFileName = UUID.randomUUID().toString();
-    return newFolder(concat(temporaryFolderPath(), tempFileName));
+    return newFolder(requireNonNull(concat(temporaryFolderPath(), tempFileName)));
   }
 
   /**
@@ -174,7 +176,7 @@ public class Files {
     throw cannotCreateNewFile(path, null, cause);
   }
 
-  private static UncheckedIOException cannotCreateNewFile(String path, String reason, Exception cause) {
+  private static UncheckedIOException cannotCreateNewFile(String path, @Nullable String reason, @Nullable Exception cause) {
     String message = "Unable to create the new file %s".formatted(quote(path));
     if (!Strings.isNullOrEmpty(reason)) {
       message = concat(message, ": ", reason);

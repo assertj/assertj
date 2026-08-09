@@ -36,6 +36,7 @@ import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link java.time.OffsetDateTime} type from new Date &amp; Time API introduced in Java 8.
@@ -48,7 +49,7 @@ import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
  * @author Nikolaos Georgiou
  */
 public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDateTimeAssert<SELF>> extends
-    AbstractTemporalAssert<SELF, OffsetDateTime> {
+    AbstractTemporalAssert<SELF, @Nullable OffsetDateTime> {
 
   /** Error message used when the date-time to compare is {@code null}. */
   public static final String NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE = "The OffsetDateTime to compare actual with should not be null";
@@ -59,7 +60,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @param selfType the "self type"
    * @param actual the actual value to verify
    */
-  protected AbstractOffsetDateTimeAssert(OffsetDateTime actual, Class<?> selfType) {
+  protected AbstractOffsetDateTimeAssert(@Nullable OffsetDateTime actual, Class<?> selfType) {
     super(actual, selfType);
     comparables = buildDefaultComparables();
   }
@@ -372,7 +373,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    *                        the comparator in use.
    */
   @Override
-  public SELF isEqualTo(Object other) {
+  public SELF isEqualTo(@Nullable Object other) {
     return executeAssertion(() -> {
       if (actual == null || other == null) {
         super.isEqualTo(other);
@@ -429,7 +430,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @throws AssertionError if the actual {@code OffsetDateTime} is not close to the given one for a provided offset.
    */
   @Override
-  public SELF isCloseTo(OffsetDateTime other, TemporalOffset<? super OffsetDateTime> offset) {
+  public SELF isCloseTo(@Nullable OffsetDateTime other, TemporalOffset<? super OffsetDateTime> offset) {
     // overridden for javadoc
     return super.isCloseTo(other, offset);
   }
@@ -497,7 +498,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    *                        the comparator in use.
    */
   @Override
-  public SELF isNotEqualTo(Object other) {
+  public SELF isNotEqualTo(@Nullable Object other) {
     return executeAssertion(() -> {
       if (actual == null || other == null) {
         super.isNotEqualTo(other);

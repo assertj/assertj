@@ -60,6 +60,7 @@ class ChunkTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_not_be_equal_to_null() {
     assertThat(chunk.equals(null)).isFalse();
   }

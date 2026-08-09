@@ -55,6 +55,7 @@ class BooleanArrays_assertContainsSubsequence_Test extends BooleanArraysBaseTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_subsequence_is_null() {
     // WHEN/THEN
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsSubsequence(INFO, actual, null))

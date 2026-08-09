@@ -17,10 +17,12 @@ package org.assertj.core.util;
 
 import java.util.Comparator;
 
+import org.jspecify.annotations.Nullable;
+
 abstract class NullSafeComparator<T> implements Comparator<T> {
 
   @Override
-  public int compare(T o1, T o2) {
+  public int compare(@Nullable T o1, @Nullable T o2) {
     if (o1 == o2) return 0;
     if (o1 == null) return -1;
     if (o2 == null) return 1;

@@ -40,6 +40,7 @@ public class JediCondition extends Condition<String> {
   }
 
   @Override
+  @SuppressWarnings("NullAway")
   public boolean matches(String value) {
     return jedis.contains(value);
   }

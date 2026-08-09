@@ -27,6 +27,7 @@ import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ByteArrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for assertions on {@code byte} arrays.
@@ -34,7 +35,7 @@ import org.assertj.core.internal.ByteArrays;
  * @param <SELF> the "self" type of this assertion class
  */
 public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAssert<SELF>>
-    extends AbstractArrayAssert<SELF, byte[], Byte> {
+    extends AbstractArrayAssert<SELF, byte @Nullable [], Byte> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Internal assertions for {@code byte} arrays. */
@@ -46,7 +47,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @param actual the actual array to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractByteArrayAssert(byte[] actual, Class<?> selfType) {
+  protected AbstractByteArrayAssert(byte @Nullable [] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

@@ -41,6 +41,7 @@ class Throwables_describeErrors_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_honor_maxStackTraceElementsDisplayed_setting_when_exception_has_a_cause() {
     // GIVEN
     StandardRepresentation.setMaxStackTraceElementsDisplayed(10);
@@ -55,6 +56,7 @@ class Throwables_describeErrors_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_honor_maxStackTraceElementsDisplayed_setting_when_exception_has_no_cause() {
     // GIVEN
     var error = new RuntimeException("error message without cause");
@@ -64,7 +66,7 @@ class Throwables_describeErrors_Test {
     then(descriptions).singleElement(STRING)
                       .startsWith("error message without cause")
                       .containsSubsequence("first 3 stack trace elements:",
-                                           "should_honor_maxStackTraceElementsDisplayed_setting_when_exception_has_no_cause(Throwables_describeErrors_Test.java:60)");
+                                           "should_honor_maxStackTraceElementsDisplayed_setting_when_exception_has_no_cause(Throwables_describeErrors_Test.java:62)");
     then(countStackTraceElements(descriptions.get(0))).isEqualTo(StandardRepresentation.getMaxStackTraceElementsDisplayed());
   }
 

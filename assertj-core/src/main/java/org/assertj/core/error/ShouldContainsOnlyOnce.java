@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains only a given set of
@@ -40,7 +41,7 @@ public class ShouldContainsOnlyOnce extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainsOnlyOnce(Object actual, Object expected, Set<?> notFound,
+  public static ErrorMessageFactory shouldContainsOnlyOnce(@Nullable Object actual, @Nullable Object expected, Set<?> notFound,
                                                            Set<?> notOnlyOnce, ComparisonStrategy comparisonStrategy) {
     if (!isNullOrEmpty(notFound) && !isNullOrEmpty(notOnlyOnce))
       return new ShouldContainsOnlyOnce(actual, expected, notFound, notOnlyOnce, comparisonStrategy);
@@ -59,12 +60,12 @@ public class ShouldContainsOnlyOnce extends BasicErrorMessageFactory {
    * @param notOnlyOnce values in {@code actual} that were found not only once in {@code expected}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainsOnlyOnce(Object actual, Object expected, Set<?> notFound,
+  public static ErrorMessageFactory shouldContainsOnlyOnce(@Nullable Object actual, @Nullable Object expected, Set<?> notFound,
                                                            Set<?> notOnlyOnce) {
     return shouldContainsOnlyOnce(actual, expected, notFound, notOnlyOnce, StandardComparisonStrategy.instance());
   }
 
-  private ShouldContainsOnlyOnce(Object actual, Object expected, Set<?> notFound, Set<?> notOnlyOnce,
+  private ShouldContainsOnlyOnce(@Nullable Object actual, @Nullable Object expected, Set<?> notFound, Set<?> notOnlyOnce,
                                  ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto contain only once:%n  %s%n"
           + "but some elements were not found:%n  %s%n"
@@ -72,13 +73,14 @@ public class ShouldContainsOnlyOnce extends BasicErrorMessageFactory {
           actual, expected, notFound, notOnlyOnce, comparisonStrategy);
   }
 
-  private ShouldContainsOnlyOnce(Object actual, Object expected, Set<?> notFound, ComparisonStrategy comparisonStrategy) {
+  private ShouldContainsOnlyOnce(@Nullable Object actual, @Nullable Object expected, Set<?> notFound,
+                                 ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto contain only once:%n  %s%nbut some elements were not found:%n  %s%n%s",
           actual, expected, notFound, comparisonStrategy);
   }
 
   // change the order of parameters to avoid confusion with previous constructor
-  private ShouldContainsOnlyOnce(Set<?> notOnlyOnce, Object actual, Object expected,
+  private ShouldContainsOnlyOnce(Set<?> notOnlyOnce, @Nullable Object actual, @Nullable Object expected,
                                  ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto contain only once:%n  %s%nbut some elements were found more than once:%n  %s%n%s",
           actual, expected, notOnlyOnce, comparisonStrategy);

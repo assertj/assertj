@@ -40,6 +40,7 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@link Object}s.
@@ -56,11 +57,11 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Libor Ondrusek
  */
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
-public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL>
+public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL extends @Nullable Object>
     extends AbstractAssertWithComparator<SELF, ACTUAL> {
 
   private Map<String, Comparator<?>> comparatorsByPropertyOrField = new TreeMap<>();
-  private TypeComparators comparatorsByType;
+  private @Nullable TypeComparators comparatorsByType;
 
   /**
    * Creates a new object assertion.
@@ -74,7 +75,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
   @Override
   @CheckReturnValue
-  public SELF as(Description description) {
+  public SELF as(@Nullable Description description) {
     return super.as(description);
   }
 
@@ -349,7 +350,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws AssertionError           if the actual object has the given field/property but not with the expected value
    * @see AbstractObjectAssert#hasFieldOrProperty(java.lang.String)
    */
-  public SELF hasFieldOrPropertyWithValue(String name, Object value) {
+  public SELF hasFieldOrPropertyWithValue(String name, @Nullable Object value) {
     return executeAssertion(() -> objects.assertHasFieldOrPropertyWithValue(info, actual, name, value));
   }
 
@@ -492,7 +493,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
-    AssertFactory<Object, AbstractObjectAssert<?, Object>> assertFactory = this::newObjectAssert;
+    AssertFactory<@Nullable Object, AbstractObjectAssert<?, @Nullable Object>> assertFactory = this::newObjectAssert;
     return super.extracting(propertyOrField, assertFactory);
   }
 
@@ -541,7 +542,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
                                                                  InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    AssertFactory<Object, AbstractObjectAssert<?, Object>> assertFactory1 = this::newObjectAssert;
+    AssertFactory<@Nullable Object, AbstractObjectAssert<?, @Nullable Object>> assertFactory1 = this::newObjectAssert;
     return super.extracting(propertyOrField, assertFactory1).asInstanceOf(assertFactory);
   }
 
@@ -683,7 +684,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws NullPointerException if given {@code from} function is null
    * @see #usingComparatorForType(Comparator, Class)
    */
-  public <T> SELF returns(T expected, Function<ACTUAL, T> from) {
+  public <T> SELF returns(@Nullable T expected, Function<ACTUAL, T> from) {
     requireNonNull(from, "The given getter method/Function must not be null");
     return executeAssertion(() -> {
       isNotNull();
@@ -710,7 +711,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return {@code this} assertion object.
    * @throws NullPointerException if given {@code from} function is null
    */
-  public <T> SELF returns(T expected, Function<ACTUAL, T> from, String description) {
+  public <T> SELF returns(@Nullable T expected, Function<ACTUAL, T> from, String description) {
     as(description);
     return returns(expected, from);
   }
@@ -738,7 +739,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @see #usingComparatorForType(Comparator, Class)
    * @since 3.22.0
    */
-  public <T> SELF doesNotReturn(T expected, Function<ACTUAL, T> from) {
+  public <T> SELF doesNotReturn(@Nullable T expected, Function<ACTUAL, T> from) {
     requireNonNull(from, "The given getter method/Function must not be null");
     return executeAssertion(() -> {
       isNotNull();
@@ -747,12 +748,12 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     });
   }
 
-  private Objects getComparatorBasedObjectAssertions(Object value) {
+  private Objects getComparatorBasedObjectAssertions(@Nullable Object value) {
     if (value == null) return objects;
     Class<?> type = value.getClass();
-    TypeComparators comparatorsByType = getComparatorsByType();
-    if (comparatorsByType.hasComparatorForType(type)) {
-      return new Objects(new ComparatorBasedComparisonStrategy(comparatorsByType.getComparatorForType(type)));
+    Comparator<?> comparatorForType = getComparatorsByType().getComparatorForType(type);
+    if (comparatorForType != null) {
+      return new Objects(new ComparatorBasedComparisonStrategy(comparatorForType));
     }
     return objects;
   }
@@ -945,8 +946,11 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param objectUnderTest the value to assert on
    * @return the new object assertion
    */
-  protected <T> AbstractObjectAssert<?, T> newObjectAssert(T objectUnderTest) {
-    return new ObjectAssert<>(objectUnderTest);
+  // NullAway does not propagate T's @Nullable bound through this constructor call, even though
+  // ObjectAssert<ACTUAL extends @Nullable Object> accepts it.
+  @SuppressWarnings("NullAway")
+  protected <T extends @Nullable Object> AbstractObjectAssert<?, T> newObjectAssert(@Nullable T objectUnderTest) {
+    return new ObjectAssert<T>(objectUnderTest);
   }
 
   @SuppressWarnings({ "rawtypes" })
@@ -959,7 +963,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     return super.withAssertionState(assertInstance);
   }
 
-  SELF withTypeComparator(TypeComparators comparatorsByType) {
+  SELF withTypeComparator(@Nullable TypeComparators comparatorsByType) {
     this.comparatorsByType = comparatorsByType;
     return myself;
   }

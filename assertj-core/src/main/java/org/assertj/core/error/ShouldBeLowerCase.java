@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message that indicates an assertion that verifies that a character is lowercase failed.
  * 
@@ -27,11 +29,11 @@ public class ShouldBeLowerCase extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeLowerCase(Object actual) {
+  public static ErrorMessageFactory shouldBeLowerCase(@Nullable Object actual) {
     return new ShouldBeLowerCase(actual);
   }
 
-  private ShouldBeLowerCase(Object actual) {
+  private ShouldBeLowerCase(@Nullable Object actual) {
     super("%nExpecting %s to be a lowercase", actual);
   }
 }

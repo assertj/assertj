@@ -57,6 +57,7 @@ import com.google.common.collect.Sets;
 class CollectionAssert_isUnmodifiable_Test {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     Collection<?> actual = null;

@@ -62,6 +62,7 @@ class LocalDateTimeAssert_isCloseToUtcNow_Test extends LocalDateTimeAssertBaseTe
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_offset_parameter_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(now()).isCloseToUtcNow(null))
                                     .withMessage("The offset should not be null");

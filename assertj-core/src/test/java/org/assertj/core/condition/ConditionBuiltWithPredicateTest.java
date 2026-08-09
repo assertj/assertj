@@ -34,6 +34,7 @@ class ConditionBuiltWithPredicateTest implements WithAssertions {
   private static final String JEDI = "jedi";
 
   @BeforeEach
+  @SuppressWarnings("NullAway")
   public void setup() {
     Predicate<String> jediPredicate = s -> jedis.contains(s);
     jedi = new Condition<>(jediPredicate, "a %s", JEDI);

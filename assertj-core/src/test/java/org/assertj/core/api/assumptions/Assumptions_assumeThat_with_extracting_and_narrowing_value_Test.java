@@ -166,6 +166,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 class Assumptions_assumeThat_with_extracting_and_narrowing_value_Test {
@@ -669,6 +670,7 @@ class Assumptions_assumeThat_with_extracting_and_narrowing_value_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_ignore_test_for_failing_assumption_extracting_and_narrowing_a_ZonedDateTime() {
     expectAssumptionNotMetException(() -> assumeThat(data).extracting(TestData::zonedDateTime, as(ZONED_DATE_TIME))
                                                           .isAfter(ZonedDateTime.now()));
@@ -677,7 +679,7 @@ class Assumptions_assumeThat_with_extracting_and_narrowing_value_Test {
   static class TestData {
     volatile int foo;
     volatile long fooLong;
-    volatile TestData fooTestData;
+    volatile @Nullable TestData fooTestData;
 
     Object[] array() {
       return new Object[0];
@@ -1039,6 +1041,7 @@ class Assumptions_assumeThat_with_extracting_and_narrowing_value_Test {
       return new Throwable("boom!");
     }
 
+    @SuppressWarnings("NullAway")
     URI uri() {
       try {
         return new URI("https://assertj.github.io/doc!");
@@ -1047,6 +1050,7 @@ class Assumptions_assumeThat_with_extracting_and_narrowing_value_Test {
       }
     }
 
+    @SuppressWarnings("NullAway")
     URL url() {
       try {
         return new URL("https://assertj.github.io/doc!");

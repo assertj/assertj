@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies {@link CharSequence}
  * is not blank.
@@ -30,7 +32,7 @@ public class ShouldNotContainOnlyWhitespaces extends BasicErrorMessageFactory {
     return new ShouldNotContainOnlyWhitespaces(actual);
   }
 
-  private ShouldNotContainOnlyWhitespaces(Object actual) {
+  private ShouldNotContainOnlyWhitespaces(@Nullable Object actual) {
     super("%n" +
           "Expecting string not to contain only whitespaces but was:%n" +
           "  %s", IndentWrapper.of(actual));

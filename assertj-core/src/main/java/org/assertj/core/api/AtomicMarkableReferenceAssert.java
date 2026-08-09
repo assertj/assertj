@@ -20,6 +20,8 @@ import static org.assertj.core.error.ShouldBeMarked.shouldNotBeMarked;
 
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link AtomicMarkableReference}s.
  * <p>
@@ -31,14 +33,14 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
  * @since 2.7.0 / 3.7.0
  */
 public class AtomicMarkableReferenceAssert<VALUE>
-    extends AbstractAtomicReferenceAssert<AtomicMarkableReferenceAssert<VALUE>, VALUE, AtomicMarkableReference<VALUE>> {
+    extends AbstractAtomicReferenceAssert<AtomicMarkableReferenceAssert<VALUE>, VALUE, @Nullable AtomicMarkableReference<VALUE>> {
 
   /**
    * Creates a new atomic markable reference assertion.
    *
    * @param actual the actual atomic reference
    */
-  public AtomicMarkableReferenceAssert(AtomicMarkableReference<VALUE> actual) {
+  public AtomicMarkableReferenceAssert(@Nullable AtomicMarkableReference<VALUE> actual) {
     super(actual, AtomicMarkableReferenceAssert.class);
   }
 

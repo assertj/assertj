@@ -32,6 +32,7 @@ public class ObjectArrayAssert_filtered_baseTest {
   protected Employee[] employees;
 
   @BeforeEach
+  @SuppressWarnings("NullAway")
   public void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     obiwan = new Employee(2L, new Name("Obi"), 800);

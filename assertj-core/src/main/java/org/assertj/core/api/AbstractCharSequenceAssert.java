@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for all implementations of assertions for {@code CharSequence}s.
@@ -62,7 +63,7 @@ import org.assertj.core.internal.Strings;
  * @author Nicolas Francois
  * @author Daniel Weber
  */
-public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>, ACTUAL extends CharSequence>
+public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>, ACTUAL extends @Nullable CharSequence>
     extends AbstractAssertWithComparator<SELF, ACTUAL> implements EnumerableAssert<SELF, Character> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -511,7 +512,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws NullPointerException if the given array is {@code null}.
    */
   @Override
-  public SELF hasSameSizeAs(Object other) {
+  public SELF hasSameSizeAs(@Nullable Object other) {
     return executeAssertion(() -> strings.assertHasSameSizeAs(info, actual, other));
   }
 
@@ -552,7 +553,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one.
    */
-  public SELF isEqualToIgnoringCase(CharSequence expected) {
+  public SELF isEqualToIgnoringCase(@Nullable CharSequence expected) {
     return executeAssertion(() -> strings.assertEqualsIgnoringCase(info, actual, expected));
   }
 
@@ -575,7 +576,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one.
    */
-  public SELF isNotEqualToIgnoringCase(CharSequence expected) {
+  public SELF isNotEqualToIgnoringCase(@Nullable CharSequence expected) {
     return executeAssertion(() -> strings.assertNotEqualsIgnoringCase(info, actual, expected));
   }
 
@@ -1426,7 +1427,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
 
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, @Nullable String customComparatorDescription) {
     this.strings = new Strings(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }
@@ -1565,7 +1566,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *                        after whitespace has been normalized.
    * @since 2.8.0 / 3.8.0
    */
-  public SELF isEqualToNormalizingWhitespace(CharSequence expected) {
+  public SELF isEqualToNormalizingWhitespace(@Nullable CharSequence expected) {
     return executeAssertion(() -> strings.assertEqualsNormalizingWhitespace(info, actual, expected));
   }
 
@@ -1597,7 +1598,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *                        after whitespace has been normalized.
    * @since 2.8.0 / 3.8.0
    */
-  public SELF isNotEqualToNormalizingWhitespace(CharSequence expected) {
+  public SELF isNotEqualToNormalizingWhitespace(@Nullable CharSequence expected) {
     return executeAssertion(() -> strings.assertNotEqualsNormalizingWhitespace(info, actual, expected));
   }
 
@@ -1633,7 +1634,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *                        after punctuation have been normalized.
    * @since 3.16.0
    */
-  public SELF isEqualToNormalizingPunctuationAndWhitespace(CharSequence expected) {
+  public SELF isEqualToNormalizingPunctuationAndWhitespace(@Nullable CharSequence expected) {
     return executeAssertion(() -> strings.assertEqualsNormalizingPunctuationAndWhitespace(info, actual, expected));
   }
 
@@ -1759,7 +1760,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *                        after new lines are normalized.
    * @since 2.7.0 / 3.7.0
    */
-  public SELF isEqualToNormalizingNewlines(CharSequence expected) {
+  public SELF isEqualToNormalizingNewlines(@Nullable CharSequence expected) {
     return executeAssertion(() -> strings.assertIsEqualToNormalizingNewlines(info, actual, expected));
   }
 

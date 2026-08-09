@@ -48,6 +48,7 @@ class IterableAssert_containsSequence_List_Test extends IterableAssertBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       List<Object> nullList = null;

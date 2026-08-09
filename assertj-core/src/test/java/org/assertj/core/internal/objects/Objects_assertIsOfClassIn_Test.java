@@ -55,6 +55,7 @@ class Objects_assertIsOfClassIn_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_type_is_null() {
     assertThatNullPointerException().isThrownBy(() -> objects.assertIsOfAnyClassIn(someInfo(), actual, null))
                                     .withMessage("The given types should not be null");

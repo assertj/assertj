@@ -75,6 +75,7 @@ class IterableAssert_filteredOn_notIn_Test extends IterableAssert_filtered_baseT
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_filter_iterable_under_test_on_nested_mixed_property_and_field_values() {
     assertThat(employees).filteredOn("name.last", notIn("Skywalker")).containsOnly(yoda, obiwan, noname);
     assertThat(employees).filteredOn("name.last", notIn("Skywalker", null)).isEmpty();
@@ -82,6 +83,7 @@ class IterableAssert_filteredOn_notIn_Test extends IterableAssert_filtered_baseT
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_property_or_field_name_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn((String) null, notIn(800)))
                                         .withMessage("The property/field name to filter on should not be null or empty");

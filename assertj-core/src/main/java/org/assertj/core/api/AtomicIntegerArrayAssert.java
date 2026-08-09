@@ -24,25 +24,26 @@ import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.IntArrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link AtomicIntegerArray} values.
  */
 public class AtomicIntegerArrayAssert
-    extends AbstractEnumerableAssert<AtomicIntegerArrayAssert, AtomicIntegerArray, Integer> {
+    extends AbstractEnumerableAssert<AtomicIntegerArrayAssert, @Nullable AtomicIntegerArray, Integer> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Internal assertions for integer arrays. */
   protected IntArrays arrays = IntArrays.instance();
 
-  private int[] array;
+  private int @Nullable [] array;
 
   /**
    * Creates a new atomic integer array assertion.
    *
    * @param actual the actual atomic integer array
    */
-  public AtomicIntegerArrayAssert(AtomicIntegerArray actual) {
+  public AtomicIntegerArrayAssert(@Nullable AtomicIntegerArray actual) {
     super(actual, AtomicIntegerArrayAssert.class);
     array = array(actual);
   }

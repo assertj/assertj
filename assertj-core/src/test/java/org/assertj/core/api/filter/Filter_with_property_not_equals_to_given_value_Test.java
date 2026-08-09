@@ -41,6 +41,7 @@ class Filter_with_property_not_equals_to_given_value_Test extends WithPlayerData
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_property_to_filter_on_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> filter(players).with(null).notEqualsTo("foo"))
                                         .withMessage("The property/field name to filter on should not be null or empty");

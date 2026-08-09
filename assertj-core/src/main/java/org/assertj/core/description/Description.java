@@ -18,6 +18,8 @@ package org.assertj.core.description;
 import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
 import static org.assertj.core.util.Strings.isNullOrEmpty;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * The description of a value.
  * 
@@ -47,7 +49,7 @@ public abstract class Description {
    * @param description the description
    * @return the description or an empty one
    */
-  public static Description emptyIfNull(Description description) {
+  public static Description emptyIfNull(@Nullable Description description) {
     return description == null ? emptyDescription() : description;
   }
 
@@ -58,9 +60,10 @@ public abstract class Description {
    * @param newDescription the fallback description
    * @return the most relevant description
    */
-  public static String mostRelevantDescription(Description existingDescription, String newDescription) {
-    boolean isDescriptionSet = existingDescription != null && !isNullOrEmpty(existingDescription.value());
-    return isDescriptionSet ? existingDescription.value() : newDescription;
+  public static String mostRelevantDescription(@Nullable Description existingDescription, String newDescription) {
+    return existingDescription != null && !isNullOrEmpty(existingDescription.value())
+        ? existingDescription.value()
+        : newDescription;
   }
 
 }

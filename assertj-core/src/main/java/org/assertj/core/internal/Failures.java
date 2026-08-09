@@ -16,7 +16,6 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
-import static org.assertj.core.util.Strings.isNullOrEmpty;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
@@ -30,6 +29,7 @@ import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.MessageFormatter;
 import org.assertj.core.error.ShouldBeEqual;
 import org.assertj.core.util.Throwables;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Failure actions.
@@ -131,7 +131,8 @@ public class Failures {
    * @param expected the expected value
    * @return the assertion error
    */
-  public AssertionError failure(AssertionInfo info, ErrorMessageFactory messageFactory, Object actual, Object expected) {
+  public AssertionError failure(AssertionInfo info, ErrorMessageFactory messageFactory, @Nullable Object actual,
+                                @Nullable Object expected) {
     String assertionErrorMessage = assertionErrorMessage(info, messageFactory);
     AssertionError assertionError = assertionErrorCreator.assertionError(assertionErrorMessage, actual, expected,
                                                                          info.representation());
@@ -149,7 +150,7 @@ public class Failures {
    */
   protected String assertionErrorMessage(AssertionInfo info, ErrorMessageFactory messageFactory) {
     String overridingErrorMessage = info.overridingErrorMessage();
-    return isNullOrEmpty(overridingErrorMessage)
+    return overridingErrorMessage == null || overridingErrorMessage.isEmpty()
         ? messageFactory.create(info.description(), info.representation())
         : MessageFormatter.instance().format(info.description(), info.representation(), overridingErrorMessage);
   }
@@ -160,9 +161,9 @@ public class Failures {
    * @param info assertion information
    * @return the assertion error or {@code null}
    */
-  public AssertionError failureIfErrorMessageIsOverridden(AssertionInfo info) {
+  public @Nullable AssertionError failureIfErrorMessageIsOverridden(AssertionInfo info) {
     String overridingErrorMessage = info.overridingErrorMessage();
-    return isNullOrEmpty(overridingErrorMessage) ? null
+    return overridingErrorMessage == null || overridingErrorMessage.isEmpty() ? null
         : failure(MessageFormatter.instance().format(info.description(), info.representation(),
                                                      overridingErrorMessage));
   }
@@ -176,7 +177,7 @@ public class Failures {
    * @param message the message of the {@code AssertionError} to create.
    * @return the created <code>{@link AssertionError}</code>.
    */
-  public AssertionError failure(String message) {
+  public AssertionError failure(@Nullable String message) {
     AssertionError assertionError = assertionErrorCreator.assertionError(message);
     removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     printThreadDumpIfNeeded();

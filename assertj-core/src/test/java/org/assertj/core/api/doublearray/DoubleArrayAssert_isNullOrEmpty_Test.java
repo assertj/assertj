@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 class DoubleArrayAssert_isNullOrEmpty_Test extends DoubleArrayAssertBaseTest {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected DoubleArrayAssert invoke_api_method() {
     assertions.isNullOrEmpty();
     return null;

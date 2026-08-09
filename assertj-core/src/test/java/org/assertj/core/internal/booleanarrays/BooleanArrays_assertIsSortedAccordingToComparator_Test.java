@@ -71,6 +71,7 @@ class BooleanArrays_assertIsSortedAccordingToComparator_Test extends BooleanArra
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_comparator_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), emptyArray(), null));
   }

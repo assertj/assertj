@@ -24,25 +24,26 @@ import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.LongArrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link AtomicLongArray} values.
  */
 public class AtomicLongArrayAssert
-    extends AbstractEnumerableAssert<AtomicLongArrayAssert, AtomicLongArray, Long> {
+    extends AbstractEnumerableAssert<AtomicLongArrayAssert, @Nullable AtomicLongArray, Long> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Internal assertions for long arrays. */
   protected LongArrays arrays = LongArrays.instance();
 
-  private long[] array;
+  private long @Nullable [] array;
 
   /**
    * Creates a new atomic long array assertion.
    *
    * @param actual the actual atomic long array
    */
-  public AtomicLongArrayAssert(AtomicLongArray actual) {
+  public AtomicLongArrayAssert(@Nullable AtomicLongArray actual) {
     super(actual, AtomicLongArrayAssert.class);
     array = array(actual);
   }

@@ -76,6 +76,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.annotation.CanIgnoreReturnValue;
 import org.assertj.core.annotation.CheckReturnValue;
+import org.jspecify.annotations.Nullable;
 
 /** Standard entry point exposing all soft assertion types. */
 @CheckReturnValue
@@ -86,7 +87,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default BigDecimalAssert assertThat(BigDecimal actual) {
+  default BigDecimalAssert assertThat(@Nullable BigDecimal actual) {
     return (BigDecimalAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -97,7 +98,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  default BigIntegerAssert assertThat(BigInteger actual) {
+  default BigIntegerAssert assertThat(@Nullable BigInteger actual) {
     return (BigIntegerAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -117,7 +118,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default BooleanAssert assertThat(Boolean actual) {
+  default BooleanAssert assertThat(@Nullable Boolean actual) {
     return (BooleanAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -127,7 +128,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default BooleanArrayAssert assertThat(boolean[] actual) {
+  default BooleanArrayAssert assertThat(boolean @Nullable [] actual) {
     return (BooleanArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -138,7 +139,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Boolean2DArrayAssert assertThat(boolean[][] actual) {
+  default Boolean2DArrayAssert assertThat(boolean[] @Nullable [] actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -158,7 +159,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default ByteAssert assertThat(Byte actual) {
+  default ByteAssert assertThat(@Nullable Byte actual) {
     return (ByteAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -168,7 +169,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default ByteArrayAssert assertThat(byte[] actual) {
+  default ByteArrayAssert assertThat(byte @Nullable [] actual) {
     return (ByteArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -179,7 +180,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Byte2DArrayAssert assertThat(byte[][] actual) {
+  default Byte2DArrayAssert assertThat(byte[] @Nullable [] actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -199,7 +200,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default CharArrayAssert assertThat(char[] actual) {
+  default CharArrayAssert assertThat(char @Nullable [] actual) {
     return (CharArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -210,7 +211,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Char2DArrayAssert assertThat(char[][] actual) {
+  default Char2DArrayAssert assertThat(char[] @Nullable [] actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -220,7 +221,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default CharacterAssert assertThat(Character actual) {
+  default CharacterAssert assertThat(@Nullable Character actual) {
     return (CharacterAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -230,7 +231,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default ClassAssert assertThat(Class<?> actual) {
+  default ClassAssert assertThat(@Nullable Class<?> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -297,7 +298,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default <T> IterableAssert<T> assertThat(Iterable<? extends T> actual) {
+  default <T> IterableAssert<T> assertThat(@Nullable Iterable<? extends T> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -325,7 +326,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default <T> IteratorAssert<T> assertThat(Iterator<? extends T> actual) {
+  default <T> IteratorAssert<T> assertThat(@Nullable Iterator<? extends T> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -360,7 +361,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default DoubleAssert assertThat(Double actual) {
+  default DoubleAssert assertThat(@Nullable Double actual) {
     return (DoubleAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -370,7 +371,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default DoubleArrayAssert assertThat(double[] actual) {
+  default DoubleArrayAssert assertThat(double @Nullable [] actual) {
     return (DoubleArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -381,7 +382,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Double2DArrayAssert assertThat(double[][] actual) {
+  default Double2DArrayAssert assertThat(double[] @Nullable [] actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -391,7 +392,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default FileAssert assertThat(File actual) {
+  default FileAssert assertThat(@Nullable File actual) {
     return (FileAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -402,7 +403,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual   the actual value
    * @return the created assertion object
    */
-  default <RESULT> FutureAssert<RESULT> assertThat(Future<RESULT> actual) {
+  default <RESULT> FutureAssert<RESULT> assertThat(@Nullable Future<RESULT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -412,7 +413,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default InputStreamAssert assertThat(InputStream actual) {
+  default InputStreamAssert assertThat(@Nullable InputStream actual) {
     return (InputStreamAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -432,7 +433,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default FloatAssert assertThat(Float actual) {
+  default FloatAssert assertThat(@Nullable Float actual) {
     return (FloatAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -442,7 +443,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default FloatArrayAssert assertThat(float[] actual) {
+  default FloatArrayAssert assertThat(float @Nullable [] actual) {
     return (FloatArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -453,7 +454,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Float2DArrayAssert assertThat(float[][] actual) {
+  default Float2DArrayAssert assertThat(float[] @Nullable [] actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -473,7 +474,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default IntArrayAssert assertThat(int[] actual) {
+  default IntArrayAssert assertThat(int @Nullable [] actual) {
     return (IntArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -484,7 +485,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Int2DArrayAssert assertThat(int[][] actual) {
+  default Int2DArrayAssert assertThat(int[] @Nullable [] actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -494,7 +495,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default IntegerAssert assertThat(Integer actual) {
+  default IntegerAssert assertThat(@Nullable Integer actual) {
     return (IntegerAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -540,7 +541,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default LongAssert assertThat(Long actual) {
+  default LongAssert assertThat(@Nullable Long actual) {
     return (LongAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -550,7 +551,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default LongArrayAssert assertThat(long[] actual) {
+  default LongArrayAssert assertThat(long @Nullable [] actual) {
     return (LongArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -561,7 +562,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Long2DArrayAssert assertThat(long[][] actual) {
+  default Long2DArrayAssert assertThat(long[] @Nullable [] actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -572,7 +573,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param <T>    the type of the actual value.
    * @return the created assertion object.
    */
-  default <T> ObjectAssert<T> assertThat(T actual) {
+  default <T extends @Nullable Object> ObjectAssert<T> assertThat(T actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -583,7 +584,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param <T>    the type values of the actual array.
    * @return the created assertion object.
    */
-  default <T> ObjectArrayAssert<T> assertThat(T[] actual) {
+  default <T> ObjectArrayAssert<T> assertThat(T @Nullable [] actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -595,7 +596,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default <T> Object2DArrayAssert<T> assertThat(T[][] actual) {
+  default <T> Object2DArrayAssert<T> assertThat(T[] @Nullable [] actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -607,7 +608,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
+  default <K, V> MapAssert<K, V> assertThat(@Nullable Map<K, V> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -627,7 +628,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default ShortAssert assertThat(Short actual) {
+  default ShortAssert assertThat(@Nullable Short actual) {
     return (ShortAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -637,7 +638,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default ShortArrayAssert assertThat(short[] actual) {
+  default ShortArrayAssert assertThat(short @Nullable [] actual) {
     return (ShortArrayAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -648,7 +649,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default Short2DArrayAssert assertThat(short[][] actual) {
+  default Short2DArrayAssert assertThat(short[] @Nullable [] actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -658,7 +659,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default CharSequenceAssert assertThat(CharSequence actual) {
+  default CharSequenceAssert assertThat(@Nullable CharSequence actual) {
     return (CharSequenceAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -683,7 +684,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.11.0
    */
-  default CharSequenceAssert assertThat(StringBuilder actual) {
+  default CharSequenceAssert assertThat(@Nullable StringBuilder actual) {
     return (CharSequenceAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -694,7 +695,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.11.0
    */
-  default CharSequenceAssert assertThat(StringBuffer actual) {
+  default CharSequenceAssert assertThat(@Nullable StringBuffer actual) {
     return (CharSequenceAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -704,7 +705,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default StringAssert assertThat(String actual) {
+  default StringAssert assertThat(@Nullable String actual) {
     return (StringAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -714,7 +715,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default DateAssert assertThat(Date actual) {
+  default DateAssert assertThat(@Nullable Date actual) {
     return (DateAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -724,7 +725,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AtomicBooleanAssert assertThat(AtomicBoolean actual) {
+  default AtomicBooleanAssert assertThat(@Nullable AtomicBoolean actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -734,7 +735,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AtomicIntegerAssert assertThat(AtomicInteger actual) {
+  default AtomicIntegerAssert assertThat(@Nullable AtomicInteger actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -744,7 +745,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AtomicIntegerArrayAssert assertThat(AtomicIntegerArray actual) {
+  default AtomicIntegerArrayAssert assertThat(@Nullable AtomicIntegerArray actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -755,7 +756,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
    */
-  default <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
+  default <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(@Nullable AtomicIntegerFieldUpdater<OBJECT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -765,7 +766,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AtomicLongAssert assertThat(AtomicLong actual) {
+  default AtomicLongAssert assertThat(@Nullable AtomicLong actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -775,7 +776,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AtomicLongArrayAssert assertThat(AtomicLongArray actual) {
+  default AtomicLongArrayAssert assertThat(@Nullable AtomicLongArray actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -786,7 +787,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
    */
-  default <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
+  default <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(@Nullable AtomicLongFieldUpdater<OBJECT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -797,7 +798,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param <VALUE> the type of object referred to by the {@link AtomicReference}.
    * @return the created assertion object.
    */
-  default <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
+  default <VALUE> AtomicReferenceAssert<VALUE> assertThat(@Nullable AtomicReference<VALUE> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -808,7 +809,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual    the actual value.
    * @return the created assertion object.
    */
-  default <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assertThat(AtomicReferenceArray<ELEMENT> actual) {
+  default <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assertThat(@Nullable AtomicReferenceArray<ELEMENT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -820,7 +821,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
    */
-  default <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
+  default <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(@Nullable AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -831,7 +832,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual  the actual value.
    * @return the created assertion object.
    */
-  default <VALUE> AtomicMarkableReferenceAssert<VALUE> assertThat(AtomicMarkableReference<VALUE> actual) {
+  default <VALUE> AtomicMarkableReferenceAssert<VALUE> assertThat(@Nullable AtomicMarkableReference<VALUE> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -842,7 +843,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual  the actual value.
    * @return the created assertion object.
    */
-  default <VALUE> AtomicStampedReferenceAssert<VALUE> assertThat(AtomicStampedReference<VALUE> actual) {
+  default <VALUE> AtomicStampedReferenceAssert<VALUE> assertThat(@Nullable AtomicStampedReference<VALUE> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -854,7 +855,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion Throwable.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  default <T extends Throwable> ThrowableAssert<T> assertThat(T actual) {
+  default <T extends Throwable> ThrowableAssert<T> assertThat(@Nullable T actual) {
     return (ThrowableAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -866,7 +867,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion for SQLException.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  default <T extends SQLException> ThrowableAssert<T> assertThat(T actual) {
+  default <T extends SQLException> ThrowableAssert<T> assertThat(@Nullable T actual) {
     return (ThrowableAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1004,7 +1005,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.12.0
    */
-  default <T> ObjectAssert<T> assertThatObject(T actual) {
+  default <T extends @Nullable Object> ObjectAssert<T> assertThatObject(T actual) {
     return assertThat(actual);
   }
 
@@ -1014,7 +1015,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default UriAssert assertThat(URI actual) {
+  default UriAssert assertThat(@Nullable URI actual) {
     return (UriAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1024,7 +1025,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractUrlAssert<?> assertThat(URL actual) {
+  default AbstractUrlAssert<?> assertThat(@Nullable URL actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1134,7 +1135,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the path
    * @return the created assertion object
    */
-  default PathAssert assertThat(Path actual) {
+  default PathAssert assertThat(@Nullable Path actual) {
     return (PathAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1160,7 +1161,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @return the created assertion object.
    */
-  default <VALUE> OptionalAssert<VALUE> assertThat(Optional<VALUE> actual) {
+  default <VALUE> OptionalAssert<VALUE> assertThat(@Nullable Optional<VALUE> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1171,7 +1172,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @return the created assertion object.
    */
-  default OptionalDoubleAssert assertThat(OptionalDouble actual) {
+  default OptionalDoubleAssert assertThat(@Nullable OptionalDouble actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1182,7 +1183,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @return the created assertion object.
    */
-  default OptionalLongAssert assertThat(OptionalLong actual) {
+  default OptionalLongAssert assertThat(@Nullable OptionalLong actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1193,7 +1194,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @return the created assertion object.
    */
-  default MatcherAssert assertThat(Matcher actual) {
+  default MatcherAssert assertThat(@Nullable Matcher actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1204,7 +1205,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @return the created assertion object.
    */
-  default OptionalIntAssert assertThat(OptionalInt actual) {
+  default OptionalIntAssert assertThat(@Nullable OptionalInt actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1214,7 +1215,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default LocalDateAssert assertThat(LocalDate actual) {
+  default LocalDateAssert assertThat(@Nullable LocalDate actual) {
     return (LocalDateAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1225,7 +1226,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.26.0
    */
-  default YearMonthAssert assertThat(YearMonth actual) {
+  default YearMonthAssert assertThat(@Nullable YearMonth actual) {
     return (YearMonthAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1235,7 +1236,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default LocalDateTimeAssert assertThat(LocalDateTime actual) {
+  default LocalDateTimeAssert assertThat(@Nullable LocalDateTime actual) {
     return (LocalDateTimeAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1245,7 +1246,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default ZonedDateTimeAssert assertThat(ZonedDateTime actual) {
+  default ZonedDateTimeAssert assertThat(@Nullable ZonedDateTime actual) {
     return (ZonedDateTimeAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1255,7 +1256,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default LocalTimeAssert assertThat(LocalTime actual) {
+  default LocalTimeAssert assertThat(@Nullable LocalTime actual) {
     return (LocalTimeAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1265,7 +1266,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default OffsetTimeAssert assertThat(OffsetTime actual) {
+  default OffsetTimeAssert assertThat(@Nullable OffsetTime actual) {
     return (OffsetTimeAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1275,7 +1276,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default OffsetDateTimeAssert assertThat(OffsetDateTime actual) {
+  default OffsetDateTimeAssert assertThat(@Nullable OffsetDateTime actual) {
     return (OffsetDateTimeAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1286,7 +1287,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.7.0
    */
-  default InstantAssert assertThat(Instant actual) {
+  default InstantAssert assertThat(@Nullable Instant actual) {
     return (InstantAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1297,7 +1298,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.15.0
    */
-  default DurationAssert assertThat(Duration actual) {
+  default DurationAssert assertThat(@Nullable Duration actual) {
     return (DurationAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1308,7 +1309,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default PeriodAssert assertThat(Period actual) {
+  default PeriodAssert assertThat(@Nullable Period actual) {
     return (PeriodAssert) soft(Assertions.assertThat(actual));
   }
 
@@ -1320,7 +1321,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @return the created assertion object.
    */
-  default <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletableFuture<RESULT> actual) {
+  default <RESULT> CompletableFutureAssert<RESULT> assertThat(@Nullable CompletableFuture<RESULT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1334,7 +1335,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @return the created assertion object.
    */
-  default <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletionStage<RESULT> actual) {
+  default <RESULT> CompletableFutureAssert<RESULT> assertThat(@Nullable CompletionStage<RESULT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1348,7 +1349,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @since 3.5.0
    */
-  default <T> PredicateAssert<T> assertThat(Predicate<T> actual) {
+  default <T> PredicateAssert<T> assertThat(@Nullable Predicate<T> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1374,7 +1375,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.5.0
    */
-  default IntPredicateAssert assertThat(IntPredicate actual) {
+  default IntPredicateAssert assertThat(@Nullable IntPredicate actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1385,7 +1386,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.5.0
    */
-  default DoublePredicateAssert assertThat(DoublePredicate actual) {
+  default DoublePredicateAssert assertThat(@Nullable DoublePredicate actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1396,7 +1397,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.5.0
    */
-  default LongPredicateAssert assertThat(LongPredicate actual) {
+  default LongPredicateAssert assertThat(@Nullable LongPredicate actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1411,7 +1412,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */
-  default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
+  default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(@Nullable Stream<? extends ELEMENT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1444,7 +1445,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual {@link DoubleStream} value.
    * @return the created assertion object.
    */
-  default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assertThat(DoubleStream actual) {
+  default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assertThat(@Nullable DoubleStream actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1458,7 +1459,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual {@link LongStream} value.
    * @return the created assertion object.
    */
-  default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assertThat(LongStream actual) {
+  default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assertThat(@Nullable LongStream actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1472,7 +1473,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual {@link IntStream} value.
    * @return the created assertion object.
    */
-  default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assertThat(IntStream actual) {
+  default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assertThat(@Nullable IntStream actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1483,7 +1484,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual {@link Spliterator} value.
    * @return the created assertion object.
    */
-  default <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(Spliterator<ELEMENT> actual) {
+  default <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(@Nullable Spliterator<ELEMENT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1494,7 +1495,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @return the created assertion object.
    */
-  default LongAdderAssert assertThat(LongAdder actual) {
+  default LongAdderAssert assertThat(@Nullable LongAdder actual) {
     return soft(Assertions.assertThat(actual));
   }
 
@@ -1518,7 +1519,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 4.0.0
    */
-  default <ELEMENT> HashSetAssert<ELEMENT> assertThat(HashSet<? extends ELEMENT> actual) {
+  default <ELEMENT> HashSetAssert<ELEMENT> assertThat(@Nullable HashSet<? extends ELEMENT> actual) {
     return soft(Assertions.assertThat(actual));
   }
 

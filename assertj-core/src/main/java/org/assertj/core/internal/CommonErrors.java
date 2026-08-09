@@ -15,6 +15,8 @@
  */
 package org.assertj.core.internal;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates common validation exceptions.
  */
@@ -70,9 +72,9 @@ public final class CommonErrors {
    *
    * @param group the invalid extracted value
    */
-  public static void wrongElementTypeForFlatExtracting(Object group) {
+  public static void wrongElementTypeForFlatExtracting(@Nullable Object group) {
     throw new IllegalArgumentException("Flat extracting expects extracted values to be Iterables or arrays but was a "
-                                       + group.getClass().getSimpleName());
+                                       + (group == null ? "null value" : group.getClass().getSimpleName()));
   }
 
   private CommonErrors() {}

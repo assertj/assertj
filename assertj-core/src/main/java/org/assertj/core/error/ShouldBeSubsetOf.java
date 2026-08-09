@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that an <code>Iterable</code> is a subset of an other set
@@ -34,7 +35,7 @@ public class ShouldBeSubsetOf extends BasicErrorMessageFactory {
    * @param comparisonStrategy the <code>{@link ComparisonStrategy}</code> used
    * @return the created <code>{@link ErrorMessageFactory}</code>
    */
-  public static ErrorMessageFactory shouldBeSubsetOf(Object actual, Object values, Iterable<?> unexpected,
+  public static ErrorMessageFactory shouldBeSubsetOf(@Nullable Object actual, @Nullable Object values, Iterable<?> unexpected,
                                                      ComparisonStrategy comparisonStrategy) {
     return new ShouldBeSubsetOf(actual, values, unexpected, comparisonStrategy);
   }
@@ -46,11 +47,12 @@ public class ShouldBeSubsetOf extends BasicErrorMessageFactory {
    * @param unexpected the unexpected value
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeSubsetOf(Object actual, Object values, Iterable<?> unexpected) {
+  public static ErrorMessageFactory shouldBeSubsetOf(@Nullable Object actual, @Nullable Object values, Iterable<?> unexpected) {
     return new ShouldBeSubsetOf(actual, values, unexpected, StandardComparisonStrategy.instance());
   }
 
-  private ShouldBeSubsetOf(Object actual, Object values, Iterable<?> unexpected, ComparisonStrategy comparisonStrategy) {
+  private ShouldBeSubsetOf(@Nullable Object actual, @Nullable Object values, Iterable<?> unexpected,
+                           ComparisonStrategy comparisonStrategy) {
     super("%nExpecting %s:%n  %s%nto be subset of%n  %s%nbut found these extra elements:%n  %s", comparisonStrategy, actual,
           values, unexpected);
   }

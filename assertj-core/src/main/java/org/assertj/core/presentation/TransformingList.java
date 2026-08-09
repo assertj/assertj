@@ -21,13 +21,15 @@ import java.util.AbstractList;
 import java.util.List;
 import java.util.function.Function;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Converts elements of one list to a different type on demand.
  *
  * @param <FROM> the type to convert from
  * @param <TO> the type to convert to
  */
-final class TransformingList<FROM, TO> extends AbstractList<TO> {
+final class TransformingList<FROM, TO extends @Nullable Object> extends AbstractList<TO> {
   /** The list to transform. */
   private final List<? extends FROM> source;
 

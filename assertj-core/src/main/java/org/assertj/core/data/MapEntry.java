@@ -20,6 +20,8 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import java.util.Map;
 import java.util.Objects;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Understands an entry in a <code>{@link Map}</code>.
  *
@@ -28,7 +30,7 @@ import java.util.Objects;
  *
  * @author Yvonne Wang
  */
-public final class MapEntry<K, V> implements Map.Entry<K, V> {
+public final class MapEntry<K extends @Nullable Object, V extends @Nullable Object> implements Map.Entry<K, V> {
 
   /** The entry key. */
   public final K key;
@@ -44,7 +46,7 @@ public final class MapEntry<K, V> implements Map.Entry<K, V> {
    * @param value the value of the entry to create.
    * @return the created {@code MapEntry}.
    */
-  public static <K, V> MapEntry<K, V> entry(K key, V value) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> MapEntry<K, V> entry(K key, V value) {
     return new MapEntry<>(key, value);
   }
 
@@ -68,7 +70,7 @@ public final class MapEntry<K, V> implements Map.Entry<K, V> {
 
   @Override
   public String toString() {
-    return CONFIGURATION_PROVIDER.representation().toStringOf(this);
+    return String.valueOf(CONFIGURATION_PROVIDER.representation().toStringOf(this));
   }
 
   @Override

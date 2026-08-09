@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 class MapAssert_raw_map_assertions_chained_after_base_assertions_Test {
 
-  @SuppressWarnings({ "unchecked", "rawtypes" })
+  @SuppressWarnings({ "unchecked", "rawtypes", "NullAway" })
   @Disabled
   @Test
   void raw_map_mixing_assertions_from_AbstractAssert_and_AbstractMapAssert() {

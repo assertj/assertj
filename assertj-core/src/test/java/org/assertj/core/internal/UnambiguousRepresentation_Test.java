@@ -68,6 +68,7 @@ class UnambiguousRepresentation_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void unambiguousToStringOf_should_include_package_if_classes_have_the_same_name() {
     // GIVEN
     Object actual = new org.assertj.core.internal.objects.pkg1.Foo("foo");

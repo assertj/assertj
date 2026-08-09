@@ -69,6 +69,7 @@ class ByteArrays_assertContainsExactlyInAnyOrder_Test extends ByteArraysBaseTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), actual,
                                                                                              (byte[]) null))
@@ -159,6 +160,7 @@ class ByteArrays_assertContainsExactlyInAnyOrder_Test extends ByteArraysBaseTest
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_expected_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(),
                                                                                                                          actual,

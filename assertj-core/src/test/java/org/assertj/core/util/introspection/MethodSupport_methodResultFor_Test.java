@@ -55,12 +55,14 @@ class MethodSupport_methodResultFor_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_meaningfully_if_object_instance_not_provided() {
     assertThatNullPointerException().isThrownBy(() -> MethodSupport.methodResultFor(null, "methodName"))
                                     .withMessage("Object instance can not be null!");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_meaningfully_if_method_name_not_provided() {
     assertThatNullPointerException().isThrownBy(() -> MethodSupport.methodResultFor(batman, null))
                                     .withMessage("Method name can not be empty!");

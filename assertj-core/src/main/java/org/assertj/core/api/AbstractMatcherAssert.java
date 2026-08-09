@@ -24,6 +24,7 @@ import java.util.function.Supplier;
 import java.util.regex.Matcher;
 
 import org.assertj.core.internal.Failures;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link java.util.regex.Matcher}
@@ -32,7 +33,7 @@ import org.assertj.core.internal.Failures;
  * @author Jiashu Zhang
  */
 public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<SELF>>
-    extends AbstractAssertWithComparator<SELF, Matcher> {
+    extends AbstractAssertWithComparator<SELF, @Nullable Matcher> {
 
   /**
    * Creates a new {@link Matcher} assertion.
@@ -40,7 +41,7 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    * @param actual the actual matcher to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractMatcherAssert(Matcher actual, Class<?> selfType) {
+  protected AbstractMatcherAssert(@Nullable Matcher actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

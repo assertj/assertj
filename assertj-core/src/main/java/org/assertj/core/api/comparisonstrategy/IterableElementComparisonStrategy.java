@@ -21,6 +21,8 @@ import static org.assertj.core.util.IterableUtil.sizeOf;
 import java.util.Comparator;
 import java.util.Iterator;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Comparison strategy applying a comparator to iterable elements.
  *
@@ -41,7 +43,7 @@ public class IterableElementComparisonStrategy<T> extends StandardComparisonStra
 
   @SuppressWarnings("unchecked")
   @Override
-  public boolean areEqual(Object actual, Object other) {
+  public boolean areEqual(@Nullable Object actual, @Nullable Object other) {
     if (actual == null && other == null) return true;
     if (actual == null || other == null) return false;
     // expecting actual and other to be iterable<T>

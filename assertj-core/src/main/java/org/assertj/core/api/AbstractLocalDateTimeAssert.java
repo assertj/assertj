@@ -39,6 +39,7 @@ import org.assertj.core.internal.ChronoLocalDateTimeComparator;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link LocalDateTime} type from new Date &amp; Time API introduced in Java 8.
@@ -50,7 +51,7 @@ import org.assertj.core.internal.Objects;
  * @author Nikolaos Georgiou
  */
 public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDateTimeAssert<SELF>> extends
-    AbstractTemporalAssert<SELF, LocalDateTime> {
+    AbstractTemporalAssert<SELF, @Nullable LocalDateTime> {
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractLocalDateTimeAssert}</code>.
@@ -58,7 +59,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @param selfType the "self type"
    * @param actual   the actual value to verify
    */
-  protected AbstractLocalDateTimeAssert(LocalDateTime actual, Class<?> selfType) {
+  protected AbstractLocalDateTimeAssert(@Nullable LocalDateTime actual, Class<?> selfType) {
     super(actual, selfType);
     this.comparables = buildDefaultComparables();
   }
@@ -261,7 +262,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    *                        according to the comparator in use.
    */
   @Override
-  public SELF isEqualTo(Object other) {
+  public SELF isEqualTo(@Nullable Object other) {
     return executeAssertion(() -> {
       if (actual == null || other == null) {
         super.isEqualTo(other);
@@ -311,7 +312,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    *                        according to the comparator in use.
    */
   @Override
-  public SELF isNotEqualTo(Object other) {
+  public SELF isNotEqualTo(@Nullable Object other) {
     return executeAssertion(() -> {
       if (actual == null || other == null) {
         super.isNotEqualTo(other);
@@ -851,7 +852,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @throws AssertionError       if the actual {@code LocalDateTime} is not close to the given one for a provided offset.
    */
   @Override
-  public SELF isCloseTo(LocalDateTime other, TemporalOffset<? super LocalDateTime> offset) {
+  public SELF isCloseTo(@Nullable LocalDateTime other, TemporalOffset<? super LocalDateTime> offset) {
     return super.isCloseTo(other, offset);
   }
 

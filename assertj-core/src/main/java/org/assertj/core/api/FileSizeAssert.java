@@ -16,6 +16,7 @@
 package org.assertj.core.api;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for a file size.
@@ -33,7 +34,7 @@ public class FileSizeAssert<T> extends AbstractFileSizeAssert<FileAssert> {
     super(originAssert);
   }
 
-  private FileSizeAssert(AbstractFileAssert<FileAssert> originAssert, Long size) {
+  private FileSizeAssert(AbstractFileAssert<FileAssert> originAssert, @Nullable Long size) {
     super(originAssert, size);
   }
 

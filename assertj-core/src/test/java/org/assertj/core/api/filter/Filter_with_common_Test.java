@@ -37,6 +37,7 @@ class Filter_with_common_Test extends WithPlayerData {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_property_or_field_to_filter_on_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> filter(players).with("reboundsPerGame").equalsTo(5).and(null)
                                                                          .equalsTo("OKC"))

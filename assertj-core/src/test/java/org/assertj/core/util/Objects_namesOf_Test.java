@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 class Objects_namesOf_Test {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_empty_array_if_type_array_is_null() {
     assertThat(0).isEqualTo(Objects.namesOf((Class<?>[]) null).length);
   }

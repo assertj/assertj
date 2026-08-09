@@ -37,6 +37,8 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
+import org.assertj.core.internal.annotation.Contract;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for <code>{@link List}</code>s.
@@ -84,7 +86,7 @@ public class Lists {
    *
    * @return the configured comparator
    */
-  public Comparator<?> getComparator() {
+  public @Nullable Comparator<?> getComparator() {
     return comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy ? strategy.getComparator() : null;
   }
 
@@ -100,7 +102,7 @@ public class Lists {
    *           {@code List}.
    * @throws AssertionError if the given {@code List} does not contain the given object at the given index.
    */
-  public void assertContains(AssertionInfo info, List<?> actual, Object value, Index index) {
+  public void assertContains(AssertionInfo info, @Nullable List<?> actual, @Nullable Object value, Index index) {
     assertNotNull(info, actual);
     Iterables.instance().assertNotEmpty(info, actual);
     checkIndexValueIsValid(index, actual.size() - 1);
@@ -119,7 +121,7 @@ public class Lists {
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the given {@code List} contains the given object at the given index.
    */
-  public void assertDoesNotContain(AssertionInfo info, List<?> actual, Object value, Index index) {
+  public void assertDoesNotContain(AssertionInfo info, @Nullable List<?> actual, @Nullable Object value, Index index) {
     assertNotNull(info, actual);
     checkIndexValueIsValid(index, Integer.MAX_VALUE);
     int indexValue = index.value;
@@ -150,7 +152,7 @@ public class Lists {
    * @throws AssertionError if the actual list element type does not implement {@link Comparable}.
    * @throws AssertionError if the actual list elements are not mutually {@link Comparable}.
    */
-  public void assertIsSorted(AssertionInfo info, List<?> actual) {
+  public void assertIsSorted(AssertionInfo info, @Nullable List<?> actual) {
     assertNotNull(info, actual);
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
       // instead of comparing elements with their natural comparator, use the one set by client.
@@ -188,7 +190,7 @@ public class Lists {
    * @throws AssertionError if the actual list elements are not mutually comparable according to given Comparator.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  public void assertIsSortedAccordingToComparator(AssertionInfo info, List<?> actual, Comparator<?> comparator) {
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, @Nullable List<?> actual, Comparator<?> comparator) {
     assertNotNull(info, actual);
     requireNonNull(comparator, "The given comparator should not be null");
     try {
@@ -227,7 +229,8 @@ public class Lists {
    * @throws AssertionError if the value in the given {@code List} at the given index does not satisfy the given {@code Condition}
    *           .
    */
-  public <T> void assertHas(AssertionInfo info, List<? extends T> actual, Condition<? super T> condition, Index index) {
+  public <T> void assertHas(AssertionInfo info, @Nullable List<? extends T> actual, Condition<? super T> condition, Index index) {
+    assertNotNull(info, actual);
     if (conditionIsMetAtIndex(info, actual, condition, index)) return;
     throw failures.failure(info, shouldHaveAtIndex(actual, condition, index, actual.get(index.value)));
   }
@@ -247,7 +250,8 @@ public class Lists {
    * @throws AssertionError if the value in the given {@code List} at the given index does not satisfy the given {@code Condition}
    *           .
    */
-  public <T> void assertIs(AssertionInfo info, List<? extends T> actual, Condition<? super T> condition, Index index) {
+  public <T> void assertIs(AssertionInfo info, @Nullable List<? extends T> actual, Condition<? super T> condition, Index index) {
+    assertNotNull(info, actual);
     if (conditionIsMetAtIndex(info, actual, condition, index)) return;
     throw failures.failure(info, shouldBeAtIndex(actual, condition, index, actual.get(index.value)));
   }
@@ -261,14 +265,16 @@ public class Lists {
    * @param requirements the element requirements
    * @param index the element index
    */
-  public <T> void satisfies(AssertionInfo info, List<? extends T> actual, Consumer<? super T> requirements, Index index) {
+  public <T> void satisfies(AssertionInfo info, @Nullable List<? extends T> actual, Consumer<? super T> requirements,
+                            Index index) {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer expressing the assertions requirements must not be null");
     checkIndexValueIsValid(index, actual.size() - 1);
     requirements.accept(actual.get(index.value));
   }
 
-  private <T> boolean conditionIsMetAtIndex(AssertionInfo info, List<T> actual, Condition<? super T> condition, Index index) {
+  private <T> boolean conditionIsMetAtIndex(AssertionInfo info, @Nullable List<T> actual, Condition<? super T> condition,
+                                            Index index) {
     assertNotNull(info, actual);
     assertNotNull(condition);
     Iterables.instance().assertNotEmpty(info, actual);
@@ -281,7 +287,8 @@ public class Lists {
     return collection.stream().map(object -> (Comparable<Object>) object).collect(toList());
   }
 
-  private void assertNotNull(AssertionInfo info, List<?> actual) {
+  @Contract("_, null -> fail")
+  private void assertNotNull(AssertionInfo info, @Nullable List<?> actual) {
     Objects.instance().assertNotNull(info, actual);
   }
 
@@ -289,7 +296,7 @@ public class Lists {
     Conditions.instance().assertIsNotNull(condition);
   }
 
-  private boolean areEqual(Object actual, Object other) {
+  private boolean areEqual(@Nullable Object actual, @Nullable Object other) {
     return comparisonStrategy.areEqual(actual, other);
   }
 

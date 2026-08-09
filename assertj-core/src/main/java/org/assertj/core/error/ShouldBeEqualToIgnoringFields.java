@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are lenient equal by
  * ignoring fields failed.
@@ -41,7 +43,7 @@ public class ShouldBeEqualToIgnoringFields extends BasicErrorMessageFactory {
    * @param ignoredFields fields which are not base the lenient equality
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeEqualToIgnoringGivenFields(Object actual, List<String> rejectedFields,
+  public static ErrorMessageFactory shouldBeEqualToIgnoringGivenFields(@Nullable Object actual, List<String> rejectedFields,
                                                                        List<Object> rejectedValues,
                                                                        List<Object> expectedValues,
                                                                        List<String> ignoredFields) {
@@ -59,24 +61,25 @@ public class ShouldBeEqualToIgnoringFields extends BasicErrorMessageFactory {
     return new ShouldBeEqualToIgnoringFields(actual, rejectedFields, rejectedValues, expectedValues, ignoredFields);
   }
 
-  private ShouldBeEqualToIgnoringFields(Object actual, List<String> rejectedFields, List<Object> rejectedValues,
+  private ShouldBeEqualToIgnoringFields(@Nullable Object actual, List<String> rejectedFields, List<Object> rejectedValues,
                                         List<Object> expectedValues, List<String> ignoredFields) {
     super(EXPECTED_MULTIPLE + COMPARISON + EXCLUDING, expectedValues, rejectedFields, rejectedValues, actual,
           ignoredFields);
   }
 
-  private ShouldBeEqualToIgnoringFields(Object actual, String rejectedField, Object rejectedValue, Object expectedValue,
+  private ShouldBeEqualToIgnoringFields(@Nullable Object actual, String rejectedField, @Nullable Object rejectedValue,
+                                        @Nullable Object expectedValue,
                                         List<String> ignoredFields) {
     super(EXPECTED_SINGLE + COMPARISON + EXCLUDING, expectedValue, rejectedField, rejectedValue, actual, ignoredFields);
   }
 
-  private ShouldBeEqualToIgnoringFields(Object actual, List<String> rejectedFields, List<Object> rejectedValues,
+  private ShouldBeEqualToIgnoringFields(@Nullable Object actual, List<String> rejectedFields, List<Object> rejectedValues,
                                         List<Object> expectedValue) {
     super(EXPECTED_MULTIPLE + COMPARISON, expectedValue, rejectedFields, rejectedValues, actual);
   }
 
-  private ShouldBeEqualToIgnoringFields(Object actual, String rejectedField, Object rejectedValue,
-                                        Object expectedValue) {
+  private ShouldBeEqualToIgnoringFields(@Nullable Object actual, String rejectedField, @Nullable Object rejectedValue,
+                                        @Nullable Object expectedValue) {
     super(EXPECTED_SINGLE + COMPARISON, expectedValue, rejectedField, rejectedValue, actual);
   }
 

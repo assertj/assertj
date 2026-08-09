@@ -93,6 +93,7 @@ class RotatingQueue_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_allow_null() {
     // GIVEN
     Queue<Integer> rotating = new RotatingQueue<>(3);

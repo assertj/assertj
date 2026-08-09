@@ -31,6 +31,7 @@ class Condition_default_constructor_Test {
   void should_use_class_simple_name_as_description() {
     Condition<Object> condition = new Condition<Object>() {
       @Override
+      @SuppressWarnings("NullAway")
       public boolean matches(Object value) {
         return false;
       }

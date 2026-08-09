@@ -24,6 +24,9 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.assertj.core.internal.annotation.Contract;
+import org.jspecify.annotations.Nullable;
+
 /**
  * Utility methods related to dates.
  *
@@ -41,7 +44,8 @@ public class DateUtil {
    * @param date the date to convert to a Calendar.
    * @return the Calendar corresponding to the given Date or null if the given Date is null.
    */
-  public static Calendar toCalendar(Date date) {
+  @Contract("null -> null; !null -> !null")
+  public static @Nullable Calendar toCalendar(@Nullable Date date) {
     if (date == null) {
       return null;
     }
@@ -160,7 +164,8 @@ public class DateUtil {
    * @param date we want to get the day part (the parameter is read only).
    * @return the truncated date.
    */
-  public static Date truncateTime(Date date) {
+  @Contract("null -> null; !null -> !null")
+  public static @Nullable Date truncateTime(@Nullable Date date) {
     if (date == null) return null;
     Calendar cal = toCalendar(date);
     cal.set(Calendar.HOUR_OF_DAY, 0);

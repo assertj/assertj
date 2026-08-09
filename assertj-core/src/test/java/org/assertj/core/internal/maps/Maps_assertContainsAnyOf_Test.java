@@ -70,6 +70,7 @@ class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_array_of_entries_to_look_for_is_null() {
     // GIVEN
     MapEntry<String, String>[] entries = null;
@@ -79,6 +80,7 @@ class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_entry_is_null() {
     // GIVEN
     MapEntry<String, String> nullEntry = null;
@@ -89,6 +91,7 @@ class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;

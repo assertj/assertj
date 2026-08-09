@@ -63,6 +63,7 @@ class Files_assertIsNotEmptyDirectory_Test extends FilesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_is_null() {
     // GIVEN
     File actual = null;

@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that two {@code CharSequence}s are not equal,
  * ignoring whitespace differences, failed.
@@ -29,11 +31,12 @@ public class ShouldNotBeEqualIgnoringWhitespace extends BasicErrorMessageFactory
    * @param expected the expected value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotBeEqualIgnoringWhitespace(CharSequence actual, CharSequence expected) {
+  public static ErrorMessageFactory shouldNotBeEqualIgnoringWhitespace(@Nullable CharSequence actual,
+                                                                       @Nullable CharSequence expected) {
     return new ShouldNotBeEqualIgnoringWhitespace(actual, expected);
   }
 
-  private ShouldNotBeEqualIgnoringWhitespace(CharSequence actual, CharSequence expected) {
+  private ShouldNotBeEqualIgnoringWhitespace(@Nullable CharSequence actual, @Nullable CharSequence expected) {
     super("%nExpecting actual:%n  %s%nnot to be equal to:%n  %s%nignoring whitespace differences",
           IndentWrapper.of(actual), IndentWrapper.of(expected));
   }

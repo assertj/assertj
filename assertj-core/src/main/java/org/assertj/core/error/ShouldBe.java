@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.condition.Join;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value satisfies a <code>{@link Condition}</code>
@@ -34,16 +35,16 @@ public class ShouldBe extends BasicErrorMessageFactory {
    * @param condition the {@code Condition}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T> ErrorMessageFactory shouldBe(T actual, Condition<? super T> condition) {
+  public static <T extends @Nullable Object> ErrorMessageFactory shouldBe(T actual, Condition<? super T> condition) {
     if (condition instanceof Join<? super T> join) return new ShouldBe(actual, join);
     return new ShouldBe(actual, condition);
   }
 
-  private ShouldBe(Object actual, Condition<?> condition) {
+  private ShouldBe(@Nullable Object actual, Condition<?> condition) {
     super("%nExpecting actual:%n  %s%nto be %s", actual, condition);
   }
 
-  private <T> ShouldBe(T actual, Join<? super T> join) {
+  private <T extends @Nullable Object> ShouldBe(T actual, Join<? super T> join) {
     super("%n" +
           "Expecting actual:%n" +
           "  %s%n" +

@@ -27,11 +27,12 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Longs;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link AtomicLong} values.
  */
-public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAssert, AtomicLong> {
+public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAssert, @Nullable AtomicLong> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Comparables comparables = new Comparables();
@@ -44,7 +45,7 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
    *
    * @param actual the actual atomic long
    */
-  public AtomicLongAssert(AtomicLong actual) {
+  public AtomicLongAssert(@Nullable AtomicLong actual) {
     super(actual, AtomicLongAssert.class);
   }
 
@@ -410,7 +411,8 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
 
   @Override
   @CheckReturnValue
-  public AtomicLongAssert usingComparator(Comparator<? super AtomicLong> customComparator, String customComparatorDescription) {
+  public AtomicLongAssert usingComparator(Comparator<? super AtomicLong> customComparator,
+                                          @Nullable String customComparatorDescription) {
     longs = new Longs(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }

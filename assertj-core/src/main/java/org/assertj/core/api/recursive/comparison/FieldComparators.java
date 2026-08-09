@@ -27,6 +27,8 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * An internal holder of the comparators for fields described by their path without element index.
  * <p>
@@ -84,7 +86,7 @@ public class FieldComparators extends FieldHolder<Comparator<?>> {
    * @param fieldLocation the field location that has to be associated with a comparator
    * @return a custom comparator or null
    */
-  public Comparator<?> getComparatorForField(String fieldLocation) {
+  public @Nullable Comparator<?> getComparatorForField(String fieldLocation) {
     Comparator<?> exactFieldLocationComparator = super.get(fieldLocation);
     if (exactFieldLocationComparator != null) return exactFieldLocationComparator;
     // no comparator for exact location, check if there is a regex that matches the field location
@@ -154,6 +156,7 @@ class ComparatorForPatterns {
     return fieldPatterns.stream().anyMatch(pattern -> pattern.matcher(fieldLocation).matches());
   }
 
+  @Nullable
   Comparator<?> getComparatorForField(String fieldLocation) {
     return hasComparatorForField(fieldLocation) ? comparator : null;
   }

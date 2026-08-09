@@ -17,11 +17,13 @@ package org.assertj.core.internal.objects.data;
 
 import java.util.Date;
 
+import org.jspecify.annotations.Nullable;
+
 public class PersonDtoWithPersonNeighbour {
-  public Date dateOfBirth;
-  public String name;
+  public @Nullable Date dateOfBirth;
+  public @Nullable String name;
   public Home home = new Home();
-  public Person neighbour;
+  public @Nullable Person neighbour;
 
   public PersonDtoWithPersonNeighbour() {}
 

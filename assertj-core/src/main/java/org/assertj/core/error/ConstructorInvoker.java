@@ -17,6 +17,8 @@ package org.assertj.core.error;
 
 import java.lang.reflect.Constructor;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Access to constructors using Java reflection.
  *
@@ -37,7 +39,7 @@ public class ConstructorInvoker {
    * @return the created instance
    * @throws Exception if the class or constructor cannot be accessed or invoked
    */
-  public Object newInstance(String className, Class<?>[] parameterTypes, Object... parameterValues) throws Exception {
+  public Object newInstance(String className, Class<?>[] parameterTypes, @Nullable Object... parameterValues) throws Exception {
     Class<?> targetType = Class.forName(className);
     Constructor<?> constructor = targetType.getConstructor(parameterTypes);
     return constructor.newInstance(parameterValues);

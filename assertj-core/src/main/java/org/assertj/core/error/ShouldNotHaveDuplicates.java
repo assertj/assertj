@@ -17,6 +17,7 @@ package org.assertj.core.error;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements is does not have duplicates failed. A
@@ -34,7 +35,7 @@ public class ShouldNotHaveDuplicates extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return an instance of {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotHaveDuplicates(Object actual, Object duplicates,
+  public static ErrorMessageFactory shouldNotHaveDuplicates(@Nullable Object actual, @Nullable Object duplicates,
                                                             ComparisonStrategy comparisonStrategy) {
     return new ShouldNotHaveDuplicates(actual, duplicates, comparisonStrategy);
   }
@@ -45,11 +46,11 @@ public class ShouldNotHaveDuplicates extends BasicErrorMessageFactory {
    * @param duplicates the duplicate values found in {@code actual}.
    * @return an instance of {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotHaveDuplicates(Object actual, Object duplicates) {
+  public static ErrorMessageFactory shouldNotHaveDuplicates(@Nullable Object actual, @Nullable Object duplicates) {
     return new ShouldNotHaveDuplicates(actual, duplicates, StandardComparisonStrategy.instance());
   }
 
-  private ShouldNotHaveDuplicates(Object actual, Object duplicates, ComparisonStrategy comparisonStrategy) {
+  private ShouldNotHaveDuplicates(@Nullable Object actual, @Nullable Object duplicates, ComparisonStrategy comparisonStrategy) {
     super("%nFound duplicate(s):%n  %s%nin:%n  %s%n%s", duplicates, actual, comparisonStrategy);
   }
 

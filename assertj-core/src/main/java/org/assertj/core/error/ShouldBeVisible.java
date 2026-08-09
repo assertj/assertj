@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for values expected to be visible. */
 public class ShouldBeVisible extends BasicErrorMessageFactory {
   /**
@@ -23,11 +25,11 @@ public class ShouldBeVisible extends BasicErrorMessageFactory {
    * @param actual the actual value
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldBeVisible(Object actual) {
+  public static ErrorMessageFactory shouldBeVisible(@Nullable Object actual) {
     return new ShouldBeVisible(actual);
   }
 
-  private ShouldBeVisible(Object actual) {
+  private ShouldBeVisible(@Nullable Object actual) {
     super("%nExpecting %s to be visible", actual);
   }
 }

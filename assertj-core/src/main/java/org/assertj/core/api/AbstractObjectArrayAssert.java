@@ -72,6 +72,7 @@ import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for arrays of objects.
@@ -92,8 +93,9 @@ import org.assertj.core.util.introspection.IntrospectionError;
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 // IntelliJ thinks this is redundant when it is not.
 @SuppressWarnings({ "deprecation", "RedundantSuppression" })
-public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT> extends
-    AbstractAssertWithComparator<SELF, ELEMENT[]>
+public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT extends @Nullable Object>
+    extends
+    AbstractAssertWithComparator<SELF, ELEMENT @Nullable []>
     implements IndexedObjectEnumerableAssert<AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT>,
     ArraySortedAssert<AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT> {
 
@@ -105,8 +107,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   Iterables iterables = Iterables.instance();
 
   // not private because AbstractIterableAssert.withAssertionState needs to access them
+  @Nullable
   TypeComparators comparatorsByType;
   Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
+  @Nullable
   TypeComparators comparatorsForElementPropertyOrFieldTypes;
 
   /**
@@ -115,12 +119,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param actual the actual array to verify
    * @param selfType the type of the concrete assertion
    */
-  protected AbstractObjectArrayAssert(ELEMENT[] actual, Class<?> selfType) {
+  protected AbstractObjectArrayAssert(ELEMENT @Nullable [] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
   @Override
-  public SELF as(Description description) {
+  public SELF as(@Nullable Description description) {
     return super.as(description);
   }
 
@@ -296,7 +300,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws AssertionError if actual array and given array don't have the same size.
    */
   @Override
-  public SELF hasSameSizeAs(Object other) {
+  public SELF hasSameSizeAs(@Nullable Object other) {
     // same implementation as in AbstractArrayAssert, but can't inherit from it due to generics problem ...
     return executeAssertion(() -> arrays.assertHasSameSizeAs(info, actual, other));
   }
@@ -1948,9 +1952,11 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return executeAssertionNavigation(() -> {
       String extractedDescription = extractedDescriptionOf(fieldOrProperty);
       isNotNull(extractedDescription);
+      @Nullable
       Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
       String description = mostRelevantDescription(info.description(), extractedDescription);
-      return newListAssertInstance(newArrayList(values)).withAssertionState(myself).as(description);
+      List<@Nullable Object> valuesList = newArrayList(values);
+      return newListAssertInstance(valuesList).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);
   }
 
@@ -2004,8 +2010,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return executeAssertionNavigation(() -> {
       String extractedDescription = extractedDescriptionOf(fieldOrProperty);
       isNotNull(extractedDescription);
+      List<@Nullable Object> extractedValues = FieldsOrPropertiesExtractor.extract(asList(actual), byName(fieldOrProperty));
       @SuppressWarnings("unchecked")
-      List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(asList(actual), byName(fieldOrProperty));
+      List<P> values = (List<P>) extractedValues;
       String description = mostRelevantDescription(info.description(), extractedDescription);
       return newListAssertInstance(values).withAssertionState(myself).as(description);
     }, ListAssert::nullListAssert);
@@ -2103,7 +2110,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return a new assertion object whose object under test is the list of extracted values.
    */
   @CheckReturnValue
-  public <U> AbstractListAssert<?, List<? extends U>, U, ObjectAssert<U>> extracting(Function<? super ELEMENT, U> extractor) {
+  public <U extends @Nullable Object> AbstractListAssert<?, List<? extends U>, U, ObjectAssert<U>> extracting(Function<? super ELEMENT, U> extractor) {
     return executeAssertionNavigation(() -> {
       isNotNull("extracting");
       List<U> values = FieldsOrPropertiesExtractor.extract(asList(actual), extractor);
@@ -2150,7 +2157,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @since 3.7.0
    */
   @CheckReturnValue
-  public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
+  public <V extends @Nullable Object, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
     return extracting((Function<? super ELEMENT, V>) extractor);
   }
 
@@ -2339,8 +2346,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return executeAssertionNavigation(() -> {
       isNotNull("flatExtracting: " + propertyName);
       List<Object> extractedValues = newArrayList();
-      List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(asList(actual), byName(propertyName));
-      for (Object group : extractedGroups) {
+      List<@Nullable Object> extractedGroups = FieldsOrPropertiesExtractor.extract(asList(actual), byName(propertyName));
+      for (@Nullable
+      Object group : extractedGroups) {
         // expecting group to be an iterable or an array
         if (isArray(group)) {
           int size = Array.getLength(group);
@@ -2552,7 +2560,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IntrospectionError       if the given propertyOrFieldName can't be found in one of the array elements.
    */
   @CheckReturnValue
-  public SELF filteredOn(String propertyOrFieldName, Object expectedValue) {
+  public SELF filteredOn(String propertyOrFieldName, @Nullable Object expectedValue) {
     List<ELEMENT> filteredList = filter(actual).with(propertyOrFieldName, expectedValue).get();
     return newObjectArrayAssert(filteredList);
   }
@@ -2772,7 +2780,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @since 3.17.0
    */
   @CheckReturnValue
-  public <T> SELF filteredOn(Function<? super ELEMENT, T> function, T expectedValue) {
+  public <T extends @Nullable Object> SELF filteredOn(Function<? super ELEMENT, T> function, T expectedValue) {
     checkArgument(function != null, "The filter function should not be null");
     return filteredOn(element -> java.util.Objects.equals(function.apply(element), expectedValue));
   }
@@ -3534,7 +3542,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return a new {@link AbstractListAssert}.
    */
   @Override
-  protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
+  protected <E extends @Nullable Object> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
     return new ListAssert<>(newActual);
   }
 
@@ -3748,6 +3756,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @since 3.22.0
    */
   @CheckReturnValue
+  // NullAway does not propagate ELEMENT's own @Nullable bound through this null literal call, even though
+  // toAssert's ELEMENT-typed parameter already permits null.
+  @SuppressWarnings("NullAway")
   public ObjectAssert<ELEMENT> singleElement() {
     return executeAssertionNavigation(this::internalSingleElement,
                                       () -> toAssert(null, navigationDescription("check single element")));
@@ -3869,7 +3880,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return myself;
   }
 
-  SELF withTypeComparators(TypeComparators comparatorsByType) {
+  SELF withTypeComparators(@Nullable TypeComparators comparatorsByType) {
     this.comparatorsByType = comparatorsByType;
     return myself;
   }
@@ -3879,7 +3890,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return myself;
   }
 
-  SELF withComparatorsForElementPropertyOrFieldTypes(TypeComparators comparatorsForElementPropertyOrFieldTypes) {
+  SELF withComparatorsForElementPropertyOrFieldTypes(@Nullable TypeComparators comparatorsForElementPropertyOrFieldTypes) {
     this.comparatorsForElementPropertyOrFieldTypes = comparatorsForElementPropertyOrFieldTypes;
     return myself;
   }

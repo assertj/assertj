@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.time.ZonedDateTime;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions for {@link ZonedDateTime} type from new Date &amp; Time API introduced in Java 8.
  *
@@ -31,7 +33,7 @@ public class ZonedDateTimeAssert extends AbstractZonedDateTimeAssert<ZonedDateTi
    *
    * @param actual the actual value to verify
    */
-  protected ZonedDateTimeAssert(ZonedDateTime actual) {
+  protected ZonedDateTimeAssert(@Nullable ZonedDateTime actual) {
     super(actual, ZonedDateTimeAssert.class);
   }
 }

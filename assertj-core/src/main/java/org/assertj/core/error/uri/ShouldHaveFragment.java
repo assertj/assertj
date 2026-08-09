@@ -19,6 +19,7 @@ import java.net.URI;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
+import org.jspecify.annotations.Nullable;
 
 /** Creates errors for URIs with an unexpected fragment. */
 public class ShouldHaveFragment extends BasicErrorMessageFactory {
@@ -29,7 +30,7 @@ public class ShouldHaveFragment extends BasicErrorMessageFactory {
    * @param expectedFragment the expected fragment
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveFragment(URI actual, String expectedFragment) {
+  public static ErrorMessageFactory shouldHaveFragment(URI actual, @Nullable String expectedFragment) {
     return expectedFragment == null ? new ShouldHaveFragment(actual) : new ShouldHaveFragment(actual, expectedFragment);
   }
 

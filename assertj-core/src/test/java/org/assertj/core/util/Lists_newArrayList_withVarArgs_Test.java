@@ -38,6 +38,7 @@ class Lists_newArrayList_withVarArgs_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_return_null_if_array_is_null() {
     // GIVEN
     Object[] elements = null;

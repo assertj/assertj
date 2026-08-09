@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldHaveReference.shouldHaveReference;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Base class for atomic assertions.
  *
@@ -26,7 +28,7 @@ import static org.assertj.core.error.ShouldHaveReference.shouldHaveReference;
  * @author epeee
  * @since 2.7.0 / 3.7.0
  */
-public abstract class AbstractAtomicReferenceAssert<SELF extends AbstractAtomicReferenceAssert<SELF, VALUE, ATOMIC>, VALUE, ATOMIC>
+public abstract class AbstractAtomicReferenceAssert<SELF extends AbstractAtomicReferenceAssert<SELF, VALUE, ATOMIC>, VALUE, ATOMIC extends @Nullable Object>
     extends AbstractObjectAssert<SELF, ATOMIC> {
 
   /**

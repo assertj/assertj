@@ -32,6 +32,7 @@ class FileAssert_usingCharset_null_Test extends FileAssertBaseTest {
 
   @Override
   @Test
+  @SuppressWarnings("NullAway")
   public void should_have_internal_effects() {
     assertThatNullPointerException().isThrownBy(() -> assertions.usingCharset((Charset) null))
                                     .withMessage("The charset should not be null");
@@ -44,6 +45,7 @@ class FileAssert_usingCharset_null_Test extends FileAssertBaseTest {
   }
 
   @Override
+  @SuppressWarnings("NullAway")
   protected FileAssert invoke_api_method() {
     // not used here
     return null;

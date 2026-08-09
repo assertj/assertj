@@ -21,6 +21,7 @@ import org.assertj.core.annotation.CanIgnoreReturnValue;
 import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.annotation.Contract;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base implementation for collecting multiple assertion errors.
@@ -56,9 +57,12 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
+  // this method never returns normally to a caller relying on a non-null T (fail() always throws or is used only
+  // for its side effect); NullAway cannot verify that returning null here is safe for an unconstrained T.
+  @SuppressWarnings("NullAway")
   @CanIgnoreReturnValue
   @Contract("_ -> fail")
-  public <T> T fail(String failureMessage) {
+  public <T extends @Nullable Object> T fail(String failureMessage) {
     AssertionError error = Failures.instance().failure(failureMessage);
     collectAssertionError(error);
     return null;
@@ -74,7 +78,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    */
   @CanIgnoreReturnValue
   @Contract(" -> fail")
-  public <T> T fail() {
+  public <T extends @Nullable Object> T fail() {
     // pass an empty string because passing null results in a "null" error message.
     return fail("");
   }
@@ -90,7 +94,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    */
   @CanIgnoreReturnValue
   @Contract("_, _ -> fail")
-  public <T> T fail(String failureMessage, Object... args) {
+  public <T extends @Nullable Object> T fail(String failureMessage, Object... args) {
     return fail(failureMessage.formatted(args));
   }
 
@@ -103,9 +107,11 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
+  // see the comment on fail(String) above.
+  @SuppressWarnings("NullAway")
   @CanIgnoreReturnValue
   @Contract("_, _ -> fail")
-  public <T> T fail(String failureMessage, Throwable realCause) {
+  public <T extends @Nullable Object> T fail(String failureMessage, Throwable realCause) {
     AssertionError error = Failures.instance().failure(failureMessage);
     error.initCause(realCause);
     collectAssertionError(error);
@@ -125,7 +131,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    */
   @CanIgnoreReturnValue
   @Contract("_ -> fail")
-  public <T> T fail(Throwable realCause) {
+  public <T extends @Nullable Object> T fail(Throwable realCause) {
     return fail("", realCause);
   }
 

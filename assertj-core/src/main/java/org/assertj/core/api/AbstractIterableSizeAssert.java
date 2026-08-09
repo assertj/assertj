@@ -17,6 +17,7 @@ package org.assertj.core.api;
 
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.util.IterableUtil;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for the size of an iterable, with navigation back to the origin assertion.
@@ -34,7 +35,7 @@ public abstract class AbstractIterableSizeAssert<ORIGIN extends AbstractIterable
     extends AbstractIntegerAssert<AbstractIterableSizeAssert<ORIGIN, ITERABLE, ELEMENT, ELEMENT_ASSERT>> {
 //@format:on
 
-  private final AbstractIterableAssert<ORIGIN, ITERABLE, ELEMENT, ELEMENT_ASSERT> originAssert;
+  private final @Nullable AbstractIterableAssert<ORIGIN, ITERABLE, ELEMENT, ELEMENT_ASSERT> originAssert;
 
   /**
    * Creates a new instance from an origin {@link AbstractIterableAssert} instance.
@@ -54,7 +55,7 @@ public abstract class AbstractIterableSizeAssert<ORIGIN extends AbstractIterable
    * @param size the actual iterable size
    */
   protected AbstractIterableSizeAssert(AbstractIterableAssert<ORIGIN, ITERABLE, ELEMENT, ELEMENT_ASSERT> originAssert,
-                                       Integer size) {
+                                       @Nullable Integer size) {
     super(size, AbstractIterableSizeAssert.class);
     this.originAssert = originAssert;
   }

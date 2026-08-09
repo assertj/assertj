@@ -47,6 +47,7 @@ class AtomicReferenceArrayAssert_containsSequence_List_Test extends AtomicRefere
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertions.containsSequence((List<Object>) null))
                                     .withMessage(nullSequence());

@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.jspecify.annotations.Nullable;
 
 /** Error aggregating multiple assertion failures. */
 public class MultipleAssertionsError extends AssertionError {
@@ -28,13 +29,13 @@ public class MultipleAssertionsError extends AssertionError {
   private static final long serialVersionUID = -5547434453993413952L;
 
   /** The assertion description. */
-  private final Description description;
+  private final @Nullable Description description;
   /** The object under test. */
-  private final Object objectUnderTest;
+  private final @Nullable Object objectUnderTest;
   /** The aggregated assertion failures. */
   private final List<AssertionError> errors;
   /** The aggregated error message. */
-  private final String message;
+  private final @Nullable String message;
 
   /**
    * Creates an aggregated assertion error.
@@ -43,7 +44,8 @@ public class MultipleAssertionsError extends AssertionError {
    * @param objectUnderTest the object under test
    * @param errors the assertion failures
    */
-  public MultipleAssertionsError(Description description, Object objectUnderTest, List<AssertionError> errors) {
+  public MultipleAssertionsError(@Nullable Description description, @Nullable Object objectUnderTest,
+                                 List<AssertionError> errors) {
     this.description = description;
     this.objectUnderTest = objectUnderTest;
     this.errors = errors;
@@ -51,7 +53,7 @@ public class MultipleAssertionsError extends AssertionError {
   }
 
   @Override
-  public String getMessage() {
+  public @Nullable String getMessage() {
     return message;
   }
 
@@ -60,7 +62,7 @@ public class MultipleAssertionsError extends AssertionError {
    *
    * @return the object under test
    */
-  public Object getObjectUnderTest() {
+  public @Nullable Object getObjectUnderTest() {
     return objectUnderTest;
   }
 
@@ -69,7 +71,7 @@ public class MultipleAssertionsError extends AssertionError {
    *
    * @return the assertion description
    */
-  public Description getDescription() {
+  public @Nullable Description getDescription() {
     return description;
   }
 

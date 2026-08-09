@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.Iterator;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link Iterator}.
  * <p>
@@ -36,7 +38,7 @@ public class IteratorAssert<ELEMENT> extends AbstractIteratorAssert<IteratorAsse
    * @param actual the actual iterator to verify
    * @return the created assertion
    */
-  public static <ELEMENT> IteratorAssert<ELEMENT> assertThatIterator(Iterator<? extends ELEMENT> actual) {
+  public static <ELEMENT> IteratorAssert<ELEMENT> assertThatIterator(@Nullable Iterator<? extends ELEMENT> actual) {
     return new IteratorAssert<>(actual);
   }
 
@@ -45,7 +47,7 @@ public class IteratorAssert<ELEMENT> extends AbstractIteratorAssert<IteratorAsse
    *
    * @param actual the actual iterator to verify
    */
-  public IteratorAssert(Iterator<? extends ELEMENT> actual) {
+  public IteratorAssert(@Nullable Iterator<? extends ELEMENT> actual) {
     super(actual, IteratorAssert.class);
   }
 

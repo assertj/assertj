@@ -25,6 +25,7 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Float2DArrays;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reusable assertions for two-dimensional arrays of {@code float}s.
@@ -32,7 +33,7 @@ import org.assertj.core.internal.Float2DArrays;
  * @author Maciej Wajcht
  * @since 3.17.0
  */
-public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert, float[][], Float> {
+public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert, float[] @Nullable [], Float> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Assertion implementation for two-dimensional float arrays. */
@@ -45,7 +46,7 @@ public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert
    *
    * @param actual the actual array to verify
    */
-  public Float2DArrayAssert(float[][] actual) {
+  public Float2DArrayAssert(float[] @Nullable [] actual) {
     super(actual, Float2DArrayAssert.class);
   }
 
@@ -69,6 +70,9 @@ public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert
    * @throws AssertionError if the actual value is not deeply equal to the given one.
    */
   @Override
+  // expected is genuinely never null here (unlike actual): the method dereferences it unconditionally
+  // (e.g. expected.length), so it must stay non-null despite ACTUAL's nullable bound in Abstract2DArrayAssert.
+  @SuppressWarnings("NullAway")
   public Float2DArrayAssert isDeepEqualTo(float[][] expected) {
     return executeAssertion(() -> {
       if (actual == expected) return;
@@ -119,7 +123,7 @@ public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert
    * @throws AssertionError if the actual {@code float[][]} is not equal to the given one.
    */
   @Override
-  public Float2DArrayAssert isEqualTo(Object expected) {
+  public Float2DArrayAssert isEqualTo(@Nullable Object expected) {
     return super.isEqualTo(expected);
   }
 
@@ -261,7 +265,7 @@ public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert
    * @throws AssertionError if actual {@code float[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Float2DArrayAssert hasSameDimensionsAs(Object array) {
+  public Float2DArrayAssert hasSameDimensionsAs(@Nullable Object array) {
     return executeAssertion(() -> float2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 

@@ -36,6 +36,7 @@ class AbstractAssert_asInstanceOf_with_InstanceOfAssertFactory_Test extends Abst
     implements NavigationMethodWithComparatorBaseTest<ConcreteAssert> {
 
   @Override
+  @SuppressWarnings("NullAway")
   protected ConcreteAssert invoke_api_method() {
     assertions.asInstanceOf(LONG);
     return null;
@@ -62,6 +63,7 @@ class AbstractAssert_asInstanceOf_with_InstanceOfAssertFactory_Test extends Abst
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_npe_if_no_factory_is_given() {
     // WHEN
     Throwable thrown = catchThrowable(() -> assertions.asInstanceOf(null));

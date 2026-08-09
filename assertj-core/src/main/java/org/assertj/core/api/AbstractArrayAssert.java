@@ -18,6 +18,8 @@ package org.assertj.core.api;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Base class for all array assertions.
  *
@@ -26,7 +28,7 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
  * @param <ELEMENT> the type of the "actual" array element.
  * @author Joel Costigliola
  */
-public abstract class AbstractArrayAssert<SELF extends AbstractArrayAssert<SELF, ACTUAL, ELEMENT>, ACTUAL, ELEMENT>
+public abstract class AbstractArrayAssert<SELF extends AbstractArrayAssert<SELF, ACTUAL, ELEMENT>, ACTUAL extends @Nullable Object, ELEMENT extends @Nullable Object>
     extends AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>
     implements ArraySortedAssert<AbstractArrayAssert<SELF, ACTUAL, ELEMENT>, ELEMENT> {
 

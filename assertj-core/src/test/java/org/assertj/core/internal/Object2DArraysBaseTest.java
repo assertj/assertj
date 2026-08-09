@@ -29,6 +29,9 @@ import org.junit.jupiter.api.BeforeEach;
  *
  * @author Maciej Wajcht
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public class Object2DArraysBaseTest {
 
   /**

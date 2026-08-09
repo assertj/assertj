@@ -30,6 +30,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.assertj.core.configuration.ConfigurationProvider;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utility methods related to <a
@@ -108,7 +109,7 @@ public final class Introspection {
     return message.formatted(property, targetTypeName);
   }
 
-  private static Method findGetter(String propertyName, Object target) {
+  private static @Nullable Method findGetter(String propertyName, Object target) {
     String capitalized = propertyName.substring(0, 1).toUpperCase(ENGLISH) + propertyName.substring(1);
     // try to find getProperty
     Method getter = findMethod("get" + capitalized, target);
@@ -123,11 +124,11 @@ public final class Introspection {
     return isValidGetter(isAccessor) ? isAccessor : null;
   }
 
-  private static boolean isValidGetter(Method method) {
+  private static boolean isValidGetter(@Nullable Method method) {
     return method != null && !Modifier.isStatic(method.getModifiers()) && !Void.TYPE.equals(method.getReturnType());
   }
 
-  private static Method findMethod(String name, Object target) {
+  private static @Nullable Method findMethod(String name, Object target) {
     final MethodKey methodKey = new MethodKey(name, target.getClass());
     return METHOD_CACHE.computeIfAbsent(methodKey, Introspection::findMethodByKey).orElse(null);
   }

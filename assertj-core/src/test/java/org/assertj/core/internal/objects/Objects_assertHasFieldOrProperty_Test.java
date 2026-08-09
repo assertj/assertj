@@ -25,6 +25,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 class Objects_assertHasFieldOrProperty_Test extends ObjectsBaseTest {
@@ -80,6 +81,7 @@ class Objects_assertHasFieldOrProperty_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_field_or_property_name_is_null() {
     // GIVEN
     Object actual = new Data();
@@ -100,6 +102,7 @@ class Objects_assertHasFieldOrProperty_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_rethrow_getter_exception_if_field_is_missing() {
     // GIVEN
     Object actual = new Data();
@@ -113,16 +116,17 @@ class Objects_assertHasFieldOrProperty_Test extends ObjectsBaseTest {
   @SuppressWarnings("unused")
   private static class Data {
 
-    private Object field1;
-    private Object field2;
-    private Object fieldWithGetterThrowing;
-    private static Object staticField;
+    private @Nullable Object field1;
+    private @Nullable Object field2;
+    private @Nullable Object fieldWithGetterThrowing;
+    private static @Nullable Object staticField;
 
     @Override
     public String toString() {
       return "data";
     }
 
+    @SuppressWarnings("NullAway")
     public Object getField3() {
       return null;
     }

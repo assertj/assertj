@@ -24,6 +24,7 @@ import org.assertj.core.description.Description;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion class checking {@link Throwable} type.
@@ -39,7 +40,7 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
   protected final Class<? extends T> expectedThrowableType;
 
   /** The assertion description. */
-  protected Description description;
+  protected @Nullable Description description;
 
   /**
    * Default constructor.
@@ -73,7 +74,10 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
    * @param throwable the throwable to check
    * @return the checked throwable
    */
-  protected Throwable checkThrowableType(Throwable throwable) {
+  // throwAssertionError always throws, so throwable is guaranteed non-null past this point; NullAway cannot see
+  // that through the helper method call.
+  @SuppressWarnings("NullAway")
+  protected Throwable checkThrowableType(@Nullable Throwable throwable) {
     if (throwable == null) {
       throwAssertionError("%nExpecting code to throw a " + expectedThrowableType.getName() + ", but no throwable was thrown.");
     }
@@ -124,7 +128,7 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
    */
   @Override
   @CheckReturnValue
-  public ThrowableTypeAssert<T> describedAs(Description description) {
+  public ThrowableTypeAssert<T> describedAs(@Nullable Description description) {
     this.description = description;
     return this;
   }

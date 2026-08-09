@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 class ShortArrayAssert_containsOnlyOnce_with_Short_array_Test extends ShortArrayAssertBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_values_is_null() {
     // GIVEN
     Short[] values = null;

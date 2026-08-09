@@ -27,6 +27,7 @@ import static org.assertj.core.util.Lists.list;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.error.GroupTypeDescription;
 import org.assertj.core.internal.ObjectsBaseTest;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
@@ -87,6 +88,7 @@ class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_field_names_are_null() {
     // GIVEN
     Object actual = new Data();
@@ -100,10 +102,10 @@ class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
   @SuppressWarnings("unused")
   private static class Data {
 
-    public static Object publicStaticField;
-    private static Object privateStaticField;
-    private Object field1;
-    private Object field2;
+    public static @Nullable Object publicStaticField;
+    private static @Nullable Object privateStaticField;
+    private @Nullable Object field1;
+    private @Nullable Object field2;
 
     @Override
     public String toString() {

@@ -42,6 +42,7 @@ class Objects_assertIsNotExactlyInstanceOf_Test extends ObjectsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_type_is_null() {
     assertThatNullPointerException().isThrownBy(() -> objects.assertIsNotExactlyInstanceOf(someInfo(), "Yoda", null))
                                     .withMessage("The given type should not be null");

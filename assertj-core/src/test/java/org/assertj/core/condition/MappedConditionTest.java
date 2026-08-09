@@ -90,6 +90,7 @@ class MappedConditionTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void mappedCondition_with_description_and_null_condition_should_throw_NPE() {
     // GIVEN
     Condition<String> nullCondition = null;
@@ -99,12 +100,14 @@ class MappedConditionTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void mappedCondition_with_description_and_null_mapping_function_should_throw_NPE() {
     thenNullPointerException().isThrownBy(() -> mappedCondition(null, isBarString, "::toString"))
                               .withMessage("The given mapping function should not be null");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void mappedCondition_without_description_and_null_condition_should_throw_NPE() {
     // GIVEN
     Condition<String> nullCondition = null;
@@ -114,12 +117,14 @@ class MappedConditionTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void mappedCondition_without_description_and_null_mapping_function_should_throw_NPE() {
     thenNullPointerException().isThrownBy(() -> mappedCondition(null, isBarString))
                               .withMessage("The given mapping function should not be null");
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void mappedCondition_with_null_description_and_should_throw_NPE() {
     // GIVEN
     String nullDescription = null;

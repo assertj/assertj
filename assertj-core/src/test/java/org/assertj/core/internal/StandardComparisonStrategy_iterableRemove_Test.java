@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 class StandardComparisonStrategy_iterableRemove_Test extends AbstractTest_StandardComparisonStrategy {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_pass() {
     List<?> list = newArrayList("Sam", "Merry", null, "Frodo");
     assertThat(list.contains("Frodo")).isTrue();

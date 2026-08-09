@@ -20,6 +20,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions for {@link LongPredicate}.
  *
@@ -34,7 +36,7 @@ public class LongPredicateAssert extends AbstractPredicateLikeAssert<LongPredica
    * @param actual the actual predicate to verify
    * @return the created assertion
    */
-  public static LongPredicateAssert assertThatLongPredicate(LongPredicate actual) {
+  public static LongPredicateAssert assertThatLongPredicate(@Nullable LongPredicate actual) {
     return new LongPredicateAssert(actual);
   }
 
@@ -43,11 +45,11 @@ public class LongPredicateAssert extends AbstractPredicateLikeAssert<LongPredica
    *
    * @param actual the actual predicate to verify
    */
-  public LongPredicateAssert(LongPredicate actual) {
+  public LongPredicateAssert(@Nullable LongPredicate actual) {
     super(actual, toPredicate(actual), LongPredicateAssert.class);
   }
 
-  private static Predicate<Long> toPredicate(LongPredicate actual) {
+  private static @Nullable Predicate<Long> toPredicate(@Nullable LongPredicate actual) {
     return actual != null ? actual::test : null;
   }
 

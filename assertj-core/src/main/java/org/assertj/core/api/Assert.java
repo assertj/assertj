@@ -23,6 +23,7 @@ import java.util.function.Function;
 
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base contract of all assertion objects: the minimum functionality that any assertion object should provide.
@@ -36,7 +37,8 @@ import org.assertj.core.presentation.StandardRepresentation;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descriptable<SELF>, ExtensionPoints<SELF, ACTUAL> {
+public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL extends @Nullable Object>
+    extends Descriptable<SELF>, ExtensionPoints<SELF, ACTUAL> {
 
   /**
    * Verifies that the actual value is equal to the expected one.
@@ -84,7 +86,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  SELF isEqualTo(Object expected);
+  SELF isEqualTo(@Nullable Object expected);
 
   /**
    * Verifies that the actual value is not equal to the expected one.
@@ -132,7 +134,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is equal to the given one.
    */
-  SELF isNotEqualTo(Object other);
+  SELF isNotEqualTo(@Nullable Object other);
 
   /**
    * Verifies that the actual value is {@code null}.
@@ -188,7 +190,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not the same as the given one.
    */
-  SELF isSameAs(Object expected);
+  SELF isSameAs(@Nullable Object expected);
 
   /**
    * Verifies that the actual value is not the same as the given one
@@ -211,7 +213,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is the same as the given one.
    */
-  SELF isNotSameAs(Object other);
+  SELF isNotSameAs(@Nullable Object other);
 
   /**
    * Verifies that the actual value is present in the given array of values.
@@ -667,7 +669,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @return a string assertion object
    */
-  AbstractCharSequenceAssert<?, String> asString();
+  AbstractCharSequenceAssert<?, @Nullable String> asString();
 
   /**
    * @throws UnsupportedOperationException if this method is called.

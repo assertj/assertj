@@ -16,6 +16,7 @@
 package org.assertj.core.api;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for file size assertions.
@@ -26,7 +27,7 @@ import org.assertj.core.annotation.CheckReturnValue;
 public abstract class AbstractFileSizeAssert<ORIGIN extends AbstractFileAssert<ORIGIN>>
     extends AbstractLongAssert<AbstractFileSizeAssert<ORIGIN>> {
 
-  private final AbstractFileAssert<ORIGIN> originAssert;
+  private final @Nullable AbstractFileAssert<ORIGIN> originAssert;
 
   /**
    * Creates a new instance from an origin {@link AbstractFileAssert} instance.
@@ -57,7 +58,7 @@ public abstract class AbstractFileSizeAssert<ORIGIN extends AbstractFileAssert<O
    * @param originAssert the origin file assertion
    * @param actualFileSize the actual file size
    */
-  protected AbstractFileSizeAssert(AbstractFileAssert<ORIGIN> originAssert, Long actualFileSize) {
+  protected AbstractFileSizeAssert(AbstractFileAssert<ORIGIN> originAssert, @Nullable Long actualFileSize) {
     super(actualFileSize, AbstractFileSizeAssert.class);
     this.originAssert = originAssert;
   }
@@ -76,6 +77,9 @@ public abstract class AbstractFileSizeAssert<ORIGIN extends AbstractFileAssert<O
    */
   @CheckReturnValue
   public AbstractFileAssert<ORIGIN> returnToFile() {
+    if (originAssert == null) {
+      throw new IllegalStateException("No origin available. Was this assert created from its deprecated constructor?");
+    }
     return originAssert;
   }
 

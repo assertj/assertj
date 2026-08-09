@@ -16,6 +16,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.api.Condition;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that each element of a group satisfies a {@code Condition}
@@ -34,11 +35,12 @@ public class ElementsShouldNotHave extends BasicErrorMessageFactory {
    * @param condition the {@code Condition}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory elementsShouldNotHave(Object actual, Object notSatisfies, Condition<?> condition) {
+  public static ErrorMessageFactory elementsShouldNotHave(@Nullable Object actual, @Nullable Object notSatisfies,
+                                                          Condition<?> condition) {
     return new ElementsShouldNotHave(actual, notSatisfies, condition);
   }
 
-  private ElementsShouldNotHave(Object actual, Object notSatisfies, Condition<?> condition) {
+  private ElementsShouldNotHave(@Nullable Object actual, @Nullable Object notSatisfies, Condition<?> condition) {
     super("%nExpecting elements:%n  %s%nof%n  %s%nnot to have %s", notSatisfies, actual, condition);
   }
 }

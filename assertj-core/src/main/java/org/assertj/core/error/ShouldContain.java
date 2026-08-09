@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains a given set of values failed.
@@ -45,7 +46,7 @@ public class ShouldContain extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContain(Object actual, Object expected, Object notFound,
+  public static ErrorMessageFactory shouldContain(Object actual, @Nullable Object expected, @Nullable Object notFound,
                                                   ComparisonStrategy comparisonStrategy) {
     return shouldContain(actual.getClass(), actual, expected, notFound, comparisonStrategy);
   }
@@ -60,7 +61,8 @@ public class ShouldContain extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContain(Class<?> clazz, Object actual, Object expected, Object notFound,
+  public static ErrorMessageFactory shouldContain(Class<?> clazz, Object actual, @Nullable Object expected,
+                                                  @Nullable Object notFound,
                                                   ComparisonStrategy comparisonStrategy) {
     GroupTypeDescription groupTypeDescription = getGroupTypeDescription(clazz);
     return new ShouldContain(actual, expected, notFound, comparisonStrategy, groupTypeDescription);
@@ -74,7 +76,7 @@ public class ShouldContain extends BasicErrorMessageFactory {
    * @param notFound the values in {@code expected} not found in {@code actual}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContain(Object actual, Object expected, Object notFound) {
+  public static ErrorMessageFactory shouldContain(Object actual, @Nullable Object expected, @Nullable Object notFound) {
     return shouldContain(actual, expected, notFound, StandardComparisonStrategy.instance());
   }
 
@@ -116,7 +118,8 @@ public class ShouldContain extends BasicErrorMessageFactory {
                 .collect(toList());
   }
 
-  private ShouldContain(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy,
+  private ShouldContain(Object actual, @Nullable Object expected, @Nullable Object notFound,
+                        ComparisonStrategy comparisonStrategy,
                         GroupTypeDescription groupTypeDescription) {
     super("%nExpecting " + groupTypeDescription.getGroupTypeName()
           + ":%n  %s%nto contain:%n  %s%nbut could not find the following " + groupTypeDescription.getElementTypeName()

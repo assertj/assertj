@@ -19,6 +19,8 @@ import static java.util.Objects.hash;
 
 import java.util.Objects;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Class representing a pair of two generic class reference.
  *
@@ -29,9 +31,9 @@ import java.util.Objects;
 public class DualClass<A, E> {
 
   private final Class<A> actual;
-  private final Class<E> expected;
+  private final @Nullable Class<E> expected;
 
-  DualClass(Class<A> actual, Class<E> expected) {
+  DualClass(Class<A> actual, @Nullable Class<E> expected) {
     this.actual = actual;
     this.expected = expected;
   }
@@ -45,7 +47,7 @@ public class DualClass<A, E> {
    * @param <E>   Type of the expected value
    * @return A new instance of {@link DualClass} with the specified classes reference
    */
-  public static <A, E> DualClass<A, E> dualClass(Class<A> actual, Class<E> expected) {
+  public static <A, E> DualClass<A, E> dualClass(Class<A> actual, @Nullable Class<E> expected) {
     return new DualClass<>(actual, expected);
   }
 
@@ -63,7 +65,7 @@ public class DualClass<A, E> {
    *
    * @return The class whose expected value belongs to
    */
-  public Class<E> expected() {
+  public @Nullable Class<E> expected() {
     return expected;
   }
 

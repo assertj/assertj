@@ -60,6 +60,7 @@ class OffsetTimeAssert_isEqualToIgnoringTimezone_Test {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_given_offsetTime_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(actual).isEqualToIgnoringTimezone(null))
                                         .withMessage(NULL_OFFSET_TIME_PARAMETER_MESSAGE);

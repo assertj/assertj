@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} does not contain another
@@ -33,12 +34,12 @@ import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
  */
 public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
 
-  private ShouldNotContainCharSequence(String format, CharSequence actual, CharSequence sequence,
+  private ShouldNotContainCharSequence(String format, @Nullable CharSequence actual, CharSequence sequence,
                                        ComparisonStrategy comparisonStrategy) {
     super(format, IndentWrapper.of(actual), IndentWrapper.of(sequence), comparisonStrategy);
   }
 
-  private ShouldNotContainCharSequence(String format, CharSequence actual, CharSequence[] values,
+  private ShouldNotContainCharSequence(String format, @Nullable CharSequence actual, CharSequence[] values,
                                        Set<? extends CharSequence> found,
                                        ComparisonStrategy comparisonStrategy) {
     super(format, IndentWrapper.of(actual), IndentWrapper.of(values), found, comparisonStrategy);

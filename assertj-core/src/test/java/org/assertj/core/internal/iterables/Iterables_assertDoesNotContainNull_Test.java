@@ -59,6 +59,7 @@ class Iterables_assertDoesNotContainNull_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_contains_null() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Yoda", null);
@@ -88,6 +89,7 @@ class Iterables_assertDoesNotContainNull_Test extends IterablesBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_actual_contains_null_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Yoda", null);

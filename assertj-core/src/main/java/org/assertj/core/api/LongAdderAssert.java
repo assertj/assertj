@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.concurrent.atomic.LongAdder;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertions for {@link LongAdder}.
  *
@@ -30,7 +32,7 @@ public class LongAdderAssert extends AbstractLongAdderAssert<LongAdderAssert> {
    *
    * @param longAdder the actual value to verify
    */
-  public LongAdderAssert(LongAdder longAdder) {
+  public LongAdderAssert(@Nullable LongAdder longAdder) {
     super(longAdder, LongAdderAssert.class);
   }
 

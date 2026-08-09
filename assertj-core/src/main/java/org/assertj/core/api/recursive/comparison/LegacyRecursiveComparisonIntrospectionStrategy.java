@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Introspects all fields (including inherited ones) and get their value according to {@link PropertyOrFieldSupport#getSimpleValue(String, Object)}.
@@ -39,7 +40,7 @@ public class LegacyRecursiveComparisonIntrospectionStrategy extends AbstractRecu
   private final Map<Class<?>, Set<String>> fieldNamesPerClass = new ConcurrentHashMap<>();
 
   @Override
-  public Set<String> getChildrenNodeNamesOf(Object node) {
+  public Set<String> getChildrenNodeNamesOf(@Nullable Object node) {
     if (node == null) return new HashSet<>();
     // Caches the names after getting them for efficiency, a node can be introspected multiple times for example if
     // it belongs to an unordered collection as all actual elements are compared to all expected elements.
@@ -47,7 +48,8 @@ public class LegacyRecursiveComparisonIntrospectionStrategy extends AbstractRecu
   }
 
   @Override
-  public Object getChildNodeValue(String childNodeName, Object instance) {
+  public @Nullable Object getChildNodeValue(String childNodeName, @Nullable Object instance) {
+    if (instance == null) return null;
     return COMPARISON.getSimpleValue(childNodeName, instance);
   }
 }

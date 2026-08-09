@@ -26,6 +26,9 @@ import org.assertj.core.testkit.AlwaysEqualComparator;
  *
  * @author Olivier Michallat
  */
+// fields are set in a @BeforeEach-driven initializer, not a constructor, which NullAway's
+// initialization checker can't verify.
+@SuppressWarnings("NullAway")
 public abstract class FloatAssertBaseTest extends BaseTestTemplate<FloatAssert, Float> {
 
   protected static final AlwaysEqualComparator<Float> ALWAY_EQUAL_FLOAT = new AlwaysEqualComparator<>();

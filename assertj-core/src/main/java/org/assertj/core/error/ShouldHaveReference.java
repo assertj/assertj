@@ -15,12 +15,14 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for atomic values with an unexpected reference. */
 public class ShouldHaveReference extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_REFERENCE = "%nExpecting%n  %s%nto have reference:%n  %s%nbut had:%n  %s";
 
-  private <REF> ShouldHaveReference(Object actual, REF actualReference, REF expectedReference) {
+  private <REF> ShouldHaveReference(@Nullable Object actual, REF actualReference, REF expectedReference) {
     super(SHOULD_HAVE_REFERENCE, actual, expectedReference, actualReference);
   }
 
@@ -33,7 +35,8 @@ public class ShouldHaveReference extends BasicErrorMessageFactory {
    * @param expectedReference the expected reference
    * @return the error message factory
    */
-  public static <REF> ErrorMessageFactory shouldHaveReference(Object actual, REF actualReference, REF expectedReference) {
+  public static <REF> ErrorMessageFactory shouldHaveReference(@Nullable Object actual, REF actualReference,
+                                                              REF expectedReference) {
     return new ShouldHaveReference(actual, actualReference, expectedReference);
   }
 }

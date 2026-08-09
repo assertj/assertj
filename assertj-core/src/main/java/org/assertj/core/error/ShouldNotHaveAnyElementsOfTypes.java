@@ -18,10 +18,12 @@ package org.assertj.core.error;
 import java.util.List;
 import java.util.Map;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for groups containing elements of prohibited types. */
 public class ShouldNotHaveAnyElementsOfTypes extends BasicErrorMessageFactory {
 
-  private ShouldNotHaveAnyElementsOfTypes(Object actual, Class<?>[] unexpectedTypes,
+  private ShouldNotHaveAnyElementsOfTypes(@Nullable Object actual, Class<?>[] unexpectedTypes,
                                           Map<Class<?>, List<Object>> nonMatchingElementsByType) {
     super("%n" +
           "Expecting actual:%n" +
@@ -40,7 +42,7 @@ public class ShouldNotHaveAnyElementsOfTypes extends BasicErrorMessageFactory {
    * @param nonMatchingElementsByType the elements with unexpected types.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ShouldNotHaveAnyElementsOfTypes shouldNotHaveAnyElementsOfTypes(Object actual,
+  public static ShouldNotHaveAnyElementsOfTypes shouldNotHaveAnyElementsOfTypes(@Nullable Object actual,
                                                                                 Class<?>[] unexpectedTypes,
                                                                                 Map<Class<?>, List<Object>> nonMatchingElementsByType) {
     return new ShouldNotHaveAnyElementsOfTypes(actual, unexpectedTypes, nonMatchingElementsByType);

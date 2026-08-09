@@ -20,6 +20,7 @@ import java.net.URL;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
+import org.jspecify.annotations.Nullable;
 
 /** Creates errors for URIs and URLs with an unexpected query. */
 public class ShouldHaveQuery extends BasicErrorMessageFactory {
@@ -34,7 +35,7 @@ public class ShouldHaveQuery extends BasicErrorMessageFactory {
    * @param expectedQuery the expected query
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveQuery(URI actual, String expectedQuery) {
+  public static ErrorMessageFactory shouldHaveQuery(URI actual, @Nullable String expectedQuery) {
     return expectedQuery == null ? new ShouldHaveQuery(actual) : new ShouldHaveQuery(actual, expectedQuery);
   }
 
@@ -53,7 +54,7 @@ public class ShouldHaveQuery extends BasicErrorMessageFactory {
    * @param expectedQuery the expected query
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveQuery(URL actual, String expectedQuery) {
+  public static ErrorMessageFactory shouldHaveQuery(URL actual, @Nullable String expectedQuery) {
     return expectedQuery == null ? new ShouldHaveQuery(actual) : new ShouldHaveQuery(actual, expectedQuery);
   }
 

@@ -16,6 +16,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.api.Condition;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value does not satisfy a
@@ -33,11 +34,11 @@ public class ShouldNotBe extends BasicErrorMessageFactory {
    * @param condition the {@code Condition}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T> ErrorMessageFactory shouldNotBe(T actual, Condition<? super T> condition) {
+  public static <T extends @Nullable Object> ErrorMessageFactory shouldNotBe(T actual, Condition<? super T> condition) {
     return new ShouldNotBe(actual, condition);
   }
 
-  private ShouldNotBe(Object actual, Condition<?> condition) {
+  private ShouldNotBe(@Nullable Object actual, Condition<?> condition) {
     super("%nExpecting actual:%n  %s%nnot to be %s", actual, condition);
   }
 }

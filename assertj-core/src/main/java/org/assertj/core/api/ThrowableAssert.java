@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import java.util.concurrent.Callable;
 
 import org.assertj.core.util.Throwables;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for {@link Throwable}s.
@@ -34,7 +35,8 @@ import org.assertj.core.util.Throwables;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowableAssert<ThrowableAssert<ACTUAL>, ACTUAL> {
+public class ThrowableAssert<ACTUAL extends @Nullable Throwable>
+    extends AbstractThrowableAssert<ThrowableAssert<ACTUAL>, ACTUAL> {
 
   /** Uppercase vowels used to choose the correct indefinite article. */
   public static final String VOWEL = "AEIOU";
@@ -73,9 +75,7 @@ public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowable
     try {
       callable.call();
       // fail if the expected exception was *not* thrown
-      Fail.fail("Expecting code to throw an exception.");
-      // this will *never* happen...
-      return null;
+      return Fail.fail("Expecting code to throw an exception.");
     } catch (AssertionError e) {
       // do not handle AssertionErrors in the next catch block!
       throw e;
@@ -179,7 +179,7 @@ public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowable
    * @return an assertion containing no throwable
    */
   public static ThrowableAssert<?> nullThrowableAssert() {
-    return new ThrowableAssert<>((Throwable) null);
+    return new ThrowableAssert<@Nullable Throwable>((Throwable) null);
   }
 
 }

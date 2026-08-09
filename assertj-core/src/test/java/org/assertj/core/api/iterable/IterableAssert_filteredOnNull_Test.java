@@ -48,6 +48,7 @@ class IterableAssert_filteredOnNull_Test extends IterableAssert_filtered_baseTes
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_keep_assertion_state() {
     // GIVEN
     Iterable<Name> namesWithNullLast = asList(name("John", null), name("Jane", "Doe"));
@@ -65,6 +66,7 @@ class IterableAssert_filteredOnNull_Test extends IterableAssert_filtered_baseTes
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
   }
 
+  @SuppressWarnings("NullAway")
   protected static Iterable<TolkienCharacter> hobbitsWithoutNames() {
     TolkienCharacter frodo = TolkienCharacter.of(null, 33, HOBBIT);
     TolkienCharacter sam = TolkienCharacter.of(null, 35, HOBBIT);

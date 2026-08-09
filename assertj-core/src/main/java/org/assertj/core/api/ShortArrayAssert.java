@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for arrays of {@code short}s.
  * <p>
@@ -34,7 +36,7 @@ public class ShortArrayAssert extends AbstractShortArrayAssert<ShortArrayAssert>
    *
    * @param actual the actual array to verify
    */
-  public ShortArrayAssert(short[] actual) {
+  public ShortArrayAssert(short @Nullable [] actual) {
     super(actual, ShortArrayAssert.class);
   }
 }

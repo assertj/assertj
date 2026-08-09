@@ -37,6 +37,7 @@ import org.junit.jupiter.api.Test;
 class Conditions_assertHas_Test extends ConditionsBaseTest {
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_throw_error_if_Condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> conditions.assertHas(someInfo(), actual, null))
                                     .withMessage("The condition to evaluate should not be null");

@@ -51,6 +51,7 @@ class BooleanArrayAssert_usingElementComparator_Test extends BooleanArrayAssertB
   }
 
   @Override
+  @SuppressWarnings("NullAway")
   protected BooleanArrayAssert invoke_api_method() {
     // Not used in this test
     return null;

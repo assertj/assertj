@@ -26,6 +26,7 @@ import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Char2DArrays;
 import org.assertj.core.internal.Failures;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertion methods for two-dimensional arrays of {@code char}s.
@@ -36,7 +37,7 @@ import org.assertj.core.internal.Failures;
  * @author Maciej Wajcht
  * @since 3.17.0
  */
-public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, char[][], Character> {
+public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, char[] @Nullable [], Character> {
 
   private final Failures failures = Failures.instance();
 
@@ -49,7 +50,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    *
    * @param actual the actual array to verify
    */
-  public Char2DArrayAssert(char[][] actual) {
+  public Char2DArrayAssert(char[] @Nullable [] actual) {
     super(actual, Char2DArrayAssert.class);
   }
 
@@ -74,6 +75,9 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    * @throws AssertionError if the actual value is not deeply equal to the given one.
    */
   @Override
+  // expected is genuinely never null here (unlike actual): the method dereferences it unconditionally
+  // (e.g. expected.length), so it must stay non-null despite ACTUAL's nullable bound in Abstract2DArrayAssert.
+  @SuppressWarnings("NullAway")
   public Char2DArrayAssert isDeepEqualTo(char[][] expected) {
     return executeAssertion(() -> {
       if (actual == expected) return;
@@ -124,7 +128,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    * @throws AssertionError if the actual {@code char[][]} is not equal to the given one.
    */
   @Override
-  public Char2DArrayAssert isEqualTo(Object expected) {
+  public Char2DArrayAssert isEqualTo(@Nullable Object expected) {
     return super.isEqualTo(expected);
   }
 
@@ -266,7 +270,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    * @throws AssertionError if actual {@code char[][]} and given array don't have the same dimensions.
    */
   @Override
-  public Char2DArrayAssert hasSameDimensionsAs(Object array) {
+  public Char2DArrayAssert hasSameDimensionsAs(@Nullable Object array) {
     return executeAssertion(() -> char2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 

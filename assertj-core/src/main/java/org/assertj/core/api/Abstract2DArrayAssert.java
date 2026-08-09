@@ -15,6 +15,8 @@
  */
 package org.assertj.core.api;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Base class for all two-dimensional array assertions.
  *
@@ -25,7 +27,7 @@ package org.assertj.core.api;
  * @author Maciej Wajcht
  * @since 3.17.0
  */
-public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<SELF, ACTUAL, ELEMENT>, ACTUAL, ELEMENT>
+public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<SELF, ACTUAL, ELEMENT>, ACTUAL extends @Nullable Object, ELEMENT extends @Nullable Object>
     extends AbstractAssertWithComparator<SELF, ACTUAL> implements Array2DAssert<SELF, ELEMENT> {
 
   /**

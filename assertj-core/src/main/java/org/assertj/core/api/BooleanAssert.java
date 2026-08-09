@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Assertion methods for {@link Boolean}s.
  * <p>
@@ -37,7 +39,7 @@ public class BooleanAssert extends AbstractBooleanAssert<BooleanAssert> {
    *
    * @param actual the actual value to verify
    */
-  public BooleanAssert(Boolean actual) {
+  public BooleanAssert(@Nullable Boolean actual) {
     super(actual, BooleanAssert.class);
   }
 
@@ -46,7 +48,7 @@ public class BooleanAssert extends AbstractBooleanAssert<BooleanAssert> {
    *
    * @param actual the actual atomic boolean
    */
-  public BooleanAssert(AtomicBoolean actual) {
+  public BooleanAssert(@Nullable AtomicBoolean actual) {
     this(actual == null ? null : actual.get());
   }
 

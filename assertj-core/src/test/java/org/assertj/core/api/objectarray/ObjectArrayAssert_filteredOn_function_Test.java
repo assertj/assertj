@@ -49,6 +49,7 @@ class ObjectArrayAssert_filteredOn_function_Test extends ObjectArrayAssert_filte
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_given_function_is_null() {
     // GIVEN
     Function<? super Employee, String> function = null;

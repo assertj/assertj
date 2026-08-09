@@ -20,6 +20,7 @@ import java.util.Comparator;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Objects;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for assertions that supports defining a comparator/BiPredicate to override the equals method of the type
@@ -30,7 +31,7 @@ import org.assertj.core.internal.Objects;
  *                 for more details.
  * @param <ACTUAL> the type of the "actual" value.
  */
-public abstract class AbstractAssertWithComparator<SELF extends AbstractAssertWithComparator<SELF, ACTUAL>, ACTUAL>
+public abstract class AbstractAssertWithComparator<SELF extends AbstractAssertWithComparator<SELF, ACTUAL>, ACTUAL extends @Nullable Object>
     extends AbstractAssert<SELF, ACTUAL> implements AssertWithComparator<SELF, ACTUAL> {
 
   // we prefer not to use Class<? extends S> selfType because it would force inherited
@@ -51,7 +52,7 @@ public abstract class AbstractAssertWithComparator<SELF extends AbstractAssertWi
    */
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, @Nullable String customComparatorDescription) {
     // using a specific strategy to compare actual with other objects.
     this.objects = new Objects(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return myself;

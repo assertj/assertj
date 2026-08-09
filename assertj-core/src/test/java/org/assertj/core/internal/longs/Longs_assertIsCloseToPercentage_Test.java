@@ -47,12 +47,14 @@ class Longs_assertIsCloseToPercentage_Test extends LongsBaseTest {
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> longs.assertIsCloseToPercentage(someInfo(), ONE, null,
                                                                                       withPercentage(ONE)));
   }
 
   @Test
+  @SuppressWarnings("NullAway")
   void should_fail_if_percentage_is_null() {
     assertThatNullPointerException().isThrownBy(() -> longs.assertIsCloseToPercentage(someInfo(), ONE, ZERO, null));
   }

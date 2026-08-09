@@ -18,6 +18,8 @@ package org.assertj.core.error;
 import static org.assertj.core.util.Strings.escapePercent;
 import static org.assertj.core.util.Throwables.getStackTrace;
 
+import org.jspecify.annotations.Nullable;
+
 /** .
  * Creates an error message indicating that an assertion
  * that verifies that a {@link Throwable} have a certain cause
@@ -34,13 +36,13 @@ public class ShouldHaveCauseReference extends BasicErrorMessageFactory {
    * @param expectedCause the expected cause
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldHaveCauseReference(Throwable actualCause, Throwable expectedCause) {
+  public static ErrorMessageFactory shouldHaveCauseReference(@Nullable Throwable actualCause, @Nullable Throwable expectedCause) {
     return actualCause == null
         ? new ShouldHaveCauseReference(expectedCause)
         : new ShouldHaveCauseReference(actualCause, expectedCause);
   }
 
-  private ShouldHaveCauseReference(Throwable expectedCause) {
+  private ShouldHaveCauseReference(@Nullable Throwable expectedCause) {
     super("Expecting actual cause reference to be:%n"
           + "  %s%n"
           + "but was:%n"
@@ -48,7 +50,7 @@ public class ShouldHaveCauseReference extends BasicErrorMessageFactory {
           expectedCause);
   }
 
-  private ShouldHaveCauseReference(Throwable actualCause, Throwable expectedCause) {
+  private ShouldHaveCauseReference(Throwable actualCause, @Nullable Throwable expectedCause) {
     super("Expecting actual cause reference to be:%n"
           + "  %s%n"
           + "but was:%n"

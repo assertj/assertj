@@ -22,6 +22,7 @@ import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import java.util.OptionalLong;
 
 import org.assertj.core.internal.Failures;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Assertions for {@link java.util.OptionalLong}.
@@ -33,7 +34,7 @@ import org.assertj.core.internal.Failures;
  * @author Grzegorz Piwowarek
  */
 public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLongAssert<SELF>> extends
-    AbstractAssertWithComparator<SELF, OptionalLong> {
+    AbstractAssertWithComparator<SELF, @Nullable OptionalLong> {
 
   /**
    * Creates a new {@link OptionalLong} assertion.
@@ -42,7 +43,7 @@ public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLo
    * @param selfType the type of the concrete assertion
    */
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-  protected AbstractOptionalLongAssert(OptionalLong actual, Class<?> selfType) {
+  protected AbstractOptionalLongAssert(@Nullable OptionalLong actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

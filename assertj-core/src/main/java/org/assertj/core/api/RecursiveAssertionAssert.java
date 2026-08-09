@@ -27,6 +27,7 @@ import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionDriver;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionIntrospectionStrategy;
 import org.assertj.core.api.recursive.comparison.FieldLocation;
+import org.jspecify.annotations.Nullable;
 
 /**
  * <p>An assertion that supports asserting a {@link Predicate} over all the fields of an object graph. Cycle avoidance is used,
@@ -122,7 +123,7 @@ public class RecursiveAssertionAssert extends AbstractAssertWithComparator<Recur
    * @return {@code this} assertions object
    * @throws AssertionError if one or more fields as described above fail the predicate test.
    */
-  public RecursiveAssertionAssert allFieldsSatisfy(Predicate<Object> predicate) {
+  public RecursiveAssertionAssert allFieldsSatisfy(Predicate<@Nullable Object> predicate) {
     return executeAssertion(() -> {
       // Reset the driver in case this is not the first predicate being run over actual.
       recursiveAssertionDriver.reset();

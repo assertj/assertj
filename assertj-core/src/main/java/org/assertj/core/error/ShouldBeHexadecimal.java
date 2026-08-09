@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /** Creates errors for values expected to contain only hexadecimal characters. */
 public class ShouldBeHexadecimal extends BasicErrorMessageFactory {
   /**
@@ -23,11 +25,11 @@ public class ShouldBeHexadecimal extends BasicErrorMessageFactory {
    * @param actual the actual value
    * @return the error message factory
    */
-  public static ErrorMessageFactory shouldBeHexadecimal(Object actual) {
+  public static ErrorMessageFactory shouldBeHexadecimal(@Nullable Object actual) {
     return new ShouldBeHexadecimal(actual);
   }
 
-  private ShouldBeHexadecimal(Object actual) {
+  private ShouldBeHexadecimal(@Nullable Object actual) {
     super("%nExpecting %s to be hexadecimal", actual);
   }
 }

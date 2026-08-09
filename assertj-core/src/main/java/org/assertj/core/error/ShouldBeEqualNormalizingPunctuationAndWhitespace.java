@@ -15,6 +15,8 @@
  */
 package org.assertj.core.error;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Creates an error message indicating that an assertion that verifies that two {@code CharSequence}s are equal,
  * after the punctuation of both strings have been normalized, failed.
@@ -29,11 +31,12 @@ public class ShouldBeEqualNormalizingPunctuationAndWhitespace extends BasicError
    * @param expected the expected value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeEqualNormalizingPunctuationAndWhitespace(CharSequence actual, CharSequence expected) {
+  public static ErrorMessageFactory shouldBeEqualNormalizingPunctuationAndWhitespace(@Nullable CharSequence actual,
+                                                                                     @Nullable CharSequence expected) {
     return new ShouldBeEqualNormalizingPunctuationAndWhitespace(actual, expected);
   }
 
-  private ShouldBeEqualNormalizingPunctuationAndWhitespace(CharSequence actual, CharSequence expected) {
+  private ShouldBeEqualNormalizingPunctuationAndWhitespace(@Nullable CharSequence actual, @Nullable CharSequence expected) {
     super("%n" +
           "Expecting actual:%n" +
           "  %s%n" +
