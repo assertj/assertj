@@ -15,6 +15,7 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,10 +25,12 @@ import static org.mockito.Mockito.mock;
 
 import java.util.List;
 
+import org.assertj.core.internal.FileContent;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
+import org.opentest4j.FileInfo;
 
 class AssertionErrorCreator_assertionError_Test {
 
@@ -88,6 +91,26 @@ class AssertionErrorCreator_assertionError_Test {
     AssertionFailedError assertionFailedError = (AssertionFailedError) assertionError;
     then(assertionFailedError.getActual().toString()).contains("actual");
     then(assertionFailedError.getExpected().toString()).contains("expected");
+  }
+
+  @Test
+  void should_use_FileInfo_as_actual_and_expected_for_FileContent_values() {
+    // GIVEN
+    var actual = new FileContent("/tmp/actual.txt", "actual".getBytes());
+    var expected = new FileContent("/tmp/expected.txt", "expected".getBytes());
+    // WHEN
+    var assertionError = assertionErrorCreator.assertionError("boom", actual, expected, STANDARD_REPRESENTATION);
+    // THEN
+    then(assertionError).isInstanceOf(AssertionFailedError.class);
+    var assertionFailedError = (AssertionFailedError) assertionError;
+    then(assertionFailedError.getActual().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+      assertThat(fileInfo.getPath()).isEqualTo("/tmp/actual.txt");
+      assertThat(fileInfo.getContents()).isEqualTo("actual".getBytes());
+    });
+    then(assertionFailedError.getExpected().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+      assertThat(fileInfo.getPath()).isEqualTo("/tmp/expected.txt");
+      assertThat(fileInfo.getContents()).isEqualTo("expected".getBytes());
+    });
   }
 
   record Item(String name) {
