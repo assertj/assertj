@@ -1,0 +1,4 @@
+[[assertj-guava-javadoc]]
+= Javadoc
+
+The latest Javadoc for AssertJ Guava API is here: {assertj-guava-javadoc-root}/org/assertj/guava/api/package-summary.html
