@@ -89,7 +89,6 @@ import org.assertj.core.api.filter.NotFilter;
 import org.assertj.core.api.filter.NotInFilter;
 import org.assertj.core.condition.AllOf;
 import org.assertj.core.condition.AnyOf;
-import org.assertj.core.condition.DoesNotHave;
 import org.assertj.core.condition.Not;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.data.Index;
@@ -1932,17 +1931,6 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   @SuppressWarnings("unchecked")
   default <T> ThrowingConsumer<T> anyOf(ThrowingConsumer<? super T>... consumers) {
     return Assertions.anyOf(consumers);
-  }
-
-  /**
-   * Creates a new <code>{@link DoesNotHave}</code>.
-   *
-   * @param <T> the type of object the given condition accept.
-   * @param condition the condition to inverse.
-   * @return The DoesNotHave condition created.
-   */
-  default <T> DoesNotHave<T> doesNotHave(final Condition<? super T> condition) {
-    return Assertions.doesNotHave(condition);
   }
 
   /**

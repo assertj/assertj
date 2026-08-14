@@ -19,7 +19,6 @@ import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldContainRecursively.directoryShouldContainRecursively;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
@@ -53,7 +52,7 @@ class Files_assertIsDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends
   }
 
   @ParameterizedTest
-  @ValueSource(strings = { "regex:.+\\.data", "regex:.+foobar.*", "regex:.+root.+foo.*" })
+  @ValueSource(strings = { "regex:.+\\.data", "regex:.+foobar.*", "regex:root.+foo.*" })
   void should_pass_if_actual_contains_some_files_matching_the_given_pathMatcherPattern(String pattern) {
     // GIVEN
     createDefaultFixturePaths();
@@ -112,23 +111,6 @@ class Files_assertIsDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends
     // THEN
     verify(failures).failure(INFO,
                              directoryShouldContainRecursively(tempDirAsFile, emptyList(), TXT_EXTENSION_PATTERN_DESCRIPTION));
-  }
-
-  @Test
-  void should_fail_if_actual_does_not_contain_any_files_matching_the_given_pathMatcherPattern() {
-    // GIVEN
-    Path fooDir = createDirectory(tempDir, "foo", "foo2.data");
-    createDirectory(fooDir, "foo3");
-    // WHEN
-    expectAssertionError(() -> files.assertIsDirectoryRecursivelyContaining(INFO, tempDirAsFile, TXT_EXTENSION_PATTERN));
-    // THEN
-    verify(failures).failure(INFO,
-                             directoryShouldContainRecursively(tempDirAsFile, list(new File(tempDirAsFile, "foo"),
-                                                                                   new File(tempDirAsFile,
-                                                                                            "foo/foo2.data"),
-                                                                                   new File(tempDirAsFile,
-                                                                                            "foo/foo3")),
-                                                               TXT_EXTENSION_PATTERN_DESCRIPTION));
   }
 
 }

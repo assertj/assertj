@@ -40,8 +40,8 @@ class CompletableFutureAssert_succeedsWithin_duration_Test extends AbstractFutur
     String value = "done";
     CompletableFuture<String> future = completedFuture(value);
     // WHEN/THEN
-    assertThat(future).succeedsWithin(Duration.ofMillis(1))
-                      .isEqualTo(value);
+    then(future).succeedsWithin(Duration.ofMillis(1))
+                .isEqualTo(value);
   }
 
   @Test
@@ -52,8 +52,8 @@ class CompletableFutureAssert_succeedsWithin_duration_Test extends AbstractFutur
     CompletableFuture<String> future = completedFutureAfter(value, sleepDuration, executorService);
     // WHEN/THEN
     // using the same duration would fail depending on when the thread executing the future is started
-    assertThat(future).succeedsWithin(Duration.ofMillis(sleepDuration + 500))
-                      .isEqualTo(value);
+    then(future).succeedsWithin(Duration.ofMillis(sleepDuration + 500))
+                .isEqualTo(value);
   }
 
   @Test
@@ -62,8 +62,17 @@ class CompletableFutureAssert_succeedsWithin_duration_Test extends AbstractFutur
     String value = "done";
     CompletableFuture<String> future = completedFuture(value);
     // WHEN/THEN
-    assertThat(future).succeedsWithin(Duration.ofMillis(1), as(STRING))
-                      .startsWith("don");
+    then(future).succeedsWithin(Duration.ofMillis(1), as(STRING))
+                .startsWith("don");
+  }
+
+  @Test
+  void should_allow_narrowing_null_value() {
+    // GIVEN
+    String value = null;
+    CompletableFuture<String> future = completedFuture(value);
+    // WHEN/THEN
+    then(future).succeedsWithin(Duration.ofMillis(1), as(STRING)).isNull();
   }
 
   @Test

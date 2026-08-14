@@ -611,6 +611,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * This assertion should only be used with maps that have a consistent iteration order (i.e. don't use it with
    * {@link java.util.HashMap}, prefer {@link #containsExactlyInAnyOrderEntriesOf(java.util.Map)} in that case).
    * <p>
+   * <b>Warning</b>: this assertion only works for maps that use key's equals method for key comparison, for example,
+   * it won't work for maps using case-insensitive string keys (the underlying reason is we need to know the map's key
+   * comparison strategy when checking the entries ordering, but that comparison strategy is not exposed in a {@link Map}).
+   * <p>
    * Examples:
    * <pre><code class='java'> // newLinkedHashMap builds a Map with iteration order corresponding to the insertion order
    * Map&lt;Ring, TolkienCharacter&gt; ringBearers = newLinkedHashMap(entry(oneRing, frodo),
@@ -1355,6 +1359,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map contains only the given entries and nothing else, <b>in order</b>.<br>
    * This assertion should only be used with maps that have a consistent iteration order (i.e. don't use it with
    * {@link java.util.HashMap}, prefer {@link #containsOnly(java.util.Map.Entry...)} in that case).
+   * <p>
+   * <b>Warning</b>: this assertion only works for maps that use key's equals method for key comparison, for example,
+   * it won't work for maps using case-insensitive string keys (the underlying reason is we need to know the map's key
+   * comparison strategy when checking the entries ordering, but that comparison strategy is not exposed in a {@link Map}).
    * <p>
    * Examples:
    * <pre><code class='java'> // newLinkedHashMap builds a Map with iteration order corresponding to the insertion order

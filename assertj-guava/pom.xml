@@ -142,7 +142,7 @@
             <additionalOption>--link-modularity-mismatch=info</additionalOption>
           </additionalOptions>
           <links>
-            <link>https://javadoc.io/static/com.google.guava/guava/${guava.version}</link>
+            <link>https://javadoc.io/doc/com.google.guava/guava/${guava.version}</link>
           </links>
           <offlineLinks>
             <offlineLink>

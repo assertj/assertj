@@ -66,6 +66,15 @@ class FutureAssert_succeedsWithin_Test extends AbstractFutureTest {
   }
 
   @Test
+  void should_allow_narrowing_null_value() {
+    // GIVEN
+    String value = null;
+    Future<String> future = completedFuture(value);
+    // WHEN/THEN
+    then(future).succeedsWithin(1, MILLISECONDS, as(STRING)).isNull();
+  }
+
+  @Test
   void should_fail_if_future_does_not_succeed_within_given_timeout() {
     // GIVEN
     int sleepDuration = 100_000;

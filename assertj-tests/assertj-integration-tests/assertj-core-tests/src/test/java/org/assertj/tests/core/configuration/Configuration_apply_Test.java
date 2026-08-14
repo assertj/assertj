@@ -28,11 +28,8 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.Introspection;
-import org.assertj.tests.core.testkit.MutatesGlobalConfiguration;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-@MutatesGlobalConfiguration
 class Configuration_apply_Test {
 
   @Test
@@ -73,11 +70,5 @@ class Configuration_apply_Test {
     then(Configuration.DEFAULT_CONFIGURATION.additionalDateFormats()).isEmpty();
     Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2001-02-03");
     assertThatAssertionErrorIsThrownBy(() -> then(date).isEqualTo("2001_02_03"));
-  }
-
-  @AfterEach
-  public void afterEach() {
-    // revert whatever we did in the other tests
-    Configuration.DEFAULT_CONFIGURATION.apply();
   }
 }

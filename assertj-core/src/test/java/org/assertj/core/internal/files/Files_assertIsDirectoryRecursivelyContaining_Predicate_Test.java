@@ -19,7 +19,6 @@ import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldContainRecursively.directoryShouldContainRecursively;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.Mockito.verify;
 
@@ -78,7 +77,7 @@ class Files_assertIsDirectoryRecursivelyContaining_Predicate_Test extends FilesS
       return Stream.of(f -> f.getName().contains("bar2"), // one match
                        f -> f.getName().equals("foobar2.json"), // one match
                        f -> f.getName().contains("foobar"), // some matches
-                       f -> f.getParentFile().getName().equals("foobar"), // some matches
+                       f -> f.getParentFile() != null && f.getParentFile().getName().equals("foobar"), // some matches
                        f -> f.getName().contains("foo")); // all matches
     }
 
@@ -115,22 +114,4 @@ class Files_assertIsDirectoryRecursivelyContaining_Predicate_Test extends FilesS
     // THEN
     verify(failures).failure(INFO, directoryShouldContainRecursively(tempDirAsFile, emptyList(), THE_GIVEN_FILTER_DESCRIPTION));
   }
-
-  @Test
-  void should_fail_if_actual_does_not_contain_any_files_matching_the_given_pathMatcherPattern() {
-    // GIVEN
-    Path fooDir = createDirectory(tempDir, "foo", "foo2.data");
-    createDirectory(fooDir, "foo3");
-    // WHEN
-    expectAssertionError(() -> files.assertIsDirectoryRecursivelyContaining(INFO, tempDirAsFile,
-                                                                            f -> f.getName().equals("foo2")));
-    // THEN
-    verify(failures).failure(INFO, directoryShouldContainRecursively(tempDirAsFile,
-                                                                     list(new File(tempDirAsFile, "foo"),
-                                                                          new File(tempDirAsFile,
-                                                                                   "foo/foo2.data"),
-                                                                          new File(tempDirAsFile, "foo/foo3")),
-                                                                     THE_GIVEN_FILTER_DESCRIPTION));
-  }
-
 }

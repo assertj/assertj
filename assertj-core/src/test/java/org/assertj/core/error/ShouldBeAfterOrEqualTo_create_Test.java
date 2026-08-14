@@ -22,6 +22,9 @@ import static org.assertj.core.internal.DatesBaseTest.parseDate;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.testkit.NeverEqualComparator.NEVER_EQUALS;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
@@ -65,5 +68,26 @@ class ShouldBeAfterOrEqualTo_create_Test {
                             "  2012-01-01T00:00:00.000 (java.util.Date)%n" +
                             "when comparing values using '%s'",
                             NEVER_EQUALS.description());
+  }
+
+  @Test
+  void should_create_error_message_showing_Timestamp_nanos_so_values_are_distinguishable() {
+    // GIVEN — same millisecond, different nanos (typical Instant.now() vs currentTimeMillis case)
+    Instant withMicros = Instant.parse("2011-01-01T00:00:00.123456789Z");
+    Timestamp actualMillisOnly = new Timestamp(withMicros.toEpochMilli());
+    Timestamp otherWithNanos = Timestamp.from(withMicros);
+    ErrorMessageFactory factory = shouldBeAfterOrEqualTo(actualMillisOnly, otherWithNanos);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN — both would look identical at ms precision; nanos must appear so the failure is understandable
+    then(STANDARD_REPRESENTATION.toStringOf(actualMillisOnly)).doesNotContain("123456");
+    then(STANDARD_REPRESENTATION.toStringOf(otherWithNanos)).contains("123456");
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  %s%n" +
+                                   "to be after or equal to:%n" +
+                                   "  %s%n",
+                                   STANDARD_REPRESENTATION.toStringOf(actualMillisOnly),
+                                   STANDARD_REPRESENTATION.toStringOf(otherWithNanos)));
   }
 }

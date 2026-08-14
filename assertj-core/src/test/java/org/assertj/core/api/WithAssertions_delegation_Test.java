@@ -64,6 +64,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.data.MapEntry;
+import org.assertj.core.internal.Failures;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 
@@ -701,14 +702,6 @@ class WithAssertions_delegation_Test implements WithAssertions {
    * Test that the delegate method is called.
    */
   @Test
-  void withAssertions_doesNotHave_condition_Test() {
-    assertThat(doesNotHave(JEDI).matches("Solo")).isTrue();
-  }
-
-  /**
-   * Test that the delegate method is called.
-   */
-  @Test
   void withAssertions_contentOf_Test() {
     assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> contentOf(new File("/non-existent file")).contains("a"));
   }
@@ -761,7 +754,12 @@ class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   void withAssertions_setRemoveAssertJRelatedElementsFromStackTrace_Test() {
-    setRemoveAssertJRelatedElementsFromStackTrace(true);
+    boolean removeAssertJRelatedElementsFromStackTrace = Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace();
+    try {
+      setRemoveAssertJRelatedElementsFromStackTrace(true);
+    } finally {
+      setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
+    }
   }
 
   /**

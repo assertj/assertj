@@ -26,7 +26,6 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.matcher.AssertionMatcher;
 import org.hamcrest.Description;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
@@ -42,22 +41,13 @@ class AssertionMatcher_matches_Test {
     }
   };
 
-  private boolean removeAssertJRelatedElementsFromStackTrace;
-
   /**
    * Stacktrace filtering must be disabled in order to check frames in
    * {@link this#matcher_should_fill_description_when_assertion_fails()}.
-   * I use setUp and tearDown methods to ensure that it is set to original value after a test.
    */
   @BeforeEach
   public void setUp() {
-    removeAssertJRelatedElementsFromStackTrace = Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace();
     Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
-  }
-
-  @AfterEach
-  public void tearDown() {
-    Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
   }
 
   @Test

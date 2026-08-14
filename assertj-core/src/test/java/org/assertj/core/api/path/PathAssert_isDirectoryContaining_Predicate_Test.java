@@ -15,13 +15,21 @@
  */
 package org.assertj.core.api.path;
 
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests for <code>{@link PathAssert#isDirectoryContaining(Predicate)}</code>
@@ -30,6 +38,8 @@ import org.assertj.core.api.PathAssertBaseTest;
  */
 class PathAssert_isDirectoryContaining_Predicate_Test extends PathAssertBaseTest {
 
+  @TempDir
+  private Path tempDir;
   private final Predicate<Path> filter = path -> path.getParent() != null;
 
   @Override
@@ -40,5 +50,19 @@ class PathAssert_isDirectoryContaining_Predicate_Test extends PathAssertBaseTest
   @Override
   protected void verify_internal_effects() {
     verify(paths).assertIsDirectoryContaining(getInfo(assertions), getActual(assertions), filter);
+  }
+
+  @Test
+  void error_message_should_list_actual_directory_sorted_content() throws IOException {
+    // GIVEN
+    createDirectory(tempDir.resolve("directory1"));
+    createDirectory(tempDir.resolve("directory2"));
+    createFile(tempDir.resolve("file1.txt"));
+    createFile(tempDir.resolve("file2.txt"));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(tempDir).isDirectoryContaining(x -> false));
+    // THEN
+    then(assertionError).hasMessageContainingAll("The directory content was:",
+                                                 "[directory1, directory2, file1.txt, file2.txt]");
   }
 }

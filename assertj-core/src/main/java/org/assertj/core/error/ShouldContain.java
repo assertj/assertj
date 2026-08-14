@@ -38,9 +38,10 @@ public class ShouldContain extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldContain}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @param expected values expected to be in {@code actual}.
-   * @param notFound the values in {@code expected} not found in {@code actual}.
+   *
+   * @param actual             the actual value in the failed assertion.
+   * @param expected           values expected to be in {@code actual}.
+   * @param notFound           the values in {@code expected} not found in {@code actual}.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
@@ -51,10 +52,11 @@ public class ShouldContain extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldContain}</code>.
-   * @param clazz the actual value class in the failed assertion.
-   * @param actual the actual value in the failed assertion.
-   * @param expected values expected to be in {@code actual}.
-   * @param notFound the values in {@code expected} not found in {@code actual}.
+   *
+   * @param clazz              the actual value class in the failed assertion.
+   * @param actual             the actual value in the failed assertion.
+   * @param expected           values expected to be in {@code actual}.
+   * @param notFound           the values in {@code expected} not found in {@code actual}.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
@@ -66,7 +68,8 @@ public class ShouldContain extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldContain}</code>.
-   * @param actual the actual value in the failed assertion.
+   *
+   * @param actual   the actual value in the failed assertion.
    * @param expected values expected to be in {@code actual}.
    * @param notFound the values in {@code expected} not found in {@code actual}.
    * @return the created {@code ErrorMessageFactory}.
@@ -90,6 +93,7 @@ public class ShouldContain extends BasicErrorMessageFactory {
   private static List<String> toFileNames(List<File> files) {
     return files.stream()
                 .map(File::getName)
+                .sorted()
                 .collect(toList());
   }
 
@@ -108,6 +112,7 @@ public class ShouldContain extends BasicErrorMessageFactory {
   private static List<String> toPathNames(List<Path> files) {
     return files.stream()
                 .map(Path::toString)
+                .sorted()
                 .collect(toList());
   }
 

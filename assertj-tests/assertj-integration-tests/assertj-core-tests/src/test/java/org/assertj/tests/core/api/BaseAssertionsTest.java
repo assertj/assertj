@@ -30,13 +30,15 @@ import java.util.Set;
 import org.assertj.core.api.AssertDelegateTarget;
 import org.assertj.core.api.FactoryBasedNavigableIterableAssert;
 import org.assertj.core.api.FactoryBasedNavigableListAssert;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * @author Filip Hrisafov
  */
 public abstract class BaseAssertionsTest {
 
-  {
+  @BeforeEach
+  void setUpStackTraceFiltering() {
     setRemoveAssertJRelatedElementsFromStackTrace(false);
   }
 

@@ -15,10 +15,21 @@
  */
 package org.assertj.core.api.path;
 
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests for <code>{@link PathAssert#isDirectoryRecursivelyContaining(String)}</code>
@@ -28,6 +39,8 @@ import org.assertj.core.api.PathAssertBaseTest;
 class PathAssert_isDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends PathAssertBaseTest {
 
   private final String syntaxAndPattern = "glob:*.java";
+  @TempDir
+  private Path tempDir;
 
   @Override
   protected PathAssert invoke_api_method() {
@@ -37,5 +50,48 @@ class PathAssert_isDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends 
   @Override
   protected void verify_internal_effects() {
     verify(paths).assertIsDirectoryRecursivelyContaining(getInfo(assertions), getActual(assertions), syntaxAndPattern);
+  }
+
+  @Test
+  void should_pass_if_the_file_matching_the_given_pattern_is_in_a_sub_directory_of_actual() throws IOException {
+    // GIVEN
+    Path dir = createDirectory(tempDir.resolve("dir"));
+    createFile(dir.resolve("test.txt"));
+    createFile(tempDir.resolve("test.java"));
+    Path docs = createDirectory(tempDir.resolve("docs"));
+    createDirectory(docs.resolve("music"));
+    Path images = createDirectory(docs.resolve("images"));
+    createFile(images.resolve("sun.png"));
+    // WHEN/THEN
+    then(tempDir).isDirectoryRecursivelyContaining("glob:*.java")
+                 .isDirectoryRecursivelyContaining("glob:**.txt")
+                 .isDirectoryRecursivelyContaining("glob:**.png")
+                 .isDirectoryRecursivelyContaining("glob:**mus*")
+                 .isDirectoryRecursivelyContaining("glob:dir");
+  }
+
+  @Test
+  void should_fail_if_the_file_matching_the_given_pattern_is_in_a_sub_directory_of_actual() throws IOException {
+    // GIVEN
+    Path dir = createDirectory(tempDir.resolve("dir"));
+    createFile(dir.resolve("test.txt"));
+    createFile(tempDir.resolve("test.java"));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(tempDir).isDirectoryRecursivelyContaining("glob:*.txt"));
+    // THEN
+    then(assertionError).hasMessageContainingAll("The directory content was:",
+                                                 "[dir, dir/test.txt, test.java]".replace('/', File.separatorChar));
+  }
+
+  @Test
+  void should_fail_if_actual_does_not_contain_any_paths_matching_the_given_predicate() throws IOException {
+    // GIVEN
+    Path fooDir = createDirectory(tempDir.resolve("foo"));
+    createDirectory(fooDir.resolve("foo3"));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(tempDir).isDirectoryRecursivelyContaining("glob:*.txt"));
+    // THEN
+    then(assertionError).hasMessageContainingAll("The directory content was:",
+                                                 "[foo, foo/foo3]".replace('/', File.separatorChar));
   }
 }

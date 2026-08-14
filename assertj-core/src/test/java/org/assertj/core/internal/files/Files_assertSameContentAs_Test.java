@@ -17,6 +17,9 @@ package org.assertj.core.internal.files;
 
 import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.Files.readAllBytes;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -26,6 +29,8 @@ import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent
 import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +39,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.assertj.core.internal.Diff;
@@ -43,9 +47,11 @@ import org.assertj.core.util.Files;
 import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
+import org.opentest4j.FileInfo;
 
 /**
- * Tests for <code>{@link org.assertj.core.internal.Files#assertSameContentAs(org.assertj.core.api.AssertionInfo, java.io.File, java.nio.charset.Charset, java.io.File,  java.nio.charset.Charset)}</code>.
+ * Tests for <code>{@link org.assertj.core.internal.Files#assertSameContentAs(org.assertj.core.api.AssertionInfo, java.io.File, java.nio.charset.Charset, java.io.File, java.nio.charset.Charset)}</code>.
  *
  * @author Yvonne Wang
  * @author Joel Costigliola
@@ -126,16 +132,58 @@ class Files_assertSameContentAs_Test extends FilesBaseTest {
     // WHEN
     expectAssertionError(() -> unMockedFiles.assertSameContentAs(INFO, actual, defaultCharset(), expected, defaultCharset()));
     // THEN
-    verify(failures).failure(INFO, shouldHaveSameContent(actual, expected, diffs));
+    verify(failures).failure(eq(INFO), eq(shouldHaveSameContent(actual, expected, diffs)), any(), any());
+  }
+
+  @Test
+  void should_fail_with_file_info_actual_and_expected() throws IOException {
+    // GIVEN
+    byte[] actualBytes = readAllBytes(actual.toPath());
+    byte[] expectedBytes = readAllBytes(expected.toPath());
+    // WHEN
+    var error = expectAssertionError(() -> unMockedFiles.assertSameContentAs(INFO, actual, defaultCharset(),
+                                                                             expected, defaultCharset()));
+    // THEN
+    then(error).isInstanceOf(AssertionFailedError.class);
+    var assertionFailedError = (AssertionFailedError) error;
+    then(assertionFailedError.getActual().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+      assertThat(fileInfo.getPath()).isEqualTo(actual.getAbsolutePath());
+      assertThat(fileInfo.getContents()).isEqualTo(actualBytes);
+    });
+    then(assertionFailedError.getExpected().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+      assertThat(fileInfo.getPath()).isEqualTo(expected.getAbsolutePath());
+      assertThat(fileInfo.getContents()).isEqualTo(expectedBytes);
+    });
+  }
+
+  @Test
+  void should_fail_with_file_info_actual_and_expected_for_binary_fallback() throws IOException {
+    // GIVEN
+    File actual = createFileWithNonUTF8Character();
+    byte[] actualBytes = readAllBytes(actual.toPath());
+    byte[] expectedBytes = readAllBytes(expected.toPath());
+    // WHEN
+    var error = expectAssertionError(() -> unMockedFiles.assertSameContentAs(INFO, actual, UTF_8, expected, UTF_8));
+    // THEN
+    then(error).isInstanceOf(AssertionFailedError.class);
+    var assertionFailedError = (AssertionFailedError) error;
+    then(assertionFailedError.getActual().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+      assertThat(fileInfo.getPath()).isEqualTo(actual.getAbsolutePath());
+      assertThat(fileInfo.getContents()).isEqualTo(actualBytes);
+    });
+    then(assertionFailedError.getExpected().getValue()).isInstanceOfSatisfying(FileInfo.class, fileInfo -> {
+      assertThat(fileInfo.getPath()).isEqualTo(expected.getAbsolutePath());
+      assertThat(fileInfo.getContents()).isEqualTo(expectedBytes);
+    });
   }
 
   @Test
   void should_throw_an_error_if_files_cant_be_compared_with_the_given_charsets_even_if_binary_identical() {
     assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> unMockedFiles.assertSameContentAs(INFO,
                                                                                                              createFileWithNonUTF8Character(),
-                                                                                                             StandardCharsets.UTF_8,
+                                                                                                             UTF_8,
                                                                                                              createFileWithNonUTF8Character(),
-                                                                                                             StandardCharsets.UTF_8))
+                                                                                                             UTF_8))
                                                          .withMessageStartingWith("Unable to compare contents of files");
   }
 
@@ -143,9 +191,9 @@ class Files_assertSameContentAs_Test extends FilesBaseTest {
   void should_fail_if_files_are_not_binary_identical() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> unMockedFiles.assertSameContentAs(INFO,
                                                                                                        createFileWithNonUTF8Character(),
-                                                                                                       StandardCharsets.UTF_8,
+                                                                                                       UTF_8,
                                                                                                        expected,
-                                                                                                       StandardCharsets.UTF_8))
+                                                                                                       UTF_8))
                                                    .withMessageEndingWith(format("does not have expected binary content at offset 0, expecting:%n"
                                                                                  +
                                                                                  "  \"EOF\"%n" +

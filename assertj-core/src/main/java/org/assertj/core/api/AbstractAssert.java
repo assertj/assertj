@@ -643,6 +643,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     requireNonNull(instanceOfAssertFactory, shouldNotBeNull("instanceOfAssertFactory")::create);
 
     ValueProvider<?> isInstanceOfValueProvider = type -> {
+      if (actual == null) return null;
       if (type instanceof Class<?> clazz) {
         isInstanceOf(clazz);
       } else if (type instanceof ParameterizedType parameterizedType) {

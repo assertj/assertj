@@ -21,17 +21,11 @@ import static org.assertj.core.api.Assertions.fail;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 class Assertions_useRepresentation_Test {
 
   private final CustomRepresentation customRepresentation = new CustomRepresentation();
-
-  @AfterEach
-  public void afterTest() {
-    Assertions.useDefaultRepresentation();
-  }
 
   @Test
   void should_use_given_representation_in_assertion_error_messages() {

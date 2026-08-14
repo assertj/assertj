@@ -15,6 +15,11 @@
  */
 package org.assertj.core.api.file;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.Files.newFile;
+import static org.assertj.core.util.Files.newFolder;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
@@ -22,6 +27,8 @@ import java.util.function.Predicate;
 
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests for <code>{@link FileAssert#isDirectoryContaining(Predicate)}</code>
@@ -30,6 +37,8 @@ import org.assertj.core.api.FileAssertBaseTest;
  */
 class FileAssert_isDirectoryContaining_Predicate_Test extends FileAssertBaseTest {
 
+  @TempDir
+  private File tempDir;
   private final Predicate<File> filter = path -> path.getParent() != null;
 
   @Override
@@ -41,4 +50,19 @@ class FileAssert_isDirectoryContaining_Predicate_Test extends FileAssertBaseTest
   protected void verify_internal_effects() {
     verify(files).assertIsDirectoryContaining(getInfo(assertions), getActual(assertions), filter);
   }
+
+  @Test
+  void error_message_should_list_actual_directory_sorted_content() {
+    // GIVEN
+    newFolder(tempDir.getAbsolutePath() + "/directory1");
+    newFolder(tempDir.getAbsolutePath() + "/directory2");
+    newFile(tempDir.getAbsolutePath() + "/file1.txt");
+    newFile(tempDir.getAbsolutePath() + "/file2.txt");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(tempDir).isDirectoryContaining(x -> false));
+    // THEN
+    then(assertionError).hasMessageContainingAll("The directory content was:",
+                                                 "[directory1, directory2, file1.txt, file2.txt]");
+  }
+
 }

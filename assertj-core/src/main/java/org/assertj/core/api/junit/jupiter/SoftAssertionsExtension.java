@@ -37,7 +37,6 @@ import org.assertj.core.api.BDDSoftAssertions;
 import org.assertj.core.api.DefaultAssertionErrorCollector;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.SoftAssertionsProvider;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionConfigurationException;
@@ -70,7 +69,7 @@ import org.junit.platform.commons.support.ReflectionSupport;
  * This extension does not inject {@code SoftAssertionsProvider} arguments into test constructors or lifecycle methods.
  *
  * <h2>Scope</h2>
- *
+ * <p>
  * Annotated {@code SoftAssertionsProvider} fields become valid from the `@BeforeEach` lifecycle phase.
  * For parameters, they become valid when the parameter is resolved.<br>
  * In the {@code afterTestExecution} phase (immediately after the test has returned, but before the {@code AfterEach} phase) all
@@ -80,7 +79,7 @@ import org.junit.platform.commons.support.ReflectionSupport;
  * assertion failures from all {@link SoftAssertionsProvider}s will be reported in the order that they failed.
  *
  * <h2>Integration with third-party extensions</h2>
- *
+ * <p>
  * Sometimes a third-party extension may wish to softly assert something as part of the main test. Or sometimes a third-party
  * extension may be a wrapper around another assertion library (eg, Mockito) and it would be nice for that library's soft
  * assertions to mix well with AssertJ's. This can be achieved through the use of the {@code SoftAssertionExtension}'s API.
@@ -164,7 +163,9 @@ import org.junit.platform.commons.support.ReflectionSupport;
 public class SoftAssertionsExtension
     implements TestInstancePostProcessor, BeforeEachCallback, ParameterResolver, AfterTestExecutionCallback {
 
-  /** Creates a soft assertions extension. */
+  /**
+   * Creates a soft assertions extension.
+   */
   public SoftAssertionsExtension() {}
 
   private static final Namespace SOFT_ASSERTIONS_EXTENSION_NAMESPACE = Namespace.create(SoftAssertionsExtension.class);
@@ -208,22 +209,24 @@ public class SoftAssertionsExtension
     }
   }
 
-  static boolean isPerClass(ExtensionContext context) {
-    return context.getTestInstanceLifecycle().map(x -> x == Lifecycle.PER_CLASS).orElse(false);
-  }
-
   static boolean isAnnotatedConcurrent(ExtensionContext context) {
     return findAnnotation(context.getRequiredTestClass(), Execution.class).map(Execution::value)
                                                                           .map(x -> x == ExecutionMode.CONCURRENT)
                                                                           .orElse(false);
   }
 
-  static boolean isPerClassConcurrent(ExtensionContext context) {
-    return isPerClass(context) && isAnnotatedConcurrent(context);
+  private static boolean isConcurrent(ExtensionContext context) {
+    return isAnnotatedConcurrent(context) || isDefaultParallelModeConcurrent(context);
+  }
+
+  private static Boolean isDefaultParallelModeConcurrent(ExtensionContext context) {
+    return context.getConfigurationParameter("junit.jupiter.execution.parallel.mode.default")
+                  .map(mode -> mode.equalsIgnoreCase("concurrent"))
+                  .orElse(false);
   }
 
   @Override
-  public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws Exception {
+  public void postProcessTestInstance(Object testInstance, ExtensionContext context) {
     // find SoftAssertions fields in the test class hierarchy
     Collection<Field> softAssertionsFields = findFields(testInstance.getClass(),
                                                         field -> isAnnotated(field, InjectSoftAssertions.class),
@@ -240,17 +243,17 @@ public class SoftAssertionsExtension
   }
 
   @Override
-  public void beforeEach(ExtensionContext context) throws Exception {
+  public void beforeEach(ExtensionContext context) {
     AssertionErrorCollector collector = getAssertionErrorCollector(context);
 
-    if (isPerClassConcurrent(context)) {
-      // If the current context is "per class+concurrent", then getSoftAssertionsProvider() will have already set the delegate
-      // for all the soft assertions provider to the thread-local error collector, so all we need to do is set the tlec's value
-      // for the current thread.
-      ThreadLocalErrorCollector tlec = getThreadLocalCollector(context);
-      tlec.setDelegate(collector);
+    if (isConcurrent(context)) {
+      // If the current context is concurrent, then getSoftAssertionsProvider() will have already set the delegate
+      // for all the soft assertions provider to the thread-local error collector, so all we need to do is set the
+      // tlec's value for the current thread.
+      ThreadLocalErrorCollector threadLocalErrorCollector = getThreadLocalCollector(context);
+      threadLocalErrorCollector.setDelegate(collector);
     } else {
-      // Make sure that all of the soft assertion provider instances have their delegate initialised to the assertion error
+      // Make sure that all the soft assertion provider instances have their delegate initialised to the assertion error
       // collector for the current context. Also check enclosing contexts (in the case of nested tests).
       while (initialiseDelegate(context, collector) && context.getParent().isPresent()) {
         context = context.getParent().get();
@@ -260,7 +263,6 @@ public class SoftAssertionsExtension
 
   private static boolean initialiseDelegate(ExtensionContext context, AssertionErrorCollector collector) {
     Collection<SoftAssertionsProvider> providers = getSoftAssertionsProviders(context);
-    if (providers == null) return false;
     providers.forEach(x -> x.setDelegate(collector));
     return context.getParent().isPresent();
   }
@@ -305,7 +307,7 @@ public class SoftAssertionsExtension
   @Override
   public void afterTestExecution(ExtensionContext extensionContext) {
     AssertionErrorCollector collector;
-    if (isPerClassConcurrent(extensionContext)) {
+    if (isConcurrent(extensionContext)) {
       ThreadLocalErrorCollector tlec = getThreadLocalCollector(extensionContext);
       collector = tlec.getDelegate()
                       .orElseThrow(() -> new IllegalStateException("Expecting delegate to be present for current context"));
@@ -326,8 +328,8 @@ public class SoftAssertionsExtension
   }
 
   private static ThreadLocalErrorCollector getThreadLocalCollector(ExtensionContext context) {
-    return getStore(context).getOrComputeIfAbsent(ThreadLocalErrorCollector.class, unused -> new ThreadLocalErrorCollector(),
-                                                  ThreadLocalErrorCollector.class);
+    return getStore(context).computeIfAbsent(ThreadLocalErrorCollector.class, unused -> new ThreadLocalErrorCollector(),
+                                             ThreadLocalErrorCollector.class);
   }
 
   /**
@@ -349,24 +351,22 @@ public class SoftAssertionsExtension
    */
   @Beta
   public static AssertionErrorCollector getAssertionErrorCollector(ExtensionContext context) {
-    return getStore(context).getOrComputeIfAbsent(AssertionErrorCollector.class, unused -> new DefaultAssertionErrorCollector(),
-                                                  AssertionErrorCollector.class);
+    return getStore(context).computeIfAbsent(AssertionErrorCollector.class, unused -> new DefaultAssertionErrorCollector(),
+                                             AssertionErrorCollector.class);
   }
 
   @SuppressWarnings("unchecked")
   private static Collection<SoftAssertionsProvider> getSoftAssertionsProviders(ExtensionContext context) {
-    return getStore(context).getOrComputeIfAbsent(Collection.class, unused -> new ConcurrentLinkedQueue<>(), Collection.class);
+    return getStore(context).computeIfAbsent(Collection.class, unused -> new ConcurrentLinkedQueue<>(), Collection.class);
   }
 
   private static <T extends SoftAssertionsProvider> T instantiateProvider(ExtensionContext context, Class<T> providerType) {
     T softAssertions = ReflectionSupport.newInstance(providerType);
-    // If we are running single-threaded, we won't have any concurrency issues. Likewise,
-    // if we are running "per-method", then every test gets its own instance and again there
-    // won't be any concurrency issues. But we need to special-case the situation where
-    // we are running *both* per class and concurrent - use a thread-local so that each thread
-    // gets its own copy. The beforeEach() callback above will take care of setting the
-    // ThreadLocal collector's value for the thread in which it is executing.
-    if (isPerClassConcurrent(context)) {
+    // If we are running single-threaded, we won't have any concurrency issues.
+    // But we need to special-case the situation where we are running concurrent tests - use a thread-local so that
+    // each thread gets its own copy. The beforeEach() callback above will take care of setting the ThreadLocal
+    // collector's value for the thread in which it is executing.
+    if (isConcurrent(context)) {
       softAssertions.setDelegate(getThreadLocalCollector(context));
     } else if (context.getTestMethod().isPresent()) {
       // If we're already in a method, then set our delegate as the beforeEach() which sets it may have already run.
@@ -403,17 +403,17 @@ public class SoftAssertionsExtension
    * }</code>
    * </pre>
    *
-   * @param <T> the type of {@link SoftAssertionsProvider} to instantiate.
-   * @param context the {@code ExtensionContext} whose error collector we are attempting to retrieve.
+   * @param <T>                                the type of {@link SoftAssertionsProvider} to instantiate.
+   * @param context                            the {@code ExtensionContext} whose error collector we are attempting to retrieve.
    * @param concreteSoftAssertionsProviderType the class instance for the type of soft assertions
    * @return The {@code AssertionErrorCollector} for the given context.
    */
   @Beta
   public static <T extends SoftAssertionsProvider> T getSoftAssertionsProvider(ExtensionContext context,
                                                                                Class<T> concreteSoftAssertionsProviderType) {
-    return getStore(context).getOrComputeIfAbsent(concreteSoftAssertionsProviderType,
-                                                  unused -> instantiateProvider(context, concreteSoftAssertionsProviderType),
-                                                  concreteSoftAssertionsProviderType);
+    return getStore(context).computeIfAbsent(concreteSoftAssertionsProviderType,
+                                             unused -> instantiateProvider(context, concreteSoftAssertionsProviderType),
+                                             concreteSoftAssertionsProviderType);
   }
 
   private static void setTestInstanceSoftAssertionsField(Object testInstance, Field softAssertionsField,
@@ -432,8 +432,7 @@ public class SoftAssertionsExtension
     try {
       softAssertionsProviderClass.getDeclaredConstructor();
     } catch (@SuppressWarnings("unused") Exception e) {
-      throw new ExtensionConfigurationException("[%s] SoftAssertionsProvider [%s] does not have a default constructor".formatted(
-                                                                                                                                 softAssertionsField.getName(),
+      throw new ExtensionConfigurationException("[%s] SoftAssertionsProvider [%s] does not have a default constructor".formatted(softAssertionsField.getName(),
                                                                                                                                  softAssertionsProviderClass.getName()));
     }
   }
@@ -441,8 +440,7 @@ public class SoftAssertionsExtension
   private static void checkIsNotAbstract(Field softAssertionsField,
                                          Class<? extends SoftAssertionsProvider> softAssertionsProviderClass) {
     if (Modifier.isAbstract(softAssertionsProviderClass.getModifiers())) {
-      throw new ExtensionConfigurationException("[%s] SoftAssertionsProvider [%s] is abstract and cannot be instantiated.".formatted(
-                                                                                                                                     softAssertionsField.getName(),
+      throw new ExtensionConfigurationException("[%s] SoftAssertionsProvider [%s] is abstract and cannot be instantiated.".formatted(softAssertionsField.getName(),
                                                                                                                                      softAssertionsProviderClass));
     }
   }
@@ -451,8 +449,7 @@ public class SoftAssertionsExtension
   private static Class<? extends SoftAssertionsProvider> asSoftAssertionsProviderClass(Field softAssertionsField,
                                                                                        Class<?> providerClass) {
     if (!SoftAssertionsProvider.class.isAssignableFrom(providerClass)) {
-      throw new ExtensionConfigurationException("[%s] field is not a SoftAssertionsProvider (%s).".formatted(
-                                                                                                             softAssertionsField.getName(),
+      throw new ExtensionConfigurationException("[%s] field is not a SoftAssertionsProvider (%s).".formatted(softAssertionsField.getName(),
                                                                                                              providerClass.getTypeName()));
     }
     // Guaranteed because of the sanity check

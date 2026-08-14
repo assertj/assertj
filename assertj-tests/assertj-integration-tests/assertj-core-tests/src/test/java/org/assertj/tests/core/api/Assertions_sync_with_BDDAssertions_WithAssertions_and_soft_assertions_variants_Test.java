@@ -83,8 +83,11 @@ class Assertions_sync_with_BDDAssertions_WithAssertions_and_soft_assertions_vari
   @Test
   void standard_assertions_and_with_assertions_should_have_the_same_non_assertions_methods() {
     // GIVEN
-    Set<Method> non_assertThat_Assertions_methods = non_assertThat_methodsOf(Assertions.class.getDeclaredMethods());
-    Set<Method> non_assertThat_WithAssertions_methods = non_assertThat_methodsOf(WithAssertions.class.getDeclaredMethods());
+    var non_assertThat_Assertions_methods = non_assertThat_methodsOf(Assertions.class.getDeclaredMethods()).stream()
+                                                                                                           .filter(m -> !m.getName()
+                                                                                                                          .equals("doesNotHave"))
+                                                                                                           .collect(toSet());
+    var non_assertThat_WithAssertions_methods = non_assertThat_methodsOf(WithAssertions.class.getDeclaredMethods());
     // THEN
     then(non_assertThat_WithAssertions_methods).usingElementComparator(IGNORING_DECLARING_CLASS_ONLY)
                                                .containsExactlyInAnyOrderElementsOf(non_assertThat_Assertions_methods);
