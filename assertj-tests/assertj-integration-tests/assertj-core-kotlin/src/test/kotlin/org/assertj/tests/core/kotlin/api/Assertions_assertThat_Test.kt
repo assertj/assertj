@@ -15,31 +15,41 @@
  */
 package org.assertj.tests.core.kotlin.api
 
+import org.assertj.core.api.AbstractIntArrayAssert
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.ListAssert
 import org.junit.jupiter.api.Test
 
 class Assertions_assertThat_Test {
 
   @Test
-  fun intarray() {
-    val x: IntArray = intArrayOf(1, 2, 3)
-    assertThat(x).contains(1, 2, 3)
+  fun `should accept IntArray`() {
+    // GIVEN
+    val actual: IntArray = intArrayOf(1, 2, 3)
+    // WHEN
+    val result: AbstractIntArrayAssert<*> = assertThat(actual)
+    // THEN
+    result.contains(1, 2, 3)
   }
 
   @Test
-  fun `immutable list`() {
-    val list = listOf("Viserys", "Rhaenyra", "Daemon")
-    assertThat(list).contains("Viserys", "Rhaenyra", "Daemon")
-    assertThat(list).hasSize(3).anySatisfy {
-      assertThat(it).isNotEqualTo("Corlys")
-      assertThat(it).hasSize(6)
-    }
+  fun `should accept List`() {
+    // GIVEN
+    val actual: List<String> = listOf("Viserys", "Rhaenyra", "Daemon")
+    // WHEN
+    val result: ListAssert<String?> = assertThat(actual)
+    // THEN
+    result.containsExactly("Viserys", "Rhaenyra", "Daemon")
   }
 
   @Test
-  fun `mutable list`() {
-    val list = mutableListOf("Viserys", "Rhaenyra", "Daemon")
-    assertThat(list).contains("Viserys", "Rhaenyra", "Daemon")
+  fun `should accept MutableList`() {
+    // GIVEN
+    val actual: MutableList<String> = mutableListOf("Viserys", "Rhaenyra", "Daemon")
+    // WHEN
+    val result: ListAssert<String?> = assertThat(actual)
+    // THEN
+    result.containsExactly("Viserys", "Rhaenyra", "Daemon")
   }
 
 }

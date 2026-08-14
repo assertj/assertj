@@ -69,6 +69,20 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
+   * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
+   * <p>
+   * Use this over {@link #then(BigDecimal)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g., {@code <T extends BigDecimal>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  default BigDecimalAssert thenBigDecimal(BigDecimal actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link BigIntegerAssert}</code>.
    *
    * @param actual the actual value.
@@ -77,6 +91,20 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   default BigIntegerAssert then(BigInteger actual) {
     return proxy(BigIntegerAssert.class, BigInteger.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link BigIntegerAssert}</code>.
+   * <p>
+   * Use this over {@link #then(BigInteger)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g., {@code <T extends BigInteger>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  default BigIntegerAssert thenBigInteger(BigInteger actual) {
+    return then(actual);
   }
 
   /**
@@ -375,6 +403,20 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   default FileAssert then(File actual) {
     return proxy(FileAssert.class, File.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link FileAssert}</code>.
+   * <p>
+   * Use this over {@link #then(File)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g., {@code <T extends File>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  default FileAssert thenFile(File actual) {
+    return then(actual);
   }
 
   /**
@@ -707,6 +749,20 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   default DateAssert then(Date actual) {
     return proxy(DateAssert.class, Date.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link DateAssert}</code>.
+   * <p>
+   * Use this over {@link #then(Date)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g., {@code <T extends Date>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  default DateAssert thenDate(Date actual) {
+    return then(actual);
   }
 
   /**

@@ -15,63 +15,45 @@
  */
 package org.assertj.tests.core.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatIOException;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
+import static org.assertj.tests.core.testkit.ThrowingCallableFactory.codeThrowing;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.function.Supplier;
-
-import org.assertj.core.api.ThrowableAssertAlternative;
-import org.assertj.core.api.ThrowableTypeAssert;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.Test;
 
 class Assertions_assertThatExceptionOfType_Test {
 
-  private static <E> Supplier<E> s(Supplier<E> supplier) {
-    return supplier;
+  @Test
+  void should_pass_if_expected_exception_is_thrown() {
+    // GIVEN
+    ThrowingCallable throwingSupplier = codeThrowing(new IllegalArgumentException("boom"));
+    // WHEN/THEN
+    assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(throwingSupplier).withMessage("boom");
   }
 
-  public static Iterable<?> data() {
-    return List.of(array(s(() -> assertThatExceptionOfType(UnsupportedOperationException.class)),
-                         UnsupportedOperationException.class,
-                         s(() -> new UnsupportedOperationException())),
-                   array(s(() -> assertThatNullPointerException()),
-                         NullPointerException.class,
-                         s(() -> new NullPointerException("value"))),
-                   array(s(() -> assertThatIllegalArgumentException()),
-                         IllegalArgumentException.class,
-                         s(() -> new IllegalArgumentException("arg"))),
-                   array(s(() -> assertThatIllegalStateException()),
-                         IllegalStateException.class,
-                         s(() -> new IllegalStateException("state"))),
-                   array(s(() -> assertThatIOException()),
-                         IOException.class,
-                         s(() -> new IOException("io"))));
+  @Test
+  void should_fail_if_expected_exception_is_not_thrown() {
+    // GIVEN
+    IllegalStateException exception = new IllegalStateException("boom");
+    ThrowingCallable throwingSupplier = codeThrowing(exception);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(throwingSupplier));
+    // THEN
+    then(assertionError).hasMessage(shouldBeInstance(exception, IllegalArgumentException.class).create());
   }
 
-  @ParameterizedTest
-  @MethodSource("data")
-  void should_create_ExpectThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator) {
-    ThrowableTypeAssert<? extends Exception> assertions = assertionGenerator.get();
-    assertThat(assertions).isNotNull();
-  }
-
-  @ParameterizedTest
-  @MethodSource("data")
-  void should_create_ChainedThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
-                                            @SuppressWarnings("unused") Class<? extends Exception> exceptionType,
-                                            Supplier<? extends Exception> exceptionBuilder) {
-    ThrowableAssertAlternative<? extends Exception> assertions = assertionGenerator.get().isThrownBy(() -> {
-      throw exceptionBuilder.get();
-    });
-    assertThat(assertions).isNotNull();
+  @Test
+  void should_fail_if_no_exception_is_thrown() {
+    // GIVEN
+    ThrowingCallable throwingSupplier = () -> {};
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(throwingSupplier));
+    // THEN
+    then(assertionError).hasMessage(format("%nExpecting code to raise a throwable."));
   }
 
 }

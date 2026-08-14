@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 
 class Assertions_assertWith_Test {
 
-  private Jedi yoda = new Jedi("Yoda", "Green");
+  private final Jedi yoda = new Jedi("Yoda", "Green");
 
   @Test
   void should_pass_satisfying_single_requirement() {

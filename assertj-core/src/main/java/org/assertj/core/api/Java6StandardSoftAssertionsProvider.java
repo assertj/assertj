@@ -67,6 +67,20 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
+   * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(BigDecimal)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g., {@code <T extends BigDecimal>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  default BigDecimalAssert assertThatBigDecimal(BigDecimal actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link BigInteger}</code>.
    *
    * @param actual the actual value.
@@ -75,6 +89,20 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    */
   default BigIntegerAssert assertThat(BigInteger actual) {
     return proxy(BigIntegerAssert.class, BigInteger.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link BigIntegerAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(BigInteger)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g., {@code <T extends BigInteger>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  default BigIntegerAssert assertThatBigInteger(BigInteger actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -373,6 +401,20 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    */
   default FileAssert assertThat(File actual) {
     return proxy(FileAssert.class, File.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link FileAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(File)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g., {@code <T extends File>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  default FileAssert assertThatFile(File actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -702,6 +744,20 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    */
   default DateAssert assertThat(Date actual) {
     return proxy(DateAssert.class, Date.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link DateAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(Date)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g., {@code <T extends Date>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  default DateAssert assertThatDate(Date actual) {
+    return assertThat(actual);
   }
 
   /**

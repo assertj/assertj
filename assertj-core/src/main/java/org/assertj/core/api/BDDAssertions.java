@@ -320,6 +320,20 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.BigDecimalAssert}</code>.
+   * <p>
+   * Use this over {@link #then(BigDecimal)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g., {@code <T extends BigDecimal>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  public static AbstractBigDecimalAssert<?> thenBigDecimal(BigDecimal actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.BigIntegerAssert}</code>.
    *
    * @param actual the actual value.
@@ -328,6 +342,20 @@ public class BDDAssertions extends Assertions {
    */
   public static AbstractBigIntegerAssert<?> then(BigInteger actual) {
     return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.BigIntegerAssert}</code>.
+   * <p>
+   * Use this over {@link #then(BigInteger)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g., {@code <T extends BigInteger>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  public static AbstractBigIntegerAssert<?> thenBigInteger(BigInteger actual) {
+    return then(actual);
   }
 
   /**
@@ -864,6 +892,20 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.FileAssert}</code>.
+   * <p>
+   * Use this over {@link #then(File)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g., {@code <T extends File>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  public static AbstractFileAssert<?> thenFile(File actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of {@link PathAssert}
    *
    * @param actual the path to test
@@ -1239,6 +1281,20 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.DateAssert}</code>.
+   * <p>
+   * Use this over {@link #then(Date)} in case of ambiguous method resolution when the object under test
+   * is a bounded generic type, e.g., {@code <T extends Date>}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.28.0
+   */
+  public static AbstractDateAssert<?> thenDate(Date actual) {
+    return then(actual);
+  }
+
+  /**
    * Create assertion for {@link AtomicBoolean}.
    *
    * @param actual the actual value.
@@ -1540,13 +1596,13 @@ public class BDDAssertions extends Assertions {
    * Uses the given instance as the instance under test for all the assertions expressed as the passed {@link Consumer}s.
    * <p>
    * This is useful to avoid repeating getting the instance to test, a bit like a <a href="https://mrhaki.blogspot.com/2009/09/groovy-goodness-with-method.html">with</a> block which turns the target into
-   * the equivalent of {@code this} (as  in Groovy for example).
+   * the equivalent of {@code this} (as in Groovy for example).
    * <p>
    * Example:
    * <pre><code> thenWith(team.getPlayers().get(0).getStats(),
-   *            stat -&gt; assertThat(stats.pointPerGame).isGreaterThan(25.7),
-   *            stat -&gt; assertThat(stats.assistsPerGame).isGreaterThan(7.2),
-   *            stat -&gt; assertThat(stats.reboundsPerGame).isBetween(9, 12)
+   *            stats -&gt; assertThat(stats.pointPerGame).isGreaterThan(25.7),
+   *            stats -&gt; assertThat(stats.assistsPerGame).isGreaterThan(7.2),
+   *            stats -&gt; assertThat(stats.reboundsPerGame).isBetween(9, 12)
    *            );</code></pre>
    * <p>
    * {@code thenWith} is variation of {@link AbstractAssert#satisfies(Consumer[])} hopefully easier to find for some users.
@@ -1991,7 +2047,7 @@ public class BDDAssertions extends Assertions {
    * @since 3.20.0
    */
   public static Throwable catchThrowable(ThrowingCallable throwingCallable) {
-    return AssertionsForClassTypes.catchThrowable(throwingCallable);
+    return Assertions.catchThrowable(throwingCallable);
   }
 
   /**

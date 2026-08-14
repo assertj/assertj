@@ -16,7 +16,7 @@
 package org.assertj.core.api.abstract_;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.condition.AllOf.allOf;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
