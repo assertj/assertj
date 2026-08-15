@@ -15,19 +15,19 @@
  */
 package org.assertj.tests.core.api;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.BDDAssertions.thenCode;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertThatCode_Test {
+class BDDAssertions_thenCode_Test {
 
   @Test
   void should_accept_ThrowingCallable() {
     // GIVEN
     ThrowingCallable silent = () -> {};
     // WHEN/THEN
-    assertThatCode(silent).doesNotThrowAnyException();
+    thenCode(silent).doesNotThrowAnyException();
   }
 
 }

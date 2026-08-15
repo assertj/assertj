@@ -15,19 +15,20 @@
  */
 package org.assertj.tests.core.api;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.mockito.Answers.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.mock;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertThatCode_Test {
+class WithAssertions_assertThatCode_Test {
+
+  static WithAssertions withAssertions = mock(CALLS_REAL_METHODS);
 
   @Test
   void should_accept_ThrowingCallable() {
-    // GIVEN
-    ThrowingCallable silent = () -> {};
     // WHEN/THEN
-    assertThatCode(silent).doesNotThrowAnyException();
+    withAssertions.assertThatCode(() -> {}).doesNotThrowAnyException();
   }
 
 }
