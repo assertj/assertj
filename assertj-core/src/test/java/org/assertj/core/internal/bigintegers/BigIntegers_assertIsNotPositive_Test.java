@@ -25,9 +25,6 @@ import java.math.BigInteger;
 import org.assertj.core.internal.BigIntegersBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link BigIntegers#assertIsNotPositive(AssertionInfo, BigInteger))}</code>.
- */
 class BigIntegers_assertIsNotPositive_Test extends BigIntegersBaseTest {
 
   @Test

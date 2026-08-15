@@ -16,7 +16,6 @@
 package org.assertj.core.api;
 
 import static java.util.stream.Collectors.toCollection;
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.assertj.core.util.Streams.stream;
 
 import java.util.Collection;
@@ -68,7 +67,7 @@ public class HashSetAssert<ELEMENT>
    * @return <code>{@link AbstractCollectionAssert}</code> which ignores hash code comparisons.
    */
   public AbstractCollectionAssert<?, Collection<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> skippingHashCodeComparison() {
-    return assertThat((Collection<? extends ELEMENT>) actual);
+    return CollectionAssert.assertThatCollection(actual);
   }
 
   @Override

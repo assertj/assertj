@@ -17,7 +17,6 @@ package org.assertj.tests.core.api;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.BDDAssertions.thenCode;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 import static org.assertj.core.error.ShouldNotHaveThrownExcept.shouldNotHaveThrownExcept;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
@@ -35,8 +34,8 @@ class Assertions_assertThatCode_Test {
     ThrowingCallable boom = raisingException("boom!");
 
     // WHEN/THEN
-    thenCode(boom).isInstanceOf(Exception.class)
-                  .hasMessageContaining("boom!");
+    assertThatCode(boom).isInstanceOf(Exception.class)
+                        .hasMessageContaining("boom!");
   }
 
   @Test
@@ -100,7 +99,7 @@ class Assertions_assertThatCode_Test {
     // GIVEN
     ThrowingCallable silent = () -> {};
     // WHEN/THEN
-    thenCode(silent).doesNotThrowAnyException();
+    assertThatCode(silent).doesNotThrowAnyException();
   }
 
   @Test
@@ -108,7 +107,7 @@ class Assertions_assertThatCode_Test {
     // GIVEN
     ThrowingCallable silent = () -> {};
     // WHEN/THEN
-    thenCode(silent).doesNotThrowAnyExceptionExcept();
+    assertThatCode(silent).doesNotThrowAnyExceptionExcept();
   }
 
   @Test
@@ -116,7 +115,7 @@ class Assertions_assertThatCode_Test {
     // GIVEN
     ThrowingCallable silent = () -> {};
     // WHEN/THEN
-    thenCode(silent).doesNotThrowAnyExceptionExcept(IOException.class, IllegalStateException.class);
+    assertThatCode(silent).doesNotThrowAnyExceptionExcept(IOException.class, IllegalStateException.class);
   }
 
   @Test
@@ -124,7 +123,7 @@ class Assertions_assertThatCode_Test {
     // GIVEN
     ThrowingCallable boom = raisingException(new IllegalArgumentException("boom"));
     // WHEN/THEN
-    thenCode(boom).doesNotThrowAnyExceptionExcept(IOException.class, IllegalArgumentException.class);
+    assertThatCode(boom).doesNotThrowAnyExceptionExcept(IOException.class, IllegalArgumentException.class);
   }
 
   @Test
@@ -132,7 +131,7 @@ class Assertions_assertThatCode_Test {
     // GIVEN
     ThrowingCallable boom = raisingException(new IllegalArgumentException("boom"));
     // WHEN/THEN
-    thenCode(boom).doesNotThrowAnyExceptionExcept(RuntimeException.class);
+    assertThatCode(boom).doesNotThrowAnyExceptionExcept(RuntimeException.class);
   }
 
   private ThrowingCallable raisingException(final String reason) {

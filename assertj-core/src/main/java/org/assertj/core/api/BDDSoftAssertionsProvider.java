@@ -95,6 +95,16 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
+   * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default AbstractBigDecimalAssert<?> thenBigDecimal(BigDecimal actual) {
+    return soft(BDDAssertions.thenBigDecimal(actual));
+  }
+
+  /**
    * Creates a new instance of <code>{@link BigIntegerAssert}</code>.
    *
    * @param actual the actual value.
@@ -103,6 +113,16 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   default BigIntegerAssert then(BigInteger actual) {
     return (BigIntegerAssert) soft(Assertions.assertThat(actual));
+  }
+
+  /**
+   * Creates a new instance of <code>{@link BigIntegerAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default AbstractBigIntegerAssert<?> thenBigInteger(BigInteger actual) {
+    return soft(BDDAssertions.thenBigInteger(actual));
   }
 
   /**
@@ -401,6 +421,16 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   default FileAssert then(File actual) {
     return (FileAssert) soft(Assertions.assertThat(actual));
+  }
+
+  /**
+   * Creates a new instance of <code>{@link FileAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default AbstractFileAssert<?> thenFile(File actual) {
+    return soft(BDDAssertions.thenFile(actual));
   }
 
   /**
@@ -736,6 +766,16 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
+   * Creates a new instance of <code>{@link DateAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default AbstractDateAssert<?> thenDate(Date actual) {
+    return soft(BDDAssertions.thenDate(actual));
+  }
+
+  /**
    * Create assertion for {@link AtomicBoolean}.
    *
    * @param actual the actual value.
@@ -1026,7 +1066,13 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.7.0
    */
   default AbstractThrowableAssert<?, ? extends Throwable> thenCode(ThrowingCallable shouldRaiseOrNotThrowable) {
-    return then(catchThrowable(shouldRaiseOrNotThrowable));
+    Throwable actual = null;
+    try {
+      actual = catchThrowable(shouldRaiseOrNotThrowable);
+    } catch (AssertionError e) {
+      // do nothing to keep previous catchThrowable behavior
+    }
+    return then(actual);
   }
 
   /**

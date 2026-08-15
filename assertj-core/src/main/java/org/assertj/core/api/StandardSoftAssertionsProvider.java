@@ -91,6 +91,16 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
+   * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default AbstractBigDecimalAssert<?> assertThatBigDecimal(BigDecimal actual) {
+    return soft(Assertions.assertThatBigDecimal(actual));
+  }
+
+  /**
    * Creates a new instance of <code>{@link BigInteger}</code>.
    *
    * @param actual the actual value.
@@ -99,6 +109,16 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   default BigIntegerAssert assertThat(BigInteger actual) {
     return (BigIntegerAssert) soft(Assertions.assertThat(actual));
+  }
+
+  /**
+   * Creates a new instance of <code>{@link BigIntegerAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default AbstractBigIntegerAssert<?> assertThatBigInteger(BigInteger actual) {
+    return soft(Assertions.assertThatBigInteger(actual));
   }
 
   /**
@@ -393,6 +413,16 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   default FileAssert assertThat(File actual) {
     return (FileAssert) soft(Assertions.assertThat(actual));
+  }
+
+  /**
+   * Creates a new instance of <code>{@link FileAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default AbstractFileAssert<?> assertThatFile(File actual) {
+    return soft(Assertions.assertThatFile(actual));
   }
 
   /**
@@ -719,6 +749,16 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
+   * Creates a new instance of <code>{@link DateAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default AbstractDateAssert<?> assertThatDate(Date actual) {
+    return soft(Assertions.assertThatDate(actual));
+  }
+
+  /**
    * Create assertion for {@link AtomicBoolean}.
    *
    * @param actual the actual value.
@@ -980,7 +1020,13 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.7.0
    */
   default AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowableAssert.ThrowingCallable shouldRaiseOrNotThrowable) {
-    return assertThat(catchThrowable(shouldRaiseOrNotThrowable));
+    Throwable actual = null;
+    try {
+      actual = catchThrowable(shouldRaiseOrNotThrowable);
+    } catch (AssertionError e) {
+      // do nothing to keep previous catchThrowable behavior
+    }
+    return assertThat(actual);
   }
 
   /**

@@ -15,36 +15,24 @@
  */
 package org.assertj.tests.core.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatObject;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import org.assertj.core.api.AbstractObjectAssert;
-import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ObjectAssert;
 import org.junit.jupiter.api.Test;
 
 class Assertions_assertThatObject_Test {
 
   @Test
-  void should_create_Assert() {
+  void should_preserve_actual_type_for_object_assertions() {
     // GIVEN
-    Object actual = new Object();
+    LinkedList<String> actual = new LinkedList<>(List.of("value"));
     // WHEN
-    AbstractObjectAssert<?, Object> assertions = Assertions.assertThatObject(actual);
+    ObjectAssert<LinkedList<String>> result = assertThatObject(actual);
     // THEN
-    assertThat(assertions).isNotNull();
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  void should_avoid_casting() {
-    LinkedList<String> actual = new LinkedList<>(List.of("test"));
-    // tests against actual require casts when using an overloaded assertThat that does not capture the type of actual
-    assertThat(actual).matches(list -> ((LinkedList<String>) list).getFirst().equals("test"));
-    // with assertThatObject we can force the generic version, but we lose the specific assertions for iterables
-    assertThatObject(actual).matches(list -> list.getFirst().equals("test"));
+    result.extracting(LinkedList::getFirst).isEqualTo("value");
   }
 
 }

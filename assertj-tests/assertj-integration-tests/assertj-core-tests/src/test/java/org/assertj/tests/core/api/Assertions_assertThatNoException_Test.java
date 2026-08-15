@@ -18,6 +18,7 @@ package org.assertj.tests.core.api;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
+import static org.assertj.tests.core.testkit.ThrowingCallableFactory.codeThrowing;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -26,10 +27,16 @@ import org.junit.jupiter.api.Test;
 class Assertions_assertThatNoException_Test {
 
   @Test
-  void should_fail_when_asserting_no_exception_raised_but_exception_occurs() {
+  void should_pass_if_no_exception_is_thrown() {
+    // WHEN/THEN
+    assertThatNoException().isThrownBy(() -> {});
+  }
+
+  @Test
+  void should_fail_if_exception_is_thrown() {
     // GIVEN
     Exception exception = new Exception("boom");
-    ThrowingCallable boom = raisingException(exception);
+    ThrowingCallable boom = codeThrowing(exception);
     // WHEN
     var assertionError = expectAssertionError(() -> assertThatNoException().isThrownBy(boom));
     // THEN
@@ -37,9 +44,9 @@ class Assertions_assertThatNoException_Test {
   }
 
   @Test
-  void can_use_description_in_error_message() {
+  void should_fail_if_exception_is_thrown_with_description() {
     // GIVEN
-    ThrowingCallable boom = raisingException(new Exception("boom"));
+    ThrowingCallable boom = codeThrowing(new Exception("boom"));
     // WHEN
     var assertionError = expectAssertionError(() -> assertThatNoException().as("Test").isThrownBy(boom));
     // THEN
@@ -47,20 +54,14 @@ class Assertions_assertThatNoException_Test {
   }
 
   @Test
-  void error_message_contains_stacktrace() {
+  void should_fail_if_exception_is_thrown_and_error_message_contains_stacktrace() {
     // GIVEN
-    ThrowingCallable boom = raisingException(new Exception("boom"));
+    ThrowingCallable boom = codeThrowing(new Exception("boom"));
     // WHEN
     var assertionError = expectAssertionError(() -> assertThatNoException().isThrownBy(boom));
     // THEN
     then(assertionError).hasMessageContainingAll("java.lang.Exception: boom",
-                                                 "at org.assertj.tests.core/org.assertj.tests.core.api.Assertions_assertThatNoException_Test.error_message_contains_stacktrace");
-  }
-
-  private ThrowingCallable raisingException(Exception exception) {
-    return () -> {
-      throw exception;
-    };
+                                                 "at org.assertj.tests.core/org.assertj.tests.core.api.Assertions_assertThatNoException_Test.should_fail_if_exception_is_thrown_and_error_message_contains_stacktrace");
   }
 
 }

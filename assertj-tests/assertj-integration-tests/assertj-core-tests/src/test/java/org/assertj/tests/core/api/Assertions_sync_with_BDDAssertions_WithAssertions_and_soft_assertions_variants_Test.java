@@ -125,8 +125,13 @@ class Assertions_sync_with_BDDAssertions_WithAssertions_and_soft_assertions_vari
 
   private static Stream<String> assertion_methods() {
     return Stream.of("assertThat",
+                     "assertThatBigDecimal",
+                     "assertThatBigInteger",
+                     "assertThatCharSequence",
                      "assertThatCollection",
                      "assertThatComparable",
+                     "assertThatDate",
+                     "assertThatFile",
                      "assertThatIterable",
                      "assertThatIterator",
                      "assertThatList",
