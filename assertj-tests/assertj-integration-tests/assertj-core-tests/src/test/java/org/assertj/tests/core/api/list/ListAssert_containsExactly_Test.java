@@ -17,6 +17,9 @@ package org.assertj.tests.core.api.list;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
@@ -30,6 +33,33 @@ class ListAssert_containsExactly_Test {
     // WHEN/THEN
     assertThat(actual).containsExactly("Luke", "Leia")
                       .containsExactly("Luke", "Leia");
+  }
+
+  @Test
+  void should_pass_when_asserting_int_stream_multiple_times() {
+    // GIVEN
+    IntStream actual = IntStream.of(823952, 1947230585);
+    // WHEN/THEN
+    assertThat(actual).containsExactly(823952, 1947230585)
+                      .containsExactly(823952, 1947230585);
+  }
+
+  @Test
+  void should_pass_when_asserting_long_stream_multiple_times() {
+    // GIVEN
+    LongStream actual = LongStream.of(823952L, 1947230585L);
+    // WHEN/THEN
+    assertThat(actual).containsExactly(823952L, 1947230585L)
+                      .containsExactly(823952L, 1947230585L);
+  }
+
+  @Test
+  void should_pass_when_asserting_double_stream_multiple_times() {
+    // GIVEN
+    DoubleStream actual = DoubleStream.of(823952.8, 1947230585.9);
+    // WHEN/THEN
+    assertThat(actual).containsExactly(823952.8, 1947230585.9)
+                      .containsExactly(823952.8, 1947230585.9);
   }
 
 }

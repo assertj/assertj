@@ -35,6 +35,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
+import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.util.Collection;
@@ -54,11 +55,14 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.DoublePredicate;
@@ -72,6 +76,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractBigDecimalAssert;
 import org.assertj.core.api.AbstractBigIntegerAssert;
 import org.assertj.core.api.AbstractBooleanArrayAssert;
@@ -112,14 +117,19 @@ import org.assertj.core.api.AbstractUriAssert;
 import org.assertj.core.api.AbstractUrlAssert;
 import org.assertj.core.api.AbstractYearMonthAssert;
 import org.assertj.core.api.AbstractZonedDateTimeAssert;
+import org.assertj.core.api.AssertDelegateTarget;
+import org.assertj.core.api.AssertProvider;
 import org.assertj.core.api.AtomicBooleanAssert;
 import org.assertj.core.api.AtomicIntegerArrayAssert;
 import org.assertj.core.api.AtomicIntegerAssert;
+import org.assertj.core.api.AtomicIntegerFieldUpdaterAssert;
 import org.assertj.core.api.AtomicLongArrayAssert;
 import org.assertj.core.api.AtomicLongAssert;
+import org.assertj.core.api.AtomicLongFieldUpdaterAssert;
 import org.assertj.core.api.AtomicMarkableReferenceAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceAssert;
+import org.assertj.core.api.AtomicReferenceFieldUpdaterAssert;
 import org.assertj.core.api.AtomicStampedReferenceAssert;
 import org.assertj.core.api.Boolean2DArrayAssert;
 import org.assertj.core.api.Byte2DArrayAssert;
@@ -154,6 +164,26 @@ import org.junit.jupiter.api.Test;
 class BDDAssertions_then_Test {
 
   @Test
+  void should_accept_AssertDelegateTarget() {
+    // GIVEN
+    TestAssertDelegateTarget actual = new TestAssertDelegateTarget(true);
+    // WHEN
+    TestAssertDelegateTarget result = then(actual);
+    // THEN
+    result.isCompletelyTrue();
+  }
+
+  @Test
+  void should_accept_AssertProvider() {
+    // GIVEN
+    TestAssertProvider actual = new TestAssertProvider("Test");
+    // WHEN
+    TestAssert result = then(actual);
+    // THEN
+    result.containsText("es");
+  }
+
+  @Test
   void should_accept_AtomicBoolean() {
     // GIVEN
     AtomicBoolean actual = new AtomicBoolean(false);
@@ -184,6 +214,16 @@ class BDDAssertions_then_Test {
   }
 
   @Test
+  void should_accept_AtomicIntegerFieldUpdater() {
+    // GIVEN
+    AtomicIntegerFieldUpdater<UpdaterTarget> actual = AtomicIntegerFieldUpdater.newUpdater(UpdaterTarget.class, "intValue");
+    // WHEN
+    AtomicIntegerFieldUpdaterAssert<UpdaterTarget> result = then(actual);
+    // THEN
+    result.isNotNull();
+  }
+
+  @Test
   void should_accept_AtomicLong() {
     // GIVEN
     AtomicLong actual = new AtomicLong(0L);
@@ -201,6 +241,16 @@ class BDDAssertions_then_Test {
     AtomicLongArrayAssert result = then(actual);
     // THEN
     result.containsExactly(0L, 1L);
+  }
+
+  @Test
+  void should_accept_AtomicLongFieldUpdater() {
+    // GIVEN
+    AtomicLongFieldUpdater<UpdaterTarget> actual = AtomicLongFieldUpdater.newUpdater(UpdaterTarget.class, "longValue");
+    // WHEN
+    AtomicLongFieldUpdaterAssert<UpdaterTarget> result = then(actual);
+    // THEN
+    result.isNotNull();
   }
 
   @Test
@@ -231,6 +281,18 @@ class BDDAssertions_then_Test {
     AtomicReferenceArrayAssert<String> result = then(actual);
     // THEN
     result.containsExactly("Yoda");
+  }
+
+  @Test
+  void should_accept_AtomicReferenceFieldUpdater() {
+    // GIVEN
+    AtomicReferenceFieldUpdater<UpdaterTarget, String> actual = AtomicReferenceFieldUpdater.newUpdater(UpdaterTarget.class,
+                                                                                                       String.class,
+                                                                                                       "stringValue");
+    // WHEN
+    AtomicReferenceFieldUpdaterAssert<String, UpdaterTarget> result = then(actual);
+    // THEN
+    result.isNotNull();
   }
 
   @Test
@@ -344,6 +406,16 @@ class BDDAssertions_then_Test {
   }
 
   @Test
+  void should_accept_char() {
+    // GIVEN
+    char actual = 'a';
+    // WHEN
+    AbstractCharacterAssert<?> result = then(actual);
+    // THEN
+    result.isLowerCase();
+  }
+
+  @Test
   void should_accept_char_2d_array() {
     // GIVEN
     char[][] actual = { { 'a', 'b' }, { 'c', 'd' } };
@@ -374,16 +446,6 @@ class BDDAssertions_then_Test {
   }
 
   @Test
-  void should_accept_char() {
-    // GIVEN
-    char actual = 'a';
-    // WHEN
-    AbstractCharacterAssert<?> result = then(actual);
-    // THEN
-    result.isLowerCase();
-  }
-
-  @Test
   void should_accept_CharSequence() {
     // GIVEN
     CharSequence actual = "Yoda";
@@ -401,6 +463,16 @@ class BDDAssertions_then_Test {
     AbstractClassAssert<?> result = then(actual);
     // THEN
     result.isPublic();
+  }
+
+  @Test
+  void should_accept_ClassLoader() {
+    // GIVEN
+    ClassLoader actual = String.class.getClassLoader();
+    // WHEN
+    ObjectAssert<ClassLoader> result = then(actual);
+    // THEN
+    result.isEqualTo(String.class.getClassLoader());
   }
 
   @Test
@@ -615,6 +687,16 @@ class BDDAssertions_then_Test {
   }
 
   @Test
+  void should_accept_int() {
+    // GIVEN
+    int actual = 0;
+    // WHEN
+    AbstractIntegerAssert<?> result = then(actual);
+    // THEN
+    result.isZero();
+  }
+
+  @Test
   void should_accept_int_2d_array() {
     // GIVEN
     int[][] actual = { { 0, 1 }, { 2, 3 } };
@@ -638,16 +720,6 @@ class BDDAssertions_then_Test {
   void should_accept_Integer() {
     // GIVEN
     Integer actual = 0;
-    // WHEN
-    AbstractIntegerAssert<?> result = then(actual);
-    // THEN
-    result.isZero();
-  }
-
-  @Test
-  void should_accept_int() {
-    // GIVEN
-    int actual = 0;
     // WHEN
     AbstractIntegerAssert<?> result = then(actual);
     // THEN
@@ -825,6 +897,16 @@ class BDDAssertions_then_Test {
   }
 
   @Test
+  void should_accept_Object() {
+    // GIVEN
+    Object actual = new Object();
+    // WHEN
+    ObjectAssert<Object> result = then(actual);
+    // THEN
+    result.isNotNull();
+  }
+
+  @Test
   void should_accept_object_2d_array() {
     // GIVEN
     String[][] actual = { { "Yoda", "Luke" }, { "Anakin", "Leia" } };
@@ -842,26 +924,6 @@ class BDDAssertions_then_Test {
     ObjectArrayAssert<String> result = then(actual);
     // THEN
     result.containsExactly("Yoda", "Luke");
-  }
-
-  @Test
-  void should_accept_Object() {
-    // GIVEN
-    Object actual = new Object();
-    // WHEN
-    ObjectAssert<Object> result = then(actual);
-    // THEN
-    result.isNotNull();
-  }
-
-  @Test
-  void should_accept_ClassLoader() {
-    // GIVEN
-    ClassLoader actual = String.class.getClassLoader();
-    // WHEN
-    ObjectAssert<ClassLoader> result = then(actual);
-    // THEN
-    result.isEqualTo(String.class.getClassLoader());
   }
 
   @Test
@@ -1075,6 +1137,16 @@ class BDDAssertions_then_Test {
   }
 
   @Test
+  void should_accept_Year() {
+    // GIVEN
+    Year actual = Year.of(2026);
+    // WHEN
+    AbstractComparableAssert<?, Year> result = then(actual);
+    // THEN
+    result.isLessThan(Year.of(2027));
+  }
+
+  @Test
   void should_accept_YearMonth() {
     // GIVEN
     YearMonth actual = YearMonth.now();
@@ -1092,6 +1164,44 @@ class BDDAssertions_then_Test {
     AbstractZonedDateTimeAssert<?> result = then(actual);
     // THEN
     result.isBeforeOrEqualTo(ZonedDateTime.now());
+  }
+
+  private record TestAssertDelegateTarget(boolean value) implements AssertDelegateTarget {
+
+    void isCompletelyTrue() {
+      then(value).isTrue();
+    }
+
+  }
+
+  private record TestAssertProvider(String text) implements AssertProvider<TestAssert> {
+
+    @Override
+    public TestAssert assertThat() {
+      return new TestAssert(this);
+    }
+
+  }
+
+  private static class TestAssert extends AbstractAssert<TestAssert, TestAssertProvider> {
+
+    TestAssert(TestAssertProvider actual) {
+      super(actual, TestAssert.class);
+    }
+
+    TestAssert containsText(String text) {
+      then(actual.text).contains(text);
+      return this;
+    }
+
+  }
+
+  private static class UpdaterTarget {
+
+    volatile int intValue;
+    volatile long longValue;
+    volatile String stringValue;
+
   }
 
 }

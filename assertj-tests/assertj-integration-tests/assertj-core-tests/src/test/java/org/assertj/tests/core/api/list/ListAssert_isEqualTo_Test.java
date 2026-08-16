@@ -16,6 +16,7 @@
 package org.assertj.tests.core.api.list;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoInteractions;
 
@@ -33,6 +34,50 @@ class ListAssert_isEqualTo_Test {
     assertThat(actual).isEqualTo(actual);
     // THEN
     verifyNoInteractions(actual);
+  }
+
+  @Test
+  void should_pass_with_stream_when_using_element_comparator_on_fields() {
+    // GIVEN
+    Foo foo1 = new Foo("id", 1);
+    foo1._f2 = "foo1";
+    Foo foo2 = new Foo("id", 2);
+    foo2._f2 = "foo1";
+    // WHEN/THEN
+    assertThat(Stream.of(foo1)).usingElementComparatorOnFields("_f2")
+                               .isEqualTo(newArrayList(foo2));
+    assertThat(Stream.of(foo1)).usingElementComparatorOnFields("id")
+                               .isEqualTo(newArrayList(foo2));
+  }
+
+  @Test
+  void should_pass_with_stream_when_using_element_comparator_ignoring_fields() {
+    // GIVEN
+    Foo actual = new Foo("id", 1);
+    Foo expected = new Foo("id", 2);
+    // WHEN/THEN
+    assertThat(Stream.of(actual)).usingElementComparatorIgnoringFields("bar")
+                                 .isEqualTo(newArrayList(expected));
+  }
+
+  public static class Foo {
+    private String id;
+    private int bar;
+    public String _f2;
+
+    Foo(String id, int bar) {
+      super();
+      this.id = id;
+      this.bar = bar;
+    }
+
+    public String getId() {
+      return id;
+    }
+
+    public int getBar() {
+      return bar;
+    }
   }
 
 }
