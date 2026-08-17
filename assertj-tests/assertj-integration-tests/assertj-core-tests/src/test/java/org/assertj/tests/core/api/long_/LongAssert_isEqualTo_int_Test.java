@@ -13,29 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.tests.core.api;
+package org.assertj.tests.core.api.long_;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.api.AbstractLongAssert;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Assertions#assertThat(long)}</code>.
- * 
- * @author Alex Ruiz
- */
-class Assertions_assertThat_with_primitive_long_Test {
+class LongAssert_isEqualTo_int_Test {
 
   @Test
-  void should_create_Assert() {
-    AbstractLongAssert<?> assertions = Assertions.assertThat(0L);
-    assertThat(assertions).isNotNull();
+  void should_pass_when_expected_int_equals_actual_long() {
+    // WHEN/THEN
+    assertThat(123L).isEqualTo(123);
   }
 
-  @Test
-  void should_pass_expected_int() {
-    Assertions.assertThat(123L).isEqualTo(123);
-  }
 }

@@ -20,42 +20,33 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
-class ListAssert_hasSize_Test {
+class ListAssert_isEmpty_Test {
 
   @Test
-  void should_pass_with_upper_bounded_stream() {
+  void should_pass_with_empty_int_stream() {
     // GIVEN
-    Stream<? extends Number> actual = Stream.of(1, 2, 3);
+    IntStream actual = IntStream.empty();
     // WHEN/THEN
-    assertThat(actual).hasSize(3);
+    assertThat(actual).isEmpty();
   }
 
   @Test
-  void should_pass_with_int_stream() {
+  void should_pass_with_empty_long_stream() {
     // GIVEN
-    IntStream actual = IntStream.of(123, 5674, 363);
+    LongStream actual = LongStream.empty();
     // WHEN/THEN
-    assertThat(actual).hasSize(3);
+    assertThat(actual).isEmpty();
   }
 
   @Test
-  void should_pass_with_long_stream() {
+  void should_pass_with_empty_double_stream() {
     // GIVEN
-    LongStream actual = LongStream.of(123L, 5674L, 363L);
+    DoubleStream actual = DoubleStream.empty();
     // WHEN/THEN
-    assertThat(actual).hasSize(3);
-  }
-
-  @Test
-  void should_pass_with_double_stream() {
-    // GIVEN
-    DoubleStream actual = DoubleStream.of(123.3, 5674.5, 363.4);
-    // WHEN/THEN
-    assertThat(actual).hasSize(3);
+    assertThat(actual).isEmpty();
   }
 
 }
