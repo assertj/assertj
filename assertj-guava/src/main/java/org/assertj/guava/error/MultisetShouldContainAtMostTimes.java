@@ -20,11 +20,9 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 import com.google.common.collect.Multiset;
 
-/**
- * Creates an error message stating that a given value appears in a {@link Multiset} more times than expected
- *
- * @author Max Daniline
- */
+/// Creates an error message stating that a given value appears in a [Multiset] more times than expected
+///
+/// @author Max Daniline
 public class MultisetShouldContainAtMostTimes extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldContainAtMostTimes(final Multiset<?> actual, final Object expected,

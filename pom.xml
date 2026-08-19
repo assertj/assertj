@@ -172,6 +172,7 @@
                 <include>src/test/java/**/*.java</include>
               </includes>
               <eclipse>
+                <version>4.40</version> <!-- FIXME evaluate removal -->
                 <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
               </eclipse>
               <importOrder>
