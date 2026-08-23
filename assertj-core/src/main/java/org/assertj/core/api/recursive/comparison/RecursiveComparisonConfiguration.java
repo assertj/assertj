@@ -801,12 +801,11 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   /**
-   * Sets whether the recursive comparison will check that actual's type is compatible with expected's type (the same applies for each field).
-   * Compatible means that the expected's type is the same or a subclass of actual's type.
+   * Sets whether the recursive comparison will fail whenever actual and expected have different types (the same applies for each field).
    * <p>
    * See {@link RecursiveComparisonAssert#withStrictTypeChecking()} for code examples.
    *
-   * @param strictTypeChecking whether the recursive comparison will check that actual's type is compatible with expected's type.
+   * @param strictTypeChecking whether the recursive comparison will fail when actual's type is not equal to expected's type.
    */
   public void strictTypeChecking(boolean strictTypeChecking) {
     this.strictTypeChecking = strictTypeChecking;
@@ -1657,12 +1656,11 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     }
 
     /**
-     * Sets whether the recursive comparison will check that actual's type is compatible with expected's type (the same applies for each field).
-     * Compatible means that the expected's type is the same or a subclass of actual's type.
+     * Sets whether the recursive comparison will fail whenever actual and expected have different types (the same applies for each field).
      * <p>
      * See {@link RecursiveComparisonAssert#withStrictTypeChecking()} for code examples.
      *
-     * @param strictTypeChecking whether the recursive comparison will check that actual's type is compatible with expected's type.
+     * @param strictTypeChecking whether the recursive comparison will fail when actual's type is not equal to expected's type.
      * @return this builder.
      */
     public Builder withStrictTypeChecking(boolean strictTypeChecking) {

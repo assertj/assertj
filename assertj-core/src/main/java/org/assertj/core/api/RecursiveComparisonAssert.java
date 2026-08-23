@@ -75,8 +75,8 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * By default, the objects to compare can be of different types but must have the same properties/fields. For example if object under test has a {@code work} field of type {@code Address},
    * the expected object to compare the object under test to must also have one, but it can of a different type like {@code AddressDto}.
    * <p>
-   * It is possible to enforce strict type checking by calling {@link #withStrictTypeChecking()} and make the comparison fail whenever the compared objects or their fields are not compatible.<br>
-   * Compatible means that the expected object/field types are the same or a subtype of actual/field types, for example if actual is an {@code Animal} and expected a {@code Dog}, they will be compared field by field in strict type checking mode.
+   * It is possible to enforce strict type checking by calling {@link #withStrictTypeChecking()} and make the comparison fail whenever the compared objects or their fields do not have the same type.<br>
+   * For example if actual is an {@code Animal} and expected a {@code Dog}, they are considered different in strict type checking mode even if they have the same field values.
    * <p>
    * <strong>Ignoring null fields in the recursive comparison</strong>
    * <p>
@@ -1494,8 +1494,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Makes the recursive comparison to check that actual's type is compatible with expected's type (and do the same for each field). <br>
-   * Compatible means that the expected's type is the same or a subclass of actual's type.
+   * Makes the recursive comparison fail whenever actual and expected have different types (and do the same for each field).
    * <p>
    * Examples:
    * <pre><code class='java'> class Person {
@@ -1541,8 +1540,8 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * detectiveSherlock.bestFriend = new Person("Watson", 1.70);
    * detectiveSherlock.busy = true;
    *
-   * // assertion succeeds as Detective inherits from Person and
-   * // only Person's fields are included into the comparison.
+   * // assertion fails as Detective is not the same type as Person even though
+   * // Detective inherits from Person and they share Person's field values.
    * assertThat(sherlock).usingRecursiveComparison()
    *                     .withStrictTypeChecking()
    *                     .isEqualTo(detectiveSherlock);</code></pre>
