@@ -22,6 +22,7 @@ import static org.assertj.tests.core.testkit.NeverEqualComparator.NEVER_EQUALS_S
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 
+import org.assertj.tests.core.api.recursive.data.Giant;
 import org.assertj.tests.core.api.recursive.data.Light;
 import org.assertj.tests.core.api.recursive.data.Person;
 import org.assertj.tests.core.api.recursive.data.TimeOffset;
@@ -111,6 +112,61 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends WithComparingFieldsInt
     // THEN
     // verifyShouldNotBeEqualComparingFieldByFieldRecursivelyCall(actual, other);
 
+  }
+
+  @Test
+  void should_pass_in_strict_type_checking_mode_when_actual_is_a_supertype_of_expected() {
+    // GIVEN
+    Person actual = new Person("John");
+    Giant expected = new Giant("John");
+    // THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .withStrictTypeChecking()
+                .isNotEqualTo(expected);
+  }
+
+  @Test
+  void should_pass_in_strict_type_checking_mode_when_actual_is_a_subtype_of_expected() {
+    // GIVEN
+    Giant actual = new Giant("John");
+    Person expected = new Person("John");
+    // THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .withStrictTypeChecking()
+                .isNotEqualTo(expected);
+  }
+
+  @Test
+  void should_pass_in_strict_type_checking_mode_when_supertype_and_subtype_have_the_same_fields() {
+    // GIVEN
+    SuperClass superClassInstance = new SuperClass("foo");
+    SubClass subClassInstance = new SubClass("foo");
+    recursiveComparisonConfiguration.strictTypeChecking(true);
+    // WHEN/THEN
+    then(superClassInstance).usingRecursiveComparison(recursiveComparisonConfiguration)
+                            .withStrictTypeChecking()
+                            .isNotEqualTo(subClassInstance);
+    then(subClassInstance).usingRecursiveComparison(recursiveComparisonConfiguration)
+                          .withStrictTypeChecking()
+                          .isNotEqualTo(superClassInstance);
+  }
+
+  static class SuperClass {
+    private final String a;
+
+    SuperClass(String a) {
+      this.a = a;
+    }
+
+    public String getA() {
+      return a;
+    }
+  }
+
+  static class SubClass extends RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test.SuperClass {
+    SubClass(String a) {
+      super(a);
+    }
   }
 
   @Test
@@ -233,7 +289,7 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends WithComparingFieldsInt
     // WHEN/THEN
     then(actual).usingRecursiveComparison()
                 .withEqualsForTypes((s, z) -> ZoneOffset.of(s).equals(z), String.class, ZoneOffset.class)
-                .withEqualsForTypes((s, t) -> false, String.class, LocalTime.class)
+                .withEqualsForTypes((_, _) -> false, String.class, LocalTime.class)
                 .isNotEqualTo(expected);
   }
 }
