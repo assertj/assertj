@@ -35,6 +35,11 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
+        <groupId>org.opentest4j</groupId>
+        <artifactId>opentest4j</artifactId>
+        <version>${opentest4j.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
         <version>${junit-framework.version}</version>
@@ -47,11 +52,6 @@
         <version>${mockito.version}</version>
         <type>pom</type>
         <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.opentest4j</groupId>
-        <artifactId>opentest4j</artifactId>
-        <version>${opentest4j.version}</version>
       </dependency>
       <dependency>
         <groupId>org.hamcrest</groupId>

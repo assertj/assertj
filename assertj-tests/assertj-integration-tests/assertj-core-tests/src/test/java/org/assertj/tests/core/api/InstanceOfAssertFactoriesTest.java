@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api;
+package org.assertj.tests.core.api;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 import static java.util.concurrent.CompletableFuture.completedFuture;
@@ -137,7 +137,6 @@ import static org.assertj.core.api.InstanceOfAssertFactories.sqlException;
 import static org.assertj.core.api.InstanceOfAssertFactories.stream;
 import static org.assertj.core.api.InstanceOfAssertFactories.throwable;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
-import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.AdditionalAnswers.delegatesTo;
@@ -209,7 +208,89 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.AbstractBigDecimalAssert;
+import org.assertj.core.api.AbstractBigIntegerAssert;
+import org.assertj.core.api.AbstractBooleanArrayAssert;
+import org.assertj.core.api.AbstractBooleanAssert;
+import org.assertj.core.api.AbstractByteArrayAssert;
+import org.assertj.core.api.AbstractByteAssert;
+import org.assertj.core.api.AbstractCharArrayAssert;
+import org.assertj.core.api.AbstractCharSequenceAssert;
+import org.assertj.core.api.AbstractCharacterAssert;
+import org.assertj.core.api.AbstractCollectionAssert;
+import org.assertj.core.api.AbstractComparableAssert;
+import org.assertj.core.api.AbstractDateAssert;
+import org.assertj.core.api.AbstractDoubleArrayAssert;
+import org.assertj.core.api.AbstractDoubleAssert;
+import org.assertj.core.api.AbstractDurationAssert;
+import org.assertj.core.api.AbstractFileAssert;
+import org.assertj.core.api.AbstractFloatArrayAssert;
+import org.assertj.core.api.AbstractFloatAssert;
+import org.assertj.core.api.AbstractInputStreamAssert;
+import org.assertj.core.api.AbstractInstantAssert;
+import org.assertj.core.api.AbstractIntArrayAssert;
+import org.assertj.core.api.AbstractIntegerAssert;
+import org.assertj.core.api.AbstractLocalDateAssert;
+import org.assertj.core.api.AbstractLocalDateTimeAssert;
+import org.assertj.core.api.AbstractLocalTimeAssert;
+import org.assertj.core.api.AbstractLongArrayAssert;
+import org.assertj.core.api.AbstractLongAssert;
+import org.assertj.core.api.AbstractOffsetDateTimeAssert;
+import org.assertj.core.api.AbstractOffsetTimeAssert;
+import org.assertj.core.api.AbstractPathAssert;
+import org.assertj.core.api.AbstractPeriodAssert;
+import org.assertj.core.api.AbstractShortArrayAssert;
+import org.assertj.core.api.AbstractShortAssert;
+import org.assertj.core.api.AbstractStringAssert;
+import org.assertj.core.api.AbstractThrowableAssert;
+import org.assertj.core.api.AbstractUriAssert;
+import org.assertj.core.api.AbstractUrlAssert;
+import org.assertj.core.api.AbstractYearMonthAssert;
+import org.assertj.core.api.AbstractZonedDateTimeAssert;
 import org.assertj.core.api.AssertFactory.ValueProvider;
+import org.assertj.core.api.AtomicBooleanAssert;
+import org.assertj.core.api.AtomicIntegerArrayAssert;
+import org.assertj.core.api.AtomicIntegerAssert;
+import org.assertj.core.api.AtomicIntegerFieldUpdaterAssert;
+import org.assertj.core.api.AtomicLongArrayAssert;
+import org.assertj.core.api.AtomicLongAssert;
+import org.assertj.core.api.AtomicLongFieldUpdaterAssert;
+import org.assertj.core.api.AtomicMarkableReferenceAssert;
+import org.assertj.core.api.AtomicReferenceArrayAssert;
+import org.assertj.core.api.AtomicReferenceAssert;
+import org.assertj.core.api.AtomicReferenceFieldUpdaterAssert;
+import org.assertj.core.api.AtomicStampedReferenceAssert;
+import org.assertj.core.api.Boolean2DArrayAssert;
+import org.assertj.core.api.Byte2DArrayAssert;
+import org.assertj.core.api.Char2DArrayAssert;
+import org.assertj.core.api.ClassAssert;
+import org.assertj.core.api.CompletableFutureAssert;
+import org.assertj.core.api.Double2DArrayAssert;
+import org.assertj.core.api.DoublePredicateAssert;
+import org.assertj.core.api.Float2DArrayAssert;
+import org.assertj.core.api.FutureAssert;
+import org.assertj.core.api.HashSetAssert;
+import org.assertj.core.api.Int2DArrayAssert;
+import org.assertj.core.api.IntPredicateAssert;
+import org.assertj.core.api.IterableAssert;
+import org.assertj.core.api.IteratorAssert;
+import org.assertj.core.api.ListAssert;
+import org.assertj.core.api.Long2DArrayAssert;
+import org.assertj.core.api.LongAdderAssert;
+import org.assertj.core.api.LongPredicateAssert;
+import org.assertj.core.api.MapAssert;
+import org.assertj.core.api.MatcherAssert;
+import org.assertj.core.api.Object2DArrayAssert;
+import org.assertj.core.api.ObjectArrayAssert;
+import org.assertj.core.api.ObjectAssert;
+import org.assertj.core.api.OptionalAssert;
+import org.assertj.core.api.OptionalDoubleAssert;
+import org.assertj.core.api.OptionalIntAssert;
+import org.assertj.core.api.OptionalLongAssert;
+import org.assertj.core.api.PredicateAssert;
+import org.assertj.core.api.Short2DArrayAssert;
+import org.assertj.core.api.SpliteratorAssert;
+import org.assertj.core.api.TemporalAssert;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.assertj.core.util.Strings;
@@ -3279,7 +3360,7 @@ class InstanceOfAssertFactoriesTest {
   @Nested
   class Map_Factory {
 
-    private final Object actual = mapOf(entry("key", "value"));
+    private final Object actual = Map.of("key", "value");
 
     @Test
     void createAssert() {

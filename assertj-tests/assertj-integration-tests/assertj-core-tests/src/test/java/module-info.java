@@ -30,6 +30,7 @@ open module org.assertj.tests.core {
   requires org.opentest4j;
   requires org.junit.jupiter.api;
   requires org.apache.commons.collections4;
+  requires spring.core;
 
   provides org.junit.jupiter.api.extension.Extension with org.assertj.tests.core.testkit.ResetGlobalConfigurationExtension;
 }
