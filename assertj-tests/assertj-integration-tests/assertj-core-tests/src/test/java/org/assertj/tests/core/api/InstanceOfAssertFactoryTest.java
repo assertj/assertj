@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api;
+package org.assertj.tests.core.api;
 
 import static java.lang.Class.forName;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,7 +31,11 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Collections;
 import java.util.List;
 
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.Assert;
+import org.assertj.core.api.AssertFactory;
 import org.assertj.core.api.AssertFactory.ValueProvider;
+import org.assertj.core.api.InstanceOfAssertFactory;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -249,7 +253,7 @@ class InstanceOfAssertFactoryTest {
   @SafeVarargs
   private static <T> T mockThatDelegatesTo(T delegate, T... reified) {
     if (reified.length > 0) {
-      throw new IllegalArgumentException("NioJava will detect class automagically.");
+      throw new IllegalArgumentException("Java will detect class automagically.");
     }
     return mock((Class<T>) reified.getClass().getComponentType(), delegatesTo(delegate));
   }
