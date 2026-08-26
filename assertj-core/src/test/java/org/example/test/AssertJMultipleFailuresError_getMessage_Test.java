@@ -52,7 +52,7 @@ class AssertJMultipleFailuresError_getMessage_Test {
     softly.assertThat(list("a", "b", "c")).as("contains").contains("e").doesNotContain("a");
     softly.assertThat(list("a", "b", "c")).contains("e").doesNotContain("a");
     // WHEN
-    AssertionError error = expectAssertionError(() -> softly.assertAll());
+    AssertionError error = expectAssertionError(softly::assertAll);
     // THEN
     then(error).hasMessageContainingAll(format("%nMultiple Failures (10 failures)%n"),
                                         format("-- failure 1 --%n"),
@@ -65,7 +65,7 @@ class AssertJMultipleFailuresError_getMessage_Test {
                                         format("-- failure 4 --%n"),
                                         format("[isEmpty string] %n"),
                                         format("Expecting empty but was: \"abc\"%n"),
-                                        format("-- failure 5 --"),
+                                        "-- failure 5 --",
                                         format(shouldBeEqualMessage("\"abc\"", "\"bcd\"") + "%n"),
                                         format("-- failure 6 --%n"),
                                         format(shouldBeEqualMessage("isEqualTo", "\"abc\"", "\"bcd\"") + "%n"),
@@ -114,7 +114,7 @@ class AssertJMultipleFailuresError_getMessage_Test {
     softly.assertThat("abc").as("isEmpty string").isEmpty();
     softly.assertThat("abc").isEqualTo("bcd");
     // WHEN
-    AssertionError error = expectAssertionError(() -> softly.assertAll());
+    AssertionError error = expectAssertionError(softly::assertAll);
     // THEN
     // @format:off
     then(error).isInstanceOf(AssertJMultipleFailuresError.class)
@@ -155,6 +155,21 @@ class AssertJMultipleFailuresError_getMessage_Test {
     AssertJMultipleFailuresError error = new AssertJMultipleFailuresError("", list(assertionError));
     // THEN
     then(error).hasStackTraceContaining("AssertJMultipleFailuresError_getMessage_Test.java:153");
+  }
+
+  @Test
+  void should_describe_the_cause_of_errors_having_one() {
+    // GIVEN
+    AssertionError errorWithCause = new AssertionError("boom", new RuntimeException("root cause"));
+    AssertionError errorWithoutCause = new AssertionError("no cause");
+    AssertJMultipleFailuresError error = new AssertJMultipleFailuresError("", list(errorWithCause, errorWithoutCause));
+    // WHEN
+    String message = error.getMessage();
+    // THEN
+    then(message).contains("-- failure 1 --",
+                           "boom", "cause message: root cause", "cause first five stack trace elements:",
+                           "-- failure 2 --", "no cause")
+                 .containsOnlyOnce("cause message:");
   }
 
 }
