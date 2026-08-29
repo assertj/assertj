@@ -157,4 +157,19 @@ class AssertJMultipleFailuresError_getMessage_Test {
     then(error).hasStackTraceContaining("AssertJMultipleFailuresError_getMessage_Test.java:153");
   }
 
+  @Test
+  void should_describe_the_cause_of_errors_having_one() {
+    // GIVEN
+    AssertionError errorWithCause = new AssertionError("boom");
+    errorWithCause.initCause(new RuntimeException("root cause"));
+    AssertionError errorWithoutCause = new AssertionError("no cause");
+    AssertJMultipleFailuresError error = new AssertJMultipleFailuresError("", list(errorWithCause, errorWithoutCause));
+    // WHEN
+    String message = error.getMessage();
+    // THEN
+    then(message).contains("-- failure 1 --", "boom", "cause message: root cause", "cause first five stack trace elements:")
+                 .contains("-- failure 2 --", "no cause")
+                 .containsOnlyOnce("cause message:");
+  }
+
 }

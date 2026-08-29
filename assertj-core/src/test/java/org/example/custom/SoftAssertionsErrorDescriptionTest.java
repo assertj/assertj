@@ -36,6 +36,7 @@ public class SoftAssertionsErrorDescriptionTest {
                                                     + "-- failure 1 --"
                                                     + "failure%n"
                                                     + "at SoftAssertionsErrorDescriptionTest.should_display_the_error_cause_and_the_cause_first_stack_trace_elements(SoftAssertionsErrorDescriptionTest.java:31)"));
+    assertThat(error).hasMessageContainingAll("cause message: abc", "cause first five stack trace elements:");
   }
 
   protected static RuntimeException throwRuntimeException() {
