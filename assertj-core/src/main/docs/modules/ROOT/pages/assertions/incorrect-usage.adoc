@@ -1,0 +1,116 @@
+[[incorrect-usage]]
+= Avoiding incorrect usage
+
+There are a few things to keep in mind when using AssertJ to avoid misusing it.
+
+== Forgetting to call an assertion
+
+The main trap is to pass the object under test to `assertThat()` and forget to call an assertion afterward.
+This misuse can be detected by multiple static code analysis tools:
+
+* https://spotbugs.github.io/[SpotBugs] or http://findbugs.sourceforge.net/[FindBugs] with the https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#rv-method-ignores-return-value-is-this-ok-rv-return-value-ignored-inferred[`RV_RETURN_VALUE_IGNORED_INFERRED`] rule
+* https://www.sonarsource.com/products/sonarqube/[SonarQube] with the https://sonarsource.atlassian.net/browse/RSPEC-2970[`Assertions should be complete (S2970)`] rule
+* other tools that can evaluate whether calls to methods annotated with the `@CheckReturnValue` annotation are done correctly.
+
+Here's what it looks like in SpotBugs:
+[#img-sunset]
+.SpotBugs detecting AssertJ invalid usage
+image::spotbugs-invalid-assertj-usage-detection.png[SpotBugs detecting AssertJ invalid usage]
+
+The following examples show incorrect AssertJ API usage to avoid!
+
+[.bad]#Bad#
+[source,java,indent=0]
+----
+// DON'T DO THIS ! It does not assert anything
+assertThat(actual.equals(expected));
+----
+
+[.good]#Good#
+[source,java,indent=0]
+----
+// DO THIS:
+assertThat(actual).isEqualTo(expected);
+
+// OR THIS (less classy but ok):
+assertThat(actual.equals(expected)).isTrue();
+----
+
+[.bad]#Bad#
+[source,java,indent=0]
+----
+// DON'T DO THIS ! It does not assert anything and passes
+assertThat(1 == 2);
+
+----
+
+[.good]#Good#
+[source,java,indent=0]
+----
+// DO THIS: (fails as expected)
+assertThat(1).isEqualTo(2);
+
+// OR THIS (less classy but ok):
+assertThat(1 == 2).isTrue();
+----
+
+== Calling as() after the assertion
+
+Describing an assertion must be done before calling the assertion.
+Otherwise it is ignored as a failing assertion will prevent the call to `as()`.
+
+[.bad]#Bad#
+[source,java,indent=0]
+----
+// DON'T DO THIS ! as/describedAs have no effect after the assertion
+assertThat(actual).isEqualTo(expected).as("description");
+assertThat(actual).isEqualTo(expected).describedAs("description");
+----
+
+[.good]#Good#
+[source,java,indent=0]
+----
+// DO THIS: use as/describedAs before the assertion
+assertThat(actual).as("description").isEqualTo(expected);
+assertThat(actual).describedAs("description").isEqualTo(expected);
+----
+
+== Calling withFailMessage/overridingErrorMessage after the assertion
+
+Setting an error message must be done before calling the assertion.
+Otherwise it is ignored as a failing assertion will prevent the call to `withFailMessage()` / `overridingErrorMessage()`.
+
+[.bad]#Bad#
+[source,java,indent=0]
+----
+// DON'T DO THIS ! overridingErrorMessage/withFailMessage have no effect after the assertion
+assertThat(actual).isEqualTo(expected).overridingErrorMessage("custom error message");
+assertThat(actual).isEqualTo(expected).withFailMessage("custom error message");
+----
+
+[.good]#Good#
+[source,java,indent=0]
+----
+// DO THIS: use overridingErrorMessage/withFailMessage before the assertion
+assertThat(actual).overridingErrorMessage("custom error message").isEqualTo(expected);
+assertThat(actual).withFailMessage("custom error message").isEqualTo(expected);
+----
+
+== Setting a comparator after the assertion
+
+Setting comparators must be done before calling the assertion.
+Otherwise it is ignored as a failing assertion will prevent the call to `usingComparator()` / `usingElementComparator()`.
+
+[.bad]#Bad#
+[source,java,indent=0]
+----
+// DON'T DO THIS ! Comparator is not used
+assertThat(actual).isEqualTo(expected).usingComparator(new CustomComparator());
+----
+
+[.good]#Good#
+[source,java,indent=0]
+----
+// DO THIS:
+assertThat(actual).usingComparator(new CustomComparator()).isEqualTo("a");
+----

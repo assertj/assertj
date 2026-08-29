@@ -1,0 +1,107 @@
+= Supported type assertions
+
+AssertJ provides assertions specific to the object under test type, the following sections list the supported types grouped by categories.
+
+The provided assertions for each of these types are documented later on.
+
+== Common types
+
+[cols="2"]
+|===
+| BigDecimal | BigInteger
+| CharSequence | Class
+| Date | File
+| Future / CompletableFuture | InputStream
+| Iterable (including any kind of Collection) | Iterator
+| List | Map
+| Object | Object[] and Object[][]
+| Optional
+| OptionalInt /  OptionalLong / OptionalDouble
+| Path | Predicate
+| Stream
+| String  | Throwable / Exception
+| URL and URI
+|===
+
+
+== Primitive types
+
+[cols="3"]
+|====
+a| Primitive types and their wrapper:
+
+* short / Short
+* int / Integer
+* long / Long
+* byte / Byte
+* char / Character
+* float / Float
+* double / Double
+
+a| Primitive type arrays:
+
+* short[]
+* int[]
+* long[]
+* byte[]
+* char[]
+* float[]
+* double[]
+
+a| Primitive type 2D arrays:
+
+* short[][]
+* int[][]
+* long[][]
+* byte[][]
+* char[][]
+* float[][]
+* double[][]
+|====
+
+== Java 8 Temporal types
+
+[cols="2"]
+|====
+| Instant
+| LocalDate
+| LocalDateTime
+| LocalTime
+| OffsetDateTime
+| OffsetTime
+| ZonedDateTime
+| Period
+|====
+
+== Atomic types
+
+[cols="2"]
+|====
+a| Atomic basic types:
+
+* AtomicInteger
+* AtomicLong
+* AtomicBoolean
+
+a| Atomic array types:
+
+* AtomicIntegerArray
+* AtomicLongArray
+
+a| Atomic reference types:
+
+* AtomicMarkableReference
+* AtomicStampedReferenceAssert
+
+a| Atomic updater types:
+
+* AtomicIntegerFieldUpdater
+* AtomicLongFieldUpdater
+* AtomicReferenceFieldUpdater
+
+a| Adder types:
+
+* LongAdder
+
+a|
+|====
