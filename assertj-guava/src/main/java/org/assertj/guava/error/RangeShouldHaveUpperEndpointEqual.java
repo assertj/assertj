@@ -34,12 +34,10 @@ public class RangeShouldHaveUpperEndpointEqual extends BasicErrorMessageFactory 
                                                  actual, value, actual.upperEndpoint());
   }
 
-  /**
-   * Creates a new <code>{@link org.assertj.core.error.BasicErrorMessageFactory}</code>.
-   *
-   * @param format the format string.
-   * @param arguments arguments referenced by the format specifiers in the format string.
-   */
+  /// Creates a new `[org.assertj.core.error.BasicErrorMessageFactory]`.
+  ///
+  /// @param format the format string.
+  /// @param arguments arguments referenced by the format specifiers in the format string.
   private RangeShouldHaveUpperEndpointEqual(final String format, final Object... arguments) {
     super(format, arguments);
   }
