@@ -121,7 +121,7 @@
     <rootDirectory>${project.basedir}</rootDirectory>
     <spotless.skip>true</spotless.skip>
     <!-- Plugin versions -->
-    <arcmutate-pitest.version>2.3.3</arcmutate-pitest.version>
+    <arcmutate-pitest.version>2.3.4</arcmutate-pitest.version>
     <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
     <flatten-maven-plugin.version>1.8.0</flatten-maven-plugin.version>
     <license-maven-plugin.version>5.1.2</license-maven-plugin.version>
