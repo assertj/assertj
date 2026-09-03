@@ -17,6 +17,7 @@ package org.assertj.core.api;
 
 import static java.lang.String.format;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.annotation.CanIgnoreReturnValue;
@@ -110,7 +111,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   @CanIgnoreReturnValue
   @Contract("_, _ -> fail")
   public <T> T fail(String failureMessage, Throwable realCause) {
-    AssertionError error = Failures.instance().failure(failureMessage);
+    AssertionError error = Failures.instance().failure(describeFailureWithCause(failureMessage, realCause));
     error.initCause(realCause);
     collectAssertionError(error);
     return null;
@@ -130,7 +131,36 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   @CanIgnoreReturnValue
   @Contract("_ -> fail")
   public <T> T fail(Throwable realCause) {
-    return fail("", realCause);
+    AssertionError error = Failures.instance().failure("");
+    error.initCause(realCause);
+    collectAssertionError(error);
+    return null;
+  }
+
+  /**
+   * Builds the failure message for {@link #fail(String, Throwable)} so that the {@code realCause} information
+   * (its message and first five stack trace elements) is preserved and shown when the soft assertion error is
+   * reported (e.g. by {@code assertAll()}), restoring the behaviour expected per issue #864.
+   *
+   * @param failureMessage the failure message.
+   * @param realCause the cause of the error (may be {@code null}).
+   * @return the failure message augmented with the cause description when a cause is present.
+   */
+  private static String describeFailureWithCause(String failureMessage, Throwable realCause) {
+    if (realCause == null) return failureMessage;
+    StackTraceElement[] stackTrace = realCause.getStackTrace();
+    StackTraceElement[] firstElements = Arrays.copyOf(stackTrace, Math.min(5, stackTrace.length));
+    StringBuilder stackTraceDescription = new StringBuilder();
+    for (StackTraceElement stackTraceElement : firstElements) {
+      stackTraceDescription.append(format("\tat %s%n", stackTraceElement));
+    }
+    return format("%s%n" +
+                  "cause message: %s%n" +
+                  "cause first five stack trace elements:%n" +
+                  "%s",
+                  failureMessage,
+                  realCause.getMessage(),
+                  stackTraceDescription);
   }
 
   /**

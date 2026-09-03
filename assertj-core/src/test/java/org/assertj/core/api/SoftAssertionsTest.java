@@ -1053,6 +1053,19 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  void should_display_real_cause_in_aggregated_error() {
+    // GIVEN
+    String failureMessage = "failure";
+    RuntimeException realCause = new RuntimeException("abc");
+    // WHEN / THEN
+    assertThatThrownBy(() -> {
+      softly.fail(failureMessage, realCause);
+      softly.assertAll();
+    }).hasMessageContaining(failureMessage)
+      .hasMessageContaining("cause message: abc");
+  }
+
+  @Test
   void should_return_failure_after_fail_with_message_and_cause() {
     // GIVEN
     String failureMessage = "Should not reach here";
