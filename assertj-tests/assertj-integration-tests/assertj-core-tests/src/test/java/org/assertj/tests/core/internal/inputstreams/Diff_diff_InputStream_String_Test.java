@@ -19,8 +19,10 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.tests.core.internal.inputstreams.Diff_diff_InputStream_Test.stream;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.assertj.core.internal.Diff;
@@ -127,6 +129,30 @@ class Diff_diff_InputStream_String_Test {
     assertThat(diffs).hasSize(1);
     assertThat(diffs.get(0)).hasToString(format("Extra content at line 1:%n"
                                                 + "  [\"\"]%n"));
+  }
+
+  @Test
+  void should_return_diff_when_expected_has_trailing_newline_and_actual_does_not() throws IOException {
+    // GIVEN
+    actual = stream("line_0");
+    expected = "line_0" + System.lineSeparator();
+    // WHEN
+    List<Delta<String>> diffs = diff.diff(actual, expected);
+    // THEN
+    assertThat(diffs).hasSize(1);
+    assertThat(diffs.get(0)).hasToString(format("Missing content at line 2:%n"
+                                                + "  [\"\"]%n"));
+  }
+
+  @Test
+  void should_return_empty_diff_when_actual_and_expected_both_end_with_trailing_newline() throws IOException {
+    // GIVEN
+    actual = new ByteArrayInputStream(("line_0" + System.lineSeparator()).getBytes(StandardCharsets.US_ASCII));
+    expected = "line_0" + System.lineSeparator();
+    // WHEN
+    List<Delta<String>> diffs = diff.diff(actual, expected);
+    // THEN
+    assertThat(diffs).isEmpty();
   }
 
   static String joinLines(String... lines) {
