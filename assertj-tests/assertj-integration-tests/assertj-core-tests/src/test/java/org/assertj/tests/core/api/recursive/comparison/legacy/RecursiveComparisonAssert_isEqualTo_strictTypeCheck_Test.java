@@ -115,6 +115,47 @@ class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
   }
 
   @Test
+  void should_fail_in_strict_type_checking_mode_when_actual_is_a_supertype_of_expected() {
+    // GIVEN
+    Person actual = new Person("John");
+    Giant expected = new Giant("John");
+    recursiveComparisonConfiguration.strictTypeChecking(true);
+
+    // WHEN/THEN
+    ComparisonDifference difference = diff("", actual, expected,
+                                           "the compared values are considered different since the recursive comparison enforces strict type checking and the actual value type org.assertj.tests.core.api.recursive.data.Person is not equal to the expected value type org.assertj.tests.core.api.recursive.data.Giant");
+    compareRecursivelyFailsWithDifferences(actual, expected, difference);
+  }
+
+  @Test
+  void should_fail_in_strict_type_checking_mode_when_actual_is_a_subtype_of_expected() {
+    // GIVEN
+    Giant actual = new Giant("John");
+    Person expected = new Person("John");
+    recursiveComparisonConfiguration.strictTypeChecking(true);
+
+    // WHEN/THEN
+    ComparisonDifference difference = diff("", actual, expected,
+                                           "the compared values are considered different since the recursive comparison enforces strict type checking and the actual value type org.assertj.tests.core.api.recursive.data.Giant is not equal to the expected value type org.assertj.tests.core.api.recursive.data.Person");
+    compareRecursivelyFailsWithDifferences(actual, expected, difference);
+  }
+
+  @Test
+  void should_fail_in_strict_type_checking_mode_when_nested_actual_field_is_a_supertype_of_expected() {
+    // GIVEN
+    Person actual = new Person("John");
+    actual.neighbour = new Person("Jack");
+    Person expected = new Person("John");
+    expected.neighbour = new Giant("Jack");
+    recursiveComparisonConfiguration.strictTypeChecking(true);
+
+    // WHEN/THEN
+    ComparisonDifference difference = diff("neighbour", actual.neighbour, expected.neighbour,
+                                           "the compared values are considered different since the recursive comparison enforces strict type checking and the actual value type org.assertj.tests.core.api.recursive.data.Person is not equal to the expected value type org.assertj.tests.core.api.recursive.data.Giant");
+    compareRecursivelyFailsWithDifferences(actual, expected, difference);
+  }
+
+  @Test
   void should_fail_in_strict_type_checking_mode_when_actual_and_expected_fields_have_the_same_data_but_incompatible_types() {
     // GIVEN
     Something withA = new Something(new A(10));

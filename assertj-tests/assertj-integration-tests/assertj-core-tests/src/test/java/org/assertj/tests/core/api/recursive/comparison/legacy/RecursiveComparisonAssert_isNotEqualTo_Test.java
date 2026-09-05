@@ -22,6 +22,7 @@ import static org.assertj.tests.core.testkit.NeverEqualComparator.NEVER_EQUALS_S
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 
+import org.assertj.tests.core.api.recursive.data.Giant;
 import org.assertj.tests.core.api.recursive.data.Light;
 import org.assertj.tests.core.api.recursive.data.Person;
 import org.assertj.tests.core.api.recursive.data.TimeOffset;
@@ -111,6 +112,28 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends WithLegacyIntrospectio
     // THEN
     // verifyShouldNotBeEqualComparingFieldByFieldRecursivelyCall(actual, other);
 
+  }
+
+  @Test
+  void should_pass_in_strict_type_checking_mode_when_actual_is_a_supertype_of_expected() {
+    // GIVEN
+    Person actual = new Person("John");
+    Giant expected = new Giant("John");
+    // THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .withStrictTypeChecking()
+                .isNotEqualTo(expected);
+  }
+
+  @Test
+  void should_pass_in_strict_type_checking_mode_when_actual_is_a_subtype_of_expected() {
+    // GIVEN
+    Giant actual = new Giant("John");
+    Person expected = new Person("John");
+    // THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .withStrictTypeChecking()
+                .isNotEqualTo(expected);
   }
 
   @Test
