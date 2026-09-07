@@ -63,6 +63,16 @@ class ComparingProperties_getChildNodeValue_Test {
     then(COMPARING_PROPERTIES.getChildNodeValue("char", node)).isEqualTo('x');
   }
 
+  @Test
+  void should_use_record_getter_but_not_regular_getters() {
+    // GIVEN
+    FooRecord foo = new FooRecord(1, 22, "foo");
+    // WHEN
+    var name = COMPARING_PROPERTIES.getChildNodeValue("name", foo);
+    // THEN (would have failed is getName() was used as it returns a random value)
+    then(name).isEqualTo(foo.name());
+  }
+
   @SuppressWarnings("unused")
   static class Properties {
 
@@ -70,7 +80,7 @@ class ComparingProperties_getChildNodeValue_Test {
 
     public static Object getPublicStaticValue() {
       return "public Static value";
-    };
+    }
 
     protected Object getProtectedValue() {
       return "protectedValue value";

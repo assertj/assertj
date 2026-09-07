@@ -27,6 +27,16 @@ import org.junit.jupiter.api.Test;
 class ComparingProperties_getChildrenNodeNamesOf_Test {
 
   @Test
+  void getChildrenNodeNamesOf_return_all_record_properties_names() {
+    // GIVEN
+    FooRecord foo = new FooRecord(1, 22, "foo");
+    // WHEN
+    Set<String> nodeNames = COMPARING_PROPERTIES.getChildrenNodeNamesOf(foo);
+    // THEN
+    then(nodeNames).containsExactlyInAnyOrder("id", "num", "name");
+  }
+
+  @Test
   void getChildrenNodeNamesOf_return_all_properties_names() {
     // GIVEN
     Properties node = new Properties();
@@ -65,7 +75,7 @@ class ComparingProperties_getChildrenNodeNamesOf_Test {
 
   static class Properties {
 
-    // non readable
+    // non-readable
 
     public static Object getPublicStaticValue() {
       return "public Static value";
