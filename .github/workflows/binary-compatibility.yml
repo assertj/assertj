@@ -11,7 +11,7 @@ on:
 permissions: {}
 
 env:
-  MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always -DskipTests
+  MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always -Dkover.skip=true -DskipTests
 
 jobs:
   verify-with-base:
