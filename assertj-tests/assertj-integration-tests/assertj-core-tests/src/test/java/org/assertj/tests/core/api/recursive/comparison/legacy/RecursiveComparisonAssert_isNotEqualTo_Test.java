@@ -15,9 +15,12 @@
  */
 package org.assertj.tests.core.api.recursive.comparison.legacy;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotBeEqualComparingFieldByFieldRecursively.shouldNotBeEqualComparingFieldByFieldRecursively;
 import static org.assertj.tests.core.api.recursive.data.Color.GREEN;
 import static org.assertj.tests.core.testkit.NeverEqualComparator.NEVER_EQUALS_STRING;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.LocalTime;
 import java.time.ZoneOffset;
@@ -25,6 +28,7 @@ import java.time.ZoneOffset;
 import org.assertj.tests.core.api.recursive.data.Giant;
 import org.assertj.tests.core.api.recursive.data.Light;
 import org.assertj.tests.core.api.recursive.data.Person;
+import org.assertj.tests.core.api.recursive.data.PersonDto;
 import org.assertj.tests.core.api.recursive.data.TimeOffset;
 import org.assertj.tests.core.api.recursive.data.TimeOffsetDto;
 import org.assertj.tests.core.testkit.CartoonCharacter;
@@ -39,10 +43,8 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends WithLegacyIntrospectio
     Person actual = null;
     Person other = new Person();
     // THEN
-    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                .isNotEqualTo(other);
-    then(other).usingRecursiveComparison(recursiveComparisonConfiguration)
-               .isNotEqualTo(actual);
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration).isNotEqualTo(other);
+    then(other).usingRecursiveComparison(recursiveComparisonConfiguration).isNotEqualTo(actual);
   }
 
   @Test
@@ -51,9 +53,10 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends WithLegacyIntrospectio
     Person actual = null;
     Person other = null;
     // WHEN
-    // areNotEqualRecursiveComparisonFailsAsExpected(actual, other);
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .isNotEqualTo(other));
     // THEN
-    // verifyShouldNotBeEqualComparingFieldByFieldRecursivelyCall(actual, other);
+    then(assertionError).hasMessage(shouldNotBeEqualComparingFieldByFieldRecursivelyMessage(actual, other));
   }
 
   @Test
@@ -73,33 +76,36 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends WithLegacyIntrospectio
     Jedi other = new Jedi("Yoda", null);
     recursiveComparisonConfiguration.ignoreFields("name");
     // WHEN
-    // areNotEqualRecursiveComparisonFailsAsExpected(actual, other);
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .isNotEqualTo(other));
     // THEN
-    // verifyShouldNotBeEqualComparingFieldByFieldRecursivelyCall(actual, other);
+    then(assertionError).hasMessage(shouldNotBeEqualComparingFieldByFieldRecursivelyMessage(actual, other));
   }
 
   @Test
-  void should_fail_when_fields_are_equal_even_if_objects_types_differ() {
+  void should_fail_when_fields_are_equal_but_objects_types_differ() {
     // GIVEN
-    CartoonCharacter actual = new CartoonCharacter("Homer Simpson");
+    PersonDto actual = new PersonDto("Homer Simpson");
     Person other = new Person("Homer Simpson");
     recursiveComparisonConfiguration.ignoreFields("children");
     // WHEN
-    // areNotEqualRecursiveComparisonFailsAsExpected(actual, other);
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .isNotEqualTo(other));
     // THEN
-    // verifyShouldNotBeEqualComparingFieldByFieldRecursivelyCall(actual, other);
+    then(assertionError).hasMessage(shouldNotBeEqualComparingFieldByFieldRecursivelyMessage(actual, other));
   }
 
   @Test
-  void should_fail_when_all_field_values_equal() {
+  void should_fail_when_all_non_ignored_field_values_are_equal() {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Green");
     recursiveComparisonConfiguration.ignoreFields("name");
-    //
-    // areNotEqualRecursiveComparisonFailsAsExpected(actual, other);
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .isNotEqualTo(other));
     // THEN
-    // verifyShouldNotBeEqualComparingFieldByFieldRecursivelyCall(actual, other);
+    then(assertionError).hasMessage(shouldNotBeEqualComparingFieldByFieldRecursivelyMessage(actual, other));
   }
 
   @Test
@@ -108,10 +114,10 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends WithLegacyIntrospectio
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
     // WHEN
-    // areNotEqualRecursiveComparisonFailsAsExpected(actual, other);
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .isNotEqualTo(other));
     // THEN
-    // verifyShouldNotBeEqualComparingFieldByFieldRecursivelyCall(actual, other);
-
+    then(assertionError).hasMessage(shouldNotBeEqualComparingFieldByFieldRecursivelyMessage(actual, other));
   }
 
   @Test
@@ -183,7 +189,7 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends WithLegacyIntrospectio
   void should_be_able_to_use_a_comparator_for_specified_type() {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
-    Jedi other = new Jedi(new String("Yoda"), "Green");
+    Jedi other = new Jedi("Yoda", "Green");
     // THEN
     then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withComparatorForType(NEVER_EQUALS_STRING, String.class)
@@ -194,10 +200,10 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends WithLegacyIntrospectio
   void should_be_able_to_use_a_BiPredicate_to_compare_specified_type() {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
-    Jedi other = new Jedi(new String("Yoda"), "Green");
+    Jedi other = new Jedi("Yoda", "Green");
     // THEN
     then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                .withEqualsForType((o1, o2) -> false, String.class)
+                .withEqualsForType((_, _) -> false, String.class)
                 .isNotEqualTo(other);
   }
 
@@ -216,7 +222,7 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends WithLegacyIntrospectio
   void should_be_able_to_use_a_comparator_for_specified_fields() {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
-    Jedi other = new Jedi("Yoda", new String("Green"));
+    Jedi other = new Jedi("Yoda", "Green");
     // THEN
     then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withComparatorForFields(NEVER_EQUALS_STRING, "lightSaberColor")
@@ -227,10 +233,10 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends WithLegacyIntrospectio
   void should_be_able_to_use_a_BiPredicate_for_specified_fields() {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
-    Jedi other = new Jedi("Yoda", new String("Green"));
+    Jedi other = new Jedi("Yoda", "Green");
     // THEN
     then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                .withEqualsForFields((o1, o2) -> false, "lightSaberColor")
+                .withEqualsForFields((_, _) -> false, "lightSaberColor")
                 .isNotEqualTo(other);
   }
 
@@ -256,7 +262,7 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends WithLegacyIntrospectio
     expected.time = actual.time.toString();
     // WHEN/THEN
     then(actual).usingRecursiveComparison()
-                .withEqualsForTypes((t, s) -> false, LocalTime.class, String.class)
+                .withEqualsForTypes((_, _) -> false, LocalTime.class, String.class)
                 .isNotEqualTo(expected);
   }
 
@@ -272,7 +278,7 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends WithLegacyIntrospectio
     // WHEN/THEN
     then(actual).usingRecursiveComparison()
                 .withEqualsForTypes((z, s) -> ZoneOffset.of(s).equals(z), ZoneOffset.class, String.class)
-                .withEqualsForTypes((t, s) -> false, LocalTime.class, String.class)
+                .withEqualsForTypes((_, _) -> false, LocalTime.class, String.class)
                 .isNotEqualTo(expected);
   }
 
@@ -289,7 +295,13 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends WithLegacyIntrospectio
     // WHEN/THEN
     then(actual).usingRecursiveComparison()
                 .withEqualsForTypes((s, z) -> ZoneOffset.of(s).equals(z), String.class, ZoneOffset.class)
-                .withEqualsForTypes((s, t) -> false, String.class, LocalTime.class)
+                .withEqualsForTypes((_, _) -> false, String.class, LocalTime.class)
                 .isNotEqualTo(expected);
+  }
+
+  private String shouldNotBeEqualComparingFieldByFieldRecursivelyMessage(Object actual, Object other) {
+    return shouldNotBeEqualComparingFieldByFieldRecursively(actual, other,
+                                                            recursiveComparisonConfiguration,
+                                                            recursiveComparisonConfiguration.getRepresentation()).create();
   }
 }
