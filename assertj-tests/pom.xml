@@ -37,6 +37,9 @@
           <rules combine.children="append">
             <bannedDependencies>
               <includes>
+                <include>net.bytebuddy:byte-buddy:*:jar:compile</include>
+                <include>org.assertj:assertj-core:*:jar:compile</include>
+                <include>org.assertj:assertj-guava:*:jar:compile</include>
                 <include>*:*:*:jar:test</include>
               </includes>
               <excludes>
