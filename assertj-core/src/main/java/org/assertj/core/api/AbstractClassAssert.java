@@ -35,6 +35,8 @@ import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
 import static org.assertj.core.error.ShouldBeSealed.shouldBeSealed;
 import static org.assertj.core.error.ShouldBeSealed.shouldNotBeSealed;
+import static org.assertj.core.error.ShouldHaveEnclosingClass.shouldHaveEnclosingClass;
+import static org.assertj.core.error.ShouldHaveNoEnclosingClass.shouldHaveNoEnclosingClass;
 import static org.assertj.core.error.ShouldHaveNoPackage.shouldHaveNoPackage;
 import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
 import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
@@ -785,6 +787,105 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
+   * Verifies that the actual {@code Class} has the given class as direct enclosing class (as in
+   * {@link Class#getEnclosingClass()}).
+   * <p>
+   * The expected {@code enclosingClass} should always be not {@code null}. To verify the absence of the enclosing class,
+   * use {@link #hasNoEnclosingClass()}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class Outer {
+   *
+   *   static class Nested { }
+   *
+   *   class Inner { }
+   *
+   *   static Class&lt;?&gt; local() {
+   *     class Local { }
+   *     return Local.class;
+   *   }
+   *
+   *   static Class&lt;?&gt; anonymous() {
+   *     return new Object() { }.getClass();
+   *   }
+   * }
+   *
+   * // these assertions succeed:
+   * assertThat(Outer.Nested.class).hasEnclosingClass(Outer.class);
+   * assertThat(Outer.Inner.class).hasEnclosingClass(Outer.class);
+   * assertThat(Outer.local()).hasEnclosingClass(Outer.class);
+   * assertThat(Outer.anonymous()).hasEnclosingClass(Outer.class);
+   *
+   * // this assertion fails as top-level classes have no enclosing class:
+   * assertThat(Outer.class).hasEnclosingClass(Object.class);
+   *
+   * // this assertion fails as only the direct enclosing class matches:
+   * assertThat(Map.Entry.class).hasEnclosingClass(Object.class);</code></pre>
+   *
+   * @param enclosingClass the class which must be the direct enclosing class of actual.
+   * @return {@code this} assertions object
+   * @throws NullPointerException if {@code enclosingClass} is {@code null}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't have the given class as direct enclosing class.
+   * @since 3.28.0
+   * @see #hasNoEnclosingClass()
+   */
+  public SELF hasEnclosingClass(Class<?> enclosingClass) {
+    isNotNull();
+    assertHasEnclosingClass(enclosingClass);
+    return myself;
+  }
+
+  private void assertHasEnclosingClass(Class<?> enclosingClass) {
+    requireNonNull(enclosingClass, shouldNotBeNull("enclosingClass")::create);
+    Class<?> actualEnclosingClass = actual.getEnclosingClass();
+    if (actualEnclosingClass == null || !actualEnclosingClass.equals(enclosingClass)) {
+      throw assertionError(shouldHaveEnclosingClass(actual, enclosingClass));
+    }
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has no enclosing class (as in {@link Class#getEnclosingClass()}, when
+   * {@code null} is returned), which is the case for top-level classes.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class Outer {
+   *
+   *   static class Nested { }
+   * }
+   *
+   * // this assertion succeeds as Outer is a top-level class:
+   * assertThat(Outer.class).hasNoEnclosingClass();
+   *
+   * // this assertion succeeds as array classes have no enclosing class, even for nested component types:
+   * assertThat(Outer.Nested[].class).hasNoEnclosingClass();
+   *
+   * // this assertion succeeds as primitive types have no enclosing class:
+   * assertThat(Integer.TYPE).hasNoEnclosingClass();
+   *
+   * // this assertion succeeds as void type has no enclosing class:
+   * assertThat(Void.TYPE).hasNoEnclosingClass();
+   *
+   * // this assertion fails as Nested is enclosed in Outer:
+   * assertThat(Outer.Nested.class).hasNoEnclosingClass();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} has an enclosing class.
+   * @since 3.28.0
+   * @see #hasEnclosingClass(Class)
+   */
+  public SELF hasNoEnclosingClass() {
+    isNotNull();
+    assertHasNoEnclosingClass();
+    return myself;
+  }
+
+  private void assertHasNoEnclosingClass() {
+    if (actual.getEnclosingClass() != null) throw assertionError(shouldHaveNoEnclosingClass(actual));
+  }
+
+  /**
    * @deprecated use {@link #hasPublicFields(String...)} instead.
    * @param fields the fields who must be in the class.
    * @return {@code this} assertions object
@@ -1021,7 +1122,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * Verifies that the actual {@code Class} has the given package name (as in {@link Class#getPackage()}).
    * <p>
    * The expected package name should always be not {@code null}. To verify the absence of the package, use
-   * {@link #hasNoPackage()}. 
+   * {@link #hasNoPackage()}.
    * <p>
    * Example:
    * <pre><code class='java'> package one.two;
@@ -1061,7 +1162,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * Verifies that the actual {@code Class} has the given package (as in {@link Class#getPackage()}).
    * <p>
    * The expected package should always be not {@code null}. To verify the absence of the package, use
-   * {@link #hasNoPackage()}. 
+   * {@link #hasNoPackage()}.
    * <p>
    * Example:
    * <pre><code class='java'> package one.two;
