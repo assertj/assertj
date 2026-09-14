@@ -15,48 +15,32 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toSet;
-import static org.assertj.core.util.introspection.ClassUtils.isInJavaLangPackage;
-
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.assertj.core.util.introspection.PropertySupport;
 
 /**
  * A {@link RecursiveComparisonIntrospectionStrategy} that introspects properties by looking at public getters like
- * {@code getName()} or {@code isActive()}/{@code getActive()} for boolean properties.
+ * {@code getName()} or {@code isActive()}/{@code getActive()} for regular objects and record components for records.
  */
 public class ComparingProperties extends AbstractRecursiveComparisonIntrospectionStrategy {
 
   /** Shared property introspection strategy instance. */
   public static final ComparingProperties COMPARING_PROPERTIES = new ComparingProperties();
 
+  private final ComparingRegularProperties regularProperties = new ComparingRegularProperties();
+  private final ComparingRecordProperties recordProperties = new ComparingRecordProperties();
+
   /** Creates a new property introspection strategy. */
   public ComparingProperties() {}
 
-  private static final String GET_PREFIX = "get";
-  private static final String IS_PREFIX = "is";
-
-  // use ConcurrentHashMap in case this strategy instance is used in a multi-thread context
-  private final Map<Class<?>, Set<String>> propertiesNamesPerClass = new ConcurrentHashMap<>();
-
   @Override
   public Set<String> getChildrenNodeNamesOf(Object node) {
-    if (node == null) return new HashSet<>();
-    return propertiesNamesPerClass.computeIfAbsent(node.getClass(), ComparingProperties::getPropertiesNamesOf);
+    return strategyFor(node).getChildrenNodeNamesOf(node);
   }
 
   @Override
   public Object getChildNodeValue(String childNodeName, Object instance) {
-    return PropertySupport.instance().propertyValueOf(childNodeName, Object.class, instance);
+    return strategyFor(instance).getChildNodeValue(childNodeName, instance);
   }
 
   @Override
@@ -69,57 +53,20 @@ public class ComparingProperties extends AbstractRecursiveComparisonIntrospectio
     throw new IllegalArgumentException("ignoringTransientFields is not supported since we are comparing properties");
   }
 
-  static Set<String> getPropertiesNamesOf(Class<?> clazz) {
-    return gettersIncludingInheritedOf(clazz).stream()
-                                             .map(Method::getName)
-                                             .map(ComparingProperties::toPropertyName)
-                                             .collect(toSet());
-  }
-
-  private static String toPropertyName(String methodName) {
-    String propertyWithCapitalLetter = methodName.startsWith(GET_PREFIX)
-        ? methodName.substring(GET_PREFIX.length())
-        : methodName.substring(IS_PREFIX.length());
-    return propertyWithCapitalLetter.toLowerCase().charAt(0) + propertyWithCapitalLetter.substring(1);
-  }
-
   /**
-   * Returns public getters declared by the given class or inherited from its superclasses.
+   * Returns public getters declared by the given class or inherited from its superclasses, or record component
+   * accessors when the given class is a record.
    *
    * @param clazz the class to inspect
    * @return the getter methods
    */
   public static Set<Method> gettersIncludingInheritedOf(Class<?> clazz) {
-    return gettersOf(clazz);
+    return clazz.isRecord() ? ComparingRecordProperties.gettersIncludingInheritedOf(clazz)
+        : ComparingRegularProperties.gettersIncludingInheritedOf(clazz);
   }
 
-  private static Set<Method> gettersOf(Class<?> clazz) {
-    return stream(clazz.getMethods()).filter(method -> !isInJavaLangPackage(method.getDeclaringClass()))
-                                     .filter(method -> !isStatic(method))
-                                     .filter(ComparingProperties::isGetter)
-                                     .collect(toCollection(LinkedHashSet::new));
-  }
-
-  private static boolean isStatic(Method method) {
-    return Modifier.isStatic(method.getModifiers());
-  }
-
-  private static boolean isGetter(Method method) {
-    if (hasParameters(method)) return false;
-    return isRegularGetter(method) || isBooleanProperty(method);
-  }
-
-  private static boolean isRegularGetter(Method method) {
-    return method.getName().startsWith(GET_PREFIX);
-  }
-
-  private static boolean hasParameters(Method method) {
-    return method.getParameters().length > 0;
-  }
-
-  private static boolean isBooleanProperty(Method method) {
-    Class<?> returnType = method.getReturnType();
-    return method.getName().startsWith(IS_PREFIX) && (returnType.equals(boolean.class) || returnType.equals(Boolean.class));
+  private RecursiveComparisonIntrospectionStrategy strategyFor(Object node) {
+    return node != null && node.getClass().isRecord() ? recordProperties : regularProperties;
   }
 
 }
