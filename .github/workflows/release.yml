@@ -7,7 +7,7 @@ permissions:
   contents: write
 
 env:
-  MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always -Djacoco.skip=true
+  MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always
 
 jobs:
 

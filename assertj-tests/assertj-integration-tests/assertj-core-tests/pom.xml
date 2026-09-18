@@ -26,6 +26,13 @@
   </properties>
 
   <dependencies>
+    <!-- Compile -->
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <!-- Test -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
@@ -68,12 +75,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
@@ -99,6 +100,23 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.jetbrains.kotlinx</groupId>
+        <artifactId>kover-maven-plugin</artifactId>
+        <configuration combine.children="append">
+          <aggregate>true</aggregate>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>instrumentation</goal>
+              <goal>verify</goal>
+              <goal>log</goal> <!-- FIXME remove -->
+              <goal>report-xml</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>

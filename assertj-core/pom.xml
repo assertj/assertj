@@ -26,7 +26,6 @@
     </argLine>
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
-    <jacoco.skip>true</jacoco.skip> <!-- https://github.com/assertj/assertj/issues/3580 -->
     <!-- Dependency versions -->
     <byte-buddy.version>1.18.3</byte-buddy.version>
     <hamcrest.version>3.0</hamcrest.version>
@@ -414,22 +413,15 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <configuration>
-          <rules>
-            <rule implementation="org.jacoco.maven.RuleConfiguration">
-              <element>BUNDLE</element>
-              <limits>
-                <limit implementation="org.jacoco.report.check.Limit">
-                  <counter>CLASS</counter>
-                  <value>COVEREDRATIO</value>
-                  <minimum>0.98</minimum>
-                </limit>
-              </limits>
-            </rule>
-          </rules>
-        </configuration>
+        <groupId>org.jetbrains.kotlinx</groupId>
+        <artifactId>kover-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>instrumentation</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.sonatype.central</groupId>
