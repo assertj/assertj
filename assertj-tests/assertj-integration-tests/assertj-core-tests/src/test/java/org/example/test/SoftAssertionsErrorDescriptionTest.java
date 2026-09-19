@@ -24,22 +24,22 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SoftAssertionsErrorDescriptionTest {
+class SoftAssertionsErrorDescriptionTest {
 
   private int initialMaxStackTraceElementsDisplayedValue;
 
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     initialMaxStackTraceElementsDisplayedValue = StandardRepresentation.getMaxStackTraceElementsDisplayed();
   }
 
   @AfterEach
-  public void afterTest() {
+  void afterTest() {
     StandardRepresentation.setMaxStackTraceElementsDisplayed(initialMaxStackTraceElementsDisplayedValue);
   }
 
   @Test
-  public void should_display_the_error_cause_and_the_cause_first_stack_trace_elements() {
+  void should_display_the_error_cause_and_the_cause_first_stack_trace_elements() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
     softly.fail("failure", throwRuntimeException());
@@ -51,7 +51,8 @@ public class SoftAssertionsErrorDescriptionTest {
                                         "SoftAssertionsErrorDescriptionTest.throwRuntimeException(SoftAssertionsErrorDescriptionTest.java:55)");
   }
 
-  protected static RuntimeException throwRuntimeException() {
+  private static RuntimeException throwRuntimeException() {
     return new RuntimeException("abc");
   }
+
 }
