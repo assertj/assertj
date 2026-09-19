@@ -49,6 +49,7 @@ public class SoftAssertionsErrorDescriptionTest {
     then(error).hasMessageContainingAll("cause message: abc",
                                         "cause first 3 stack trace elements:",
                                         "SoftAssertionsErrorDescriptionTest.throwRuntimeException(SoftAssertionsErrorDescriptionTest.java:55)");
+    then(error).hasMessageContainingAll("cause message: abc", "cause first five stack trace elements:");
   }
 
   protected static RuntimeException throwRuntimeException() {
