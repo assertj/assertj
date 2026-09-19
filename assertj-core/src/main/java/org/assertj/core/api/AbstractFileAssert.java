@@ -441,10 +441,12 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   }
 
   /**
-   * Verifies that the text content of the actual {@code File} is <b>exactly</b> equal to the given one <b>except for newlines wich are ignored</b>.
+   * Verifies that the text content of the actual {@code File} is <b>exactly</b> equal to the given one. Newlines are
+   * taken into account (including a single trailing newline).
    * <p>
-   * This will change in AssertJ 4.0 where newlines will be taken into account, in the meantime, to get this behavior
-   * one can use {@link #content()} and then chain with {@link AbstractStringAssert#isEqualTo(String)}.
+   * Line ending style ({@code \n}, {@code \r}, {@code \r\n}) is normalized when comparing lines. For more granular
+   * string assertions on the content (for example ignoring newlines), use {@link #content()} and chain string
+   * assertions such as {@link AbstractStringAssert#isEqualToIgnoringNewlines(CharSequence)}.
    * <p>
    * The charset to use when reading the file should be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
@@ -457,13 +459,14 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * // The following assertion succeeds (default charset is used):
    * assertThat(xFile).hasContent(&quot;The Truth Is Out There&quot;);
    *
-   * // The following assertion fails:
+   * // The following assertions fail (content differs / trailing newline differs):
    * assertThat(xFile).hasContent(&quot;La Vérité Est Ailleurs&quot;);
+   * assertThat(xFile).hasContent(&quot;The Truth Is Out There\n&quot;);
    *
    * // using a specific charset
    * Charset turkishCharset = Charset.forName(&quot;windows-1254&quot;);
    *
-   * File xFileTurkish = Files.write(Paths.get(&quot;xfile.turk&quot;), Collections.singleton(&quot;Gerçek&quot;), turkishCharset).toFile();
+   * File xFileTurkish = Files.write(Paths.get(&quot;xfile.turk&quot;), &quot;Gerçek&quot;.getBytes(turkishCharset)).toFile();
    *
    * // The following assertion succeeds:
    * assertThat(xFileTurkish).usingCharset(turkishCharset).hasContent(&quot;Gerçek&quot;);
