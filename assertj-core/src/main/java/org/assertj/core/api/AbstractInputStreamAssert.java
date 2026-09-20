@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -101,6 +102,37 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
       isNotNull();
       return assertThat(asString(actual, charset)).withAssertionState(myself);
     }, StringAssert::nullStringAssert);
+  }
+
+  /**
+   * Converts the content of the actual {@link InputStream} to a {@link String} by decoding its bytes using the
+   * {@link StandardCharsets#UTF_8 UTF-8 charset} and returns assertions for the computed String allowing String specific
+   * assertions from this call.
+   * <p>
+   * This is a shortcut for {@code asString(StandardCharsets.UTF_8)}.
+   * <p>
+   * <b>Warning: this will consume the whole input stream in case the underlying
+   * implementation does not support {@link InputStream#markSupported() marking}.</b>
+   * <p>
+   * Example :
+   * <pre><code class='java'> InputStream abcInputStream = new ByteArrayInputStream("abc".getBytes(StandardCharsets.UTF_8));
+   *
+   * // assertion succeeds
+   * assertThat(abcInputStream).asStringUtf8()
+   *                           .startsWith("a");
+   *
+   * // assertion fails
+   * assertThat(abcInputStream).asStringUtf8()
+   *                           .startsWith("e");</code></pre>
+   *
+   * @return a string assertion object.
+   * @throws AssertionError       if the actual {@code InputStream} is {@code null}.
+   * @throws UncheckedIOException if an I/O error occurs.
+   * @since 4.0.0
+   */
+  @CheckReturnValue
+  public AbstractStringAssert<?> asStringUtf8() {
+    return asString(StandardCharsets.UTF_8);
   }
 
   private String asString(InputStream actual, Charset charset) {

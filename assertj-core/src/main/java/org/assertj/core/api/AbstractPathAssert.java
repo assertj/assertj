@@ -22,6 +22,7 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.ClosedFileSystemException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
@@ -1906,6 +1907,29 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
       String pathContent = readPath(charset);
       return new StringAssert(pathContent).withAssertionState(myself);
     }, StringAssert::nullStringAssert);
+  }
+
+  /**
+   * Returns String assertions on the content of the actual {@code Path} read with the {@link StandardCharsets#UTF_8 UTF-8 charset}.
+   * <p>
+   * This is a shortcut for {@code content(StandardCharsets.UTF_8)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Path utf8Path = Files.write(Paths.get("utf8.txt"), "é à".getBytes(StandardCharsets.UTF_8));
+   *
+   * // assertion succeeds:
+   * assertThat(utf8Path).utf8Content().endsWith("é à");
+   *
+   * // assertion fails:
+   * assertThat(utf8Path).utf8Content().contains("e");</code></pre>
+   *
+   * @return a {@link StringAssert} object with the content of the actual {@code Path} read with the {@link StandardCharsets#UTF_8 UTF-8 charset}.
+   * @throws AssertionError if the actual {@code Path} is not readable as per {@link Files#isReadable(Path)}.
+   * @throws UncheckedIOException when failing to read the actual {@code Path}.
+   * @since 4.0.0
+   */
+  public AbstractStringAssert<?> utf8Content() {
+    return content(StandardCharsets.UTF_8);
   }
 
   /**

@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.security.MessageDigest;
 import java.util.function.Predicate;
@@ -1327,6 +1328,29 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
       String fileContent = readFile(charset);
       return new StringAssert(fileContent).withAssertionState(myself);
     }, StringAssert::nullStringAssert);
+  }
+
+  /**
+   * Returns String assertions on the content of the actual {@code File} read with the {@link StandardCharsets#UTF_8 UTF-8 charset}.
+   * <p>
+   * This is a shortcut for {@code content(StandardCharsets.UTF_8)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File utf8File = Files.write(Paths.get("utf8.txt"), "é à".getBytes(StandardCharsets.UTF_8)).toFile();
+   *
+   * // assertion succeeds:
+   * assertThat(utf8File).utf8Content().endsWith("é à");
+   *
+   * // assertion fails:
+   * assertThat(utf8File).utf8Content().contains("e");</code></pre>
+   *
+   * @return a {@link StringAssert} object with the content of the actual {@code File} read with the {@link StandardCharsets#UTF_8 UTF-8 charset}.
+   * @throws AssertionError if the actual {@code File} is not readable.
+   * @throws UncheckedIOException when failing to read the actual {@code File}.
+   * @since 4.0.0
+   */
+  public AbstractStringAssert<?> utf8Content() {
+    return content(StandardCharsets.UTF_8);
   }
 
   /**
