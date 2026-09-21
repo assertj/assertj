@@ -26,6 +26,7 @@ import com.google.common.collect.Table;
 public class TableShouldContainCell extends BasicErrorMessageFactory {
 
   /// Creates a new `[TableShouldContainCell]`.
+  /// 
   /// @param actual the actual value in the failed assertion.
   /// @param row the row where actualValue was read.
   /// @param column the column where actualValue was read.

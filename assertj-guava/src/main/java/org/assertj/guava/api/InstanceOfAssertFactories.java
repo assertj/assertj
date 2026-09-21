@@ -45,9 +45,9 @@ public interface InstanceOfAssertFactories {
 
   /// [InstanceOfAssertFactory] for a [Multimap].
   ///
-  /// @param <K>       the `Multimap` key type.
-  /// @param <V>       the `Multimap` value type.
-  /// @param keyType   the key type instance.
+  /// @param <K> the `Multimap` key type.
+  /// @param <V> the `Multimap` value type.
+  /// @param keyType the key type instance.
   /// @param valueType the value type instance.
   /// @return the factory instance.
   ///
@@ -65,7 +65,7 @@ public interface InstanceOfAssertFactories {
 
   /// [InstanceOfAssertFactory] for an [Optional].
   ///
-  /// @param <VALUE>    the `Optional` value type.
+  /// @param <VALUE> the `Optional` value type.
   /// @param resultType the value type instance.
   /// @return the factory instance.
   ///
@@ -77,7 +77,7 @@ public interface InstanceOfAssertFactories {
 
   /// [InstanceOfAssertFactory] for a [Range].
   ///
-  /// @param <C>            the `Comparable` type.
+  /// @param <C> the `Comparable` type.
   /// @param comparableType the comparable type instance.
   /// @return the factory instance.
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
@@ -87,9 +87,9 @@ public interface InstanceOfAssertFactories {
 
   /// [InstanceOfAssertFactory] for a [RangeMap].
   ///
-  /// @param <K>       the `RangeMap` key type.
-  /// @param <V>       the `RangeMap` value type.
-  /// @param keyType   the key type instance.
+  /// @param <K> the `RangeMap` key type.
+  /// @param <V> the `RangeMap` value type.
+  /// @param keyType the key type instance.
   /// @param valueType the value type instance.
   /// @return the factory instance.
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
@@ -117,12 +117,12 @@ public interface InstanceOfAssertFactories {
 
   /// [InstanceOfAssertFactory] for a [Table].
   ///
-  /// @param <R>           the `Table` row key type.
-  /// @param <C>           the `Table` column key type.
-  /// @param <V>           the `Table` value type.
-  /// @param rowKeyType    the row key type instance.
+  /// @param <R> the `Table` row key type.
+  /// @param <C> the `Table` column key type.
+  /// @param <V> the `Table` value type.
+  /// @param rowKeyType the row key type instance.
   /// @param columnKeyType the column key type instance.
-  /// @param valueType     the value type instance.
+  /// @param valueType the value type instance.
   /// @return the factory instance.
   ///
   /// @see #TABLE
@@ -140,7 +140,7 @@ public interface InstanceOfAssertFactories {
 
   /// [InstanceOfAssertFactory] for a [Multiset].
   ///
-  /// @param <ELEMENT>   the `Multiset` element type.
+  /// @param <ELEMENT> the `Multiset` element type.
   /// @param elementType the element type instance.
   /// @return the factory instance.
   ///

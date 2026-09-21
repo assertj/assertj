@@ -26,6 +26,7 @@ import org.assertj.core.error.ErrorMessageFactory;
 public class ShouldHaveSize extends BasicErrorMessageFactory {
 
   /// Creates a new `[org.assertj.guava.error.ShouldHaveSize]`.
+  /// 
   /// @param actual the actual value in the failed assertion.
   /// @param actualSize the size of `actual`.
   /// @param expectedSize the expected size.

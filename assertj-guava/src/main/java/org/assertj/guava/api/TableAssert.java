@@ -45,7 +45,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
   /// Example :
   ///
   /// ```java
-  /// Table <Integer, Integer, String> actual = HashBasedTable.create();
+  /// Table<Integer, Integer, String> actual = HashBasedTable.create();
   ///
   /// actual.put(1, 3, "Millard Fillmore");
   /// actual.put(1, 4, "Franklin Pierce");
@@ -57,8 +57,8 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
   /// @param expectedSize the expected number of rows in the actual [Table]
   /// @return this [TableAssert] for assertion chaining.
   /// @throws IllegalArgumentException if the expected size is negative
-  /// @throws AssertionError           if the actual [Table] is `null`.
-  /// @throws AssertionError           if the actual [Table] does not have the expected row size.
+  /// @throws AssertionError if the actual [Table] is `null`.
+  /// @throws AssertionError if the actual [Table] does not have the expected row size.
   public TableAssert<R, C, V> hasRowCount(int expectedSize) {
     isNotNull();
     checkExpectedSizeArgument(expectedSize);
@@ -86,8 +86,8 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
   /// @param expectedSize the expected number of columns in the actual [Table]
   /// @return this [TableAssert] for assertion chaining.
   /// @throws IllegalArgumentException if the expected size is negative
-  /// @throws AssertionError           if the actual [Table] is `null`.
-  /// @throws AssertionError           if the actual [Table] does not have the expected column size.
+  /// @throws AssertionError if the actual [Table] is `null`.
+  /// @throws AssertionError if the actual [Table] does not have the expected column size.
   public TableAssert<R, C, V> hasColumnCount(int expectedSize) {
     isNotNull();
     checkExpectedSizeArgument(expectedSize);
@@ -115,8 +115,8 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
   /// @param expectedSize the expected number of cells in the actual [Table]
   /// @return this [TableAssert] for assertion chaining.
   /// @throws IllegalArgumentException if the expected size is negative
-  /// @throws AssertionError           if the actual [Table] is `null`.
-  /// @throws AssertionError           if the actual [Table] does not have the expected number of cells.
+  /// @throws AssertionError if the actual [Table] is `null`.
+  /// @throws AssertionError if the actual [Table] does not have the expected number of cells.
   public TableAssert<R, C, V> hasSize(int expectedSize) {
     isNotNull();
     checkExpectedSizeArgument(expectedSize);
@@ -144,8 +144,8 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
   /// @param rows The rows to look for in the actual [Table]
   /// @return this [TableAssert] for assertion chaining.
   /// @throws IllegalArgumentException if no param rows have been set.
-  /// @throws AssertionError           if the actual [Table] is `null`.
-  /// @throws AssertionError           if the actual [Table] does not contain the given rows.
+  /// @throws AssertionError if the actual [Table] is `null`.
+  /// @throws AssertionError if the actual [Table] does not contain the given rows.
   public TableAssert<R, C, V> containsRows(@SuppressWarnings("unchecked") R... rows) {
     isNotNull();
     checkArgument(rows != null, "The rows to look for should not be null.");
@@ -181,8 +181,8 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
   /// @param columns The columns to look for in the actual [Table]
   /// @return this [TableAssert] for assertion chaining.
   /// @throws IllegalArgumentException if no param columns have been set.
-  /// @throws AssertionError           if the actual [Table] is `null`.
-  /// @throws AssertionError           if the actual [Table] does not contain the given columns.
+  /// @throws AssertionError if the actual [Table] is `null`.
+  /// @throws AssertionError if the actual [Table] does not contain the given columns.
   public TableAssert<R, C, V> containsColumns(@SuppressWarnings("unchecked") C... columns) {
     isNotNull();
     checkArgument(columns != null, "The columns to look for should not be null.");
@@ -219,8 +219,8 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
   /// @param values The values to look for in the actual [Table]
   /// @return this [TableAssert] for assertion chaining.
   /// @throws IllegalArgumentException if no param values have been set.
-  /// @throws AssertionError           if the actual [Table] is `null`.
-  /// @throws AssertionError           if the actual [Table] does not contain the given values.
+  /// @throws AssertionError if the actual [Table] is `null`.
+  /// @throws AssertionError if the actual [Table] does not contain the given values.
   public TableAssert<R, C, V> containsValues(@SuppressWarnings("unchecked") V... values) {
     isNotNull();
     checkArgument(values != null, "The values to look for should not be null.");

@@ -73,8 +73,8 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   /// @param keys the keys to look for in actual [Multimap].
   /// @return this [MultimapAssert] for assertions chaining.
   /// @throws IllegalArgumentException if no param keys have been set.
-  /// @throws AssertionError           if the actual [Multimap] is `null`.
-  /// @throws AssertionError           if the actual [Multimap] does not contain the given keys.
+  /// @throws AssertionError if the actual [Multimap] is `null`.
+  /// @throws AssertionError if the actual [Multimap] does not contain the given keys.
   public MultimapAssert<K, V> containsKeys(@SuppressWarnings("unchecked") K... keys) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(keys == null, "The keys to look for should not be null");
@@ -112,8 +112,8 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   /// @param entries the entries to look for in actual [Multimap].
   /// @return this [MultimapAssert] for assertions chaining.
   /// @throws IllegalArgumentException if no param entries have been set.
-  /// @throws AssertionError           if the actual [Multimap] is `null`.
-  /// @throws AssertionError           if the actual [Multimap] does not contain the given entries.
+  /// @throws AssertionError if the actual [Multimap] is `null`.
+  /// @throws AssertionError if the actual [Multimap] does not contain the given entries.
   @SafeVarargs
   public final MultimapAssert<K, V> contains(MapEntry<K, V>... entries) {
     isNotNull();
@@ -152,8 +152,8 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   /// @param values the values to look for in actual [Multimap].
   /// @return this [MultimapAssert] for assertions chaining.
   /// @throws IllegalArgumentException if no param values have been set.
-  /// @throws AssertionError           if the actual [Multimap] is `null`.
-  /// @throws AssertionError           if the actual [Multimap] does not contain the given values.
+  /// @throws AssertionError if the actual [Multimap] is `null`.
+  /// @throws AssertionError if the actual [Multimap] does not contain the given values.
   public MultimapAssert<K, V> containsValues(@SuppressWarnings("unchecked") V... values) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
@@ -262,9 +262,9 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   ///
   /// @param other [Multimap] to compare actual's entries with.
   /// @return this [MultimapAssert] for assertions chaining.
-  /// @throws AssertionError           if the actual [Multimap] is `null`.
+  /// @throws AssertionError if the actual [Multimap] is `null`.
   /// @throws IllegalArgumentException if the other [Multimap] is `null`.
-  /// @throws AssertionError           if actual [Multimap] does not have the same entries as the other [Multimap].
+  /// @throws AssertionError if actual [Multimap] does not have the same entries as the other [Multimap].
   public final MultimapAssert<K, V> hasSameEntriesAs(Multimap<? extends K, ? extends V> other) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(other == null, "The multimap to compare actual with should not be null");
@@ -297,9 +297,9 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   ///
   /// @param other [Multimap] to compare actual's entries with.
   /// @return this [MultimapAssert] for assertions chaining.
-  /// @throws AssertionError           if the actual [Multimap] is `null`.
+  /// @throws AssertionError if the actual [Multimap] is `null`.
   /// @throws IllegalArgumentException if the other [Multimap] is `null`.
-  /// @throws AssertionError           if actual [Multimap] does not have contain all the given [Multimap] entries.
+  /// @throws AssertionError if actual [Multimap] does not have contain all the given [Multimap] entries.
   public final MultimapAssert<K, V> containsAllEntriesOf(Multimap<? extends K, ? extends V> other) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(other == null, "The multimap to compare actual with should not be null");

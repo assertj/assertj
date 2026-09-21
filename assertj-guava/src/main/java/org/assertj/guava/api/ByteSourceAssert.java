@@ -46,7 +46,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
   ///
   /// @param other ByteSource to compare against.
   /// @return this [ByteSourceAssert] for assertions chaining.
-  /// @throws IOException    if [ByteSource#contentEquals] throws one.
+  /// @throws IOException if [ByteSource#contentEquals] throws one.
   /// @throws AssertionError if the actual [ByteSource] is `null`.
   /// @throws AssertionError if the actual [ByteSource] does not contain the same content.
   public ByteSourceAssert hasSameContentAs(ByteSource other) throws IOException {
@@ -64,7 +64,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
   /// assertThat(actual).isEmpty();
   /// ```
   ///
-  /// @throws IOException    if [ByteSource#isEmpty] throws one.
+  /// @throws IOException if [ByteSource#isEmpty] throws one.
   /// @throws AssertionError if the actual [ByteSource] is `null`.
   /// @throws AssertionError if the actual [ByteSource] is not empty.
   public void isEmpty() throws IOException {
@@ -84,7 +84,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
   ///
   /// @param expectedSize the expected size of actual [ByteSource].
   /// @return this [ByteSourceAssert] for assertions chaining.
-  /// @throws IOException    if [com.google.common.io.ByteSource#size()] throws one.
+  /// @throws IOException if [com.google.common.io.ByteSource#size()] throws one.
   /// @throws AssertionError if the actual [ByteSource] is `null`.
   /// @throws AssertionError if the number of values of the actual [ByteSource] is not equal to the given one.
   public ByteSourceAssert hasSize(long expectedSize) throws IOException {
