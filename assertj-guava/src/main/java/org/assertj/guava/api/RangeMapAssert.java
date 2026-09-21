@@ -95,9 +95,6 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return myself;
   }
 
-  /// @deprecated use [#contains(MapEntry...)] instead (similar method but accepting [org.assertj.core.data.MapEntry]
-  /// instead of [org.assertj.guava.data.MapEntry]).
-  ///
   /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given entries.
   ///
   /// Example :
@@ -112,7 +109,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
   /// spectralColors.put(Range.closedOpen(590, 620), "orange");
   /// spectralColors.put(Range.closedOpen(620, 750), "red");
   ///
-  /// // entry can be statically imported from [org.assertj.guava.data.MapEntry]
+  /// // entry can be statically imported from `org.assertj.guava.data.MapEntry`
   /// assertThat(spectralColors).contains(entry("400", "violet"), entry("650", "red"));
   /// ```
   ///
@@ -123,6 +120,8 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
   /// @throws IllegalArgumentException if no param entries have been set.
   /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is `null`.
   /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] does not contain the given entries.
+  /// @deprecated use [#contains(MapEntry...)] instead (similar method but accepting [org.assertj.core.data.MapEntry]
+  ///             instead of [org.assertj.guava.data.MapEntry]).
   @SafeVarargs
   @Deprecated
   public final RangeMapAssert<K, V> contains(org.assertj.guava.data.MapEntry<K, V>... entries) {
