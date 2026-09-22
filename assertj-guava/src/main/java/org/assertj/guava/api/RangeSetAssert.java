@@ -570,11 +570,11 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   /// ```
   ///
   /// @param rangeSet the range set with ranges to check whether the actual `RangeSet` intersects at least one of
-  ///                 them.
+  ///          them.
   /// @return this [RangeSetAssert] for assertions chaining.
   /// @throws AssertionError if the actual `RangeSet` is `null`.
   /// @throws AssertionError if the actual `RangeSet` does not intersect any of the ranges from the given ranges
-  ///         set.
+  ///           set.
   /// @throws NullPointerException if range set is null.
   /// @throws IllegalArgumentException if range set is empty while actual is not empty.
   public RangeSetAssert<T> intersectsAnyRangesOf(RangeSet<T> rangeSet) {
