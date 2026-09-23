@@ -36,7 +36,7 @@ class PathAssert_size_Test {
               .isGreaterThan(4L)
               .isLessThan(20L)
               .isBetween(1L, 10L)
-              .returnToPath().hasContent("actual");
+              .returnToPath().hasContent("actual\n");
   }
 
   @Test
