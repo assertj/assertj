@@ -18,16 +18,17 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>33.5.0-jre</version>
-      <scope>test</scope>
-    </dependency>
+    <!-- Compile -->
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-guava</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <!-- Test -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>33.5.0-jre</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -39,6 +40,23 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.jetbrains.kotlinx</groupId>
+        <artifactId>kover-maven-plugin</artifactId>
+        <configuration combine.children="append">
+          <aggregate>true</aggregate>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>instrumentation</goal>
+              <goal>verify</goal>
+              <goal>log</goal> <!-- FIXME remove -->
+              <goal>report-xml</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
