@@ -1,0 +1,4 @@
+[[javadoc]]
+= Javadoc
+
+http://www.javadoc.io/doc/org.assertj/assertj-core/ is the latest version of AssertJ Core Javadoc, each assertion is explained, most of them with code examples so be sure to check it if you want to know what a specific assertion does.
