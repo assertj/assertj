@@ -37,10 +37,10 @@ import com.google.common.collect.Range;
 
 /// Assertions for guava [Range].
 ///
-/// To create an instance of this class, invoke `[org.assertj.guava.api.Assertions#assertThat(com.google.common.collect.Range)]`
+/// To create an instance of this class, invoke [Assertions#assertThat(Range)]
 ///
-/// @param <T> the type of elements of the tested Range value
 /// @author Marcin Kwaczyński
+/// @param <T> the type of elements of the tested Range value
 public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAssert<T>, Range<T>> {
 
   protected RangeAssert(Range<T> actual) {

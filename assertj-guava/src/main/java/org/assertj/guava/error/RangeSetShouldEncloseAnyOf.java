@@ -28,7 +28,7 @@ public class RangeSetShouldEncloseAnyOf extends BasicErrorMessageFactory {
     return new RangeSetShouldEncloseAnyOf(actual, expected);
   }
 
-  /// Creates a new `[BasicErrorMessageFactory]`.
+  /// Creates a new [BasicErrorMessageFactory].
   ///
   /// @param actual actual `RangeSet`.
   /// @param expected expected range to check for enclosing

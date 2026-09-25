@@ -77,7 +77,7 @@ Existing comments should also be converted to Markdown whenever they are updated
 Use the extended Markdown reference link syntax instead of traditional `{@link ...}` or `{@linkplain ...}` inline tags:
 
 * **Within the Same Class**: Reference local methods or fields directly in square brackets: `[#localMethod()]` or `[#localField]`.
-* **Other Classes and Packages**: Use simple names if imported `[String]`, fully qualified names if not `[java.util.List]`, or reference entire packages via `[java.util]`. If an import exists solely for Javadoc references, delete the import and use the fully qualified name instead.
+* **Other Classes and Packages**: Use simple names if imported `[String]`, fully qualified names if not `[java.util.List]`, or reference entire packages via `[java.util]`. Never unnecessarily qualify a link to an already imported type. If an import exists solely for Javadoc references, delete the import and use the fully qualified name instead.
 * **Members of Other Classes**: Join class and member using the `#` symbol: `[String#chars()]` or `[String#CASE_INSENSITIVE_ORDER]`.
 * **Methods with Varargs**: Use standard ellipsis notation inside the signature: `[String#format(String, Object...)]`.
 * **Custom Link Text**: Use the `[alternative text][Element]` syntax.

@@ -29,8 +29,8 @@ import com.google.common.io.ByteSource;
 /// [InstanceOfAssertFactory] instances for Guava types.
 ///
 /// @author Stefano Cordio
-/// @since 3.3.0
 /// @see org.assertj.core.api.InstanceOfAssertFactories
+/// @since 3.3.0
 public interface InstanceOfAssertFactories {
 
   /// [InstanceOfAssertFactory] for a [ByteSource].

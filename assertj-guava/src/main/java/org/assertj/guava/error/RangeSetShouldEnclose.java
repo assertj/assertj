@@ -29,7 +29,7 @@ public class RangeSetShouldEnclose extends BasicErrorMessageFactory {
     return new RangeSetShouldEnclose(actual, expected, notEnclosed);
   }
 
-  /// Creates a new `[BasicErrorMessageFactory]`.
+  /// Creates a new [BasicErrorMessageFactory].
   ///
   /// @param actual actual `RangeSet`.
   /// @param expected expected range to check for enclosing.

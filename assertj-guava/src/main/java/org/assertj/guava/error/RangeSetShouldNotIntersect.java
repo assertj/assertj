@@ -30,7 +30,7 @@ public class RangeSetShouldNotIntersect extends BasicErrorMessageFactory {
     return new RangeSetShouldNotIntersect(actual, unexpected, intersected);
   }
 
-  /// Creates a new `[BasicErrorMessageFactory]`.
+  /// Creates a new [BasicErrorMessageFactory].
   ///
   /// @param actual actual `RangeSet`.
   /// @param unexpected ranges that should not be intersected.

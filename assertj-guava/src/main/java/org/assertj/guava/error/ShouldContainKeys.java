@@ -34,7 +34,7 @@ public class ShouldContainKeys extends BasicErrorMessageFactory {
     super("%nExpecting:%n  %s%nto contain keys:%n  %s%nbut could not find:%n  %s", actual, keys, keysNotFound);
   }
 
-  /// Creates a new `[ShouldContainKeys]`.
+  /// Creates a new [ShouldContainKeys].
   ///
   /// @param actual the actual value in the failed assertion.
   /// @param keys the expected keys.

@@ -27,7 +27,7 @@ public class RangeShouldBeOpenedInTheUpperBound extends BasicErrorMessageFactory
                                                   "%nExpecting:%n  %s%nto be opened in the upper bound but was closed", actual);
   }
 
-  /// Creates a new `[org.assertj.core.error.BasicErrorMessageFactory]`.
+  /// Creates a new [BasicErrorMessageFactory].
   ///
   /// @param format the format string.
   /// @param arguments arguments referenced by the format specifiers in the format string.
