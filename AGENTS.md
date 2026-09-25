@@ -51,18 +51,26 @@ class OptionalAssert_containsInstanceOf_Test {
 }
 ```
 
-## Javadoc Rules (JDK 25 Markdown)
+## Javadoc Rules (JDK Markdown)
 
-Newly introduced or updated documentation comments must use Markdown and be accepted by the JDK 25 `javadoc` tool.
+Newly introduced documentation comments must use Markdown, specifically the [CommonMark](https://spec.commonmark.org/) variant supported by the standard `javadoc` doclet, alongside extensions for Javadoc tags and links to program elements.
+Existing comments should also be converted to Markdown whenever they are updated.
 
 ### Syntax & Formatting
 
-* **Prefix**: Always use the `///` (three forward slashes) prefix for documentation comments instead of the traditional `/ ... */` block.
-* **Styling**: Use standard Markdown syntax (e.g., `bold`, `*italic*`, `[link](url)`). **Never use HTML tags** (such as `<p>`, `<ul>`, `<code>`).
+* **Prefix**: Always use the `///` (three forward slashes) prefix for documentation comments instead of the traditional `/** ... */` block.
+* **Styling**: Use standard Markdown syntax (e.g., `**bold**`, `_italic_`, `[link](url)`). **Never use HTML tags** (such as `<p>`, `<ul>`, `<code>`).
 * **Line Breaks**: Use plain newlines to separate consecutive sentences or paragraphs in documentation comments. Do not use `<br>`; if you need a new paragraph, insert a blank line instead.
 * **Code Blocks**: Enclose code examples in fenced `java` code blocks. Do not use `<pre><code>` or inline `{@code ...}` for multi-line snippets.
 * **Lists**: Create lists using standard Markdown lists (`-` or `1.`).
-* **Block Tags**: Place standard Javadoc block tags (`@param`, `@return`, `@throws`) at the end of the comment block, formatting their accompanying descriptions in Markdown.
+* **Tags**: Place standard Javadoc tags at the end of the comment block, formatting their accompanying descriptions in Markdown. Tags should appear following Oracle's standard order:
+  1. `@author` (classes and interfaces only)
+  2. `@param` (methods and constructors only)
+  3. `@return` (methods only)
+  4. `@throws`
+  5. `@see`
+  6. `@since`
+  7. `@deprecated`
 
 ### Referencing Program Elements (Links)
 
