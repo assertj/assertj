@@ -103,7 +103,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   /// actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
   /// actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
   ///
-  /// // entry can be statically imported from org.assertj.guava.api.Assertions or org.assertj.guava.data.MapEntry
+  /// // `entry` can be statically imported from `org.assertj.core.data.MapEntry`
   /// assertThat(actual).contains(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Tim Duncan"));
   /// ```
   ///
