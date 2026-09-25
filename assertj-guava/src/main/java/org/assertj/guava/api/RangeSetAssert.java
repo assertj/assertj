@@ -43,7 +43,7 @@ import com.google.common.collect.RangeSet;
 
 /// Assertion for guava [RangeSet].
 ///
-/// To create an instance of this class, invoke `[Assertions#assertThat(RangeSet)]`.
+/// To create an instance of this class, invoke [Assertions#assertThat(RangeSet)].
 ///
 /// @param <T> the type of the tested RangeSet elements
 /// @author Ilya Koshaleu
@@ -127,7 +127,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   /// rangeSet.add(Range.closed(200, 300));
   /// rangeSet.add(Range.closed(500, 600));
   ///
-  /// assertThat(rangeSet).containsAll(Arrays.asList(50, 270, 550));
+  /// assertThat(rangeSet).containsAll(List.of(50, 270, 550));
   /// ```
   ///
   /// @param values the values to look for in actual `RangeSet`.
@@ -201,7 +201,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   /// rangeSet.add(Range.closed(200, 300));
   /// rangeSet.add(Range.closed(500, 600));
   ///
-  /// assertThat(rangeSet).containsAnyRangesOf(Arrays.asList(150, 250, 700));
+  /// assertThat(rangeSet).containsAnyRangesOf(List.of(150, 250, 700));
   /// ```
   ///
   /// @param values the values to look for in actual `RangeSet`.
@@ -273,7 +273,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   /// rangeSet.add(Range.closed(200, 300));
   /// rangeSet.add(Range.closed(500, 600));
   ///
-  /// assertThat(rangeSet).doesNotContain(Arrays.asList(150, 320, 650));
+  /// assertThat(rangeSet).doesNotContain(List.of(150, 320, 650));
   /// ```
   ///
   /// @param values the values that should not be present in actual `RangeSet`
@@ -453,9 +453,9 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   /// rangeSet.add(Range.closed(200, 300));
   /// rangeSet.add(Range.closed(500, 600));
   ///
-  /// assertThat(rangeSet).intersectsAll(Arrays.asList(Range.closed(50, 150),
-  ///                                                  Range.openClosed(170, 220),
-  ///                                                  Range.open(520, 570)));
+  /// assertThat(rangeSet).intersectsAll(List.of(Range.closed(50, 150),
+  ///                                            Range.openClosed(170, 220),
+  ///                                            Range.open(520, 570)));
   /// ```
   ///
   /// @param ranges the ranges to check whether they all intersect the given `RangeSet`.
@@ -530,9 +530,9 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   /// rangeSet.add(Range.closed(200, 300));
   /// rangeSet.add(Range.closed(500, 600));
   ///
-  /// assertThat(rangeSet).intersectsAnyRangesOf(Arrays.asList(Range.closed(50, 150),
-  ///                                                          Range.open(170, 190),
-  ///                                                          Range.open(600, 670));
+  /// assertThat(rangeSet).intersectsAnyRangesOf(List.of(Range.closed(50, 150),
+  ///                                                    Range.open(170, 190),
+  ///                                                    Range.open(600, 670)));
   /// ```
   ///
   /// @param ranges the ranges to check whether the actual `RangeSet` intersects at least one of them.
@@ -675,9 +675,9 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   /// rangeSet.add(Range.closed(200, 300));
   /// rangeSet.add(Range.closed(500, 600));
   ///
-  /// assertThat(rangeSet).doesNotIntersectAnyRangeFrom(Arrays.asList(Range.closed(120, 150),
-  ///                                                                 Range.open(302, 490),
-  ///                                                                 Range.open(600, 670));
+  /// assertThat(rangeSet).doesNotIntersectAnyRangeFrom(List.of(Range.closed(120, 150),
+  ///                                                           Range.open(302, 490),
+  ///                                                           Range.open(600, 670)));
   /// ```
   ///
   /// @param ranges the ranges to check whether the actual `RangeSet` does not intersect them.
@@ -751,9 +751,9 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   /// rangeSet.add(Range.closed(200, 300));
   /// rangeSet.add(Range.closed(500, 600));
   ///
-  /// assertThat(rangeSet).enclosesAll(Arrays.asList(Range.closed(0, 10),
-  ///                                                Range.open(50, 60),
-  ///                                                Range.open(90, 100)));
+  /// assertThat(rangeSet).enclosesAll(List.of(Range.closed(0, 10),
+  ///                                          Range.open(50, 60),
+  ///                                          Range.open(90, 100)));
   /// ```
   ///
   /// @param ranges the ranges to check whether the actual `RangeSet` encloses all of them.
@@ -862,9 +862,9 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   /// rangeSet.add(Range.closed(200, 300));
   /// rangeSet.add(Range.closed(500, 600));
   ///
-  /// assertThat(rangeSet).enclosesAnyRangesOf(Arrays.asList(Range.closed(-10, 10),
-  ///                                                        Range.open(150, 260),
-  ///                                                        Range.open(290, 296)));
+  /// assertThat(rangeSet).enclosesAnyRangesOf(List.of(Range.closed(-10, 10),
+  ///                                                  Range.open(150, 260),
+  ///                                                  Range.open(290, 296)));
   /// ```
   ///
   /// @param ranges the ranges to check whether the actual `RangeSet` encloses at least one of them.
@@ -904,7 +904,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   /// enclosedSet.add(Range.open(150, 260));
   /// enclosedSet.add(Range.open(290, 296));
   ///
-  /// assertThat(rangeSet).enclosesAll(enclosedSet);
+  /// assertThat(rangeSet).enclosesAnyRangesOf(enclosedSet);
   /// ```
   ///
   /// @param rangeSet the range set to check whether the actual `RangeSet` encloses at least one range from it.
@@ -978,9 +978,9 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
   /// rangeSet.add(Range.closed(200, 300));
   /// rangeSet.add(Range.closed(500, 600));
   ///
-  /// assertThat(rangeSet).doesNotEncloseAnyRangesOf(Arrays.asList(Range.closed(-10, 10),
-  ///                                                              Range.open(150, 160),
-  ///                                                              Range.open(590, 700));
+  /// assertThat(rangeSet).doesNotEncloseAnyRangesOf(List.of(Range.closed(-10, 10),
+  ///                                                        Range.open(150, 160),
+  ///                                                        Range.open(590, 700)));
   /// ```
   ///
   /// @param ranges the ranges to check whether the actual `RangeSet` does not enclose any of them.

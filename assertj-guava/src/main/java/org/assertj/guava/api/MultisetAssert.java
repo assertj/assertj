@@ -28,7 +28,7 @@ import com.google.common.collect.Multiset;
 
 /// Assertions for guava [Multiset].
 ///
-/// To create an instance of this class, invoke `[Assertions#assertThat(Multiset)]`
+/// To create an instance of this class, invoke [Assertions#assertThat(Multiset)].
 ///
 /// @param <T> the type of elements contained in the tested Multiset value
 ///
@@ -41,7 +41,7 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
 
   /// Verifies the actual [Multiset] contains the given value **exactly** the given number of times.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Multiset<String> actual = HashMultiset.create();
@@ -74,7 +74,7 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
 
   /// Verifies the actual [Multiset] contains the given value **at least** the given number of times.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Multiset<String> actual = HashMultiset.create();
@@ -107,7 +107,7 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
 
   /// Verifies the actual [Multiset] contains the given value **at most** the given number of times.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Multiset<String> actual = HashMultiset.create();

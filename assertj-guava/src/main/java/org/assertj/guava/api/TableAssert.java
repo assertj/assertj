@@ -42,7 +42,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
 
   /// Verifies that the actual [Table] has the expected number of rows.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Table<Integer, Integer, String> actual = HashBasedTable.create();
@@ -71,7 +71,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
 
   /// Verifies that the actual [Table] has the expected number of columns.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Table<Integer, Integer, String> actual = HashBasedTable.create();
@@ -100,7 +100,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
 
   /// Verifies that the actual [Table] has the expected number of cells.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Table<Integer, Integer, String> actual = HashBasedTable.create();
@@ -129,7 +129,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
 
   /// Verifies that the actual [Table] contains the given rows.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Table<Integer, Integer, String> actual = HashBasedTable.create();
@@ -166,7 +166,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
 
   /// Verifies that the actual [Table] contains the given columns.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Table<Integer, Integer, String> actual = HashBasedTable.create();
@@ -204,7 +204,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
 
   /// Verifies that the actual [Table] contains the given values for any key.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Table<Integer, Integer, String> actual = HashBasedTable.create();
@@ -242,7 +242,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
 
   /// Verifies that the actual [Table] contains the mapping of row/column to value.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Table<Integer, Integer, String> actual = HashBasedTable.create();
@@ -278,7 +278,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
 
   /// Verifies that the actual [Table] is empty.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Table<Integer, Integer, String> actual = HashBasedTable.create();
@@ -297,7 +297,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
 
   /// Verifies that the actual [Table] is not empty.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Table<Integer, Integer, String> actual = HashBasedTable.create();

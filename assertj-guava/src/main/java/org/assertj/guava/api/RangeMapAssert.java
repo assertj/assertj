@@ -34,9 +34,9 @@ import org.assertj.core.data.MapEntry;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 
-/// Assertions for guava [com.google.common.collect.RangeMap].
+/// Assertions for guava [RangeMap].
 ///
-/// To create an instance of this class, invoke `[org.assertj.guava.api.Assertions#assertThat(com.google.common.collect.RangeMap)]`
+/// To create an instance of this class, invoke [Assertions#assertThat(RangeMap)].
 ///
 /// @param <K> the type of keys of the tested RangeMap value
 /// @param <V> the type of values of the tested RangeMap value
@@ -52,9 +52,9 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return actual;
   }
 
-  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given keys.
+  /// Verifies that the actual [RangeMap] contains the given keys.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// RangeMap<Integer, String> spectralColors = TreeRangeMap.create();
@@ -71,13 +71,12 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
   ///
   /// If the `keys` argument is null or empty, an [IllegalArgumentException] is thrown.
   ///
-  /// @param keys the keys to look for in actual [com.google.common.collect.RangeMap].
+  /// @param keys the keys to look for in actual [RangeMap].
   /// @return this [RangeMapAssert] for assertions chaining.
   /// @throws IllegalArgumentException if no param keys have been set.
-  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is `null`.
-  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] does not contain the given keys.
-  @SafeVarargs
-  public final RangeMapAssert<K, V> containsKeys(@SuppressWarnings("unchecked") K... keys) {
+  /// @throws AssertionError if the actual [RangeMap] is `null`.
+  /// @throws AssertionError if the actual [RangeMap] does not contain the given keys.
+  public RangeMapAssert<K, V> containsKeys(@SuppressWarnings("unchecked") K... keys) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(keys == null, "The keys to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(keys.length == 0, "The keys to look for should not be empty");
@@ -95,9 +94,9 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given entries.
+  /// Verifies that the actual [RangeMap] contains the given entries.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// RangeMap<Integer, String> spectralColors = TreeRangeMap.create();
@@ -110,16 +109,16 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
   /// spectralColors.put(Range.closedOpen(620, 750), "red");
   ///
   /// // entry can be statically imported from `org.assertj.guava.data.MapEntry`
-  /// assertThat(spectralColors).contains(entry("400", "violet"), entry("650", "red"));
+  /// assertThat(spectralColors).contains(entry(400, "violet"), entry(650, "red"));
   /// ```
   ///
   /// If the `entries` argument is null or empty, an [IllegalArgumentException] is thrown.
   ///
-  /// @param entries the entries to look for in actual [com.google.common.collect.RangeMap].
+  /// @param entries the entries to look for in actual [RangeMap].
   /// @return this [RangeMapAssert] for assertions chaining.
   /// @throws IllegalArgumentException if no param entries have been set.
-  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is `null`.
-  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] does not contain the given entries.
+  /// @throws AssertionError if the actual [RangeMap] is `null`.
+  /// @throws AssertionError if the actual [RangeMap] does not contain the given entries.
   /// @deprecated use [#contains(MapEntry...)] instead (similar method but accepting [org.assertj.core.data.MapEntry]
   ///             instead of [org.assertj.guava.data.MapEntry]).
   @SafeVarargs
@@ -142,9 +141,9 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given entries.
+  /// Verifies that the actual [RangeMap] contains the given entries.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// RangeMap<Integer, String> spectralColors = TreeRangeMap.create();
@@ -162,11 +161,11 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
   ///
   /// If the `entries` argument is null or empty, an [IllegalArgumentException] is thrown.
   ///
-  /// @param entries the entries to look for in actual [com.google.common.collect.RangeMap].
+  /// @param entries the entries to look for in actual [RangeMap].
   /// @return this [RangeMapAssert] for assertions chaining.
   /// @throws IllegalArgumentException if no param entries have been set.
-  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is `null`.
-  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] does not contain the given entries.
+  /// @throws AssertionError if the actual [RangeMap] is `null`.
+  /// @throws AssertionError if the actual [RangeMap] does not contain the given entries.
   @SafeVarargs
   public final RangeMapAssert<K, V> contains(MapEntry<K, V>... entries) {
     isNotNull();
@@ -186,9 +185,9 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.RangeMap] contains the given values.
+  /// Verifies that the actual [RangeMap] contains the given values.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// RangeMap<Integer, String> spectralColors = TreeRangeMap.create();
@@ -200,16 +199,16 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
   /// spectralColors.put(Range.closedOpen(590, 620), "orange");
   /// spectralColors.put(Range.closedOpen(620, 750), "red");
   ///
-  /// assertThat(actual).containsValues("violet", "orange");
+  /// assertThat(spectralColors).containsValues("violet", "orange");
   /// ```
   ///
   /// If the `values` argument is null or empty, an [IllegalArgumentException] is thrown.
   ///
-  /// @param values the values to look for in actual [com.google.common.collect.RangeMap].
+  /// @param values the values to look for in actual [RangeMap].
   /// @return this [RangeMapAssert] for assertions chaining.
   /// @throws IllegalArgumentException if no param values have been set.
-  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is `null`.
-  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] does not contain the given values.
+  /// @throws AssertionError if the actual [RangeMap] is `null`.
+  /// @throws AssertionError if the actual [RangeMap] does not contain the given values.
   public RangeMapAssert<K, V> containsValues(@SuppressWarnings("unchecked") V... values) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
@@ -228,19 +227,19 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.RangeMap] is empty.
+  /// Verifies that the actual [RangeMap] is empty.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
-  /// RangeMap<Integer, String> spectralColors = TreeRangeMap.create();
+  /// RangeMap<Integer, String> actual = TreeRangeMap.create();
   ///
   /// assertThat(actual).isEmpty();
   /// ```
   ///
   /// @return this [RangeMapAssert] for assertions chaining.
-  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is `null`.
-  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is not empty.
+  /// @throws AssertionError if the actual [RangeMap] is `null`.
+  /// @throws AssertionError if the actual [RangeMap] is not empty.
   public RangeMapAssert<K, V> isEmpty() {
     isNotNull();
     if (!actual.asMapOfRanges().isEmpty()) {
@@ -249,9 +248,9 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     return myself;
   }
 
-  /// Verifies that the actual [com.google.common.collect.RangeMap] is not empty.
+  /// Verifies that the actual [RangeMap] is not empty.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// RangeMap<Integer, String> spectralColors = TreeRangeMap.create();
@@ -267,8 +266,8 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
   ///
   /// @return this [RangeMapAssert] for assertions chaining.
   ///
-  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is `null`.
-  /// @throws AssertionError if the actual [com.google.common.collect.RangeMap] is empty.
+  /// @throws AssertionError if the actual [RangeMap] is `null`.
+  /// @throws AssertionError if the actual [RangeMap] is empty.
   public RangeMapAssert<K, V> isNotEmpty() {
     isNotNull();
     if (actual.asMapOfRanges().isEmpty()) {

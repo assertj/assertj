@@ -36,7 +36,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
 
   /// Verifies that the actual [ByteSource] has the same content as the provided one.
   ///
-  /// Example :
+  /// Example:
   /// ```java
   /// ByteSource actual = ByteSource.wrap(new byte[1]);
   /// ByteSource other = ByteSource.wrap(new byte[1]);
@@ -57,7 +57,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
 
   /// Verifies that the actual [ByteSource] is empty.
   ///
-  /// Example :
+  /// Example:
   /// ```java
   /// ByteSource actual = ByteSource.wrap(new byte[0]);
   ///
@@ -74,7 +74,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
 
   /// Verifies that the size of the actual [ByteSource] is equal to the given one.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// ByteSource actual = ByteSource.wrap(new byte[9]);

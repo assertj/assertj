@@ -56,7 +56,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
 
   /// Verifies that the actual [Multimap] contains the given keys.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Multimap<String, String> actual = ArrayListMultimap.create();
@@ -94,7 +94,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
 
   /// Verifies that the actual [Multimap] contains the given entries.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Multimap<String, String> actual = ArrayListMultimap.create();
@@ -134,7 +134,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
 
   /// Verifies that the actual [Multimap] contains the given values for any key.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Multimap<String, String> actual = ArrayListMultimap.create();
@@ -173,7 +173,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
 
   /// Verifies that the actual [Multimap] is empty.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Multimap<String, String> actual = ArrayListMultimap.create();
@@ -192,7 +192,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
 
   /// Verifies that the actual [Multimap] is not empty.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Multimap<String, String> actual = ArrayListMultimap.create();
@@ -213,7 +213,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
 
   /// Verifies that the number of values in the actual [Multimap] is equal to the given one.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Multimap<String, String> actual = ArrayListMultimap.create();
@@ -242,7 +242,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   /// It allows to compare two multimaps having the same content but which are not equal because they are of different
   /// types like [com.google.common.collect.SetMultimap] and [com.google.common.collect.ListMultimap].
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Multimap<String, String> listMultimap = ArrayListMultimap.create();
@@ -277,7 +277,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
 
   /// Verifies that the actual [Multimap] contains all entries of the given one (it might contain more entries).
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Multimap<String, String> actual = ArrayListMultimap.create();

@@ -28,7 +28,7 @@ import com.google.common.base.Optional;
 
 /// Assertions for guava [Optional].
 ///
-/// To create an instance of this class, invoke `[Assertions#assertThat(Optional)]`
+/// To create an instance of this class, invoke [Assertions#assertThat(Optional)].
 ///
 /// @param <T> the type of elements of the tested Optional value
 ///
@@ -46,7 +46,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
 
   /// Verifies that the actual [Optional] contains the given value.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Optional<String> optional = Optional.of("Test");
@@ -73,7 +73,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
 
   /// Verifies that the actual [Optional] contained instance is absent/null (ie. not [Optional#isPresent()]).
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Optional<String> optional = Optional.absent();
@@ -95,7 +95,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
 
   /// Verifies that the actual [Optional] contains a (non-null) instance.
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Optional<String> optional = Optional.of("value");
@@ -117,7 +117,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
 
   /// Chain assertion on the content of the [Optional].
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Optional<Number> optional = Optional.of(12L);
@@ -136,7 +136,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
 
   /// Chain assertion on the content of the [Optional].
   ///
-  /// Example :
+  /// Example:
   ///
   /// ```java
   /// Optional<String> optional = Optional.of("Bill");
