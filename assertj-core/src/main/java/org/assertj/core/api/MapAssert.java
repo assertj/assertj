@@ -46,6 +46,17 @@ public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALU
   }
 
   /**
+   * Creates a map assertion whose actual value is {@code null}.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   * @return a null map assertion
+   */
+  public static <K, V> MapAssert<K, V> nullMapAssert() {
+    return new MapAssert<>(null);
+  }
+
+  /**
    * Creates a new map assertion.
    *
    * @param actual the actual map to verify
