@@ -18,6 +18,7 @@
     <additionalparam>-Xdoclint:none</additionalparam>
     <spotless.skip>true</spotless.skip>
     <!-- Dependency versions -->
+    <guava.version>33.7.1-jre</guava.version>
     <junit.version>4.13.2</junit.version>
     <junit-jupiter.version>5.14.1</junit-jupiter.version>
     <mockito.version>4.11.0</mockito.version>
@@ -33,6 +34,11 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
+      </dependency>
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
