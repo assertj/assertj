@@ -1,4 +1,4 @@
-# Project Context & Agent Guidelines
+# Project Context and Agent Guidelines
 
 This file defines the technical stack, development conventions, and documentation standards for this repository. All AI agents, code generators, and automated review tools must strictly adhere to these rules. If a more specific `AGENTS.md` exists deeper in the tree, follow that file for the narrower scope.
 
@@ -9,24 +9,32 @@ This file defines the technical stack, development conventions, and documentatio
 * **Dependency Management**: Maven (always use the wrapper via `./mvnw`).
 * **Testing Ecosystem**: JUnit, Mockito, and AssertJ.
 
-## Code & Testing Conventions
+## Code and Testing Conventions
 
-### Visibility & Structure
+### Visibility and Structure
 * Prefer `package-private` (no modifier) visibility for test classes and methods.
-* Write exactly one JUnit test class for each assertion method.
+  * `@Nested` test classes, test helper methods, and test constants should also be package-private (or `private` where appropriate).
+* Write exactly one JUnit test class for each assertion method under test in the public API (e.g., `OptionalAssert_containsInstanceOf_Test` tests `OptionalAssert#containsInstanceOf`).
 * **Naming Convention**: Use `<AssertClass>_<assertion>_Test` for the class name.
 * **Method Names**: Use underscore-based (snake_case) naming rather than camelCase for unit test methods.
+* **Variable Declarations**: `var` is permitted for local variables in test methods when the right-hand side type is explicit.
 
 ### Test Architecture (GIVEN/WHEN/THEN)
 * Use explicit `GIVEN`, `WHEN`, and `THEN` comments in every test.
-* **Assertions**: Prefer `BDDAssertions.then` over `Assertions.assertThat` for assertions in the `THEN` step.
-* **Exception Testing**: Use `AssertionUtil.expectAssertionError` for tests expecting an `AssertionError`.
+* **Assertions**: Prefer `BDDAssertions.then` over `Assertions.assertThat` for assertions in the `THEN` step, except for `WHEN/THEN` steps meant to test the `assertThat` entry point directly.
+* **Exception Testing**: Use `AssertionsUtil.expectAssertionError` for tests expecting an `AssertionError`.
 * **Imports**: Use static imports when it improves code readability.
 
 ### Reference Unit Test Example
 ```java
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
 
 class OptionalAssert_containsInstanceOf_Test {
 
@@ -56,7 +64,7 @@ class OptionalAssert_containsInstanceOf_Test {
 Newly introduced documentation comments must use Markdown, specifically the [CommonMark](https://spec.commonmark.org/) variant supported by the standard `javadoc` doclet, alongside extensions for Javadoc tags and links to program elements.
 Existing comments should also be converted to Markdown whenever they are updated.
 
-### Syntax & Formatting
+### Syntax and Formatting
 
 * **Prefix**: Always use the `///` (three forward slashes) prefix for documentation comments instead of the traditional `/** ... */` block.
 * **Styling**: Use standard Markdown syntax (e.g., `**bold**`, `_italic_`, `[link](url)`). **Never use HTML tags** (such as `<p>`, `<ul>`, `<code>`).
@@ -83,15 +91,20 @@ Use the extended Markdown reference link syntax instead of traditional `{@link .
 * **Custom Link Text**: Use the `[alternative text][Element]` syntax.
 * **Escaping Brackets**: Escape array parameter brackets with backslashes: `[String#copyValueOf(char\[\])]`.
 
-## Build & Run Commands
+## Build and Run Commands
 
 Use the Maven wrapper for the following verification and formatting commands:
 
 * **License Headers**: `./mvnw license:format` to add or update license headers.
 * **Code Formatting**: `./mvnw spotless:apply` to format code and optimize imports.
-* **Verification**: `./mvnw clean verify` to ensure all tests pass.
+* **Verification**:
+  * **Single Test Class**: `./mvnw test -Dtest=<test-class-name>` to ensure all tests in a class pass (e.g., `./mvnw test -Dtest=OptionalAssert_containsInstanceOf_Test`).
+  * **Module Test Suite**: `./mvnw -pl <module-name> -am test` to ensure all tests in a module pass (e.g., `./mvnw -pl assertj-core-tests -am test`).
+  * **Full Test Suite**: `./mvnw clean verify` to ensure all tests pass.
 * **Documentation**: `./mvnw clean javadoc:javadoc` to generate Javadoc documentation.
 
 ## Strict Restrictions (Do Not)
 
+* **No Unapproved Dependencies in `assertj-core`**: Do not add third-party runtime dependencies to `assertj-core` production code beyond standard JDK library APIs (with `byte-buddy` as the sole exception for runtime proxying).
+* **No Unapproved Dependencies in `assertj-guava`**: Do not add dependencies to `assertj-guava` other than `assertj-core` with `compile` scope (default) and `guava` with `provided` scope.
 * **No Kotlin**: Do not suggest Kotlin alternatives or mix Kotlin into the codebase, except for test code in the `assertj-tests/assertj-integration-tests/assertj-core-kotlin` module.
