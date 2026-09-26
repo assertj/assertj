@@ -172,6 +172,7 @@
                 <include>src/test/java/**/*.java</include>
               </includes>
               <eclipse>
+                <version>4.41</version> <!-- FIXME unpin once https://github.com/diffplug/spotless/pull/3112 is released -->
                 <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
               </eclipse>
               <importOrder>

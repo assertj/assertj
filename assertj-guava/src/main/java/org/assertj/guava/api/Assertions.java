@@ -26,107 +26,89 @@ import com.google.common.collect.RangeSet;
 import com.google.common.collect.Table;
 import com.google.common.io.ByteSource;
 
-/**
- * The entry point for all Guava assertions.
- *
- * @author marcelfalliere
- * @author miralak
- * @author Kornel
- * @author Jan Gorman
- * @author Joel Costigliola
- * @author Marcin Kwaczyński
- * @author Max Daniline
- * @author Ilya Koshaleu
- */
+/// The entry point for all Guava assertions.
+///
+/// @author marcelfalliere
+/// @author miralak
+/// @author Kornel
+/// @author Jan Gorman
+/// @author Joel Costigliola
+/// @author Marcin Kwaczyński
+/// @author Max Daniline
+/// @author Ilya Koshaleu
 public class Assertions implements InstanceOfAssertFactories {
 
-  /**
-   * Creates an assertion for the given {@link ByteSource}.
-   *
-   * @param actual the actual value
-   * @return the created assertion
-   */
+  /// Creates an assertion for the given [ByteSource].
+  ///
+  /// @param actual the actual value
+  /// @return the created assertion
   public static ByteSourceAssert assertThat(final ByteSource actual) {
     return new ByteSourceAssert(actual);
   }
 
-  /**
-   * Creates an assertion for the given {@link Multimap}.
-   *
-   * @param <K> the type of keys in the multimap
-   * @param <V> the type of values in the multimap
-   * @param actual the actual value
-   * @return the created assertion
-   */
+  /// Creates an assertion for the given [Multimap].
+  ///
+  /// @param <K> the type of keys in the multimap
+  /// @param <V> the type of values in the multimap
+  /// @param actual the actual value
+  /// @return the created assertion
   public static <K, V> MultimapAssert<K, V> assertThat(final Multimap<K, V> actual) {
     return new MultimapAssert<>(actual);
   }
 
-  /**
-   * Creates an assertion for the given {@link Optional}.
-   *
-   * @param <T> the type of the optional value
-   * @param actual the actual value
-   * @return the created assertion
-   */
+  /// Creates an assertion for the given [Optional].
+  ///
+  /// @param <T> the type of the optional value
+  /// @param actual the actual value
+  /// @return the created assertion
   public static <T> OptionalAssert<T> assertThat(final Optional<T> actual) {
     return new OptionalAssert<>(actual);
   }
 
-  /**
-   * Creates an assertion for the given {@link Range}.
-   *
-   * @param <T> the type of values in the range
-   * @param actual the actual value
-   * @return the created assertion
-   */
+  /// Creates an assertion for the given [Range].
+  ///
+  /// @param <T> the type of values in the range
+  /// @param actual the actual value
+  /// @return the created assertion
   public static <T extends Comparable<T>> RangeAssert<T> assertThat(final Range<T> actual) {
     return new RangeAssert<>(actual);
   }
 
-  /**
-   * Creates an assertion for the given {@link RangeMap}.
-   *
-   * @param <K> the type of keys in the range map
-   * @param <V> the type of values in the range map
-   * @param actual the actual value
-   * @return the created assertion
-   */
+  /// Creates an assertion for the given [RangeMap].
+  ///
+  /// @param <K> the type of keys in the range map
+  /// @param <V> the type of values in the range map
+  /// @param actual the actual value
+  /// @return the created assertion
   public static <K extends Comparable<K>, V> RangeMapAssert<K, V> assertThat(final RangeMap<K, V> actual) {
     return new RangeMapAssert<>(actual);
   }
 
-  /**
-   * Creates an assertion for the given {@link RangeSet}.
-   *
-   * @param <T> the type of values in the range set
-   * @param actual the actual value
-   * @return the created assertion
-   */
+  /// Creates an assertion for the given [RangeSet].
+  ///
+  /// @param <T> the type of values in the range set
+  /// @param actual the actual value
+  /// @return the created assertion
   public static <T extends Comparable<T>> RangeSetAssert<T> assertThat(final RangeSet<T> actual) {
     return new RangeSetAssert<>(actual);
   }
 
-  /**
-   * Creates an assertion for the given {@link Table}.
-   *
-   * @param <R> the type of row keys in the table
-   * @param <C> the type of column keys in the table
-   * @param <V> the type of values in the table
-   * @param actual the actual value
-   * @return the created assertion
-   */
+  /// Creates an assertion for the given [Table].
+  ///
+  /// @param <R> the type of row keys in the table
+  /// @param <C> the type of column keys in the table
+  /// @param <V> the type of values in the table
+  /// @param actual the actual value
+  /// @return the created assertion
   public static <R, C, V> TableAssert<R, C, V> assertThat(Table<R, C, V> actual) {
     return new TableAssert<>(actual);
   }
 
-  /**
-   * Creates an assertion for the given {@link Multiset}.
-   *
-   * @param <T> the type of values in the multiset
-   * @param actual the actual value
-   * @return the created assertion
-   */
+  /// Creates an assertion for the given [Multiset].
+  ///
+  /// @param <T> the type of values in the multiset
+  /// @param actual the actual value
+  /// @return the created assertion
   public static <T> MultisetAssert<T> assertThat(final Multiset<T> actual) {
     return new MultisetAssert<>(actual);
   }
@@ -135,32 +117,30 @@ public class Assertions implements InstanceOfAssertFactories {
   // Data utility methods : not assertions but here to have a single entry point to all AssertJ Guava features.
   // ------------------------------------------------------------------------------------------------------
 
-  /**
-   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a fully featured entry point to all
-   * AssertJ Guava features (but you can use {@link MapEntry} if you prefer).
-   * <p>
-   * Typical usage is to call <code>entry</code> in MultimapAssert <code>contains</code> assertion as shown below :
-   *
-   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
-   * actual.putAll(&quot;Lakers&quot;, newArrayList(&quot;Kobe Bryant&quot;, &quot;Magic Johnson&quot;, &quot;Kareem Abdul Jabbar&quot;));
-   * actual.putAll(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
-   *
-   * assertThat(actual).contains(entry(&quot;Lakers&quot;, &quot;Kobe Bryant&quot;), entry(&quot;Spurs&quot;, &quot;Tim Duncan&quot;)); </code></pre>
-   *
-   * @param <K> the type of the key of this entry.
-   * @param <V> the type of the value of this entry.
-   * @param key the key of the entry to create.
-   * @param value the value of the entry to create.
-   *
-   * @return the built entry
-   */
+  /// Only delegate to [MapEntry#entry(Object, Object)] so that Assertions offers a fully featured entry point to all
+  /// AssertJ Guava features (but you can use [MapEntry] if you prefer).
+  ///
+  /// Typical usage is to call `entry` in MultimapAssert `contains` assertion as shown below :
+  ///
+  /// ```java
+  /// Multimap<String, String> actual = ArrayListMultimap.create();
+  /// actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+  /// actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+  ///
+  /// assertThat(actual).contains(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Tim Duncan"));
+  /// ```
+  ///
+  /// @param <K> the type of the key of this entry.
+  /// @param <V> the type of the value of this entry.
+  /// @param key the key of the entry to create.
+  /// @param value the value of the entry to create.
+  ///
+  /// @return the built entry
   public static <K, V> MapEntry<K, V> entry(K key, V value) {
     return MapEntry.entry(key, value);
   }
 
-  /**
-   * protected to avoid direct instantiation but allowing subclassing.
-   */
+  /// protected to avoid direct instantiation but allowing subclassing.
   protected Assertions() {
     // empty
   }

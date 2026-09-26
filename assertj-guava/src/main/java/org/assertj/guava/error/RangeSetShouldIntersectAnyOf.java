@@ -20,32 +20,27 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 import com.google.common.collect.RangeSet;
 
-/**
- * Creates an error message indicating that the given {@link com.google.common.collect.RangeSet} does not intersect
- * at lease one element of expected objects.
- *
- * @author Ilya Koshaleu
- */
+/// Creates an error message indicating that the given [RangeSet] does not intersect
+/// at least one element of expected objects.
+///
+/// @author Ilya Koshaleu
 public class RangeSetShouldIntersectAnyOf extends BasicErrorMessageFactory {
 
-  /**
-   * Creates an error message for a range set that does not intersect any expected range.
-   *
-   * @param actual the actual range set
-   * @param expected the expected ranges
-   * @return the created error message factory
-   */
+  /// Creates an error message for a range set that does not intersect any expected range.
+  ///
+  /// @param actual the actual range set
+  /// @param expected the expected ranges
+  /// @return the created error message factory
   public static ErrorMessageFactory shouldIntersectAnyOf(RangeSet<?> actual, Object expected) {
     return new RangeSetShouldIntersectAnyOf(actual, expected);
   }
 
-  /**
-   * Creates a new <code>{@link BasicErrorMessageFactory}</code>.
-   *
-   * @param actual actual {@link com.google.common.collect.RangeSet}.
-   * @param expected expected range to intersect.
-   */
+  /// Creates a new [BasicErrorMessageFactory].
+  ///
+  /// @param actual actual [RangeSet].
+  /// @param expected expected range to intersect.
   private RangeSetShouldIntersectAnyOf(Object actual, Object expected) {
     super("%nExpecting:%n  %s%nto intersect at least one range of the given:%n  %s%n", actual, expected);
   }
+
 }

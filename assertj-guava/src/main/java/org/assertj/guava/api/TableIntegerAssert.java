@@ -18,33 +18,27 @@ package org.assertj.guava.api;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.AbstractIntegerAssert;
 
-/**
- * Assertion methods for {@link Integer}s with the possibility of returning to the {@link TableAssert}.
- *
- * @param <R> the type of row keys in the source table
- * @param <C> the type of column keys in the source table
- * @param <V> the type of values in the source table
- */
+/// Assertion methods for [Integer]s with the possibility of returning to the [TableAssert].
+///
+/// @param <R> the type of row keys in the source table
+/// @param <C> the type of column keys in the source table
+/// @param <V> the type of values in the source table
 public class TableIntegerAssert<R, C, V> extends AbstractIntegerAssert<TableIntegerAssert<R, C, V>> {
 
   private final TableAssert<R, C, V> source;
 
-  /**
-   * Creates a new integer assertion linked to the source table assertion.
-   *
-   * @param source the source table assertion
-   * @param i the actual integer value
-   */
+  /// Creates a new integer assertion linked to the source table assertion.
+  ///
+  /// @param source the source table assertion
+  /// @param i the actual integer value
   public TableIntegerAssert(TableAssert<R, C, V> source, Integer i) {
     super(i, TableIntegerAssert.class);
     this.source = source;
   }
 
-  /**
-   * Returns to the source table assertion.
-   *
-   * @return the source table assertion
-   */
+  /// Returns to the source table assertion.
+  ///
+  /// @return the source table assertion
   @CheckReturnValue
   public TableAssert<R, C, V> returnToTable() {
     return source;

@@ -20,19 +20,15 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 import com.google.common.collect.Range;
 
-/**
- * Creates an error message indicating that a range should have the expected upper endpoint.
- */
+/// Creates an error message indicating that a range should have the expected upper endpoint.
 public class RangeShouldHaveUpperEndpointEqual extends BasicErrorMessageFactory {
 
-  /**
-   * Creates an error message for a range without the expected upper endpoint.
-   *
-   * @param <T> the type of values in the range
-   * @param actual the actual range
-   * @param value the expected upper endpoint
-   * @return the created error message factory
-   */
+  /// Creates an error message for a range without the expected upper endpoint.
+  ///
+  /// @param <T> the type of values in the range
+  /// @param actual the actual range
+  /// @param value the expected upper endpoint
+  /// @return the created error message factory
   public static <T extends Comparable<T>> ErrorMessageFactory shouldHaveEqualUpperEndpoint(final Range<T> actual,
                                                                                            final Object value) {
     return new RangeShouldHaveUpperEndpointEqual("%n" +
@@ -45,12 +41,10 @@ public class RangeShouldHaveUpperEndpointEqual extends BasicErrorMessageFactory 
                                                  actual, value, actual.upperEndpoint());
   }
 
-  /**
-   * Creates a new <code>{@link org.assertj.core.error.BasicErrorMessageFactory}</code>.
-   *
-   * @param format the format string.
-   * @param arguments arguments referenced by the format specifiers in the format string.
-   */
+  /// Creates a new [BasicErrorMessageFactory].
+  ///
+  /// @param format the format string.
+  /// @param arguments arguments referenced by the format specifiers in the format string.
   private RangeShouldHaveUpperEndpointEqual(final String format, final Object... arguments) {
     super(format, arguments);
   }

@@ -18,36 +18,24 @@ package org.assertj.guava.error;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
-import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
 
-/**
- * Creates an error message indicating that the given {@link RangeSet} does not intersect
- * either another one {@link RangeSet} or some set of {@link Range}.
- *
- * @author Ilya Koshaleu
- */
+/// Creates an error message indicating that the given [RangeSet] does not intersect
+/// either another one [RangeSet] or some set of [com.google.common.collect.Range].
+///
+/// @author Ilya Koshaleu
 public class RangeSetShouldIntersect extends BasicErrorMessageFactory {
 
-  /**
-   * Creates an error message for a range set that does not intersect all expected ranges.
-   *
-   * @param actual the actual range set
-   * @param expected the expected ranges
-   * @param notIntersected the ranges that were not intersected
-   * @return the created error message factory
-   */
+  /// Creates an error message for a range set that does not intersect all expected ranges.
+  ///
+  /// @param actual the actual range set
+  /// @param expected the expected ranges
+  /// @param notIntersected the ranges that were not intersected
+  /// @return the created error message factory
   public static ErrorMessageFactory shouldIntersect(RangeSet<?> actual, Object expected, Iterable<?> notIntersected) {
     return new RangeSetShouldIntersect(actual, expected, notIntersected);
   }
 
-  /**
-   * Creates a new <code>{@link BasicErrorMessageFactory}</code>.
-   *
-   * @param actual actual {@link RangeSet}.
-   * @param expected expected {@link RangeSet} that have to be intersected.
-   * @param notIntersected not intersected ranges.
-   */
   private RangeSetShouldIntersect(Object actual, Object expected, Object notIntersected) {
     super("%nExpecting:%n  %s%nto intersect%n  %s%nbut it does not intersect%n  %s%n",
           actual, expected, notIntersected);

@@ -18,8 +18,6 @@
   <properties>
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
-    <!-- Dependency versions -->
-    <guava.version>33.7.1-jre</guava.version>
   </properties>
 
   <dependencies>
@@ -33,7 +31,6 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
