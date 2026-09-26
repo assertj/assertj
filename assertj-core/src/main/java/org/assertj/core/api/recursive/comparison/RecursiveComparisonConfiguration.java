@@ -111,6 +111,23 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     fieldLocationsToCompareBecauseOfTypesToCompare.add(fieldLocation);
   }
 
+  Set<FieldLocation> comparedTypeLocations() {
+    return new LinkedHashSet<>(fieldLocationsToCompareBecauseOfTypesToCompare);
+  }
+
+  void restoreComparedTypeLocations(Set<FieldLocation> locations) {
+    fieldLocationsToCompareBecauseOfTypesToCompare.clear();
+    fieldLocationsToCompareBecauseOfTypesToCompare.addAll(locations);
+  }
+
+  boolean canReuseMapComparisonAcrossPaths() {
+    return !hasComparedFields() && !hasComparedTypes()
+           && getIgnoredFields().isEmpty() && getIgnoredFieldsRegexes().isEmpty()
+           && ignoredOverriddenEqualsForFields.isEmpty() && ignoredOverriddenEqualsForFieldsMatchingRegexes.isEmpty()
+           && ignoredCollectionOrderInFields.isEmpty() && ignoredCollectionOrderInFieldsMatchingRegexes.isEmpty()
+           && fieldComparators.isEmpty();
+  }
+
   private RecursiveComparisonIntrospectionStrategy introspectionStrategy = DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY;
 
   private boolean compareEnumAgainstString = false;
@@ -1138,7 +1155,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    */
   public boolean shouldIgnoreOverriddenEqualsOf(DualValue dualValue) {
     // root objects are not compared with equals as it makes the recursive comparison pointless (use isEqualsTo instead)
-    if (dualValue.fieldLocation.isRoot()) return true;
+    if (dualValue.fieldLocation.isRoot() && !dualValue.isMapKey()) return true;
     // we must compare java basic types otherwise the recursive comparison loops infinitely!
     if (dualValue.isActualJavaType()) return false;
     // enums don't have fields, comparing them field by field makes no sense; we need to use equals, which is overridden and final
@@ -1154,7 +1171,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    */
   public boolean shouldHonorOverriddenEquals(DualValue dualValue) {
     // root objects are not compared with equals as it makes the recursive comparison pointless (use isEqualsTo instead)
-    if (dualValue.fieldLocation.isRoot()) return false;
+    if (dualValue.fieldLocation.isRoot() && !dualValue.isMapKey()) return false;
     // we must only honor overridden equals on compared fields if any, we need to introspect recursively non compared
     // fields in case a direct or indirect child is a compared field
     if (someComparedFieldsWereSpecified() && isNotAComparedField(dualValue)) {
@@ -1582,7 +1599,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   boolean hierarchyMatchesAnyComparedTypes(DualValue dualValue) {
     if (isFieldOfTypeToCompare(dualValue)) return true;
     // dualValue is not a type to compare but could be a child of one
-    return fieldLocationsToCompareBecauseOfTypesToCompare.stream().anyMatch(dualValue.fieldLocation::hasParent);
+    return dualValue.hasAncestorMatching(ancestor -> ancestor.isMapKey() && isFieldOfTypeToCompare(ancestor))
+           || fieldLocationsToCompareBecauseOfTypesToCompare.stream().anyMatch(dualValue.fieldLocation::hasParent);
   }
 
   boolean matchesOrIsChildOfFieldMatchingAnyComparedTypes(DualValue dualValue) {
