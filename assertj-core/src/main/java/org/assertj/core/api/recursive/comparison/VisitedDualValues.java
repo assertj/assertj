@@ -18,6 +18,8 @@ package org.assertj.core.api.recursive.comparison;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
@@ -26,9 +28,32 @@ import java.util.Set;
 class VisitedDualValues {
 
   private final List<VisitedDualValue> visitedDualValues;
+  private boolean cycleGuardUsed;
 
   VisitedDualValues() {
     visitedDualValues = new ArrayList<>();
+  }
+
+  VisitedDualValues forAncestorsOf(DualValue dualValue) {
+    VisitedDualValues ancestors = new VisitedDualValues();
+    Set<DualValue> parentChain = Collections.newSetFromMap(new IdentityHashMap<>());
+    for (DualValue parent = dualValue.parent(); parent != null; parent = parent.parent())
+      parentChain.add(parent);
+    for (VisitedDualValue visited : visitedDualValues) {
+      if (parentChain.contains(visited.dualValue)) {
+        // Only inherit cycle guards, not results obtained under another field's comparison rules.
+        ancestors.registerVisitedDualValue(visited.dualValue);
+      }
+    }
+    return ancestors;
+  }
+
+  boolean cycleGuardUsed() {
+    return cycleGuardUsed;
+  }
+
+  void markCycleGuardUsed() {
+    cycleGuardUsed = true;
   }
 
   void registerVisitedDualValue(DualValue dualValue) {
@@ -60,6 +85,7 @@ class VisitedDualValues {
     if (optionalVisitedDualValue.isEmpty()) {
       return Optional.empty();
     }
+    if (dualValue.hasAncestor(dualValue)) cycleGuardUsed = true;
     // need to aggregate the current visited dualValue differences + all the visited children differences
     Set<ComparisonDifference> comparisonDifferences = new LinkedHashSet<>(optionalVisitedDualValue.get().comparisonDifferences);
     visitedDualValues.stream()
