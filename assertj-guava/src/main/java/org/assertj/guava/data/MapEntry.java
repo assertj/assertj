@@ -20,29 +20,26 @@ import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
 import static org.assertj.core.util.Strings.quote;
 
-/**
- * This is generic version of {@link org.assertj.core.data.MapEntry}
- *
- * @param <K> key type
- * @param <V> value type
- *
- * @deprecated use {@link org.assertj.core.data.MapEntry org.assertj.core.data.MapEntry} instead.
- */
+/// This is generic version of [org.assertj.core.data.MapEntry]
+///
+/// @param <K> key type
+/// @param <V> value type
+///
+/// @deprecated use [org.assertj.core.data.MapEntry] instead.
 @Deprecated
 public final class MapEntry<K, V> {
+
   public final K key;
 
   public final V value;
 
-  /**
-   * Creates a new {@link MapEntry}.
-   *
-   * @param <K> key type
-   * @param <V> value type
-   * @param key the key of the entry to create.
-   * @param value the value of the entry to create.
-   * @return the created {@code MapEntry}.
-   */
+  /// Creates a new [MapEntry].
+  ///
+  /// @param <K> key type
+  /// @param <V> value type
+  /// @param key the key of the entry to create.
+  /// @param value the value of the entry to create.
+  /// @return the created `MapEntry`.
   public static <K, V> MapEntry<K, V> entry(K key, V value) {
     return new MapEntry<>(key, value);
   }
