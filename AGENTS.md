@@ -98,9 +98,9 @@ Use the Maven wrapper for the following verification and formatting commands:
 * **License Headers**: `./mvnw license:format` to add or update license headers.
 * **Code Formatting**: `./mvnw spotless:apply` to format code and optimize imports.
 * **Verification**:
-  * **Single Test Class**: `./mvnw test -Dtest=<test-class-name>` to ensure all tests in a class pass (e.g., `./mvnw test -Dtest=OptionalAssert_containsInstanceOf_Test`).
-  * **Module Test Suite**: `./mvnw -pl <module-name> -am test` to ensure all tests in a module pass (e.g., `./mvnw -pl assertj-core-tests -am test`).
-  * **Full Test Suite**: `./mvnw clean verify` to ensure all tests pass.
+  * **Single Test Class**: `./mvnw clean test -Dtest=<test-class-name>` to ensure all tests in a class pass (e.g., `./mvnw clean test -Dtest=OptionalAssert_containsInstanceOf_Test`).
+  * **Module Test Suite**: `./mvnw -pl <module-name> -am clean test` to ensure all tests in a module pass (e.g., `./mvnw -pl assertj-core-tests -am clean test`).
+  * **Full Test Suite**: `./mvnw clean verify` to ensure all tests and verifications pass.
 * **Documentation**: `./mvnw clean javadoc:javadoc` to generate Javadoc documentation.
 
 ## Strict Restrictions (Do Not)
