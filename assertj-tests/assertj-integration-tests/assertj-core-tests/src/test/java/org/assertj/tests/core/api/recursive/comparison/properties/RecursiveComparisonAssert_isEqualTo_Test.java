@@ -57,20 +57,20 @@ class RecursiveComparisonAssert_isEqualTo_Test {
     var baz1 = new BazRecord("baz", new BarRecord("bar", new FooRecord(1, 22, "foo1")));
     var baz2 = new BazRecord("baz", new BarRecord("bar", new FooRecord(1, 22, "foo1")));
     // WHEN
-    long duration1 = durationOfComparingRecursively(baz1, baz2);
-    long duration2 = durationOfComparingRecursively(baz1, baz2);
+    var duration1 = durationOfComparingRecursively(baz1, baz2);
+    var duration2 = durationOfComparingRecursively(baz1, baz2);
     // THEN
     then(duration2).isLessThanOrEqualTo(duration1);
-    System.out.println("no cache run: " + duration1 + "ms | run with cache: " + duration2 + "ms");
+    System.out.println("no cache run: " + duration1 + " | run with cache: " + duration2 + "");
   }
 
-  private long durationOfComparingRecursively(BazRecord baz1, BazRecord baz2) {
+  private Duration durationOfComparingRecursively(BazRecord baz1, BazRecord baz2) {
     var start = Instant.now();
     then(baz1).usingRecursiveComparison()
               .withIntrospectionStrategy(comparingProperties)
               .isEqualTo(baz2);
     var end = Instant.now();
-    return Duration.between(start, end).toMillis();
+    return Duration.between(start, end);
   }
 
   @Test
