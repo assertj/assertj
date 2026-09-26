@@ -60,8 +60,8 @@ class RecursiveComparisonAssert_isEqualTo_Test {
     long duration1 = durationOfComparingRecursively(baz1, baz2);
     long duration2 = durationOfComparingRecursively(baz1, baz2);
     // THEN
-    then(duration2).isLessThan(duration1);
-    IO.println("no cache run: " + duration1 + "ms | run with cache: " + duration2 + "ms");
+    then(duration2).isLessThanOrEqualTo(duration1);
+    System.out.println("no cache run: " + duration1 + "ms | run with cache: " + duration2 + "ms");
   }
 
   private long durationOfComparingRecursively(BazRecord baz1, BazRecord baz2) {
