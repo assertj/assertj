@@ -291,7 +291,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   /// // assertion will pass as other is a subset of actual.
   /// assertThat(actual).containsAllEntriesOf(other);
   ///
-  /// // this assertion FAILS as other does not contain "Spurs -> "Manu Ginobili" and "Bulls" -> "Derrick Rose"
+  /// // this assertion FAILS as other does not contain "Spurs" -> "Manu Ginobili" and "Bulls" -> "Derrick Rose"
   /// assertThat(other).containsAllEntriesOf(actual);
   /// ```
   ///
@@ -299,7 +299,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   /// @return this [MultimapAssert] for assertions chaining.
   /// @throws AssertionError if the actual [Multimap] is `null`.
   /// @throws IllegalArgumentException if the other [Multimap] is `null`.
-  /// @throws AssertionError if actual [Multimap] does not have contain all the given [Multimap] entries.
+  /// @throws AssertionError if actual [Multimap] does not contain all the given [Multimap] entries.
   public final MultimapAssert<K, V> containsAllEntriesOf(Multimap<? extends K, ? extends V> other) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(other == null, "The multimap to compare actual with should not be null");

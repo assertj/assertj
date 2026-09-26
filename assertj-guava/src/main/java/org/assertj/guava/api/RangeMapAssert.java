@@ -108,7 +108,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
   /// spectralColors.put(Range.closedOpen(590, 620), "orange");
   /// spectralColors.put(Range.closedOpen(620, 750), "red");
   ///
-  /// // `entry` can be statically imported from `org.assertj.core.data.MapEntry`
+  /// // `entry` can be statically imported from `org.assertj.guava.data.MapEntry`
   /// assertThat(spectralColors).contains(entry(400, "violet"), entry(650, "red"));
   /// ```
   ///

@@ -239,7 +239,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
   /// assertThat(range).hasUpperEndpointEqualTo(12);
   /// ```
   ///
-  /// @param value [Range] expected upper bound value.
+  /// @param value expected upper bound value.
   /// @return this [RangeAssert] for assertions chaining.
   /// @throws AssertionError if the actual [Range] is `null`.
   /// @throws AssertionError if the actual [Range] does not have upper endpoint equal to
