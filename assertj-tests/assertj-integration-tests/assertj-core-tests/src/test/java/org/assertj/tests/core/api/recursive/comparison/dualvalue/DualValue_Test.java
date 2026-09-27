@@ -35,7 +35,7 @@ class DualValue_Test {
                                                        values.get("expected"), null))
                   .withNonnullFields("fieldLocation")
                   .withIgnoredFields("hashCode")
-                  .withIgnoredFields("parentDualValue")
+                  .withIgnoredFields("parentDualValue", "mapKey")
                   .verify();
   }
 

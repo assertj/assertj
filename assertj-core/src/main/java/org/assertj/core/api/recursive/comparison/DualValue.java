@@ -39,6 +39,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 // logically immutable
@@ -53,10 +54,19 @@ public final class DualValue {
   final Object actual;
   final Object expected;
   private final DualValue parentDualValue;
+  private final boolean mapKey;
   private final int hashCode;
 
   static DualValue rootDualValue(Object actual, Object expected) {
     return new DualValue(rootFieldLocation(), actual, expected, null);
+  }
+
+  static DualValue mapKeyDualValue(Object actual, Object expected, DualValue parent) {
+    return new DualValue(parent.fieldLocation, actual, expected, parent, true);
+  }
+
+  boolean isMapKey() {
+    return mapKey;
   }
 
   /**
@@ -68,10 +78,16 @@ public final class DualValue {
    * @param parentDualValue the parent dual value
    */
   public DualValue(FieldLocation fieldLocation, Object actualFieldValue, Object expectedFieldValue, DualValue parentDualValue) {
+    this(fieldLocation, actualFieldValue, expectedFieldValue, parentDualValue, false);
+  }
+
+  private DualValue(FieldLocation fieldLocation, Object actualFieldValue, Object expectedFieldValue,
+                    DualValue parentDualValue, boolean mapKey) {
     this.fieldLocation = requireNonNull(fieldLocation, "fieldLocation must not be null");
     actual = actualFieldValue;
     expected = expectedFieldValue;
     this.parentDualValue = parentDualValue;
+    this.mapKey = mapKey;
     hashCode = computeHashCode();
   }
 
@@ -605,5 +621,18 @@ public final class DualValue {
       else ancestorDualValue = ancestorDualValue.parentDualValue;
     }
     return false;
+  }
+
+  boolean hasAncestorMatching(Predicate<DualValue> predicate) {
+    DualValue ancestor = parentDualValue;
+    while (ancestor != null) {
+      if (predicate.test(ancestor)) return true;
+      ancestor = ancestor.parentDualValue;
+    }
+    return false;
+  }
+
+  DualValue parent() {
+    return parentDualValue;
   }
 }
