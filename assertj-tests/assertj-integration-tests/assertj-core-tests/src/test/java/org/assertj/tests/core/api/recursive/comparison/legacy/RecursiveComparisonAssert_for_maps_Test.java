@@ -456,6 +456,26 @@ class RecursiveComparisonAssert_for_maps_Test extends WithLegacyIntrospectionStr
   }
 
   @ParameterizedTest
+  @CsvSource({ "false", "true" })
+  void should_compare_deeply_nested_maps_without_overflowing_the_stack(boolean sorted) {
+    // GIVEN
+    Object actual = 1;
+    Object expected = 1;
+    for (int depth = 0; depth < 1500; depth++) {
+      Map<String, Object> actualParent = sorted ? new TreeMap<>(java.util.Comparator.nullsFirst(String::compareTo))
+          : new LinkedHashMap<>();
+      Map<String, Object> expectedParent = sorted ? new TreeMap<>(java.util.Comparator.nullsFirst(String::compareTo))
+          : new LinkedHashMap<>();
+      actualParent.put(null, actual);
+      expectedParent.put(null, expected);
+      actual = actualParent;
+      expected = expectedParent;
+    }
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration).isEqualTo(expected);
+  }
+
+  @ParameterizedTest
   @CsvSource({ "false, false", "false, true", "true, false", "true, true" })
   void should_not_repeatedly_expand_shared_nested_maps(boolean sorted, boolean sharedLeaf) {
     // GIVEN

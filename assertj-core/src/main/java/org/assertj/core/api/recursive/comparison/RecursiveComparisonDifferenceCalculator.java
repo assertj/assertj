@@ -238,24 +238,34 @@ public class RecursiveComparisonDifferenceCalculator {
 
   private static class MapComparisonSession {
     private static final int MAX_COMPLETED_COMPARISONS = 1024;
+    private final ArrayDeque<ComparisonFrame> frames = new ArrayDeque<>();
     private final Map<MapPartIdentity, Boolean> completed = new LinkedHashMap<>();
 
     List<ComparisonDifference> compare(DualValue values, VisitedDualValues visited,
                                        RecursiveComparisonConfiguration configuration) {
       ComparisonState root = new ComparisonState(visited, configuration, this);
       root.initDualValuesToCompare(values);
-      return compare(root);
-    }
-
-    private List<ComparisonDifference> compare(ComparisonState state) {
-      while (!state.mapComparisons.isEmpty() || state.hasDualValuesToCompare()) {
-        if (!state.mapComparisons.isEmpty()) {
-          state.mapComparisons.removeFirst().run();
-        } else {
-          compareNextDualValue(state);
+      frames.push(new ComparisonFrame(root, null, differences -> {}));
+      try {
+        while (!frames.isEmpty()) {
+          ComparisonFrame frame = frames.peek();
+          ComparisonState state = frame.state;
+          if (!state.mapComparisons.isEmpty()) {
+            state.mapComparisons.removeFirst().run();
+          } else if (state.hasDualValuesToCompare()) {
+            compareNextDualValue(state);
+          } else {
+            frames.pop();
+            frame.restoreConfiguration();
+            frame.finished.accept(state.getDifferences());
+          }
         }
+        return root.getDifferences();
+      } finally {
+        // A user comparator can throw while several map comparisons are suspended.
+        while (!frames.isEmpty())
+          frames.pop().restoreConfiguration();
       }
-      return state.getDifferences();
     }
 
     void comparePart(DualValue values, ComparisonState parent, Consumer<List<ComparisonDifference>> finished) {
@@ -270,9 +280,7 @@ public class RecursiveComparisonDifferenceCalculator {
       Set<FieldLocation> locations = configuration.hasComparedTypes() ? configuration.comparedTypeLocations() : null;
       ComparisonState child = new ComparisonState(parent.visitedDualValues.forAncestorsOf(values), configuration, this);
       child.initDualValuesToCompare(values);
-      List<ComparisonDifference> differences;
-      try {
-        differences = compare(child);
+      frames.push(new ComparisonFrame(child, locations, differences -> {
         if (child.visitedDualValues.cycleGuardUsed()) {
           parent.visitedDualValues.markCycleGuardUsed();
         } else if (identity != null && differences.isEmpty()) {
@@ -280,10 +288,16 @@ public class RecursiveComparisonDifferenceCalculator {
           if (completed.size() == MAX_COMPLETED_COMPARISONS) completed.remove(completed.keySet().iterator().next());
           completed.put(identity, Boolean.TRUE);
         }
-      } finally {
-        if (locations != null) configuration.restoreComparedTypeLocations(locations);
-      }
-      parent.mapComparisons.addFirst(() -> finished.accept(differences));
+        parent.mapComparisons.addFirst(() -> finished.accept(differences));
+      }));
+    }
+  }
+
+  private record ComparisonFrame(ComparisonState state, Set<FieldLocation> previousTypeLocations,
+      Consumer<List<ComparisonDifference>> finished) {
+    void restoreConfiguration() {
+      if (previousTypeLocations != null)
+        state.recursiveComparisonConfiguration.restoreComparedTypeLocations(previousTypeLocations);
     }
   }
 
