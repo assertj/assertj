@@ -345,6 +345,83 @@ class RecursiveComparisonAssert_for_maps_Test extends WithComparingFieldsIntrosp
     then(error).hasMessageContaining("differ");
   }
 
+  @ParameterizedTest
+  @CsvSource({ "false,false,false", "false,false,true", "false,true,false", "false,true,true",
+      "true,false,false", "true,false,true", "true,true,false", "true,true,true" })
+  void should_report_unmatched_sorted_map_keys_when_only_key_types_are_selected(boolean actualHasExtraKey,
+                                                                                boolean emptySmallerMap, boolean nested) {
+    // GIVEN
+    Map<Key, String> actual = new TreeMap<>(Comparator.comparingInt(Key::id));
+    Map<Key, String> expected = new TreeMap<>(Comparator.comparingInt(Key::id));
+    if (!emptySmallerMap) {
+      actual.put(new Key("Sam", 1), "actual");
+      expected.put(new Key("Sam", 1), "expected");
+    }
+    (actualHasExtraKey ? actual : expected).put(new Key("Alex", 2), "value");
+    Object actualObject = nested ? new MapHolder(actual) : actual;
+    Object expectedObject = nested ? new MapHolder(expected) : expected;
+    // WHEN
+    var error = expectAssertionError(() -> then(actualObject).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                             .comparingOnlyFieldsOfTypes(Key.class).isEqualTo(expectedObject));
+    // THEN
+    then(error).hasMessageContainingAll("Alex", "null");
+  }
+
+  @ParameterizedTest
+  @CsvSource({ "false", "true" })
+  void should_report_unmatched_sorted_map_values_when_only_value_types_are_selected(boolean actualHasExtraValue) {
+    // GIVEN
+    Map<String, Key> actual = new TreeMap<>();
+    Map<String, Key> expected = new TreeMap<>();
+    (actualHasExtraValue ? actual : expected).put("person", new Key("Alex", 2));
+    // WHEN
+    var error = expectAssertionError(() -> then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                       .comparingOnlyFieldsOfTypes(Key.class).isEqualTo(expected));
+    // THEN
+    then(error).hasMessageContainingAll("person", "Alex", "null");
+  }
+
+  @Test
+  void should_compare_selected_values_in_different_sized_sorted_maps() {
+    // GIVEN
+    Map<String, Object> actual = new TreeMap<>();
+    actual.put("person", new Key("Sam", 1));
+    Map<String, Object> expected = new TreeMap<>();
+    expected.put("person", new Key("Sam", 2));
+    expected.put("z", "unselected");
+    // WHEN
+    var error = expectAssertionError(() -> then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                       .comparingOnlyFieldsOfTypes(Key.class).isEqualTo(expected));
+    // THEN
+    then(error).hasMessageContaining("person.id");
+  }
+
+  @Test
+  void should_ignore_unselected_entries_in_different_sized_sorted_maps() {
+    // GIVEN
+    Map<String, Object> actual = new TreeMap<>();
+    actual.put("person", new Key("Sam", 1));
+    Map<String, Object> expected = new TreeMap<>();
+    expected.put("person", new Key("Sam", 1));
+    expected.put("z", "unselected");
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .comparingOnlyFieldsOfTypes(Key.class).isEqualTo(expected);
+  }
+
+  @Test
+  void should_ignore_filtered_entries_when_comparing_only_sorted_map_key_types() {
+    // GIVEN
+    Map<String, Integer> actual = new TreeMap<>();
+    actual.put("a", 1);
+    Map<String, Integer> expected = new TreeMap<>();
+    expected.put("a", 2);
+    expected.put("ignored", 3);
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .comparingOnlyFieldsOfTypes(String.class).ignoringFields("ignored").isEqualTo(expected);
+  }
+
   @Test
   void should_not_compare_sorted_map_values_when_only_key_types_are_selected() {
     // GIVEN

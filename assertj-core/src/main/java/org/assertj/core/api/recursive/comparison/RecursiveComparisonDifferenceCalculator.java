@@ -823,13 +823,16 @@ public class RecursiveComparisonDifferenceCalculator {
                                                          comparisonState.recursiveComparisonConfiguration);
 
     if (actualMap.size() != expectedMap.size()) {
+      int differenceCount = comparisonState.differences.size();
       comparisonState.addDifference(dualValue,
                                     DIFFERENT_SIZE_ERROR.formatted("sorted maps", actualMap.size(), expectedMap.size()));
-      // no need to inspect entries, maps are not equal as they don't have the same size
-      return;
+      // Selected entry types can differ even when the containing map's size difference is filtered out.
+      if (comparisonState.differences.size() > differenceCount) return;
     }
+    Iterator<Entry<?, ?>> actualMapEntries = actualMap.iterator();
     Iterator<Entry<?, ?>> expectedMapEntries = expectedMap.iterator();
-    for (Entry<?, ?> actualEntry : actualMap) {
+    while (actualMapEntries.hasNext() && expectedMapEntries.hasNext()) {
+      Entry<?, ?> actualEntry = actualMapEntries.next();
       Entry<?, ?> expectedEntry = expectedMapEntries.next();
       // check keys are matched before comparing values as keys represents a field
       DualValue keys = mapKeyDualValue(actualEntry.getKey(), expectedEntry.getKey(), dualValue);
@@ -845,6 +848,18 @@ public class RecursiveComparisonDifferenceCalculator {
         }
       }));
     }
+    actualMapEntries.forEachRemaining(entry -> compareUnmatchedSortedMapEntry(entry, true, dualValue, comparisonState));
+    expectedMapEntries.forEachRemaining(entry -> compareUnmatchedSortedMapEntry(entry, false, dualValue, comparisonState));
+  }
+
+  private static void compareUnmatchedSortedMapEntry(Entry<?, ?> entry, boolean actual, DualValue map,
+                                                     ComparisonState state) {
+    Object key = entry.getKey();
+    DualValue keys = mapKeyDualValue(actual ? key : null, actual ? null : key, map);
+    DualValue values = new DualValue(keyFieldLocation(map.fieldLocation, key),
+                                     actual ? entry.getValue() : null, actual ? null : entry.getValue(), map);
+    state.mapComparisons.addLast(() -> addMapPartDifferences(keys, map, state));
+    state.mapComparisons.addLast(() -> addMapPartDifferences(values, map, state));
   }
 
   private static void compareUnorderedMap(DualValue dualValue, ComparisonState comparisonState) {
