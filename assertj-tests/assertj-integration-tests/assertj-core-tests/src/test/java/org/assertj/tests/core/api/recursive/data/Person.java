@@ -21,7 +21,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
-public class Person {
+public class Person implements Comparable<Person> {
   public Date dateOfBirth;
   public String name;
   public Optional<String> phone;
@@ -42,4 +42,8 @@ public class Person {
     return "Person [dateOfBirth=%s, name=%s, phone=%s, home=%s]".formatted(dateOfBirth, name, phone, home);
   }
 
+  @Override
+  public int compareTo(Person o) {
+    return name.compareTo(o.name);
+  }
 }

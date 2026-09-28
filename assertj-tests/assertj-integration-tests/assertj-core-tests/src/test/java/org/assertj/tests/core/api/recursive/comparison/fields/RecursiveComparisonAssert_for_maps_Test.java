@@ -20,9 +20,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.tests.core.testkit.Maps.mapOf;
+import static org.assertj.tests.core.testkit.Maps.treeMapOf;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Map;
+import java.util.OptionalLong;
 
 import org.assertj.tests.core.api.recursive.data.Person;
 import org.assertj.tests.core.api.recursive.data.PersonDto;
@@ -56,6 +58,78 @@ class RecursiveComparisonAssert_for_maps_Test extends WithComparingFieldsIntrosp
     // usingRecursiveComparison(configuration)
     then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .ignoringAllOverriddenEquals()
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_pass_when_keys_are_equal() {
+    // GIVEN
+    Person sheldon = new Person("Sheldon");
+    Person leonard = new Person("Leonard");
+    Person raj = new Person("Rajesh");
+
+    PersonDto sheldonDto = new PersonDto("Sheldon");
+    PersonDto leonardDto = new PersonDto("Leonard");
+    PersonDto rajDto = new PersonDto("Rajesh");
+
+    Map<Person, String> actual = mapOf(entry(sheldon, sheldon.name),
+                                       entry(leonard, leonard.name),
+                                       entry(raj, raj.name));
+    Map<PersonDto, String> expected = mapOf(entry(sheldonDto, sheldonDto.name),
+                                            entry(leonardDto, leonardDto.name),
+                                            entry(rajDto, rajDto.name));
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .isEqualTo(expected);
+    // Maybe we should have a MapRecursiveComparisonConfiguration extending RecursiveComparisonConfiguration
+    // and providing methods to define a different configuration strategy for keys and values?
+  }
+
+  @Test
+  void should_pass_when_keys_are_equal_in_sorted_map() {
+    // GIVEN
+    Person sheldon = new Person("Sheldon");
+    Person leonard = new Person("Leonard");
+    Person raj = new Person("Rajesh");
+
+    PersonDto sheldonDto = new PersonDto("Sheldon");
+    PersonDto leonardDto = new PersonDto("Leonard");
+    PersonDto rajDto = new PersonDto("Rajesh");
+
+    Map<Person, String> actual = treeMapOf(entry(sheldon, sheldon.name),
+                                           entry(leonard, leonard.name),
+                                           entry(raj, raj.name));
+    Map<PersonDto, String> expected = treeMapOf(entry(sheldonDto, sheldonDto.name),
+                                                entry(leonardDto, leonardDto.name),
+                                                entry(rajDto, rajDto.name));
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_honor_ignored_fields_in_keys() {
+    // GIVEN
+    Person sheldon = new Person("Sheldon");
+    Person leonard = new Person("Leonard");
+    Person raj = new Person("Rajesh");
+    sheldon.id = OptionalLong.of(1);
+    leonard.id = OptionalLong.of(2);
+    raj.id = OptionalLong.of(3);
+
+    Person sheldonExpected = new Person("Sheldon");
+    Person leonardExpected = new Person("Leonard");
+    Person rajExpected = new Person("Rajesh");
+
+    Map<Person, Integer> actual = mapOf(entry(sheldon, 5),
+                                        entry(leonard, 7),
+                                        entry(raj, 8));
+    Map<Person, Integer> expected = mapOf(entry(sheldonExpected, 5),
+                                          entry(leonardExpected, 7),
+                                          entry(rajExpected, 8));
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .ignoringFields("id")
                 .isEqualTo(expected);
   }
 

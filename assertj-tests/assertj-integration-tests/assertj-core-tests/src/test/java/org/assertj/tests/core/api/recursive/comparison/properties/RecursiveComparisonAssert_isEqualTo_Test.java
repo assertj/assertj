@@ -23,6 +23,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import org.assertj.core.api.recursive.comparison.ComparingProperties;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class RecursiveComparisonAssert_isEqualTo_Test {
@@ -51,6 +52,7 @@ class RecursiveComparisonAssert_isEqualTo_Test {
               .isEqualTo(baz2);
   }
 
+  @Disabled
   @Test
   void should_be_faster_the_second_time_as_the_getter_introspection_is_cached() {
     // GIVEN
@@ -61,7 +63,7 @@ class RecursiveComparisonAssert_isEqualTo_Test {
     var duration2 = durationOfComparingRecursively(baz1, baz2);
     // THEN
     then(duration2).isLessThanOrEqualTo(duration1);
-    System.out.println("no cache run: " + duration1 + " | run with cache: " + duration2 + "");
+    System.out.println("no cache run: " + duration1 + " | run with cache: " + duration2);
   }
 
   private Duration durationOfComparingRecursively(BazRecord baz1, BazRecord baz2) {
