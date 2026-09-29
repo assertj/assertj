@@ -36,26 +36,40 @@ class VisitedDualValues {
   }
 
   void registerComparisonDifference(DualValue dualValue, ComparisonDifference comparisonDifference) {
-    registerComparisonDifferences(dualValue, list(comparisonDifference));
+    registerComparisonDifference(dualValue, comparisonDifference, false);
   }
 
-  void registerComparisonDifferences(DualValue dualValue, List<ComparisonDifference> comparisonDifferences) {
-    Optional<VisitedDualValue> visitedDualValueWithSameValues = visitedDualValues.stream()
-                                                                                 .filter(visitedDualValue -> visitedDualValue.dualValue.sameValues(dualValue))
-                                                                                 .findFirst();
-    // register difference on dual values agnostic of location, to take care of values visited several times
-    if (visitedDualValueWithSameValues.isPresent()) {
-      visitedDualValueWithSameValues.get().comparisonDifferences.addAll(comparisonDifferences);
+  void registerComparisonDifference(DualValue dualValue, ComparisonDifference comparisonDifference,
+                                    boolean fieldLocationMatters) {
+    registerComparisonDifferences(dualValue, list(comparisonDifference), fieldLocationMatters);
+  }
+
+  void registerComparisonDifferences(DualValue dualValue, List<ComparisonDifference> comparisonDifferences,
+                                     boolean fieldLocationMatters) {
+    Optional<VisitedDualValue> visitedDualValue = visitedDualValues.stream()
+                                                                   .filter(value -> fieldLocationMatters
+                                                                       ? value.dualValue.equals(dualValue)
+                                                                       : value.dualValue.sameValues(dualValue))
+                                                                   .findFirst();
+    if (visitedDualValue.isPresent()) {
+      visitedDualValue.get().comparisonDifferences.addAll(comparisonDifferences);
     } else {
-      VisitedDualValue visitedDualValue = new VisitedDualValue(dualValue);
-      visitedDualValue.comparisonDifferences.addAll(comparisonDifferences);
-      visitedDualValues.add(visitedDualValue);
+      VisitedDualValue newVisitedDualValue = new VisitedDualValue(dualValue);
+      newVisitedDualValue.comparisonDifferences.addAll(comparisonDifferences);
+      visitedDualValues.add(newVisitedDualValue);
     }
   }
 
   Optional<Set<ComparisonDifference>> getRegisteredComparisonDifferencesOf(DualValue dualValue) {
+    return getRegisteredComparisonDifferencesOf(dualValue, false);
+  }
+
+  Optional<Set<ComparisonDifference>> getRegisteredComparisonDifferencesOf(DualValue dualValue,
+                                                                           boolean fieldLocationMatters) {
     Optional<VisitedDualValue> optionalVisitedDualValue = visitedDualValues.stream()
-                                                                           .filter(visitedDualValue -> visitedDualValue.dualValue.sameValues(dualValue))
+                                                                           .filter(visitedDualValue -> canReuse(visitedDualValue,
+                                                                                                                dualValue,
+                                                                                                                fieldLocationMatters))
                                                                            .findFirst();
     if (optionalVisitedDualValue.isEmpty()) {
       return Optional.empty();
@@ -66,6 +80,13 @@ class VisitedDualValues {
                      .filter(visitedDualValue -> visitedDualValue.dualValue.hasAncestor(dualValue))
                      .forEach(visitedDualValue -> comparisonDifferences.addAll(visitedDualValue.comparisonDifferences));
     return Optional.of(comparisonDifferences);
+  }
+
+  private static boolean canReuse(VisitedDualValue visitedDualValue, DualValue dualValue, boolean fieldLocationMatters) {
+    if (!visitedDualValue.dualValue.sameValues(dualValue)) return false;
+    return !fieldLocationMatters
+           || visitedDualValue.dualValue.fieldLocation.equals(dualValue.fieldLocation)
+           || dualValue.hasAncestor(visitedDualValue.dualValue);
   }
 
   private static class VisitedDualValue {

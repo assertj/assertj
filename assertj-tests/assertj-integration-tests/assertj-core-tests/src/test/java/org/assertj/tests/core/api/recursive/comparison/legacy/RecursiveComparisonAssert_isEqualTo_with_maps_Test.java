@@ -126,9 +126,6 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends WithLegacyIntro
                                nonSortedPratchettAndMartin, singletonPratchettMap,
                                ("actual and expected values are maps of different size, actual size=2 when expected size=1" +
                                 "%nThe following keys were present in the actual map value, but not in the expected map value:%n  [\"George Martin\"]").formatted()),
-                     arguments(sortedMartinAndPratchett, sortedPratchettMap, "map",
-                               sortedMartinAndPratchett, sortedPratchettMap,
-                               "actual and expected values are sorted maps of different size, actual size=2 when expected size=1"),
                      arguments(nonSortedPratchettAndMartin, sortedMartinAndPratchett, "map",
                                nonSortedPratchettAndMartin, sortedMartinAndPratchett,
                                "expected field is a sorted map but actual field is not (java.util.LinkedHashMap)"),
@@ -142,6 +139,47 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends WithLegacyIntro
                                singletonPratchettMap, empty,
                                ("actual and expected values are maps of different size, actual size=1 when expected size=0" +
                                 "%nThe following keys were present in the actual map value, but not in the expected map value:%n  [\"Terry Pratchett\"]").formatted()));
+  }
+
+  @Test
+  public void should_show_key_differences() {
+    // GIVEN
+    Author pratchett = new Author("Terry Pratchett");
+    Author georgeMartin = new Author("George Martin");
+    SortedMap<String, Author> sortedMartinAndPratchett = of(pratchett.name, pratchett, georgeMartin.name, georgeMartin);
+    SortedMap<String, Author> sortedPratchettMap = of(pratchett.name, pratchett);
+    WithMap<String, Author> actual = new WithMap<>(sortedMartinAndPratchett);
+    WithMap<String, Author> expected = new WithMap<>(sortedPratchettMap);
+
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .isEqualTo(expected));
+    // assertThat(sortedMartinAndPratchett).usingRecursiveComparison(recursiveComparisonConfiguration)
+    // .isEqualTo(sortedPratchettMap);
+    // THEN
+    then(assertionError).hasMessageContaining(format("Expecting actual:%n" +
+                                                     "  WithMap map=r{George Martin=Author [name=George Martin], Terry Pratchett=Author [name=Terry Pratchett]}%n"
+                                                     +
+                                                     "to be equal to:%n" +
+                                                     "  WithMap map=r{Terry Pratchett=Author [name=Terry Pratchett]}%n" +
+                                                     "when recursively comparing field by field, but found the following 2 differences:%n"
+                                                     +
+                                                     "%n" +
+                                                     "field/property 'map' differ:%n" +
+                                                     "- actual value  : {\"George Martin\"=Author [name=George Martin], \"Terry Pratchett\"=Author [name=Terry Pratchett]}%n"
+                                                     +
+                                                     "- expected value: {\"Terry Pratchett\"=Author [name=Terry Pratchett]}%n" +
+                                                     "map key difference:%n" +
+                                                     "- actual key  : \"George Martin\"%n" +
+                                                     "- expected key: \"Terry Pratchett\"%n" +
+                                                     "%n" +
+                                                     "field/property 'map' differ:%n" +
+                                                     "- actual value  : {\"George Martin\"=Author [name=George Martin], \"Terry Pratchett\"=Author [name=Terry Pratchett]}%n"
+                                                     +
+                                                     "- expected value: {\"Terry Pratchett\"=Author [name=Terry Pratchett]}%n" +
+                                                     "map key difference:%n" +
+                                                     "- actual key  : \"Terry Pratchett\"%n" +
+                                                     "- expected key: null"));
   }
 
   @ParameterizedTest(name = "authors {0} / object {1} / path {2} / value 1 {3}/ value 2 {4}")

@@ -102,4 +102,34 @@ class VisitedDualValuesTest {
     // THEN
     then(optionalComparisonDifferences).isEmpty();
   }
+
+  @Test
+  void should_not_reuse_sibling_comparison_when_field_location_matters() {
+    // GIVEN
+    var visitedDualValues = new VisitedDualValues();
+    Object actual = new Object();
+    Object expected = new Object();
+    var first = new DualValue(new FieldLocation("first"), actual, expected, null);
+    var second = new DualValue(new FieldLocation("second"), actual, expected, null);
+    visitedDualValues.registerVisitedDualValue(first);
+    // WHEN
+    var optionalComparisonDifferences = visitedDualValues.getRegisteredComparisonDifferencesOf(second, true);
+    // THEN
+    then(optionalComparisonDifferences).isEmpty();
+  }
+
+  @Test
+  void should_reuse_ancestor_comparison_when_field_location_matters() {
+    // GIVEN
+    var visitedDualValues = new VisitedDualValues();
+    Object actual = new Object();
+    Object expected = new Object();
+    var ancestor = new DualValue(new FieldLocation("ancestor"), actual, expected, null);
+    var descendant = new DualValue(new FieldLocation("ancestor.descendant"), actual, expected, ancestor);
+    visitedDualValues.registerVisitedDualValue(ancestor);
+    // WHEN
+    var optionalComparisonDifferences = visitedDualValues.getRegisteredComparisonDifferencesOf(descendant, true);
+    // THEN
+    then(optionalComparisonDifferences).isPresent();
+  }
 }

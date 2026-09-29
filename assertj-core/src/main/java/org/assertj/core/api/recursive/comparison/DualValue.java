@@ -30,6 +30,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -52,6 +53,7 @@ public final class DualValue {
   final FieldLocation fieldLocation;
   final Object actual;
   final Object expected;
+  private final boolean isKeyMapDualValue;
   private final DualValue parentDualValue;
   private final int hashCode;
 
@@ -68,21 +70,37 @@ public final class DualValue {
    * @param parentDualValue the parent dual value
    */
   public DualValue(FieldLocation fieldLocation, Object actualFieldValue, Object expectedFieldValue, DualValue parentDualValue) {
+    this(fieldLocation, actualFieldValue, expectedFieldValue, parentDualValue,
+         parentDualValue != null && parentDualValue.isKeyMapDualValue);
+  }
+
+  /**
+   * Creates a dual value possibly a key map one.
+   *
+   * @param fieldLocation the field location
+   * @param actualFieldValue the actual field value
+   * @param expectedFieldValue the expected field value
+   * @param parentDualValue the parent dual value
+   */
+  public DualValue(FieldLocation fieldLocation, Object actualFieldValue, Object expectedFieldValue, DualValue parentDualValue,
+                   boolean isKeyMapDualValue) {
     this.fieldLocation = requireNonNull(fieldLocation, "fieldLocation must not be null");
     actual = actualFieldValue;
     expected = expectedFieldValue;
     this.parentDualValue = parentDualValue;
+    this.isKeyMapDualValue = isKeyMapDualValue;
     hashCode = computeHashCode();
   }
 
   private int computeHashCode() {
-    return identityHashCode(actual) + identityHashCode(expected) + fieldLocation.hashCode();
+    return identityHashCode(actual) + identityHashCode(expected) + fieldLocation.hashCode() + (isKeyMapDualValue ? 1 : 0);
   }
 
   @Override
   public boolean equals(Object other) {
     if (!(other instanceof DualValue that)) return false;
-    return actual == that.actual && expected == that.expected && fieldLocation.equals(that.fieldLocation);
+    return actual == that.actual && expected == that.expected && fieldLocation.equals(that.fieldLocation)
+           && isKeyMapDualValue == that.isKeyMapDualValue;
   }
 
   /**
@@ -97,7 +115,7 @@ public final class DualValue {
    * @return true if dual values references the same values (ignoring the field location)
    */
   public boolean sameValues(DualValue dualValue) {
-    return actual == dualValue.actual && expected == dualValue.expected;
+    return actual == dualValue.actual && expected == dualValue.expected && isKeyMapDualValue == dualValue.isKeyMapDualValue;
   }
 
   @Override
@@ -606,4 +624,19 @@ public final class DualValue {
     }
     return false;
   }
+
+  public boolean isKeyMapDualValue() {
+    return isKeyMapDualValue;
+  }
+
+  boolean hasAncestorOrIsOfTypeIn(Set<Class<?>> types) {
+    DualValue dualValue = this;
+    while (dualValue != null) {
+      Object value = dualValue.actual != null ? dualValue.actual : dualValue.expected;
+      if (value != null && types.contains(value.getClass())) return true;
+      dualValue = dualValue.parentDualValue;
+    }
+    return false;
+  }
+
 }

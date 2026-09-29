@@ -32,7 +32,7 @@ class DualValue_Test {
   void should_honor_equals_contract() {
     EqualsVerifier.forClass(DualValue.class)
                   .withFactory(values -> new DualValue(values.get("fieldLocation"), values.get("actual"),
-                                                       values.get("expected"), null))
+                                                       values.get("expected"), null, values.getBoolean("isKeyMapDualValue")))
                   .withNonnullFields("fieldLocation")
                   .withIgnoredFields("hashCode")
                   .withIgnoredFields("parentDualValue")

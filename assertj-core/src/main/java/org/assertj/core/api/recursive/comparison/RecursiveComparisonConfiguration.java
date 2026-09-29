@@ -1154,7 +1154,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    */
   public boolean shouldHonorOverriddenEquals(DualValue dualValue) {
     // root objects are not compared with equals as it makes the recursive comparison pointless (use isEqualsTo instead)
-    if (dualValue.fieldLocation.isRoot()) return false;
+    if (dualValue.fieldLocation.isRoot() && !dualValue.isKeyMapDualValue()) return false;
     // we must only honor overridden equals on compared fields if any, we need to introspect recursively non compared
     // fields in case a direct or indirect child is a compared field
     if (someComparedFieldsWereSpecified() && isNotAComparedField(dualValue)) {
@@ -1366,7 +1366,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   private void registerFieldLocationOfFieldsOfTypesToCompare(DualValue dualValue) {
-    if (comparedTypes.isEmpty()) return;
+    if (comparedTypes.isEmpty() || dualValue.isKeyMapDualValue()) return;
     // We check actual type against the types to compare or expected type in case actual was null assuming expected
     // has the same type as actual
     if ((dualValue.actual != null && comparedTypes.contains(dualValue.actual.getClass()))
@@ -1579,24 +1579,24 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
         : "{%s in %s}".formatted(unknownNodeNameElement, fieldLocation);
   }
 
-  boolean hierarchyMatchesAnyComparedTypes(DualValue dualValue) {
-    if (isFieldOfTypeToCompare(dualValue)) return true;
-    // dualValue is not a type to compare but could be a child of one
-    return fieldLocationsToCompareBecauseOfTypesToCompare.stream().anyMatch(dualValue.fieldLocation::hasParent);
-  }
-
-  boolean matchesOrIsChildOfFieldMatchingAnyComparedTypes(DualValue dualValue) {
-    return fieldLocationsToCompareBecauseOfTypesToCompare.stream().anyMatch(dualValue.fieldLocation::exactlyMatches)
-           || hierarchyMatchesAnyComparedTypes(dualValue);
+  boolean resolveToAnyComparedTypes(DualValue dualValue) {
+    return dualValue.hasAncestorOrIsOfTypeIn(comparedTypes);
   }
 
   boolean hasComparedTypes() {
     return !comparedTypes.isEmpty();
   }
 
-  private boolean isFieldOfTypeToCompare(DualValue dualValue) {
-    Object valueToCheck = dualValue.actual != null ? dualValue.actual : dualValue.expected;
-    return valueToCheck != null && comparedTypes.contains(valueToCheck.getClass());
+  boolean hasFieldLocationSpecificConfiguration() {
+    return !getIgnoredFields().isEmpty()
+           || !getIgnoredFieldsRegexes().isEmpty()
+           || !comparedFields.isEmpty()
+           || !ignoredOverriddenEqualsForFields.isEmpty()
+           || !ignoredOverriddenEqualsForFieldsMatchingRegexes.isEmpty()
+           || !ignoredCollectionOrderInFields.isEmpty()
+           || !ignoredCollectionOrderInFieldsMatchingRegexes.isEmpty()
+           || !fieldComparators.isEmpty()
+           || !fieldMessages.isEmpty();
   }
 
   boolean isNotAComparedField(DualValue dualValue) {

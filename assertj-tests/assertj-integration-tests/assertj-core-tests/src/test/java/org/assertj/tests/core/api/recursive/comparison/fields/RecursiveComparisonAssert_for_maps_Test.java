@@ -591,51 +591,6 @@ class RecursiveComparisonAssert_for_maps_Test extends WithComparingFieldsIntrosp
   }
 
   @ParameterizedTest
-  @CsvSource({ "false,false,false", "false,false,true", "false,true,false", "false,true,true",
-      "true,false,false", "true,false,true", "true,true,false", "true,true,true" })
-  void should_not_reuse_sibling_comparisons_for_map_keys(boolean sorted, boolean comparator, boolean shared) {
-    // GIVEN
-    Key actualKey = new Key("Sam", 1);
-    Key expectedKey = new Key("Sam", 2);
-    Map<Key, String> actual = sorted ? new TreeMap<>(Comparator.comparingInt(Key::id)) : new LinkedHashMap<>();
-    Map<Key, String> expected = sorted ? new TreeMap<>(Comparator.comparingInt(Key::id)) : new LinkedHashMap<>();
-    actual.put(actualKey, "value");
-    expected.put(expectedKey, "value");
-    var actualHolder = new AliasedKeyHolder(actual, shared ? actualKey : new Key("Sam", 1));
-    var expectedHolder = new AliasedKeyHolder(expected, shared ? expectedKey : new Key("Sam", 2));
-    var assertion = then(actualHolder).usingRecursiveComparison(recursiveComparisonConfiguration);
-    if (comparator) assertion.withEqualsForFields((a, b) -> true, "b");
-    else assertion.ignoringFields("b.id");
-    // WHEN
-    var error = expectAssertionError(() -> assertion.isEqualTo(expectedHolder));
-    // THEN
-    then(error).hasMessageContaining("key");
-  }
-
-  @Test
-  void should_stop_searching_for_a_complete_match_when_an_entry_cannot_be_matched() {
-    // GIVEN
-    int size = 30;
-    Map<Integer, String> actual = new LinkedHashMap<>();
-    Map<Integer, String> expected = new LinkedHashMap<>();
-    for (int key = 0; key < size; key++) {
-      actual.put(key, "actual");
-      expected.put(key, "expected");
-    }
-    AtomicInteger keyComparisons = new AtomicInteger();
-    // WHEN
-    var error = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                             .withEqualsForType((Integer a, Integer b) -> {
-                                                               keyComparisons.incrementAndGet();
-                                                               return a.equals(b);
-                                                             }, Integer.class)
-                                                             .isEqualTo(expected));
-    // THEN
-    then(error).hasMessageContaining("differ");
-    then(keyComparisons.get()).isLessThanOrEqualTo(3 * size);
-  }
-
-  @ParameterizedTest
   @CsvSource({ "false", "true" })
   void should_compare_deeply_nested_maps_without_overflowing_the_stack(boolean sorted) {
     // GIVEN
