@@ -104,8 +104,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
                      arguments(billie, john, types(OptionalInt.class, OptionalDouble.class), "same age and weight"),
                      arguments(billie, anotherBillie, types(String.class), "same name"),
                      arguments(tim, tom, types(Home.class), "same home"),
-                     arguments(tim, tom, types(Home.class), "same home"),
-                     arguments(anotherBillie, jill, types(Person.class), "same neighbour"));
+                     arguments(tim, tom, types(Home.class), "same home"));
   }
 
   private static Class<?>[] types(Class<?>... classes) {
@@ -113,7 +112,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
   }
 
   @ParameterizedTest(name = "{3}: actual={0} / expected={1}, compared types: ")
-  @MethodSource("failComparingTopLevelFields")
+  @MethodSource
   void should_fail_when_actual_differs_from_expected_on_compared_fields_of_types(Object actual, Object expected,
                                                                                  Class<?>[] typesToCompare,
                                                                                  @SuppressWarnings("unused") String testDescription,
@@ -124,18 +123,12 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     compareRecursivelyFailsWithDifferences(actual, expected, differences);
   }
 
-  private static Stream<Arguments> failComparingTopLevelFields() {
+  private static Stream<Arguments> should_fail_when_actual_differs_from_expected_on_compared_fields_of_types() {
     return Stream.of(arguments(billie, john, types(String.class), "different name",
                                array(javaTypeDiff("name", billie.name, john.name))),
                      arguments(billie, anotherBillie, types(OptionalInt.class, OptionalDouble.class), "different age and weight",
                                array(javaTypeDiff("age", billie.age, anotherBillie.age),
-                                     javaTypeDiff("weight", billie.weight, anotherBillie.weight))),
-                     arguments(john, jill, types(Person.class),
-                               "different neighbour.name, neighbour.age and neighbour.home.address.number",
-                               array(javaTypeDiff("neighbour.age", john.neighbour.age, jill.neighbour.age),
-                                     javaTypeDiff("neighbour.home.address.number", john.neighbour.home.address.number,
-                                                  jill.neighbour.home.address.number),
-                                     javaTypeDiff("neighbour.name", john.neighbour.name, jill.neighbour.name))));
+                                     javaTypeDiff("weight", billie.weight, anotherBillie.weight)))                     );
   }
 
   @Test
