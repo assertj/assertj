@@ -128,7 +128,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
                                array(javaTypeDiff("name", billie.name, john.name))),
                      arguments(billie, anotherBillie, types(OptionalInt.class, OptionalDouble.class), "different age and weight",
                                array(javaTypeDiff("age", billie.age, anotherBillie.age),
-                                     javaTypeDiff("weight", billie.weight, anotherBillie.weight)))                     );
+                                     javaTypeDiff("weight", billie.weight, anotherBillie.weight))));
   }
 
   @Test

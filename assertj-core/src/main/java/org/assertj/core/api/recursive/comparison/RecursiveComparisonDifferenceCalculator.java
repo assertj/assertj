@@ -796,6 +796,16 @@ public class RecursiveComparisonDifferenceCalculator {
       // continue in order to show the maps differences in the error message
     }
     List<MatchingKeyValue> entriesToCompare = findEntriesToCompare(actualMap, expectedMap, dualValue, comparisonState);
+    if (entriesToCompare.size() == actualMap.size()) {
+      // actual and expected maps have the same keys, we need now to compare their values
+      for (MatchingKeyValue entryToCompare : entriesToCompare) {
+        FieldLocation keyFieldLocation = keyFieldLocation(dualValue.fieldLocation, entryToCompare.kv1.key());
+        comparisonState.registerForComparison(new DualValue(keyFieldLocation, entryToCompare.kv1.value(),
+                                                            entryToCompare.kv2.value(), dualValue));
+      }
+      return;
+    }
+
     List<?> expectedKeysNotInActual = getUnmatchedKeys(expectedMap, entriesToCompare);
     List<?> actualKeysNotInExpected = getUnmatchedKeys(actualMap, entriesToCompare);
     boolean someExpectedKeysWereNotFoundInActual = !expectedKeysNotInActual.isEmpty();
@@ -808,13 +818,6 @@ public class RecursiveComparisonDifferenceCalculator {
         diffMessage.append("The following keys were present in the actual map value, but not in the expected map value:%n  %s".formatted(comparisonState.toStringOf(actualKeysNotInExpected)));
       }
       comparisonState.addDifference(dualValue, diffMessage.toString());
-      return;
-    }
-    // actual and expected maps have the same keys, we need now to compare their values
-    for (MatchingKeyValue entryToCompare : entriesToCompare) {
-      FieldLocation keyFieldLocation = keyFieldLocation(dualValue.fieldLocation, entryToCompare.kv1.key());
-      comparisonState.registerForComparison(new DualValue(keyFieldLocation, entryToCompare.kv1.value(),
-                                                          entryToCompare.kv2.value(), dualValue));
     }
   }
 

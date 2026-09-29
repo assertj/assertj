@@ -1586,7 +1586,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   boolean matchesOrIsChildOfFieldMatchingAnyComparedTypes(DualValue dualValue) {
-    return fieldLocationsToCompareBecauseOfTypesToCompare.stream().anyMatch(dualValue.fieldLocation::exactlyMatches);
+    return fieldLocationsToCompareBecauseOfTypesToCompare.stream().anyMatch(dualValue.fieldLocation::exactlyMatches)
+           || hierarchyMatchesAnyComparedTypes(dualValue);
   }
 
   boolean hasComparedTypes() {
