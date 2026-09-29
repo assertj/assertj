@@ -290,6 +290,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
    * @return true if this has the given parent (direct or indirect), false otherwise.
    */
   public boolean hasParent(FieldLocation parent) {
+    if (!isRoot() && parent.isRoot()) return true;
     // FIELD_SEPARATOR guarantees that we compare path elements, this avoids making "name" a parent of "names"
     return pathToUseInRules.startsWith(parent.pathToUseInRules + FIELD_SEPARATOR);
   }

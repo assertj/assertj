@@ -42,6 +42,8 @@ class FieldLocation_hasParent_Test {
 
   private static Stream<Arguments> hasParent() {
     return Stream.of(arguments(list("name", "first"), "name"),
+                     arguments(list("name"), ""),
+                     arguments(list("name", "first"), ""),
                      arguments(list("name", "[2]", "first"), "name"),
                      arguments(list("person", "[1]", "first", "second"), "person.first"),
                      arguments(list("father", "name", "first"), "father"));
@@ -60,6 +62,7 @@ class FieldLocation_hasParent_Test {
 
   private static Stream<Arguments> notParent() {
     return Stream.of(arguments(list("defaultRole"), "defaultRoleName"),
+                     arguments(list(""), ""),
                      arguments(list("name"), "name"),
                      arguments(list("name"), "name.first"),
                      arguments(list("name", "[2]", "first"), "name.first"),
