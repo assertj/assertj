@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.internal.urls;
+package org.assertj.tests.core.api.uri;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveScheme.shouldHaveScheme;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.net.URI;
 
-import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class Uris_assertHasScheme_Test extends UrisBaseTest {
+class UriAssert_hasScheme_Test {
 
   @ParameterizedTest
   @CsvSource({
@@ -36,7 +36,7 @@ class Uris_assertHasScheme_Test extends UrisBaseTest {
   })
   void should_pass_if_actual_uri_has_the_given_scheme(URI uri, String expectedScheme) {
     // WHEN/THEN
-    uris.assertHasScheme(info, uri, expectedScheme);
+    assertThat(uri).hasScheme(expectedScheme);
   }
 
   @Test
@@ -45,7 +45,7 @@ class Uris_assertHasScheme_Test extends UrisBaseTest {
     URI uri = null;
     String expectedScheme = "http";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasScheme(info, uri, expectedScheme));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(uri).hasScheme(expectedScheme));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -56,7 +56,7 @@ class Uris_assertHasScheme_Test extends UrisBaseTest {
     URI uri = URI.create("http://example.com/pages/");
     String expectedScheme = "ftp";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasScheme(info, uri, expectedScheme));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(uri).hasScheme(expectedScheme));
     // THEN
     then(assertionError).hasMessage(shouldHaveScheme(uri, expectedScheme).create());
   }

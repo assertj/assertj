@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.internal.urls;
+package org.assertj.tests.core.api.uri;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHavePath.shouldHavePath;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.net.URI;
 
-import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class Uris_assertHasPath_Test extends UrisBaseTest {
+class UriAssert_hasPath_Test {
 
   @Test
   void should_fail_if_actual_is_null() {
@@ -35,7 +35,7 @@ class Uris_assertHasPath_Test extends UrisBaseTest {
     URI uri = null;
     String expectedPath = "path";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(uri).hasPath(expectedPath));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -47,17 +47,7 @@ class Uris_assertHasPath_Test extends UrisBaseTest {
   })
   void should_pass_if_actual_uri_has_the_given_path(URI uri, String expectedPath) {
     // WHEN/THEN
-    uris.assertHasPath(info, uri, expectedPath);
-  }
-
-  @Test
-  void should_pass_if_actual_uri_has_no_path_and_the_given_path_is_null() {
-    // GIVEN
-    URI uri = URI.create("mailto:java-net@java.sun.com");
-    String expectedPath = null;
-
-    // WHEN/THEN
-    uris.assertHasPath(info, uri, expectedPath);
+    assertThat(uri).hasPath(expectedPath);
   }
 
   @Test
@@ -66,18 +56,7 @@ class Uris_assertHasPath_Test extends UrisBaseTest {
     URI uri = URI.create("http://example.com/pages/");
     String expectedPath = "/news/";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
-    // THEN
-    then(assertionError).hasMessage(shouldHavePath(uri, expectedPath).create());
-  }
-
-  @Test
-  void should_fail_if_actual_URI_has_path_and_the_given_path_null() {
-    // GIVEN
-    URI uri = URI.create("http://example.com/pages/");
-    String expectedPath = null;
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(uri).hasPath(expectedPath));
     // THEN
     then(assertionError).hasMessage(shouldHavePath(uri, expectedPath).create());
   }
@@ -88,8 +67,9 @@ class Uris_assertHasPath_Test extends UrisBaseTest {
     URI uri = URI.create("mailto:java-net@java.sun.com");
     String expectedPath = "";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(uri).hasPath(expectedPath));
     // THEN
     then(assertionError).hasMessage(shouldHavePath(uri, expectedPath).create());
   }
+
 }

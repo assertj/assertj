@@ -13,44 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.internal.urls;
+package org.assertj.tests.core.api.uri;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.net.URI;
 
-import org.assertj.core.internal.UrisBaseTest;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
-class Uris_assertHasParameter_Test extends UrisBaseTest {
+class UriAssert_hasParameter_String_String_Test {
 
-  @ParameterizedTest
-  @ValueSource(strings = {
-      "http://assertj.org/news?article",
-      "http://assertj.org/news?article=10",
-  })
-  void should_pass_if_parameter_is_found(URI uri) {
-    // WHEN/THEN
-    uris.assertHasParameter(info, uri, "article");
-  }
-
-  @ParameterizedTest
-  @ValueSource(strings = {
-      "http://assertj.org/news",
-      "http://assertj.org/news?story=1",
-  })
-  void should_fail_if_parameter_is_missing(URI uri) {
+  @Test
+  void should_fail_if_actual_is_null() {
     // GIVEN
+    URI uri = null;
     String name = "article";
+    String value = "10";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(uri).hasParameter(name, value));
     // THEN
-    then(assertionError).hasMessage(shouldHaveParameter(uri, name).create());
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @ParameterizedTest
@@ -63,7 +52,7 @@ class Uris_assertHasParameter_Test extends UrisBaseTest {
   })
   void should_pass_if_parameter_with_expected_value_is_found(URI uri, String expected) {
     // WHEN/THEN
-    uris.assertHasParameter(info, uri, "article", expected);
+    assertThat(uri).hasParameter("article", expected);
   }
 
   @ParameterizedTest
@@ -77,7 +66,7 @@ class Uris_assertHasParameter_Test extends UrisBaseTest {
     // GIVEN
     String name = "article";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name, expected));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(uri).hasParameter(name, expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(uri, name, expected).create());
   }
@@ -94,7 +83,7 @@ class Uris_assertHasParameter_Test extends UrisBaseTest {
     // GIVEN
     String name = "article";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name, expected));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(uri).hasParameter(name, expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(uri, name, expected, list(actual)).create());
   }
@@ -108,7 +97,7 @@ class Uris_assertHasParameter_Test extends UrisBaseTest {
     // GIVEN
     String name = "article";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name, expected));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(uri).hasParameter(name, expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(uri, name, expected, list(actual1, actual2)).create());
   }
