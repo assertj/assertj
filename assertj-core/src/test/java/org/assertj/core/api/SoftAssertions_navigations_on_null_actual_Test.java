@@ -923,6 +923,29 @@ class SoftAssertions_navigations_on_null_actual_Test {
   }
 
   @Nested
+  class UriAndUrlNavigations {
+
+    @Test
+    void should_not_throw_when_calling_parameters_on_null_uri() {
+      // GIVEN / WHEN
+      softly.assertThat((java.net.URI) null).parameters().containsKey("foo");
+      // THEN
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_parameters_on_null_url() {
+      // GIVEN / WHEN
+      softly.assertThat((java.net.URL) null).parameters().containsKey("foo");
+      // THEN
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
+    }
+
+  }
+
+  @Nested
   class StringNavigations {
 
     @Test

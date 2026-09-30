@@ -174,7 +174,14 @@ public class Uris {
     if (!Objects.equals(actual.getUserInfo(), expected)) throw failures.failure(info, shouldHaveUserInfo(actual, expected));
   }
 
-  static Map<String, List<String>> getParameters(String query) {
+  /**
+   * Parses the given query string into its decoded parameters.
+   *
+   * @param query the query string to parse, may be {@code null}
+   * @return the parameter values by name, in query order; a parameter without value has a {@code null} value
+   * @throws IllegalArgumentException if the query string contains an invalid escape sequence
+   */
+  public static Map<String, List<String>> getParameters(String query) {
     Map<String, List<String>> parameters = new LinkedHashMap<>();
 
     if (query != null && !query.isEmpty()) {
