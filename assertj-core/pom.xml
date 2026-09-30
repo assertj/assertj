@@ -269,6 +269,7 @@
             <parameter>
               <excludes>
                 <exclude>org.assertj.core.internal</exclude>
+                <exclude>@org.assertj.core.util.VisibleForTesting</exclude>
               </excludes>
               <overrideCompatibilityChangeParameters>
                 <!-- Unlikely that AssertJ users will encounter an IncompatibleClassChangeError (ref: JLS 13.5.6) -->
