@@ -15,21 +15,40 @@
  */
 package org.assertj.core.api;
 
-import java.net.URI;
+import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
+import static org.assertj.core.error.uri.ShouldHaveFragment.shouldHaveFragment;
+import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
+import static org.assertj.core.error.uri.ShouldHaveNoHost.shouldHaveNoHost;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameters;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
+import static org.assertj.core.error.uri.ShouldHavePath.shouldHavePath;
+import static org.assertj.core.error.uri.ShouldHavePort.shouldHavePort;
+import static org.assertj.core.error.uri.ShouldHaveQuery.shouldHaveQuery;
+import static org.assertj.core.error.uri.ShouldHaveScheme.shouldHaveScheme;
+import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 
-import org.assertj.core.internal.Uris;
-import org.assertj.core.util.VisibleForTesting;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Base class for all implementations of assertions for {@link URI}s.
  *
  * @param <SELF> the "self" type of this assertion class.
- * @see java.net.URI
  */
 public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> extends AbstractComparableAssert<SELF, URI> {
 
-  @VisibleForTesting
-  protected Uris uris = Uris.instance();
+  private static final String EQUAL = "=";
+
+  private static final String AND = "&";
 
   protected AbstractUriAssert(final URI actual, final Class<?> selfType) {
     super(actual, selfType);
@@ -51,7 +70,8 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual URI path is not equal to the expected path.
    */
   public SELF hasPath(String expected) {
-    uris.assertHasPath(info, actual, expected);
+    isNotNull();
+    assertHasPath(expected);
     return myself;
   }
 
@@ -70,8 +90,13 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a path.
    */
   public SELF hasNoPath() {
-    uris.assertHasPath(info, actual, null);
+    isNotNull();
+    assertHasPath(null);
     return myself;
+  }
+
+  private void assertHasPath(String expected) {
+    if (!Objects.equals(actual.getPath(), expected)) throw assertionError(shouldHavePath(actual, expected));
   }
 
   /**
@@ -91,7 +116,8 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual port is not equal to the expected port.
    */
   public SELF hasPort(int expected) {
-    uris.assertHasPort(info, actual, expected);
+    isNotNull();
+    assertHasPort(expected);
     return myself;
   }
 
@@ -109,8 +135,13 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a port.
    */
   public SELF hasNoPort() {
-    uris.assertHasPort(info, actual, -1);
+    isNotNull();
+    assertHasPort(-1);
     return myself;
+  }
+
+  private void assertHasPort(int expected) {
+    if (actual.getPort() != expected) throw assertionError(shouldHavePort(actual, expected));
   }
 
   /**
@@ -131,8 +162,14 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual host is not equal to the expected host.
    */
   public SELF hasHost(String expected) {
-    uris.assertHasHost(info, actual, expected);
+    isNotNull();
+    assertHasHost(expected);
     return myself;
+  }
+
+  private void assertHasHost(String expected) {
+    requireNonNull(expected, "The expected host should not be null");
+    if (!Objects.equals(actual.getHost(), expected)) throw assertionError(shouldHaveHost(actual, expected));
   }
 
   /**
@@ -150,8 +187,13 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @since 3.22.0
    */
   public SELF hasNoHost() {
-    uris.assertHasNoHost(info, actual);
+    isNotNull();
+    assertHasNoHost();
     return myself;
+  }
+
+  private void assertHasNoHost() {
+    if (actual.getHost() != null) throw assertionError(shouldHaveNoHost(actual));
   }
 
   /**
@@ -171,8 +213,13 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual authority is not equal to the expected authority.
    */
   public SELF hasAuthority(String expected) {
-    uris.assertHasAuthority(info, actual, expected);
+    isNotNull();
+    assertHasAuthority(expected);
     return myself;
+  }
+
+  private void assertHasAuthority(String expected) {
+    if (!Objects.equals(actual.getAuthority(), expected)) throw assertionError(shouldHaveAuthority(actual, expected));
   }
 
   /**
@@ -191,7 +238,8 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual fragment is not equal to the expected fragment.
    */
   public SELF hasFragment(String expected) {
-    uris.assertHasFragment(info, actual, expected);
+    isNotNull();
+    assertHasFragment(expected);
     return myself;
   }
 
@@ -209,8 +257,13 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a fragment.
    */
   public SELF hasNoFragment() {
-    uris.assertHasFragment(info, actual, null);
+    isNotNull();
+    assertHasFragment(null);
     return myself;
+  }
+
+  private void assertHasFragment(String expected) {
+    if (!Objects.equals(actual.getFragment(), expected)) throw assertionError(shouldHaveFragment(actual, expected));
   }
 
   /**
@@ -229,7 +282,8 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual query is not equal to the expected query.
    */
   public SELF hasQuery(String expected) {
-    uris.assertHasQuery(info, actual, expected);
+    isNotNull();
+    assertHasQuery(expected);
     return myself;
   }
 
@@ -247,8 +301,13 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a query.
    */
   public SELF hasNoQuery() {
-    uris.assertHasQuery(info, actual, null);
+    isNotNull();
+    assertHasQuery(null);
     return myself;
+  }
+
+  private void assertHasQuery(String expected) {
+    if (!Objects.equals(actual.getQuery(), expected)) throw assertionError(shouldHaveQuery(actual, expected));
   }
 
   /**
@@ -266,8 +325,13 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual scheme is not equal to the expected scheme.
    */
   public SELF hasScheme(String expected) {
-    uris.assertHasScheme(info, actual, expected);
+    isNotNull();
+    assertHasScheme(expected);
     return myself;
+  }
+
+  private void assertHasScheme(String expected) {
+    if (!Objects.equals(actual.getScheme(), expected)) throw assertionError(shouldHaveScheme(actual, expected));
   }
 
   /**
@@ -288,7 +352,8 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual userinfo is not equal to the expected userinfo.
    */
   public SELF hasUserInfo(String expected) {
-    uris.assertHasUserInfo(info, actual, expected);
+    isNotNull();
+    assertHasUserInfo(expected);
     return myself;
   }
 
@@ -306,8 +371,13 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has some userinfo.
    */
   public SELF hasNoUserInfo() {
-    uris.assertHasUserInfo(info, actual, null);
+    isNotNull();
+    assertHasUserInfo(null);
     return myself;
+  }
+
+  private void assertHasUserInfo(String expected) {
+    if (!Objects.equals(actual.getUserInfo(), expected)) throw assertionError(shouldHaveUserInfo(actual, expected));
   }
 
   /**
@@ -332,8 +402,14 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasParameter(String name) {
-    uris.assertHasParameter(info, actual, name);
+    isNotNull();
+    assertHasParameter(name);
     return myself;
+  }
+
+  private void assertHasParameter(String name) {
+    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
+    if (!parameters.containsKey(name)) throw assertionError(shouldHaveParameter(actual, name));
   }
 
   /**
@@ -360,8 +436,18 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasParameter(String name, String value) {
-    uris.assertHasParameter(info, actual, name, value);
+    isNotNull();
+    assertHasParameter(name, value);
     return myself;
+  }
+
+  private void assertHasParameter(String name, String value) {
+    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
+
+    if (!parameters.containsKey(name)) throw assertionError(shouldHaveParameter(actual, name, value));
+
+    List<String> values = parameters.get(name);
+    if (!values.contains(value)) throw assertionError(shouldHaveParameter(actual, name, value, values));
   }
 
   /**
@@ -382,8 +468,14 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoParameters() {
-    uris.assertHasNoParameters(info, actual);
+    isNotNull();
+    assertHasNoParameters();
     return myself;
+  }
+
+  private void assertHasNoParameters() {
+    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
+    if (!parameters.isEmpty()) throw assertionError(shouldHaveNoParameters(actual, parameters.keySet()));
   }
 
   /**
@@ -405,8 +497,14 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
   public SELF hasNoParameter(String name) {
-    uris.assertHasNoParameter(info, actual, name);
+    isNotNull();
+    assertHasNoParameter(name);
     return myself;
+  }
+
+  private void assertHasNoParameter(String name) {
+    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
+    if (parameters.containsKey(name)) throw assertionError(shouldHaveNoParameter(actual, name, parameters.get(name)));
   }
 
   /**
@@ -432,7 +530,53 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
   public SELF hasNoParameter(String name, String value) {
-    uris.assertHasNoParameter(info, actual, name, value);
+    isNotNull();
+    assertHasNoParameter(name, value);
     return myself;
   }
+
+  private void assertHasNoParameter(String name, String unwantedValue) {
+    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
+
+    if (parameters.containsKey(name)) {
+      List<String> values = parameters.get(name);
+      if (values.contains(unwantedValue))
+        throw assertionError(shouldHaveNoParameter(actual, name, unwantedValue, values));
+    }
+  }
+
+  private static Map<String, List<String>> getParameters(String query) {
+    Map<String, List<String>> parameters = new LinkedHashMap<>();
+
+    if (query != null && !query.isEmpty()) {
+      for (String pair : query.split(AND)) {
+        int equalIndex = pair.indexOf(EQUAL);
+        String key = equalIndex == -1 ? pair : pair.substring(0, equalIndex);
+        String value = equalIndex == -1 ? null : pair.substring(equalIndex + 1);
+
+        try {
+          key = URLDecoder.decode(key, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException ex) {
+          // UTF-8 is missing? Allow the key to remain encoded (no reasonable alternative).
+        }
+
+        if (value != null) {
+          try {
+            value = URLDecoder.decode(value, StandardCharsets.UTF_8.name());
+          } catch (UnsupportedEncodingException ex) {
+            // UTF-8 is missing? Allow the value to remain encoded (no reasonable alternative).
+          }
+        }
+
+        if (!parameters.containsKey(key)) {
+          parameters.put(key, new ArrayList<>());
+        }
+
+        parameters.get(key).add(value);
+      }
+    }
+
+    return parameters;
+  }
+
 }

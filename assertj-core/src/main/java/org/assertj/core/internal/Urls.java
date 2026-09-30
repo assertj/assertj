@@ -31,11 +31,15 @@ import static org.assertj.core.error.uri.ShouldHaveProtocol.shouldHaveProtocol;
 import static org.assertj.core.error.uri.ShouldHaveQuery.shouldHaveQuery;
 import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 import static org.assertj.core.internal.Comparables.assertNotNull;
-import static org.assertj.core.internal.Uris.getParameters;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -44,6 +48,10 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
 public class Urls {
+
+  private static final String EQUAL = "=";
+
+  private static final String AND = "&";
 
   private static final Urls INSTANCE = new Urls();
 
@@ -65,6 +73,40 @@ public class Urls {
     String[] queryParams = (url.getQuery() == null ? "" : url.getQuery()).split("&");
     Arrays.sort(queryParams);
     return queryParams;
+  }
+
+  private static Map<String, List<String>> getParameters(String query) {
+    Map<String, List<String>> parameters = new LinkedHashMap<>();
+
+    if (query != null && !query.isEmpty()) {
+      for (String pair : query.split(AND)) {
+        int equalIndex = pair.indexOf(EQUAL);
+        String key = equalIndex == -1 ? pair : pair.substring(0, equalIndex);
+        String value = equalIndex == -1 ? null : pair.substring(equalIndex + 1);
+
+        try {
+          key = URLDecoder.decode(key, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException ex) {
+          // UTF-8 is missing? Allow the key to remain encoded (no reasonable alternative).
+        }
+
+        if (value != null) {
+          try {
+            value = URLDecoder.decode(value, StandardCharsets.UTF_8.name());
+          } catch (UnsupportedEncodingException ex) {
+            // UTF-8 is missing? Allow the value to remain encoded (no reasonable alternative).
+          }
+        }
+
+        if (!parameters.containsKey(key)) {
+          parameters.put(key, new ArrayList<>());
+        }
+
+        parameters.get(key).add(value);
+      }
+    }
+
+    return parameters;
   }
 
   public void assertHasProtocol(final AssertionInfo info, final URL actual, final String protocol) {
