@@ -98,19 +98,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private TypeMessages typeMessages = new TypeMessages();
   private FieldMessages fieldMessages = new FieldMessages();
 
-  // track field locations of fields of type to compare, needed to compare child nodes
-  // for example if we want to compare Person type, we must compare Person fields too event though they are not of type Person
-  private final Set<FieldLocation> fieldLocationsToCompareBecauseOfTypesToCompare = new LinkedHashSet<>();
-
-  /**
-   * Registers a field location needed because of configured compared types.
-   *
-   * @param fieldLocation the field location to register
-   */
-  public void registerFieldLocationToCompareBecauseOfTypesToCompare(FieldLocation fieldLocation) {
-    fieldLocationsToCompareBecauseOfTypesToCompare.add(fieldLocation);
-  }
-
   private RecursiveComparisonIntrospectionStrategy introspectionStrategy = DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY;
 
   private boolean compareEnumAgainstString = false;
@@ -1032,7 +1019,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     // we could evaluate the whole graphs to figure that but that would be bad performance wise so add everything
     // and exclude later on any differences that were on fields not to compare
     if (hasComparedTypes()) {
-      registerFieldLocationOfFieldsOfTypesToCompare(dualValue);
       return actualChildrenNodeNames;
     }
     // we are doing the same as shouldIgnore(DualValue dualValue) but in two steps for performance reasons:
@@ -1050,38 +1036,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                                   .map(DualValue::getFieldName)
                                   .filter(fieldName -> !fieldName.isEmpty())
                                   .collect(toSet());
-  }
-
-  /**
-   * Returns expected child node names eligible for comparison.
-   *
-   * @param dualValue the parent dual value
-   * @return the expected child node names
-   */
-  public Set<String> getExpectedChildrenNodeNamesToCompare(DualValue dualValue) {
-    Set<String> expectedChildrenNodeNames = getChildrenNodeNamesOf(dualValue.expected);
-    // if we have some compared types, we can't discard any fields since they could have fields we need to compare.
-    // we could evaluate the whole graphs to figure that but that would be bad performance wise so add everything
-    // and exclude later on any differences that were on fields not to compare
-    if (hasComparedTypes()) {
-      // don't register fieldLocation of fields of types to compare since we do it for actual;
-      return expectedChildrenNodeNames;
-    }
-    // we are doing the same as shouldIgnore(DualValue dualValue) but in two steps for performance reasons:
-    // - we filter first ignored nodes by names that don't need building DualValues
-    // - then we filter field DualValues with the remaining criteria that need to get the node value
-    // DualValues are built by introspecting node values which is expensive.
-    return expectedChildrenNodeNames.stream()
-                                    // evaluate field name ignoring criteria on dualValue field location + field name
-                                    .filter(fieldName -> !shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation.field(fieldName)))
-                                    .map(fieldName -> dualValueForField(dualValue, fieldName))
-                                    // evaluate field value ignoring criteria
-                                    .filter(fieldDualValue -> !shouldIgnoreFieldBasedOnFieldValue(fieldDualValue))
-                                    .filter(this::shouldBeCompared)
-                                    // back to field name
-                                    .map(DualValue::getFieldName)
-                                    .filter(fieldName -> !fieldName.isEmpty())
-                                    .collect(toSet());
   }
 
   Set<String> getChildrenNodeNamesOf(Object instance) {
@@ -1363,16 +1317,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     Class<?> actualType = actual.getClass();
     return getIgnoredTypes().contains(actualType)
            || getIgnoredTypesRegexes().stream().anyMatch(regex -> regex.matcher(actualType.getName()).matches());
-  }
-
-  private void registerFieldLocationOfFieldsOfTypesToCompare(DualValue dualValue) {
-    if (comparedTypes.isEmpty() || dualValue.isKeyMapDualValue()) return;
-    // We check actual type against the types to compare or expected type in case actual was null assuming expected
-    // has the same type as actual
-    if ((dualValue.actual != null && comparedTypes.contains(dualValue.actual.getClass()))
-        || (dualValue.expected != null && comparedTypes.contains(dualValue.expected.getClass()))) {
-      fieldLocationsToCompareBecauseOfTypesToCompare.add(dualValue.fieldLocation);
-    }
   }
 
   private boolean matchesAnIgnoredCollectionOrderInField(FieldLocation fieldLocation) {
