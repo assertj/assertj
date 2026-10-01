@@ -103,6 +103,15 @@ public abstract class AbstractRecursiveOperationConfiguration {
   }
 
   /**
+   * Returns true if some {@link #ignoredFields} or {@link #ignoredFieldsRegexes} were set, false otherwise.
+   *
+   * @return true if some {@link #ignoredFields} or {@link #ignoredFieldsRegexes} were set, false otherwise.
+   */
+  public boolean hasIgnoredFieldsRules() {
+    return !ignoredFields.isEmpty() || !ignoredFieldsRegexes.isEmpty();
+  }
+
+  /**
    * Makes the recursive assertion to ignore the object under test fields of the given types.
    * The fields are ignored if their types <b>exactly match one of the ignored types</b>, for example if a field is a subtype of an ignored type it is not ignored.
    * <p>
@@ -220,7 +229,7 @@ public abstract class AbstractRecursiveOperationConfiguration {
   protected String describeRegexes(List<Pattern> regexes) {
     List<String> fieldsDescription = regexes.stream()
                                             .map(Pattern::pattern)
-                                            .collect(toList());
+                                            .toList();
     return join(fieldsDescription);
   }
 

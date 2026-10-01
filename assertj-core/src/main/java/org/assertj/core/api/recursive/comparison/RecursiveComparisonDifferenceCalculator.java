@@ -51,7 +51,6 @@ import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.Function;
-import java.util.regex.Pattern;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -135,16 +134,10 @@ public class RecursiveComparisonDifferenceCalculator {
         // check if the value was meant to be ignored, if it is the case simply skip the difference
         if (recursiveComparisonConfiguration.shouldIgnore(dualValue)) return;
       }
-
-      String customErrorMessage = getCustomErrorMessage(dualValue);
-      ComparisonDifference comparisonDifference = new ComparisonDifference(dualValue, description, customErrorMessage);
-      differences.add(comparisonDifference);
-      // track the difference for the given dual values, in case we visit the same dual values again
-      visitedDualValues.registerComparisonDifference(dualValue, comparisonDifference,
-                                                     recursiveComparisonConfiguration.hasFieldLocationSpecificConfiguration());
+      addDifferenceIgnoringComparedTypes(dualValue, description);
     }
 
-    void addDifferenceOnFilteredMap(DualValue dualValue, String description) {
+    void addDifferenceIgnoringComparedTypes(DualValue dualValue, String description) {
       String customErrorMessage = getCustomErrorMessage(dualValue);
       ComparisonDifference comparisonDifference = new ComparisonDifference(dualValue, description, customErrorMessage);
       differences.add(comparisonDifference);
@@ -159,10 +152,6 @@ public class RecursiveComparisonDifferenceCalculator {
     public List<ComparisonDifference> getDifferences() {
       Collections.sort(differences);
       return differences;
-    }
-
-    public boolean hasDualValuesToCompare() {
-      return !dualValuesToCompare.isEmpty();
     }
 
     public DualValue pickDualValueToCompare() {
@@ -258,7 +247,7 @@ public class RecursiveComparisonDifferenceCalculator {
     ComparisonState comparisonState = new ComparisonState(visitedDualValues, recursiveComparisonConfiguration);
     comparisonState.initDualValuesToCompare(dualValue);
 
-    while (comparisonState.hasDualValuesToCompare()) {
+    while (!comparisonState.dualValuesToCompare.isEmpty()) {
 
       dualValue = comparisonState.pickDualValueToCompare();
       // if we have already visited the dual value, no need to compute the comparison differences again, this also avoid cycles
@@ -273,7 +262,6 @@ public class RecursiveComparisonDifferenceCalculator {
       }
 
       // first time we evaluate this dual value, perform the usual recursive comparison from there
-
       // visited dual values are tracked to avoid cycle
       if (recursiveComparisonConfiguration.someComparedFieldsWereSpecified()) {
         // only track dual values if their field location is a compared field or a child of one that could have cycles,
@@ -826,7 +814,7 @@ public class RecursiveComparisonDifferenceCalculator {
       if (someActualsKeysWereNotFoundInExpected) {
         diffMessage.append("The following keys were present in the actual map value, but not in the expected map value:%n  %s".formatted(comparisonState.toStringOf(actualKeysNotInExpected)));
       }
-      comparisonState.addDifferenceOnFilteredMap(dualValue, diffMessage.toString());
+      comparisonState.addDifferenceIgnoringComparedTypes(dualValue, diffMessage.toString());
     }
   }
 
@@ -849,24 +837,19 @@ public class RecursiveComparisonDifferenceCalculator {
 
   private static Map<?, ?> excludeIgnoredFields(Map<?, ?> map, DualValue dualValue,
                                                 RecursiveComparisonConfiguration configuration) {
-    Set<String> ignoredFields = configuration.getIgnoredFields();
-    List<Pattern> ignoredFieldsRegexes = configuration.getIgnoredFieldsRegexes();
-    if (ignoredFields.isEmpty() && ignoredFieldsRegexes.isEmpty() && !configuration.hasComparedTypes()) {
+    if (!configuration.hasIgnoredFieldsRules() && !configuration.hasComparedTypes()) {
       return map;
     }
     FieldLocation fieldLocation = dualValue.fieldLocation;
     return map.entrySet().stream()
               .filter(e -> {
-                Object key = e.getKey();
-                if (key == null) return true;
-
-                FieldLocation keyFieldLocation = fieldLocation.field(key.toString());
+                if (e.getKey() == null) return true;
+                var keyFieldLocation = fieldLocation.field(e.getKey().toString());
                 return !configuration.matchesAnIgnoredField(keyFieldLocation)
                        && !configuration.matchesAnIgnoredFieldRegex(keyFieldLocation);
               })
               .filter(e -> {
                 if (!configuration.hasComparedTypes()) return true;
-
                 Object key = e.getKey();
                 Object value = e.getValue();
                 return key == null
