@@ -81,6 +81,7 @@ public final class DualValue {
    * @param actualFieldValue the actual field value
    * @param expectedFieldValue the expected field value
    * @param parentDualValue the parent dual value
+   * @param isKeyMapDualValue whether the dual value comes from a map key
    */
   public DualValue(FieldLocation fieldLocation, Object actualFieldValue, Object expectedFieldValue, DualValue parentDualValue,
                    boolean isKeyMapDualValue) {
@@ -580,6 +581,15 @@ public final class DualValue {
     return isPotentialCyclingValue(actual) && isPotentialCyclingValue(expected);
   }
 
+  /**
+   * Checks whether the dual value comes from a map key.
+   *
+   * @return whether the dual value comes from a map key
+   */
+  public boolean isKeyMapDualValue() {
+    return isKeyMapDualValue;
+  }
+
   private static boolean isAJsonValueNode(Object value) {
     try {
       Class<?> valueNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ValueNode");
@@ -623,10 +633,6 @@ public final class DualValue {
       else ancestorDualValue = ancestorDualValue.parentDualValue;
     }
     return false;
-  }
-
-  public boolean isKeyMapDualValue() {
-    return isKeyMapDualValue;
   }
 
   boolean hasAncestorOrIsOfTypeIn(Set<Class<?>> types) {
