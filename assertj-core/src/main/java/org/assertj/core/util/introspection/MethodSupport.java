@@ -15,11 +15,13 @@
  */
 package org.assertj.core.util.introspection;
 
+import static java.lang.reflect.Proxy.isProxyClass;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 /**
  * Utility class for reflective method invocation.
@@ -28,7 +30,9 @@ import java.lang.reflect.Method;
  */
 public class MethodSupport {
 
-  /** Creates a method introspection helper. */
+  /**
+   * Creates a method introspection helper.
+   */
   public MethodSupport() {}
 
   private static final String METHOD_HAS_NO_RETURN_VALUE = "Method '%s' in class %s.class has to return a value!";
@@ -54,8 +58,34 @@ public class MethodSupport {
   public static Object methodResultFor(Object instance, String methodName) {
     requireNonNull(instance, "Object instance can not be null!");
     checkNotNullOrEmpty(methodName, "Method name can not be empty!");
-    Method method = findMethod(methodName, instance.getClass());
-    return invokeMethod(instance, method);
+    Class<?> instanceClass = instance.getClass();
+    Method method = findMethod(methodName, instanceClass);
+    return isProxyClass(instanceClass) ? invokeProxyMethod(instance, method) : invokeMethod(instance, method);
+  }
+
+  private static Object invokeProxyMethod(Object proxy, Method proxyMethod) {
+    try {
+      Method interfaceMethod = findProxyInterfaceMethod(proxy.getClass(), proxyMethod);
+      return Proxy.getInvocationHandler(proxy).invoke(proxy, interfaceMethod, null);
+    } catch (Throwable throwable) {
+      throw new IllegalStateException(throwable);
+    }
+  }
+
+  private static Method findProxyInterfaceMethod(Class<?> proxyClass, Method proxyMethod) {
+    for (Class<?> proxyInterface : proxyClass.getInterfaces()) {
+      try {
+        return proxyInterface.getMethod(proxyMethod.getName(), proxyMethod.getParameterTypes());
+      } catch (NoSuchMethodException ignored) {
+        // Try the next proxy interface.
+      }
+    }
+
+    try {
+      return Object.class.getMethod(proxyMethod.getName(), proxyMethod.getParameterTypes());
+    } catch (NoSuchMethodException exception) {
+      throw prepareMethodNotFoundException(proxyMethod.getName(), proxyClass, exception);
+    }
   }
 
   private static Object invokeMethod(Object item, Method method) {

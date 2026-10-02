@@ -15,6 +15,7 @@
  */
 package org.assertj.core.api.iterable;
 
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -25,6 +26,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 
+import java.lang.annotation.Retention;
 import java.util.List;
 
 import org.assertj.core.api.AbstractIterableAssert;
@@ -155,6 +157,23 @@ class IterableAssert_extractingResultOf_Test {
     var assertionError = expectAssertionError(() -> assertThat(jedis).extractingResultOf("name", String.class).isEmpty());
     // THEN
     then(assertionError).hasMessageContainingAll("[Extracted: result of name()]", actualIsNull());
+  }
+
+  @Retention(RUNTIME)
+  private @interface TestAnnotation {
+    String value();
+  }
+
+  @TestAnnotation("expected")
+  private static class AnnotatedType {
+  }
+
+  @Test
+  void should_invoke_method_on_annotation_proxy_not_using_reflection() {
+    // GIVEN
+    TestAnnotation annotation = AnnotatedType.class.getAnnotation(TestAnnotation.class);
+    // WHEN/THEN
+    then(List.of(annotation)).extractingResultOf("value").containsExactly("expected");
   }
 
 }
