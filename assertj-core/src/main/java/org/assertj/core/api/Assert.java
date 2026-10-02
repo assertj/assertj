@@ -416,6 +416,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * <pre><code class='java'> // assertions succeed
    * assertThat(1).isNotInstanceOf(Double.class);
    * assertThat(new ArrayList&lt;String&gt;()).isNotInstanceOf(LinkedList.class);
+   * assertThat(null).isNotInstanceOf(String.class);
    *
    * // assertions fail
    * assertThat(&quot;abc&quot;).isNotInstanceOf(String.class);
@@ -425,7 +426,6 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @param type the type to check the actual value against.
    * @return this assertion object.
    * @throws NullPointerException if the given type is {@code null}.
-   * @throws AssertionError       if the actual value is {@code null}.
    * @throws AssertionError       if the actual value is an instance of the given type.
    */
   SELF isNotInstanceOf(Class<?> type);
@@ -437,6 +437,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * <pre><code class='java'> // assertions succeed
    * assertThat(1).isNotInstanceOfAny(Double.class, Float.class);
    * assertThat(new ArrayList&lt;String&gt;()).isNotInstanceOfAny(LinkedList.class, Vector.class);
+   * assertThat(null).isNotInstanceOfAny(BigInteger.class);
    *
    * // assertions fail
    * assertThat(1).isNotInstanceOfAny(Double.class, Integer.class);
@@ -445,7 +446,6 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param types the types to check the actual value against.
    * @return this assertion object.
-   * @throws AssertionError       if the actual value is {@code null}.
    * @throws AssertionError       if the actual value is an instance of any of the given types.
    * @throws NullPointerException if the given array of types is {@code null}.
    * @throws NullPointerException if the given array of types contains {@code null}s.
@@ -598,6 +598,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * assertThat(1).isNotExactlyInstanceOf(String.class);
    * assertThat(new ArrayList&lt;String&gt;()).isNotExactlyInstanceOf(List.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotExactlyInstanceOf(Map.class);
+   * assertThat(null).isNotExactlyInstanceOf(Collection.class);
    *
    * // assertions fail
    * assertThat(&quot;abc&quot;).isNotExactlyInstanceOf(String.class);
@@ -607,7 +608,6 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @param type the type to check the actual value against.
    * @return this assertion object.
    * @throws AssertionError       if the actual is exactly an instance of given type.
-   * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
   SELF isNotExactlyInstanceOf(Class<?> type);
