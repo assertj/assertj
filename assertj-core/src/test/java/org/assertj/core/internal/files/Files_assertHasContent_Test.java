@@ -93,7 +93,8 @@ class Files_assertHasContent_Test extends FilesBaseTest {
 
   @Test
   void should_pass_if_file_has_text_content() {
-    String expected = "actual";
+    // actual_file.txt contains "actual" followed by a trailing newline
+    String expected = "actual\n";
     underTest.assertHasContent(INFO, actual, expected, charset);
   }
 
