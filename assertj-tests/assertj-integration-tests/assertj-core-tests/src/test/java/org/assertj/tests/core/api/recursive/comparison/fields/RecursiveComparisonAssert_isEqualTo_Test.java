@@ -495,8 +495,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithComparingFieldsIntros
     ComparisonDifference difference = diff("_children",
                                            mapOf(entry("importantValue", "10"), entry("someNotImportantValue", 1)),
                                            mapOf(entry("bar", "10"), entry("foo", 1)),
-                                           ("The following keys were not found in the actual map value:%n  [\"foo\", \"bar\"]%n" +
-                                            "The following keys were present in the actual map value, but not in the expected map value:%n  [\"someNotImportantValue\", \"importantValue\"]").formatted());
+                                           "The following expected entries were not matched in the actual LinkedHashMap:%n  [{\"foo\"=1}, {\"bar\"=\"10\"}]".formatted());
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 

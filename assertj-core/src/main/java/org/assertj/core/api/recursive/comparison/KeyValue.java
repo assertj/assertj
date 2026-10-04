@@ -19,13 +19,32 @@ import java.util.Map;
 
 // not using Entry because as a jdk type, it would be compared with equals and not recursively
 // no need to parameterized KeyValue as the recursive comparison ignores type parameters.
-record KeyValue(Object key, Object value) {
+
+/**
+ * Replacing {@link java.util.Map.Entry} in the recursive comparison as the latter is not compared recursively
+ * (java types are not by default). It is not parameterized as the recursive comparison ignores type parameters.
+ *
+ * @param key the key
+ * @param value the value
+ */
+public record KeyValue(Object key, Object value) {
 
   // regular getters to be compatible with getter driven recursive comparison
+
+  /**
+   * Regular getters to be compatible with getter driven recursive comparison.
+   *
+   * @return the key
+   */
   public Object getKey() {
     return key;
   }
 
+  /**
+   * Regular getters to be compatible with getter driven recursive comparison.
+   *
+   * @return the value
+   */
   public Object getValue() {
     return value;
   }

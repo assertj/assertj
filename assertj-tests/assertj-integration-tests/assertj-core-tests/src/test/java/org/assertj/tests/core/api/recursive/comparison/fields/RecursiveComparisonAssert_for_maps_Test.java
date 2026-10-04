@@ -339,9 +339,11 @@ class RecursiveComparisonAssert_for_maps_Test extends WithComparingFieldsIntrosp
     Map<KeyDto, String> expected = Map.of(new KeyDto("Sam", 1), "value");
     // WHEN
     var error = expectAssertionError(() -> then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                       .withStrictTypeChecking().isEqualTo(expected));
+                                                       .withStrictTypeChecking()
+                                                       .isEqualTo(expected));
     // THEN
-    then(error).hasMessageContaining("not found");
+    then(error).hasMessageContainingAll("The following expected entries were not matched in the actual Map1",
+                                        "[{KeyDto[name=Sam, id=1]=\"value\"}]");
   }
 
   @Test
@@ -543,7 +545,8 @@ class RecursiveComparisonAssert_for_maps_Test extends WithComparingFieldsIntrosp
     var error = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                              .isEqualTo(expected));
     // THEN
-    then(error).hasMessageContaining("not found");
+    then(error).hasMessageContainingAll("The following expected entries were not matched in the actual Map1:",
+                                        "[{IdKey[name=Alex, id=1]=\"value\"}]");
   }
 
   @Test
@@ -587,7 +590,9 @@ class RecursiveComparisonAssert_for_maps_Test extends WithComparingFieldsIntrosp
                                                              .ignoringFields("a.id")
                                                              .isEqualTo(expected));
     // THEN
-    then(error).hasMessageContaining("b.id");
+    if (sorted) then(error).hasMessageContaining("field/property 'b.id' differ:");
+    else then(error).hasMessageContainingAll("The following expected entries were not matched in the actual LinkedHashMap:",
+                                             "[{\"b\"=Key[name=Sam, id=2]}]");
   }
 
   @ParameterizedTest
@@ -642,6 +647,26 @@ class RecursiveComparisonAssert_for_maps_Test extends WithComparingFieldsIntrosp
                 .isEqualTo(expected);
     // THEN
     then(leafComparisons.get()).isLessThanOrEqualTo(28);
+  }
+
+  @Test
+  void should_pass_when_keys_are_equal_but_not_in_the_same_order_for_unordered_maps() {
+    // GIVEN
+    Person sheldon = new Person("Sheldon");
+    Person sheldonClone = new Person("Sheldon");
+    Person raj = new Person("Rajesh");
+
+    Map<Person, String> actual = mapOf(entry(sheldon, "first"),
+                                       entry(sheldonClone, "second"),
+                                       entry(raj, "third"));
+
+    Map<Person, String> expected = mapOf(entry(sheldonClone, "second"),
+                                         entry(sheldon, "first"),
+                                         entry(raj, "third"));
+
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .isEqualTo(expected);
   }
 
   record AliasedValues(Key first, Key second) {

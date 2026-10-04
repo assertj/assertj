@@ -67,12 +67,6 @@ import java.util.stream.Stream;
  */
 public class RecursiveComparisonDifferenceCalculator {
 
-  record MatchingKeyValue(KeyValue kv1, KeyValue kv2) {
-    boolean hasKeyRef(Object key) {
-      return kv1.key() == key || kv2.key() == key;
-    }
-  }
-
   /**
    * Creates a recursive comparison difference calculator.
    */
@@ -717,20 +711,21 @@ public class RecursiveComparisonDifferenceCalculator {
     while (actualIterator.hasNext()) {
       Object actualElement = actualIterator.next();
       // we need to get the currently visited dual values otherwise a cycle would cause an infinite recursion.
-      DualValue elementDualValue = new DualValue(dualValue.fieldLocation, actualElement, expectedElement, dualValue);
-      if (hasNoDifferences(elementDualValue, comparisonState)) return true;
+      FieldLocation fieldLocation = dualValue.fieldLocation;
+      if (actualElement instanceof KeyValue actualKeyValue && expectedElement instanceof KeyValue expectedKeyValue) {
+        Object actualKey = actualKeyValue.getKey();
+        Object expectedKey = expectedKeyValue.getKey();
+        var keyDualValue = new DualValue(fieldLocation, actualKey, expectedKey, dualValue, true);
+        var keyFieldLocation = actualKey == null ? fieldLocation : fieldLocation.field(actualKey.toString());
+        var valueDualValue = new DualValue(keyFieldLocation, actualKeyValue.value(), expectedKeyValue.value(), dualValue);
+        if (hasNoDifferences(keyDualValue, comparisonState) && hasNoDifferences(valueDualValue, comparisonState))
+          return true;
+      } else {
+        DualValue elementDualValue = new DualValue(fieldLocation, actualElement, expectedElement, dualValue);
+        if (hasNoDifferences(elementDualValue, comparisonState)) return true;
+      }
     }
     return false;
-  }
-
-  private static MatchingKeyValue findMatchingEntry(Entry<?, ?> entryToMatch, Set<? extends Entry<?, ?>> set,
-                                                    DualValue dualValue, ComparisonState comparisonState) {
-    for (Entry<?, ?> entry : set) {
-      DualValue keyDualValue = new DualValue(dualValue.fieldLocation, entry.getKey(), entryToMatch.getKey(), dualValue, true);
-      if (hasNoDifferences(keyDualValue, comparisonState))
-        return new MatchingKeyValue(KeyValue.from(entryToMatch), KeyValue.from(entry));
-    }
-    return null;
   }
 
   // TODO replace by ordered map
@@ -774,65 +769,160 @@ public class RecursiveComparisonDifferenceCalculator {
     }
   }
 
-  @SuppressWarnings({ "rawtypes" })
   private static void compareUnorderedMap(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAMap()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "a map"));
       return;
     }
 
-    Map actualMap = excludeIgnoredFields((Map<?, ?>) dualValue.actual, dualValue,
-                                         comparisonState.recursiveComparisonConfiguration);
-    Map expectedMap = excludeIgnoredFields((Map<?, ?>) dualValue.expected, dualValue,
-                                           comparisonState.recursiveComparisonConfiguration);
+    Map<?, ?> actualMap = excludeIgnoredFields((Map<?, ?>) dualValue.actual, dualValue,
+                                               comparisonState.recursiveComparisonConfiguration);
+    Map<?, ?> expectedMap = excludeIgnoredFields((Map<?, ?>) dualValue.expected, dualValue,
+                                                 comparisonState.recursiveComparisonConfiguration);
 
     StringBuilder diffMessage = new StringBuilder();
     if (actualMap.size() != expectedMap.size()) {
-      diffMessage.append(DIFFERENT_SIZE_ERROR.formatted("maps", actualMap.size(), expectedMap.size()));
-      diffMessage.append("%n".formatted());
       // continue in order to show the maps differences in the error message
-    }
-    List<MatchingKeyValue> entriesToCompare = findEntriesToCompare(actualMap, expectedMap, dualValue, comparisonState);
-    if (entriesToCompare.size() == actualMap.size()) {
-      // actual and expected maps have the same keys, we need now to compare their values
-      for (MatchingKeyValue entryToCompare : entriesToCompare) {
-        FieldLocation keyFieldLocation = keyFieldLocation(dualValue.fieldLocation, entryToCompare.kv1.key());
-        comparisonState.registerForComparison(new DualValue(keyFieldLocation, entryToCompare.kv1.value(),
-                                                            entryToCompare.kv2.value(), dualValue));
+      List<?> expectedKeysNotInActual = getUnmatchedKeys(expectedMap.keySet(), actualMap.keySet(), dualValue, comparisonState);
+      List<?> actualKeysNotInExpected = getUnmatchedKeys(actualMap.keySet(), expectedMap.keySet(), dualValue, comparisonState);
+      boolean someExpectedKeysWereNotFoundInActual = !expectedKeysNotInActual.isEmpty();
+      boolean someActualsKeysWereNotFoundInExpected = !actualKeysNotInExpected.isEmpty();
+      if (someExpectedKeysWereNotFoundInActual || someActualsKeysWereNotFoundInExpected) {
+        if (someExpectedKeysWereNotFoundInActual) {
+          diffMessage.append("The following keys were not found in the actual map value:%n  %s%n".formatted(comparisonState.toStringOf(expectedKeysNotInActual)));
+        }
+        if (someActualsKeysWereNotFoundInExpected) {
+          diffMessage.append("The following keys were present in the actual map value, but not in the expected map value:%n  %s".formatted(comparisonState.toStringOf(actualKeysNotInExpected)));
+        }
+        String errorDescription = DIFFERENT_SIZE_ERROR.formatted("maps", actualMap.size(), expectedMap.size());
+        comparisonState.addDifference(dualValue, "%s%n%s".formatted(errorDescription, diffMessage));
       }
       return;
     }
 
-    List<?> expectedKeysNotInActual = getUnmatchedKeys(expectedMap, entriesToCompare);
-    List<?> actualKeysNotInExpected = getUnmatchedKeys(actualMap, entriesToCompare);
-    boolean someExpectedKeysWereNotFoundInActual = !expectedKeysNotInActual.isEmpty();
-    boolean someActualsKeysWereNotFoundInExpected = !actualKeysNotInExpected.isEmpty();
-    if (someExpectedKeysWereNotFoundInActual || someActualsKeysWereNotFoundInExpected) {
-      if (someExpectedKeysWereNotFoundInActual) {
-        diffMessage.append("The following keys were not found in the actual map value:%n  %s%n".formatted(comparisonState.toStringOf(expectedKeysNotInActual)));
-      }
-      if (someActualsKeysWereNotFoundInExpected) {
-        diffMessage.append("The following keys were present in the actual map value, but not in the expected map value:%n  %s".formatted(comparisonState.toStringOf(actualKeysNotInExpected)));
-      }
-      comparisonState.addDifferenceIgnoringComparedTypes(dualValue, diffMessage.toString());
+    // noinspection SimplifyStreamApiCallChains
+    List<KeyValue> actualKeyValues = actualMap.entrySet().stream().map(KeyValue::from).collect(toList());
+    List<KeyValue> expectedKeyValues = expectedMap.entrySet().stream().map(KeyValue::from).toList();
+
+    List<Object> expectedElementsNotFound = list();
+    RecursiveComparisonConfiguration configuration = comparisonState.recursiveComparisonConfiguration;
+    if (configuration.hasFieldLocationSpecificConfiguration() || configuration.hasComparedTypes()) {
+      compareUnorderedMapEntries(actualKeyValues, expectedKeyValues, dualValue, comparisonState, expectedElementsNotFound);
+    } else {
+      compareUnorderedMapEntriesByKey(actualKeyValues, expectedKeyValues, dualValue, comparisonState, expectedElementsNotFound);
+    }
+    if (!expectedElementsNotFound.isEmpty()) {
+      String type = dualValue.actual.getClass().getSimpleName();
+      String unmatchedEntries = comparisonState.toStringOf(expectedElementsNotFound);
+      String description = "The following expected entries were not matched in the actual %s:%n  %s".formatted(type,
+                                                                                                               unmatchedEntries);
+      comparisonState.addDifference(dualValue, description);
+      // TODO could improve the error by listing the actual elements not in expected but that would need
+      // another double loop inverting actual and expected to find the actual elements not matched in expected
     }
   }
 
-  private static List<?> getUnmatchedKeys(Map<?, ?> map, List<MatchingKeyValue> entriesToCompare) {
-    // check keys by reference as the entries to compare keys comes from the given map
-    return map.keySet().stream().filter(e -> entriesToCompare.stream().noneMatch(entry -> entry.hasKeyRef(e))).toList();
+  private static void compareUnorderedMapEntries(List<KeyValue> actualKeyValues, List<KeyValue> expectedKeyValues,
+                                                 DualValue dualValue, ComparisonState comparisonState,
+                                                 List<Object> expectedElementsNotFound) {
+    for (KeyValue expectedKeyValue : expectedKeyValues) {
+      List<ComparisonDifference> allKeyDifferences = new ArrayList<>();
+      Iterator<KeyValue> actualKeyValuesIterator = actualKeyValues.iterator();
+      boolean matched = false;
+      while (actualKeyValuesIterator.hasNext()) {
+        var actualKeyValue = actualKeyValuesIterator.next();
+        var keyDualValue = new DualValue(dualValue.fieldLocation, actualKeyValue.key(), expectedKeyValue.key(), dualValue, true);
+        List<ComparisonDifference> keyDifferences = determineDifferences(keyDualValue,
+                                                                         comparisonState.visitedDualValues,
+                                                                         comparisonState.recursiveComparisonConfiguration);
+        if (!keyDifferences.isEmpty()) {
+          allKeyDifferences.addAll(keyDifferences);
+          continue;
+        }
+        var keyFieldLocation = keyFieldLocation(dualValue.fieldLocation, actualKeyValue.key());
+        var valueDualValue = new DualValue(keyFieldLocation, actualKeyValue.value(), expectedKeyValue.value(), dualValue);
+        if (hasNoDifferences(valueDualValue, comparisonState)) {
+          actualKeyValuesIterator.remove();
+          matched = true;
+          break;
+        }
+      }
+      if (!matched) {
+        allKeyDifferences.forEach(comparisonState::addDifference);
+        expectedElementsNotFound.add(expectedKeyValue);
+      }
+    }
   }
 
-  private static List<MatchingKeyValue> findEntriesToCompare(Map<?, ?> map1, Map<?, ?> map2, DualValue dualValue,
-                                                             ComparisonState comparisonState) {
-    List<MatchingKeyValue> matchingKeyValues = new ArrayList<>(map1.size());
-    Set<? extends Entry<?, ?>> entrySet1 = map1.entrySet();
-    Set<? extends Entry<?, ?>> entrySet2 = map2.entrySet();
-    for (Map.Entry<?, ?> entry : entrySet1) {
-      MatchingKeyValue matchingKeyValue = findMatchingEntry(entry, entrySet2, dualValue, comparisonState);
-      if (matchingKeyValue != null) matchingKeyValues.add(matchingKeyValue);
+  private static void compareUnorderedMapEntriesByKey(List<KeyValue> actualKeyValues, List<KeyValue> expectedKeyValues,
+                                                      DualValue dualValue, ComparisonState comparisonState,
+                                                      List<Object> expectedElementsNotFound) {
+    List<KeyValue> remainingExpectedKeyValues = new ArrayList<>(expectedKeyValues);
+    while (!remainingExpectedKeyValues.isEmpty()) {
+      boolean isCurrentExpectedKeyValueResolved = false;
+      Iterator<KeyValue> expectedIterator = remainingExpectedKeyValues.iterator();
+      while (expectedIterator.hasNext()) {
+        KeyValue expectedKeyValue = expectedIterator.next();
+        // try find matching an actual KeyValue key matching expectedKeyValue key
+        List<KeyValue> matchingKeys = findMatchingKeys(actualKeyValues, expectedKeyValue, dualValue, comparisonState);
+        if (matchingKeys.isEmpty()) {
+          expectedElementsNotFound.add(expectedKeyValue);
+          expectedIterator.remove();
+          isCurrentExpectedKeyValueResolved = true;
+        } else if (matchingKeys.size() == 1) {
+          registerMapValueForComparison(matchingKeys.get(0), expectedKeyValue, dualValue, comparisonState);
+          actualKeyValues.removeIf(kv -> kv == matchingKeys.get(0));
+          expectedIterator.remove();
+          isCurrentExpectedKeyValueResolved = true;
+        }
+      }
+      if (isCurrentExpectedKeyValueResolved) continue;
+
+      KeyValue expectedKeyValue = remainingExpectedKeyValues.remove(0);
+      // there are several actualKeyValues matching keys for expectedKeyValue key
+      List<KeyValue> matchingKeys = findMatchingKeys(actualKeyValues, expectedKeyValue, dualValue, comparisonState);
+      KeyValue matchingKeyValue = findMatchingValue(matchingKeys, expectedKeyValue, dualValue, comparisonState);
+      if (matchingKeyValue != null) actualKeyValues.removeIf(kv -> kv == matchingKeyValue);
+      else expectedElementsNotFound.add(expectedKeyValue);
     }
-    return matchingKeyValues;
+  }
+
+  private static List<KeyValue> findMatchingKeys(List<KeyValue> actualKeyValues, KeyValue expectedKeyValue,
+                                                 DualValue dualValue, ComparisonState comparisonState) {
+    return actualKeyValues.stream()
+                          .filter(actualKeyValue -> keysMatch(actualKeyValue, expectedKeyValue, dualValue, comparisonState))
+                          .toList();
+  }
+
+  private static boolean keysMatch(KeyValue actual, KeyValue expected, DualValue dualValue, ComparisonState comparisonState) {
+    var keyDualValue = new DualValue(dualValue.fieldLocation, actual.key(), expected.key(), dualValue, true);
+    return hasNoDifferences(keyDualValue, comparisonState);
+  }
+
+  private static KeyValue findMatchingValue(List<KeyValue> actualKeyValues, KeyValue expectedKeyValue, DualValue dualValue,
+                                            ComparisonState comparisonState) {
+    for (KeyValue actualKeyValue : actualKeyValues) {
+      FieldLocation keyFieldLocation = keyFieldLocation(dualValue.fieldLocation, actualKeyValue.key());
+      DualValue valueDualValue = new DualValue(keyFieldLocation, actualKeyValue.value(), expectedKeyValue.value(), dualValue);
+      if (hasNoDifferences(valueDualValue, comparisonState)) return actualKeyValue;
+    }
+    return null;
+  }
+
+  private static void registerMapValueForComparison(KeyValue actualKeyValue, KeyValue expectedKeyValue,
+                                                    DualValue dualValue, ComparisonState comparisonState) {
+    FieldLocation keyFieldLocation = keyFieldLocation(dualValue.fieldLocation, actualKeyValue.key());
+    comparisonState.registerForComparison(new DualValue(keyFieldLocation, actualKeyValue.value(),
+                                                        expectedKeyValue.value(), dualValue));
+  }
+
+  private static List<?> getUnmatchedKeys(Set<?> keys1, Set<?> keys2, DualValue dualValue, ComparisonState comparisonState) {
+    return keys1.stream()
+                .filter(key1 -> keys2.stream().noneMatch(key2 -> {
+                  DualValue dualValue1 = new DualValue(dualValue.fieldLocation, key1, key2, dualValue, true);
+                  return hasNoDifferences(dualValue1, comparisonState);
+                }))
+                .toList();
   }
 
   private static Map<?, ?> excludeIgnoredFields(Map<?, ?> map, DualValue dualValue,

@@ -15,6 +15,7 @@
  */
 package org.assertj.tests.core.api.recursive.comparison.fields;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
@@ -409,9 +410,10 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithCompar
   }
 
   private static Stream<Arguments> should_fail_as_ignored_field_is_not_matched_in_map() {
-    Object actual1 = withMap(mapOf(entry("firstName", "John"), entry("lastName", "Doe")));
-    Object expected1 = withMap(mapOf(entry("firstName", "John"), entry("lastName", "Wick")));
-    ComparisonDifference difference1 = javaTypeDiff("map.lastName", "Doe", "Wick");
+    var actual1 = withMap(mapOf(entry("firstName", "John"), entry("lastName", "Doe")));
+    var expected1 = withMap(mapOf(entry("firstName", "John"), entry("lastName", "Wick")));
+    ComparisonDifference difference1 = diff("map", actual1.map, expected1.map,
+                                            format("The following expected entries were not matched in the actual LinkedHashMap:%n  [{\"lastName\"=\"Wick\"}]"));
 
     Object actual2 = withMap(treeMapOf(entry("firstName", "John"), entry("lastName", "Doe")));
     Object expected2 = withMap(treeMapOf(entry("firstName", "John"), entry("lastName", "Wick")));
@@ -434,16 +436,16 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithCompar
   }
 
   private static Stream<Arguments> should_fail_as_ignored_field_by_regex_is_not_matched_in_map() {
-    Object actual1 = withMap(mapOf(entry("firstName", "John"), entry("lastName", "Doe")));
-    Object expected1 = withMap(mapOf(entry("firstName", "John"), entry("lastName", "Wick")));
-    ComparisonDifference difference1 = javaTypeDiff("map.lastName", "Doe", "Wick");
+    var actual1 = withMap(mapOf(entry("firstName", "John"), entry("lastName", "Doe")));
+    var expected1 = withMap(mapOf(entry("firstName", "John"), entry("lastName", "Wick")));
+    ComparisonDifference difference1 = diff("map", actual1.map, expected1.map,
+                                            format("The following expected entries were not matched in the actual LinkedHashMap:%n  [{\"lastName\"=\"Wick\"}]"));
 
     Object actual2 = withMap(treeMapOf(entry("firstName", "John"), entry("lastName", "Doe")));
     Object expected2 = withMap(treeMapOf(entry("firstName", "John"), entry("lastName", "Wick")));
     ComparisonDifference difference2 = javaTypeDiff("map.lastName", "Doe", "Wick");
 
-    return Stream.of(
-                     arguments(actual1, expected1, ".ast.*", difference1, "unordered maps, ignored field is not matched"),
+    return Stream.of(arguments(actual1, expected1, ".ast.*", difference1, "unordered maps, ignored field is not matched"),
                      arguments(actual2, expected2, ".ast.*", difference2, "ordered maps, ignored field is not matched"));
   }
 

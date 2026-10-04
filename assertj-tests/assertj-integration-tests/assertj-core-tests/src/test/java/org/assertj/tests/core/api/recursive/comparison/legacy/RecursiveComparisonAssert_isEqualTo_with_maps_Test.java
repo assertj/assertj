@@ -120,8 +120,8 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends WithLegacyIntro
     Map<String, Author> singletonGeorgeMartinMap = singletonMap(georgeMartin.name, georgeMartin);
     return Stream.of(arguments(singletonPratchettMap, singletonGeorgeMartinMap, "map",
                                singletonPratchettMap, singletonGeorgeMartinMap,
-                               ("The following keys were not found in the actual map value:%n  [\"George Martin\"]" +
-                                "%nThe following keys were present in the actual map value, but not in the expected map value:%n  [\"Terry Pratchett\"]").formatted()),
+                               format("The following expected entries were not matched in the actual SingletonMap:%n" +
+                                      "  [{\"George Martin\"=Author [name=George Martin]}]")),
                      arguments(nonSortedPratchettAndMartin, singletonPratchettMap, "map",
                                nonSortedPratchettAndMartin, singletonPratchettMap,
                                ("actual and expected values are maps of different size, actual size=2 when expected size=1" +
@@ -133,8 +133,8 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends WithLegacyIntro
                                none, pratchett, null),
                      arguments(singletonPratchettMap, singletonMap(georgeMartin.name, pratchett), "map",
                                singletonPratchettMap, singletonMap(georgeMartin.name, pratchett),
-                               ("The following keys were not found in the actual map value:%n  [\"George Martin\"]" +
-                                "%nThe following keys were present in the actual map value, but not in the expected map value:%n  [\"Terry Pratchett\"]").formatted()),
+                               format("The following expected entries were not matched in the actual SingletonMap:%n" +
+                                      "  [{\"George Martin\"=Author [name=Terry Pratchett]}]")),
                      arguments(singletonPratchettMap, empty, "map",
                                singletonPratchettMap, empty,
                                ("actual and expected values are maps of different size, actual size=1 when expected size=0" +
@@ -203,7 +203,8 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends WithLegacyIntro
     var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                       .isEqualTo(expected));
     // THEN
-    then(assertionError).hasMessageContaining("The following keys were not found in the actual map value:%n  [\"c\", \"d\"]".formatted());
+    then(assertionError).hasMessageContainingAll("The following expected entries were not matched in the actual RegularImmutableMap:",
+                                                 "[{\"c\"=\"c\"}, {\"d\"=\"d\"}]");
   }
 
   static Stream<Arguments> should_fail_when_comparing_map_to_non_map() {
@@ -229,8 +230,9 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends WithLegacyIntro
     var assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                            .isEqualTo(expectedItems));
     // THEN
-    then(assertionError).hasMessageContaining(format("The following keys were not found in the actual map value:%n" +
-                                                     "  [\"Shoes\"]"));
+    then(assertionError).hasMessageContaining(format("The following expected entries were not matched in the actual LinkedHashMap:%n"
+                                                     +
+                                                     "  [{\"Shoes\"=Item(Shoes, 2)}]"));
   }
 
 }

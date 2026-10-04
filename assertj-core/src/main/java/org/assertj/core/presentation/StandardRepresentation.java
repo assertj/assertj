@@ -67,6 +67,7 @@ import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
 
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.recursive.comparison.KeyValue;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.data.MapEntry;
@@ -313,6 +314,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Number number) return toStringOf(number);
     if (object instanceof MultipleAssertionsError multipleAssertionsError) return toStringOf(multipleAssertionsError);
     if (object instanceof Throwable throwable) return toStringOf(throwable);
+    if (object instanceof KeyValue keyValue) return toStringOf(keyValue);
     return fallbackToStringOf(object);
   }
 
@@ -1090,6 +1092,16 @@ public class StandardRepresentation implements Representation {
     // outerList would be represented as [[1, 2, 3], (already visited)] instead of [[1, 2, 3], [1, 2, 3]]
     // Final word, the approach used here is the same as the toString implementation in AbstractCollection
     return element == null ? NULL : toStringOf(element);
+  }
+
+  /**
+   * Formats a {@link KeyValue}
+   *
+   * @param keyValue the KeyValue
+   * @return the formatted KeyValue
+   */
+  protected String toStringOf(KeyValue keyValue) {
+    return "{%s=%s}".formatted(toStringOf(keyValue.key()), toStringOf(keyValue.value()));
   }
 
   // private methods
