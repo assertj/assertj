@@ -1,0 +1,194 @@
+[[configuration]]
+= Configuring AssertJ
+
+This section describes the different ways to configure AssertJ, either by setting configuration properties individually or globally using the link:#assertj-configuration[`Configuration`] class.
+
+To be effective the configuration changes must be applied before the tests are executed, depending on the scope of the tests this means different things:
+
+* For a single test: change the configuration in the test and revert it in the https://junit.org/junit5/docs/current/api/org/junit/jupiter/api/AfterEach.html[`@AfterEach`] method  (JUnit 5).
+* For all tests in a class: change the configuration in the https://junit.org/junit5/docs/current/api/org/junit/jupiter/api/BeforeAll.html[`@BeforeAll`] method and revert the changes in the https://junit.org/junit5/docs/current/api/org/junit/jupiter/api/AfterAll.html[`@AfterAll`] method (JUnit 5).
+* To change the configuration *before any tests*, you can use these options:
+** write a JUnit 5 extension implementing https://junit.org/junit5/docs/current/api/org/junit/jupiter/api/extension/BeforeAllCallback.html[`BeforeAllCallback`].
+** register your own `Configuration` subclass and let AssertJ link:#automatic-configuration-discovery[discover it automagically].
+
+== Configuring single properties
+
+The `Assertions` class provides static methods to change each configuration properties.
+
+[source,java,indent=0]
+----
+Assertions.setAllowComparingPrivateFields(true);
+Assertions.setAllowExtractingPrivateFields(false);
+Assertions.setExtractBareNamePropertyMethods(false);
+Assertions.setLenientDateParsing(true);
+Assertions.setMaxElementsForPrinting(100);
+Assertions.setMaxLengthForSingleLineDescription(250);
+Assertions.setRemoveAssertJRelatedElementsFromStackTrace(true);
+Assertions.useRepresentation(myRepresentation);
+Assertions.registerCustomDateFormat(myCustomDateFormat);
+Assertions.setPrintAssertionsDescription(true);
+Assertions.setConsumerDescription(description -> writeToFile(description, report));
+----
+
+=== Representation
+
+This property allows you to register a `Representation` to control the way AssertJ formats the different types displayed in the assertion error messages.
+Consult the <<assertj-core-representation>> chapter for details.
+
+Defaults to `StandardRepresentation`.
+
+=== AllowComparingPrivateFields
+
+Globally sets whether the use of private fields is allowed for field/property by field/property comparison. Defaults to true.
+
+=== AllowExtractingPrivateFields
+
+Globally sets whether the AssertJ `extracting` capability should be allowed to extract private fields. Defaults to true.
+
+=== ExtractBareNamePropertyMethods
+
+Globally sets whether the AssertJ `extracting` capability considers bare-named property methods like String name(). Defaults to true.
+
+=== LenientDateParsing
+
+Specify whether or not date/time parsing is to be lenient for AssertJ default date formats. With lenient parsing, the parser may use heuristics to interpret inputs that do not precisely match this object's format. With strict parsing, inputs must match this object's format.
+
+=== Custom DateFormat
+
+In addition to the default date formats, you can register some custom ones that AssertJ will use in date assertions (see also `Assertions.registerCustomDateFormat`).
+
+Note that custom date formats take precedence over default ones.
+
+=== MaxElementsForPrinting
+
+In error messages, sets the threshold for how many elements from one iterable/array/map will be included in the in the description. Defaults to 1000.
+
+The point of this property is to avoid printing iterable/array/map with too many elements in error messages.
+
+=== MaxLengthForSingleLineDescription
+
+In error messages, sets the threshold when iterable/array formatting will be on one line (if their String description
+is less than this parameter) or it will be formatted with one element per line. Defaults to 80.
+
+Example:
+
+[source,java,indent=0]
+----
+String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
+----
+
+this array is formatted on one line as its length < 80:
+
+[source,java,indent=0]
+----
+["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice"]
+----
+
+Whereas this array ...
+
+[source,java,indent=0]
+----
+String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards! (Discworld)");
+----
+
+\... is formatted on multiple lines with one element per line:
+
+[source,java,indent=0]
+----
+
+["A Game of Thrones",
+ "The Lord of the Rings",
+ "Assassin's Apprentice",
+ "Guards! Guards! (Discworld)"]
+----
+
+=== RemoveAssertJRelatedElementsFromStackTrace
+
+Sets whether the elements related to AssertJ are removed from assertion errors stack trace. Defaults to true.
+
+
+[[assertj-configuration]]
+== AssertJ Configuration
+
+Since 3.13.0, AssertJ exposes a `org.assertj.core.configuration.Configuration` object providing access to all AssertJ globally configurable properties.
+
+You can create an instance of `org.assertj.core.configuration.Configuration` and change indivual properties through setters or create your own custom configuration by inheriting from it and overriding the methods to change the default behavior as in the `CustomConfiguration` example below.
+
+IMPORTANT: Your configuration will be effective once you call `Configuration.apply()` or `Configuration.applyAndDisplay()`.
+
+Example:
+
+[source,java,indent=0]
+----
+Configuration configuration = new Configuration();
+
+configuration.setBareNamePropertyExtraction(false);
+configuration.setComparingPrivateFields(false);
+configuration.setExtractingPrivateFields(false);
+configuration.setLenientDateParsing(true);
+configuration.setMaxElementsForPrinting(1001);
+configuration.setMaxLengthForSingleLineDescription(81);
+configuration.setRemoveAssertJRelatedElementsFromStackTrace(false);
+
+// don't forget to apply it!
+configuration.applyAndDisplay();
+----
+
+Printing the above configuration produces the following output:
+
+[source,plaintext]
+----
+Applying configuration org.assertj.core.configuration.Configuration
+- representation .................................. = BinaryRepresentation
+- comparingPrivateFieldsEnabled ................... = false
+- extractingPrivateFieldsEnabled .................. = true
+- bareNamePropertyExtractionEnabled ............... = false
+- lenientDateParsingEnabled ....................... = true
+- additional date formats ......................... = [yyyy_MM_dd, yyyy|MM|dd]
+- maxLengthForSingleLineDescription ............... = 150
+- maxElementsForPrinting .......................... = 2000
+- removeAssertJRelatedElementsFromStackTraceEnabled = true
+----
+
+
+[[automatic-configuration-discovery]]
+== Automagic configuration discovery
+
+This section describes a way to register an AssertJ `Configuration` without using any test framework hooks like `BeforeAllCallback`.
+
+Follow the steps below to register your `Configuration` as an SPI:
+
+* Create your own configuration inheriting from `org.assertj.core.configuration.Configuration`
+* Create a file named `org.assertj.core.configuration.Configuration` in a `META-INF/services` directory
+* Make sure `META-INF/services/` is in the runtime classpath, usually putting it in `src/test/resources` will do.
+* Put the fully qualified class name of your `Configuration` in `services/org.assertj.core.configuration.Configuration`.
+
+This is all you have to do, AssertJ will pick up the `Configuration` automatically and display it at the first interaction with AssertJ.
+
+Here's an example of a custom configuration class:
+
+[source,java,indent=0]
+----
+include::example$CustomConfiguration.java[]
+----
+
+With this custom configuration, the content of `META-INF/services/org.assertj.core.configuration.Configuration` must be:
+[source,java,indent=0]
+----
+example.core.CustomConfiguration
+----
+
+Printing the  `CustomConfiguration` shows:
+[source,plaintext]
+----
+Applying configuration example.core.CustomConfiguration
+- representation .................................. = BinaryRepresentation
+- comparingPrivateFieldsEnabled ................... = false
+- extractingPrivateFieldsEnabled .................. = true
+- bareNamePropertyExtractionEnabled ............... = false
+- lenientDateParsingEnabled ....................... = true
+- additionnal date formats ........................ = [yyyy_MM_dd, yyyy|MM|dd]
+- maxLengthForSingleLineDescription ............... = 150
+- maxElementsForPrinting .......................... = 2000
+- removeAssertJRelatedElementsFromStackTraceEnabled = true
+----

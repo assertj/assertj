@@ -1,0 +1,32 @@
+[[overriding-error-message]]
+= Overriding error message
+
+AssertJ tries its best to give helpful error messages, but you can always change it with `overridingErrorMessage()` or `withFailMessage()`.
+
+Example with this failing test:
+[source,java,indent=0]
+----
+include::example$OverridingErrorMessageExample.java[tags=user_guide]
+----
+
+The error message is:
+
+[source, text]
+----
+java.lang.AssertionError: should be TolkienCharacter [name=Frodo, age=33, race=HOBBIT]
+----
+
+[[lazy-error-message]]
+== Lazy error message overriding
+
+If the error message is expensive to build, use the overloaded methods taking a `Supplier<String>` instead of a `String`, the message will only be built if the assertion fails.
+
+Example:
+[source,java,indent=0]
+----
+assertThat(player.isRookie()).overridingErrorMessage(() -> "Expecting Player to be a rookie but was not.")
+                             .isTrue();
+
+assertThat(player.isRookie()).withFailMessage(() -> "Expecting Player to be a rookie but was not.")
+                             .isTrue();
+----

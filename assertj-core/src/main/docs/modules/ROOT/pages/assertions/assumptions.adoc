@@ -1,0 +1,22 @@
+
+[[assumptions]]
+= Assumptions
+
+Assumptions provide support for conditional test execution, if the assumptions are met the test is executed normally, if they don't the test is aborted and marked as ignored.
+
+Assumptions are typically used whenever it does not make sense to continue execution of a given test method — a typical usage is running tests depending on a given OS/environment.
+
+All AssertJ assumptions are static methods in the `Assumptions` class, they match the assertion API but are names `assumeThat` instead of `assertThat`.
+You can also get assumptions through the `WithAssumptions` interface.
+
+Example resulting in the test to be ignored:
+[source,java,indent=0]
+----
+include::example$AssumptionsDemo.java[tags=assumption_not_met]
+----
+
+Example resulting in the test to be executed normally:
+[source,java,indent=0]
+----
+include::example$AssumptionsDemo.java[tags=assumption_met]
+----
