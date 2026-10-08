@@ -15,7 +15,10 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.internal.Uris.getParameters;
+
 import java.net.URI;
+import java.util.List;
 
 import org.assertj.core.internal.Uris;
 
@@ -421,5 +424,41 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    */
   public SELF hasNoParameter(String name, String value) {
     return executeAssertion(() -> uris.assertHasNoParameter(info, actual, name, value));
+  }
+
+  /**
+   * Returns a {@link AbstractMapAssert} to make assertions on the decoded query parameters of the actual {@code URI},
+   * for example to check that it has exactly the expected parameters and no others.
+   * <p>
+   * The map is keyed by parameter name, in query order, and holds all the values of each parameter since a parameter
+   * can be repeated. A parameter without value (e.g. {@code foo} in {@code ?foo&bar=}) has a {@code null} value, as
+   * opposed to an empty value (e.g. {@code bar}).
+   * <p>
+   * Examples:
+   * <pre><code class='java'> URI uri = new URI("http://www.helloworld.org/index.html?lang=en&amp;tag=java&amp;tag=test");
+   *
+   * // These assertions succeed:
+   * assertThat(uri).parameters()
+   *                .containsOnly(entry("lang", List.of("en")),
+   *                              entry("tag", List.of("java", "test")));
+   * assertThat(uri).parameters()
+   *                .containsOnlyKeys("tag", "lang");
+   *
+   * // These assertions fail:
+   * assertThat(uri).parameters()
+   *                .containsOnly(entry("lang", List.of("en")));
+   * assertThat(uri).parameters()
+   *                .containsEntry("tag", List.of("test", "java"));</code></pre>
+   *
+   * @return a new {@link AbstractMapAssert} instance for assertions chaining on the query parameters.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
+   * @since 4.0.0
+   */
+  public AbstractMapAssert<?, ?, String, List<String>> parameters() {
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      return new MapAssert<>(getParameters(actual.getRawQuery())).withAssertionState(myself);
+    }, MapAssert::nullMapAssert);
   }
 }
