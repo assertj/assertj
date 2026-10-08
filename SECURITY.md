@@ -7,6 +7,8 @@
 | 3.27.x  | :white_check_mark: |
 | < 3.27  | :x:                |
 
+Snapshots, milestones, and release candidates are not supported from a security standpoint.
+
 ## Reporting a Vulnerability
 
 If you believe you have found a security vulnerability, please DO NOT disclose it publicly until we’ve had a chance to fix it.
