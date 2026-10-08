@@ -63,7 +63,7 @@ jobs:
       fail-fast: false
       matrix:
         # https://groovy.apache.org/download.html
-        groovy: [4.0.32]
+        groovy: [4.0.33, 5.1.3]
     runs-on: ubuntu-latest
 
     steps:
