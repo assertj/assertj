@@ -36,7 +36,7 @@ class FileAssert_size_Test {
               .isGreaterThan(4L)
               .isLessThan(20L)
               .isBetween(1L, 10L)
-              .returnToFile().hasContent("actual");
+              .returnToFile().hasContent("actual\n");
   }
 
   @Test
