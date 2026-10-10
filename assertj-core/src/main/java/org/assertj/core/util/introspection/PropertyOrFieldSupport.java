@@ -56,14 +56,28 @@ public class PropertyOrFieldSupport {
     fieldSupport.setAllowUsingPrivateFields(allowUsingPrivateFields);
   }
 
-  /**
-   * Extracts a possibly nested property or field value.
-   *
-   * @param propertyOrFieldName the property or field path
-   * @param input the source object
-   * @return the extracted value
-   */
+  /// Extracts a possibly nested property or field value, failing if neither a property, a field
+  /// nor (when the corresponding input is a [Map]) a matching map key can be found.
+  ///
+  /// @param propertyOrFieldName the property or field path
+  /// @param input the source object
+  /// @return the extracted value
   public Object getValueOf(String propertyOrFieldName, Object input) {
+    return getValueOf(propertyOrFieldName, input, true);
+  }
+
+  /// Extracts a possibly nested property or field value.
+  ///
+  /// When a sub-path resolves against a [Map] and `failIfNotFoundInMap` is false, the map key lookup
+  /// never fails: whatever [Map#get(Object)] returns for the given name (typically `null` when
+  /// the key is absent) is used instead of throwing an [IntrospectionError].
+  ///
+  /// @param propertyOrFieldName the property or field path
+  /// @param input the source object
+  /// @param failIfNotFoundInMap whether to fail when a sub-path is a map that does not contain the
+  ///          corresponding name as a key
+  /// @return the extracted value
+  public Object getValueOf(String propertyOrFieldName, Object input, boolean failIfNotFoundInMap) {
     checkArgument(propertyOrFieldName != null, "The name of the property/field to read should not be null");
     checkArgument(!propertyOrFieldName.isEmpty(), "The name of the property/field to read should not be empty");
     checkArgument(input != null, "The object to extract property/field from should not be null");
@@ -72,28 +86,42 @@ public class PropertyOrFieldSupport {
       String firstPropertyName = popNameFrom(propertyOrFieldName);
       // extract with or without and index
       Object propertyOrFieldValue = hasIndex(firstPropertyName) ? getArrayOrListValue(firstPropertyName, input)
-          : getSimpleValue(firstPropertyName, input);
+          : getSimpleValue(firstPropertyName, input, failIfNotFoundInMap);
       // when one of the intermediate nested property/field value is null, return null
       if (propertyOrFieldValue == null) return null;
       // extract next sub-property/field value until reaching the last sub-property/field
-      return getValueOf(nextNameFrom(propertyOrFieldName), propertyOrFieldValue);
+      return getValueOf(nextNameFrom(propertyOrFieldName), propertyOrFieldValue, failIfNotFoundInMap);
     }
 
     // we get property/field without the index
     if (hasIndex(propertyOrFieldName)) return getArrayOrListValue(propertyOrFieldName, input);
 
-    return getSimpleValue(propertyOrFieldName, input);
+    return getSimpleValue(propertyOrFieldName, input, failIfNotFoundInMap);
   }
 
-  /**
-   * Extracts a simple property or field value.
-   *
-   * @param name the property or field name
-   * @param input the source object
-   * @return the extracted value
-   */
-  @SuppressWarnings({ "unchecked", "rawtypes" })
+  /// Extracts a simple property or field value, failing if neither a property, a field nor (when
+  /// input is a [Map]) a matching map key can be found.
+  ///
+  /// @param name the property or field name
+  /// @param input the source object
+  /// @return the extracted value
   public Object getSimpleValue(String name, Object input) {
+    return getSimpleValue(name, input, true);
+  }
+
+  /// Extracts a simple property or field value.
+  ///
+  /// When input is a [Map] and `failIfNotFoundInMap` is false, the map key lookup never fails: whatever
+  /// [Map#get(Object)] returns for the given name (typically `null` when the key is absent) is
+  /// returned instead of throwing an [IntrospectionError].
+  ///
+  /// @param name the property or field name
+  /// @param input the source object
+  /// @param failIfNotFoundInMap whether to fail when input is a map that does not contain the given
+  ///          name as a key
+  /// @return the extracted value
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  public Object getSimpleValue(String name, Object input, boolean failIfNotFoundInMap) {
     // if input is an optional and name is "value", let's get the optional value directly
     if (input instanceof Optional optional && name.equals("value")) return optional.orElse(null);
 
@@ -107,7 +135,7 @@ public class PropertyOrFieldSupport {
       } catch (IntrospectionError fieldIntrospectionError) {
         // if input is a map, try to use the name value as a map key
         if (input instanceof Map<?, ?> map) {
-          if (map.containsKey(name)) return map.get(name);
+          if (map.containsKey(name) || !failIfNotFoundInMap) return map.get(name);
         }
 
         // if the getter invocation throws exception and there's no field present,

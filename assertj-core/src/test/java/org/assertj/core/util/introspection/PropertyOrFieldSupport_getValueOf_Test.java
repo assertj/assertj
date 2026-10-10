@@ -148,6 +148,62 @@ class PropertyOrFieldSupport_getValueOf_Test {
   }
 
   @Test
+  void should_throw_error_when_given_name_is_not_found_in_map_and_failIfNotFoundInMap_is_true() {
+    // GIVEN
+    Map<String, String> map = new HashMap<>();
+    boolean failIfNotFoundInMap = true;
+    // WHEN
+    Throwable thrown = catchThrowable(() -> underTest.getValueOf("unknown", map, failIfNotFoundInMap));
+    // THEN
+    then(thrown).isInstanceOf(IntrospectionError.class);
+  }
+
+  @Test
+  void should_return_whatever_the_map_returns_when_given_name_is_not_found_and_failIfNotFoundInMap_is_false() {
+    // GIVEN
+    Map<String, String> map = new HashMap<>();
+    boolean failIfNotFoundInMap = false;
+    // WHEN
+    Object value = underTest.getValueOf("unknown", map, failIfNotFoundInMap);
+    // THEN
+    then(value).isEqualTo(map.get("unknown"));
+  }
+
+  @Test
+  void should_extract_map_value_when_key_is_present_and_failIfNotFoundInMap_is_false() {
+    // GIVEN
+    Map<String, String> map = new HashMap<>();
+    map.put("key", "value");
+    boolean failIfNotFoundInMap = false;
+    // WHEN
+    Object value = underTest.getValueOf("key", map, failIfNotFoundInMap);
+    // THEN
+    then(value).isEqualTo(map.get("key"));
+  }
+
+  @Test
+  void should_return_null_for_nested_map_key_not_found_when_failIfNotFoundInMap_is_false() {
+    // GIVEN
+    Employee darth = new Employee(1L, new Name("Darth", "Vader"), 100);
+    darth.setAttribute("side", "dark");
+    boolean failIfNotFoundInMap = false;
+    // WHEN
+    Object value = underTest.getValueOf("attributes.unknown", darth, failIfNotFoundInMap);
+    // THEN
+    then(value).isNull();
+  }
+
+  @Test
+  void should_fail_when_no_property_nor_field_match_given_name_on_non_map_input_even_if_failIfNotFoundInMap_is_false() {
+    // GIVEN
+    boolean failIfNotFoundInMap = false;
+    // WHEN
+    Throwable thrown = catchThrowable(() -> underTest.getValueOf("unknown", yoda, failIfNotFoundInMap));
+    // THEN
+    then(thrown).isInstanceOf(IntrospectionError.class);
+  }
+
+  @Test
   void should_throw_error_when_no_property_nor_public_field_match_given_name_if_extraction_is_limited_to_public_fields() {
     // GIVEN
     PropertyOrFieldSupport underTest = new PropertyOrFieldSupport(new PropertySupport(), EXTRACTION_OF_PUBLIC_FIELD_ONLY);

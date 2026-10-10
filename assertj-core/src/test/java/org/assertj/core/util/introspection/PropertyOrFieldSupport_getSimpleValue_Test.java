@@ -88,6 +88,51 @@ class PropertyOrFieldSupport_getSimpleValue_Test {
       then(thrown).isInstanceOf(IntrospectionError.class);
     }
 
+    @Test
+    void should_fail_when_given_name_is_not_found_and_failIfNotFoundInMap_is_true() {
+      // GIVEN
+      boolean failIfNotFoundInMap = true;
+      // WHEN
+      Throwable thrown = catchThrowable(() -> underTest.getSimpleValue("unknown", input, failIfNotFoundInMap));
+      // THEN
+      then(thrown).isInstanceOf(IntrospectionError.class);
+    }
+
+    @Test
+    void should_return_whatever_the_map_returns_when_given_name_is_not_found_and_failIfNotFoundInMap_is_false() {
+      // GIVEN
+      boolean failIfNotFoundInMap = false;
+      // WHEN
+      Object value = underTest.getSimpleValue("unknown", input, failIfNotFoundInMap);
+      // THEN
+      then(value).isNull();
+    }
+
+    @Test
+    void should_extract_map_value_when_key_is_present_and_failIfNotFoundInMap_is_false() {
+      // GIVEN
+      input.put("key", "value");
+      boolean failIfNotFoundInMap = false;
+      // WHEN
+      Object value = underTest.getSimpleValue("key", input, failIfNotFoundInMap);
+      // THEN
+      then(value).isEqualTo("value");
+    }
+  }
+
+  @Nested
+  class With_non_Map_input {
+
+    @Test
+    void should_fail_when_given_name_is_not_found_even_if_failIfNotFoundInMap_is_false() {
+      // GIVEN
+      Object input = new Object();
+      boolean failIfNotFoundInMap = false;
+      // WHEN
+      Throwable thrown = catchThrowable(() -> underTest.getSimpleValue("unknown", input, failIfNotFoundInMap));
+      // THEN
+      then(thrown).isInstanceOf(IntrospectionError.class);
+    }
   }
 
   @Nested
@@ -112,7 +157,6 @@ class PropertyOrFieldSupport_getSimpleValue_Test {
       // THEN
       then(value).isEqualTo("string");
     }
-
   }
 
 }
