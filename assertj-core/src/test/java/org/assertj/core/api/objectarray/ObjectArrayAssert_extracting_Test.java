@@ -23,10 +23,12 @@ import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.firstNameFunction;
 import static org.assertj.core.api.GroupAssertTestHelper.lastNameFunction;
 import static org.assertj.core.api.GroupAssertTestHelper.throwingFirstNameExtractor;
+import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
+import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.testkit.TolkienCharacter.Race.DWARF;
 import static org.assertj.core.testkit.TolkienCharacter.Race.ELF;
 import static org.assertj.core.testkit.TolkienCharacter.Race.HOBBIT;
@@ -38,6 +40,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import org.assertj.core.api.AbstractIterableAssert;
@@ -109,6 +112,14 @@ class ObjectArrayAssert_extracting_Test {
   }
 
   @Test
+  void should_return_null_when_extracting_unknown_key_from_map_elements() {
+    // GIVEN
+    Map<String, Object>[] maps = array(mapOf(entry("key", "value")), mapOf(entry("key", "other")));
+    // WHEN/THEN
+    assertThat(maps).extracting("unknown").containsOnlyNulls();
+  }
+
+  @Test
   void should_allow_assertions_on_multiple_extracted_values_from_given_iterable() {
     assertThat(jedis).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
                                                                          tuple("Luke", 26, 2L));
@@ -119,6 +130,14 @@ class ObjectArrayAssert_extracting_Test {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(jedis).extracting("unknown", "age", "id")
                                                                                           .containsOnly(tuple("Yoda", 800, 1L),
                                                                                                         tuple("Luke", 26, 2L)));
+  }
+
+  @Test
+  void should_return_null_tuple_values_when_extracting_unknown_keys_from_map_elements() {
+    // GIVEN
+    Map<String, Object>[] maps = array(mapOf(entry("key", "value")), mapOf(entry("key", "other")));
+    // WHEN/THEN
+    assertThat(maps).extracting("key", "unknown").containsExactly(tuple("value", null), tuple("other", null));
   }
 
   @Test

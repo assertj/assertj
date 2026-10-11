@@ -16,7 +16,6 @@
 package org.assertj.tests.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -26,7 +25,6 @@ import java.math.BigDecimal;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ObjectAssert;
-import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.tests.core.testkit.Employee;
 import org.assertj.tests.core.testkit.Name;
 import org.assertj.tests.core.testkit.NavigationMethodBaseTest;
@@ -79,11 +77,10 @@ class ObjectAssert_extracting_with_String_Array_Test implements NavigationMethod
   }
 
   @Test
-  void should_throw_IntrospectionError_if_nested_map_key_does_not_exist() {
-    // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(luke).extracting("relations.unknown", "relations.sister"));
-    // THEN
-    then(throwable).isInstanceOf(IntrospectionError.class);
+  void should_return_null_tuple_value_if_nested_map_key_does_not_exist() {
+    // WHEN/THEN
+    assertThat(luke).extracting("relations.unknown", "relations.sister")
+                    .containsExactly(null, leia);
   }
 
   @Test

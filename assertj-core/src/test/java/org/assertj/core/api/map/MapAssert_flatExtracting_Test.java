@@ -17,7 +17,6 @@ package org.assertj.core.api.map;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -30,7 +29,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 
 import org.assertj.core.api.MapAssert;
-import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -74,11 +72,10 @@ class MapAssert_flatExtracting_Test {
   }
 
   @Test
-  void should_fail_if_key_is_unknown() {
-    // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(map).flatExtracting("foo", "bar"));
-    // THEN
-    then(thrown).isInstanceOf(IntrospectionError.class);
+  void should_extract_null_values_when_keys_are_unknown() {
+    // WHEN/THEN
+    assertThat(map).flatExtracting("foo", "bar")
+                   .containsExactly(null, null);
   }
 
   @Test

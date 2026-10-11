@@ -29,7 +29,7 @@ class ByNameSingleExtractor implements Function<Object, Object> {
 
   @Override
   public Object apply(Object input) {
-    return PropertyOrFieldSupport.EXTRACTION.getValueOf(propertyOrFieldName, input);
+    return PropertyOrFieldSupport.EXTRACTION.getValueOf(propertyOrFieldName, input, false);
   }
 
 }

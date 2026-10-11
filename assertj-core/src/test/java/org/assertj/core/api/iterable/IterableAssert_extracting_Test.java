@@ -23,10 +23,12 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.firstNameFunction;
 import static org.assertj.core.api.GroupAssertTestHelper.lastNameFunction;
+import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
+import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.testkit.TolkienCharacter.Race.DWARF;
 import static org.assertj.core.testkit.TolkienCharacter.Race.ELF;
 import static org.assertj.core.testkit.TolkienCharacter.Race.HOBBIT;
@@ -37,7 +39,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import org.assertj.core.api.AbstractIterableAssert;
@@ -221,6 +225,14 @@ class IterableAssert_extracting_Test {
                        .containsOnly(tuple("Yoda", 800, 1L),
                                      tuple("Luke", 26, 2L));
     });
+  }
+
+  @Test
+  void should_return_null_tuple_values_when_extracting_unknown_keys_from_map_elements() {
+    // GIVEN
+    List<Map<String, Object>> maps = Arrays.asList(mapOf(entry("key", "value")), mapOf(entry("key", "other")));
+    // WHEN/THEN
+    assertThat(maps).extracting("key", "unknown").containsExactly(tuple("value", null), tuple("other", null));
   }
 
   @Test

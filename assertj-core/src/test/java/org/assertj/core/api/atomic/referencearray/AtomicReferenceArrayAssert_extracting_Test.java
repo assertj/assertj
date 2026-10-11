@@ -18,8 +18,11 @@ package org.assertj.core.api.atomic.referencearray;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.Arrays.array;
 
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.Function;
 
@@ -70,6 +73,15 @@ class AtomicReferenceArrayAssert_extracting_Test {
   }
 
   @Test
+  void should_return_null_when_extracting_unknown_key_from_map_elements() {
+    // GIVEN
+    AtomicReferenceArray<Map<String, Object>> maps = new AtomicReferenceArray<>(array(mapOf(entry("key", "value")),
+                                                                                      mapOf(entry("key", "other"))));
+    // WHEN/THEN
+    assertThat(maps).extracting("unknown").containsOnlyNulls();
+  }
+
+  @Test
   void should_allow_assertions_on_multiple_extracted_values_from_given_iterable() {
     assertThat(employees).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
                                                                              tuple("Luke", 26, 2L));
@@ -81,6 +93,15 @@ class AtomicReferenceArrayAssert_extracting_Test {
       assertThat(employees).extracting("unknown", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
                                                                             tuple("Luke", 26, 2L));
     });
+  }
+
+  @Test
+  void should_return_null_tuple_values_when_extracting_unknown_keys_from_map_elements() {
+    // GIVEN
+    AtomicReferenceArray<Map<String, Object>> maps = new AtomicReferenceArray<>(array(mapOf(entry("key", "value")),
+                                                                                      mapOf(entry("key", "other"))));
+    // WHEN/THEN
+    assertThat(maps).extracting("key", "unknown").containsExactly(tuple("value", null), tuple("other", null));
   }
 
   @Test

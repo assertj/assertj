@@ -17,12 +17,15 @@ package org.assertj.tests.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
+import static org.assertj.tests.core.testkit.Maps.mapOf;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.Optional;
 
 import org.assertj.core.api.AbstractAssert;
@@ -98,6 +101,14 @@ class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTe
     then(obiwan).extracting("height")
                 .usingComparator(heightComparator)
                 .isEqualTo(new BigDecimal("1.82"));
+  }
+
+  @Test
+  void should_return_null_when_extracting_unknown_key_from_map() {
+    // GIVEN
+    Map<String, Object> map = mapOf(entry("key", "value"));
+    // WHEN/THEN
+    assertThat((Object) map).extracting("unknown").isNull();
   }
 
   @Test

@@ -17,7 +17,6 @@ package org.assertj.core.util.introspection;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
@@ -270,7 +269,7 @@ class PropertyOrFieldSupport_getValueOf_Test {
     assertThat(maps).extracting(key1).containsExactly(yoda, yoda);
     assertThat(maps).extracting(keyWithNullValue).containsExactly(null, null);
 
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(maps).extracting("bad key"));
+    assertThat(maps).extracting("bad key").containsExactly(null, null);
   }
 
   @Test
