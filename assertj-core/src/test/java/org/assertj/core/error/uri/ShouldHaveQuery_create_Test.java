@@ -76,7 +76,7 @@ class ShouldHaveQuery_create_Test {
   @Test
   void should_create_error_message_for_url_has_no_query() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org/news?type=beta");
+    URL url = URI.create("http://assertj.org/news?type=beta").toURL();
     // WHEN
     String error = shouldHaveQuery(url, null).create(new TestDescription("TEST"));
     // THEN

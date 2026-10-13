@@ -15,23 +15,38 @@
  */
 package org.assertj.core.api;
 
-import java.net.URL;
+import static java.util.Objects.deepEquals;
+import static java.util.Objects.requireNonNull;
+import static org.assertj.core.api.UrlQueryParser.parseParameters;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.error.uri.ShouldBeEqualToWithSortedQueryParameters.shouldBeEqualToWithSortedQueryParameters;
+import static org.assertj.core.error.uri.ShouldHaveAnchor.shouldHaveAnchor;
+import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
+import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
+import static org.assertj.core.error.uri.ShouldHaveNoHost.shouldHaveNoHost;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameters;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
+import static org.assertj.core.error.uri.ShouldHavePath.shouldHavePath;
+import static org.assertj.core.error.uri.ShouldHavePort.shouldHavePort;
+import static org.assertj.core.error.uri.ShouldHaveProtocol.shouldHaveProtocol;
+import static org.assertj.core.error.uri.ShouldHaveQuery.shouldHaveQuery;
+import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 
-import org.assertj.core.internal.Urls;
-import org.assertj.core.util.VisibleForTesting;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Base class for all implementations of assertions for {@link URL}s.
  *
  * @param <SELF> the "self" type of this assertion class.
- * @see java.net.URL
  */
 public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> extends AbstractAssert<SELF, URL> {
 
-  @VisibleForTesting
-  protected Urls urls = Urls.instance();
-
-  protected AbstractUrlAssert(final URL actual, final Class<?> selfType) {
+  protected AbstractUrlAssert(URL actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -50,8 +65,13 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if the actual protocol is not equal to the expected protocol.
    */
   public SELF hasProtocol(String expected) {
-    urls.assertHasProtocol(info, actual, expected);
+    isNotNull();
+    assertHasProtocol(expected);
     return myself;
+  }
+
+  private void assertHasProtocol(String expected) {
+    if (!Objects.equals(actual.getProtocol(), expected)) throw assertionError(shouldHaveProtocol(actual, expected));
   }
 
   /**
@@ -67,16 +87,17 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * // this assertion fails:
    * assertThat(new URL("http://helloworld.org/pickme")).hasPath("/pages/");
    *
-   * // this assertion throws an IllegalArgumentException:
+   * // this assertion throws a NullPointerException:
    * assertThat(new URL("http://helloworld.org/pages")).hasPath(null);</code></pre>
    *
    * @param expected the expected path of the actual {@code URL}.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual URL path is not equal to the expected path.
-   * @throws IllegalArgumentException if given path is null.
+   * @throws AssertionError       if the actual URL path is not equal to the expected path.
+   * @throws NullPointerException if the expected path is {@code null}.
    */
   public SELF hasPath(String expected) {
-    urls.assertHasPath(info, actual, expected);
+    isNotNull();
+    assertHasPath(expected);
     return myself;
   }
 
@@ -94,8 +115,14 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a path.
    */
   public SELF hasNoPath() {
-    urls.assertHasPath(info, actual, "");
+    isNotNull();
+    assertHasPath("");
     return myself;
+  }
+
+  private void assertHasPath(String expected) {
+    requireNonNull(expected, shouldNotBeNull("expected")::create);
+    if (!Objects.equals(actual.getPath(), expected)) throw assertionError(shouldHavePath(actual, expected));
   }
 
   /**
@@ -114,7 +141,8 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if the actual port is not equal to the expected port.
    */
   public SELF hasPort(int expected) {
-    urls.assertHasPort(info, actual, expected);
+    isNotNull();
+    assertHasPort(expected);
     return myself;
   }
 
@@ -132,8 +160,13 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a port.
    */
   public SELF hasNoPort() {
-    urls.assertHasPort(info, actual, -1);
+    isNotNull();
+    assertHasPort(-1);
     return myself;
+  }
+
+  private void assertHasPort(int expected) {
+    if (actual.getPort() != expected) throw assertionError(shouldHavePort(actual, expected));
   }
 
   /**
@@ -153,8 +186,14 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if the actual host is not equal to the expected host.
    */
   public SELF hasHost(String expected) {
-    urls.assertHasHost(info, actual, expected);
+    isNotNull();
+    assertHasHost(expected);
     return myself;
+  }
+
+  private void assertHasHost(String expected) {
+    requireNonNull(expected, "The expected host should not be null");
+    if (!Objects.equals(actual.getHost(), expected)) throw assertionError(shouldHaveHost(actual, expected));
   }
 
   /**
@@ -172,8 +211,13 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @since 3.22.0
    */
   public SELF hasNoHost() {
-    urls.assertHasNoHost(info, actual);
+    isNotNull();
+    assertHasNoHost();
     return myself;
+  }
+
+  private void assertHasNoHost() {
+    if (actual.getHost() != null && !actual.getHost().isEmpty()) throw assertionError(shouldHaveNoHost(actual));
   }
 
   /**
@@ -194,8 +238,13 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if the actual authority is not equal to the expected authority.
    */
   public SELF hasAuthority(String expected) {
-    urls.assertHasAuthority(info, actual, expected);
+    isNotNull();
+    assertHasAuthority(expected);
     return myself;
+  }
+
+  private void assertHasAuthority(String expected) {
+    if (!Objects.equals(actual.getAuthority(), expected)) throw assertionError(shouldHaveAuthority(actual, expected));
   }
 
   /**
@@ -214,7 +263,8 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if the actual query is not equal to the expected query.
    */
   public SELF hasQuery(String expected) {
-    urls.assertHasQuery(info, actual, expected);
+    isNotNull();
+    assertHasQuery(expected);
     return myself;
   }
 
@@ -232,8 +282,13 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a query.
    */
   public SELF hasNoQuery() {
-    urls.assertHasQuery(info, actual, null);
+    isNotNull();
+    assertHasQuery(null);
     return myself;
+  }
+
+  private void assertHasQuery(String expected) {
+    if (!Objects.equals(actual.getQuery(), expected)) throw assertionError(shouldHaveQuery(actual, expected));
   }
 
   /**
@@ -252,7 +307,8 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if the actual anchor is not equal to the expected anchor.
    */
   public SELF hasAnchor(String expected) {
-    urls.assertHasAnchor(info, actual, expected);
+    isNotNull();
+    assertHasAnchor(expected);
     return myself;
   }
 
@@ -270,8 +326,13 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a anchor.
    */
   public SELF hasNoAnchor() {
-    urls.assertHasAnchor(info, actual, null);
+    isNotNull();
+    assertHasAnchor(null);
     return myself;
+  }
+
+  private void assertHasAnchor(String expected) {
+    if (!Objects.equals(actual.getRef(), expected)) throw assertionError(shouldHaveAnchor(actual, expected));
   }
 
   /**
@@ -292,7 +353,8 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if the actual userinfo is not equal to the expected userinfo.
    */
   public SELF hasUserInfo(String expected) {
-    urls.assertHasUserInfo(info, actual, expected);
+    isNotNull();
+    assertHasUserInfo(expected);
     return myself;
   }
 
@@ -310,8 +372,13 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has some userinfo.
    */
   public SELF hasNoUserInfo() {
-    urls.assertHasUserInfo(info, actual, null);
+    isNotNull();
+    assertHasUserInfo(null);
     return myself;
+  }
+
+  private void assertHasUserInfo(String expected) {
+    if (!Objects.equals(actual.getUserInfo(), expected)) throw assertionError(shouldHaveUserInfo(actual, expected));
   }
 
   /**
@@ -330,12 +397,18 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    *
    * @param name the name of the parameter expected to be present.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual does not have the expected parameter.
+   * @throws AssertionError           if the actual does not have the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
   public SELF hasParameter(String name) {
-    urls.assertHasParameter(info, actual, name);
+    isNotNull();
+    assertHasParameter(name);
     return myself;
+  }
+
+  private void assertHasParameter(String name) {
+    Map<String, List<String>> parameters = parseParameters(actual.getQuery());
+    if (!parameters.containsKey(name)) throw assertionError(shouldHaveParameter(actual, name));
   }
 
   /**
@@ -353,15 +426,25 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * assertThat(new URL("http://www.helloworld.org/index.html?sad")).hasParameter("sad", "much");
    * assertThat(new URL("http://www.helloworld.org/index.html?sad=much")).hasParameter("sad", null);</code></pre>
    *
-   * @param name the name of the parameter expected to be present.
+   * @param name  the name of the parameter expected to be present.
    * @param value the value of the parameter expected to be present.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual does not have the expected parameter.
+   * @throws AssertionError           if the actual does not have the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
   public SELF hasParameter(String name, String value) {
-    urls.assertHasParameter(info, actual, name, value);
+    isNotNull();
+    assertHasParameter(name, value);
     return myself;
+  }
+
+  private void assertHasParameter(String name, String value) {
+    Map<String, List<String>> parameters = parseParameters(actual.getQuery());
+
+    if (!parameters.containsKey(name)) throw assertionError(shouldHaveParameter(actual, name, value));
+
+    List<String> values = parameters.get(name);
+    if (!values.contains(value)) throw assertionError(shouldHaveParameter(actual, name, value, values));
   }
 
   /**
@@ -376,14 +459,19 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * assertThat(new URL("http://www.helloworld.org/index.html?sad=much")).hasNoParameters();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} has a parameter.
+   * @throws AssertionError           if {@code actual} has a parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
-   *
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoParameters() {
-    urls.assertHasNoParameters(info, actual);
+    isNotNull();
+    assertHasNoParameters();
     return myself;
+  }
+
+  private void assertHasNoParameters() {
+    Map<String, List<String>> parameters = parseParameters(actual.getQuery());
+    if (!parameters.isEmpty()) throw assertionError(shouldHaveNoParameters(actual, parameters.keySet()));
   }
 
   /**
@@ -401,14 +489,20 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    *
    * @param name the name of the parameter expected to be absent.
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} has the expected parameter.
+   * @throws AssertionError           if {@code actual} has the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
-   *
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoParameter(String name) {
-    urls.assertHasNoParameter(info, actual, name);
+    isNotNull();
+    assertHasNoParameter(name);
     return myself;
+  }
+
+  private void assertHasNoParameter(String name) {
+    Map<String, List<String>> parameters = parseParameters(actual.getQuery());
+    if (parameters.containsKey(name))
+      throw assertionError(shouldHaveNoParameter(actual, name, parameters.get(name)));
   }
 
   /**
@@ -427,17 +521,27 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * assertThat(new URL("http://www.helloworld.org/index.html?sad")).hasNoParameter("sad", null);
    * assertThat(new URL("http://www.helloworld.org/index.html?sad=much")).hasNoParameter("sad", "much");</code></pre>
    *
-   * @param name the name of the parameter expected to be absent.
+   * @param name  the name of the parameter expected to be absent.
    * @param value the value of the parameter expected to be absent.
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} has the expected parameter.
+   * @throws AssertionError           if {@code actual} has the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
-   *
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoParameter(String name, String value) {
-    urls.assertHasNoParameter(info, actual, name, value);
+    isNotNull();
+    assertHasNoParameter(name, value);
     return myself;
+  }
+
+  private void assertHasNoParameter(String name, String unwantedValue) {
+    Map<String, List<String>> parameters = parseParameters(actual.getQuery());
+
+    if (parameters.containsKey(name)) {
+      List<String> values = parameters.get(name);
+      if (values.contains(unwantedValue))
+        throw assertionError(shouldHaveNoParameter(actual, name, unwantedValue, values));
+    }
   }
 
   /**
@@ -459,13 +563,32 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @param expected the expected {@code URL} to compare actual to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given URL is {@code null}.
-   * @throws AssertionError if the actual {@code URL} is {@code null}.
-   * @throws AssertionError if the actual {@code URL} is not equivalent to the given one after their parameters are sorted.
-   *
+   * @throws AssertionError       if the actual {@code URL} is {@code null}.
+   * @throws AssertionError       if the actual {@code URL} is not equivalent to the given one after their parameters are sorted.
    * @since 3.16.0
    */
   public SELF isEqualToWithSortedQueryParameters(URL expected) {
-    urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected);
+    isNotNull();
+    assertIsEqualToWithSortedQueryParameters(expected);
     return myself;
   }
+
+  private void assertIsEqualToWithSortedQueryParameters(URL expected) {
+    boolean differentNonQueryParams = !extractNonQueryParams(expected).equals(extractNonQueryParams(actual));
+    boolean differentSortedQueryParams = !deepEquals(extractSortedQueryParams(expected), extractSortedQueryParams(actual));
+    if (differentNonQueryParams || differentSortedQueryParams)
+      throw assertionError(shouldBeEqualToWithSortedQueryParameters(actual, expected));
+  }
+
+  private static String extractNonQueryParams(URL url) {
+    String queryPart = url.getQuery() == null ? "" : url.getQuery();
+    return url.toString().replace(queryPart, " ");
+  }
+
+  private static String[] extractSortedQueryParams(URL url) {
+    String[] queryParams = (url.getQuery() == null ? "" : url.getQuery()).split("&");
+    Arrays.sort(queryParams);
+    return queryParams;
+  }
+
 }

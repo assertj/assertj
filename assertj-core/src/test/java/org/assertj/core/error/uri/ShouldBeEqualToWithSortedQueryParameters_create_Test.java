@@ -20,20 +20,19 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldBeEqualToWithSortedQueryParameters.shouldBeEqualToWithSortedQueryParameters;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
 import org.assertj.core.internal.TestDescription;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("shouldBeEqualToWithSortedQueryParameters")
 class ShouldBeEqualToWithSortedQueryParameters_create_Test {
 
   @Test
   void should_create_error_message() throws MalformedURLException {
     // GIVEN
-    URL actual = new URL("https://example2.com/path/to/page?name=ferret&color=purple");
-    URL expected = new URL("https://example.com/path/to/page?color=purple&name=ferret");
+    URL actual = URI.create("https://example2.com/path/to/page?name=ferret&color=purple").toURL();
+    URL expected = URI.create("https://example.com/path/to/page?color=purple&name=ferret").toURL();
     // WHEN
     String error = shouldBeEqualToWithSortedQueryParameters(actual, expected).create(new TestDescription("TEST"));
     // THEN

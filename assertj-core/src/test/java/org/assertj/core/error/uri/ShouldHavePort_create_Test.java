@@ -58,7 +58,7 @@ class ShouldHavePort_create_Test {
   @Test
   void should_create_error_message_for_url() throws Exception {
     // WHEN
-    String error = shouldHavePort(new URL("http://assertj.org:8080/news"), 8888).create(new TestDescription("TEST"));
+    String error = shouldHavePort(URI.create("http://assertj.org:8080/news").toURL(), 8888).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
                                  "Expecting port of%n" +
@@ -72,7 +72,7 @@ class ShouldHavePort_create_Test {
   @Test
   void should_create_error_message_for_url_has_no_port() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org:8080/news");
+    URL url = URI.create("http://assertj.org:8080/news").toURL();
     // WHEN
     String error = shouldHavePort(url, -1).create(new TestDescription("TEST"));
     // THEN

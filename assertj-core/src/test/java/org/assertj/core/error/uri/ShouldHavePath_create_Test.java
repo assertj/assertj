@@ -44,7 +44,7 @@ class ShouldHavePath_create_Test {
   @Test
   void should_create_error_message_for_url() throws Exception {
     // WHEN
-    String error = shouldHavePath(new URL("http://assertj.org/news"), "/foo").create(new TestDescription("TEST"));
+    String error = shouldHavePath(URI.create("http://assertj.org/news").toURL(), "/foo").create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
                                  "Expecting path of%n" +
@@ -72,7 +72,7 @@ class ShouldHavePath_create_Test {
   @Test
   void should_create_error_message_for_url_has_no_path() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org/news?type=beta");
+    URL url = URI.create("http://assertj.org/news?type=beta").toURL();
     // WHEN
     String error = shouldHavePath(url, null).create(new TestDescription("TEST"));
     // THEN

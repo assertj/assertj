@@ -23,7 +23,6 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.internal.TestDescription;
@@ -48,7 +47,7 @@ class ShouldHaveNoHost_create_Test {
   @Test
   void should_create_error_message_with_URL() throws MalformedURLException {
     // GIVEN
-    ErrorMessageFactory underTest = shouldHaveNoHost(new URL("https://example.com"));
+    ErrorMessageFactory underTest = shouldHaveNoHost(URI.create("https://example.com").toURL());
     // WHEN
     String message = underTest.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
