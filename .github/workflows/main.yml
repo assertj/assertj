@@ -59,12 +59,12 @@ jobs:
           website: jdk.java.net
           release: ${{ matrix.java }}
           version: latest
-      - name: Initialize Maven Wrapper
-        shell: bash
+      - uses: testlens-app/setup-testlens@3f82d2dc6cd5c03f02ce5f7885a21195d85f8d14 # v1.9.3
+      - name: Test
         run: |
           for attempt in 1 2 3; do
             if ./mvnw --version; then
-              exit 0
+              break
             fi
             if [ "$attempt" -eq 3 ]; then
               exit 1
@@ -72,9 +72,7 @@ jobs:
             echo "Maven initialization failed; retrying in 10 seconds (attempt $attempt/3)."
             sleep 10
           done
-      - uses: testlens-app/setup-testlens@3f82d2dc6cd5c03f02ce5f7885a21195d85f8d14 # v1.9.3
-      - name: Test
-        run: ./mvnw $MAVEN_ARGS verify
+          ./mvnw $MAVEN_ARGS verify
 
   groovy:
 
