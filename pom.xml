@@ -340,7 +340,6 @@
           <extensions>true</extensions>
           <configuration>
             <autoPublish>true</autoPublish>
-            <publishingServerId>central</publishingServerId>
             <waitUntil>published</waitUntil>
           </configuration>
         </plugin>
