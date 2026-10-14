@@ -17,6 +17,7 @@ package org.assertj.core.api;
 
 import static java.util.Objects.deepEquals;
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.UrlQueryParser.parseParameters;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.uri.ShouldBeEqualToWithSortedQueryParameters.shouldBeEqualToWithSortedQueryParameters;
@@ -589,6 +590,40 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
     String[] queryParams = (url.getQuery() == null ? "" : url.getQuery()).split("&");
     Arrays.sort(queryParams);
     return queryParams;
+  }
+
+  /// Returns an [AbstractMapAssert] to make assertions on the decoded query parameters of the actual `URL`
+  ///
+  /// The map is keyed by parameter name, in query order, and holds all the values of each parameter since a parameter
+  /// can be repeated. A parameter without value (e.g. `foo` in `?foo&bar=`) has a `null` value, as
+  /// opposed to an empty value (e.g. `bar`).
+  ///
+  /// Examples:
+  ///
+  /// ```java
+  /// URL url = URI.create("http://www.helloworld.org/index.html?lang=en&tag=java&tag=test").toURL();
+  ///
+  /// // These assertions succeed:
+  /// assertThat(url).parameters()
+  ///                .containsOnly(entry("lang", List.of("en")),
+  ///                              entry("tag", List.of("java", "test")));
+  /// assertThat(url).parameters()
+  ///                .containsOnlyKeys("tag", "lang");
+  ///
+  /// // These assertions fail:
+  /// assertThat(url).parameters()
+  ///                .containsOnly(entry("lang", List.of("en")));
+  /// assertThat(url).parameters()
+  ///                .containsEntry("tag", List.of("test", "java"));
+  /// ```
+  ///
+  /// @return a new [AbstractMapAssert] instance for assertions chaining on the query parameters.
+  /// @throws AssertionError if `actual` is `null`.
+  /// @throws IllegalArgumentException if the query string contains an invalid escape sequence.
+  /// @since 3.28.0
+  public AbstractMapAssert<?, ?, String, List<String>> parameters() {
+    isNotNull();
+    return assertThat(parseParameters(actual.getQuery())).withAssertionState(myself);
   }
 
 }

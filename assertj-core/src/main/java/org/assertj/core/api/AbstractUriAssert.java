@@ -16,6 +16,7 @@
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.UrlQueryParser.parseParameters;
 import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
 import static org.assertj.core.error.uri.ShouldHaveFragment.shouldHaveFragment;
@@ -532,6 +533,40 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
       if (values.contains(unwantedValue))
         throw assertionError(shouldHaveNoParameter(actual, name, unwantedValue, values));
     }
+  }
+
+  /// Returns an [AbstractMapAssert] to make assertions on the decoded query parameters of the actual `URI`.
+  ///
+  /// The map is keyed by parameter name, in query order, and holds all the values of each parameter since a parameter
+  /// can be repeated. A parameter without value (e.g. `foo` in `?foo&bar=`) has a `null` value, as
+  /// opposed to an empty value (e.g. `bar`).
+  ///
+  /// Examples:
+  ///
+  /// ```java
+  /// URI uri = URI.create("http://www.helloworld.org/index.html?lang=en&tag=java&tag=test");
+  ///
+  /// // These assertions succeed:
+  /// assertThat(uri).parameters()
+  ///                .containsOnly(entry("lang", List.of("en")),
+  ///                              entry("tag", List.of("java", "test")));
+  /// assertThat(uri).parameters()
+  ///                .containsOnlyKeys("tag", "lang");
+  ///
+  /// // These assertions fail:
+  /// assertThat(uri).parameters()
+  ///                .containsOnly(entry("lang", List.of("en")));
+  /// assertThat(uri).parameters()
+  ///                .containsEntry("tag", List.of("test", "java"));
+  /// ```
+  ///
+  /// @return a new [AbstractMapAssert] instance for assertions chaining on the query parameters.
+  /// @throws AssertionError if `actual` is `null`.
+  /// @throws IllegalArgumentException if the query string contains an invalid escape sequence.
+  /// @since 3.28.0
+  public AbstractMapAssert<?, ?, String, List<String>> parameters() {
+    isNotNull();
+    return assertThat(parseParameters(actual.getRawQuery())).withAssertionState(myself);
   }
 
 }
