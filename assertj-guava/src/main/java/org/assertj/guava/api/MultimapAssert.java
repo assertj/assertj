@@ -49,7 +49,8 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     super(actual, MultimapAssert.class);
   }
 
-  // visible for test
+  /// @deprecated use [#actual()] instead
+  @Deprecated
   protected Multimap<K, V> getActual() {
     return actual;
   }
