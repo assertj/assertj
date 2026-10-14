@@ -13,51 +13,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.internal.urls;
+package org.assertj.tests.core.api.url;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHavePort.shouldHavePort;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
-import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.jupiter.api.Test;
 
-class Urls_assertHasPort_Test extends UrlsBaseTest {
+class UrlAssert_hasNoPort_Test {
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
-    URL url = null;
-    int expectedPort = 8080;
+    URL actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasPort(info, url, expectedPort));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).hasNoPort());
     // THEN
-    then(assertionError).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_pass_if_actual_url_has_the_given_port() throws MalformedURLException {
+  void should_pass_if_actual_has_no_port() throws Exception {
     // GIVEN
-    URL url = new URL("http://example.com:8080/pages/");
-    int expectedPort = 8080;
-
+    URL actual = URI.create("http://example.com").toURL();
     // WHEN/THEN
-    urls.assertHasPort(info, url, expectedPort);
+    assertThat(actual).hasNoPort();
   }
 
   @Test
-  void should_fail_if_actual_URL_port_is_not_the_given_port() throws MalformedURLException {
+  void should_fail_if_actual_has_a_port() throws Exception {
     // GIVEN
-    URL url = new URL("http://example.com:8080/pages/");
-    int expectedPort = 8888;
+    URL actual = URI.create("http://example.com:8080").toURL();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasPort(info, url, expectedPort));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).hasNoPort());
     // THEN
-    then(assertionError).hasMessage(shouldHavePort(url, expectedPort).create());
+    then(error).hasMessage(shouldHavePort(actual, -1).create());
   }
-
 }

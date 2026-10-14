@@ -60,7 +60,7 @@ class ShouldHaveUserInfo_create_Test {
   @Test
   void should_create_error_message_for_url_has_user_info() throws Exception {
     // GIVEN
-    URL url = new URL("http://test:pass@assertj.org/news");
+    URL url = URI.create("http://test:pass@assertj.org/news").toURL();
     // WHEN
     String error = shouldHaveUserInfo(url, "test:success").create(new TestDescription("TEST"));
     // THEN
@@ -76,7 +76,7 @@ class ShouldHaveUserInfo_create_Test {
   @Test
   void should_create_error_message_for_url_has_no_user_info() throws Exception {
     // GIVEN
-    URL url = new URL("http://test:pass@assertj.org/news");
+    URL url = URI.create("http://test:pass@assertj.org/news").toURL();
     // WHEN
     String error = shouldHaveUserInfo(url, null).create(new TestDescription("TEST"));
     // THEN

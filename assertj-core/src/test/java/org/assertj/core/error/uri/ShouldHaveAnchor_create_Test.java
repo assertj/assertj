@@ -19,6 +19,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveAnchor.shouldHaveAnchor;
 
+import java.net.URI;
 import java.net.URL;
 
 import org.assertj.core.internal.TestDescription;
@@ -29,7 +30,7 @@ class ShouldHaveAnchor_create_Test {
   @Test
   void should_create_error_message_for_has_anchor() throws Exception {
     // GIVEN
-    URL uri = new URL("http://assertj.org/news#print");
+    URL uri = URI.create("http://assertj.org/news#print").toURL();
     // WHEN
     String error = shouldHaveAnchor(uri, "foo").create(new TestDescription("TEST"));
     // THEN
@@ -45,7 +46,7 @@ class ShouldHaveAnchor_create_Test {
   @Test
   void should_create_error_message_for_has_no_anchor() throws Exception {
     // GIVEN
-    URL uri = new URL("http://assertj.org/news#print");
+    URL uri = URI.create("http://assertj.org/news#print").toURL();
     // WHEN
     String error = shouldHaveAnchor(uri, null).create(new TestDescription("TEST"));
     // THEN

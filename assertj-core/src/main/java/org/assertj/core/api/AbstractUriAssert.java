@@ -16,6 +16,7 @@
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.api.UrlQueryParser.parseParameters;
 import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
 import static org.assertj.core.error.uri.ShouldHaveFragment.shouldHaveFragment;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
@@ -29,12 +30,7 @@ import static org.assertj.core.error.uri.ShouldHaveQuery.shouldHaveQuery;
 import static org.assertj.core.error.uri.ShouldHaveScheme.shouldHaveScheme;
 import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -46,11 +42,7 @@ import java.util.Objects;
  */
 public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> extends AbstractComparableAssert<SELF, URI> {
 
-  private static final String EQUAL = "=";
-
-  private static final String AND = "&";
-
-  protected AbstractUriAssert(final URI actual, final Class<?> selfType) {
+  protected AbstractUriAssert(URI actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -396,9 +388,8 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    *
    * @param name the name of the parameter expected to be present.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual does not have the expected parameter.
+   * @throws AssertionError           if the actual does not have the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
-   *
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasParameter(String name) {
@@ -408,7 +399,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
   }
 
   private void assertHasParameter(String name) {
-    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
+    Map<String, List<String>> parameters = parseParameters(actual.getRawQuery());
     if (!parameters.containsKey(name)) throw assertionError(shouldHaveParameter(actual, name));
   }
 
@@ -427,12 +418,11 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * assertThat(new URI("http://www.helloworld.org/index.html?sad")).hasParameter("sad", "much");
    * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasParameter("sad", null);</code></pre>
    *
-   * @param name the name of the parameter expected to be present.
+   * @param name  the name of the parameter expected to be present.
    * @param value the value of the parameter expected to be present.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual does not have the expected parameter.
+   * @throws AssertionError           if the actual does not have the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
-   *
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasParameter(String name, String value) {
@@ -442,7 +432,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
   }
 
   private void assertHasParameter(String name, String value) {
-    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
+    Map<String, List<String>> parameters = parseParameters(actual.getRawQuery());
 
     if (!parameters.containsKey(name)) throw assertionError(shouldHaveParameter(actual, name, value));
 
@@ -462,9 +452,8 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasNoParameters();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} has a parameter.
+   * @throws AssertionError           if {@code actual} has a parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
-   *
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoParameters() {
@@ -474,7 +463,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
   }
 
   private void assertHasNoParameters() {
-    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
+    Map<String, List<String>> parameters = parseParameters(actual.getRawQuery());
     if (!parameters.isEmpty()) throw assertionError(shouldHaveNoParameters(actual, parameters.keySet()));
   }
 
@@ -493,7 +482,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    *
    * @param name the name of the parameter expected to be absent.
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} has the expected parameter.
+   * @throws AssertionError           if {@code actual} has the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
   public SELF hasNoParameter(String name) {
@@ -503,7 +492,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
   }
 
   private void assertHasNoParameter(String name) {
-    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
+    Map<String, List<String>> parameters = parseParameters(actual.getRawQuery());
     if (parameters.containsKey(name)) throw assertionError(shouldHaveNoParameter(actual, name, parameters.get(name)));
   }
 
@@ -523,10 +512,10 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * assertThat(new URI("http://www.helloworld.org/index.html?sad")).hasNoParameter("sad", null);
    * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasNoParameter("sad", "much");</code></pre>
    *
-   * @param name the name of the parameter expected to be absent.
+   * @param name  the name of the parameter expected to be absent.
    * @param value the value of the parameter expected to be absent.
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} has the expected parameter.
+   * @throws AssertionError           if {@code actual} has the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
   public SELF hasNoParameter(String name, String value) {
@@ -536,47 +525,13 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
   }
 
   private void assertHasNoParameter(String name, String unwantedValue) {
-    Map<String, List<String>> parameters = getParameters(actual.getRawQuery());
+    Map<String, List<String>> parameters = parseParameters(actual.getRawQuery());
 
     if (parameters.containsKey(name)) {
       List<String> values = parameters.get(name);
       if (values.contains(unwantedValue))
         throw assertionError(shouldHaveNoParameter(actual, name, unwantedValue, values));
     }
-  }
-
-  private static Map<String, List<String>> getParameters(String query) {
-    Map<String, List<String>> parameters = new LinkedHashMap<>();
-
-    if (query != null && !query.isEmpty()) {
-      for (String pair : query.split(AND)) {
-        int equalIndex = pair.indexOf(EQUAL);
-        String key = equalIndex == -1 ? pair : pair.substring(0, equalIndex);
-        String value = equalIndex == -1 ? null : pair.substring(equalIndex + 1);
-
-        try {
-          key = URLDecoder.decode(key, StandardCharsets.UTF_8.name());
-        } catch (UnsupportedEncodingException ex) {
-          // UTF-8 is missing? Allow the key to remain encoded (no reasonable alternative).
-        }
-
-        if (value != null) {
-          try {
-            value = URLDecoder.decode(value, StandardCharsets.UTF_8.name());
-          } catch (UnsupportedEncodingException ex) {
-            // UTF-8 is missing? Allow the value to remain encoded (no reasonable alternative).
-          }
-        }
-
-        if (!parameters.containsKey(key)) {
-          parameters.put(key, new ArrayList<>());
-        }
-
-        parameters.get(key).add(value);
-      }
-    }
-
-    return parameters;
   }
 
 }
