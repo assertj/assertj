@@ -34,7 +34,7 @@ import org.assertj.core.data.MapEntry;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 
-/// Assertions for guava [RangeMap].
+/// Guava [RangeMap] assertions.
 ///
 /// To create an instance of this class, invoke [Assertions#assertThat(RangeMap)].
 ///

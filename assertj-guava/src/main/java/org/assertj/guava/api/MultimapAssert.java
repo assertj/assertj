@@ -38,7 +38,9 @@ import org.assertj.core.data.MapEntry;
 
 import com.google.common.collect.Multimap;
 
-/// Assertions for guava [Multimap].
+/// Guava [Multimap] assertions.
+///
+/// To create an instance of this class, invoke [Assertions#assertThat(Multimap)].
 ///
 /// @author marcelfalliere
 /// @author miralak

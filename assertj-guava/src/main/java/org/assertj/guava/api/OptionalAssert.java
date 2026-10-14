@@ -26,7 +26,7 @@ import org.assertj.core.api.AbstractObjectAssert;
 
 import com.google.common.base.Optional;
 
-/// Assertions for guava [Optional].
+/// Guava [Optional] assertions.
 ///
 /// To create an instance of this class, invoke [Assertions#assertThat(Optional)].
 ///

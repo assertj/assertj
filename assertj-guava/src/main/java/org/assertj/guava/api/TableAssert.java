@@ -33,6 +33,10 @@ import org.assertj.core.error.ShouldNotBeEmpty;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 
+/// Guava [Table] assertions.
+///
+/// To create an instance of this class, invoke [Assertions#assertThat(Table)].
+///
 /// @author Jan Gorman
 public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, Table<R, C, V>> {
 

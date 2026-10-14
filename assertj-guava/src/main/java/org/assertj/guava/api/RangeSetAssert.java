@@ -41,7 +41,7 @@ import org.assertj.core.api.AbstractAssert;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
 
-/// Assertion for guava [RangeSet].
+/// Guava [RangeSet] assertions.
 ///
 /// To create an instance of this class, invoke [Assertions#assertThat(RangeSet)].
 ///
