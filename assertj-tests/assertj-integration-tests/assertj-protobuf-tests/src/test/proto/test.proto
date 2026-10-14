@@ -11,6 +11,8 @@ message TestMessage {
   int32 bar = 2;
   repeated int32 numbers = 3;
   NestedMessage nested = 4;
+  bool paid = 5;
+  optional bool optional_paid = 6;
 }
 
 // Nested message for testing

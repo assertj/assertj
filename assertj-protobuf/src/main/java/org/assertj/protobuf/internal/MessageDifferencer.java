@@ -44,6 +44,7 @@ public class MessageDifferencer {
   private RepeatedFieldComparison repeatedFieldComparison = RepeatedFieldComparison.AS_LIST;
   private Scope scope = Scope.FULL;
   private final Set<String> ignoredFields = new HashSet<>();
+  private final Set<String> includedFields = new HashSet<>();
   private String lastDifferences = "";
 
   public void setRepeatedFieldComparison(RepeatedFieldComparison comparison) {
@@ -56,6 +57,10 @@ public class MessageDifferencer {
 
   public void ignoreField(String fieldPath) {
     ignoredFields.add(fieldPath);
+  }
+
+  public void includeField(String fieldPath) {
+    includedFields.add(fieldPath);
   }
 
   public String getLastDifferences() {
@@ -102,6 +107,13 @@ public class MessageDifferencer {
       fieldsToCompare.addAll(expected.getAllFields().keySet());
     }
 
+    for (FieldDescriptor field : expected.getDescriptorForType().getFields()) {
+      String fieldPath = path.isEmpty() ? field.getName() : path + "." + field.getName();
+      if (includedFields.stream().anyMatch(included -> included.equals(fieldPath) || included.startsWith(fieldPath + "."))) {
+        fieldsToCompare.add(field);
+      }
+    }
+
     for (FieldDescriptor field : fieldsToCompare) {
       String fieldPath = path.isEmpty() ? field.getName() : path + "." + field.getName();
 
@@ -123,6 +135,9 @@ public class MessageDifferencer {
         List<Object> expectedList = (List<Object>) expectedValue;
         if (actualList.isEmpty()) actualValue = null;
         if (expectedList.isEmpty()) expectedValue = null;
+      } else if (!field.hasPresence() && includedFields.contains(fieldPath)) {
+        actualValue = actual.getField(field);
+        expectedValue = expected.getField(field);
       } else {
         actualValue = actual.hasField(field) ? actual.getField(field) : null;
         expectedValue = expected.hasField(field) ? expected.getField(field) : null;

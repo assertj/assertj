@@ -15,9 +15,12 @@
  */
 package org.assertj.protobuf.api;
 
+import static java.util.Objects.requireNonNull;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.protobuf.internal.MessageDifferencer;
 
+import com.google.protobuf.Descriptors.Descriptor;
 import com.google.protobuf.Descriptors.FieldDescriptor;
 import com.google.protobuf.Message;
 
@@ -152,6 +155,64 @@ public class MessageAssert<T extends Message> extends AbstractAssert<MessageAsse
   }
 
   /**
+   * Adds fields to the comparison, including fields with default values that would otherwise be
+   * omitted by {@link #comparingExpectedFieldsOnly()}.
+   * <p>
+   * Paths use protobuf field names and may traverse singular message fields, for example
+   * {@code "shipping.paid"}. Repeated and map fields can be selected as a whole, but paths into
+   * their elements are not supported. Explicit field presence is still compared, including the
+   * presence of parent messages. Selecting a message does not include all of its unset children;
+   * select the child paths individually to compare their default values.
+   * <p>
+   * This method does not restrict the comparison to the selected fields or change the comparison
+   * scope. Repeated calls add fields. {@link #ignoringFields(String...)} takes precedence,
+   * regardless of the order in which the methods are called.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Order expected = Order.newBuilder().setPaid(false).build();
+   * Order actual = Order.newBuilder().setPaid(true).setRetryCount(3).build();
+   *
+   * // Succeeds: the implicit-presence default value is omitted from the expected fields.
+   * assertThat(actual).comparingExpectedFieldsOnly().isEqualTo(expected);
+   *
+   * // Fails: paid is compared, while retry_count is still ignored.
+   * assertThat(actual).comparingExpectedFieldsOnly().includingFields("paid").isEqualTo(expected);</code></pre>
+   *
+   * @param fieldPaths the additional field paths to compare; an empty array has no effect
+   * @return {@code this} assertion object
+   * @throws AssertionError if the actual message is {@code null}
+   * @throws NullPointerException if the array or any path is {@code null}
+   * @throws IllegalArgumentException if a path is empty, does not exist, or traverses a non-message,
+   *           repeated or map field
+   * @since 4.0.0
+   */
+  public MessageAssert<T> includingFields(String... fieldPaths) {
+    requireNonNull(fieldPaths, "fieldPaths must not be null");
+    isNotNull();
+    for (String fieldPath : fieldPaths) {
+      requireNonNull(fieldPath, "field path must not be null");
+      Descriptor descriptor = actual.getDescriptorForType();
+      String[] segments = fieldPath.split("\\.", -1);
+      for (int i = 0; i < segments.length; i++) {
+        FieldDescriptor field = descriptor.findFieldByName(segments[i]);
+        if (field == null) {
+          throw new IllegalArgumentException("Unknown field path <" + fieldPath + ">");
+        }
+        if (i < segments.length - 1) {
+          if (field.isRepeated() || field.getJavaType() != FieldDescriptor.JavaType.MESSAGE) {
+            throw new IllegalArgumentException("Field path <" + fieldPath + "> must traverse only singular message fields");
+          }
+          descriptor = field.getMessageType();
+        }
+      }
+    }
+    for (String fieldPath : fieldPaths) {
+      differencer.includeField(fieldPath);
+    }
+    return this;
+  }
+
+  /**
    * Configures the assertion to only compare fields that are set in the expected message.
    * <p>
    * Example:
@@ -166,6 +227,10 @@ public class MessageAssert<T extends Message> extends AbstractAssert<MessageAsse
    *
    * // This will pass because we only compare fields set in expected
    * assertThat(actual).comparingExpectedFieldsOnly().isEqualTo(expected);</code></pre>
+   * <p>
+   * Implicit-presence fields with default values are omitted unless explicitly selected with
+   * {@link #includingFields(String...)}. For example, a proto3 boolean without {@code optional}
+   * cannot distinguish an unset value from an explicitly set {@code false}.
    * <p>
    * A map field set in the expected message is compared as a whole: its entries must match the ones
    * of the actual map, an entry only found in the actual map is reported as unexpected.
