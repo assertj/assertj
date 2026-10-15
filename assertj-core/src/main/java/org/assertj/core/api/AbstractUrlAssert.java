@@ -47,6 +47,10 @@ import java.util.Objects;
  */
 public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> extends AbstractAssert<SELF, URL> {
 
+  /// Creates a new [URL] assertion.
+  ///
+  /// @param actual the actual optional to verify
+  /// @param selfType the type of the concrete assertion
   protected AbstractUrlAssert(URL actual, Class<?> selfType) {
     super(actual, selfType);
   }
