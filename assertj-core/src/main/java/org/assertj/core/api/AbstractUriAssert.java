@@ -43,6 +43,10 @@ import java.util.Objects;
  */
 public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> extends AbstractComparableAssert<SELF, URI> {
 
+  /// Creates a new [URI] assertion.
+  ///
+  /// @param actual the actual optional to verify
+  /// @param selfType the type of the concrete assertion
   protected AbstractUriAssert(URI actual, Class<?> selfType) {
     super(actual, selfType);
   }

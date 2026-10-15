@@ -50,12 +50,6 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
     super(actual, RangeMapAssert.class);
   }
 
-  /// @deprecated use [#actual()] instead
-  @Deprecated
-  protected RangeMap<K, V> getActual() {
-    return actual;
-  }
-
   /// Verifies that the actual [RangeMap] contains the given keys.
   ///
   /// Example:

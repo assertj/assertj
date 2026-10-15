@@ -43,7 +43,7 @@ class OptionalAssert_hasValueMatching_Test {
     @SuppressWarnings("OptionalAssignedToNull")
     Optional<String> nullActual = null;
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(nullActual).hasValueMatching(ALWAYS_TRUE));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).hasValueMatching(ALWAYS_TRUE));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -53,7 +53,7 @@ class OptionalAssert_hasValueMatching_Test {
     // GIVEN
     Optional<String> actual = Optional.empty();
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(actual).hasValueMatching(ALWAYS_TRUE));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasValueMatching(ALWAYS_TRUE));
     // THEN
     then(assertionError).hasMessage(shouldBePresent(Optional.empty()).create());
   }
@@ -61,19 +61,19 @@ class OptionalAssert_hasValueMatching_Test {
   @Test
   void should_pass_when_predicate_matches() {
     // GIVEN
-    Optional<String> optional = Optional.of("something");
+    Optional<String> actual = Optional.of("something");
     Predicate<String> predicate = s -> s.startsWith("some");
     // WHEN/THEN
-    then(optional).hasValueMatching(predicate);
+    then(actual).hasValueMatching(predicate);
   }
 
   @Test
   void should_fail_when_predicate_does_not_match() {
     // GIVEN
-    Optional<String> optional = Optional.of("something");
+    Optional<String> actual = Optional.of("something");
     Predicate<String> predicate = s -> s.startsWith("other");
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(optional).hasValueMatching(predicate));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasValueMatching(predicate));
     // THEN
     then(assertionError).hasMessage(shouldMatch("something", predicate, PredicateDescription.GIVEN).create());
   }
@@ -81,11 +81,11 @@ class OptionalAssert_hasValueMatching_Test {
   @Test
   void should_fail_with_custom_description_when_predicate_does_not_match() {
     // GIVEN
-    Optional<String> optional = Optional.of("something");
+    Optional<String> actual = Optional.of("something");
     Predicate<String> predicate = s -> s.startsWith("other");
     String description = "starts with 'other'";
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(optional).hasValueMatching(predicate, description));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasValueMatching(predicate, description));
     // THEN
     then(assertionError).hasMessage(shouldMatch("something", predicate, new PredicateDescription(description)).create());
   }
