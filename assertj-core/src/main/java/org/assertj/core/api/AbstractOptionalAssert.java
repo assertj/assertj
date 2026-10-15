@@ -40,6 +40,7 @@ import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.PredicateDescription;
+import org.assertj.core.presentation.PredicateDescription;
 
 /// [Optional] assertions.
 ///
