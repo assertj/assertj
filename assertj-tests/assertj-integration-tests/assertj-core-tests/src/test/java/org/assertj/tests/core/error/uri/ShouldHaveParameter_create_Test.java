@@ -248,7 +248,7 @@ class ShouldHaveParameter_create_Test {
   @Test
   void should_create_error_message_for_missing_url_parameter() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org/news");
+    URL url = URI.create("http://assertj.org/news").toURL();
     // WHEN
     String error = shouldHaveParameter(url, "article").create(new TestDescription("TEST"));
     // THEN
@@ -263,7 +263,7 @@ class ShouldHaveParameter_create_Test {
   @Test
   void should_create_error_message_for_url_parameter_without_value_that_is_missing() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org/news");
+    URL url = URI.create("http://assertj.org/news").toURL();
     // WHEN
     String error = shouldHaveParameter(url, "article", null).create(new TestDescription("TEST"));
     // THEN
@@ -278,7 +278,7 @@ class ShouldHaveParameter_create_Test {
   @Test
   void should_create_error_message_for_missing_url_parameter_with_an_expected_value() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org/news");
+    URL url = URI.create("http://assertj.org/news").toURL();
     // WHEN
     String error = shouldHaveParameter(url, "article", "10").create(new TestDescription("TEST"));
     // THEN
@@ -295,7 +295,7 @@ class ShouldHaveParameter_create_Test {
   @Test
   void should_create_error_message_for_url_parameter_without_value_that_has_one() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org/news?article=10");
+    URL url = URI.create("http://assertj.org/news?article=10").toURL();
     // WHEN
     String error = shouldHaveParameter(url, "article", null, list("10")).create(new TestDescription("TEST"));
     // THEN
@@ -311,7 +311,7 @@ class ShouldHaveParameter_create_Test {
   @Test
   void should_create_error_message_for_url_parameter_without_value_that_has_multiple_values() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org/news?article=10");
+    URL url = URI.create("http://assertj.org/news?article=10").toURL();
     // WHEN
     String error = shouldHaveParameter(url, "article", null,
                                        list("10", "11")).create(new TestDescription("TEST"));
@@ -328,7 +328,7 @@ class ShouldHaveParameter_create_Test {
   @Test
   void should_create_error_message_for_url_parameter_with_value_that_has_no_value() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org/news?article");
+    URL url = URI.create("http://assertj.org/news?article").toURL();
     // WHEN
     String error = shouldHaveParameter(url, "article", "10",
                                        list((String) null)).create(new TestDescription("TEST"));
@@ -346,7 +346,7 @@ class ShouldHaveParameter_create_Test {
   @Test
   void should_create_error_message_for_url_with_wrong_parameter_value() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org/news?article=11");
+    URL url = URI.create("http://assertj.org/news?article=11").toURL();
     // WHEN
     String error = shouldHaveParameter(url, "article", "10", list("11")).create(new TestDescription("TEST"));
     // THEN
@@ -364,7 +364,7 @@ class ShouldHaveParameter_create_Test {
   @Test
   void should_create_error_message_for_url_with_wrong_parameter_values() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org/news?article=11");
+    URL url = URI.create("http://assertj.org/news?article=11").toURL();
     // WHEN
     String error = shouldHaveParameter(url, "article", "10",
                                        list("11", "12")).create(new TestDescription("TEST"));
@@ -383,7 +383,7 @@ class ShouldHaveParameter_create_Test {
   @Test
   void should_create_error_message_for_url_with_no_parameter_that_has_one_even_without_value() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org/news?article");
+    URL url = URI.create("http://assertj.org/news?article").toURL();
     // WHEN
     String error = shouldHaveNoParameter(url, "article", list((String) null)).create(new TestDescription("TEST"));
     // THEN
@@ -398,7 +398,7 @@ class ShouldHaveParameter_create_Test {
   @Test
   void should_create_error_message_for_url_with_no_parameter_that_has_one_with_value() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org/news?article=10");
+    URL url = URI.create("http://assertj.org/news?article=10").toURL();
     // WHEN
     String error = shouldHaveNoParameter(url, "article", list("10")).create(new TestDescription("TEST"));
     // THEN
@@ -414,7 +414,7 @@ class ShouldHaveParameter_create_Test {
   @Test
   void should_create_error_message_for_url_with_no_parameter_that_has_one_with_multiple_values() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org/news?article=10");
+    URL url = URI.create("http://assertj.org/news?article=10").toURL();
     // WHEN
     String error = shouldHaveNoParameter(url, "article", list("10", "11")).create(new TestDescription("TEST"));
     // THEN
@@ -430,7 +430,7 @@ class ShouldHaveParameter_create_Test {
   @Test
   void should_create_error_message_for_url_with_no_parameter_that_has_one_without_value() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org/news?article");
+    URL url = URI.create("http://assertj.org/news?article").toURL();
     // WHEN
     String error = shouldHaveNoParameter(url, "article", null, null).create(new TestDescription("TEST"));
     // THEN
@@ -445,7 +445,7 @@ class ShouldHaveParameter_create_Test {
   @Test
   void should_create_error_message_for_url_no_parameter_value_but_found() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org/news?article=10");
+    URL url = URI.create("http://assertj.org/news?article=10").toURL();
     // WHEN
     String error = shouldHaveNoParameter(url, "article", "10", list("10")).create(new TestDescription("TEST"));
     // THEN

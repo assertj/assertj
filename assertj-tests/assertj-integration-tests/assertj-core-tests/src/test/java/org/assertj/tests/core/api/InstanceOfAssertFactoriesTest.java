@@ -781,7 +781,7 @@ class InstanceOfAssertFactoriesTest {
   @Nested
   class URL_Factory {
 
-    private final Object actual = new URL("http://localhost");
+    private final Object actual = URI.create("http://localhost").toURL();
 
     URL_Factory() throws MalformedURLException {}
 

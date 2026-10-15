@@ -20,7 +20,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
 
 import java.net.URI;
-import java.net.URL;
 
 import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
@@ -44,7 +43,7 @@ class ShouldHaveHost_create_Test {
   @Test
   void should_create_error_message_for_url() throws Exception {
     // WHEN
-    String error = shouldHaveHost(new URL("http://assertj.org/news"), "foo.org").create(new TestDescription("TEST"));
+    String error = shouldHaveHost(URI.create("http://assertj.org/news").toURL(), "foo.org").create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
                                  "Expecting host of%n" +

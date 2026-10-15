@@ -46,7 +46,7 @@ class ShouldHaveAuthority_create_Test {
   @Test
   void should_create_error_message_for_url() throws Exception {
     // GIVEN
-    URL url = new URL("http://assertj.org:8080/news");
+    URL url = URI.create("http://assertj.org:8080/news").toURL();
     // WHEN
     String error = shouldHaveAuthority(url, "foo.org").create(new TestDescription("TEST"));
     // THEN

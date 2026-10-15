@@ -15,29 +15,35 @@
  */
 package org.assertj.core.api;
 
-import java.net.URI;
+import static java.util.Objects.requireNonNull;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.UrlQueryParser.parseParameters;
+import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
+import static org.assertj.core.error.uri.ShouldHaveFragment.shouldHaveFragment;
+import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
+import static org.assertj.core.error.uri.ShouldHaveNoHost.shouldHaveNoHost;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameters;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
+import static org.assertj.core.error.uri.ShouldHavePath.shouldHavePath;
+import static org.assertj.core.error.uri.ShouldHavePort.shouldHavePort;
+import static org.assertj.core.error.uri.ShouldHaveQuery.shouldHaveQuery;
+import static org.assertj.core.error.uri.ShouldHaveScheme.shouldHaveScheme;
+import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 
-import org.assertj.core.internal.Uris;
+import java.net.URI;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Base class for all implementations of assertions for {@link URI}s.
  *
  * @param <SELF> the "self" type of this assertion class.
- * @see java.net.URI
  */
 public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> extends AbstractComparableAssert<SELF, URI> {
 
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  /** Internal assertions for URIs. */
-  protected Uris uris = Uris.instance();
-
-  /**
-   * Creates a new {@link URI} assertion.
-   *
-   * @param actual the actual URI to verify
-   * @param selfType the type of the concrete assertion
-   */
-  protected AbstractUriAssert(final URI actual, final Class<?> selfType) {
+  protected AbstractUriAssert(URI actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -57,7 +63,10 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual URI path is not equal to the expected path.
    */
   public SELF hasPath(String expected) {
-    return executeAssertion(() -> uris.assertHasPath(info, actual, expected));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasPath(expected);
+    });
   }
 
   /**
@@ -75,7 +84,14 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a path.
    */
   public SELF hasNoPath() {
-    return executeAssertion(() -> uris.assertHasPath(info, actual, null));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasPath(null);
+    });
+  }
+
+  private void assertHasPath(String expected) {
+    if (!Objects.equals(actual.getPath(), expected)) throw assertionError(shouldHavePath(actual, expected));
   }
 
   /**
@@ -95,7 +111,10 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual port is not equal to the expected port.
    */
   public SELF hasPort(int expected) {
-    return executeAssertion(() -> uris.assertHasPort(info, actual, expected));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasPort(expected);
+    });
   }
 
   /**
@@ -112,7 +131,14 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a port.
    */
   public SELF hasNoPort() {
-    return executeAssertion(() -> uris.assertHasPort(info, actual, -1));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasPort(-1);
+    });
+  }
+
+  private void assertHasPort(int expected) {
+    if (actual.getPort() != expected) throw assertionError(shouldHavePort(actual, expected));
   }
 
   /**
@@ -133,7 +159,15 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual host is not equal to the expected host.
    */
   public SELF hasHost(String expected) {
-    return executeAssertion(() -> uris.assertHasHost(info, actual, expected));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasHost(expected);
+    });
+  }
+
+  private void assertHasHost(String expected) {
+    requireNonNull(expected, "The expected host should not be null");
+    if (!Objects.equals(actual.getHost(), expected)) throw assertionError(shouldHaveHost(actual, expected));
   }
 
   /**
@@ -151,7 +185,14 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @since 3.22.0
    */
   public SELF hasNoHost() {
-    return executeAssertion(() -> uris.assertHasNoHost(info, actual));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasNoHost();
+    });
+  }
+
+  private void assertHasNoHost() {
+    if (actual.getHost() != null) throw assertionError(shouldHaveNoHost(actual));
   }
 
   /**
@@ -171,7 +212,14 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual authority is not equal to the expected authority.
    */
   public SELF hasAuthority(String expected) {
-    return executeAssertion(() -> uris.assertHasAuthority(info, actual, expected));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasAuthority(expected);
+    });
+  }
+
+  private void assertHasAuthority(String expected) {
+    if (!Objects.equals(actual.getAuthority(), expected)) throw assertionError(shouldHaveAuthority(actual, expected));
   }
 
   /**
@@ -190,7 +238,10 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual fragment is not equal to the expected fragment.
    */
   public SELF hasFragment(String expected) {
-    return executeAssertion(() -> uris.assertHasFragment(info, actual, expected));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasFragment(expected);
+    });
   }
 
   /**
@@ -207,7 +258,14 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a fragment.
    */
   public SELF hasNoFragment() {
-    return executeAssertion(() -> uris.assertHasFragment(info, actual, null));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasFragment(null);
+    });
+  }
+
+  private void assertHasFragment(String expected) {
+    if (!Objects.equals(actual.getFragment(), expected)) throw assertionError(shouldHaveFragment(actual, expected));
   }
 
   /**
@@ -226,7 +284,10 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual query is not equal to the expected query.
    */
   public SELF hasQuery(String expected) {
-    return executeAssertion(() -> uris.assertHasQuery(info, actual, expected));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasQuery(expected);
+    });
   }
 
   /**
@@ -243,7 +304,14 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a query.
    */
   public SELF hasNoQuery() {
-    return executeAssertion(() -> uris.assertHasQuery(info, actual, null));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasQuery(null);
+    });
+  }
+
+  private void assertHasQuery(String expected) {
+    if (!Objects.equals(actual.getQuery(), expected)) throw assertionError(shouldHaveQuery(actual, expected));
   }
 
   /**
@@ -261,7 +329,14 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual scheme is not equal to the expected scheme.
    */
   public SELF hasScheme(String expected) {
-    return executeAssertion(() -> uris.assertHasScheme(info, actual, expected));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasScheme(expected);
+    });
+  }
+
+  private void assertHasScheme(String expected) {
+    if (!Objects.equals(actual.getScheme(), expected)) throw assertionError(shouldHaveScheme(actual, expected));
   }
 
   /**
@@ -282,7 +357,10 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual userinfo is not equal to the expected userinfo.
    */
   public SELF hasUserInfo(String expected) {
-    return executeAssertion(() -> uris.assertHasUserInfo(info, actual, expected));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasUserInfo(expected);
+    });
   }
 
   /**
@@ -299,7 +377,14 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has some userinfo.
    */
   public SELF hasNoUserInfo() {
-    return executeAssertion(() -> uris.assertHasUserInfo(info, actual, null));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasUserInfo(null);
+    });
+  }
+
+  private void assertHasUserInfo(String expected) {
+    if (!Objects.equals(actual.getUserInfo(), expected)) throw assertionError(shouldHaveUserInfo(actual, expected));
   }
 
   /**
@@ -318,13 +403,20 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    *
    * @param name the name of the parameter expected to be present.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual does not have the expected parameter.
+   * @throws AssertionError           if the actual does not have the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
-   *
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasParameter(String name) {
-    return executeAssertion(() -> uris.assertHasParameter(info, actual, name));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasParameter(name);
+    });
+  }
+
+  private void assertHasParameter(String name) {
+    Map<String, List<String>> parameters = parseParameters(actual.getRawQuery());
+    if (!parameters.containsKey(name)) throw assertionError(shouldHaveParameter(actual, name));
   }
 
   /**
@@ -342,16 +434,25 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * assertThat(new URI("http://www.helloworld.org/index.html?sad")).hasParameter("sad", "much");
    * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasParameter("sad", null);</code></pre>
    *
-   * @param name the name of the parameter expected to be present.
+   * @param name  the name of the parameter expected to be present.
    * @param value the value of the parameter expected to be present.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual does not have the expected parameter.
+   * @throws AssertionError           if the actual does not have the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
-   *
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasParameter(String name, String value) {
-    return executeAssertion(() -> uris.assertHasParameter(info, actual, name, value));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasParameter(name, value);
+    });
+  }
+
+  private void assertHasParameter(String name, String value) {
+    Map<String, List<String>> parameters = parseParameters(actual.getRawQuery());
+    if (!parameters.containsKey(name)) throw assertionError(shouldHaveParameter(actual, name, value));
+    List<String> values = parameters.get(name);
+    if (!values.contains(value)) throw assertionError(shouldHaveParameter(actual, name, value, values));
   }
 
   /**
@@ -366,13 +467,20 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasNoParameters();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} has a parameter.
+   * @throws AssertionError           if {@code actual} has a parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
-   *
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoParameters() {
-    return executeAssertion(() -> uris.assertHasNoParameters(info, actual));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasNoParameters();
+    });
+  }
+
+  private void assertHasNoParameters() {
+    Map<String, List<String>> parameters = parseParameters(actual.getRawQuery());
+    if (!parameters.isEmpty()) throw assertionError(shouldHaveNoParameters(actual, parameters.keySet()));
   }
 
   /**
@@ -390,11 +498,19 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    *
    * @param name the name of the parameter expected to be absent.
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} has the expected parameter.
+   * @throws AssertionError           if {@code actual} has the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
   public SELF hasNoParameter(String name) {
-    return executeAssertion(() -> uris.assertHasNoParameter(info, actual, name));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasNoParameter(name);
+    });
+  }
+
+  private void assertHasNoParameter(String name) {
+    Map<String, List<String>> parameters = parseParameters(actual.getRawQuery());
+    if (parameters.containsKey(name)) throw assertionError(shouldHaveNoParameter(actual, name, parameters.get(name)));
   }
 
   /**
@@ -413,13 +529,62 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * assertThat(new URI("http://www.helloworld.org/index.html?sad")).hasNoParameter("sad", null);
    * assertThat(new URI("http://www.helloworld.org/index.html?sad=much")).hasNoParameter("sad", "much");</code></pre>
    *
-   * @param name the name of the parameter expected to be absent.
+   * @param name  the name of the parameter expected to be absent.
    * @param value the value of the parameter expected to be absent.
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} has the expected parameter.
+   * @throws AssertionError           if {@code actual} has the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
   public SELF hasNoParameter(String name, String value) {
-    return executeAssertion(() -> uris.assertHasNoParameter(info, actual, name, value));
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasNoParameter(name, value);
+    });
   }
+
+  private void assertHasNoParameter(String name, String unwantedValue) {
+    Map<String, List<String>> parameters = parseParameters(actual.getRawQuery());
+    if (parameters.containsKey(name)) {
+      List<String> values = parameters.get(name);
+      if (values.contains(unwantedValue))
+        throw assertionError(shouldHaveNoParameter(actual, name, unwantedValue, values));
+    }
+  }
+
+  /// Returns an [AbstractMapAssert] to make assertions on the decoded query parameters of the actual `URI`.
+  ///
+  /// The map is keyed by parameter name, in query order, and holds all the values of each parameter since a parameter
+  /// can be repeated. A parameter without value (e.g. `foo` in `?foo&bar=`) has a `null` value, as
+  /// opposed to an empty value (e.g. `bar`).
+  ///
+  /// Examples:
+  ///
+  /// ```java
+  /// URI uri = URI.create("http://www.helloworld.org/index.html?lang=en&tag=java&tag=test");
+  ///
+  /// // These assertions succeed:
+  /// assertThat(uri).parameters()
+  ///                .containsOnly(entry("lang", List.of("en")),
+  ///                              entry("tag", List.of("java", "test")));
+  /// assertThat(uri).parameters()
+  ///                .containsOnlyKeys("tag", "lang");
+  ///
+  /// // These assertions fail:
+  /// assertThat(uri).parameters()
+  ///                .containsOnly(entry("lang", List.of("en")));
+  /// assertThat(uri).parameters()
+  ///                .containsEntry("tag", List.of("test", "java"));
+  /// ```
+  ///
+  /// @return a new [AbstractMapAssert] instance for assertions chaining on the query parameters.
+  /// @throws AssertionError if `actual` is `null`.
+  /// @throws IllegalArgumentException if the query string contains an invalid escape sequence.
+  /// @since 3.28.0
+  public AbstractMapAssert<?, ?, String, List<String>> parameters() {
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      return assertThat(parseParameters(actual.getRawQuery())).withAssertionState(myself);
+    }, () -> new MapAssert<>(null));
+  }
+
 }

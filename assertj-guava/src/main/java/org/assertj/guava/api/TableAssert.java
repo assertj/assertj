@@ -36,6 +36,8 @@ import com.google.common.collect.Table;
 
 /// Assertions for Guava [Table]s.
 ///
+/// To create an instance of this class, invoke [Assertions#assertThat(Table)].
+///
 /// @author Jan Gorman
 /// @param <R> the type of row keys in the tested table
 /// @param <C> the type of column keys in the tested table

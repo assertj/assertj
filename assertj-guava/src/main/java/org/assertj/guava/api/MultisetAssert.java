@@ -26,7 +26,7 @@ import org.assertj.core.api.ObjectAssert;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
-/// Assertions for guava [Multiset].
+/// Guava [Multiset] assertions.
 ///
 /// To create an instance of this class, invoke [Assertions#assertThat(Multiset)].
 ///

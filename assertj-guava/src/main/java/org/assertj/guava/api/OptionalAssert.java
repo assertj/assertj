@@ -41,9 +41,8 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
     super(actual, OptionalAssert.class);
   }
 
-  /// Returns the actual optional.
-  ///
-  /// @return the actual optional
+  /// @deprecated use [#actual()] instead
+  @Deprecated
   protected Optional<T> getActual() {
     return actual;
   }

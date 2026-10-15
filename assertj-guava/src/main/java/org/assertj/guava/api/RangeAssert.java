@@ -35,7 +35,7 @@ import org.assertj.core.api.AbstractAssert;
 import com.google.common.collect.BoundType;
 import com.google.common.collect.Range;
 
-/// Assertions for guava [Range].
+/// Guava [Range] assertions.
 ///
 /// To create an instance of this class, invoke [Assertions#assertThat(Range)].
 ///

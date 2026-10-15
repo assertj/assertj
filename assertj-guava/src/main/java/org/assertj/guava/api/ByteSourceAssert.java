@@ -25,7 +25,9 @@ import org.assertj.core.api.AbstractAssert;
 
 import com.google.common.io.ByteSource;
 
-/// Assertions for Guava [ByteSource].
+/// Guava [ByteSource] assertions.
+///
+/// To create an instance of this class, invoke [Assertions#assertThat(ByteSource)].
 ///
 /// @author Andrew Gaul
 public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSource> {
