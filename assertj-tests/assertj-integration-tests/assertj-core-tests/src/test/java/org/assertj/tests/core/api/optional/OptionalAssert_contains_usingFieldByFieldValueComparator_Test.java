@@ -27,6 +27,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class OptionalAssert_contains_usingFieldByFieldValueComparator_Test {
 
   @Test
