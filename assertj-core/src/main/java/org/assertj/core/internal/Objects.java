@@ -189,11 +189,11 @@ public class Objects {
    * Verifies that the object is not an instance of the given type.
    *
    * @param info assertion information
-   * @param actual the actual object
+   * @param actual the actual object. This may be {@code null}.
    * @param type the prohibited type
    */
   public void assertIsNotInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
-    if (isInstanceOfClass(actual, type, info)) throw failures.failure(info, shouldNotBeInstance(actual, type));
+    if (actual != null && isInstanceOfClass(actual, type, info)) throw failures.failure(info, shouldNotBeInstance(actual, type));
   }
 
   private boolean isInstanceOfClass(Object actual, Class<?> clazz, AssertionInfo info) {
@@ -206,11 +206,11 @@ public class Objects {
    * Verifies that the object is not an instance of any given type.
    *
    * @param info assertion information
-   * @param actual the actual object
+   * @param actual the actual object. This may be {@code null}.
    * @param types the prohibited types
    */
   public void assertIsNotInstanceOfAny(AssertionInfo info, Object actual, Class<?>[] types) {
-    if (!objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
+    if (actual == null || !objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
     throw failures.failure(info, shouldNotBeInstanceOfAny(actual, types));
   }
 
@@ -266,11 +266,11 @@ public class Objects {
    * Verifies that the object does not have exactly the given type.
    *
    * @param info assertion information
-   * @param actual the actual object
+   * @param actual the actual object. This may be {@code null}.
    * @param type the prohibited exact type
    */
   public void assertIsNotExactlyInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
-    if (actualIsExactlyInstanceOfType(actual, type, info))
+    if (actual != null && actualIsExactlyInstanceOfType(actual, type, info))
       throw failures.failure(info, shouldNotBeExactlyInstance(actual, type));
   }
 
