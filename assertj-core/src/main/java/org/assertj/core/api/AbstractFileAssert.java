@@ -440,45 +440,48 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
     return myself;
   }
 
-  /**
-   * Verifies that the text content of the actual {@code File} is <b>exactly</b> equal to the given one <b>except for newlines wich are ignored</b>.
-   * <p>
-   * This will change in AssertJ 4.0 where newlines will be taken into account, in the meantime, to get this behavior
-   * one can use {@link #content()} and then chain with {@link AbstractStringAssert#isEqualTo(String)}.
-   * <p>
-   * The charset to use when reading the file should be provided with {@link #usingCharset(Charset)} or
-   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
-   * {@link Charset#defaultCharset()}) will be used.
-   * <p>
-   * Example:
-   * <pre><code class='java'> // use the default charset
-   * File xFile = Files.write(Paths.get(&quot;xfile.txt&quot;), &quot;The Truth Is Out There&quot;.getBytes()).toFile();
-   *
-   * // The following assertion succeeds (default charset is used):
-   * assertThat(xFile).hasContent(&quot;The Truth Is Out There&quot;);
-   *
-   * // The following assertion fails:
-   * assertThat(xFile).hasContent(&quot;La Vérité Est Ailleurs&quot;);
-   *
-   * // using a specific charset
-   * Charset turkishCharset = Charset.forName(&quot;windows-1254&quot;);
-   *
-   * File xFileTurkish = Files.write(Paths.get(&quot;xfile.turk&quot;), Collections.singleton(&quot;Gerçek&quot;), turkishCharset).toFile();
-   *
-   * // The following assertion succeeds:
-   * assertThat(xFileTurkish).usingCharset(turkishCharset).hasContent(&quot;Gerçek&quot;);
-   *
-   * // The following assertion fails :
-   * assertThat(xFileTurkish).usingCharset(StandardCharsets.UTF_8).hasContent(&quot;Gerçek&quot;);</code></pre>
-   *
-   * @param expected the expected text content to compare the actual {@code File}'s content to.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given content is {@code null}.
-   * @throws AssertionError if the actual {@code File} is {@code null}.
-   * @throws AssertionError if the actual {@code File} is not an existing file.
-   * @throws UncheckedIOException if an I/O error occurs.
-   * @throws AssertionError if the content of the actual {@code File} is not equal to the given content.
-   */
+  /// Verifies that the text content of the actual `File` is **exactly** equal to the given one, newlines included (but whatever
+  /// le lines terminator are).
+  ///
+  /// The content is compared line by line, `\n`, `\r` and `\r\n` being considered as equivalent line terminators.
+  /// A trailing line terminator is taken into account, i.e., a file whose content is `"abc\n"` does not have the content `"abc"`.
+  /// To compare the content character by character, use [#content()] and then chain with [AbstractStringAssert#isEqualTo(String)].
+  ///
+  /// The charset to use when reading the file should be provided with [#usingCharset(Charset)] or
+  /// [#usingCharset(String)] prior to calling this method; if not, the platform's default charset (as returned by
+  /// [Charset#defaultCharset()]) will be used.
+  ///
+  /// Example:
+  /// ```java
+  /// // use the default charset
+  /// File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
+  ///
+  /// // The following assertion succeeds (default charset is used):
+  /// assertThat(xFile).hasContent("The Truth Is Out There");
+  ///
+  /// // The following assertions fail:
+  /// assertThat(xFile).hasContent("La Vérité Est Ailleurs");
+  /// assertThat(xFile).hasContent("The Truth Is Out There\n");
+  ///
+  /// // using a specific charset
+  /// Charset turkishCharset = Charset.forName("windows-1254");
+  ///
+  /// File xFileTurkish = Files.write(Paths.get("xfile.turk"), Collections.singleton("Gerçek"), turkishCharset).toFile();
+  ///
+  /// // The following assertion succeeds (Files.write adds a line separator after each line):
+  /// assertThat(xFileTurkish).usingCharset(turkishCharset).hasContent("Gerçek\n");
+  ///
+  /// // The following assertion fails:
+  /// assertThat(xFileTurkish).usingCharset(StandardCharsets.UTF_8).hasContent("Gerçek\n");
+  /// ```
+  ///
+  /// @param expected the expected text content to compare the actual `File`'s content to.
+  /// @return `this` assertion object.
+  /// @throws NullPointerException if the given content is `null`.
+  /// @throws AssertionError if the actual `File` is `null`.
+  /// @throws AssertionError if the actual `File` is not an existing file.
+  /// @throws UncheckedIOException if an I/O error occurs.
+  /// @throws AssertionError if the content of the actual `File` is not equal to the given content.
   public SELF hasContent(String expected) {
     return executeAssertion(() -> files.assertHasContent(info, actual, expected, charset));
   }

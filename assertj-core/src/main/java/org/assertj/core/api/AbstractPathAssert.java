@@ -274,46 +274,48 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     return myself;
   }
 
-  /**
-   * Verifies that the text content of the actual {@code Path} (which must be a readable file) is <b>exactly</b> equal
-   * to the given one <b>except for newlines wich are ignored</b>.
-   * <p>
-   * This will change in AssertJ 4.0 where newlines will be taken into account, in the meantime, to get this behavior
-   * one can use {@link #content()} and then chain with {@link AbstractStringAssert#isEqualTo(String)}.
-   * <p>
-   * The charset to use when reading the actual path should be provided with {@link #usingCharset(Charset)} or
-   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
-   * {@link Charset#defaultCharset()}) will be used.
-   * <p>
-   * Examples:
-   * <pre><code class="java"> // use the default charset
-   * Path xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes());
-   *
-   * // The following assertion succeeds (default charset is used):
-   * assertThat(xFile).hasContent("The Truth Is Out There");
-   *
-   * // The following assertion fails:
-   * assertThat(xFile).hasContent("La Vérité Est Ailleurs");
-   *
-   * // using a specific charset
-   * Charset turkishCharset = Charset.forName("windows-1254");
-   *
-   * Path xFileTurkish = Files.write(Paths.get("xfile.turk"), Collections.singleton("Gerçek Başka bir yerde mi"), turkishCharset);
-   *
-   * // The following assertion succeeds:
-   * assertThat(xFileTurkish).usingCharset(turkishCharset).hasContent("Gerçek Başka bir yerde mi");
-   *
-   * // The following assertion fails ... unless you are in Turkey ;-):
-   * assertThat(xFileTurkish).hasContent("Gerçek Başka bir yerde mi");</code></pre>
-   *
-   * @param expected the expected text content to compare the actual {@code Path}'s content to.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given content is {@code null}.
-   * @throws UncheckedIOException if an I/O error occurs.
-   * @throws AssertionError if the actual {@code Path} is {@code null}.
-   * @throws AssertionError if the actual {@code Path} is not a {@link Files#isReadable(Path) readable} file.
-   * @throws AssertionError if the content of the actual {@code Path} is not equal to the given content.
-   */
+  /// Verifies that the text content of the actual `Path` (which must be a readable file) is **exactly** equal
+  /// to the given one, newlines included (but whatever le lines terminator are).
+  ///
+  /// The content is compared line by line, `\n`, `\r` and `\r\n` being considered as equivalent line terminators.
+  /// A trailing line terminator is taken into account, i.e., a file whose content is `"abc\n"` does not have the content `"abc"`.
+  /// To compare the content character by character, use [#content()] and then chain with [AbstractStringAssert#isEqualTo(String)].
+  ///
+  /// The charset to use when reading the actual path should be provided with [#usingCharset(Charset)] or
+  /// [#usingCharset(String)] prior to calling this method; if not, the platform's default charset (as returned by
+  /// [Charset#defaultCharset()]) will be used.
+  ///
+  /// Examples:
+  /// ```java
+  /// // use the default charset
+  /// Path xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes());
+  ///
+  /// // The following assertion succeeds (default charset is used):
+  /// assertThat(xFile).hasContent("The Truth Is Out There");
+  ///
+  /// // The following assertions fail:
+  /// assertThat(xFile).hasContent("La Vérité Est Ailleurs");
+  /// assertThat(xFile).hasContent("The Truth Is Out There\n");
+  ///
+  /// // using a specific charset
+  /// Charset turkishCharset = Charset.forName("windows-1254");
+  ///
+  /// Path xFileTurkish = Files.write(Paths.get("xfile.turk"), Collections.singleton("Gerçek Başka bir yerde mi"), turkishCharset);
+  ///
+  /// // The following assertion succeeds (Files.write adds a line separator after each line):
+  /// assertThat(xFileTurkish).usingCharset(turkishCharset).hasContent("Gerçek Başka bir yerde mi\n");
+  ///
+  /// // The following assertion fails ... unless you are in Turkey ;-):
+  /// assertThat(xFileTurkish).hasContent("Gerçek Başka bir yerde mi\n");
+  /// ```
+  ///
+  /// @param expected the expected text content to compare the actual `Path`'s content to.
+  /// @return `this` assertion object.
+  /// @throws NullPointerException if the given content is `null`.
+  /// @throws UncheckedIOException if an I/O error occurs.
+  /// @throws AssertionError if the actual `Path` is `null`.
+  /// @throws AssertionError if the actual `Path` is not a [readable][Files#isReadable(Path)] file.
+  /// @throws AssertionError if the content of the actual `Path` is not equal to the given content.
   public SELF hasContent(String expected) {
     return executeAssertion(() -> paths.assertHasTextualContent(info, actual, expected, charset));
   }

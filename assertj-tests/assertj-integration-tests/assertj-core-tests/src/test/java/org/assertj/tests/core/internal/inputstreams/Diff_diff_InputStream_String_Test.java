@@ -17,8 +17,10 @@ package org.assertj.tests.core.internal.inputstreams;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.tests.core.internal.inputstreams.Diff_diff_InputStream_Test.stream;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -27,6 +29,8 @@ import org.assertj.core.internal.Diff;
 import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class Diff_diff_InputStream_String_Test {
 
@@ -99,8 +103,8 @@ class Diff_diff_InputStream_String_Test {
     List<Delta<String>> diffs = diff.diff(actual, expected);
     // THEN
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).hasToString(format("Missing content at line 3:%n"
-                                                + "  [\"line_1\"]%n"));
+    assertThat(diffs.getFirst()).hasToString(format("Missing content at line 3:%n"
+                                                    + "  [\"line_1\"]%n"));
   }
 
   @Test
@@ -112,8 +116,8 @@ class Diff_diff_InputStream_String_Test {
     List<Delta<String>> diffs = diff.diff(actual, expected);
     // THEN
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).hasToString(format("Extra content at line 3:%n"
-                                                + "  [\"line_1\"]%n"));
+    assertThat(diffs.getFirst()).hasToString(format("Extra content at line 3:%n"
+                                                    + "  [\"line_1\"]%n"));
   }
 
   @Test
@@ -125,8 +129,45 @@ class Diff_diff_InputStream_String_Test {
     List<Delta<String>> diffs = diff.diff(actual, expected);
     // THEN
     assertThat(diffs).hasSize(1);
-    assertThat(diffs.get(0)).hasToString(format("Extra content at line 1:%n"
-                                                + "  [\"\"]%n"));
+    assertThat(diffs.getFirst()).hasToString(format("Extra content at line 1:%n"
+                                                    + "  [\"\"]%n"));
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = { "\n", "\r", "\r\n" })
+  void should_return_diff_if_actual_has_a_trailing_newline_not_in_expected(String newline) throws IOException {
+    // GIVEN
+    actual = new ByteArrayInputStream(("line_0" + newline).getBytes());
+    expected = "line_0";
+    // WHEN
+    List<Delta<String>> diffs = diff.diff(actual, expected);
+    // THEN
+    then(diffs).singleElement().hasToString(format("Extra content at line 2:%n"
+                                                   + "  [\"\"]%n"));
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = { "\n", "\r", "\r\n" })
+  void should_return_diff_if_expected_has_a_trailing_newline_not_in_actual(String newline) throws IOException {
+    // GIVEN
+    actual = new ByteArrayInputStream("line_0".getBytes());
+    expected = "line_0" + newline;
+    // WHEN
+    List<Delta<String>> diffs = diff.diff(actual, expected);
+    // THEN
+    then(diffs).singleElement().hasToString(format("Missing content at line 2:%n"
+                                                   + "  [\"\"]%n"));
+  }
+
+  @Test
+  void should_return_empty_diff_list_if_contents_have_trailing_newlines_with_different_line_terminators() throws IOException {
+    // GIVEN
+    actual = new ByteArrayInputStream("line_0\r\nline_1\r\n".getBytes());
+    expected = "line_0\nline_1\n";
+    // WHEN
+    List<Delta<String>> diffs = diff.diff(actual, expected);
+    // THEN
+    then(diffs).isEmpty();
   }
 
   static String joinLines(String... lines) {

@@ -233,34 +233,40 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
     });
   }
 
-  /**
-   * Verifies that the content of the actual {@code InputStream} is equal to the given {@code String} <b>except for newlines which are ignored</b>.
-   * <p>
-   * This will change in AssertJ 4.0 where newlines will be taken into account, in the meantime, to get this behavior
-   * one can use {@link #asString(Charset)} and then chain with {@link AbstractStringAssert#isEqualTo(String)}.
-   * <p>
-   * The {@link Charset#defaultCharset() default charset} is used for decoding the bytes of the stream to a String.
-   * To use a different charset for decoding, use {@link #asString(Charset)}.
-   * <p>
-   * <b>Warning: this will consume the whole input stream in case the underlying
-   * implementation does not support {@link InputStream#markSupported() marking}.</b>
-   * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass
-   * assertThat(new ByteArrayInputStream("a".getBytes())).hasContent("a");
-   *
-   * // assertions will fail
-   * assertThat(new ByteArrayInputStream("a".getBytes())).hasContent("");
-   * assertThat(new ByteArrayInputStream("a".getBytes())).hasContent("ab");</code></pre>
-   *
-   * @param expected the given {@code String} to compare the actual {@code InputStream} to.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given {@code String} is {@code null}.
-   * @throws AssertionError       if the actual {@code InputStream} is {@code null}.
-   * @throws AssertionError       if the content of the actual {@code InputStream} is not equal to the given {@code String}.
-   * @throws UncheckedIOException if an I/O error occurs.
-   * @since 3.11.0
-   */
+  /// Verifies that the content of the actual `InputStream` is equal to the given `String`, newlines included (but whatever le
+  /// lines terminator are).
+  ///
+  /// The content is compared line by line, `\n`, `\r` and `\r\n` being considered as equivalent line terminators.
+  /// A trailing line terminator is taken into account, i.e., a stream whose content is `"abc\n"` does not have the content
+  /// `"abc"`.
+  /// To compare the content character by character, use [#asString(Charset)] and then chain with
+  /// [AbstractStringAssert#isEqualTo(String)].
+  ///
+  /// The [default charset][Charset#defaultCharset()] is used for decoding the bytes of the stream to a String.
+  /// To use a different charset for decoding, use [#asString(Charset)].
+  ///
+  /// **Warning: this will consume the whole input stream in case the underlying
+  /// implementation does not support [marking][InputStream#markSupported()].**
+  ///
+  /// Example:
+  /// ```java
+  /// // assertions will pass
+  /// assertThat(new ByteArrayInputStream("a".getBytes())).hasContent("a");
+  /// assertThat(new ByteArrayInputStream("a\n".getBytes())).hasContent("a\r\n");
+  ///
+  /// // assertions will fail
+  /// assertThat(new ByteArrayInputStream("a".getBytes())).hasContent("");
+  /// assertThat(new ByteArrayInputStream("a".getBytes())).hasContent("ab");
+  /// assertThat(new ByteArrayInputStream("a".getBytes())).hasContent("a\n");
+  /// ```
+  ///
+  /// @param expected the given `String` to compare the actual `InputStream` to.
+  /// @return `this` assertion object.
+  /// @throws NullPointerException if the given `String` is `null`.
+  /// @throws AssertionError if the actual `InputStream` is `null`.
+  /// @throws AssertionError if the content of the actual `InputStream` is not equal to the given `String`.
+  /// @throws UncheckedIOException if an I/O error occurs.
+  /// @since 3.11.0
   public SELF hasContent(String expected) {
     return executeAssertion(() -> {
       isNotNull();

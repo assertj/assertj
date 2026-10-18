@@ -37,6 +37,8 @@ import java.util.List;
 import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * @author Olivier Michallat
@@ -112,6 +114,46 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     then(error).hasMessage(shouldHaveContent(actual, CHARSET, diffs).create(INFO.description(), INFO.representation()));
   }
 
+  @ParameterizedTest(name = "actual={0}, expected={1}")
+  @CsvSource(delimiter = '|', value = {
+      "Hello|Hello",
+      "Hello\\n|Hello\\n",
+      "Hello\\r\\n|Hello\\n",
+      "Hello\\n|Hello\\r",
+      "\\nHello|\\nHello",
+      "Hello\\n\\n|Hello\\r\\n\\r\\n",
+  })
+  void should_pass_if_actual_has_expected_textual_content_including_newlines(String actualContent,
+                                                                             String expected) throws IOException {
+    // GIVEN
+    Path actual = Files.write(tempDir.resolve("actual"), unescape(actualContent).getBytes(CHARSET));
+    // WHEN/THEN
+    underTest.assertHasTextualContent(INFO, actual, unescape(expected), CHARSET);
+  }
+
+  // gh-2993
+  @ParameterizedTest(name = "actual={0}, expected={1}")
+  @CsvSource(delimiter = '|', value = {
+      "Hello|Hello\\n",
+      "Hello\\n|Hello",
+      "Hello\\r\\n|Hello",
+      "Hello\\n|Hello\\n\\n",
+      "Hello\\n\\n|Hello\\n",
+      "Hello|\\nHello",
+  })
+  void should_fail_if_actual_and_expected_textual_content_differ_by_newlines(String actualContent,
+                                                                             String expectedContent) throws IOException {
+    // GIVEN
+    Path actual = Files.write(tempDir.resolve("actual"), unescape(actualContent).getBytes(CHARSET));
+    String expected = unescape(expectedContent);
+    List<Delta<String>> diffs = diff.diff(actual, expected, CHARSET);
+    // WHEN
+    var error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
+    // THEN
+    then(diffs).isNotEmpty();
+    then(error).hasMessage(shouldHaveContent(actual, CHARSET, diffs).create(INFO.description(), INFO.representation()));
+  }
+
   @Test
   void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
     // GIVEN
@@ -125,6 +167,10 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasMessage("Unable to verify text contents of path:<%s>", actual)
                 .hasCause(exception);
+  }
+
+  private static String unescape(String value) {
+    return value.replace("\\r", "\r").replace("\\n", "\n");
   }
 
 }

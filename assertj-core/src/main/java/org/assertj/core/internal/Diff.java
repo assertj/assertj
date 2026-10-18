@@ -155,12 +155,28 @@ public class Diff {
     }
   }
 
-  private List<String> linesFromBufferedReader(BufferedReader reader) throws IOException {
-    String line;
+  /// Splits the content into lines like [BufferedReader#readLine()] (`\n`, `\r` and `\r\n` are equivalent line terminators)
+  /// except that a trailing line terminator produces an additional empty last line, so that trailing newlines are taken
+  /// into account when comparing contents.
+  private static List<String> linesFromBufferedReader(BufferedReader reader) throws IOException {
     List<String> lines = new ArrayList<>();
-    while ((line = reader.readLine()) != null) {
-      lines.add(line);
+    StringBuilder line = new StringBuilder();
+    boolean hasContent = false;
+    int c;
+    while ((c = reader.read()) != -1) {
+      hasContent = true;
+      if (c == '\n' || c == '\r') {
+        lines.add(line.toString());
+        line.setLength(0);
+        if (c == '\r') {
+          reader.mark(1);
+          if (reader.read() != '\n') reader.reset();
+        }
+      } else {
+        line.append((char) c);
+      }
     }
+    if (hasContent) lines.add(line.toString());
     return lines;
   }
 }

@@ -61,7 +61,7 @@ class Diff_diff_File_String_Test {
   void should_return_empty_diff_list_if_file_and_string_have_equal_content() throws IOException {
     String[] content = array("line0", "line1");
     writer.write(actual, content);
-    String expected = "line0%nline1".formatted();
+    String expected = "line0%nline1%n".formatted();
     List<Delta<String>> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     assertThat(diffs).isEmpty();
   }
@@ -69,7 +69,7 @@ class Diff_diff_File_String_Test {
   @Test
   void should_return_diffs_if_file_and_string_do_not_have_equal_content() throws IOException {
     writer.write(actual, StandardCharsets.UTF_8, "Touché");
-    String expected = "Touché";
+    String expected = "Touché%n".formatted();
     List<Delta<String>> diffs = diff.diff(actual, expected, StandardCharsets.ISO_8859_1);
     assertThat(diffs).hasSize(1);
     assertThat(diffs.get(0)).hasToString(format("Changed content at line 1:%n"
@@ -82,7 +82,7 @@ class Diff_diff_File_String_Test {
   @Test
   void should_return_diffs_if_content_of_actual_is_shorter_than_content_of_expected() throws IOException {
     writer.write(actual, "line_0");
-    String expected = "line_0%nline_1".formatted();
+    String expected = "line_0%nline_1%n".formatted();
     List<Delta<String>> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     assertThat(diffs).hasSize(1);
     assertThat(diffs.get(0)).hasToString(format("Missing content at line 2:%n"
@@ -92,7 +92,7 @@ class Diff_diff_File_String_Test {
   @Test
   void should_return_diffs_if_content_of_actual_is_longer_than_content_of_expected() throws IOException {
     writer.write(actual, "line_0", "line_1");
-    String expected = "line_0";
+    String expected = "line_0%n".formatted();
     List<Delta<String>> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     assertThat(diffs).hasSize(1);
     assertThat(diffs.get(0)).hasToString(format("Extra content at line 2:%n"
