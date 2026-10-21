@@ -62,12 +62,36 @@ class ObjectAssert_extracting_with_Function_Array_Test implements NavigationMeth
           .containsExactly("Luke", "Skywalker");
   }
 
+  static class Manager extends Employee {
+    public Manager(int age) {
+      this.setAge(age);
+    }
+  }
+
+  record Company(Manager manager, Employee employee) {
+  }
+
+  @Test
+  void should_allow_extracting_values_using_multiple_lambda_extractors_with_common_ancestor() {
+    // GIVEN
+    var company = new Company(new Manager(40), new Employee(1, new Name("John"), 40));
+    Function<Company, Manager> manager = _ -> company.manager();
+    Function<Company, Employee> employee = _ -> company.employee();
+    // WHEN
+    AbstractListAssert<?, List<? extends Employee>, Employee, ObjectAssert<Employee>> result = assertThat(company).extracting(manager,
+                                                                                                                              employee);
+    // THEN
+    result.hasSize(2)
+          .allSatisfy(e -> assertThat(e.getAge()).isGreaterThan(30));
+  }
+
   @Test
   void should_allow_extracting_values_using_multiple_lambda_extractors_with_type() {
     // GIVEN
     Function<Employee, String> lastName = employee -> employee.getName().getLast();
     // WHEN
-    AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> result = assertThat(luke).extracting(FIRST_NAME, lastName);
+    AbstractListAssert<?, List<? extends String>, String, ObjectAssert<String>> result = assertThat(luke).extracting(FIRST_NAME,
+                                                                                                                     lastName);
     // THEN
     result.hasSize(2)
           .containsExactly("Luke", "Skywalker");

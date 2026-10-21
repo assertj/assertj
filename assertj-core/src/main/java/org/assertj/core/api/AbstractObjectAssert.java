@@ -564,27 +564,29 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * Note that the order of extracted values is consistent with the order of given extractor functions.
    *
+   * @param <T>        the expected extracted element value type
    * @param extractors the extractor functions to extract values from the Object under test.
    * @return a new assertion object whose object under test is the list containing the extracted values
    */
   @CheckReturnValue
   @SafeVarargs
-  public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, ?>... extractors) {
+  public final <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> extracting(Function<? super ACTUAL, ? extends T>... extractors) {
     return executeAssertionNavigation(() -> doExtracting(extractors), ListAssert::nullListAssert);
   }
 
   /**
    * Applies the given extractors to the actual object.
    *
+   * @param <T>        the expected extracted element value type
    * @param extractors the extractors to apply
    * @return assertions on the extracted values
    */
-  protected AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> doExtracting(Function<? super ACTUAL, ?>[] extractors) {
+  protected <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> doExtracting(Function<? super ACTUAL, ? extends T>[] extractors) {
     requireNonNull(extractors, shouldNotBeNull("extractors")::create);
     isNotNull("extracting");
-    List<Object> values = Stream.of(extractors)
-                                .map(extractor -> extractor.apply(actual))
-                                .collect(toList());
+    List<T> values = Stream.of(extractors)
+                           .map(extractor -> extractor.apply(actual))
+                           .collect(toList());
     return newListAssertInstance(values).withAssertionState(myself);
   }
 
