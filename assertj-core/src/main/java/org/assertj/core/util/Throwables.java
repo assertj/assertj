@@ -17,6 +17,7 @@ package org.assertj.core.util;
 
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
+import static java.util.Collections.newSetFromMap;
 import static java.util.Collections.reverse;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -29,7 +30,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -218,17 +221,20 @@ public final class Throwables {
     return className.contains(JAVA_BASE) || className.contains(JDK_BASE);
   }
 
-  /**
-   * Get the root cause (i.e., the last non-null cause) from a {@link Throwable}.
-   *
-   * @param throwable the {@code Throwable} to get root cause from.
-   * @return the root cause if any, else {@code null}.
-   */
+  /// Returns the root cause (the last non-null cause) of a [Throwable].
+  ///
+  /// @param throwable the throwable to get the root cause from
+  /// @return the root cause if any, otherwise `null`
+  /// @throws IllegalArgumentException if the cause chain contains a cycle
   public static Throwable getRootCause(Throwable throwable) {
     if (throwable.getCause() == null) return null;
+    Set<Throwable> visited = newSetFromMap(new IdentityHashMap<>());
+    visited.add(throwable);
     Throwable cause;
-    while ((cause = throwable.getCause()) != null)
+    while ((cause = throwable.getCause()) != null) {
+      if (!visited.add(cause)) throw new IllegalArgumentException("Cycle detected in throwable cause chain");
       throwable = cause;
+    }
     return throwable;
   }
 

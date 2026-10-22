@@ -15,14 +15,17 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Collections.newSetFromMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 import static org.assertj.core.error.ShouldNotHaveThrownExcept.shouldNotHaveThrownExcept;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.IdentityHashMap;
 import java.util.IllegalFormatException;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
@@ -263,29 +266,31 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
     }, ThrowableAssert::nullThrowableAssert);
   }
 
-  /**
-   * Returns a new list assertion including the actual {@link Throwable} and all its causes (if any) down to the root cause.
-   * <p>
-   * The list only contains the actual throwable if there is no cause.
-   * <p>
-   * Examples:
-   * <pre><code class='java'> Throwable rootCause = new JdbcException("invalid query");
-   * Throwable cause =  new RuntimeException("some failure", rootCause);
-   * Throwable throwable = new Exception("boom!", cause);
-   *
-   * // typical use:
-   * assertThat(throwable).throwablesChain()
-   *                      .extracting(Throwable::getMessage)
-   *                      .anyMatch("some failure");
-   *
-   * // if there is no cause, throwablesChain simply returns the top level throwable
-   * assertThat(rootCause).throwablesChain()
-   *                      .containsExactly(rootCause);</code></pre>
-   *
-   * @return a new assertion object
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @since 4.0.0
-   */
+  /// Returns a new list assertion including the actual [Throwable] and all its causes (if any) down to the root cause.
+  ///
+  /// The list only contains the actual throwable if there is no cause.
+  /// A cycle in the cause chain is rejected with an [IllegalArgumentException].
+  ///
+  /// Examples:
+  /// ```java
+  /// Throwable rootCause = new JdbcException("invalid query");
+  /// Throwable cause = new RuntimeException("some failure", rootCause);
+  /// Throwable throwable = new Exception("boom!", cause);
+  ///
+  /// // typical use:
+  /// assertThat(throwable).throwablesChain()
+  ///                      .extracting(Throwable::getMessage)
+  ///                      .contains("some failure");
+  ///
+  /// // if there is no cause, throwablesChain simply returns the top level throwable
+  /// assertThat(rootCause).throwablesChain()
+  ///                      .containsExactly(rootCause);
+  /// ```
+  ///
+  /// @return a new assertion object
+  /// @throws AssertionError if the actual [Throwable] is `null`
+  /// @throws IllegalArgumentException if the cause chain contains a cycle
+  /// @since 4.0.0
   public ListAssert<Throwable> throwablesChain() {
     return executeAssertionNavigation(() -> {
       isNotNull();
@@ -296,7 +301,9 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
 
   private static List<Throwable> getThrowablesChain(Throwable throwable) {
     List<Throwable> throwables = new ArrayList<>();
+    Set<Throwable> visited = newSetFromMap(new IdentityHashMap<>());
     while (throwable != null) {
+      if (!visited.add(throwable)) throw new IllegalArgumentException("Cycle detected in throwable cause chain");
       throwables.add(throwable);
       throwable = throwable.getCause();
     }

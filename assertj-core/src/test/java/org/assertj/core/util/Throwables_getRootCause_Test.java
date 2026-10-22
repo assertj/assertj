@@ -16,6 +16,8 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
 
 import org.junit.jupiter.api.Test;
 
@@ -43,5 +45,55 @@ class Throwables_getRootCause_Test {
     Throwable error = new Throwable(new IllegalArgumentException(expectedCause));
 
     assertThat(Throwables.getRootCause(error)).isSameAs(expectedCause);
+  }
+
+  @Test
+  void should_reject_cause_cycle_including_initial_throwable() {
+    // GIVEN
+    Throwable first = new Throwable("first");
+    Throwable second = new Throwable("second", first);
+    first.initCause(second);
+    // WHEN/THEN
+    thenIllegalArgumentException().isThrownBy(() -> Throwables.getRootCause(first))
+                                  .withMessage("Cycle detected in throwable cause chain");
+  }
+
+  @Test
+  void should_reject_cause_cycle_below_initial_throwable() {
+    // GIVEN
+    Throwable first = new Throwable("first");
+    Throwable second = new Throwable("second", first);
+    first.initCause(second);
+    Throwable actual = new Throwable(first);
+    // WHEN/THEN
+    thenIllegalArgumentException().isThrownBy(() -> Throwables.getRootCause(actual))
+                                  .withMessage("Cycle detected in throwable cause chain");
+  }
+
+  @Test
+  void should_distinguish_equal_but_separate_throwables() {
+    // GIVEN
+    Throwable rootCause = new EqualThrowable(null);
+    Throwable actual = new EqualThrowable(rootCause);
+    // WHEN
+    Throwable result = Throwables.getRootCause(actual);
+    // THEN
+    then(result).isSameAs(rootCause);
+  }
+
+  private static class EqualThrowable extends Throwable {
+    EqualThrowable(Throwable cause) {
+      super(cause);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+      return other instanceof EqualThrowable;
+    }
+
+    @Override
+    public int hashCode() {
+      return 1;
+    }
   }
 }

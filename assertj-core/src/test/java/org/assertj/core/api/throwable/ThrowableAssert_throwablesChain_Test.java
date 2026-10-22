@@ -17,6 +17,7 @@ package org.assertj.core.api.throwable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -52,4 +53,15 @@ class ThrowableAssert_throwablesChain_Test {
     then(error).hasMessage(actualIsNull());
   }
 
+  @Test
+  void should_reject_circular_cause_chain() {
+    // GIVEN
+    Throwable first = new Throwable("first");
+    Throwable second = new Throwable("second", first);
+    first.initCause(second);
+    Throwable actual = new Throwable(first);
+    // WHEN/THEN
+    thenIllegalArgumentException().isThrownBy(() -> then(actual).throwablesChain())
+                                  .withMessage("Cycle detected in throwable cause chain");
+  }
 }
