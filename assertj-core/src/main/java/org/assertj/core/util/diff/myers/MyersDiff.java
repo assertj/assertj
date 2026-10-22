@@ -43,6 +43,15 @@ import org.assertj.core.util.diff.Patch;
  */
 public class MyersDiff<T> implements DiffAlgorithm<T> {
 
+  /**
+   * Maximum edit distance (number of insertions/deletions) the Myers algorithm explores before giving up the
+   * optimal path. Each depth level allocates O(d) path nodes, so the cost grows quadratically with the edit
+   * distance and diverging the sequences by more than this limit (e.g. large, completely different files as in
+   * <a href="https://github.com/assertj/assertj/issues/2345">gh-2345</a>) would take unreasonable time and memory.
+   * When the limit is exceeded, the whole region between the common prefix and suffix is reported as a single change.
+   */
+  public static final int MAX_DIFF_DEPTH = 10_000;
+
   /** The equalizer. */
   private final Equalizer<T> equalizer;
 
@@ -80,7 +89,9 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
    *
    * @param orig The original sequence.
    * @param rev The revised sequence.
-   * @return A minimum {@link PathNode Path} across the differences graph.
+   * @return A minimum {@link PathNode Path} across the differences graph, or - when the sequences diverge by more
+   *         than {@link #MAX_DIFF_DEPTH} edits - an approximate path reporting the whole region between the common
+   *         prefix and suffix as a single change.
    * @throws IllegalStateException if a diff path could not be found.
    */
   public PathNode buildPath(final List<T> orig, final List<T> rev) {
@@ -91,6 +102,9 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
     final int N = orig.size();
     final int M = rev.size();
 
+    // the edit distance is at least the size difference, no need to run the Myers exploration
+    if (Math.abs(N - M) > MAX_DIFF_DEPTH) return cappedPath(orig, rev);
+
     final int MAX = N + M + 1;
     final int size = 1 + 2 * MAX;
     final int middle = size / 2;
@@ -98,6 +112,8 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
 
     diagonal[middle + 1] = new Snake(0, -1, null);
     for (int d = 0; d < MAX; d++) {
+      // the Myers exploration costs O(d^2) path nodes, give up the optimal path before it becomes unreasonable
+      if (d > MAX_DIFF_DEPTH) return cappedPath(orig, rev);
       for (int k = -d; k <= d; k += 2) {
         final int kmiddle = middle + k;
         final int kplus = kmiddle + 1;
@@ -137,6 +153,41 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
 
     // According to Myers, this cannot happen
     throw new IllegalStateException("could not find a diff path");
+  }
+
+  /**
+   * Builds an approximate diff path reporting the whole region between the common prefix and suffix of the two
+   * sequences as a single change, used when the sequences diverge by more than {@link #MAX_DIFF_DEPTH} edits and
+   * computing the optimal Myers path would take unreasonable time and memory.
+   *
+   * @param orig The original sequence.
+   * @param rev The revised sequence.
+   * @return A {@link PathNode Path} describing a single change of the differing region.
+   */
+  private PathNode cappedPath(final List<T> orig, final List<T> rev) {
+    int prefixLength = commonPrefixLength(orig, rev);
+    int suffixLength = commonSuffixLength(orig, rev, prefixLength);
+    return new DiffNode(orig.size() - suffixLength, rev.size() - suffixLength,
+                        new DiffNode(prefixLength, prefixLength, null));
+  }
+
+  private int commonPrefixLength(final List<T> orig, final List<T> rev) {
+    int maxLength = Math.min(orig.size(), rev.size());
+    int prefixLength = 0;
+    while (prefixLength < maxLength && equals(orig.get(prefixLength), rev.get(prefixLength))) {
+      prefixLength++;
+    }
+    return prefixLength;
+  }
+
+  private int commonSuffixLength(final List<T> orig, final List<T> rev, final int prefixLength) {
+    int suffixLength = 0;
+    while (suffixLength < orig.size() - prefixLength
+          && suffixLength < rev.size() - prefixLength
+          && equals(orig.get(orig.size() - 1 - suffixLength), rev.get(rev.size() - 1 - suffixLength))) {
+      suffixLength++;
+    }
+    return suffixLength;
   }
 
   private boolean equals(T orig, T rev) {
