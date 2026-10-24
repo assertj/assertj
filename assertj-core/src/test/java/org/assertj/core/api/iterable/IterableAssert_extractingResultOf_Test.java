@@ -15,6 +15,7 @@
  */
 package org.assertj.core.api.iterable;
 
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -26,6 +27,7 @@ import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRIN
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
 import static org.assertj.core.util.Lists.newArrayList;
 
+import java.lang.annotation.Retention;
 import java.sql.Timestamp;
 
 import org.assertj.core.api.AbstractIterableAssert;
@@ -143,4 +145,22 @@ class IterableAssert_extractingResultOf_Test {
     assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
     assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
+
+  @Retention(RUNTIME)
+  private @interface TestAnnotation {
+    String value();
+  }
+
+  @TestAnnotation("expected")
+  private static class AnnotatedType {
+  }
+
+  @Test
+  void should_invoke_method_on_annotation_proxy_not_using_reflection() {
+    // GIVEN
+    TestAnnotation annotation = AnnotatedType.class.getAnnotation(TestAnnotation.class);
+    // WHEN/THEN
+    assertThat(newArrayList(annotation)).extractingResultOf("value").containsExactly("expected");
+  }
+
 }
