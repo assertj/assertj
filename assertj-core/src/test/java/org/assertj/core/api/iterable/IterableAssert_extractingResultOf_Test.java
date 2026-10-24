@@ -173,7 +173,7 @@ class IterableAssert_extractingResultOf_Test {
     // GIVEN
     TestAnnotation annotation = AnnotatedType.class.getAnnotation(TestAnnotation.class);
     // WHEN/THEN
-    then(List.of(annotation)).extractingResultOf("value").containsExactly("expected");
+    assertThat(List.of(annotation)).extractingResultOf("value").containsExactly("expected");
   }
 
 }
