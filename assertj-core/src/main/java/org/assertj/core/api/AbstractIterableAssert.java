@@ -548,6 +548,31 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return executeAssertion(() -> iterables.assertDoesNotHaveDuplicates(info, actual));
   }
 
+  /**
+   * Verifies that all the elements of the actual iterable are equal to each other, using the {@link Object#equals(Object)}
+   * implementation of the elements (or the comparator set with {@link #usingElementComparator(java.util.Comparator)}).
+   * <p>
+   * This is convenient when the reference element cannot easily be extracted from the iterable, for example when the
+   * iterable is produced by a chain of {@code filteredOn}/{@code extracting} calls.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(list(&quot;a&quot;, &quot;a&quot;, &quot;a&quot;)).allElementsAreEqual();
+   * assertThat(list(&quot;a&quot;)).allElementsAreEqual();
+   * assertThat(emptyList()).allElementsAreEqual();
+   *
+   * // assertion fails
+   * assertThat(list(&quot;a&quot;, &quot;a&quot;, &quot;b&quot;)).allElementsAreEqual();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual iterable is {@code null}.
+   * @throws AssertionError if the actual iterable contains at least two elements that are not equal.
+   * @since 4.0.0
+   */
+  public SELF allElementsAreEqual() {
+    return executeAssertion(() -> iterables.assertAllElementsAreEqual(info, actual));
+  }
+
   @Override
   @SafeVarargs
   public final SELF startsWith(ELEMENT... sequence) {
