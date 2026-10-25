@@ -63,6 +63,23 @@ jobs:
       - name: Test
         run: ./mvnw $MAVEN_ARGS verify
 
+  # https://github.com/assertj/assertj/issues/3996
+  eclipse-compiler:
+
+    name: Java 25 (Eclipse Compiler)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup Java
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+        with:
+          distribution: 'zulu'
+          java-version: '25'
+          cache: 'maven'
+      - name: Test
+        run: ./mvnw $MAVEN_ARGS -Peclipse-compiler verify
+
   groovy:
 
     name: Groovy ${{ matrix.groovy }}
