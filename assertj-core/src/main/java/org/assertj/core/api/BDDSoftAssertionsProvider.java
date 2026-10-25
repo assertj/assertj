@@ -77,6 +77,7 @@ import java.util.stream.Stream;
 import org.assertj.core.annotation.CanIgnoreReturnValue;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.throwing.ThrowingSupplier;
 
 /**
  * Provides BDD-style proxied assertions that collect assertion errors.
@@ -991,6 +992,64 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   @CanIgnoreReturnValue
   default AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return then(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
+  }
+
+  /// Captures the throwable raised by a supplier for soft assertions.
+  /// If the supplier returns normally, collects a failure including its returned value.
+  /// The supplier is invoked exactly once.
+  ///
+  /// ```java
+  /// BDDSoftAssertions softly = new BDDSoftAssertions();
+  ///
+  /// // assertion succeeds
+  /// softly.thenThrownBySupplier(() -> Integer.parseInt("not a number")).isInstanceOf(NumberFormatException.class);
+  ///
+  /// // assertion collects a failure with a message including the returned value, 42
+  /// softly.thenThrownBySupplier(() -> 42);
+  ///
+  /// softly.assertAll();
+  /// ```
+  ///
+  /// A description chained with `as(...)` cannot describe this already collected failure.
+  /// Use [#thenThrownBySupplier(ThrowingSupplier, String, Object...)] instead.
+  ///
+  /// @param supplier the supplier that should raise a throwable
+  /// @return the created soft throwable assertion
+  /// @throws NullPointerException if the supplier is null
+  /// @see Assertions#assertThatThrownBySupplier(ThrowingSupplier)
+  /// @since 4.0.0
+  @CanIgnoreReturnValue
+  default AbstractThrowableAssert<?, ? extends Throwable> thenThrownBySupplier(ThrowingSupplier<?> supplier) {
+    return ThrowableAssert.assertThrownBySupplier(supplier, this::then);
+  }
+
+  /// Captures the throwable raised by a supplier for soft assertions, using the given description.
+  /// If the supplier returns normally, collects a failure including the description and returned value.
+  /// The supplier is invoked exactly once.
+  ///
+  /// ```java
+  /// BDDSoftAssertions softly = new BDDSoftAssertions();
+  ///
+  /// // assertion succeeds
+  /// softly.thenThrownBySupplier(() -> Integer.parseInt("NaN"), "parsing %s", "NaN").isInstanceOf(NumberFormatException.class);
+  ///
+  /// // assertion collects a failure with a message including the returned value, 42 and the given description "parsing NaN"
+  /// softly.thenThrownBySupplier(() -> 42, "parsing %s", "NaN");
+  ///
+  /// softly.assertAll();
+  /// ```
+  ///
+  /// @param supplier the supplier that should raise a throwable
+  /// @param description the assertion description
+  /// @param args optional arguments if the description is a format string
+  /// @return the created soft throwable assertion
+  /// @throws NullPointerException if the supplier is null
+  /// @see Assertions#assertThatThrownBySupplier(ThrowingSupplier, String, Object...)
+  /// @since 4.0.0
+  @CanIgnoreReturnValue
+  default AbstractThrowableAssert<?, ? extends Throwable> thenThrownBySupplier(ThrowingSupplier<?> supplier,
+                                                                               String description, Object... args) {
+    return ThrowableAssert.assertThrownBySupplier(supplier, throwable -> then(throwable).as(description, args));
   }
 
   /**

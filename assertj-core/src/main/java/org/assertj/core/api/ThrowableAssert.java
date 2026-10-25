@@ -15,10 +15,13 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 
 import java.util.concurrent.Callable;
+import java.util.function.Function;
 
+import org.assertj.core.api.throwing.ThrowingSupplier;
 import org.assertj.core.util.Throwables;
 
 /**
@@ -47,6 +50,18 @@ public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowable
      * @throws Throwable if invocation fails
      */
     void call() throws Throwable;
+  }
+
+  static AbstractThrowableAssert<?, ? extends Throwable> assertThrownBySupplier(ThrowingSupplier<?> supplier,
+                                                                                Function<Throwable, AbstractThrowableAssert<?, ? extends Throwable>> throwableAssertionFactory) {
+    requireNonNull(supplier, "The supplier must not be null");
+    Object value;
+    try {
+      value = supplier.get();
+    } catch (Throwable throwable) {
+      return throwableAssertionFactory.apply(throwable);
+    }
+    return throwableAssertionFactory.apply(null).hasBeenThrown(value);
   }
 
   /**

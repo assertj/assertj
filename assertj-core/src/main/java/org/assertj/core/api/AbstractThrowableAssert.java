@@ -74,6 +74,17 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
     });
   }
 
+  SELF hasBeenThrown(Object returnedValue) {
+    return executeAssertionNavigation(() -> {
+      if (actual == null) {
+        throw Failures.instance().failure(info,
+                                          new BasicErrorMessageFactory("%nExpecting code to raise a throwable, but it returned %s instead.",
+                                                                       returnedValue));
+      }
+      return myself;
+    }, () -> myself);
+  }
+
   /**
    * Sets the description of the assertion that is going to be called <b>after</b>.
    * <p>

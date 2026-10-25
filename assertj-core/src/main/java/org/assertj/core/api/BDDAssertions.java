@@ -86,6 +86,7 @@ import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.InFilter;
 import org.assertj.core.api.filter.NotFilter;
 import org.assertj.core.api.filter.NotInFilter;
+import org.assertj.core.api.throwing.ThrowingSupplier;
 import org.assertj.core.condition.AllOf;
 import org.assertj.core.condition.AnyOf;
 import org.assertj.core.condition.DoesNotHave;
@@ -1249,6 +1250,58 @@ public class BDDAssertions extends Assertions {
   @CanIgnoreReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).hasBeenThrown(); // TODO remove call to hasBeenThrown
+  }
+
+  /// Captures the throwable raised by a supplier for further assertions.
+  /// If the supplier returns normally, fails immediately and includes its returned value in the error message.
+  /// The supplier is invoked exactly once.
+  ///
+  /// ```java
+  /// // assertion succeeds
+  /// thenThrownBySupplier(() -> Integer.parseInt("not a number")).isInstanceOf(NumberFormatException.class);
+  ///
+  /// // assertion fails with a message including the returned value, 42
+  /// thenThrownBySupplier(() -> 42);
+  /// ```
+  ///
+  /// A description chained with `as(...)` cannot describe this immediate failure.
+  /// Use [#thenThrownBySupplier(ThrowingSupplier, String, Object...)] instead.
+  ///
+  /// @param supplier the supplier that should raise a throwable
+  /// @return the created throwable assertion
+  /// @throws AssertionError if the supplier returns normally
+  /// @throws NullPointerException if the supplier is null
+  /// @see Assertions#assertThatThrownBySupplier(ThrowingSupplier)
+  /// @since 4.0.0
+  @CanIgnoreReturnValue
+  public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBySupplier(ThrowingSupplier<?> supplier) {
+    return assertThatThrownBySupplier(supplier);
+  }
+
+  /// Captures the throwable raised by a supplier, using the given assertion description.
+  /// If the supplier returns normally, fails immediately with the description and returned value.
+  /// The supplier is invoked exactly once.
+  ///
+  /// ```java
+  /// // assertion succeeds
+  /// thenThrownBySupplier(() -> Integer.parseInt("NaN"), "parsing %s", "NaN").isInstanceOf(NumberFormatException.class);
+  ///
+  /// // assertion fails with a message including the returned value, 42 and the given description "parsing NaN"
+  /// thenThrownBySupplier(() -> 42, "parsing %s", "NaN");
+  /// ```
+  ///
+  /// @param supplier the supplier that should raise a throwable
+  /// @param description the assertion description
+  /// @param args optional arguments if the description is a format string
+  /// @return the created throwable assertion
+  /// @throws AssertionError if the supplier returns normally
+  /// @throws NullPointerException if the supplier is null
+  /// @see Assertions#assertThatThrownBySupplier(ThrowingSupplier, String, Object...)
+  /// @since 4.0.0
+  @CanIgnoreReturnValue
+  public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBySupplier(ThrowingSupplier<?> supplier,
+                                                                                     String description, Object... args) {
+    return assertThatThrownBySupplier(supplier, description, args);
   }
 
   /**
