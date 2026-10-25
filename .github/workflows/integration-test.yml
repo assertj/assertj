@@ -1,0 +1,86 @@
+name: Integration tests
+
+on:
+  push:
+    branches: [ 'main', '3.x' ]
+  pull_request:
+    branches: [ 'main', '3.x' ]
+
+permissions: {}
+
+env:
+  MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always
+
+jobs:
+
+  gradle-integrations:
+
+    name: Java 25 - ${{ matrix.project }}
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        include:
+          - project: spring-framework
+            repo: spring-projects/spring-framework
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Setup Java
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          distribution: 'zulu'
+          java-version: '25'
+          cache: 'maven'
+      - name: Build
+        run: ./mvnw $MAVEN_ARGS -DskipTests install
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
+      - name: Create a temporary directory
+        run: mkdir -p tmp/${{ matrix.project }}
+      - name: Clone spring-framework repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          repository: ${{ matrix.repo }}
+          path: tmp/${{ matrix.project }}
+          fetch-depth: 1
+      - name: Run ${{ matrix.project }} build
+        run: |
+          cp .github/workflows/use-snapshot.gradle.kts tmp/${{ matrix.project }}
+          cd tmp/${{ matrix.project }}
+          ./gradlew --init-script use-snapshot.gradle.kts build
+
+  maven-integrations:
+
+    name: Java 25 - ${{ matrix.project }}
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        include:
+          - project: JsonUnit
+            repo: lukas-krecan/JsonUnit
+            property: assertj.version
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Setup Java
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          distribution: 'zulu'
+          java-version: '25'
+          cache: 'maven'
+      - name: Build
+        run: ./mvnw $MAVEN_ARGS -DskipTests install
+      - name: Create a temporary directory
+        run: mkdir -p tmp/${{ matrix.project }}
+      - name: Clone target repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          repository: ${{ matrix.repo }}
+          path: tmp/${{ matrix.project }}
+          fetch-depth: 1
+      - name: Run ${{ matrix.project }} build
+        run: |
+          cd tmp/${{ matrix.project }}
+          ./mvnw -D${{ matrix.property }}=3.27.8-SNAPSHOT -B install
