@@ -247,7 +247,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
   }
 
   /**
-   * Same as {@link AbstractComparableAssert#isEqualByComparingTo(Comparable) isEqualByComparingTo(BigDecimal)} but
+   * Same as {@link AbstractComparableAssert#isEqualByComparingTo(Object)} isEqualByComparingTo(BigDecimal)} but
    * takes care of converting given String to {@link BigDecimal}.
    * <p>
    * Example:
@@ -267,7 +267,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
   }
 
   /**
-   * Same as {@link AbstractComparableAssert#isNotEqualByComparingTo(Comparable) isNotEqualByComparingTo(BigDecimal)} but
+   * Same as {@link AbstractComparableAssert#isNotEqualByComparingTo(Object)} isNotEqualByComparingTo(BigDecimal)} but
    * takes care of converting given String to {@link BigDecimal}.
    * <p>
    * Example:
