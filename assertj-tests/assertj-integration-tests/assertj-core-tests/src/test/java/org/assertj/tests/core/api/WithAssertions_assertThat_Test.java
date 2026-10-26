@@ -161,6 +161,8 @@ import org.assertj.core.api.PredicateAssert;
 import org.assertj.core.api.Short2DArrayAssert;
 import org.assertj.core.api.SpliteratorAssert;
 import org.assertj.core.api.WithAssertions;
+import org.assertj.tests.core.testkit.Jedi;
+import org.assertj.tests.core.testkit.Person;
 import org.junit.jupiter.api.Test;
 
 class WithAssertions_assertThat_Test {
@@ -489,25 +491,36 @@ class WithAssertions_assertThat_Test {
     result.contains("Yoda");
   }
 
-  // FIXME https://github.com/assertj/assertj/issues/4352
-  // @Test
-  // void should_accept_Comparable() {
-  // // GIVEN
-  // Comparable<UUID> actual = new UUID(0L, 0L); // implements Comparable<UUID>
-  // // WHEN
-  // AbstractComparableAssert<?, UUID> result = underTest.assertThat(actual);
-  // // THEN
-  // result.isLessThan(new UUID(0L, 1L));
-  // }
+  @Test
+  void should_accept_Comparable() {
+    // GIVEN
+    Comparable<UUID> actual = new UUID(0L, 0L);
+    // WHEN
+    AbstractComparableAssert<?, Comparable<UUID>, UUID> result = underTest.assertThat(actual);
+    // THEN
+    result.isLessThan(new UUID(0L, 1L));
+  }
 
   @Test
   void should_accept_Comparable_subtype() {
     // GIVEN
     UUID actual = new UUID(0L, 0L); // implements Comparable<UUID>
     // WHEN
-    AbstractComparableAssert<?, UUID> result = underTest.assertThat(actual);
+    AbstractComparableAssert<?, UUID, UUID> result = underTest.assertThat(actual);
     // THEN
     result.isLessThan(new UUID(0L, 1L));
+  }
+
+  @Test
+  void should_accept_type_implementing_a_comparable_supertype() {
+    // GIVEN Jedi extends Person, Person implements Comparable<Person>
+    Jedi yoda = new Jedi("Yoda", "Green");
+    // WHEN
+    AbstractComparableAssert<?, Jedi, Person> yodaAssert = underTest.assertThat(yoda);
+    // THEN
+    yodaAssert.matches((Jedi x) -> x.lightSaberColor.equals("Green"))
+              .isLessThan(new Person("Zoda"))
+              .isLessThan(new Jedi("Zoda", "Green"));
   }
 
   @Test
@@ -1145,7 +1158,7 @@ class WithAssertions_assertThat_Test {
     // GIVEN
     Year actual = Year.of(2026);
     // WHEN
-    AbstractComparableAssert<?, Year> result = underTest.assertThat(actual);
+    AbstractComparableAssert<?, Year, Year> result = underTest.assertThat(actual);
     // THEN
     result.isLessThan(Year.of(2027));
   }

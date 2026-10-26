@@ -39,7 +39,7 @@ import org.assertj.core.internal.Bytes;
  * @author Nicolas François
  * @author Cal027
  */
-public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> extends AbstractComparableAssert<SELF, Byte>
+public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> extends AbstractComparableAssert<SELF, Byte, Byte>
     implements NumberAssert<SELF, Byte> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting

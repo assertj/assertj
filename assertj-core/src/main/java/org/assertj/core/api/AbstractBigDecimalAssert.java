@@ -40,7 +40,7 @@ import org.assertj.core.internal.BigDecimals;
  * @author chanwon lee
  */
 public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAssert<SELF>> extends
-    AbstractComparableAssert<SELF, BigDecimal> implements NumberAssert<SELF, BigDecimal> {
+    AbstractComparableAssert<SELF, BigDecimal, BigDecimal> implements NumberAssert<SELF, BigDecimal> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BigDecimals bigDecimals = BigDecimals.instance();
