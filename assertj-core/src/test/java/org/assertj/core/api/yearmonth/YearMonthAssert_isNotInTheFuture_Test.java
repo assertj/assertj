@@ -20,6 +20,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.YearMonth;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 class YearMonthAssert_isNotInTheFuture_Test extends YearMonthAssertBaseTest {
@@ -50,6 +51,16 @@ class YearMonthAssert_isNotInTheFuture_Test extends YearMonthAssertBaseTest {
     var assertionError = expectAssertionError(() -> assertThat(actual).isNotInTheFuture());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
+  }
+
+  @Test
+  void should_collect_error_in_soft_assertions() {
+    // GIVEN
+    var softly = new SoftAssertions();
+    // WHEN
+    softly.assertThat(AFTER).isNotInTheFuture();
+    // THEN
+    then(softly.errorsCollected()).hasSize(1);
   }
 
 }
