@@ -19,6 +19,8 @@ import static java.time.Clock.systemUTC;
 import static java.time.LocalDateTime.now;
 import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
 import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
+import static org.assertj.core.error.ShouldBeNotInTheFuture.shouldBeNotInTheFuture;
+import static org.assertj.core.error.ShouldBeNotInThePast.shouldBeNotInThePast;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveMonth;
 import static org.assertj.core.util.Preconditions.checkArgument;
@@ -498,6 +500,46 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
     return executeAssertion(() -> {
       Objects.instance().assertNotNull(info, actual);
       if (!actual.isAfter(LocalDateTime.now())) throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
+    });
+  }
+
+  /**
+   * Verifies that the actual {@code LocalDateTime} is not in the past, i.e. it is either now or in the future.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(LocalDateTime.now().plusMinutes(1)).isNotInThePast();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is in the past.
+   *
+   * @since 4.0.0
+   */
+  public SELF isNotInThePast() {
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.isBefore(LocalDateTime.now())) throw Failures.instance().failure(info, shouldBeNotInThePast(actual));
+    });
+  }
+
+  /**
+   * Verifies that the actual {@code LocalDateTime} is not in the future, i.e. it is either now or in the past.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(LocalDateTime.now().minusMinutes(1)).isNotInTheFuture();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is in the future.
+   *
+   * @since 4.0.0
+   */
+  public SELF isNotInTheFuture() {
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.isAfter(LocalDateTime.now())) throw Failures.instance().failure(info, shouldBeNotInTheFuture(actual));
     });
   }
 
