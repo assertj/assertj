@@ -351,13 +351,13 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
   }
 
   /**
-   * Verifies that the actual {@code YearMonth} is strictly not in the past, ie it can be either in the future or now.
+   * Verifies that the actual {@code YearMonth} is not in the past, i.e. it is either now or in the future.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion succeeds:
    * assertThat(YearMonth.now().plusMonths(1)).isNotInThePast();
    * // assertion also succeeds:
-   *    * assertThat(YearMonth.now()).isNotInThePast();
+   * assertThat(YearMonth.now()).isNotInThePast();
    * </code></pre>
    *
    * @return {@code this} assertion object.
@@ -410,7 +410,7 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
   }
 
   /**
-   * Verifies that the actual {@code YearMonth} is strictly not in the future.
+   * Verifies that the actual {@code YearMonth} is not in the future, i.e. it is either now or in the past.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion succeeds:
@@ -421,7 +421,7 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code YearMonth} is {@code null}.
-   * @throws AssertionError if the actual {@code YearMonth} is not in the future.
+   * @throws AssertionError if the actual {@code YearMonth} is in the future.
    */
   public SELF isNotInTheFuture() {
     Objects.instance().assertNotNull(info, actual);

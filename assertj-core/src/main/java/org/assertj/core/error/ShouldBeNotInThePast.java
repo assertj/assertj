@@ -19,7 +19,7 @@ import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a {@link Date} or a {@link Temporal} is in the past failed.
+ * Creates an error message indicating that an assertion that verifies that a {@link Date} or a {@link Temporal} is not in the past failed.
  * 
  * @author Alban Dericbourg
  */
