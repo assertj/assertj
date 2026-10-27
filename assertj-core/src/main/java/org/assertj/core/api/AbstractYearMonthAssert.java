@@ -365,9 +365,10 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    * @throws AssertionError if the actual {@code YearMonth} is in the past.
    */
   public SELF isNotInThePast() {
-    Objects.instance().assertNotNull(info, actual);
-    if (actual.isBefore(YearMonth.now())) throwAssertionError(shouldBeNotInThePast(actual));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.isBefore(YearMonth.now())) throwAssertionError(shouldBeNotInThePast(actual));
+    });
   }
 
   /**
@@ -424,9 +425,10 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
    * @throws AssertionError if the actual {@code YearMonth} is in the future.
    */
   public SELF isNotInTheFuture() {
-    Objects.instance().assertNotNull(info, actual);
-    if (actual.isAfter(YearMonth.now())) throwAssertionError(shouldBeNotInTheFuture(actual));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.isAfter(YearMonth.now())) throwAssertionError(shouldBeNotInTheFuture(actual));
+    });
   }
 
   /**
