@@ -1344,6 +1344,40 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
+   * Verifies that the actual {@code Date} is not in the past, i.e. it is either now or in the future.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(new Date(System.currentTimeMillis() + 1000)).isNotInThePast();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is in the past.
+   *
+   * @since 4.0.0
+   */
+  public SELF isNotInThePast() {
+    return executeAssertion(() -> dates.assertIsNotInThePast(info, actual));
+  }
+
+  /**
+   * Verifies that the actual {@code Date} is not in the future, i.e. it is either now or in the past.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(theTwoTowers.getReleaseDate()).isNotInTheFuture();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is in the future.
+   *
+   * @since 4.0.0
+   */
+  public SELF isNotInTheFuture() {
+    return executeAssertion(() -> dates.assertIsNotInTheFuture(info, actual));
+  }
+
+  /**
    * Verifies that the actual {@code Date} is <b>strictly</b> before the given year.
    * <p>
    * Example:

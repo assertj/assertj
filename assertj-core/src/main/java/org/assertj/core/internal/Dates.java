@@ -35,6 +35,8 @@ import static org.assertj.core.error.ShouldBeInSameSecondWindow.shouldBeInSameSe
 import static org.assertj.core.error.ShouldBeInSameYear.shouldBeInSameYear;
 import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
 import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
+import static org.assertj.core.error.ShouldBeNotInTheFuture.shouldBeNotInTheFuture;
+import static org.assertj.core.error.ShouldBeNotInThePast.shouldBeNotInThePast;
 import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.error.ShouldHaveSameTime.shouldHaveSameTime;
@@ -304,6 +306,30 @@ public class Dates {
   public void assertIsInTheFuture(AssertionInfo info, Date actual) {
     assertNotNull(info, actual);
     if (!isAfter(actual, now())) throw failures.failure(info, shouldBeInTheFuture(actual, comparisonStrategy));
+  }
+
+  /**
+   * Verifies that the actual {@code Date} is not in the past, i.e. it is either now or in the future.
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Date}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is in the past.
+   */
+  public void assertIsNotInThePast(AssertionInfo info, Date actual) {
+    assertNotNull(info, actual);
+    if (isBefore(actual, now())) throw failures.failure(info, shouldBeNotInThePast(actual, comparisonStrategy));
+  }
+
+  /**
+   * Verifies that the actual {@code Date} is not in the future, i.e. it is either now or in the past.
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Date}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is in the future.
+   */
+  public void assertIsNotInTheFuture(AssertionInfo info, Date actual) {
+    assertNotNull(info, actual);
+    if (isAfter(actual, now())) throw failures.failure(info, shouldBeNotInTheFuture(actual, comparisonStrategy));
   }
 
   /**
