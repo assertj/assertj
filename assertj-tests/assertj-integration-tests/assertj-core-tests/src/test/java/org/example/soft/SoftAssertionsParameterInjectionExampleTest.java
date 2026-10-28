@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(SoftAssertionsExtension.class)
-class SoftAssertionsParameterInjectionExample {
+class SoftAssertionsParameterInjectionExampleTest {
 
   @Test
   void soft_assertions_example(SoftAssertions soft) {
