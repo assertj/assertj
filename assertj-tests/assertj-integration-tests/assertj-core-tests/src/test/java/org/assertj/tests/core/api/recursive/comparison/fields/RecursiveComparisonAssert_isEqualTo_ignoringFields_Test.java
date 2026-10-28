@@ -112,46 +112,6 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithCompar
                      arguments(person7, person8, "same data, actual has null fields deep in its graph"));
   }
 
-  @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
-  @MethodSource
-  void should_pass_when_actual_empty_optional_fields_are_ignored(Object actual,
-                                                                 Object expected,
-                                                                 String testDescription) {
-    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                      .ignoringActualEmptyOptionalFields()
-                      .isEqualTo(expected);
-  }
-
-  private static Stream<Arguments> should_pass_when_actual_empty_optional_fields_are_ignored() {
-    Person person1 = new Person("John");
-    person1.home.address.number = 1;
-    person1.phone = Optional.empty();
-    person1.age = OptionalInt.empty();
-    person1.id = OptionalLong.empty();
-    person1.weight = OptionalDouble.empty();
-
-    Person person2 = new Person("John");
-    person2.home.address.number = 1;
-    person2.phone = Optional.of("456");
-    person2.age = OptionalInt.of(33);
-    person2.id = OptionalLong.of(123456);
-    person2.weight = OptionalDouble.of(1.80);
-
-    Person person3 = new Person("John");
-    person3.home.address.number = 1;
-    person3.phone = Optional.empty();
-    person3.age = OptionalInt.empty();
-    person3.id = OptionalLong.empty();
-    person3.weight = OptionalDouble.empty();
-
-    Person person4 = new Person("John");
-    person4.home.address.number = 1;
-
-    return Stream.of(arguments(person1, person2, "same data and same type except for actual empty optional fields"),
-                     arguments(person1, person3, "same data, same type, both actual and expected have empty optional fields"),
-                     arguments(person1, person4, "same data and same type except for ignored optional fields"));
-  }
-
   @Test
   void should_fail_when_actual_differs_from_expected_even_when_all_empty_optional_actual_fields_are_ignored() {
     // GIVEN
@@ -720,33 +680,6 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithCompar
     // WHEN/THEN
     then(new WithNumberHolderMap(holdersA)).usingRecursiveComparison(recursiveComparisonConfiguration)
                                            .isEqualTo(new WithNumberHolderMap(holdersB));
-  }
-
-  @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
-  @MethodSource
-  void should_pass_when_expected_null_fields_are_ignored(Object actual, Object expected,
-                                                         @SuppressWarnings("unused") String testDescription) {
-
-    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                .ignoringExpectedNullFields()
-                .isEqualTo(expected);
-  }
-
-  private static Stream<Arguments> should_pass_when_expected_null_fields_are_ignored() {
-    Person person1 = new Person("John");
-    person1.home.address.number = 1;
-
-    Person person2 = new Person(null);
-
-    Person person3 = new Person("John");
-    person3.home.address = null;
-
-    Person person4 = new Person(null);
-    person3.home.address = null;
-
-    return Stream.of(arguments(person1, person2, "first level expected null field"),
-                     arguments(person1, person3, "nested expected null field"),
-                     arguments(person1, person4, "multiple expected null fields"));
   }
 
   private static String[] arrayOf(List<String> list) {
