@@ -23,9 +23,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(SoftAssertionsExtension.class)
-class SoftAssertionsFieldInjectionExample {
+class SoftAssertionsFieldInjectionExampleTest {
 
-  // initialized by the SoftlyExtension extension
+  // initialized by SoftAssertionsExtension
   @InjectSoftAssertions
   private SoftAssertions soft;
 

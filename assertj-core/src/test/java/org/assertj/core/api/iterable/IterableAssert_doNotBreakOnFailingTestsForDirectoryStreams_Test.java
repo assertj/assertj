@@ -32,8 +32,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.assertj.core.api.IterableAssert;
 import org.junit.jupiter.api.Test;
 
-;
-
 /**
  * Checks that we can fail an assertion on DirectoryStream types without accidentally
  * dereferencing the items in the iterable. This is important for this class as the
@@ -42,7 +40,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Ashley Scopes
  */
-public class IterableAssert_doNotBreakOnFailingTestsForDirectoryStreams {
+class IterableAssert_doNotBreakOnFailingTestsForDirectoryStreams_Test {
 
   @Test
   void canPerformAssertionsOnDirectoryStream() {
