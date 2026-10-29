@@ -20,6 +20,8 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.util.List;
+import java.util.Map;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
@@ -256,6 +258,143 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test
     // WHEN/THEN
     ComparisonDifference weightDifference = javaTypeDiff("breed.name", lassie.breed.name, snoopy.breed.name);
     compareRecursivelyFailsWithDifferences(lassie, snoopy, weightDifference);
+  }
+
+  @Test
+  void should_treat_primitive_types_as_their_wrapper_types() {
+    // GIVEN
+    Person actual = new Person("Sherlock");
+    actual.home.address.number = 221;
+    Person expected = new Person("Moriarty");
+    expected.home.address.number = 222;
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(int.class);
+    // WHEN/THEN
+    compareRecursivelyFailsWithDifferences(actual, expected, javaTypeDiff("home.address.number", 221, 222));
+  }
+
+  @Test
+  void should_pass_when_no_field_has_one_of_the_compared_types_even_if_other_fields_differ() {
+    assertThat(billie).usingRecursiveComparison(recursiveComparisonConfiguration)
+                      .comparingOnlyFieldsOfTypes(Boolean.class)
+                      .isEqualTo(john);
+  }
+
+  @Test
+  void should_fail_when_actual_field_is_null_and_expected_field_is_of_compared_type() {
+    // GIVEN
+    var actual = WithObject.of(null);
+    var expected = WithObject.of("foo");
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class);
+    // WHEN/THEN
+    compareRecursivelyFailsWithDifferences(actual, expected, diff("value", null, "foo"));
+  }
+
+  @Test
+  void should_fail_when_expected_field_is_null_and_actual_field_is_of_compared_type() {
+    // GIVEN
+    var actual = WithObject.of("foo");
+    var expected = WithObject.of(null);
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class);
+    // WHEN/THEN
+    compareRecursivelyFailsWithDifferences(actual, expected, diff("value", "foo", null));
+  }
+
+  @Test
+  void should_pass_when_both_fields_are_null() {
+    // GIVEN
+    var actual = WithObject.of(null);
+    var expected = WithObject.of(null);
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .comparingOnlyFieldsOfTypes(String.class)
+                .isEqualTo(expected);
+  }
+
+  // TODO maybe we should do it ?
+  @Test
+  void should_not_compare_fields_whose_type_is_a_subtype_of_a_compared_type() {
+    // GIVEN
+    var actual = WithObject.of("foo");
+    var expected = WithObject.of("bar");
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .comparingOnlyFieldsOfTypes(CharSequence.class)
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_compare_elements_of_compared_type_in_collections() {
+    // GIVEN
+    var actual = WithObject.of(List.of("a", "b"));
+    var expected = WithObject.of(List.of("a", "c"));
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class);
+    // WHEN/THEN
+    compareRecursivelyFailsWithDifferences(actual, expected, javaTypeDiff("value[1]", "b", "c"));
+  }
+
+  @Test
+  void should_compare_elements_of_compared_type_in_arrays() {
+    // GIVEN
+    var actual = WithObject.of(new String[] { "a", "b" });
+    var expected = WithObject.of(new String[] { "a", "c" });
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class);
+    // WHEN/THEN
+    compareRecursivelyFailsWithDifferences(actual, expected, javaTypeDiff("value[1]", "b", "c"));
+  }
+
+  @Test
+  void should_ignore_elements_not_of_compared_type_in_collections() {
+    // GIVEN
+    var actual = WithObject.of(List.of(1, 2));
+    var expected = WithObject.of(List.of(1, 3));
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .comparingOnlyFieldsOfTypes(String.class)
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_use_registered_equals_for_compared_type_fields() {
+    // GIVEN
+    Person actual = new Person("JOHN");
+    Person expected = new Person("john");
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .comparingOnlyFieldsOfTypes(String.class)
+                .withEqualsForType(String::equalsIgnoreCase, String.class)
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_fail_when_map_values_of_compared_type_differ() {
+    // GIVEN
+    var actual = WithObject.of(Map.of("k", "a"));
+    var expected = WithObject.of(Map.of("k", "b"));
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class);
+    // WHEN/THEN
+    compareRecursivelyFailsWithDifferences(actual, expected, javaTypeDiff("value.k", "a", "b"));
+  }
+
+  @Test
+  void should_fail_when_map_values_of_compared_type_differ_multiple() {
+    // GIVEN
+    var actual = WithObject.of(Map.of("k1", "a1", "k2", "a2", "k3", "a3"));
+    var expected = WithObject.of(Map.of("k1", "b1", "k2", "b2", "k3", "a3"));
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class);
+    // WHEN/THEN
+    compareRecursivelyFailsWithDifferences(actual, expected,
+                                           javaTypeDiff("value.k1", "a1", "b1"),
+                                           javaTypeDiff("value.k2", "a2", "b2"));
+  }
+
+  @Test
+  void should_fail_when_compared_type_fields_differ_and_actual_and_expected_have_different_types() {
+    // GIVEN
+    var actual = WithObject.of(new Person("joe"));
+    var expected = WithObject.of(new Giant("jim", 3.0));
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class);
+    // WHEN/THEN
+    compareRecursivelyFailsWithDifferences(actual, expected, javaTypeDiff("value.name", "joe", "jim"));
   }
 
   static class Dog {

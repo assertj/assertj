@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -428,7 +429,15 @@ public class RecursiveComparisonDifferenceCalculator {
 
       Set<String> actualChildrenNodeNamesToCompare = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
       if (reportActualHasMissingOrExtraFields(dualValue, actualChildrenNodeNamesToCompare, comparisonState)) {
-        continue;
+        if (!recursiveComparisonConfiguration.hasComparedTypes()) continue;
+        // the difference on this node may have been dropped as it is not on a compared type, in that case we still
+        // need to compare the children existing in both actual and expected as they might be of a compared type.
+        // ex: we compare strings of Person and Giant (inherits Person and has an additional height field),
+        // the comparison drops the Person/Giant difference (the height field) because we only compare strings,
+        // but they have string fields we need to compare them
+        var expectedChildrenNodeNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(dualValue.expected);
+        actualChildrenNodeNamesToCompare = new HashSet<>(actualChildrenNodeNamesToCompare);
+        actualChildrenNodeNamesToCompare.retainAll(expectedChildrenNodeNames);
       }
       // compare actual and expected nodes
       for (String nodeNameToCompare : actualChildrenNodeNamesToCompare) {
@@ -825,33 +834,45 @@ public class RecursiveComparisonDifferenceCalculator {
   private static void compareUnorderedMapEntries(List<KeyValue> actualKeyValues, List<KeyValue> expectedKeyValues,
                                                  DualValue dualValue, ComparisonState comparisonState,
                                                  List<Object> expectedElementsNotFound) {
+    var configuration = comparisonState.recursiveComparisonConfiguration;
     for (KeyValue expectedKeyValue : expectedKeyValues) {
       List<ComparisonDifference> allKeyDifferences = new ArrayList<>();
-      Iterator<KeyValue> actualKeyValuesIterator = actualKeyValues.iterator();
+      List<ComparisonDifference> valueDifferences = new ArrayList<>();
+      KeyValue keyMatch = null;
+      int keyMatches = 0;
       boolean matched = false;
-      while (actualKeyValuesIterator.hasNext()) {
-        var actualKeyValue = actualKeyValuesIterator.next();
+      for (var actualKeyValue : actualKeyValues) {
         var keyDualValue = new DualValue(dualValue.fieldLocation, actualKeyValue.key(), expectedKeyValue.key(), dualValue, true);
-        List<ComparisonDifference> keyDifferences = determineDifferences(keyDualValue,
-                                                                         comparisonState.visitedDualValues,
-                                                                         comparisonState.recursiveComparisonConfiguration);
+        var keyDifferences = determineDifferences(keyDualValue, comparisonState.visitedDualValues, configuration);
         if (!keyDifferences.isEmpty()) {
           allKeyDifferences.addAll(keyDifferences);
           continue;
         }
-        var keyFieldLocation = keyFieldLocation(dualValue.fieldLocation, actualKeyValue.key());
-        var valueDualValue = new DualValue(keyFieldLocation, actualKeyValue.value(), expectedKeyValue.value(), dualValue);
-        if (hasNoDifferences(valueDualValue, comparisonState)) {
-          actualKeyValuesIterator.remove();
+        keyMatches++;
+        keyMatch = actualKeyValue;
+        var valueDualValue = new DualValue(keyFieldLocation(dualValue.fieldLocation, actualKeyValue.key()),
+                                           actualKeyValue.value(), expectedKeyValue.value(), dualValue);
+        valueDifferences = determineDifferences(valueDualValue, comparisonState.visitedDualValues, configuration);
+        if (valueDifferences.isEmpty()) {
           matched = true;
           break;
         }
       }
-      if (!matched) {
+      if (matched) {
+        removeByIdentity(actualKeyValues, keyMatch);
+      } else if (keyMatches == 1 && configuration.hasComparedTypes()) {
+        // the key is unambiguous, report differences on the value itself as they might be on a compared type
+        valueDifferences.forEach(comparisonState::addDifference);
+        removeByIdentity(actualKeyValues, keyMatch);
+      } else {
         allKeyDifferences.forEach(comparisonState::addDifference);
         expectedElementsNotFound.add(expectedKeyValue);
       }
     }
+  }
+
+  private static void removeByIdentity(List<KeyValue> keyValues, KeyValue keyValue) {
+    keyValues.removeIf(kv -> kv == keyValue);
   }
 
   private static void compareUnorderedMapEntriesByKey(List<KeyValue> actualKeyValues, List<KeyValue> expectedKeyValues,
