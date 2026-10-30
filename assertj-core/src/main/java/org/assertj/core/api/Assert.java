@@ -409,47 +409,49 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    */
   SELF isInstanceOfAny(Class<?>... types);
 
-  /**
-   * Verifies that the actual value is not an instance of the given type.
-   * <p>
-   * Example:
-   * <pre><code class='java'> // assertions succeed
-   * assertThat(1).isNotInstanceOf(Double.class);
-   * assertThat(new ArrayList&lt;String&gt;()).isNotInstanceOf(LinkedList.class);
-   *
-   * // assertions fail
-   * assertThat(&quot;abc&quot;).isNotInstanceOf(String.class);
-   * assertThat(new HashMap&lt;String, Integer&gt;()).isNotInstanceOf(HashMap.class);
-   * assertThat(new HashMap&lt;String, Integer&gt;()).isNotInstanceOf(Map.class);</code></pre>
-   *
-   * @param type the type to check the actual value against.
-   * @return this assertion object.
-   * @throws NullPointerException if the given type is {@code null}.
-   * @throws AssertionError       if the actual value is {@code null}.
-   * @throws AssertionError       if the actual value is an instance of the given type.
-   */
+  /// Verifies that the actual value is not an instance of the given type.
+  ///
+  /// Example:
+  ///
+  /// ```java
+  /// // assertions succeed
+  /// assertThat(1).isNotInstanceOf(Double.class);
+  /// assertThat(new ArrayList<String>()).isNotInstanceOf(LinkedList.class);
+  /// assertThat(null).isNotInstanceOf(String.class);
+  ///
+  /// // assertions fail
+  /// assertThat("abc").isNotInstanceOf(String.class);
+  /// assertThat(new HashMap<String, Integer>()).isNotInstanceOf(HashMap.class);
+  /// assertThat(new HashMap<String, Integer>()).isNotInstanceOf(Map.class);
+  /// ```
+  ///
+  /// @param type the type to check the actual value against.
+  /// @return this assertion object.
+  /// @throws NullPointerException if the given type is `null`.
+  /// @throws AssertionError if the actual value is an instance of the given type.
   SELF isNotInstanceOf(Class<?> type);
 
-  /**
-   * Verifies that the actual value is not an instance of any of the given types.
-   * <p>
-   * Example:
-   * <pre><code class='java'> // assertions succeed
-   * assertThat(1).isNotInstanceOfAny(Double.class, Float.class);
-   * assertThat(new ArrayList&lt;String&gt;()).isNotInstanceOfAny(LinkedList.class, Vector.class);
-   *
-   * // assertions fail
-   * assertThat(1).isNotInstanceOfAny(Double.class, Integer.class);
-   * assertThat(new ArrayList&lt;String&gt;()).isNotInstanceOfAny(LinkedList.class, ArrayList.class);
-   * assertThat(new HashMap&lt;String, Integer&gt;()).isNotInstanceOfAny(TreeMap.class, Map.class);</code></pre>
-   *
-   * @param types the types to check the actual value against.
-   * @return this assertion object.
-   * @throws AssertionError       if the actual value is {@code null}.
-   * @throws AssertionError       if the actual value is an instance of any of the given types.
-   * @throws NullPointerException if the given array of types is {@code null}.
-   * @throws NullPointerException if the given array of types contains {@code null}s.
-   */
+  /// Verifies that the actual value is not an instance of any of the given types.
+  ///
+  /// Example:
+  ///
+  /// ```java
+  /// // assertions succeed
+  /// assertThat(1).isNotInstanceOfAny(Double.class, Float.class);
+  /// assertThat(new ArrayList<String>()).isNotInstanceOfAny(LinkedList.class, Vector.class);
+  /// assertThat(null).isNotInstanceOfAny(String.class);
+  ///
+  /// // assertions fail
+  /// assertThat(1).isNotInstanceOfAny(Double.class, Integer.class);
+  /// assertThat(new ArrayList<String>()).isNotInstanceOfAny(LinkedList.class, ArrayList.class);
+  /// assertThat(new HashMap<String, Integer>()).isNotInstanceOfAny(TreeMap.class, Map.class);
+  /// ```
+  ///
+  /// @param types the types to check the actual value against.
+  /// @return this assertion object.
+  /// @throws AssertionError if the actual value is an instance of any of the given types.
+  /// @throws NullPointerException if the given array of types is `null`.
+  /// @throws NullPointerException if the given array of types contains `null`s.
   SELF isNotInstanceOfAny(Class<?>... types);
 
   /**
@@ -590,26 +592,27 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    */
   SELF isExactlyInstanceOf(Class<?> type);
 
-  /**
-   * Verifies that the actual value is not <b>exactly</b> an instance of given type.
-   * <p>
-   * Example:
-   * <pre><code class='java'> // assertions succeed
-   * assertThat(1).isNotExactlyInstanceOf(String.class);
-   * assertThat(new ArrayList&lt;String&gt;()).isNotExactlyInstanceOf(List.class);
-   * assertThat(new HashMap&lt;String, Integer&gt;()).isNotExactlyInstanceOf(Map.class);
-   *
-   * // assertions fail
-   * assertThat(&quot;abc&quot;).isNotExactlyInstanceOf(String.class);
-   * assertThat(new ArrayList&lt;String&gt;()).isNotExactlyInstanceOf(ArrayList.class);
-   * assertThat(new HashMap&lt;String, Integer&gt;()).isNotExactlyInstanceOf(HashMap.class);</code></pre>
-   *
-   * @param type the type to check the actual value against.
-   * @return this assertion object.
-   * @throws AssertionError       if the actual is exactly an instance of given type.
-   * @throws NullPointerException if the actual value is null.
-   * @throws NullPointerException if the given object is null.
-   */
+  /// Verifies that the actual value is not **exactly** an instance of given type.
+  ///
+  /// Example:
+  ///
+  /// ```java
+  /// // assertions succeed
+  /// assertThat(1).isNotExactlyInstanceOf(String.class);
+  /// assertThat(new ArrayList<String>()).isNotExactlyInstanceOf(List.class);
+  /// assertThat(new HashMap<String, Integer>()).isNotExactlyInstanceOf(Map.class);
+  /// assertThat(null).isNotExactlyInstanceOf(Collection.class);
+  ///
+  /// // assertions fail
+  /// assertThat("abc").isNotExactlyInstanceOf(String.class);
+  /// assertThat(new ArrayList<String>()).isNotExactlyInstanceOf(ArrayList.class);
+  /// assertThat(new HashMap<String, Integer>()).isNotExactlyInstanceOf(HashMap.class);
+  /// ```
+  ///
+  /// @param type the type to check the actual value against.
+  /// @return this assertion object.
+  /// @throws AssertionError if the actual is exactly an instance of given type.
+  /// @throws NullPointerException if the given type is `null`.
   SELF isNotExactlyInstanceOf(Class<?> type);
 
   /**
