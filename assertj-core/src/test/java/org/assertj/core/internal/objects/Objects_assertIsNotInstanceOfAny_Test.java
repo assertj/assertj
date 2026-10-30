@@ -16,30 +16,23 @@
 package org.assertj.core.internal.objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeInstanceOfAny.shouldNotBeInstanceOfAny;
 import static org.assertj.core.testkit.TestData.someInfo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.testkit.Person;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Objects#assertIsNotInstanceOfAny(AssertionInfo, Object, Class[])}</code>.
- * 
- * @author Nicolas François
- * @author Joel Costigliola
- */
+/// @author Nicolas François
+/// @author Joel Costigliola
 class Objects_assertIsNotInstanceOfAny_Test extends ObjectsBaseTest {
 
   private static Person actual;
@@ -53,6 +46,12 @@ class Objects_assertIsNotInstanceOfAny_Test extends ObjectsBaseTest {
   void should_pass_if_actual_is_not_instance_of_any_type() {
     Class<?>[] types = { String.class, File.class };
     objects.assertIsNotInstanceOfAny(someInfo(), actual, types);
+  }
+
+  @Test
+  void should_pass_if_actual_is_null() {
+    Class<?>[] types = { Person.class, Object.class };
+    objects.assertIsNotInstanceOfAny(someInfo(), null, types);
   }
 
   @Test
@@ -73,13 +72,6 @@ class Objects_assertIsNotInstanceOfAny_Test extends ObjectsBaseTest {
     Class<?>[] types = { null, String.class };
     assertThatNullPointerException().isThrownBy(() -> objects.assertIsNotInstanceOfAny(someInfo(), actual, types))
                                     .withMessage("The given array of types:<[null, java.lang.String]> should not have null elements");
-  }
-
-  @Test
-  void should_fail_if_actual_is_null() {
-    Class<?>[] types = { Object.class };
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertIsNotInstanceOfAny(someInfo(), null, types))
-                                                   .withMessage(actualIsNull());
   }
 
   @Test

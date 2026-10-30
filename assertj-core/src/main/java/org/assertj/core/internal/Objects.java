@@ -151,17 +151,18 @@ public class Objects {
   }
 
   public void assertIsNotInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
-    if (isInstanceOfClass(actual, type, info)) throw failures.failure(info, shouldNotBeInstance(actual, type));
+    checkTypeIsNotNull(type);
+    if (type.isInstance(actual)) throw failures.failure(info, shouldNotBeInstance(actual, type));
   }
 
-  private boolean isInstanceOfClass(Object actual, Class<?> clazz, AssertionInfo info) {
+  private boolean isInstanceOfClass(Object actual, Class<?> type, AssertionInfo info) {
     assertNotNull(info, actual);
-    checkTypeIsNotNull(clazz);
-    return clazz.isInstance(actual);
+    checkTypeIsNotNull(type);
+    return type.isInstance(actual);
   }
 
   public void assertIsNotInstanceOfAny(AssertionInfo info, Object actual, Class<?>[] types) {
-    if (!objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
+    if (actual == null || !objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
     throw failures.failure(info, shouldNotBeInstanceOfAny(actual, types));
   }
 
@@ -193,7 +194,8 @@ public class Objects {
   }
 
   public void assertIsNotExactlyInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
-    if (actualIsExactlyInstanceOfType(actual, type, info))
+    checkTypeIsNotNull(type);
+    if (actual != null && type.equals(actual.getClass()))
       throw failures.failure(info, shouldNotBeExactlyInstance(actual, type));
   }
 
