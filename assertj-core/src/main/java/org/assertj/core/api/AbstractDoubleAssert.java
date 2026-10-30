@@ -47,7 +47,7 @@ import org.assertj.core.internal.Failures;
  * @author Jack Gough
  */
 public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SELF>> extends
-    AbstractComparableAssert<SELF, Double> implements FloatingPointNumberAssert<SELF, Double> {
+    AbstractComparableAssert<SELF, Double, Double> implements FloatingPointNumberAssert<SELF, Double> {
 
   private static final Double NEGATIVE_ZERO = -0.0;
 

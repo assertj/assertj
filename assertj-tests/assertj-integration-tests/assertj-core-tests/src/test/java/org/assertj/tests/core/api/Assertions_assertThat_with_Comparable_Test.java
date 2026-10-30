@@ -31,7 +31,7 @@ class Assertions_assertThat_with_Comparable_Test {
     // GIVEN
     Name actual = new Name();
     // WHEN
-    AbstractComparableAssert<?, Name> assertions = assertThat(actual);
+    AbstractComparableAssert<?, Name, Name> assertions = assertThat(actual);
     // THEN
     then(assertions).isNotNull();
   }
@@ -42,7 +42,7 @@ class Assertions_assertThat_with_Comparable_Test {
     // GIVEN
     Year actual = Year.now();
     // WHEN
-    AbstractComparableAssert<?, Year> result = assertThat(actual);
+    AbstractComparableAssert<?, Year, Year> result = assertThat(actual);
     // THEN
     then(result).isNotNull();
   }

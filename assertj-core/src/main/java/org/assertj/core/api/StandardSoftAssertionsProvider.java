@@ -283,16 +283,14 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
     return assertThat(actual);
   }
 
-  /**
-   * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
-   * standard comparison semantics.
-   *
-   * @param <T>    the actual type.
-   * @param actual the actual value.
-   * @return the created assertion object.
-   */
-  default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
-    return soft((AbstractComparableAssert<?, T>) Assertions.assertThat(actual));
+  /// Creates a new instance of [GenericComparableAssert] with standard comparison semantics.
+  ///
+  /// @param <ACTUAL> the type of the actual value.
+  /// @param <COMPARABLE_TYPE> the type accepted by comparable assertion methods.
+  /// @param actual the actual value.
+  /// @return the created assertion object.
+  default <ACTUAL extends Comparable<? super COMPARABLE_TYPE>, COMPARABLE_TYPE> AbstractComparableAssert<?, ACTUAL, COMPARABLE_TYPE> assertThat(ACTUAL actual) {
+    return soft((AbstractComparableAssert<?, ACTUAL, COMPARABLE_TYPE>) Assertions.assertThat(actual));
   }
 
   /**

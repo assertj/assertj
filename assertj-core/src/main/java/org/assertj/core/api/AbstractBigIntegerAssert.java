@@ -31,7 +31,7 @@ import org.assertj.core.internal.BigIntegers;
  * @since 2.7.0 / 3.7.0
  */
 public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF>> extends
-    AbstractComparableAssert<SELF, BigInteger> implements NumberAssert<SELF, BigInteger> {
+    AbstractComparableAssert<SELF, BigInteger, BigInteger> implements NumberAssert<SELF, BigInteger> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BigIntegers bigIntegers = BigIntegers.instance();

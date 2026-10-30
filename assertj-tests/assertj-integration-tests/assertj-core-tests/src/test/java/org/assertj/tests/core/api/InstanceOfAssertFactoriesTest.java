@@ -3424,7 +3424,7 @@ class InstanceOfAssertFactoriesTest {
     @Test
     void createAssert() {
       // WHEN
-      AbstractComparableAssert<?, Integer> result = comparable(Integer.class).createAssert(actual);
+      AbstractComparableAssert<?, Integer, Integer> result = comparable(Integer.class).createAssert(actual);
       // THEN
       result.isEqualByComparingTo(0);
     }
@@ -3434,7 +3434,7 @@ class InstanceOfAssertFactoriesTest {
       // GIVEN
       ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
       // WHEN
-      AbstractComparableAssert<?, Integer> result = comparable(Integer.class).createAssert(valueProvider);
+      AbstractComparableAssert<?, Integer, Integer> result = comparable(Integer.class).createAssert(valueProvider);
       // THEN
       result.isEqualByComparingTo(0);
       verify(valueProvider).apply(Integer.class);

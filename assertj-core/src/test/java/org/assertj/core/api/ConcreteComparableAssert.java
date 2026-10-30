@@ -18,7 +18,7 @@ package org.assertj.core.api;
 /**
  * @author Alex Ruiz
  */
-public class ConcreteComparableAssert extends AbstractComparableAssert<ConcreteComparableAssert, Integer> {
+public class ConcreteComparableAssert extends AbstractComparableAssert<ConcreteComparableAssert, Integer, Integer> {
 
   public ConcreteComparableAssert(Integer actual) {
     super(actual, ConcreteComparableAssert.class);
