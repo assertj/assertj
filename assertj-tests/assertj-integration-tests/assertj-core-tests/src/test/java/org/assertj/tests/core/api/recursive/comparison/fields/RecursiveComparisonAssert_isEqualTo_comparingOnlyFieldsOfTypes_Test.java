@@ -39,7 +39,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test
-    extends WithComparingFieldsIntrospectionStrategyBaseTest {
+  extends WithComparingFieldsIntrospectionStrategyBaseTest {
 
   static Person billie;
   static Person anotherBillie;
@@ -108,7 +108,6 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test
     return Stream.of(arguments(billie, jill, types(OptionalInt.class), "same age"),
                      arguments(billie, john, types(OptionalInt.class, OptionalDouble.class), "same age and weight"),
                      arguments(billie, anotherBillie, types(String.class), "same name"),
-                     arguments(tim, tom, types(Home.class), "same home"),
                      arguments(tim, tom, types(Home.class), "same home"));
   }
 
@@ -211,6 +210,117 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test
     // WHEN/THEN
     ComparisonDifference weightDifference = javaTypeDiff("weight", billie.weight, anotherBillie.weight);
     compareRecursivelyFailsWithDifferences(billie, anotherBillie, weightDifference);
+  }
+
+  @Test
+  void should_pass_when_all_compared_types_are_ignored() {
+    assertThat(billie).usingRecursiveComparison(recursiveComparisonConfiguration)
+                      .comparingOnlyFieldsOfTypes(String.class, OptionalInt.class)
+                      .ignoringFieldsOfTypes(String.class, OptionalInt.class)
+                      .isEqualTo(anotherBillie);
+    assertThat(billie).usingRecursiveComparison(recursiveComparisonConfiguration)
+                      .ignoringFieldsOfTypes(String.class, OptionalInt.class)
+                      .comparingOnlyFieldsOfTypes(String.class, OptionalInt.class)
+                      .isEqualTo(anotherBillie);
+    assertThat(billie).usingRecursiveComparison(recursiveComparisonConfiguration)
+                      .comparingOnlyFieldsOfTypes(OptionalInt.class, OptionalDouble.class)
+                      .ignoringFieldsOfTypes(OptionalInt.class)
+                      .ignoringFieldsOfTypes(OptionalDouble.class)
+                      .isEqualTo(anotherBillie);
+  }
+
+  @Test
+  void should_fail_and_only_report_differences_on_the_compared_types() {
+    // GIVEN
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(OptionalInt.class, OptionalDouble.class);
+    recursiveComparisonConfiguration.ignoreFieldsOfTypes(String.class);
+    // WHEN/THEN
+    compareRecursivelyFailsWithDifferences(billie, anotherBillie,
+                                           javaTypeDiff("age", billie.age, anotherBillie.age),
+                                           javaTypeDiff("weight", billie.weight, anotherBillie.weight));
+  }
+
+  @Test
+  void should_fail_when_the_non_ignored_compared_type_differ() {
+    // GIVEN
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class, OptionalInt.class, OptionalDouble.class);
+    recursiveComparisonConfiguration.ignoreFieldsOfTypes(OptionalInt.class, OptionalDouble.class);
+    // WHEN/THEN
+    compareRecursivelyFailsWithDifferences(billie, john, javaTypeDiff("name", billie.name, john.name));
+  }
+
+  @Test
+  void should_fail_if_compared_nested_fields_of_compared_type_differ() {
+    // GIVEN
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(int.class);
+    // WHEN/THEN
+    compareRecursivelyFailsWithDifferences(sherlockAt(221), sherlockAt(222), javaTypeDiff("home.address.number", 221, 222));
+  }
+
+  @Test
+  void should_ignore_primitive_field_when_ignored_type_is_primitive_and_compared_type_is_wrapper() {
+    assertThat(sherlockAt(221)).usingRecursiveComparison(recursiveComparisonConfiguration)
+                               .comparingOnlyFieldsOfTypes(Integer.class)
+                               .ignoringFieldsOfTypes(int.class)
+                               .isEqualTo(sherlockAt(222));
+  }
+
+  @Test
+  void should_fail_when_specifying_wrapper_compared_type_and_compared_primitive_fields_differ() {
+    // GIVEN
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(Integer.class);
+    // WHEN/THEN home.address.number is int not Integer but they are considered equivalent types
+    compareRecursivelyFailsWithDifferences(sherlockAt(221), sherlockAt(222), javaTypeDiff("home.address.number", 221, 222));
+  }
+
+  @Test
+  void should_ignore_map_values_of_ignored_type() {
+    // GIVEN
+    var actual = WithObject.of(Map.of("k", "a"));
+    var expected = WithObject.of(Map.of("k", "b"));
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .comparingOnlyFieldsOfTypes(String.class)
+                .ignoringFieldsOfTypes(String.class)
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_ignore_fields_of_ignored_type_when_actual_and_expected_have_different_types() {
+    // GIVEN
+    var actual = WithObject.of(new Person("joe"));
+    var expected = WithObject.of(new Giant("joe", 3.0));
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .comparingOnlyFieldsOfTypes(String.class)
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_ignore_fields_of_ignored_type_even_if_registered_equals_would_fail() {
+    // GIVEN
+    Person actual = new Person("JOHN");
+    Person expected = new Person("john");
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .comparingOnlyFieldsOfTypes(String.class)
+                .ignoringFieldsOfTypes(String.class)
+                .withEqualsForType((a, b) -> false, String.class)
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_not_compare_nested_fields_of_compared_type_when_parent_field_type_is_ignored() {
+    assertThat(sherlockAt(221)).usingRecursiveComparison(recursiveComparisonConfiguration)
+                               .comparingOnlyFieldsOfTypes(Integer.class)
+                               .ignoringFieldsOfTypes(Home.class)
+                               .isEqualTo(sherlockAt(222));
+  }
+
+  private static Person sherlockAt(int number) {
+    Person sherlock = new Person("Sherlock");
+    sherlock.home.address.number = number;
+    return sherlock;
   }
 
   @Test
@@ -335,8 +445,8 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test
   @Test
   void should_compare_elements_of_compared_type_in_arrays() {
     // GIVEN
-    var actual = WithObject.of(new String[] { "a", "b" });
-    var expected = WithObject.of(new String[] { "a", "c" });
+    var actual = WithObject.of(new String[]{ "a", "b" });
+    var expected = WithObject.of(new String[]{ "a", "c" });
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class);
     // WHEN/THEN
     compareRecursivelyFailsWithDifferences(actual, expected, javaTypeDiff("value[1]", "b", "c"));
