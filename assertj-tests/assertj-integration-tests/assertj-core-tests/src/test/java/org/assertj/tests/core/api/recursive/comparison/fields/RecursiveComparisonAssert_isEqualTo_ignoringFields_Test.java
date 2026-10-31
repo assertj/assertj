@@ -46,6 +46,7 @@ import org.assertj.tests.core.api.recursive.data.Address;
 import org.assertj.tests.core.api.recursive.data.Giant;
 import org.assertj.tests.core.api.recursive.data.Human;
 import org.assertj.tests.core.api.recursive.data.Person;
+import org.assertj.tests.core.api.recursive.data.WithObject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -706,6 +707,28 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithCompar
     // WHEN/THEN
     then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .ignoringFieldsMatchingRegexes(".*field2")
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_ignore_elements_of_collection_field_matching_ignored_regex() {
+    // GIVEN
+    var actual = WithObject.of(List.of("a", "b"));
+    var expected = WithObject.of(List.of("a", "c"));
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .ignoringFieldsMatchingRegexes("val.*")
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_ignore_elements_of_array_field_matching_ignored_regex() {
+    // GIVEN
+    var actual = WithObject.of(new String[] { "a", "b" });
+    var expected = WithObject.of(new String[] { "a", "c" });
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .ignoringFieldsMatchingRegexes("value")
                 .isEqualTo(expected);
   }
 
