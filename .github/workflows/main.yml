@@ -61,7 +61,18 @@ jobs:
           version: latest
       - uses: testlens-app/setup-testlens@89edf53f781ac41833b4bc74d0e19a5315c79c67 # v1.10.0
       - name: Test
-        run: ./mvnw $MAVEN_ARGS verify
+        run: |
+          for attempt in 1 2 3; do
+            if ./mvnw --version; then
+              break
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+            echo "Maven initialization failed; retrying in 10 seconds (attempt $attempt/3)."
+            sleep 10
+          done
+          ./mvnw $MAVEN_ARGS verify
 
   groovy:
 
