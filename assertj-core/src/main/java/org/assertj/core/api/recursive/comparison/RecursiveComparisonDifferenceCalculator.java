@@ -127,7 +127,10 @@ public class RecursiveComparisonDifferenceCalculator {
           return;
         }
         // check if the value was meant to be ignored, if it is the case simply skip the difference
-        if (recursiveComparisonConfiguration.shouldIgnore(dualValue)) return;
+        // a difference on a descendant of an ignored value must be skipped too
+        if (recursiveComparisonConfiguration.shouldIgnore(dualValue)
+            || dualValue.hasAncestor(recursiveComparisonConfiguration::shouldIgnore))
+          return;
       }
       addDifferenceIgnoringComparedTypes(dualValue, description);
     }

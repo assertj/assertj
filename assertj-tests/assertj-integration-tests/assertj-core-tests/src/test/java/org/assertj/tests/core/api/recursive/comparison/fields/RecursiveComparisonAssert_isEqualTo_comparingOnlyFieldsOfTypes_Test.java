@@ -39,7 +39,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test
-  extends WithComparingFieldsIntrospectionStrategyBaseTest {
+    extends WithComparingFieldsIntrospectionStrategyBaseTest {
 
   static Person billie;
   static Person anotherBillie;
@@ -445,8 +445,8 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test
   @Test
   void should_compare_elements_of_compared_type_in_arrays() {
     // GIVEN
-    var actual = WithObject.of(new String[]{ "a", "b" });
-    var expected = WithObject.of(new String[]{ "a", "c" });
+    var actual = WithObject.of(new String[] { "a", "b" });
+    var expected = WithObject.of(new String[] { "a", "c" });
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class);
     // WHEN/THEN
     compareRecursivelyFailsWithDifferences(actual, expected, javaTypeDiff("value[1]", "b", "c"));

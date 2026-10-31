@@ -40,6 +40,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 // logically immutable
@@ -631,6 +632,15 @@ public final class DualValue {
     while (ancestorDualValue != null) {
       if (ancestorDualValue.sameValues(dualValue)) return true;
       else ancestorDualValue = ancestorDualValue.parentDualValue;
+    }
+    return false;
+  }
+
+  boolean hasAncestor(Predicate<DualValue> predicate) {
+    DualValue ancestorDualValue = parentDualValue;
+    while (ancestorDualValue != null) {
+      if (predicate.test(ancestorDualValue)) return true;
+      ancestorDualValue = ancestorDualValue.parentDualValue;
     }
     return false;
   }

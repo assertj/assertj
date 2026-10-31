@@ -37,5 +37,4 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFieldsOfTypes_Test
                 .isEqualTo(expected);
   }
 
-
 }
