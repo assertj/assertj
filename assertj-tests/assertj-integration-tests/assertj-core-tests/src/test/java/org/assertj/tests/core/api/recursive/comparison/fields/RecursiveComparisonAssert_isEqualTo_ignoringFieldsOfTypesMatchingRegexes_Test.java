@@ -35,6 +35,7 @@ import java.util.stream.Stream;
 
 import org.assertj.tests.core.api.recursive.data.Human;
 import org.assertj.tests.core.api.recursive.data.Person;
+import org.assertj.tests.core.api.recursive.data.WithObject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -219,5 +220,37 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFieldsOfTypesMatchingRegexes_T
                 .ignoringFieldsOfTypesMatchingRegexes(".*Home")
                 .withStrictTypeChecking()
                 .isEqualTo(expected);
+  }
+
+  @Test
+  void should_ignore_elements_of_ignored_type_in_collections() {
+    // GIVEN
+    var actual = WithObject.of(List.of("a", "b"));
+    var expected = WithObject.of(List.of("a", "c"));
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .ignoringFieldsOfTypesMatchingRegexes(".*lang\\.String")
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_ignore_elements_of_ignored_type_in_arrays() {
+    // GIVEN
+    var actual = WithObject.of(new String[] { "a", "b" });
+    var expected = WithObject.of(new String[] { "a", "c" });
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .ignoringFieldsOfTypesMatchingRegexes(".*lang\\.String")
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_not_ignore_elements_whose_type_does_not_match_regexes_in_collections() {
+    // GIVEN
+    var actual = WithObject.of(List.of("a", "b"));
+    var expected = WithObject.of(List.of("a", "c"));
+    recursiveComparisonConfiguration.ignoreFieldsOfTypesMatchingRegexes(".*Integer");
+    // WHEN/THEN
+    compareRecursivelyFailsWithDifferences(actual, expected, javaTypeDiff("value[1]", "b", "c"));
   }
 }
