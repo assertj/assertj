@@ -556,6 +556,72 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
+   * Assert that the tested {@link Path} is a hidden file (according to {@link Files#isHidden(Path)}
+   * ).
+   * <p>
+   * On Windows systems this will check the hidden flag. On Unix systems this will check whether the file
+   * name starts with {@code '.'}.
+   * </p>
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // Create a hidden file.
+   * Path hiddenFile = Paths.get(".hiddenFile");
+   * Files.createFile(hiddenFile);
+   *
+   * // Create a not hidden file.
+   * Path notHiddenFile = Paths.get("notHiddenFile");
+   * Files.createFile(notHiddenFile);
+   *
+   * // The following assertion succeed:
+   * assertThat(hiddenFile).isHidden();
+   *
+   * // The following assertion fail:
+   * assertThat(notHiddenFile).isHidden();</code></pre>
+   *
+   * @return self
+   *
+   * @see Files#isHidden(Path)
+   * @since 3.28.0
+   */
+  public SELF isHidden() {
+    paths.assertIsHidden(info, actual);
+    return myself;
+  }
+
+  /**
+   * Assert that the tested {@link Path} is not a hidden file (according to {@link Files#isHidden(Path)}
+   * ).
+   * <p>
+   * On Windows systems this will check the hidden flag. On Unix systems this will check whether the file
+   * name starts with {@code '.'}.
+   * </p>
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // Create a not hidden file.
+   * Path notHiddenFile = Paths.get("notHiddenFile");
+   * Files.createFile(notHiddenFile);
+   *
+   * // Create a hidden file.
+   * Path hiddenFile = Paths.get(".hiddenFile");
+   * Files.createFile(hiddenFile);
+   *
+   * // The following assertion succeed:
+   * assertThat(notHiddenFile).isNotHidden();
+   *
+   * // The following assertion fail:
+   * assertThat(hiddenFile).isNotHidden();</code></pre>
+   *
+   * @return self
+   *
+   * @see Files#isHidden(Path)
+   * @since 3.28.0
+   */
+  public SELF isNotHidden() {
+    paths.assertIsNotHidden(info, actual);
+    return myself;
+  }
+
+  /**
    * Assert that the tested {@link Path} exists according to {@link Files#exists(Path, LinkOption...)
    * Files#exists(Path)})
    *
