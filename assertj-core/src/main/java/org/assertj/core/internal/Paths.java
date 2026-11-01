@@ -27,6 +27,7 @@ import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEmptyDirectory.shouldBeEmptyDirectory;
 import static org.assertj.core.error.ShouldBeExecutable.shouldBeExecutable;
+import static org.assertj.core.error.ShouldBeHidden.shouldBeHidden;
 import static org.assertj.core.error.ShouldBeNormalized.shouldBeNormalized;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
@@ -51,6 +52,7 @@ import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent
 import static org.assertj.core.error.ShouldHaveSameFileSystemAs.shouldHaveSameFileSystemAs;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.error.ShouldNotBeHidden.shouldNotBeHidden;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
@@ -144,6 +146,38 @@ public class Paths {
     assertNotNull(info, actual);
     assertExists(info, actual);
     if (!Files.isExecutable(actual)) throw failures.failure(info, shouldBeExecutable(actual));
+  }
+
+  /**
+   * Verifies that the path is hidden.
+   *
+   * @param info assertion information
+   * @param actual the actual path
+   */
+  public void assertIsHidden(final AssertionInfo info, final Path actual) {
+    assertNotNull(info, actual);
+    assertExists(info, actual);
+    try {
+      if (!Files.isHidden(actual)) throw failures.failure(info, shouldBeHidden(actual));
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+  }
+
+  /**
+   * Verifies that the path is not hidden.
+   *
+   * @param info assertion information
+   * @param actual the actual path
+   */
+  public void assertIsNotHidden(final AssertionInfo info, final Path actual) {
+    assertNotNull(info, actual);
+    assertExists(info, actual);
+    try {
+      if (Files.isHidden(actual)) throw failures.failure(info, shouldNotBeHidden(actual));
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
   }
 
   /**
