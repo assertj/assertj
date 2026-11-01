@@ -27,8 +27,22 @@ import java.nio.file.Path;
 public class ShouldNotBeHidden extends BasicErrorMessageFactory {
   private static final String SHOULD_NOT_BE_HIDDEN = "%nExpecting actual:%n  %s%nto be not hidden.";
 
+  private ShouldNotBeHidden(File actual) {
+    super(SHOULD_NOT_BE_HIDDEN, actual);
+  }
+
   private ShouldNotBeHidden(Path actual) {
     super(SHOULD_NOT_BE_HIDDEN, actual);
+  }
+
+  /**
+   * Creates an error for a path expected to be not hidden.
+   *
+   * @param actual the actual path
+   * @return the error message factory
+   */
+  public static ErrorMessageFactory shouldNotBeHidden(File actual) {
+    return new ShouldNotBeHidden(actual);
   }
 
   /**
