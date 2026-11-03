@@ -142,7 +142,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
   }
 
   @Test
-  void ignoring_overriden_equals_with_regexes_does_not_replace_previous_regexes() {
+  void ignoring_overridden_equals_with_regexes_does_not_replace_previous_regexes() {
     // WHEN
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes("foo");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes("bar", "baz");
@@ -215,7 +215,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
   }
 
   @Test
-  void ignoring_overriden_equals_by_types_does_not_replace_previous_types() {
+  void ignoring_overridden_equals_by_types_does_not_replace_previous_types() {
     // WHEN
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class);
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(Date.class);
@@ -297,7 +297,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
   }
 
   @Test
-  void ignoring_overriden_equals_for_fields_does_not_replace_previous_fields() {
+  void ignoring_overridden_equals_for_fields_does_not_replace_previous_fields() {
     // WHEN
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("bar", "baz");
