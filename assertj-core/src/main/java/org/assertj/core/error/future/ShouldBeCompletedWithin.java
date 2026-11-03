@@ -78,26 +78,16 @@ public class ShouldBeCompletedWithin extends BasicErrorMessageFactory {
     super(SHOULD_BE_COMPLETED_WITHIN + escapePercent(getStackTrace(exception)), actual, timeout, toChronoUnit(timeUnit));
   }
 
-  // copied from java 9 code
   private static ChronoUnit toChronoUnit(TimeUnit timeUnit) {
-    switch (timeUnit) {
-    case NANOSECONDS:
-      return ChronoUnit.NANOS;
-    case MICROSECONDS:
-      return ChronoUnit.MICROS;
-    case MILLISECONDS:
-      return ChronoUnit.MILLIS;
-    case SECONDS:
-      return ChronoUnit.SECONDS;
-    case MINUTES:
-      return ChronoUnit.MINUTES;
-    case HOURS:
-      return ChronoUnit.HOURS;
-    case DAYS:
-      return ChronoUnit.DAYS;
-    default:
-      throw new AssertionError();
-    }
+    return switch (timeUnit) {
+    case NANOSECONDS -> ChronoUnit.NANOS;
+    case MICROSECONDS -> ChronoUnit.MICROS;
+    case MILLISECONDS -> ChronoUnit.MILLIS;
+    case SECONDS -> ChronoUnit.SECONDS;
+    case MINUTES -> ChronoUnit.MINUTES;
+    case HOURS -> ChronoUnit.HOURS;
+    case DAYS -> ChronoUnit.DAYS;
+    };
   }
 
 }

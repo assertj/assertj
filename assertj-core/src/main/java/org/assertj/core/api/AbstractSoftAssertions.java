@@ -28,8 +28,6 @@ import org.assertj.core.internal.annotation.Contract;
 public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollector
     implements SoftAssertionsProvider, InstanceOfAssertFactories {
 
-  private static final AssertionErrorCreator ASSERTION_ERROR_CREATOR = new AssertionErrorCreator();
-
   /** Creates a new soft assertions instance. */
   protected AbstractSoftAssertions() {}
 
@@ -40,7 +38,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    */
   public static void assertAll(AssertionErrorCollector collector) {
     List<AssertionError> errors = collector.assertionErrorsCollected();
-    if (!errors.isEmpty()) throw ASSERTION_ERROR_CREATOR.multipleAssertionsError(errors);
+    if (!errors.isEmpty()) throw AssertionErrorCreator.INSTANCE.multipleAssertionsError(errors);
   }
 
   @Override

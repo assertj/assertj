@@ -24,6 +24,7 @@ import java.util.function.Function;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractObjectArrayAssert;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Understands how to retrieve fields or values from a collection/array of objects.
@@ -70,7 +71,7 @@ public class FieldsOrPropertiesExtractor {
   }
 
   private static void checkObjectToExtractFromIsNotNull(Object object) {
-    if (object == null) throw new AssertionError("Expecting actual not to be null");
+    if (object == null) throw AssertionErrorCreator.INSTANCE.assertionError("Expecting actual not to be null");
   }
 
 }

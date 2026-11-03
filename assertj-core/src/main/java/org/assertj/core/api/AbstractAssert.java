@@ -139,7 +139,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     myself = (SELF) selfType.cast(this);
     this.actual = actual;
     info = new WritableAssertionInfo(customRepresentation);
-    assertionErrorCreator = new AssertionErrorCreator();
+    assertionErrorCreator = AssertionErrorCreator.INSTANCE;
   }
 
   /**
@@ -289,7 +289,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     if (assertionError == null) {
       // error message was not overridden, build it.
       String description = MessageFormatter.instance().format(info.description(), info.representation(), "");
-      assertionError = new AssertionError(description + errorMessage.formatted(arguments));
+      assertionError = assertionErrorCreator.assertionError(description + errorMessage.formatted(arguments));
     }
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);

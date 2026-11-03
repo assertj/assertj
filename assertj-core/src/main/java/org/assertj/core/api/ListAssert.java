@@ -28,6 +28,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Failures;
 
 /**
@@ -287,7 +288,7 @@ public class ListAssert<ELEMENT> extends
     objects.assertNotNull(info, actual);
     checkIsNotNull(sequence);
     Iterator<? extends ELEMENT> iterator = asListFromStream().stream().iterator();
-    if (sequence.length == 0 && iterator.hasNext()) throw new AssertionError("actual is not empty");
+    if (sequence.length == 0 && iterator.hasNext()) throw AssertionErrorCreator.INSTANCE.assertionError("actual is not empty");
     int i = 0;
     while (iterator.hasNext()) {
       if (i >= sequence.length) break;

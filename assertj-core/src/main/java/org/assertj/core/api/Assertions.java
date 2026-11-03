@@ -111,6 +111,7 @@ import org.assertj.core.data.TemporalUnitLessThanOffset;
 import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.data.TemporalUnitWithinOffset;
 import org.assertj.core.description.Description;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.annotation.Contract;
@@ -3526,7 +3527,7 @@ public class Assertions implements InstanceOfAssertFactories {
       messageBuilder.append("%nExecutable #%d failed with:%n%s".formatted(i, getStackTrace(exceptionsThrown.get(i))));
     }
 
-    throw new AssertionError(messageBuilder.toString());
+    throw AssertionErrorCreator.INSTANCE.assertionError(messageBuilder.toString());
   }
 
   /**

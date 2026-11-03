@@ -43,7 +43,7 @@ public class Failures {
 
   private static final Failures INSTANCE = new Failures();
 
-  private final AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+  private final AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.INSTANCE;
 
   /**
    * flag indicating that in case of a failure a thread dump is printed out.

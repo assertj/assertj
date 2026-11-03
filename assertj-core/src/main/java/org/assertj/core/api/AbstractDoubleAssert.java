@@ -26,6 +26,7 @@ import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.Failures;
 
@@ -473,7 +474,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
         // At this point we know that the assertion failed, if actual and expected are Double.NaN we want to
         // give a clear error message (we need to use equals to check that as Double.NaN != Double.NaN)
         if (Double.valueOf(expected).equals(Double.NaN) && actual.equals(Double.NaN))
-          throw new AssertionError("Actual and expected values were compared with == because expected was a primitive double, the assertion failed as both were Double.NaN and Double.NaN != Double.NaN (as per Double#equals javadoc)");
+          throw AssertionErrorCreator.INSTANCE.assertionError("Actual and expected values were compared with == because expected was a primitive double, the assertion failed as both were Double.NaN and Double.NaN != Double.NaN (as per Double#equals javadoc)");
         // standard error message
         throw Failures.instance().failure(info, shouldBeEqual(actual, expected, info.representation()));
       }

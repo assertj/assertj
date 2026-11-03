@@ -44,6 +44,7 @@ import java.util.function.Function;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.configuration.ConfigurationProvider;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Dates;
 
 /**
@@ -2609,7 +2610,8 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     date = parseDateWithDefaultDateParsers(dateAsString);
     if (date != null) return date;
     // no matching date format, throw an error
-    throw new AssertionError(format("Failed to parse %s with any of these date formats:%n   %s", dateAsString, usedFormats()));
+    throw AssertionErrorCreator.INSTANCE.assertionError(format("Failed to parse %s with any of these date formats:%n   %s",
+                                                               dateAsString, usedFormats()));
   }
 
   private String usedFormats() {

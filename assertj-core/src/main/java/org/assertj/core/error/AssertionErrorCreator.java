@@ -32,6 +32,8 @@ import org.assertj.core.presentation.Representation;
  */
 public class AssertionErrorCreator {
 
+  public static final AssertionErrorCreator INSTANCE = new AssertionErrorCreator();
+
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class, Object.class);
   private Method valueWrapperCreateMethod;
   private Constructor<?> fileInfoConstructor;
@@ -41,16 +43,7 @@ public class AssertionErrorCreator {
 
   /** Creates an assertion error creator using the default constructor invoker. */
   public AssertionErrorCreator() {
-    this(new ConstructorInvoker());
-  }
-
-  /**
-   * Creates an assertion error creator using the given constructor invoker.
-   *
-   * @param constructorInvoker the constructor invoker
-   */
-  public AssertionErrorCreator(ConstructorInvoker constructorInvoker) {
-    this.constructorInvoker = constructorInvoker;
+    this.constructorInvoker = new ConstructorInvoker();
     try {
       Class<?> valueWrapperClass = Class.forName("org.opentest4j.ValueWrapper");
       valueWrapperCreateMethod = valueWrapperClass.getMethod("create", Object.class, String.class);
@@ -64,8 +57,6 @@ public class AssertionErrorCreator {
       fileInfoConstructor = null;
     }
   }
-
-  // single assertion error
 
   /**
    * Creates an assertion error with actual and expected values.

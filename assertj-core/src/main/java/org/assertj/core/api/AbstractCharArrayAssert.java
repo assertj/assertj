@@ -788,7 +788,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
   }
 
   /**
-   * Use unicode character representation instead of standard representation in error messages.
+   * Use Unicode character representation instead of standard representation in error messages.
    * <p>
    * With standard error message:
    * <pre><code class='java'> assertThat("a6c".toCharArray()).isEqualTo("abó".toCharArray());
@@ -797,7 +797,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * expected: ['a', 'b', 'ó']
    *  but was: [a, 6, c]</code></pre>
    *
-   * With unicode based error message:
+   * With Unicode based error message:
    * <pre><code class='java'> assertThat("a6c".toCharArray()).inUnicode().isEqualTo("abó".toCharArray());
    *
    * org.opentest4j.AssertionFailedError:
