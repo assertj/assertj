@@ -28,16 +28,19 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.Representation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
 /**
  * Tests for
- * <code>{@link ShouldBeEqual#toAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
+ * <code>{@link ShouldBeEqual#toAssertionError(AssertionInfo)}</code>.
  *
  * @author Filip Hrisafov
  */
@@ -61,7 +64,7 @@ class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
     // GIVEN
     given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willReturn(null);
     // WHEN
-    AssertionError error = factory.toAssertionError(description, STANDARD_REPRESENTATION);
+    AssertionError error = factory.toAssertionError(assertionInfo(description, STANDARD_REPRESENTATION));
     // THEN
     check(error);
   }
@@ -79,4 +82,11 @@ class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
                                         "expected: \"Yoda\"%n" +
                                         " but was: \"Luke\""));
   }
+
+  private static WritableAssertionInfo assertionInfo(Description description, Representation representation) {
+    var info = new WritableAssertionInfo(representation);
+    info.description(description);
+    return info;
+  }
+
 }

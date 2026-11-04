@@ -18,10 +18,6 @@ package org.assertj.core.internal;
 import static java.lang.String.format;
 import static org.assertj.core.util.Strings.isNullOrEmpty;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadInfo;
-import java.lang.management.ThreadMXBean;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
@@ -39,16 +35,9 @@ import org.assertj.core.util.Throwables;
  */
 public class Failures {
 
-  private static final String LINE_SEPARATOR = System.lineSeparator();
-
   private static final Failures INSTANCE = new Failures();
 
   private final AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.INSTANCE;
-
-  /**
-   * flag indicating that in case of a failure a thread dump is printed out.
-   */
-  private boolean printThreadDump = false;
 
   /**
    * Returns the singleton instance of this class.
@@ -76,6 +65,7 @@ public class Failures {
 
   /**
    * Returns whether or not we remove elements related to AssertJ from assertion error stack trace.
+   *
    * @return whether or not we remove elements related to AssertJ from assertion error stack trace.
    */
   public boolean isRemoveAssertJRelatedElementsFromStackTrace() {
@@ -87,15 +77,14 @@ public class Failures {
   /**
    * Creates an assertion error for an equality failure.
    *
-   * @param info assertion information
+   * @param info          assertion information
    * @param shouldBeEqual the equality error message
    * @return the assertion error
    */
   public AssertionError failure(AssertionInfo info, ShouldBeEqual shouldBeEqual) {
     AssertionError error = failureIfErrorMessageIsOverridden(info);
     if (error != null) return error;
-    printThreadDumpIfNeeded();
-    return shouldBeEqual.toAssertionError(info.description(), info.representation());
+    return shouldBeEqual.toAssertionError(info);
   }
 
   /**
@@ -108,7 +97,7 @@ public class Failures {
    * the error message</li>
    * </ol>
    *
-   * @param info contains information about the failed assertion.
+   * @param info           contains information about the failed assertion.
    * @param messageFactory knows how to create detail messages for {@code AssertionError}s.
    * @return the created <code>{@link AssertionError}</code>.
    */
@@ -116,34 +105,31 @@ public class Failures {
     AssertionError error = failureIfErrorMessageIsOverridden(info);
     if (error != null) return error;
     String assertionErrorMessage = assertionErrorMessage(info, messageFactory);
-    AssertionError assertionError = assertionErrorCreator.assertionError(assertionErrorMessage);
+    AssertionError assertionError = assertionErrorCreator.assertionError(info, assertionErrorMessage);
     removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
-    printThreadDumpIfNeeded();
     return assertionError;
   }
 
   /**
    * Creates an assertion error with actual and expected values.
    *
-   * @param info assertion information
+   * @param info           assertion information
    * @param messageFactory the error message factory
-   * @param actual the actual value
-   * @param expected the expected value
+   * @param actual         the actual value
+   * @param expected       the expected value
    * @return the assertion error
    */
   public AssertionError failure(AssertionInfo info, ErrorMessageFactory messageFactory, Object actual, Object expected) {
     String assertionErrorMessage = assertionErrorMessage(info, messageFactory);
-    AssertionError assertionError = assertionErrorCreator.assertionError(assertionErrorMessage, actual, expected,
-                                                                         info.representation());
+    AssertionError assertionError = assertionErrorCreator.assertionError(info, assertionErrorMessage, actual, expected);
     removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
-    printThreadDumpIfNeeded();
     return assertionError;
   }
 
   /**
    * Creates the assertion error message.
    *
-   * @param info assertion information
+   * @param info           assertion information
    * @param messageFactory the error message factory
    * @return the assertion error message
    */
@@ -162,9 +148,11 @@ public class Failures {
    */
   public AssertionError failureIfErrorMessageIsOverridden(AssertionInfo info) {
     String overridingErrorMessage = info.overridingErrorMessage();
-    return isNullOrEmpty(overridingErrorMessage) ? null
-        : failure(MessageFormatter.instance().format(info.description(), info.representation(),
-                                                     overridingErrorMessage));
+    if (isNullOrEmpty(overridingErrorMessage)) return null;
+    String message = MessageFormatter.instance().format(info.description(), info.representation(), overridingErrorMessage);
+    AssertionError assertionError = assertionErrorCreator.assertionError(info, message);
+    removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
+    return assertionError;
   }
 
   /**
@@ -179,12 +167,12 @@ public class Failures {
   public AssertionError failure(String message) {
     AssertionError assertionError = assertionErrorCreator.assertionError(message);
     removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
-    printThreadDumpIfNeeded();
     return assertionError;
   }
 
   /**
    * Creates a <code>{@link AssertionError}</code> for a {@link Throwable} class that was expected to be thrown.
+   *
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @return the created <code>{@link AssertionError}</code>.
    * @since 2.6.0 / 3.6.0
@@ -193,38 +181,33 @@ public class Failures {
     return failure(format("%s should have been thrown", throwableClass.getSimpleName()));
   }
 
-  /** Prints a thread dump when configured. */
-  public void printThreadDumpIfNeeded() {
-    if (printThreadDump) System.err.println(threadDumpDescription());
-  }
-
   /**
    * If is {@link #removeAssertJRelatedElementsFromStackTrace} is true, it filters the stack trace of the given {@link AssertionError}
    * by removing stack trace elements related to AssertJ in order to get a more readable stack trace.
    * <p>
    * See example below :
    * <pre><code class='java'> --------------- stack trace not filtered -----------------
-   org.opentest4j.AssertionFailedError:
-   expected: "messi"
-    but was: "ronaldo"
-  
-   at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
-   at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
-   at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
-   at org.assertj.core/org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:28)
-   at org.assertj.core/org.assertj.core.error.ShouldBeEqual.assertionFailedError(ShouldBeEqual.java:208)
-   at org.assertj.core/org.assertj.core.error.ShouldBeEqual.toAssertionError(ShouldBeEqual.java:113)
-   at org.assertj.core/org.assertj.core.internal.Failures.failure(Failures.java:88)
-   at org.assertj.core/org.assertj.core.internal.Objects.assertEqual(Objects.java:214)
-  
-  --------------- stack trace filtered -----------------
-   org.opentest4j.AssertionFailedError:
-   expected: "messi"
-    but was: "ronaldo"
-  
-   at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-   at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-   at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)</code></pre>
+   * org.opentest4j.AssertionFailedError:
+   * expected: "messi"
+   * but was: "ronaldo"
+   *
+   * at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+   * at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+   * at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
+   * at org.assertj.core/org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:28)
+   * at org.assertj.core/org.assertj.core.error.ShouldBeEqual.assertionFailedError(ShouldBeEqual.java:208)
+   * at org.assertj.core/org.assertj.core.error.ShouldBeEqual.toAssertionError(ShouldBeEqual.java:113)
+   * at org.assertj.core/org.assertj.core.internal.Failures.failure(Failures.java:88)
+   * at org.assertj.core/org.assertj.core.internal.Objects.assertEqual(Objects.java:214)
+   *
+   * --------------- stack trace filtered -----------------
+   * org.opentest4j.AssertionFailedError:
+   * expected: "messi"
+   * but was: "ronaldo"
+   *
+   * at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+   * at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+   * at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)</code></pre>
    *
    * @param assertionError the {@code AssertionError} to filter stack trace if option is set.
    */
@@ -232,32 +215,5 @@ public class Failures {
     if (removeAssertJRelatedElementsFromStackTrace) {
       Throwables.removeAssertJRelatedElementsFromStackTrace(assertionError);
     }
-  }
-
-  /**
-   * Set the flag indicating that in case of a failure a threaddump is printed out.
-   */
-  public void enablePrintThreadDump() {
-    printThreadDump = true;
-  }
-
-  /**
-   * Returns a description of all current threads.
-   *
-   * @return the thread dump description
-   */
-  public static String threadDumpDescription() {
-    StringBuilder threadDumpDescription = new StringBuilder();
-    ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
-    ThreadInfo[] threadInfos = threadMXBean.dumpAllThreads(true, true);
-    for (ThreadInfo threadInfo : threadInfos) {
-      threadDumpDescription.append(format("\"%s\"%n\tjava.lang.Thread.State: %s",
-                                          threadInfo.getThreadName(), threadInfo.getThreadState()));
-      for (StackTraceElement stackTraceElement : threadInfo.getStackTrace()) {
-        threadDumpDescription.append(LINE_SEPARATOR).append("\t\tat ").append(stackTraceElement);
-      }
-      threadDumpDescription.append(LINE_SEPARATOR).append(LINE_SEPARATOR);
-    }
-    return threadDumpDescription.toString();
   }
 }

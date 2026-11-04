@@ -44,4 +44,13 @@ public interface AssertionInfo {
    * @return the value representation
    */
   Representation representation();
+
+  /**
+   * Returns whether a thread dump should be printed when the assertion fails.
+   *
+   * @return {@code true} if a thread dump should be printed on failure
+   */
+  default boolean printThreadDumpOnError() {
+    return false;
+  }
 }

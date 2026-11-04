@@ -44,6 +44,7 @@ public class WritableAssertionInfo implements AssertionInfo {
   private String overridingErrorMessage;
   private Description description;
   private Representation representation;
+  private boolean printThreadDumpOnError;
 
   /**
    * Creates assertion information using the given representation.
@@ -195,4 +196,16 @@ public class WritableAssertionInfo implements AssertionInfo {
                             quote(representation()));
   }
 
+  /** Requests a thread dump to be printed when the assertion fails. */
+  public void enablePrintThreadDumpOnError() {
+    printThreadDumpOnError = true;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean printThreadDumpOnError() {
+    return printThreadDumpOnError;
+  }
 }

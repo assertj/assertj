@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
@@ -97,7 +96,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
                                                                       .isEqualTo(expected));
     // THEN
     var shouldBeEqual = shouldBeEqual(actual, null, StandardComparisonStrategy.instance(), info.representation());
-    var expectedAssertionError = shouldBeEqual.toAssertionError(null, STANDARD_REPRESENTATION);
+    var expectedAssertionError = shouldBeEqual.toAssertionError(info);
     then(assertionError).hasMessage(expectedAssertionError.getMessage());
   }
 

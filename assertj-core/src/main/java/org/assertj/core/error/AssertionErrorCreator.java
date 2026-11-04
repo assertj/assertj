@@ -15,13 +15,18 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.util.Arrays.array;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.FileContent;
@@ -112,6 +117,64 @@ public class AssertionErrorCreator {
   /// @return the assertion error
   public AssertionError assertionError(String message) {
     return new AssertionError(message);
+  }
+
+  /**
+   * Creates an assertion error with the given message, printing a thread dump if the assertion info requests it.
+   *
+   * @param info the assertion information
+   * @param message the error message
+   * @return the assertion error
+   */
+  public AssertionError assertionError(AssertionInfo info, String message) {
+    var assertionError = assertionError(message);
+    printThreadDumpIfNeeded(info);
+    return assertionError;
+  }
+
+  /**
+   * Creates an assertion error with actual and expected values, printing a thread dump if the assertion info requests it.
+   *
+   * @param info the assertion information, its representation is used to format the values
+   * @param message the error message
+   * @param actual the actual value
+   * @param expected the expected value
+   * @return the assertion error
+   */
+  public AssertionError assertionError(AssertionInfo info, String message, Object actual, Object expected) {
+    var assertionError = assertionError(message, actual, expected, info.representation());
+    printThreadDumpIfNeeded(info);
+    return assertionError;
+  }
+
+  /**
+   * Prints a thread dump to {@code System.err} if the given assertion info requests it.
+   *
+   * @param info the assertion information
+   */
+  public void printThreadDumpIfNeeded(AssertionInfo info) {
+    if (info.printThreadDumpOnError()) System.err.println(threadDumpDescription());
+  }
+
+  /**
+   * Returns a description of all current threads.
+   *
+   * @return the thread dump description
+   */
+  public static String threadDumpDescription() {
+    var lineSeparator = System.lineSeparator();
+    var threadDumpDescription = new StringBuilder();
+    ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+    ThreadInfo[] threadInfos = threadMXBean.dumpAllThreads(true, true);
+    for (ThreadInfo threadInfo : threadInfos) {
+      threadDumpDescription.append(format("\"%s\"%n\tjava.lang.Thread.State: %s",
+                                          threadInfo.getThreadName(), threadInfo.getThreadState()));
+      for (StackTraceElement stackTraceElement : threadInfo.getStackTrace()) {
+        threadDumpDescription.append(lineSeparator).append("\t\tat ").append(stackTraceElement);
+      }
+      threadDumpDescription.append(lineSeparator).append(lineSeparator);
+    }
+    return threadDumpDescription.toString();
   }
 
   // multiple assertions error

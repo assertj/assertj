@@ -289,7 +289,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     if (assertionError == null) {
       // error message was not overridden, build it.
       String description = MessageFormatter.instance().format(info.description(), info.representation(), "");
-      assertionError = assertionErrorCreator.assertionError(description + errorMessage.formatted(arguments));
+      assertionError = assertionErrorCreator.assertionError(info, description + errorMessage.formatted(arguments));
     }
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
@@ -358,7 +358,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     String errorMessage = Optional.ofNullable(info.overridingErrorMessage())
                                   .orElse(errorMessageFormat.formatted(arguments));
     String description = MessageFormatter.instance().format(info.description(), info.representation(), errorMessage);
-    AssertionError assertionError = assertionErrorCreator.assertionError(description, actual, expected, info.representation());
+    AssertionError assertionError = assertionErrorCreator.assertionError(info, description, actual, expected);
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
     return assertionError;
@@ -893,7 +893,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Override
   @CheckReturnValue
   public SELF withThreadDumpOnError() {
-    Failures.instance().enablePrintThreadDump();
+    info.enablePrintThreadDumpOnError();
     return myself;
   }
 

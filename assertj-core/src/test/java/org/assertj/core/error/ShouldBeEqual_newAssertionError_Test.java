@@ -22,14 +22,17 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 
 import java.util.stream.Stream;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.Representation;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.opentest4j.AssertionFailedError;
 
 /**
- * Tests for <code>{@link ShouldBeEqual#toAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for <code>{@link ShouldBeEqual#toAssertionError(AssertionInfo)}</code>.
  *
  * @author Alex Ruiz
  * @author Dan Corder
@@ -43,7 +46,7 @@ class ShouldBeEqual_newAssertionError_Test {
     Description description = new TestDescription("Jedi");
     var shouldBeEqual = shouldBeEqual("Luke", "Yoda", STANDARD_REPRESENTATION);
     // WHEN
-    var assertionError = shouldBeEqual.toAssertionError(description, STANDARD_REPRESENTATION);
+    var assertionError = shouldBeEqual.toAssertionError(assertionInfo(description, STANDARD_REPRESENTATION));
     // THEN
     then(assertionError).isInstanceOf(AssertionFailedError.class)
                         .hasMessage(format("[Jedi] %n" +
@@ -54,4 +57,11 @@ class ShouldBeEqual_newAssertionError_Test {
   public static Stream<String> parameters() {
     return Stream.of("[Jedi]", "[Jedi]  ");
   }
+
+  private static WritableAssertionInfo assertionInfo(Description description, Representation representation) {
+    var info = new WritableAssertionInfo(representation);
+    info.description(description);
+    return info;
+  }
+
 }

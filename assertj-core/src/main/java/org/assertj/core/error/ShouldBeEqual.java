@@ -24,6 +24,7 @@ import static org.assertj.core.util.introspection.ClassUtils.haveSameClassNameIn
 
 import java.util.Objects;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
@@ -60,7 +61,7 @@ public class ShouldBeEqual {
   /** Strategy used to compare the values. */
   protected final ComparisonStrategy comparisonStrategy;
   private final Representation representation;
-  private ConstructorInvoker constructorInvoker = new ConstructorInvoker();
+  private final ConstructorInvoker constructorInvoker = new ConstructorInvoker();
 
   /**
    * Creates a new <code>{@link ShouldBeEqual}</code>.
@@ -118,11 +119,16 @@ public class ShouldBeEqual {
    * {@link AssertionError} stack trace won't show AssertJ related elements if {@link Failures} is configured to filter
    * them (see {@link Failures#setRemoveAssertJRelatedElementsFromStackTrace(boolean)}).
    *
-   * @param description    the description of the failed assertion.
-   * @param representation the {@link Representation} used to format values.
+   * @param info the assertion information, providing the description and the {@link Representation} used to format values.
    * @return the created {@code AssertionError}.
    */
-  public AssertionError toAssertionError(Description description, Representation representation) {
+  public AssertionError toAssertionError(AssertionInfo info) {
+    var assertionError = createAssertionError(info.description(), info.representation());
+    AssertionErrorCreator.INSTANCE.printThreadDumpIfNeeded(info);
+    return assertionError;
+  }
+
+  private AssertionError createAssertionError(Description description, Representation representation) {
     String message = smartErrorMessage(description, representation);
     // only use JUnit error message if the comparison strategy used was standard, otherwise we need to mention
     // comparison strategy in the assertion error message to make it clear to the user it was used.
