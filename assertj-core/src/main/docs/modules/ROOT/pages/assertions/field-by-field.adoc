@@ -1,0 +1,674 @@
+[[recursive-comparison]]
+= Field by field recursive comparison
+
+AssertJ Core provides a fluent recursive comparison API for `Object` assertions with the following capabilities:
+
+* link:#recursive-comparison-strict[Choosing a strict or lenient recursive comparison]
+* link:#recursive-comparison-ignoring-fields[Ignoring fields in the comparison]
+* link:#recursive-comparison-comparators[Specifying how to compare specific types or fields in the comparison]
+* link:#using-overridden-equals[Use overridden `equals` instead of a recursive comparison]
+* link:#recursive-comparison-ignoring-all-expected-null-fields[Ignoring all expected null fields]
+* link:#recursive-comparison-ignoring-all-actual-empty-optional-fields[Ignoring all actual empty optional fields].
+* link:#recursive-comparison-overriding-error-messages[Overriding error messages for specific fields or types].
+* link:#recursive-comparison-introspection-strategy[Specifying how to introspect the objects to compare].
+
+The recursive comparison is meant to to replace `isEqualToComparingFieldByFieldRecursively`.
+
+== Basic usage
+
+The recursive comparison mode starts after calling `usingRecursiveComparison()`.
+
+Here's a simple example:
+
+[source,java,indent=0]
+----
+ public class Person {
+   String name;
+   double height;
+   Home home = new Home();
+ }
+
+ public class Home {
+   Address address = new Address();
+   Date ownedSince;
+ }
+
+ public static class Address {
+   int number;
+   String street;
+ }
+
+ Person sherlock = new Person("Sherlock", 1.80);
+ sherlock.home.ownedSince = new Date(123);
+ sherlock.home.address.street = "Baker Street";
+ sherlock.home.address.number = 221;
+
+ Person sherlock2 = new Person("Sherlock", 1.80);
+ sherlock2.home.ownedSince = new Date(123);
+ sherlock2.home.address.street = "Baker Street";
+ sherlock2.home.address.number = 221;
+
+ // assertion succeeds as the data of both objects are the same.
+ assertThat(sherlock).usingRecursiveComparison()
+                     .isEqualTo(sherlock2);
+
+ // assertion fails as Person equals only compares references.
+ assertThat(sherlock).isEqualTo(sherlock2);
+----
+
+The comparison is *not symmetrical* since it is *limited to `actual` fields*.
+
+The algorithm gathers `actual` fields and then compares them to the corresponding `expected` fields. It is then possible for the `expected` object to have more fields than `actual`, which can be handy when comparing a base type to a subtype with additional fields.
+
+== How field values are resolved
+
+The recursive comparison uses introspection to find out the fields to compare and their values.
+
+It first looks for the object under test fields (skipping any ignored ones as specified in the configuration), then it looks for the same fields in the expected object to compare to.
+
+The next step is resolving the field values using first a getter method (if any) or reading the field value. The getter methods for a field `x` are `getX()` or `isX()` for boolean fields.
+If you enable bare properties resolution, a method `x()` is also used considered as a valid getter.
+
+Bare name property is enabled by calling `Assertions.setExtractBareNamePropertyMethods(true);` (it is disabled by default since 3.18.0).
+
+Lastly if the object under test is a map, the recursive comparison tries to resolve the field value by looking it up in the map with `map.get(fieldName)`.
+
+Since 3.24.0, you can specify your own strategy on how the recursive comparison resolve the values to compare, go to section link:#recursive-comparison-introspection-strategy[specifying how to introspect the objects to compare] for details.
+
+
+== Breaking changes
+
+Since 3.18.0 bare name getter resolution are disabled by default, to get the previous behaviour back, call `Assertions.setExtractBareNamePropertyMethods(true);`
+
+Since 3.17.0 it does not use anymore `equals` methods of classes that have overridden it, so no need to force recursive comparison on these classes. To get the previous behavior back, use link:#using-overridden-equals[`usingOverriddenEquals()`].
+
+
+
+[[recursive-comparison-isNotEqualTo]]
+== isNotEqualTo
+
+Since 3.17.0 `isNotEqualTo` is available in the recursive API, example:
+
+[source,java,indent=0]
+----
+// equals not overridden in TolkienCharacter
+TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
+TolkienCharacter youngFrodo = new TolkienCharacter("Frodo", 22, HOBBIT);
+
+// Pass as equals compares object references
+assertThat(frodo).isNotEqualTo(frodoClone);
+
+// Fail as frodo and frodoClone are equals when doing a field by field comparison.
+assertThat(frodo).usingRecursiveComparison()
+                 .isNotEqualTo(frodoClone);
+
+// Pass as one the age fields differ between frodo and youngFrodo.
+assertThat(frodo).usingRecursiveComparison()
+                 .isNotEqualTo(youngFrodo);
+----
+
+[[recursive-comparison-strict]]
+== Strict or lenient comparison
+
+By default the objects to compare can be of different types but must have the same properties/fields. For example if object under test has a `work` field of type `Address`, the expected object to compare the object under test to must also have one but it can of a different type like `AddressDto`.
+
+It is possible to enforce strict type checking by calling `withStrictTypeChecking()` and make the comparison fail whenever the compared objects or their fields are not compatible. Compatible means that the expected object/field types are the same or a subtype of actual/field types, for example if actual is an `Animal` and expected a `Dog`, they will be compared field by field in strict type checking mode.
+
+[source,java,indent=0]
+----
+public class Person {
+  String name;
+  double height;
+  Person bestFriend;
+}
+
+Person sherlock = new Person("Sherlock", 1.80);
+sherlock.bestFriend = new Person("Watson", 1.70);
+
+Person sherlockClone = new Person("Sherlock", 1.80);
+sherlockClone.bestFriend = new Person("Watson", 1.70);
+
+// assertion succeeds as sherlock and sherlockClone have the same data and types
+assertThat(sherlock).usingRecursiveComparison()
+                    .withStrictTypeChecking()
+                    .isEqualTo(sherlockClone);
+
+// Let's now define a data structure similar to Person
+
+public class PersonDTO {
+  String name;
+  double height;
+  PersonDTO bestFriend;
+}
+
+PersonDTO sherlockDto = new PersonDTO("Sherlock", 1.80);
+sherlockDto.bestFriend = new PersonDTO("Watson", 1.70);
+
+// assertion fails as Person and PersonDTO are not compatible even though they have the same data
+assertThat(sherlock).usingRecursiveComparison()
+                    .withStrictTypeChecking()
+                    .isEqualTo(sherlockDto);
+
+// Let's define a subclass of Person
+
+public class Detective extends Person {
+  boolean busy;
+}
+
+Detective detectiveSherlock = new Detective("Sherlock", 1.80);
+detectiveSherlock.bestFriend = new Person("Watson", 1.70);
+detectiveSherlock.busy = true;
+
+// assertion succeeds as Detective inherits from Person and
+// only Person's fields are included into the comparison.
+assertThat(sherlock).usingRecursiveComparison()
+                    .withStrictTypeChecking()
+                    .isEqualTo(detectiveSherlock);
+----
+
+[[recursive-comparison-ignoring-fields]]
+== Ignoring fields in the comparison
+
+It is possible to ignore fields of the object under test in the comparison, this is can be useful when a field has a generated value (like the current time) or is simply not relevant to compare.
+
+There are a few ways to specify the fields to ignore:
+
+* directly with `ignoringFields(String... fieldsToIgnore)`
+* by regexes with `ignoringFieldsMatchingRegexes(String... regexes)`
+* by types with `ignoringFieldsOfTypes(Class... typesToIgnore)`
+
+Nested fields can be specified like this: `home.address.street`
+
+It is also possible to ignore the object under test with `ignoringActualNullFields()`.
+
+Examples
+
+[source,java,indent=0]
+----
+Person sherlock = new Person("Sherlock", 1.80);
+sherlock.home.address.street = "Baker Street";
+sherlock.home.address.number = 221;
+
+// strangely moriarty and sherlock have the same height!
+Person moriarty = new Person("Moriarty", 1.80);
+moriarty.home.address.street = "Crime Street";
+moriarty.home.address.number = 221;
+
+// assertion succeeds as name and home.address.street fields are ignored in the comparison
+assertThat(sherlock).usingRecursiveComparison()
+                    .ignoringFields("name", "home.address.street")
+                    .isEqualTo(moriarty);
+
+// assertion succeeds as once a field is ignored, its subfields are too
+assertThat(sherlock).usingRecursiveComparison()
+                    .ignoringFields("name", "home")
+                    .isEqualTo(moriarty);
+
+// ignoring fields matching regexes: name and home match .*me
+assertThat(sherlock).usingRecursiveComparison()
+                    .ignoringFieldsMatchingRegexes(".*me")
+                    .isEqualTo(moriarty);
+
+// ignoring null fields example:
+sherlock.name = null;
+sherlock.home.address.street = null;
+assertThat(sherlock).usingRecursiveComparison()
+                    .ignoringActualNullFields()
+                    .isEqualTo(moriarty);
+
+// ignore height and address fields by type:
+Person tallSherlock = new Person("sherlock", 2.10);
+tallSherlock.home.address.street = "Long Baker Street";
+tallSherlock.home.address.number = 222;
+assertThat(sherlock).usingRecursiveComparison()
+                    .ignoringFieldsOfTypes(double.class, Address.class)
+                    .isEqualTo(tallSherlock);
+----
+
+[[using-overridden-equals]]
+== Using overridden equals
+
+Since 3.17.0 the recursive comparison does not use overridden `equals` methods to compare fields anymore, it performs a recursive comparison on these fields, it is possible to change that behavior by calling `usingOverriddenEquals()`.
+
+Once using overridden `equals` methods is enabled, you can disable it for certain types or fields (and perform a recursive comparison instead) using the following methods:
+
+* `ignoringOverriddenEqualsForTypes(Class...)` Any fields of these classes are compared recursively
+* `ignoringOverriddenEqualsForFields(String...)` Any given fields are compared recursively
+* `ignoringOverriddenEqualsForFieldsMatchingRegexes(String...)` Any fields matching one of these regexes are compared recursively
+* `ignoringAllOverriddenEquals()` except for java types, all fields are compared field by field recursively
+
+Example:
+
+[source,java,indent=0]
+----
+ public class Person {
+   String name;
+   double height;
+   Home home = new Home();
+ }
+
+ public class Home {
+   Address address = new Address();
+ }
+
+ public static class Address {
+   int number;
+   String street;
+
+   // only compares number, ouch!
+   @Override
+   public boolean equals(final Object other) {
+     if (!(other instanceof Address)) return false;
+     Address castOther = (Address) other;
+     return Objects.equals(number, castOther.number);
+   }
+ }
+
+ Person sherlock = new Person("Sherlock", 1.80);
+ sherlock.home.address.street = "Baker Street";
+ sherlock.home.address.number = 221;
+
+ Person sherlock2 = new Person("Sherlock", 1.80);
+ sherlock2.home.address.street = "Butcher Street";
+ sherlock2.home.address.number = 221;
+
+ // assertion succeeds but that's not what we expected since the home.address.street fields differ
+ // but the equals implementation in Address does not compare them.
+ assertThat(sherlock).usingRecursiveComparison()
+                     .usingOverriddenEquals()
+                     .isEqualTo(sherlock2);
+
+ // to avoid the previous issue, we force a recursive comparison on the Address type
+ // now this assertion fails as expected since the home.address.street fields differ.
+ assertThat(sherlock).usingRecursiveComparison()
+                     .usingOverriddenEquals()
+                     .ignoringOverriddenEqualsForTypes(Address.class)
+                     .isEqualTo(sherlock2);
+----
+
+[[recursive-comparison-ignoring-all-expected-null-fields]]
+== Ignoring all expected null fields
+
+By using `ignoringExpectedNullFields()` the recursive comparison will exclude from the comparison any null fields in the expected object. +
+One use case for that is when the object under test have fields with values hard to predict (id, timestamp, ...),  with this feature you simply build the expected object with null values values for these fields and they won't be compared.
+
+Example:
+
+[source,java,indent=0]
+----
+public class Person {
+  String name;
+  double height;
+  Home home = new Home();
+}
+public class Home {
+  Address address = new Address();
+}
+public static class Address {
+  int number;
+  String street;
+}
+
+Person sherlock = new Person("Sherlock", 1.80);
+sherlock.home.address.street = "Baker Street";
+sherlock.home.address.number = 221;
+
+Person noName = new Person(null, 1.80);
+noName.home.address.street = null;
+noName.home.address.number = 221;
+
+// assertion succeeds as name and home.address.street fields are ignored in the comparison
+assertThat(sherlock).usingRecursiveComparison()
+                    .ignoringExpectedNullFields()
+                    .isEqualTo(noName);
+
+// assertion fails as name and home.address.street fields are populated for sherlock but not for noName.
+assertThat(noName).usingRecursiveComparison()
+                  .ignoringExpectedNullFields()
+                  .isEqualTo(sherlock);
+----
+
+[[recursive-comparison-ignoring-all-actual-empty-optional-fields]]
+== Ignoring all actual empty optional fields
+
+`ignoringActualEmptyOptionalFields()` makes the recursive comparison to ignore all actual empty optional fields (including `Optional`, `OptionalInt`, `OptionalLong` and `OptionalDouble`). +
+Note that the expected object empty optional fields are not ignored, this only applies to actual's fields.
+
+[source,java,indent=0]
+----
+ public class Person {
+   String name;
+   OptionalInt age;
+   OptionalLong id;
+   OptionalDouble height;
+   Home home = new Home();
+ }
+
+ public class Home {
+   String address;
+   Optional<String> phone;
+ }
+
+ Person homerWithoutDetails = new Person("Homer Simpson");
+ homerWithoutDetails.home.address.street = "Evergreen Terrace";
+ homerWithoutDetails.home.address.number = 742;
+ homerWithoutDetails.home.phone = Optional.empty();
+ homerWithoutDetails.age = OptionalInt.empty();
+ homerWithoutDetails.id = OptionalLong.empty();
+ homerWithoutDetails.height = OptionalDouble.empty();
+
+ Person homerWithDetails = new Person("Homer Simpson");
+ homerWithDetails.home.address.street = "Evergreen Terrace";
+ homerWithDetails.home.address.number = 742;
+ homerWithDetails.home.phone = Optional.of("(939) 555-0113");
+ homerWithDetails.age = OptionalInt.of(39);
+ homerWithDetails.id = OptionalLong.of(123456);
+ homerWithDetails.height = OptionalDouble.of(1.83);
+
+ // assertion succeeds as phone is ignored in the comparison
+ assertThat(homerWithoutDetails).usingRecursiveComparison()
+                                .ignoringActualEmptyOptionalFields()
+                                .isEqualTo(homerWithDetails);
+
+ // assertion fails as phone, age, id and height are not ignored and are populated for homerWithDetails but not for homerWithoutDetails.
+ assertThat(homerWithDetails).usingRecursiveComparison()
+                             .ignoringActualEmptyOptionalFields()
+                             .isEqualTo(homerWithoutDetails);
+----
+
+[[recursive-comparison-comparators]]
+== Specifying how to compare specific types or fields in the comparison
+
+You can specify how to compare values per (nested) fields or type with the methods below (but before calling `isEqualTo` otherwise this has no effect!):
+
+* `withEqualsForFields(BiPredicate, String...)` or `withComparatorForFields(Comparator, String...)` for one or multiple fields
+* `withEqualsForType(BiPredicate, Class)` or `withComparatorForType(Comparator, Class)` for a given type
+
+Note that comparisons specified for fields take precedence over the ones specified for types.
+
+By default floats are compared with a precision of 1.0E-6 and doubles with 1.0E-15.
+
+TIP: Prefer using `withEqualsForFields`/`withEqualsForType`, providing a `BiPredicate` is simpler than a `Comparator` (unless you have one already defined).
+
+Examples:
+
+[source,java,indent=0]
+----
+public class TolkienCharacter {
+  String name;
+  double height;
+}
+
+TolkienCharacter frodo = new TolkienCharacter("Frodo", 1.2);
+TolkienCharacter tallerFrodo = new TolkienCharacter("Frodo", 1.3);
+TolkienCharacter reallyTallFrodo = new TolkienCharacter("Frodo", 1.9);
+
+BiPredicate<Double, Double> closeEnough = (d1, d2) -> Math.abs(d1 - d2) <= 0.5;
+// same comparison expressed with a Comparator:
+// Comparator<Double> closeEnough = (d1, d2) -> Math.abs(d1 - d2) <= 0.5 ? 0 : 1;
+
+// assertion succeeds
+assertThat(frodo).usingRecursiveComparison()
+                 .withEqualsForFields(closeEnough, "height")
+                 .isEqualTo(tallerFrodo);
+
+assertThat(frodo).usingRecursiveComparison()
+                 .withEqualsForType(closeEnough, Double.class)
+                 .isEqualTo(tallerFrodo);
+
+// assertions fail
+assertThat(frodo).usingRecursiveComparison()
+                 .withEqualsForFields(closeEnough, "height")
+                 .isEqualTo(reallyTallFrodo);
+
+assertThat(frodo).usingRecursiveComparison()
+                 .withEqualsForType(closeEnough, Double.class)
+                 .isEqualTo(reallyTallFrodo);
+----
+
+[[recursive-comparison-overriding-error-messages]]
+== Overriding error messages for specific fields or types
+
+If AssertJ difference error description is not yo your liking, you can override it either by fields or types.
+
+You can override messages for all fields of a given type, example for `Double`:
+[source,java,indent=0]
+----
+withErrorMessageForType("Double field differ", Double.class)
+----
+
+Alternatively can override messages for some specific fields which must be specified from the root object, for example if `Foo` has a `Bar` field and both have an `id` field, one can register a message for `Foo` and `Bar` id by calling:
+
+[source,java,indent=0]
+----
+withErrorMessageForFields("id values differ", "foo.id", "foo.bar.id")
+----
+
+Messages registered with `withErrorMessageForFields` have precedence over the ones registered with `withErrorMessageForType`.
+
+Example overriding message for a field:
+[source,java,indent=0]
+----
+public class TolkienCharacter {
+  String name;
+  double height;
+}
+
+TolkienCharacter frodo = new TolkienCharacter("Frodo", 1.2);
+TolkienCharacter tallerFrodo = new TolkienCharacter("Frodon", 1.4);
+
+String message = "The field 'height' differ.";
+
+// assertion fails
+assertThat(frodo).usingRecursiveComparison()
+                 .withErrorMessageForFields(message, "height")
+                 .isEqualTo(tallerFrodo);
+----
+
+and the error will report the height field with the given overridden message instead of the one computed by AssertJ as with the name error:
+
+
+[source,text]
+----
+Expecting actual:
+  TolkienCharacter [name=Frodo, height=1.2]
+to be equal to:
+  TolkienCharacter [name=Frodon, height=1.4]
+when recursively comparing field by field, but found the following 2 differences:
+
+The field 'height' differ.
+
+field/property 'name' differ:
+- actual value  : "Frodo"
+- expected value: "Frodon"
+
+The recursive comparison was performed with this configuration:
+- no overridden equals methods were used in the comparison (except for java types)
+- these types were compared with the following comparators:
+  - java.lang.Double -> DoubleComparator[precision=1.0E-15]
+  - java.lang.Float -> FloatComparator[precision=1.0E-6]
+  - java.nio.file.Path -> lexicographic comparator (Path natural order)
+- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).
+- these fields had overridden error messages:
+  - height
+----
+
+Example overriding message for a type:
+[source,java,indent=0]
+----
+String message = "Double field differ";
+
+// assertion fails
+assertThat(frodo).usingRecursiveComparison()
+                 .withErrorMessageForType(message, Double.class)
+                 .isEqualTo(tallerFrodo);
+----
+
+and the error will report the height field with the given overridden message instead of the one computed by AssertJ as with the name error:
+
+[source,text]
+----
+Expecting actual:
+  TolkienCharacter [name=Frodo, height=1.2]
+to be equal to:
+  TolkienCharacter [name=Frodon, height=1.4]
+when recursively comparing field by field, but found the following 2 differences:
+
+Double field differ.
+
+field/property 'name' differ:
+- actual value  : "Frodo"
+- expected value: "Frodon"
+
+The recursive comparison was performed with this configuration:
+- no overridden equals methods were used in the comparison (except for java types)
+- these types were compared with the following comparators:
+  - java.lang.Double -> DoubleComparator[precision=1.0E-15]
+  - java.lang.Float -> FloatComparator[precision=1.0E-6]
+  - java.nio.file.Path -> lexicographic comparator (Path natural order)
+- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).
+- these types had overridden error messages:
+  - height
+----
+
+
+[[recursive-comparison-for-iterable]]
+== Recursive comparison for iterable assertions
+
+`usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)` enables the recursive comparison for any iterable assertion as opposed to `usingRecursiveComparison()` which only allows `isEqualTo` and `isNotEqualTo`, the main difference between both `isEqualTo` assertions is that the `usingRecursiveComparison` one will give a detailed differences report while the `usingRecursiveFieldByFieldElementComparator` one will give a generic error message without details.
+
+Another difference is that `usingRecursiveComparison()` exposes a fluent API to tweak the recursive comparison, to achieve the same you will need to initialize a `RecursiveComparisonConfiguration` and pass it to `usingRecursiveFieldByFieldElementComparator`, you can take advantage of the `RecursiveComparisonConfiguration.builder()` to do so.
+
+Example:
+[source,java,indent=0]
+----
+public class Person {
+  String name;
+  boolean hasPhd;
+}
+
+public class Doctor {
+  String name;
+  boolean hasPhd;
+}
+
+Doctor drSheldon = new Doctor("Sheldon Cooper", true);
+Doctor drLeonard = new Doctor("Leonard Hofstadter", true);
+Doctor drRaj = new Doctor("Raj Koothrappali", true);
+
+Person sheldon = new Person("Sheldon Cooper", false);
+Person leonard = new Person("Leonard Hofstadter", false);
+Person raj = new Person("Raj Koothrappali", false);
+Person howard = new Person("Howard Wolowitz", false);
+
+List<Doctor> doctors = list(drSheldon, drLeonard, drRaj);
+List<Person> people = list(sheldon, leonard, raj);
+
+RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
+                                                                                 .withIgnoredFields("hasPhd")
+                                                                                 .build();
+
+// assertion succeeds as both lists contains equivalent items in order.
+assertThat(doctors).usingRecursiveFieldByFieldElementComparator(configuration)
+                   .contains(sheldon);
+
+// assertion fails because leonard names are different.
+leonard.setName("Leonard Ofstater");
+assertThat(doctors).usingRecursiveFieldByFieldElementComparator(configuration)
+                   .contains(leonard);
+
+// assertion fails because howard is missing and leonard is not expected.
+people = list(howard, sheldon, raj)
+assertThat(doctors).usingRecursiveFieldByFieldElementComparator(configuration)
+                   .contains(howard);
+----
+
+[[recursive-comparison-introspection-strategy]]
+== Specifying how to introspect the objects to compare
+
+Since 3.24.0, you can specify your own strategy telling the recursive comparison how to resolve the values to compare, this is useful if the default strategy does not suit you.
+
+To use your own introspection strategy, you need to:
+
+* implement `RecursiveComparisonIntrospectionStrategy`
+* call `withIntrospectionStrategy(myIntrospectionStrategy)` with an instance of your strategy
+
+AssertJ provides a few strategies out of the box:
+
+* `ComparingFields`: introspect fields only (no properties, map keys are not considered as fields)
+* `ComparingProperties`: introspect properties only (no fields, map keys are not considered as properties)
+* `ComparingSnakeOrCamelCaseFields`: compare fields only, can match camel case fields against snake case ones, ex: `firstName` vs `first_name` which is useful when comparing types with different fields naming conventions
+* `ComparingNormalizedFields`: an abstract strategy that compares fields after normalizing them, you just need to implement `normalizeFieldName(String fieldName)`
+
+`ComparingSnakeOrCamelCaseFields` is an example of `ComparingNormalizedFields` that normalizes snake case to camel case.
+
+Here's an example using `ComparingSnakeOrCamelCaseFields` where we compare `Author`/`Book` against `AuthorDto`/`BookDto`, `Author`/`Book` follow the regular camel case field naming convention while the dto classes follow the snake case naming convention.
+
+The recursive comparison would fail comparing the `Author`/`Book` fields against `AuthorDto`/`BookDto` ones, it would not know to match `Author.firstName` against `AuthorDto.first_name` for example but with `ComparingSnakeOrCamelCaseFields` it will know how to match these fields.
+
+Example:
+[source,java,indent=0]
+----
+Author martinFowler = new Author("Martin", "Fowler", 58, "https://www.thoughtworks.com/profiles/leaders/martin-fowler");
+Book refactoring = new Book("Refactoring", martinFowler);
+AuthorDto martinFowlerDto = new AuthorDto("Martin", "Fowler", 58, "https://www.thoughtworks.com/profiles/leaders/martin-fowler");
+BookDto refactoringDto = new BookDto("Refactoring", martinFowlerDto);
+
+RecursiveComparisonIntrospectionStrategy comparingSnakeOrCamelCaseFields = new ComparingSnakeOrCamelCaseFields();
+
+// both assertions succeed
+assertThat(refactoring).usingRecursiveComparison()
+                      .withIntrospectionStrategy(comparingSnakeOrCamelCaseFields)
+                      .isEqualTo(refactoringDto);
+assertThat(refactoringDto).usingRecursiveComparison()
+                          .withIntrospectionStrategy(comparingSnakeOrCamelCaseFields)
+                          .isEqualTo(refactoring);
+
+static class Author {
+  String firstName;
+  String lastName;
+  int age;
+  String profileURL;
+
+  Author(String firstName, String lastName, int age, String profileUrl) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.age = age;
+    this.profileURL = profileUrl;
+  }
+}
+
+static class Book {
+  String title;
+  Author mainAuthor;
+
+  Book(String title, Author author) {
+    this.title = title;
+    this.mainAuthor = author;
+  }
+}
+static class AuthorDto {
+  String first_name;
+  String last_name;
+  int _age;
+  String profile_url;
+
+  AuthorDto(String firstName, String lastName, int age, String profileUrl) {
+    this.first_name = firstName;
+    this.last_name = lastName;
+    this._age = age;
+    this.profile_url = profileUrl;
+  }
+}
+
+static class BookDto {
+  String title;
+  AuthorDto main_author;
+
+  BookDto(String title, AuthorDto author) {
+    this.title = title;
+    this.main_author = author;
+  }
+}
+----

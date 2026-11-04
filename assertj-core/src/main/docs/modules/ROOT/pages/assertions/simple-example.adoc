@@ -1,0 +1,14 @@
+= A simple example
+
+Let's start with a simple example showing a few important things.
+
+[source,java]
+----
+include::example$SimpleAssertionsExample.java[tags=user_guide]
+----
+<1> Statically import `org.assertj.core.api.Assertions.assertThat`
+<2> Pass the object under test as the sole `assertThat()` parameter
+<3> Use code completion to discover and call assertions
+<4> Chain as many assertions as you need
+
+Except for `isNotNull` which is a base assertion, the other assertions are `String` specific as our object under test is a `String`.

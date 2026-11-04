@@ -1,0 +1,213 @@
+[[representation]]
+= Controlling type formatting
+
+Assertions error messages use a `Representation` to format the different types involved. There are multiple ways of registering a custom `Representation` for assertions:
+
+* Changing the default global `Representation` by calling `Assertions.useRepresentation(myRepresentation)` - see <<Changing the default global scope custom representation>>
+* Changing the `Representation` per assertion with `assertThat(actual).withRepresentation(myRepresentation)` - see <<Per assertion scope custom representation>>
+* Globally registering a `Configuration` that specifies the `Representation` to use - see link:#configuration[AssertJ global configuration].
+* Registering multiple link:#fine-grained-representations[fine grained representations] that only defines representation of their custom types.
+
+Let's go over these different options with a custom `Representation`.
+
+[[custom-representation]]
+== Creating a custom Representation
+
+An example of a custom `Representation`:
+[source,java,indent=0]
+----
+// dummy class
+private class Example {}
+
+public class CustomRepresentation extends StandardRepresentation { // <1>
+
+  // override fallbackToStringOf to handle Example formatting
+  @Override
+  public String fallbackToStringOf(Object o) { // <2>
+    if (o instanceof Example) return "Example";
+    // fallback to default formatting.
+    return super.fallbackToStringOf(o);
+  }
+
+  // override a predefined type formatting: String
+  @Override
+  protected String toStringOf(String str) { // <3>
+    return "$" + str + "$";
+  }
+}
+----
+<1> Extends `org.assertj.core.presentation.StandardRepresentation` to get AssertJ default representation.
+<2> Override `fallbackToStringOf` and handle your specific types before falling back to the default formatting.
+<3> Change a predefined type formatting by overriding the `toStringOf` method that takes it as a parameter.
+
+Let's see the above custom representation in action when representing `Example` or `String` instances.
+
+This assertion fails ...
+[source,java,indent=0]
+----
+assertThat(new Example()).isNull();
+----
+...with the following error:
+[source,java,indent=0]
+----
+expected:<[null]> but was:<[Example]>
+----
+
+This one fails ...
+[source,java,indent=0]
+----
+// this one fails ...
+assertThat("foo").startsWith("bar");
+----
+...with the following error:
+[source,java,indent=0]
+----
+Expecting:
+  <$foo$>
+to start with:
+  <$bar$>
+----
+
+[[custom-representation-global-scope-change]]
+== Changing the default global scope custom representation
+
+You only have to register `CustomRepresentation` once but need to do it before executing any tests, for the tests executed before that, AssertJ will use the default representation.
+
+[source,java,indent=0]
+----
+// to call before executing tests
+Assertions.useRepresentation(new CustomRepresentation());
+----
+
+Consider writing a JUnit 5 extension implementing https://junit.org/junit5/docs/current/api/org/junit/jupiter/api/extension/BeforeAllCallback.html[`BeforeAllCallback`] to make sure the representation is set once for all before any test is executed.
+
+[[custom-representation-per-assertion-scope]]
+== Per assertion scope custom representation
+
+Follow this approach if you want to use a specific representation for a single assertion only.
+
+Example with the failing assertions used before:
+[source,java,indent=0]
+----
+Representation customRepresentation = new CustomRepresentation();
+
+// this assertion fails ...
+assertThat(new Example()).withRepresentation(customRepresentation)
+                         .isNull();
+
+assertThat("foo").withRepresentation(customRepresentation)
+                 .startsWith("bar");
+----
+
+
+[[fine-grained-representations]]
+== Registering multiple fine-grained representations
+
+Since 3.22.0 AssertJ allows registering multiple representations (one per jar).
+
+The typical use case is for different domain-specific libraries to be able to independently register `Representation` implementations for their specific domain objects.
+
+[NOTE]
+====
+In case different representations can represent the same type, the one with the highest priority wins.
+====
+
+Let's take a concrete example where we have two domain specific libraries: Lotr and star wars and a project that uses them both.
+
+The Lotr library is composed of an `Hobbit` class and a specific representation for it, note that `LotrRepresentation` represents Hobbits starting with `HOBBIT` unlike `Hobbit` `toString` method:
+[source,java,indent=0]
+----
+package org.assertj.example.lotr;
+
+public class Hobbit {
+
+  public String name;
+  public String age;
+
+  @Override
+  public String toString() {
+    return format("Hobbit [name=%s, age=%s]", name, age);
+  }
+}
+
+public class LotrRepresentation implements Representation {
+
+  @Override
+  public String toStringOf(Object object) {
+    if (object instanceof Hobbit) {
+      Hobbit hobbit = (Hobbit) object;
+      return String.format("HOBBIT [name=%s, age=%s]", hobbit.name, hobbit.age);
+    }
+    return null;
+  }
+
+  // only needed if another library was to represent Hobbit, in this case the one with highest priority wins
+  @Override
+  public int getPriority() {
+    return 5;
+  }
+}
+----
+
+`LotrRepresentation` is registered by creating a `META-INF/services/org.assertj.core.presentation.Representation` file that contain `org.assertj.example.lotr.LotrRepresentation`, the file must be available in the classpath (typically by putting it in `src/main/resources` it will end up in the library jar).
+
+Similarly the star wars library defines a `Jedi` and a `StarWarsRepresentation`:
+
+[source,java,indent=0]
+----
+package org.assertj.example.starwars;
+
+public class Jedi {
+
+  public String name;
+  public String age;
+
+  @Override
+  public String toString() {
+    return format("Jedi [name=%s, age=%s]", name, age);
+  }
+}
+
+public class StarWarsRepresentation implements Representation {
+
+  @Override
+  public String toStringOf(Object object) {
+    if (object instanceof Jedi) {
+      Jedi jedi = (Jedi) object;
+      return String.format("JEDI [name=%s, age=%s]", jedi.name, jedi.age);
+    }
+    return null;
+  }
+
+  @Override
+  public int getPriority() {
+    return 10;
+  }
+}
+----
+
+Same as the Lotr library, `StarWarsRepresentation` is registered by creating a `META-INF/services/org.assertj.core.presentation.Representation` file that contain `org.assertj.example.starwars.StarWarsRepresentation`.
+
+The consuming project specifies both libraries as dependencies, since both have registered a representation, AssertJ will discover them and keep them in a composite representation that aggregates all registered representaions.
+
+The following test fails with frodo and luke being represented by `LotrRepresentation` and `StarWarsRepresentation` respectively.
+[source,java,indent=0]
+----
+Hobbit frodo = new Hobbit();
+frodo.name = "Frodo";
+frodo.age = "33";
+
+Jedi luke = new Jedi();
+luke.name = "Luke";
+luke.age = "23";
+
+assertThat(frodo).isEqualTo(luke);
+----
+
+Error message:
+[source,text]
+----
+org.opentest4j.AssertionFailedError:
+expected: JEDI [name=Luke, age=23]
+ but was: HOBBIT [name=Frodo, age=33]
+----
