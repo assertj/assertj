@@ -12,11 +12,6 @@
 
   <name>AssertJ Core Integration Tests (Spring Boot)</name>
 
-  <properties>
-    <rootDirectory>${project.basedir}/../../../</rootDirectory>
-    <spotless.skip>false</spotless.skip>
-  </properties>
-
   <dependencyManagement>
     <dependencies>
       <dependency>

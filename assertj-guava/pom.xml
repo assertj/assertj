@@ -15,11 +15,6 @@
   <description>Rich and fluent assertions for testing for Guava</description>
   <url>${project.organization.url}#${project.artifactId}</url>
 
-  <properties>
-    <rootDirectory>${project.basedir}/../</rootDirectory>
-    <spotless.skip>false</spotless.skip>
-  </properties>
-
   <dependencies>
     <!-- Compile -->
     <dependency>
