@@ -21,6 +21,8 @@ import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
 import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
+import static org.assertj.core.error.ShouldBeNotInTheFuture.shouldBeNotInTheFuture;
+import static org.assertj.core.error.ShouldBeNotInThePast.shouldBeNotInThePast;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.Instant;
@@ -373,6 +375,46 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
     return executeAssertion(() -> {
       isNotNull();
       if (!actual.isAfter(Instant.now())) throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
+    });
+  }
+
+  /**
+   * Verifies that the actual {@code Instant} is not in the past, i.e. it is either now or in the future.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(Instant.now().plusSeconds(60)).isNotInThePast();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Instant} is {@code null}.
+   * @throws AssertionError if the actual {@code Instant} is in the past.
+   *
+   * @since 4.0.0
+   */
+  public SELF isNotInThePast() {
+    return executeAssertion(() -> {
+      isNotNull();
+      if (actual.isBefore(Instant.now())) throw Failures.instance().failure(info, shouldBeNotInThePast(actual));
+    });
+  }
+
+  /**
+   * Verifies that the actual {@code Instant} is not in the future, i.e. it is either now or in the past.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(Instant.now().minusSeconds(60)).isNotInTheFuture();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Instant} is {@code null}.
+   * @throws AssertionError if the actual {@code Instant} is in the future.
+   *
+   * @since 4.0.0
+   */
+  public SELF isNotInTheFuture() {
+    return executeAssertion(() -> {
+      isNotNull();
+      if (actual.isAfter(Instant.now())) throw Failures.instance().failure(info, shouldBeNotInTheFuture(actual));
     });
   }
 
