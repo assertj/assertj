@@ -568,6 +568,66 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   }
 
   /**
+   * Verifies that the actual {@code File} is hidden according to {@link File#isHidden()}.
+   * <p>
+   * On Windows systems this will check the hidden flag. On Unix systems this will check whether the file
+   * name starts with {@code '.'}.
+   * </p>
+   * <p>
+   * Example:
+   * <pre><code class='java'>File tmpDir = Files.createTempDirectory(&quot;tmp&quot;).toFile();
+   * File hiddenFile = new File(tmpDir, ".hiddenFile");
+   * hiddenFile.createNewFile();
+   * 
+   * File notHiddenFile = new File(tmpDir, "notHiddenFile");
+   * notHiddenFile.createNewFile();
+   *
+   * // assertion will pass
+   * assertThat(hiddenFile).isHidden();
+   *
+   * // assertions will fail
+   * assertThat(notHiddenFile).isHidden;</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} can not be read by the application.
+   * @see File#isHidden()
+   */
+  public SELF isHidden() {
+    return executeAssertion(() -> files.assertIsHidden(info, actual));
+  }
+
+  /**
+   * Verifies that the actual {@code File} is not hidden according to {@link File#isHidden()}.
+   * <p>
+   * On Windows systems this will check the hidden flag. On Unix systems this will check whether the file
+   * name starts with {@code '.'}.
+   * </p>
+   * <p>
+   * Example:
+   * <pre><code class='java'>File tmpDir = Files.createTempDirectory(&quot;tmp&quot;).toFile();
+   * File notHiddenFile = new File(tmpDir, "notHiddenFile");
+   * notHiddenFile.createNewFile();
+   * 
+   * File hiddenFile = new File(tmpDir, ".hiddenFile");
+   * hiddenFile.createNewFile();
+   *
+   * // assertion will pass
+   * assertThat(notHiddenFile).isNotHidden();
+   *
+   * // assertions will fail
+   * assertThat(hiddenFile).isNotHidden();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} can not be read by the application.
+   * @see File#isHidden()
+   */
+  public SELF isNotHidden() {
+    return executeAssertion(() -> files.assertIsNotHidden(info, actual));
+  }
+
+  /**
    * Verifies that the actual {@code File} has given parent.
    *
    * <p>
