@@ -21,19 +21,16 @@ import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Comparables;
 
-/**
- * Base class for all implementations of <code>{@link ComparableAssert}</code>.
- *
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
- *          target="_blank">Emulating
- *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
- * @param <ACTUAL> the type of the "actual" value.
- *
- * @author Alex Ruiz
- * @author Mikhail Mazursky
- */
-public abstract class AbstractComparableAssert<SELF extends AbstractComparableAssert<SELF, ACTUAL>, ACTUAL extends Comparable<? super ACTUAL>>
-    extends AbstractObjectAssert<SELF, ACTUAL> implements ComparableAssert<SELF, ACTUAL> {
+/// Base class for all implementations of [ComparableAssert].
+///
+/// @param <SELF> the self type of this assertion class.
+/// @param <ACTUAL> the type of the actual value.
+/// @param <COMPARABLE_TYPE> the type accepted by comparable assertion methods.
+///
+/// @author Alex Ruiz
+/// @author Mikhail Mazursky
+public abstract class AbstractComparableAssert<SELF extends AbstractComparableAssert<SELF, ACTUAL, COMPARABLE_TYPE>, ACTUAL extends Comparable<? super COMPARABLE_TYPE>, COMPARABLE_TYPE>
+    extends AbstractObjectAssert<SELF, ACTUAL> implements ComparableAssert<SELF, COMPARABLE_TYPE> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Comparables comparables = new Comparables();
@@ -50,49 +47,49 @@ public abstract class AbstractComparableAssert<SELF extends AbstractComparableAs
 
   /** {@inheritDoc} */
   @Override
-  public SELF isEqualByComparingTo(ACTUAL other) {
+  public SELF isEqualByComparingTo(COMPARABLE_TYPE other) {
     return executeAssertion(() -> comparables.assertEqualByComparison(info, actual, other));
   }
 
   /** {@inheritDoc} */
   @Override
-  public SELF isNotEqualByComparingTo(ACTUAL other) {
+  public SELF isNotEqualByComparingTo(COMPARABLE_TYPE other) {
     return executeAssertion(() -> comparables.assertNotEqualByComparison(info, actual, other));
   }
 
   /** {@inheritDoc} */
   @Override
-  public SELF isLessThan(ACTUAL other) {
+  public SELF isLessThan(COMPARABLE_TYPE other) {
     return executeAssertion(() -> comparables.assertLessThan(info, actual, other));
   }
 
   /** {@inheritDoc} */
   @Override
-  public SELF isLessThanOrEqualTo(ACTUAL other) {
+  public SELF isLessThanOrEqualTo(COMPARABLE_TYPE other) {
     return executeAssertion(() -> comparables.assertLessThanOrEqualTo(info, actual, other));
   }
 
   /** {@inheritDoc} */
   @Override
-  public SELF isGreaterThan(ACTUAL other) {
+  public SELF isGreaterThan(COMPARABLE_TYPE other) {
     return executeAssertion(() -> comparables.assertGreaterThan(info, actual, other));
   }
 
   /** {@inheritDoc} */
   @Override
-  public SELF isGreaterThanOrEqualTo(ACTUAL other) {
+  public SELF isGreaterThanOrEqualTo(COMPARABLE_TYPE other) {
     return executeAssertion(() -> comparables.assertGreaterThanOrEqualTo(info, actual, other));
   }
 
   /** {@inheritDoc} */
   @Override
-  public SELF isBetween(ACTUAL startInclusive, ACTUAL endInclusive) {
+  public SELF isBetween(COMPARABLE_TYPE startInclusive, COMPARABLE_TYPE endInclusive) {
     return executeAssertion(() -> comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true));
   }
 
   /** {@inheritDoc} */
   @Override
-  public SELF isStrictlyBetween(ACTUAL startExclusive, ACTUAL endExclusive) {
+  public SELF isStrictlyBetween(COMPARABLE_TYPE startExclusive, COMPARABLE_TYPE endExclusive) {
     return executeAssertion(() -> comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false));
   }
 

@@ -40,7 +40,7 @@ import org.assertj.core.internal.Longs;
  * @author Nicolas François
  * @author Cal027
  */
-public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> extends AbstractComparableAssert<SELF, Long>
+public abstract class AbstractLongAssert<SELF extends AbstractLongAssert<SELF>> extends AbstractComparableAssert<SELF, Long, Long>
     implements NumberAssert<SELF, Long> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting

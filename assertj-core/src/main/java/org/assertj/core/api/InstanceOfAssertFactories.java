@@ -1073,7 +1073,7 @@ public interface InstanceOfAssertFactories {
    * @param comparableType the comparable type instance.
    * @return the factory instance.
    */
-  static <T extends Comparable<? super T>> InstanceOfAssertFactory<T, AbstractComparableAssert<?, T>> comparable(Class<T> comparableType) {
+  static <T extends Comparable<? super T>> InstanceOfAssertFactory<T, AbstractComparableAssert<?, T, T>> comparable(Class<T> comparableType) {
     return new InstanceOfAssertFactory<>(comparableType, Assertions::assertThat);
   }
 

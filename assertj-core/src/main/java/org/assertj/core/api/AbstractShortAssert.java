@@ -39,7 +39,8 @@ import org.assertj.core.internal.Shorts;
  * @author Nicolas François
  * @author Cal027
  */
-public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>> extends AbstractComparableAssert<SELF, Short>
+public abstract class AbstractShortAssert<SELF extends AbstractShortAssert<SELF>>
+    extends AbstractComparableAssert<SELF, Short, Short>
     implements NumberAssert<SELF, Short> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting

@@ -40,7 +40,7 @@ import org.assertj.core.presentation.StandardRepresentation;
  * @since 3.15.0
  */
 public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert<SELF>>
-    extends AbstractComparableAssert<SELF, Duration> {
+    extends AbstractComparableAssert<SELF, Duration, Duration> {
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractDurationAssert}</code>

@@ -86,7 +86,8 @@ import org.assertj.core.internal.Paths;
  *
  * @author Valeriy Vyrva
  */
-public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> extends AbstractComparableAssert<SELF, Path> {
+public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>>
+    extends AbstractComparableAssert<SELF, Path, Path> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Internal assertions for paths. */

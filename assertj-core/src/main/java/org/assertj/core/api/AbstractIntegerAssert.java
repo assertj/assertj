@@ -41,7 +41,7 @@ import org.assertj.core.internal.Integers;
  * @author Cal027
  */
 public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<SELF>> extends
-    AbstractComparableAssert<SELF, Integer> implements NumberAssert<SELF, Integer> {
+    AbstractComparableAssert<SELF, Integer, Integer> implements NumberAssert<SELF, Integer> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Integers integers = Integers.instance();
