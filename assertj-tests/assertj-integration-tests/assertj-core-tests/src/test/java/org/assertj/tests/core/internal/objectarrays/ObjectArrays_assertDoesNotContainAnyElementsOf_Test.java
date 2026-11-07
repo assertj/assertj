@@ -21,17 +21,29 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsNull;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
-class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertDoesNotContainAnyElementsOf_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final String[] actual = array("Luke", "Yoda", "Leia");
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final ObjectArrays arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
 
   @Test
   void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable() {
@@ -69,9 +81,9 @@ class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectArraysBa
     // GIVEN
     List<String> list = list("Vador", "Yoda", "Han");
     // WHEN
-    expectAssertionError(() -> arrays.assertDoesNotContainAnyElementsOf(INFO, actual, list));
+    var error = expectAssertionError(() -> arrays.assertDoesNotContainAnyElementsOf(INFO, actual, list));
     // THEN
-    verify(failures).failure(INFO, shouldNotContain(actual, list.toArray(), newLinkedHashSet("Yoda")));
+    then(error).hasMessage(shouldNotContain(actual, list.toArray(), newLinkedHashSet("Yoda")).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -94,9 +106,10 @@ class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectArraysBa
     // GIVEN
     List<String> expected = list("LuKe", "YODA", "Han");
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainAnyElementsOf(INFO, actual, expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainAnyElementsOf(INFO, actual,
+                                                                                                                expected));
     // THEN
-    verify(failures).failure(INFO, shouldNotContain(actual, expected.toArray(), newLinkedHashSet("LuKe", "YODA"),
-                                                    caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldNotContain(actual, expected.toArray(), newLinkedHashSet("LuKe", "YODA"),
+                                            caseInsensitiveStringComparisonStrategy).create());
   }
 }

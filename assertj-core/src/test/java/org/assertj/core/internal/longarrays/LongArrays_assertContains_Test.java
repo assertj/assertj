@@ -48,7 +48,7 @@ class LongArrays_assertContains_Test extends LongArraysBaseTest {
   @Test
   void should_delegate_to_internal_Arrays() {
     arrays.assertContains(someInfo(), actual, arrayOf(6L, 8L, 10L));
-    verify(internalArrays).assertContains(someInfo(), failures, actual, arrayOf(6L, 8L, 10L));
+    verify(internalArrays).assertContains(someInfo(), assertionErrorCreator, actual, arrayOf(6L, 8L, 10L));
   }
 
 }

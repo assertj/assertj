@@ -39,7 +39,7 @@ class ByteArrays_assertContainsAnyOf_Test extends ByteArraysBaseTest {
   @Test
   void should_delegate_to_internal_Arrays() {
     arrays.assertContainsAnyOf(someInfo(), actual, new byte[] { 1, 2, 3 });
-    verify(internalArrays).assertContainsAnyOf(someInfo(), failures, actual, new byte[] { 1, 2, 3 });
+    verify(internalArrays).assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, new byte[] { 1, 2, 3 });
   }
 
 }

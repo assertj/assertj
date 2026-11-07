@@ -65,7 +65,7 @@ public class Characters extends Comparables {
   public void assertLowerCase(AssertionInfo info, Character actual) {
     assertNotNull(info, actual);
     if (isLowerCase(actual)) return;
-    throw failures.failure(info, shouldBeLowerCase(actual));
+    throw assertionErrorCreator.assertionError(info, shouldBeLowerCase(actual));
   }
 
   /**
@@ -78,6 +78,6 @@ public class Characters extends Comparables {
   public void assertUpperCase(AssertionInfo info, Character actual) {
     assertNotNull(info, actual);
     if (isUpperCase(actual)) return;
-    throw failures.failure(info, shouldBeUpperCase(actual));
+    throw assertionErrorCreator.assertionError(info, shouldBeUpperCase(actual));
   }
 }

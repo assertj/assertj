@@ -15,17 +15,16 @@
  */
 package org.assertj.core.internal.longarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.LongArrays.arrayOf;
 import static org.assertj.core.testkit.LongArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.LongArrays;
@@ -71,39 +70,39 @@ class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_sequence_is_bigger_than_actual() {
+    // GIVEN
     AssertionInfo info = someInfo();
     long[] sequence = { 6L, 8L, 10L, 12L, 20L, 22L };
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsSequence(info, actual, sequence));
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence);
+    verifyFailureThrownWhenSequenceNotFound(error, sequence);
   }
 
   @Test
   void should_fail_if_actual_does_not_contain_whole_sequence() {
+    // GIVEN
     AssertionInfo info = someInfo();
     long[] sequence = { 6L, 20L };
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsSequence(info, actual, sequence));
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence);
+    verifyFailureThrownWhenSequenceNotFound(error, sequence);
   }
 
   @Test
   void should_fail_if_actual_contains_first_elements_of_sequence() {
+    // GIVEN
     AssertionInfo info = someInfo();
     long[] sequence = { 6L, 20L, 22L };
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsSequence(info, actual, sequence));
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence);
+    verifyFailureThrownWhenSequenceNotFound(error, sequence);
   }
 
-  private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, long[] sequence) {
-    verify(failures).failure(info, shouldContainSequence(actual, sequence));
+  private void verifyFailureThrownWhenSequenceNotFound(AssertionError error, long[] sequence) {
+    then(error).hasMessage(shouldContainSequence(actual, sequence).create());
   }
 
   @Test
@@ -141,35 +140,35 @@ class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     long[] sequence = { 6L, -8L, 10L, 12L, 20L, 22L };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainSequence(actual, sequence, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence));
+    // THEN
+    then(error).hasMessage(shouldContainSequence(actual, sequence, absValueComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     long[] sequence = { 6L, 20L };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainSequence(actual, sequence, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence));
+    // THEN
+    then(error).hasMessage(shouldContainSequence(actual, sequence, absValueComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_contains_first_elements_of_sequence_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     long[] sequence = { 6L, 20L, 22L };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainSequence(actual, sequence, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence));
+    // THEN
+    then(error).hasMessage(shouldContainSequence(actual, sequence, absValueComparisonStrategy).create());
   }
 
   @Test

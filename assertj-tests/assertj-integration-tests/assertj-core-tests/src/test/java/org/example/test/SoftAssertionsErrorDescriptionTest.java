@@ -42,7 +42,7 @@ class SoftAssertionsErrorDescriptionTest {
   void should_display_the_error_cause_and_the_cause_first_stack_trace_elements() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
-    softly.fail("failure", throwRuntimeException());
+    softly.fail("assertionError", throwRuntimeException());
     // WHEN
     var error = expectAssertionError(softly::assertAll);
     // THEN

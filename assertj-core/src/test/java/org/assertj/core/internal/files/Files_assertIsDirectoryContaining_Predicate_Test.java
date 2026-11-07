@@ -29,7 +29,6 @@ import static org.assertj.core.util.Lists.list;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -108,9 +107,9 @@ class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE));
     // THEN
-    verify(failures).failure(INFO, shouldBeDirectory(actual));
+    then(error).hasMessage(shouldBeDirectory(actual).create());
   }
 
   @Test
@@ -118,9 +117,9 @@ class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE));
     // THEN
-    verify(failures).failure(INFO, shouldBeDirectory(actual));
+    then(error).hasMessage(shouldBeDirectory(actual).create());
   }
 
   // use mock as it's hard to simulate listFiles(FileFilter.class) to return null
@@ -143,9 +142,9 @@ class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE));
     // THEN
-    verify(failures).failure(INFO, directoryShouldContain(actual, emptyList(), "the given filter"));
+    then(error).hasMessage(directoryShouldContain(actual, emptyList(), "the given filter").create());
   }
 
   @Test
@@ -155,8 +154,8 @@ class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseTest {
     File file = newFile(actual.getAbsolutePath() + "/Test.class");
     List<File> items = list(file);
     // WHEN
-    expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE));
     // THEN
-    verify(failures).failure(INFO, directoryShouldContain(actual, items, "the given filter"));
+    then(error).hasMessage(directoryShouldContain(actual, items, "the given filter").create());
   }
 }

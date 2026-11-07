@@ -15,15 +15,14 @@
  */
 package org.assertj.core.internal.booleanarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.testkit.BooleanArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
 
@@ -79,12 +78,11 @@ class BooleanArrays_assertIsSortedAccordingToComparator_Test extends BooleanArra
   void should_fail_if_actual_is_not_sorted_according_to_given_comparator() {
     AssertionInfo info = someInfo();
     actual = new boolean[] { true, true, false, true };
-
-    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual,
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertIsSortedAccordingToComparator(info, actual,
                                                                                       booleanDescendingOrderComparator));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual, booleanDescendingOrderComparator));
+    // THEN
+    then(error).hasMessage(shouldBeSortedAccordingToGivenComparator(2, actual, booleanDescendingOrderComparator).create());
   }
 
 }

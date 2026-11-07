@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.integers;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeGreater.shouldBeGreater;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
@@ -49,23 +48,21 @@ class Integers_assertGreaterThan_Test extends IntegersBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_equal_to_other() {
+  void should_fail_if_actual_is_equal_to_other() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> integers.assertGreaterThan(info, 6, 6));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreater(6, 6, StandardComparisonStrategy.instance()));
+    // WHEN
+    var error = expectAssertionError(() -> integers.assertGreaterThan(info, 6, 6));
+    // THEN
+    then(error).hasMessage(shouldBeGreater(6, 6, StandardComparisonStrategy.instance()).create());
   }
 
   @Test
-  void should_fail_if_actual_is_less_than_other() {
+  void should_fail_if_actual_is_less_than_other() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> integers.assertGreaterThan(info, 6, 8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreater(6, 8));
+    // WHEN
+    var error = expectAssertionError(() -> integers.assertGreaterThan(info, 6, 8));
+    // THEN
+    then(error).hasMessage(shouldBeGreater(6, 8).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -78,23 +75,21 @@ class Integers_assertGreaterThan_Test extends IntegersBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> integersWithAbsValueComparisonStrategy.assertGreaterThan(info, 6, -6));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreater(6, -6, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertGreaterThan(info, 6, -6));
+    // THEN
+    then(error).hasMessage(shouldBeGreater(6, -6, absValueComparisonStrategy).create());
   }
 
   @Test
-  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> integersWithAbsValueComparisonStrategy.assertGreaterThan(info, -6, -8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreater(-6, -8, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertGreaterThan(info, -6, -8));
+    // THEN
+    then(error).hasMessage(shouldBeGreater(-6, -8, absValueComparisonStrategy).create());
   }
 
 }

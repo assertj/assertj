@@ -21,7 +21,6 @@ import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.junit.jupiter.api.condition.OS.WINDOWS;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
@@ -49,9 +48,9 @@ class Files_assertIsExecutable_Test extends FilesBaseTest {
     // GIVEN
     File nonExistentFile = new File("xyz");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsExecutable(INFO, nonExistentFile));
+    var error = expectAssertionError(() -> underTest.assertIsExecutable(INFO, nonExistentFile));
     // THEN
-    verify(failures).failure(INFO, shouldBeExecutable(nonExistentFile));
+    then(error).hasMessage(shouldBeExecutable(nonExistentFile).create());
   }
 
   @Test
@@ -60,9 +59,9 @@ class Files_assertIsExecutable_Test extends FilesBaseTest {
     // GIVEN
     File actual = resourceFile("empty.txt");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsExecutable(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsExecutable(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldBeExecutable(actual));
+    then(error).hasMessage(shouldBeExecutable(actual).create());
   }
 
   @Test

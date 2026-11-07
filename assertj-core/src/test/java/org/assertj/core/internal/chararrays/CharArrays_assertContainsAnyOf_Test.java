@@ -39,7 +39,7 @@ class CharArrays_assertContainsAnyOf_Test extends CharArraysBaseTest {
   @Test
   void should_delegate_to_internal_Arrays() {
     arrays.assertContainsAnyOf(someInfo(), actual, new char[] { 'a', 'b', 'c' });
-    verify(internalArrays).assertContainsAnyOf(someInfo(), failures, actual, new char[] { 'a', 'b', 'c' });
+    verify(internalArrays).assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, new char[] { 'a', 'b', 'c' });
   }
 
 }

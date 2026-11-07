@@ -15,15 +15,14 @@
  */
 package org.assertj.core.internal.dates;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
@@ -54,12 +53,13 @@ class Dates_assertIsCloseTo_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_close_to_given_date_by_less_than_given_delta() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertIsCloseTo(info, actual, other, delta));
 
-    Throwable error = catchThrowable(() -> dates.assertIsCloseTo(info, actual, other, delta));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeCloseTo(actual, other, delta, 101));
+    // THEN
+    then(error).hasMessage(shouldBeCloseTo(actual, other, delta, 101).create());
   }
 
   @Test
@@ -82,12 +82,13 @@ class Dates_assertIsCloseTo_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_close_to_given_date_by_less_than_given_delta_whatever_custom_comparison_strategy_is() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> datesWithCustomComparisonStrategy.assertIsCloseTo(info, actual, other, delta));
 
-    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsCloseTo(info, actual, other, delta));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeCloseTo(actual, other, delta, 101));
+    // THEN
+    then(error).hasMessage(shouldBeCloseTo(actual, other, delta, 101).create());
   }
 
   @Test

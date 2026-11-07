@@ -29,7 +29,6 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.description.Description;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.Representation;
 
 /**
@@ -56,7 +55,7 @@ public class ShouldBeEqual {
   protected final Object expected;
   /** Whether the values have matching class names from different packages. */
   protected final boolean haveSameClassNameInDifferentPackages;
-  /** Formatter used to build the failure message. */
+  /** Formatter used to build the assertionError message. */
   protected final MessageFormatter messageFormatter = MessageFormatter.instance();
   /** Strategy used to compare the values. */
   protected final ComparisonStrategy comparisonStrategy;
@@ -116,15 +115,15 @@ public class ShouldBeEqual {
    * {@link #expected} string representation is different), this method will instead create a
    * {@code org.opentest4j.AssertionFailedError} that highlights the difference(s) between the expected and actual objects.
    * </p>
-   * {@link AssertionError} stack trace won't show AssertJ related elements if {@link Failures} is configured to filter
-   * them (see {@link Failures#setRemoveAssertJRelatedElementsFromStackTrace(boolean)}).
+   * {@link AssertionError} stack trace won't show AssertJ related elements if {@link AssertionErrorCreator} is configured to filter
+   * them (see {@link AssertionErrorCreator#setRemoveAssertJRelatedElementsFromStackTrace(boolean)}).
    *
    * @param info the assertion information, providing the description and the {@link Representation} used to format values.
    * @return the created {@code AssertionError}.
    */
   public AssertionError toAssertionError(AssertionInfo info) {
     var assertionError = createAssertionError(info.description(), info.representation());
-    AssertionErrorCreator.INSTANCE.printThreadDumpIfNeeded(info);
+    AssertionErrorCreator.instance().printThreadDumpIfNeeded(info);
     return assertionError;
   }
 
@@ -142,7 +141,7 @@ public class ShouldBeEqual {
     // assertionFailedError != null means that JUnit 5 and opentest4j are in the classpath
     if (assertionFailedError != null) return assertionFailedError;
     // No JUnit in the classpath => fall back to the default error message
-    return Failures.instance().failure(message);
+    return AssertionErrorCreator.instance().assertionError(message);
   }
 
   /**
@@ -246,7 +245,7 @@ public class ShouldBeEqual {
                                                 representation.toStringOf(expected),
                                                 representation.toStringOf(actual));
       if (o instanceof AssertionError assertionError) {
-        Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
+        AssertionErrorCreator.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
         return assertionError;
       }
       return null;

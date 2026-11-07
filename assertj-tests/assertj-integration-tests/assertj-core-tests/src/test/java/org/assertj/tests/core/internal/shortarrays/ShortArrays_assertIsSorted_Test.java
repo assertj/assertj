@@ -15,19 +15,20 @@
  */
 package org.assertj.tests.core.internal.shortarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
 import static org.assertj.tests.core.testkit.ShortArrays.emptyArray;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ShortArrays;
+import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -35,12 +36,12 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-class ShortArrays_assertIsSorted_Test extends ShortArraysBaseTest {
+class ShortArrays_assertIsSorted_Test {
 
-  @Override
-  protected void initActualArray() {
-    actual = new short[] { 1, 2, 3, 4, 4 };
-  }
+  private short[] actual = new short[] { 1, 2, 3, 4, 4 };
+  private final ShortArrays arrays = ShortArrays.instance();
+  private final ComparatorBasedComparisonStrategy absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<>());
+  private final ShortArrays arraysWithCustomComparisonStrategy = new ShortArrays(absValueComparisonStrategy);
 
   @Test
   void should_pass_if_actual_is_sorted_in_ascending_order() {
@@ -68,10 +69,9 @@ class ShortArrays_assertIsSorted_Test extends ShortArraysBaseTest {
     AssertionInfo info = someInfo();
     actual = arrayOf(1, 3, 2);
 
-    Throwable error = catchThrowable(() -> arrays.assertIsSorted(info, actual));
+    var error = expectAssertionError(() -> arrays.assertIsSorted(info, actual));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeSorted(1, actual));
+    then(error).hasMessage(shouldBeSorted(1, actual).create());
   }
 
   @Test
@@ -102,11 +102,9 @@ class ShortArrays_assertIsSorted_Test extends ShortArraysBaseTest {
     AssertionInfo info = someInfo();
     actual = arrayOf(1, 3, 2);
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertIsSorted(info, actual));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertIsSorted(info, actual));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures)
-                    .failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()));
+    then(error).hasMessage(shouldBeSortedAccordingToGivenComparator(1, actual, new AbsValueComparator<>()).create());
   }
 
 }

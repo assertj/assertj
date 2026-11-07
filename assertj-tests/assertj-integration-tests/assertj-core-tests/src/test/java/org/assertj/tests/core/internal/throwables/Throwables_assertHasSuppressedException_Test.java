@@ -19,13 +19,19 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSuppressedException.shouldHaveSuppressedException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Throwables;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
+class Throwables_assertHasSuppressedException_Test {
+
+  private static final AssertionInfo INFO = someInfo();
+  private final Throwables throwables = Throwables.instance();
+  private Throwable actual = new NullPointerException("Throwable message");
 
   private static final String IAE_EXCEPTION_MESSAGE = "invalid arg";
   private static final String NPE_EXCEPTION_MESSAGE = "null arg";
@@ -33,9 +39,7 @@ class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
   private Throwable throwableSuppressedException;
 
   @BeforeEach
-  @Override
-  public void setUp() throws IllegalAccessException {
-    super.setUp();
+  void setUp() {
     throwableSuppressedException = new Throwable();
     throwableSuppressedException.addSuppressed(new IllegalArgumentException(IAE_EXCEPTION_MESSAGE));
     throwableSuppressedException.addSuppressed(new NullPointerException(NPE_EXCEPTION_MESSAGE));
@@ -67,10 +71,10 @@ class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
     // GIVEN
     Throwable expectedSuppressedException = new Throwable();
     // WHEN
-    expectAssertionError(() -> throwables.assertHasSuppressedException(INFO, actual, expectedSuppressedException));
+    var error = expectAssertionError(() -> throwables.assertHasSuppressedException(INFO, actual, expectedSuppressedException));
 
     // THEN
-    verify(failures).failure(INFO, shouldHaveSuppressedException(actual, expectedSuppressedException));
+    then(error).hasMessage(shouldHaveSuppressedException(actual, expectedSuppressedException).create());
   }
 
   @Test
@@ -78,11 +82,10 @@ class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
     // GIVEN
     Throwable expectedSuppressedException = new NullPointerException(IAE_EXCEPTION_MESSAGE);
     // WHEN
-    expectAssertionError(() -> throwables.assertHasSuppressedException(INFO, throwableSuppressedException,
-                                                                       expectedSuppressedException));
+    var error = expectAssertionError(() -> throwables.assertHasSuppressedException(INFO, throwableSuppressedException,
+                                                                                   expectedSuppressedException));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException));
+    then(error).hasMessage(shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException).create());
   }
 
   @Test
@@ -90,11 +93,10 @@ class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
     // GIVEN
     Throwable expectedSuppressedException = new IllegalArgumentException(IAE_EXCEPTION_MESSAGE + "foo");
     // WHEN
-    expectAssertionError(() -> throwables.assertHasSuppressedException(INFO, throwableSuppressedException,
-                                                                       expectedSuppressedException));
+    var error = expectAssertionError(() -> throwables.assertHasSuppressedException(INFO, throwableSuppressedException,
+                                                                                   expectedSuppressedException));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException));
+    then(error).hasMessage(shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException).create());
   }
 
   @Test
@@ -103,11 +105,10 @@ class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
     Throwable expectedSuppressedException = new IllegalArgumentException("error cause");
     throwableSuppressedException = new Throwable(new IllegalArgumentException());
     // WHEN
-    expectAssertionError(() -> throwables.assertHasSuppressedException(INFO, throwableSuppressedException,
-                                                                       expectedSuppressedException));
+    var error = expectAssertionError(() -> throwables.assertHasSuppressedException(INFO, throwableSuppressedException,
+                                                                                   expectedSuppressedException));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException));
+    then(error).hasMessage(shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException).create());
   }
 
   @Test
@@ -115,10 +116,9 @@ class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
     // GIVEN
     Throwable expectedSuppressedException = new NullPointerException("error cause");
     // WHEN
-    expectAssertionError(() -> throwables.assertHasSuppressedException(INFO, throwableSuppressedException,
-                                                                       expectedSuppressedException));
+    var error = expectAssertionError(() -> throwables.assertHasSuppressedException(INFO, throwableSuppressedException,
+                                                                                   expectedSuppressedException));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException));
+    then(error).hasMessage(shouldHaveSuppressedException(throwableSuppressedException, expectedSuppressedException).create());
   }
 }

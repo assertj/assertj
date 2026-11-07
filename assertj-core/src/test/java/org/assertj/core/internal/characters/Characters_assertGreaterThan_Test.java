@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.characters;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeGreater.shouldBeGreater;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Characters;
@@ -49,22 +48,24 @@ class Characters_assertGreaterThan_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_equal_to_other() {
+    // GIVEN
     AssertionInfo someInfo = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> characters.assertGreaterThan(someInfo, 'b', 'b'));
 
-    Throwable error = catchThrowable(() -> characters.assertGreaterThan(someInfo, 'b', 'b'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(someInfo, shouldBeGreater('b', 'b'));
+    // THEN
+    then(error).hasMessage(shouldBeGreater('b', 'b').create());
   }
 
   @Test
   void should_fail_if_actual_is_less_than_other() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> characters.assertGreaterThan(info, 'a', 'b'));
 
-    Throwable error = catchThrowable(() -> characters.assertGreaterThan(info, 'a', 'b'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreater('a', 'b'));
+    // THEN
+    then(error).hasMessage(shouldBeGreater('a', 'b').create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -78,22 +79,24 @@ class Characters_assertGreaterThan_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo someInfo = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(someInfo, 'B', 'b'));
 
-    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(someInfo, 'B', 'b'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(someInfo, shouldBeGreater('B', 'b', caseInsensitiveComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeGreater('B', 'b', caseInsensitiveComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(info, 'A', 'b'));
 
-    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThan(info, 'A', 'b'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreater('A', 'b', caseInsensitiveComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeGreater('A', 'b', caseInsensitiveComparisonStrategy).create());
   }
 
 }

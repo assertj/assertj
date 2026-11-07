@@ -17,10 +17,10 @@ package org.assertj.core.internal.maps;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainKey.shouldContainKey;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
@@ -64,9 +64,9 @@ class Maps_assertHasKeySatisfying_Test extends MapsBaseTest {
   @Test
   void should_fail_if_actual_does_not_contain_any_key_matching_the_given_condition() {
     // WHEN
-    expectAssertionError(() -> maps.assertHasKeySatisfying(INFO, actual, isAge));
+    var error = expectAssertionError(() -> maps.assertHasKeySatisfying(INFO, actual, isAge));
     // THEN
-    verify(failures).failure(INFO, shouldContainKey(actual, isAge));
+    then(error).hasMessage(shouldContainKey(actual, isAge).create());
   }
 
   @Test

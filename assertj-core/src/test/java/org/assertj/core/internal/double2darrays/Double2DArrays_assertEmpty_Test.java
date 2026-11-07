@@ -34,6 +34,6 @@ class Double2DArrays_assertEmpty_Test extends Double2DArraysBaseTest {
     // WHEN
     double2dArrays.assertEmpty(info, actual);
     // THEN
-    verify(arrays2d).assertEmpty(info, failures, actual);
+    verify(arrays2d).assertEmpty(info, assertionErrorCreator, actual);
   }
 }

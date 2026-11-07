@@ -16,18 +16,17 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
@@ -85,12 +84,9 @@ class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
-    Throwable error = catchThrowable(() -> iterables.assertContainsExactlyInAnyOrder(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, newArrayList("Han"), newArrayList("Leia"),
-                                                            StandardComparisonStrategy.instance()));
+    var error = expectAssertionError(() -> iterables.assertContainsExactlyInAnyOrder(info, actual, expected));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList("Han"), newArrayList("Leia"),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -106,12 +102,9 @@ class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBaseTest {
     actual = newArrayList("Luke", "Leia", "Luke");
     Object[] expected = { "Luke", "Leia" };
 
-    Throwable error = catchThrowable(() -> iterables.assertContainsExactlyInAnyOrder(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList("Luke"),
-                                                            StandardComparisonStrategy.instance()));
+    var error = expectAssertionError(() -> iterables.assertContainsExactlyInAnyOrder(info, actual, expected));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList("Luke"),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -120,12 +113,9 @@ class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBaseTest {
     actual = newArrayList("Luke", "Leia");
     Object[] expected = { "Luke", "Leia", "Luke" };
 
-    Throwable error = catchThrowable(() -> iterables.assertContainsExactlyInAnyOrder(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, newArrayList("Luke"), emptyList(),
-                                                            StandardComparisonStrategy.instance()));
+    var error = expectAssertionError(() -> iterables.assertContainsExactlyInAnyOrder(info, actual, expected));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList("Luke"), emptyList(),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -143,13 +133,11 @@ class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactlyInAnyOrder(info,
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactlyInAnyOrder(info,
                                                                                                                           actual,
                                                                                                                           expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, newArrayList("Han"),
-                                                                  newArrayList("Leia"), comparisonStrategy));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList("Han"), newArrayList("Leia"),
+                                                          comparisonStrategy).create());
   }
 
   @Test
@@ -165,13 +153,11 @@ class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBaseTest {
     actual = newArrayList("Luke", "Leia", "Luke");
     Object[] expected = { "LUKE", "Leia" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactlyInAnyOrder(info,
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactlyInAnyOrder(info,
                                                                                                                           actual,
                                                                                                                           expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList("Luke"),
-                                                                  comparisonStrategy));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList("Luke"),
+                                                          comparisonStrategy).create());
   }
 
 }

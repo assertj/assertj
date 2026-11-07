@@ -34,6 +34,7 @@ import java.lang.reflect.Array;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.ShouldHaveDimensions;
 
 /**
@@ -63,12 +64,12 @@ public class Arrays2D {
    * Verifies that the array is {@code null} or empty.
    *
    * @param info assertion information
-   * @param failures failure handler
+   * @param assertionErrorCreator assertionError handler
    * @param array the actual array
    */
-  public void assertNullOrEmpty(AssertionInfo info, Failures failures, Object array) {
+  public void assertNullOrEmpty(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array) {
     if (array == null) return;
-    if (countArrayElements(array) > 0) throw failures.failure(info, shouldBeNullOrEmpty(array));
+    if (countArrayElements(array) > 0) throw assertionErrorCreator.assertionError(info, shouldBeNullOrEmpty(array));
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -76,16 +77,16 @@ public class Arrays2D {
    * Verifies that the array is empty.
    *
    * @param info assertion information
-   * @param failures failure handler
+   * @param assertionErrorCreator assertionError handler
    * @param array the actual array
    */
-  public void assertEmpty(AssertionInfo info, Failures failures, Object array) {
+  public void assertEmpty(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array) {
     assertNotNull(info, array);
     // need to check that all rows are empty
     int numberOfRows = sizeOf(array);
     for (int i = 0; i < numberOfRows; i++) {
       Object actualArrayRow = Array.get(array, i);
-      if (sizeOf(actualArrayRow) > 0) throw failures.failure(info, shouldBeEmpty(array));
+      if (sizeOf(actualArrayRow) > 0) throw assertionErrorCreator.assertionError(info, shouldBeEmpty(array));
     }
   }
 
@@ -94,17 +95,18 @@ public class Arrays2D {
    * Verifies both dimensions of the array.
    *
    * @param info assertion information
-   * @param failures failure handler
+   * @param assertionErrorCreator assertionError handler
    * @param array2d the actual array
    * @param expectedNumberOfRows the expected row count
    * @param expectedRowSize the expected row size
    */
-  public void assertHasDimensions(AssertionInfo info, Failures failures, Object array2d, int expectedNumberOfRows,
+  public void assertHasDimensions(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array2d,
+                                  int expectedNumberOfRows,
                                   int expectedRowSize) {
-    assertNumberOfRows(info, failures, array2d, expectedNumberOfRows);
+    assertNumberOfRows(info, assertionErrorCreator, array2d, expectedNumberOfRows);
     for (int i = 0; i < expectedNumberOfRows; i++) {
       Object actualRow = Array.get(array2d, i);
-      assertSecondDimension(info, failures, actualRow, expectedRowSize, i);
+      assertSecondDimension(info, assertionErrorCreator, actualRow, expectedRowSize, i);
     }
   }
 
@@ -113,26 +115,30 @@ public class Arrays2D {
    * Verifies the number of rows in the array.
    *
    * @param info assertion information
-   * @param failures failure handler
+   * @param assertionErrorCreator assertionError handler
    * @param array the actual array
    * @param expectedSize the expected row count
    */
-  public void assertNumberOfRows(AssertionInfo info, Failures failures, Object array, int expectedSize) {
+  public void assertNumberOfRows(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array,
+                                 int expectedSize) {
     assertNotNull(info, array);
     int sizeOfActual = sizeOf(array);
     if (sizeOfActual != expectedSize)
-      throw failures.failure(info, ShouldHaveDimensions.shouldHaveFirstDimension(array, sizeOfActual, expectedSize));
+      throw assertionErrorCreator.assertionError(info, ShouldHaveDimensions.shouldHaveFirstDimension(array, sizeOfActual,
+                                                                                                     expectedSize));
   }
 
-  private void assertSecondDimension(AssertionInfo info, Failures failures, Object actual, int expectedSize, int rowIndex) {
+  private void assertSecondDimension(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object actual,
+                                     int expectedSize, int rowIndex) {
     assertNotNull(info, actual);
-    checkArraySizes(actual, failures, sizeOf(actual), expectedSize, info, rowIndex);
+    checkArraySizes(actual, assertionErrorCreator, sizeOf(actual), expectedSize, info, rowIndex);
   }
 
-  private static void checkArraySizes(Object actual, Failures failures, int sizeOfActual, int sizeOfOther, AssertionInfo info,
+  private static void checkArraySizes(Object actual, AssertionErrorCreator assertionErrorCreator, int sizeOfActual,
+                                      int sizeOfOther, AssertionInfo info,
                                       int rowIndex) {
     if (sizeOfActual != sizeOfOther) {
-      throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, sizeOfOther, rowIndex));
+      throw assertionErrorCreator.assertionError(info, shouldHaveSize(actual, sizeOfActual, sizeOfOther, rowIndex));
     }
   }
 
@@ -152,8 +158,9 @@ public class Arrays2D {
     int actualFirstDimension = sizeOf(actual);
     int otherFirstDimension = sizeOf(other);
     if (actualFirstDimension != otherFirstDimension) {
-      throw Failures.instance().failure(info,
-                                        shouldHaveSameDimensionsAs(actual, other, actualFirstDimension, otherFirstDimension));
+      throw AssertionErrorCreator.instance().assertionError(info,
+                                                            shouldHaveSameDimensionsAs(actual, other, actualFirstDimension,
+                                                                                       otherFirstDimension));
     }
     // check second dimensions
     for (int i = 0; i < actualFirstDimension; i++) {
@@ -170,8 +177,10 @@ public class Arrays2D {
     requireNonNull(other, "The array to compare %s size with should not be null".formatted(actual));
     int expectedRowSize = Array.getLength(otherRow);
     if (actualRowSize != expectedRowSize)
-      throw Failures.instance().failure(info, shouldHaveSameDimensionsAs(rowIndex, actualRowSize, expectedRowSize, actualRow,
-                                                                         otherRow, actual, other));
+      throw AssertionErrorCreator.instance().assertionError(info,
+                                                            shouldHaveSameDimensionsAs(rowIndex, actualRowSize, expectedRowSize,
+                                                                                       actualRow,
+                                                                                       otherRow, actual, other));
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -179,18 +188,20 @@ public class Arrays2D {
    * Verifies that the array contains the value at the given row index.
    *
    * @param info assertion information
-   * @param failures failure handler
+   * @param assertionErrorCreator assertionError handler
    * @param array the actual array
    * @param value the expected row value
    * @param index the row index
    */
-  public void assertContains(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
+  public void assertContains(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array, Object value,
+                             Index index) {
     assertNotNull(info, array);
-    assertNotEmpty(info, failures, array);
+    assertNotEmpty(info, assertionErrorCreator, array);
     checkIndexValueIsValid(index, sizeOf(array) - 1);
     Object actualElement = Array.get(array, index.value);
     if (!deepEquals(actualElement, value)) {
-      throw failures.failure(info, shouldContainAtIndex(array, value, index, Array.get(array, index.value)));
+      throw assertionErrorCreator.assertionError(info,
+                                                 shouldContainAtIndex(array, value, index, Array.get(array, index.value)));
     }
   }
 
@@ -199,12 +210,12 @@ public class Arrays2D {
    * Verifies that the array is not empty.
    *
    * @param info assertion information
-   * @param failures failure handler
+   * @param assertionErrorCreator assertionError handler
    * @param array the actual array
    */
-  public void assertNotEmpty(AssertionInfo info, Failures failures, Object array) {
+  public void assertNotEmpty(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array) {
     assertNotNull(info, array);
-    if (countArrayElements(array) == 0) throw failures.failure(info, shouldNotBeEmpty());
+    if (countArrayElements(array) == 0) throw assertionErrorCreator.assertionError(info, shouldNotBeEmpty());
   }
 
   private static int countArrayElements(Object array) {
@@ -224,17 +235,18 @@ public class Arrays2D {
    * Verifies that the array does not contain the value at the given row index.
    *
    * @param info assertion information
-   * @param failures failure handler
+   * @param assertionErrorCreator assertionError handler
    * @param array the actual array
    * @param value the value expected to be absent
    * @param index the row index
    */
-  public void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
+  public void assertDoesNotContain(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array, Object value,
+                                   Index index) {
     assertNotNull(info, array);
     checkIndexValueIsValid(index, Integer.MAX_VALUE);
     if (index.value >= sizeOf(array)) return;
     if (deepEquals(Array.get(array, index.value), value)) {
-      throw failures.failure(info, shouldNotContainAtIndex(array, value, index));
+      throw assertionErrorCreator.assertionError(info, shouldNotContainAtIndex(array, value, index));
     }
   }
 

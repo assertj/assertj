@@ -48,7 +48,7 @@ class CharArrays_assertContains_Test extends CharArraysBaseTest {
   @Test
   void should_delegate_to_internal_Arrays() {
     arrays.assertContains(someInfo(), actual, arrayOf('a', 'b', 'c'));
-    verify(internalArrays).assertContains(someInfo(), failures, actual, arrayOf('a', 'b', 'c'));
+    verify(internalArrays).assertContains(someInfo(), assertionErrorCreator, actual, arrayOf('a', 'b', 'c'));
   }
 
 }

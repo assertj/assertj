@@ -18,20 +18,21 @@ package org.assertj.core.internal;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.testkit.CaseInsensitiveCharacterComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for Characters unit tests
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Characters#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Characters#assertionErrorCreator} appropriately.
  *
  * @author Joel Costigliola
  *
  */
 public class CharactersBaseTest {
 
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Characters characters;
 
   protected ComparatorBasedComparisonStrategy caseInsensitiveComparisonStrategy;
@@ -39,12 +40,12 @@ public class CharactersBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     characters = new Characters();
-    characters.failures = failures;
+    characters.assertionErrorCreator = assertionErrorCreator;
     caseInsensitiveComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveCharacterComparator.INSTANCE);
     charactersWithCaseInsensitiveComparisonStrategy = new Characters(caseInsensitiveComparisonStrategy);
-    charactersWithCaseInsensitiveComparisonStrategy.failures = failures;
+    charactersWithCaseInsensitiveComparisonStrategy.assertionErrorCreator = assertionErrorCreator;
   }
 
 }

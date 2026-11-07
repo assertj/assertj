@@ -18,17 +18,16 @@ package org.assertj.core.internal.bigdecimals;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
 import static java.math.BigDecimal.ZERO;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.within;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 
@@ -68,27 +67,25 @@ class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
   }
 
   @Test
-  void should_fail_if_difference_is_less_than_given_offset() {
+  void should_fail_if_difference_is_less_than_given_offset() {    // GIVEN
     BigDecimal fiveDotOne = new BigDecimal("5.1");
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, fiveDotOne, FIVE,
+    // WHEN
+    var error = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, fiveDotOne, FIVE,
                                                                                                     within(ONE)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual(fiveDotOne, FIVE, within(ONE), fiveDotOne.subtract(FIVE)));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual(fiveDotOne, FIVE, within(ONE), fiveDotOne.subtract(FIVE)).create());
   }
 
   @Test
-  void should_fail_if_difference_is_less_than_given_strict_offset() {
+  void should_fail_if_difference_is_less_than_given_strict_offset() {    // GIVEN
     BigDecimal fiveDotOne = new BigDecimal("5.1");
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, fiveDotOne, FIVE,
+    // WHEN
+    var error = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, fiveDotOne, FIVE,
                                                                                                     byLessThan(ONE)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual(fiveDotOne, FIVE, byLessThan(ONE), fiveDotOne.subtract(FIVE)));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual(fiveDotOne, FIVE, byLessThan(ONE), fiveDotOne.subtract(FIVE)).create());
   }
 
   @ParameterizedTest
@@ -103,14 +100,14 @@ class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
   })
   void should_fail_if_difference_is_equal_to_given_offset(BigDecimal actual, BigDecimal expected,
                                                           BigDecimal offsetValue) {
+    // GIVEN
     AssertionInfo info = someInfo();
     Offset<BigDecimal> offset = within(offsetValue);
-
-    Throwable error = catchThrowable(() -> numbers.assertIsNotCloseTo(info, actual, expected, offset));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
     BigDecimal diff = actual.subtract(expected).abs();
-    verify(failures).failure(info, shouldNotBeEqual(actual, expected, offset, diff));
+    // WHEN
+    var error = expectAssertionError(() -> numbers.assertIsNotCloseTo(info, actual, expected, offset));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual(actual, expected, offset, diff).create());
   }
 
   @Test
@@ -147,15 +144,14 @@ class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
   }
 
   @Test
-  void should_fail_if_big_decimals_are_equal_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_big_decimals_are_equal_whatever_custom_comparison_strategy_is() {    // GIVEN
     BigDecimal fiveDotZero = new BigDecimal("5.0");
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, fiveDotZero, FIVE,
+    // WHEN
+    var error = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, fiveDotZero, FIVE,
                                                                                                     byLessThan(ONE)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual(fiveDotZero, FIVE, byLessThan(ONE), fiveDotZero.subtract(FIVE)));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual(fiveDotZero, FIVE, byLessThan(ONE), fiveDotZero.subtract(FIVE)).create());
   }
 
   @ParameterizedTest

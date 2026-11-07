@@ -19,11 +19,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -108,24 +108,26 @@ class Comparables_isBetween_Test extends ComparablesBaseTest {
 
   @Test
   void fails_if_actual_is_is_greater_than_end_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertIsBetween(someInfo(), -12, 8, 10, true,
+    // WHEN
+    var error = expectAssertionError(() -> comparablesWithCustomComparisonStrategy.assertIsBetween(someInfo(), -12, 8, 10, true,
                                                                                                    true));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBetween(-12, 8, 10, true, true, customComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeBetween(-12, 8, 10, true, true, customComparisonStrategy).create());
   }
 
   @Test
   void fails_if_actual_is_is_less_than_start_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertIsBetween(someInfo(), 6, -8, 10, true,
+    // WHEN
+    var error = expectAssertionError(() -> comparablesWithCustomComparisonStrategy.assertIsBetween(someInfo(), 6, -8, 10, true,
                                                                                                    true));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBetween(6, -8, 10, true, true, customComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeBetween(6, -8, 10, true, true, customComparisonStrategy).create());
   }
 
   @Test

@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.longs;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Longs;
@@ -48,13 +47,12 @@ class Longs_assertNotEqual_Test extends LongsBaseTest {
   }
 
   @Test
-  void should_fail_if_longs_are_equal() {
+  void should_fail_if_longs_are_equal() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> longs.assertNotEqual(info, 6L, 6L));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual(6L, 6L));
+    // WHEN
+    var error = expectAssertionError(() -> longs.assertNotEqual(info, 6L, 6L));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual(6L, 6L).create());
   }
 
   @Test
@@ -70,12 +68,11 @@ class Longs_assertNotEqual_Test extends LongsBaseTest {
   }
 
   @Test
-  void should_fail_if_longs_are_equal_according_to_custom_comparison_strategy() {
+  void should_fail_if_longs_are_equal_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> longsWithAbsValueComparisonStrategy.assertNotEqual(info, -6L, 6L));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual(-6L, 6L, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertNotEqual(info, -6L, 6L));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual(-6L, 6L, absValueComparisonStrategy).create());
   }
 }

@@ -16,16 +16,15 @@
 package org.assertj.core.internal.longs;
 
 import static java.lang.Math.abs;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.within;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.LongsBaseTest;
@@ -70,13 +69,12 @@ class Longs_assertIsCloseTo_Test extends LongsBaseTest {
       "-1, 1, 1",
       "0, 2, 1"
   })
-  void should_fail_if_actual_is_not_close_enough_to_expected(long actual, long expected, long offset) {
+  void should_fail_if_actual_is_not_close_enough_to_expected(long actual, long expected, long offset) {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> longs.assertIsCloseTo(info, actual, expected, within(offset)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(actual, expected, within(offset), abs(actual - expected)));
+    // WHEN
+    var error = expectAssertionError(() -> longs.assertIsCloseTo(info, actual, expected, within(offset)));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(actual, expected, within(offset), abs(actual - expected)).create());
   }
 
   @ParameterizedTest
@@ -87,13 +85,12 @@ class Longs_assertIsCloseTo_Test extends LongsBaseTest {
       "-1, 1, 2",
       "0, 2, 2"
   })
-  void should_fail_if_difference_is_equal_to_the_given_strict_offset(long actual, long expected, long offset) {
+  void should_fail_if_difference_is_equal_to_the_given_strict_offset(long actual, long expected, long offset) {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> longs.assertIsCloseTo(info, actual, expected, byLessThan(offset)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(actual, expected, byLessThan(offset), abs(actual - expected)));
+    // WHEN
+    var error = expectAssertionError(() -> longs.assertIsCloseTo(info, actual, expected, byLessThan(offset)));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(actual, expected, byLessThan(offset), abs(actual - expected)).create());
   }
 
   @Test

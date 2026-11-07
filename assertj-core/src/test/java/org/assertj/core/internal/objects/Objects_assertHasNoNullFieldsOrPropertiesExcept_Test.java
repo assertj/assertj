@@ -20,7 +20,6 @@ import static org.assertj.core.error.ShouldHaveNoNullFields.shouldHaveNoNullFiel
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Objects;
@@ -58,9 +57,9 @@ class Objects_assertHasNoNullFieldsOrPropertiesExcept_Test extends ObjectsBaseTe
     // GIVEN
     Object actual = new Data();
     // WHEN
-    expectAssertionError(() -> objects.assertHasNoNullFieldsOrPropertiesExcept(INFO, actual, "field3"));
+    var error = expectAssertionError(() -> objects.assertHasNoNullFieldsOrPropertiesExcept(INFO, actual, "field3"));
     // THEN
-    verify(failures).failure(INFO, shouldHaveNoNullFieldsExcept(actual, list("field2"), list("field3")));
+    then(error).hasMessage(shouldHaveNoNullFieldsExcept(actual, list("field2"), list("field3")).create());
   }
 
   @SuppressWarnings("unused")

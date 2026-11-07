@@ -16,12 +16,11 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 
@@ -53,10 +52,8 @@ class Iterables_assertNullOrEmpty_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
 
-    Throwable error = catchThrowable(() -> iterables.assertNullOrEmpty(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeNullOrEmpty(actual));
+    var error = expectAssertionError(() -> iterables.assertNullOrEmpty(info, actual));
+    then(error).hasMessage(shouldBeNullOrEmpty(actual).create());
   }
 
   @Test
@@ -74,9 +71,7 @@ class Iterables_assertNullOrEmpty_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertNullOrEmpty(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeNullOrEmpty(actual));
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertNullOrEmpty(info, actual));
+    then(error).hasMessage(shouldBeNullOrEmpty(actual).create());
   }
 }

@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Reusable assertions for <code>{@link Future}</code>s.
@@ -54,7 +55,7 @@ public class Futures {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Failures failures = Failures.instance();
+  AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
   /**
    * Verifies that the {@link Future} is cancelled.
@@ -64,7 +65,7 @@ public class Futures {
   public void assertIsCancelled(AssertionInfo info, Future<?> actual) {
     assertNotNull(info, actual);
     if (!actual.isCancelled())
-      throw failures.failure(info, shouldBeCancelled(actual));
+      throw assertionErrorCreator.assertionError(info, shouldBeCancelled(actual));
   }
 
   /**
@@ -75,7 +76,7 @@ public class Futures {
   public void assertIsNotCancelled(AssertionInfo info, Future<?> actual) {
     assertNotNull(info, actual);
     if (actual.isCancelled())
-      throw failures.failure(info, shouldNotBeCancelled(actual));
+      throw assertionErrorCreator.assertionError(info, shouldNotBeCancelled(actual));
   }
 
   /**
@@ -86,7 +87,7 @@ public class Futures {
   public void assertIsDone(AssertionInfo info, Future<?> actual) {
     assertNotNull(info, actual);
     if (!actual.isDone())
-      throw failures.failure(info, shouldBeDone(actual));
+      throw assertionErrorCreator.assertionError(info, shouldBeDone(actual));
   }
 
   /**
@@ -97,7 +98,7 @@ public class Futures {
   public void assertIsNotDone(AssertionInfo info, Future<?> actual) {
     assertNotNull(info, actual);
     if (actual.isDone())
-      throw failures.failure(info, shouldNotBeDone(actual));
+      throw assertionErrorCreator.assertionError(info, shouldNotBeDone(actual));
   }
 
   /**
@@ -115,7 +116,7 @@ public class Futures {
     try {
       return actual.get(timeout, unit);
     } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
-      throw failures.failure(info, shouldBeCompletedWithin(actual, timeout, unit, e));
+      throw assertionErrorCreator.assertionError(info, shouldBeCompletedWithin(actual, timeout, unit, e));
     }
   }
 
@@ -133,7 +134,7 @@ public class Futures {
     try {
       return actual.get(timeout.toNanos(), TimeUnit.NANOSECONDS);
     } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
-      throw failures.failure(info, shouldBeCompletedWithin(actual, timeout, e));
+      throw assertionErrorCreator.assertionError(info, shouldBeCompletedWithin(actual, timeout, e));
     }
   }
 
@@ -149,7 +150,7 @@ public class Futures {
     assertNotNull(info, actual);
     try {
       actual.get(timeout.toNanos(), TimeUnit.NANOSECONDS);
-      throw failures.failure(info, shouldHaveFailedWithin(actual, timeout));
+      throw assertionErrorCreator.assertionError(info, shouldHaveFailedWithin(actual, timeout));
     } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
       return e;
     }
@@ -168,7 +169,7 @@ public class Futures {
     assertNotNull(info, actual);
     try {
       actual.get(timeout, unit);
-      throw failures.failure(info, shouldHaveFailedWithin(actual, timeout, unit));
+      throw assertionErrorCreator.assertionError(info, shouldHaveFailedWithin(actual, timeout, unit));
     } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
       return e;
     }
@@ -186,11 +187,11 @@ public class Futures {
     assertNotNull(info, actual);
     try {
       actual.get(timeout.toNanos(), TimeUnit.NANOSECONDS);
-      throw failures.failure(info, shouldHaveCompletedExceptionallyWithin(actual, timeout));
+      throw assertionErrorCreator.assertionError(info, shouldHaveCompletedExceptionallyWithin(actual, timeout));
     } catch (ExecutionException | CancellationException e) {
       return e;
     } catch (InterruptedException | TimeoutException e) {
-      throw failures.failure(info, shouldHaveCompletedExceptionallyWithin(actual, timeout));
+      throw assertionErrorCreator.assertionError(info, shouldHaveCompletedExceptionallyWithin(actual, timeout));
     }
   }
 
@@ -207,11 +208,11 @@ public class Futures {
     assertNotNull(info, actual);
     try {
       actual.get(timeout, unit);
-      throw failures.failure(info, shouldHaveCompletedExceptionallyWithin(actual, timeout, unit));
+      throw assertionErrorCreator.assertionError(info, shouldHaveCompletedExceptionallyWithin(actual, timeout, unit));
     } catch (ExecutionException | CancellationException e) {
       return e;
     } catch (TimeoutException | InterruptedException e) {
-      throw failures.failure(info, shouldHaveCompletedExceptionallyWithin(actual, timeout, unit));
+      throw assertionErrorCreator.assertionError(info, shouldHaveCompletedExceptionallyWithin(actual, timeout, unit));
     }
   }
 

@@ -15,11 +15,10 @@
  */
 package org.assertj.tests.core.internal.shortarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
@@ -28,10 +27,12 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
 import static org.assertj.tests.core.testkit.ShortArrays.emptyArray;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ShortArrays;
+import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -40,7 +41,12 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-class ShortArrays_assertDoesNotContain_Test extends ShortArraysBaseTest {
+class ShortArrays_assertDoesNotContain_Test {
+
+  private short[] actual = arrayOf(6, 8, 10);
+  private final ShortArrays arrays = ShortArrays.instance();
+  private final ComparatorBasedComparisonStrategy absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<>());
+  private final ShortArrays arraysWithCustomComparisonStrategy = new ShortArrays(absValueComparisonStrategy);
 
   @Test
   void should_pass_if_actual_does_not_contain_given_values() {
@@ -75,10 +81,9 @@ class ShortArrays_assertDoesNotContain_Test extends ShortArraysBaseTest {
     AssertionInfo info = someInfo();
     short[] expected = { 6, 8, 20 };
 
-    Throwable error = catchThrowable(() -> arrays.assertDoesNotContain(info, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertDoesNotContain(info, actual, expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet((short) 6, (short) 8)));
+    then(error).hasMessage(shouldNotContain(actual, expected, newLinkedHashSet((short) 6, (short) 8)).create());
   }
 
   @Test
@@ -120,10 +125,9 @@ class ShortArrays_assertDoesNotContain_Test extends ShortArraysBaseTest {
     AssertionInfo info = someInfo();
     short[] expected = { 6, -8, 20 };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet((short) 6, (short) -8),
-                                                    absValueComparisonStrategy));
+    then(error).hasMessage(shouldNotContain(actual, expected, newLinkedHashSet((short) 6, (short) -8),
+                                            absValueComparisonStrategy).create());
   }
 }

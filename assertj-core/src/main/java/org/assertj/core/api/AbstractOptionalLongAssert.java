@@ -21,7 +21,7 @@ import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 
 import java.util.OptionalLong;
 
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Assertions for {@link java.util.OptionalLong}.
@@ -140,7 +140,8 @@ public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLo
       isNotNull();
       if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
       if (expectedValue != actual.getAsLong())
-        throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.getAsLong(), expectedValue);
+        throw AssertionErrorCreator.instance().assertionError(info, shouldContain(actual, expectedValue), actual.getAsLong(),
+                                                              expectedValue);
     });
   }
 }

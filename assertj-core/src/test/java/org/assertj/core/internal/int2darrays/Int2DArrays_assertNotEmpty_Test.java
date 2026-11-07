@@ -34,6 +34,6 @@ class Int2DArrays_assertNotEmpty_Test extends Int2DArraysBaseTest {
     // WHEN
     int2DArrays.assertNotEmpty(info, actual);
     // THEN
-    verify(arrays2d).assertNotEmpty(info, failures, actual);
+    verify(arrays2d).assertNotEmpty(info, assertionErrorCreator, actual);
   }
 }

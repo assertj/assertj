@@ -17,6 +17,7 @@ package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Reusable assertions for two-dimensional arrays of {@code byte}s.
@@ -41,7 +42,7 @@ public class Byte2DArrays {
   private Arrays2D arrays = Arrays2D.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Failures failures = Failures.instance();
+  AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /**
@@ -60,7 +61,7 @@ public class Byte2DArrays {
    * @throws AssertionError if the given array is not {@code null} *and* contains one or more elements.
    */
   public void assertNullOrEmpty(AssertionInfo info, byte[][] actual) {
-    arrays.assertNullOrEmpty(info, failures, actual);
+    arrays.assertNullOrEmpty(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -71,7 +72,7 @@ public class Byte2DArrays {
    * @throws AssertionError if the given array is not empty.
    */
   public void assertEmpty(AssertionInfo info, byte[][] actual) {
-    arrays.assertEmpty(info, failures, actual);
+    arrays.assertEmpty(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -82,7 +83,7 @@ public class Byte2DArrays {
    * @throws AssertionError if the given array is empty.
    */
   public void assertNotEmpty(AssertionInfo info, byte[][] actual) {
-    arrays.assertNotEmpty(info, failures, actual);
+    arrays.assertNotEmpty(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -97,7 +98,7 @@ public class Byte2DArrays {
    */
   public void assertHasDimensions(AssertionInfo info, byte[][] actual, int expectedFirstDimension,
                                   int expectedSecondDimension) {
-    arrays.assertHasDimensions(info, failures, actual, expectedFirstDimension, expectedSecondDimension);
+    arrays.assertHasDimensions(info, assertionErrorCreator, actual, expectedFirstDimension, expectedSecondDimension);
   }
 
   /**
@@ -121,7 +122,7 @@ public class Byte2DArrays {
    * @param expectedNumberOfRows the expected first dimension size of {@code actual}.
    */
   public void assertNumberOfRows(AssertionInfo info, byte[][] actual, int expectedNumberOfRows) {
-    arrays.assertNumberOfRows(info, failures, actual, expectedNumberOfRows);
+    arrays.assertNumberOfRows(info, assertionErrorCreator, actual, expectedNumberOfRows);
   }
 
   /**
@@ -137,7 +138,7 @@ public class Byte2DArrays {
    * @throws AssertionError if the given array does not contain the given value at the given index.
    */
   public void assertContains(AssertionInfo info, byte[][] actual, byte[] value, Index index) {
-    arrays.assertContains(info, failures, actual, value, index);
+    arrays.assertContains(info, assertionErrorCreator, actual, value, index);
   }
 
   /**
@@ -151,6 +152,6 @@ public class Byte2DArrays {
    * @throws AssertionError if the given array contains the given value at the given index.
    */
   public void assertDoesNotContain(AssertionInfo info, byte[][] actual, byte[] value, Index index) {
-    arrays.assertDoesNotContain(info, failures, actual, value, index);
+    arrays.assertDoesNotContain(info, assertionErrorCreator, actual, value, index);
   }
 }

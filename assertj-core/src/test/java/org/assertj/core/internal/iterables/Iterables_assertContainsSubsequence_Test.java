@@ -26,7 +26,6 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
@@ -102,9 +101,9 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     // GIVEN
     Object[] subsequence = {};
     // WHEN
-    expectAssertionError(() -> iterables.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> iterables.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    verify(failures).failure(INFO, actualIsNotEmpty(actual));
+    then(error).hasMessage(actualIsNotEmpty(actual).create());
   }
 
   @Test
@@ -122,9 +121,9 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     // GIVEN
     Object[] subsequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     // WHEN
-    expectAssertionError(() -> iterables.assertContainsSubsequence(info, actual, subsequence));
+    var error = expectAssertionError(() -> iterables.assertContainsSubsequence(info, actual, subsequence));
     // THEN
-    verify(failures).failure(INFO, actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence));
+    then(error).hasMessage(actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence).create());
   }
 
   @Test
@@ -132,9 +131,9 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     // GIVEN
     Object[] subsequence = { "Han", "C-3PO" };
     // WHEN
-    expectAssertionError(() -> iterables.assertContainsSubsequence(info, actual, subsequence));
+    var error = expectAssertionError(() -> iterables.assertContainsSubsequence(info, actual, subsequence));
     // THEN
-    verifyFailureThrownWhenSubsequenceNotFound(info, subsequence, 0);
+    verifyFailureThrownWhenSubsequenceNotFound(error, subsequence, 0);
   }
 
   @Test
@@ -142,9 +141,9 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     // GIVEN
     Object[] subsequence = { "Luke", "Leia", "Han" };
     // WHEN
-    expectAssertionError(() -> iterables.assertContainsSubsequence(info, actual, subsequence));
+    var error = expectAssertionError(() -> iterables.assertContainsSubsequence(info, actual, subsequence));
     // THEN
-    verifyFailureThrownWhenSubsequenceNotFound(info, subsequence, 2);
+    verifyFailureThrownWhenSubsequenceNotFound(error, subsequence, 2);
   }
 
   @Test
@@ -153,14 +152,14 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     actual = list("Leia", "Luke", "Yoda", "Obi-Wan", "Anakin");
     Object[] subsequence = { "Leia", "Obi-Wan", "Han" };
     // WHEN
-    expectAssertionError(() -> iterables.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> iterables.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    verifyFailureThrownWhenSubsequenceNotFound(info, subsequence, 2);
+    verifyFailureThrownWhenSubsequenceNotFound(error, subsequence, 2);
   }
 
-  private void verifyFailureThrownWhenSubsequenceNotFound(AssertionInfo info, Object[] subsequence, int subsequenceIndex) {
-    verify(failures).failure(info, shouldContainSubsequence(actual, subsequence, subsequenceIndex,
-                                                            StandardComparisonStrategy.instance()));
+  private void verifyFailureThrownWhenSubsequenceNotFound(AssertionError error, Object[] subsequence, int subsequenceIndex) {
+    then(error).hasMessage(shouldContainSubsequence(actual, subsequence, subsequenceIndex,
+                                                    StandardComparisonStrategy.instance()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -207,10 +206,10 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     // GIVEN
     Object[] subsequence = {};
     // WHEN
-    expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual,
-                                                                                                        subsequence));
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual,
+                                                                                                                    subsequence));
     // THEN
-    verify(failures).failure(INFO, actualIsNotEmpty(actual));
+    then(error).hasMessage(actualIsNotEmpty(actual).create());
   }
 
   @Test
@@ -218,10 +217,10 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     // GIVEN
     Object[] subsequence = { "LUKE", "LeiA", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     // WHEN
-    expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual,
-                                                                                                        subsequence));
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual,
+                                                                                                                    subsequence));
     // THEN
-    verify(failures).failure(INFO, actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence));
+    then(error).hasMessage(actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence).create());
   }
 
   @Test
@@ -229,10 +228,10 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     // GIVEN
     Object[] subsequence = { "Han", "C-3PO" };
     // WHEN
-    expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(info, actual,
-                                                                                                        subsequence));
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(info, actual,
+                                                                                                                    subsequence));
     // THEN
-    verify(failures).failure(info, shouldContainSubsequence(actual, subsequence, 0, comparisonStrategy));
+    then(error).hasMessage(shouldContainSubsequence(actual, subsequence, 0, comparisonStrategy).create());
   }
 
   @Test
@@ -240,10 +239,10 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     // GIVEN
     Object[] subsequence = { "Luke", "Leia", "Han" };
     // WHEN
-    expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(info, actual,
-                                                                                                        subsequence));
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(info, actual,
+                                                                                                                    subsequence));
     // THEN
-    verify(failures).failure(info, shouldContainSubsequence(actual, subsequence, 2, comparisonStrategy));
+    then(error).hasMessage(shouldContainSubsequence(actual, subsequence, 2, comparisonStrategy).create());
   }
 
 }

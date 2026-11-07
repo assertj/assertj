@@ -20,7 +20,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveScale.shouldHaveScale;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 
@@ -55,9 +54,9 @@ class BigDecimals_assertHasScale_Test extends BigDecimalsBaseTest {
     final int expectedScale = 3;
     BigDecimal zeroScaleBigDecimal = ONE;
     // WHEN
-    expectAssertionError(() -> numbers.assertHasScale(info, zeroScaleBigDecimal, expectedScale));
+    var error = expectAssertionError(() -> numbers.assertHasScale(info, zeroScaleBigDecimal, expectedScale));
     // THEN
-    verify(failures).failure(info, shouldHaveScale(zeroScaleBigDecimal, expectedScale));
+    then(error).hasMessage(shouldHaveScale(zeroScaleBigDecimal, expectedScale).create());
   }
 
   @Test
@@ -66,9 +65,9 @@ class BigDecimals_assertHasScale_Test extends BigDecimalsBaseTest {
     final int expectesScale = 3;
     BigDecimal zeroScaleBigDecimal = ONE;
     // WHEN
-    expectAssertionError(() -> numbers.assertHasScale(info, zeroScaleBigDecimal, expectesScale));
+    var error = expectAssertionError(() -> numbers.assertHasScale(info, zeroScaleBigDecimal, expectesScale));
     // THEN
-    verify(failures).failure(info, shouldHaveScale(zeroScaleBigDecimal, expectesScale));
+    then(error).hasMessage(shouldHaveScale(zeroScaleBigDecimal, expectesScale).create());
   }
 
 }

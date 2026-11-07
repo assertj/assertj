@@ -38,6 +38,6 @@ class Boolean2DArrays_assertDoesNotContain_at_Index_Test extends Boolean2DArrays
     // WHEN
     boolean2dArrays.assertDoesNotContain(info, actual, booleans, atIndex(1));
     // THEN
-    verify(arrays2d).assertDoesNotContain(info, failures, actual, booleans, atIndex(1));
+    verify(arrays2d).assertDoesNotContain(info, assertionErrorCreator, actual, booleans, atIndex(1));
   }
 }

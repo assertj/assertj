@@ -37,7 +37,7 @@ class Bytes_assertIsOne_Test extends BytesBaseTest {
   @Override
   public void setUp() {
     super.setUp();
-    resetFailures();
+    resetAssertionErrorCreator();
   }
 
   @Test

@@ -13,52 +13,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.tests.core.internal.failures;
+package org.assertj.tests.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.description.Description;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.internal.Failures;
 import org.assertj.tests.core.testkit.TestDescription;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Failures#failure(AssertionInfo, ErrorMessageFactory)}</code>.
- * 
- * @author Alex Ruiz
+ * Tests for <code>{@link AssertionErrorCreator#assertionError(AssertionInfo, ErrorMessageFactory)}</code>.
  */
-class Failures_failure_with_ErrorMessage_Test {
+class AssertionErrorCreator_assertionError_with_ErrorMessageFactory_Test {
 
-  private WritableAssertionInfo info;
-  private ErrorMessageFactory errorMessage;
-  private Failures failures;
-
-  @BeforeEach
-  void setUp() {
-    info = new WritableAssertionInfo();
-    errorMessage = mock(ErrorMessageFactory.class);
-    failures = Failures.instance();
-  }
+  private final WritableAssertionInfo info = new WritableAssertionInfo();;
 
   @Test
   void should_create_use_overriding_error_message_if_it_is_specified() {
+    // GIVEN
     info.overridingErrorMessage("my message");
-    AssertionError failure = failures.failure(info, errorMessage);
-    assertThat(failure).hasMessage("my message");
+    // WHEN
+    var assertionError = AssertionErrorCreator.instance().assertionError(info, shouldBeEmpty("foo"));
+    // THEN
+    then(assertionError).hasMessage("my message");
   }
 
   @Test
-  void should_use_ErrorMessage_when_overriding_error_message_is_not_specified() {
+  void should_use_ErrorMessage_when_no_overriding_error_message_is_specified() {
+    // GIVEN
     Description description = new TestDescription("description");
     info.description(description);
-    when(errorMessage.create(description, info.representation())).thenReturn("[description] my message");
-    AssertionError failure = failures.failure(info, errorMessage);
-    assertThat(failure).hasMessage("[description] my message");
+    ErrorMessageFactory errorMessageFactory = shouldBeEmpty("foo");
+    // WHEN
+    var assertionError = AssertionErrorCreator.instance().assertionError(info, errorMessageFactory);
+    // THEN
+    then(assertionError).hasMessage("[description] " + errorMessageFactory.create());
   }
 }

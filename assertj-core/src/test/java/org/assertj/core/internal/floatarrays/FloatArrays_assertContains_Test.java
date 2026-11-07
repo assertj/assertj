@@ -48,7 +48,7 @@ class FloatArrays_assertContains_Test extends FloatArraysBaseTest {
   @Test
   void should_delegate_to_internal_Arrays() {
     arrays.assertContains(someInfo(), actual, arrayOf(6f, 8f, 10f));
-    verify(internalArrays).assertContains(someInfo(), failures, actual, arrayOf(6f, 8f, 10f));
+    verify(internalArrays).assertContains(someInfo(), assertionErrorCreator, actual, arrayOf(6f, 8f, 10f));
   }
 
 }

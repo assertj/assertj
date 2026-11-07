@@ -15,16 +15,15 @@
  */
 package org.assertj.core.internal.bytearrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ByteArraysBaseTest;
@@ -93,10 +92,9 @@ class ByteArrays_assertContains_with_Integer_Arguments_Test extends ByteArraysBa
     AssertionInfo info = someInfo();
     byte[] expected = { 6, 8, 9 };
 
-    Throwable error = catchThrowable(() -> arrays.assertContains(info, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContains(info, actual, expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet((byte) 9)));
+    then(error).hasMessage(shouldContain(actual, expected, newLinkedHashSet((byte) 9)).create());
   }
 
   @Test
@@ -152,11 +150,10 @@ class ByteArrays_assertContains_with_Integer_Arguments_Test extends ByteArraysBa
   void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContains(info, actual,
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContains(info, actual,
                                                                                              IntArrays.arrayOf(6, -8, 9)));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContain(actual, ByteArrays.arrayOf(6, -8, 9), newLinkedHashSet((byte) 9),
-                                                 absValueComparisonStrategy));
+    then(error).hasMessage(shouldContain(actual, ByteArrays.arrayOf(6, -8, 9), newLinkedHashSet((byte) 9),
+                                         absValueComparisonStrategy).create());
   }
 }

@@ -16,7 +16,7 @@
 package org.assertj.core.api;
 
 import org.assertj.core.annotation.CanIgnoreReturnValue;
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.annotation.Contract;
 
 /**
@@ -34,7 +34,7 @@ public final class Fail {
    * @param removeAssertJRelatedElementsFromStackTrace flag.
    */
   public static void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
-    Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
+    AssertionErrorCreator.instance().setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
   }
 
   /**
@@ -48,7 +48,7 @@ public final class Fail {
   @CanIgnoreReturnValue
   @Contract("_ -> fail")
   public static <T> T fail(String failureMessage) {
-    throw Failures.instance().failure(failureMessage);
+    throw AssertionErrorCreator.instance().assertionError(failureMessage);
   }
 
   /**
@@ -94,7 +94,7 @@ public final class Fail {
   @CanIgnoreReturnValue
   @Contract("_, _ -> fail")
   public static <T> T fail(String failureMessage, Throwable realCause) {
-    AssertionError error = Failures.instance().failure(failureMessage);
+    AssertionError error = AssertionErrorCreator.instance().assertionError(failureMessage);
     error.initCause(realCause);
     throw error;
   }
@@ -144,7 +144,7 @@ public final class Fail {
   @CanIgnoreReturnValue
   @Contract("_ -> fail")
   public static <T> T shouldHaveThrown(Class<? extends Throwable> throwableClass) {
-    throw Failures.instance().expectedThrowableNotThrown(throwableClass);
+    throw AssertionErrorCreator.instance().expectedThrowableNotThrown(throwableClass);
   }
 
   /**

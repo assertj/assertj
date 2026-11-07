@@ -27,7 +27,7 @@ class Char2DArrays_assertNumberOfRows_Test extends Char2DArraysBaseTest {
     // WHEN
     char2DArrays.assertNumberOfRows(info, actual, 2);
     // THEN
-    verify(arrays2d).assertNumberOfRows(info, failures, actual, 2);
+    verify(arrays2d).assertNumberOfRows(info, assertionErrorCreator, actual, 2);
   }
 
 }

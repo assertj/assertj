@@ -32,7 +32,6 @@ import static org.assertj.core.util.Files.newFolder;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,9 +71,9 @@ class Files_assertHasDigest_DigestBytes_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
+    var error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
-    verify(failures).failure(INFO, shouldExist(actual));
+    then(error).hasMessage(shouldExist(actual).create());
   }
 
   @Test
@@ -82,9 +81,9 @@ class Files_assertHasDigest_DigestBytes_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFolder(tempDir.getAbsolutePath() + "/tmp");
     // WHEN
-    expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
+    var error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
-    verify(failures).failure(INFO, shouldBeFile(actual));
+    then(error).hasMessage(shouldBeFile(actual).create());
   }
 
   @DisabledOnOs(OS.WINDOWS)
@@ -94,9 +93,9 @@ class Files_assertHasDigest_DigestBytes_Test extends FilesBaseTest {
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     actual.setReadable(false);
     // WHEN
-    expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
+    var error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
-    verify(failures).failure(INFO, shouldBeReadable(actual));
+    then(error).hasMessage(shouldBeReadable(actual).create());
   }
 
   @Test
@@ -153,9 +152,9 @@ class Files_assertHasDigest_DigestBytes_Test extends FilesBaseTest {
     byte[] expected = digest.digest("Content".getBytes());
     DigestDiff digestDiff = new DigestDiff(toHex(digest.digest(readAllBytes(actual.toPath()))), toHex(expected), digest);
     // WHEN
-    expectAssertionError(() -> unMockedFiles.assertHasDigest(INFO, actual, digest, expected));
+    var error = expectAssertionError(() -> unMockedFiles.assertHasDigest(INFO, actual, digest, expected));
     // THEN
-    verify(failures).failure(INFO, shouldHaveDigest(actual, digestDiff));
+    then(error).hasMessage(shouldHaveDigest(actual, digestDiff).create());
   }
 
   @Test

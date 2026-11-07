@@ -20,7 +20,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -28,8 +28,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 @DisplayName("EntryPoint assertions setRemoveAssertJRelatedElementsFromStackTrace method")
 class EntryPointAssertions_setRemoveAssertJRelatedElementsFromStackTrace_Test extends EntryPointAssertionsBaseTest {
 
-  private static final Failures FAILURES = Failures.instance();
-  private static final boolean DEFAULT_REMOVE_ASSERTJ_FROM_STACK_TRACE = FAILURES.isRemoveAssertJRelatedElementsFromStackTrace();
+  private static final AssertionErrorCreator ASSERTION_ERROR_CREATOR = AssertionErrorCreator.instance();
+  private static final boolean DEFAULT_REMOVE_ASSERTJ_FROM_STACK_TRACE = AssertionErrorCreator.instance()
+                                                                                              .isRemoveAssertJRelatedElementsFromStackTrace();
 
   @ParameterizedTest
   @MethodSource("setRemoveAssertJRelatedElementsFromStackTraceMethodsFunctions")
@@ -39,7 +40,7 @@ class EntryPointAssertions_setRemoveAssertJRelatedElementsFromStackTrace_Test ex
     // WHEN
     setRemoveAssertJRelatedElementsFromStackTraceMethodsFunction.accept(removeAssertJRelatedElementsFromStackTrace);
     // THEN
-    then(FAILURES.isRemoveAssertJRelatedElementsFromStackTrace()).isEqualTo(removeAssertJRelatedElementsFromStackTrace);
+    then(ASSERTION_ERROR_CREATOR.isRemoveAssertJRelatedElementsFromStackTrace()).isEqualTo(removeAssertJRelatedElementsFromStackTrace);
   }
 
   private static Stream<Consumer<Boolean>> setRemoveAssertJRelatedElementsFromStackTraceMethodsFunctions() {

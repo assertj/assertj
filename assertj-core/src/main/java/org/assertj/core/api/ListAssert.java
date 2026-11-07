@@ -29,7 +29,6 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.error.AssertionErrorCreator;
-import org.assertj.core.internal.Failures;
 
 /**
  * Assertion methods for {@link List}s.
@@ -288,7 +287,7 @@ public class ListAssert<ELEMENT> extends
     objects.assertNotNull(info, actual);
     checkIsNotNull(sequence);
     Iterator<? extends ELEMENT> iterator = asListFromStream().stream().iterator();
-    if (sequence.length == 0 && iterator.hasNext()) throw AssertionErrorCreator.INSTANCE.assertionError("actual is not empty");
+    if (sequence.length == 0 && iterator.hasNext()) throw AssertionErrorCreator.instance().assertionError("actual is not empty");
     int i = 0;
     while (iterator.hasNext()) {
       if (i >= sequence.length) break;
@@ -301,8 +300,8 @@ public class ListAssert<ELEMENT> extends
   }
 
   private AssertionError actualDoesNotStartWithSequence(AssertionInfo info, Object[] sequence) {
-    return Failures.instance()
-                   .failure(info, shouldStartWith("Stream under test", sequence, iterables.getComparisonStrategy()));
+    return AssertionErrorCreator.instance().assertionError(info, shouldStartWith("Stream under test", sequence,
+                                                                                 iterables.getComparisonStrategy()));
   }
 
   @SuppressWarnings("unchecked")

@@ -79,7 +79,7 @@ class ShouldBeAfterOrEqualTo_create_Test {
     ErrorMessageFactory factory = shouldBeAfterOrEqualTo(actualMillisOnly, otherWithNanos);
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    // THEN — both would look identical at ms precision; nanos must appear so the failure is understandable
+    // THEN — both would look identical at ms precision; nanos must appear so the assertionError is understandable
     then(STANDARD_REPRESENTATION.toStringOf(actualMillisOnly)).doesNotContain("123456");
     then(STANDARD_REPRESENTATION.toStringOf(otherWithNanos)).contains("123456");
     then(message).isEqualTo(format("[Test] %n" +

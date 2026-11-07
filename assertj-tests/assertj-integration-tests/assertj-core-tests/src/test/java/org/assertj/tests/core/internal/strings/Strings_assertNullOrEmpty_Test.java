@@ -15,15 +15,15 @@
  */
 package org.assertj.tests.core.internal.strings;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
-import org.assertj.tests.core.internal.StringsBaseTest;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -32,36 +32,35 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-class Strings_assertNullOrEmpty_Test extends StringsBaseTest {
+class Strings_assertNullOrEmpty_Test {
+
+  private final ComparatorBasedComparisonStrategy comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final Strings stringsWithCaseInsensitiveComparisonStrategy = new Strings(comparisonStrategy);
 
   @Test
   void should_fail_if_actual_is_not_null_and_is_not_empty() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> strings.assertNullOrEmpty(info, "Yoda"));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeNullOrEmpty("Yoda"));
+    var error = expectAssertionError(() -> Strings.instance().assertNullOrEmpty(info, "Yoda"));
+    then(error).hasMessage(shouldBeNullOrEmpty("Yoda").create());
   }
 
   @Test
   void should_pass_if_actual_is_null() {
-    strings.assertNullOrEmpty(someInfo(), null);
+    Strings.instance().assertNullOrEmpty(someInfo(), null);
   }
 
   @Test
   void should_pass_if_actual_is_empty() {
-    strings.assertNullOrEmpty(someInfo(), "");
+    Strings.instance().assertNullOrEmpty(someInfo(), "");
   }
 
   @Test
   void should_fail_if_actual_is_not_null_and_is_not_empty_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertNullOrEmpty(info, "Yoda"));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeNullOrEmpty("Yoda"));
+    var error = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertNullOrEmpty(info, "Yoda"));
+    then(error).hasMessage(shouldBeNullOrEmpty("Yoda").create());
   }
 
   @Test

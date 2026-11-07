@@ -16,10 +16,10 @@
 package org.assertj.core.internal.objects;
 
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeInstance.shouldNotBeInstance;
 import static org.assertj.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
@@ -62,11 +62,11 @@ class Objects_assertIsNotInstanceOf_Test extends ObjectsBaseTest {
 
   @Test
   void should_fail_if_actual_is_instance_of_type() {
+    // GIVEN
     AssertionInfo info = someInfo();
-    try {
-      objects.assertIsNotInstanceOf(info, actual, Person.class);
-      failBecauseExceptionWasNotThrown(AssertionError.class);
-    } catch (AssertionError err) {}
-    verify(failures).failure(info, shouldNotBeInstance(actual, Person.class));
+    // WHEN
+    var error = expectAssertionError(() -> objects.assertIsNotInstanceOf(info, actual, Person.class));
+    // THEN
+    then(error).hasMessage(shouldNotBeInstance(actual, Person.class).create());
   }
 }

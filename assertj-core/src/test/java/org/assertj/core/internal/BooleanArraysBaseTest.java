@@ -22,13 +22,14 @@ import static org.mockito.Mockito.spy;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for testing <code>{@link BooleanArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and
  * another with {@link ComparatorBasedComparisonStrategy}.
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link BooleanArrays#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link BooleanArrays#assertionErrorCreator} appropriately.
  * 
  * @author Joel Costigliola
  */
@@ -37,15 +38,15 @@ public class BooleanArraysBaseTest {
   protected static final WritableAssertionInfo INFO = someInfo();
 
   protected boolean[] actual;
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected BooleanArrays arrays;
 
   @BeforeEach
   public void setUp() {
     actual = arrayOf(true, false);
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     arrays = new BooleanArrays();
-    arrays.failures = failures;
+    arrays.assertionErrorCreator = assertionErrorCreator;
   }
 
   protected void setArrays(Arrays internalArrays) {

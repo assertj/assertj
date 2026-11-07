@@ -170,8 +170,6 @@ public final class Throwables {
    * at org.assertj.core/org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:28)
    * at org.assertj.core/org.assertj.core.error.ShouldBeEqual.assertionFailedError(ShouldBeEqual.java:208)
    * at org.assertj.core/org.assertj.core.error.ShouldBeEqual.toAssertionError(ShouldBeEqual.java:113)
-   * at org.assertj.core/org.assertj.core.internal.Failures.failure(Failures.java:88)
-   * at org.assertj.core/org.assertj.core.internal.Objects.assertEqual(Objects.java:214)
    *
    * --------------- stack trace filtered -----------------
    * org.opentest4j.AssertionFailedError:

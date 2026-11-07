@@ -21,6 +21,7 @@ import static org.mockito.Mockito.spy;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -28,7 +29,7 @@ import org.junit.jupiter.api.BeforeEach;
  * Base class for testing <code>{@link Floats}</code>, set up an instance with {@link StandardComparisonStrategy} and another with
  * {@link ComparatorBasedComparisonStrategy}.
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Floats#failures} appropriately and to use
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Floats#assertionErrorCreator} appropriately and to use
  * {@link Floats#NaN()}.
  *
  * @author Joel Costigliola
@@ -37,7 +38,7 @@ public class FloatsBaseTest {
 
   protected static final WritableAssertionInfo INFO = someInfo();
 
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Floats floats;
 
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
@@ -45,12 +46,12 @@ public class FloatsBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     floats = new Floats();
-    floats.setFailures(failures);
+    floats.setAssertionErrorCreator(assertionErrorCreator);
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<Float>());
     floatsWithAbsValueComparisonStrategy = new Floats(absValueComparisonStrategy);
-    floatsWithAbsValueComparisonStrategy.failures = failures;
+    floatsWithAbsValueComparisonStrategy.assertionErrorCreator = assertionErrorCreator;
   }
 
   protected Float NaN() {

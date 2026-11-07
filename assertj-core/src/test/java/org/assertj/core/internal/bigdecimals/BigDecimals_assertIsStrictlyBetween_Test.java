@@ -18,15 +18,14 @@ package org.assertj.core.internal.bigdecimals;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
 import static java.math.BigDecimal.ZERO;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 
@@ -64,53 +63,48 @@ class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_equal_to_range_start() {
+  void should_fail_if_actual_is_equal_to_range_start() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, ONE, TEN));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBetween(ONE, ONE, TEN, false, false));
+    // WHEN
+    var error = expectAssertionError(() -> numbers.assertIsStrictlyBetween(info, ONE, ONE, TEN));
+    // THEN
+    then(error).hasMessage(shouldBeBetween(ONE, ONE, TEN, false, false).create());
   }
 
   @Test
-  void should_fail_if_actual_is_equal_to_range_start_by_comparison() {
+  void should_fail_if_actual_is_equal_to_range_start_by_comparison() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, new BigDecimal("1.00"), TEN));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBetween(ONE, new BigDecimal("1.00"), TEN, false, false));
+    // WHEN
+    var error = expectAssertionError(() -> numbers.assertIsStrictlyBetween(info, ONE, new BigDecimal("1.00"), TEN));
+    // THEN
+    then(error).hasMessage(shouldBeBetween(ONE, new BigDecimal("1.00"), TEN, false, false).create());
   }
 
   @Test
-  void should_fail_if_actual_is_equal_to_range_end() {
+  void should_fail_if_actual_is_equal_to_range_end() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, ZERO, ONE));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ONE, false, false));
+    // WHEN
+    var error = expectAssertionError(() -> numbers.assertIsStrictlyBetween(info, ONE, ZERO, ONE));
+    // THEN
+    then(error).hasMessage(shouldBeBetween(ONE, ZERO, ONE, false, false).create());
   }
 
   @Test
-  void should_fail_if_actual_is_equal_to_range_end_by_comparison() {
+  void should_fail_if_actual_is_equal_to_range_end_by_comparison() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, ZERO, new BigDecimal("1.00")));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBetween(ONE, ZERO, new BigDecimal("1.00"), false, false));
+    // WHEN
+    var error = expectAssertionError(() -> numbers.assertIsStrictlyBetween(info, ONE, ZERO, new BigDecimal("1.00")));
+    // THEN
+    then(error).hasMessage(shouldBeBetween(ONE, ZERO, new BigDecimal("1.00"), false, false).create());
   }
 
   @Test
-  void should_fail_if_actual_is_not_in_range_start() {
+  void should_fail_if_actual_is_not_in_range_start() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, new BigDecimal(2), TEN));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBetween(ONE, new BigDecimal(2), TEN, false, false));
+    // WHEN
+    var error = expectAssertionError(() -> numbers.assertIsStrictlyBetween(info, ONE, new BigDecimal(2), TEN));
+    // THEN
+    then(error).hasMessage(shouldBeBetween(ONE, new BigDecimal(2), TEN, false, false).create());
   }
 
   @Test

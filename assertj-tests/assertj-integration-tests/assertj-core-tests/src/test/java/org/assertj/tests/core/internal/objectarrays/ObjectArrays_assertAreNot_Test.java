@@ -16,12 +16,18 @@
 package org.assertj.tests.core.internal.objectarrays;
 
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Condition;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.JediCondition;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -29,7 +35,12 @@ import org.junit.jupiter.api.Test;
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  */
-class ObjectArrays_assertAreNot_Test extends ObjectArraysWithConditionBaseTest {
+class ObjectArrays_assertAreNot_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final String[] actual = array("Luke", "Yoda", "Leia");
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final Condition<String> jedi = new JediCondition();
 
   @Test
   void should_pass_if_each_element_satisfies_condition() {
@@ -47,9 +58,9 @@ class ObjectArrays_assertAreNot_Test extends ObjectArraysWithConditionBaseTest {
     // GIVEN
     var actual = array("Solo", "Leia", "Yoda");
     // WHEN
-    expectAssertionError(() -> arrays.assertAreNot(INFO, actual, jedi));
+    var error = expectAssertionError(() -> arrays.assertAreNot(INFO, actual, jedi));
     // THEN
-    verify(failures).failure(INFO, elementsShouldNotBe(actual, newArrayList("Yoda"), jedi));
+    then(error).hasMessage(elementsShouldNotBe(actual, newArrayList("Yoda"), jedi).create());
   }
 
 }

@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.doubles;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Doubles;
@@ -50,12 +49,12 @@ class Doubles_assertEqual_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_if_doubles_are_not_equal() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> doubles.assertEqual(info, 6d, 8d));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(6d, 8d, info.representation()));
+    // WHEN
+    var error = expectAssertionError(() -> doubles.assertEqual(info, 6d, 8d));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(6d, 8d, info.representation()).toAssertionError(info).getMessage());
   }
 
   @Test
@@ -72,12 +71,12 @@ class Doubles_assertEqual_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_if_doubles_are_not_equal_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> doublesWithAbsValueComparisonStrategy.assertEqual(info, 6d, 8d));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(6d, 8d, absValueComparisonStrategy,
-                                                 new StandardRepresentation()));
+    // WHEN
+    var error = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertEqual(info, 6d, 8d));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(6d, 8d, absValueComparisonStrategy,
+                                         new StandardRepresentation()).toAssertionError(info).getMessage());
   }
 }

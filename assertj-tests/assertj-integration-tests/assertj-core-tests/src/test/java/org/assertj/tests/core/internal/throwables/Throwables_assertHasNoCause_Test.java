@@ -18,12 +18,18 @@ package org.assertj.tests.core.internal.throwables;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveNoCause.shouldHaveNoCause;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Throwables;
 import org.junit.jupiter.api.Test;
 
-class Throwables_assertHasNoCause_Test extends ThrowablesBaseTest {
+class Throwables_assertHasNoCause_Test {
+
+  private static final AssertionInfo INFO = someInfo();
+  private final Throwables throwables = Throwables.instance();
+  private Throwable actual = new NullPointerException("Throwable message");
 
   @Test
   void should_pass_if_actual_has_no_cause() {
@@ -43,8 +49,8 @@ class Throwables_assertHasNoCause_Test extends ThrowablesBaseTest {
     // GIVEN
     Throwable throwableWithCause = new Throwable(new NullPointerException());
     // WHEN
-    expectAssertionError(() -> throwables.assertHasNoCause(INFO, throwableWithCause));
+    var error = expectAssertionError(() -> throwables.assertHasNoCause(INFO, throwableWithCause));
     // THEN
-    verify(failures).failure(INFO, shouldHaveNoCause(throwableWithCause));
+    then(error).hasMessage(shouldHaveNoCause(throwableWithCause).create());
   }
 }

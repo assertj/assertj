@@ -18,10 +18,10 @@ package org.assertj.core.internal.maps;
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.testkit.Maps.mapOf;
-import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
@@ -46,7 +46,7 @@ class Maps_assertNullOrEmpty_Test extends MapsBaseTest {
     Throwable error = catchThrowable(() -> maps.assertNullOrEmpty(info, actual));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeNullOrEmpty(actual));
+    then(error).hasMessage(shouldBeNullOrEmpty(actual).create());
   }
 
   @Test

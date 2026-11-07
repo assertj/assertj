@@ -23,7 +23,7 @@ import static org.assertj.core.error.MatcherShouldMatch.shouldMatch;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Assertions for {@link java.util.regex.Matcher}
@@ -67,7 +67,7 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
     return executeAssertion(() -> {
       isNotNull();
       if (!actual.matches()) {
-        throw Failures.instance().failure(info, shouldMatch(actual));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldMatch(actual));
       }
     });
   }
@@ -149,7 +149,7 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
     try {
       return groupExtractor.get();
     } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
-      throw Failures.instance().failure(info, shouldHaveGroup(actual, groupIdentifier));
+      throw AssertionErrorCreator.instance().assertionError(info, shouldHaveGroup(actual, groupIdentifier));
     }
   }
 }

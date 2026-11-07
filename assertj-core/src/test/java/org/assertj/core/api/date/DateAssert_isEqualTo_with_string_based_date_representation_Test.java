@@ -266,7 +266,7 @@ class DateAssert_isEqualTo_with_string_based_date_representation_Test extends Da
     assertThat(date).isEqualTo("2003-04-26");
 
     // WHEN
-    // date with a custom format : failure since the default formats don't match.
+    // date with a custom format : assertionError since the default formats don't match.
     var error = expectAssertionError(() -> assertThat(date).isEqualTo("2003/04/26"));
 
     // THEN

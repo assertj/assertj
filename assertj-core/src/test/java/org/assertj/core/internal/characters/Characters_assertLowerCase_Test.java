@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.characters;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Characters;
@@ -49,12 +48,13 @@ class Characters_assertLowerCase_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_lowercase() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> characters.assertLowerCase(info, 'A'));
 
-    Throwable error = catchThrowable(() -> characters.assertLowerCase(info, 'A'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLowerCase('A'));
+    // THEN
+    then(error).hasMessage(shouldBeLowerCase('A').create());
   }
 
   @Test
@@ -71,11 +71,12 @@ class Characters_assertLowerCase_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_lowercase_whatever_custom_comparison_strategy_is() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLowerCase(info, 'A'));
 
-    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLowerCase(info, 'A'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLowerCase('A'));
+    // THEN
+    then(error).hasMessage(shouldBeLowerCase('A').create());
   }
 }

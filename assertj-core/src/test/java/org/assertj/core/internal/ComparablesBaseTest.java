@@ -21,6 +21,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -28,13 +29,13 @@ import org.junit.jupiter.api.BeforeEach;
  * Base class for testing <code>{@link Comparables}</code>, set up an instance with {@link StandardComparisonStrategy} and another
  * with {@link ComparatorBasedComparisonStrategy}.
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Comparables#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Comparables#assertionErrorCreator} appropriately.
  *
  * @author Joel Costigliola
  */
 public class ComparablesBaseTest {
 
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Comparables comparables;
 
   protected ComparatorBasedComparisonStrategy customComparisonStrategy;
@@ -42,12 +43,12 @@ public class ComparablesBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     comparables = new Comparables();
-    comparables.failures = failures;
+    comparables.assertionErrorCreator = assertionErrorCreator;
     customComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
     comparablesWithCustomComparisonStrategy = new Comparables(customComparisonStrategy);
-    comparablesWithCustomComparisonStrategy.failures = failures;
+    comparablesWithCustomComparisonStrategy.assertionErrorCreator = assertionErrorCreator;
   }
 
   protected Comparator<?> comparatorForCustomComparisonStrategy() {

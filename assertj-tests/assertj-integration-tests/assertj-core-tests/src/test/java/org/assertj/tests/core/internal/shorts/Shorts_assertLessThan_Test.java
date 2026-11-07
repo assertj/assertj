@@ -15,26 +15,33 @@
  */
 package org.assertj.tests.core.internal.shorts;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Shorts;
+import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
-class Shorts_assertLessThan_Test extends ShortsBaseTest {
+class Shorts_assertLessThan_Test {
+
+  private final ComparatorBasedComparisonStrategy absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<>());
+  private final Shorts shortsWithAbsValueComparisonStrategy = new Shorts(absValueComparisonStrategy);
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatAssertionErrorIsThrownBy(() -> shorts.assertLessThan(someInfo(), null, (short) 8)).withMessage(actualIsNull());
+    assertThatAssertionErrorIsThrownBy(() -> Shorts.instance().assertLessThan(someInfo(), null,
+                                                                              (short) 8)).withMessage(actualIsNull());
   }
 
   @Test
   void should_pass_if_actual_is_less_than_other() {
-    shorts.assertLessThan(someInfo(), (short) 6, (short) 8);
+    Shorts.instance().assertLessThan(someInfo(), (short) 6, (short) 8);
   }
 
   @Test
@@ -42,9 +49,9 @@ class Shorts_assertLessThan_Test extends ShortsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> shorts.assertLessThan(info, (short) 6, (short) 6));
+    var error = expectAssertionError(() -> Shorts.instance().assertLessThan(info, (short) 6, (short) 6));
     // THEN
-    verify(failures).failure(info, shouldBeLess((short) 6, (short) 6));
+    then(error).hasMessage(shouldBeLess((short) 6, (short) 6).create());
   }
 
   @Test
@@ -52,9 +59,9 @@ class Shorts_assertLessThan_Test extends ShortsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> shorts.assertLessThan(info, (short) 8, (short) 6));
+    var error = expectAssertionError(() -> Shorts.instance().assertLessThan(info, (short) 8, (short) 6));
     // THEN
-    verify(failures).failure(info, shouldBeLess((short) 8, (short) 6));
+    then(error).hasMessage(shouldBeLess((short) 8, (short) 6).create());
   }
 
   @Test
@@ -73,9 +80,9 @@ class Shorts_assertLessThan_Test extends ShortsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertLessThan(info, (short) 6, (short) -6));
+    var error = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertLessThan(info, (short) 6, (short) -6));
     // THEN
-    verify(failures).failure(info, shouldBeLess((short) 6, (short) -6, absValueComparisonStrategy));
+    then(error).hasMessage(shouldBeLess((short) 6, (short) -6, absValueComparisonStrategy).create());
   }
 
   @Test
@@ -83,8 +90,8 @@ class Shorts_assertLessThan_Test extends ShortsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertLessThan(info, (short) -8, (short) 6));
+    var error = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertLessThan(info, (short) -8, (short) 6));
     // THEN
-    verify(failures).failure(info, shouldBeLess((short) -8, (short) 6, absValueComparisonStrategy));
+    then(error).hasMessage(shouldBeLess((short) -8, (short) 6, absValueComparisonStrategy).create());
   }
 }

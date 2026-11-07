@@ -20,7 +20,6 @@ import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
@@ -48,9 +47,9 @@ class Files_assertCanRead_Test extends FilesBaseTest {
     // GIVEN
     File nonExistentFile = new File("xyz");
     // WHEN
-    expectAssertionError(() -> underTest.assertCanRead(INFO, nonExistentFile));
+    var error = expectAssertionError(() -> underTest.assertCanRead(INFO, nonExistentFile));
     // THEN
-    verify(failures).failure(INFO, shouldBeReadable(nonExistentFile));
+    then(error).hasMessage(shouldBeReadable(nonExistentFile).create());
   }
 
   @Test

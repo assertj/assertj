@@ -129,7 +129,9 @@ public class RecursiveAssertionAssert extends AbstractAssertWithComparator<Recur
 
       List<FieldLocation> failedFields = recursiveAssertionDriver.assertOverObjectGraph(predicate, actual);
       if (!failedFields.isEmpty()) {
-        throw objects.getFailures().failure(info, shouldNotSatisfyRecursively(recursiveAssertionConfiguration, failedFields));
+        throw objects.getAssertionErrorCreator().assertionError(info,
+                                                                shouldNotSatisfyRecursively(recursiveAssertionConfiguration,
+                                                                                            failedFields));
       }
     });
   }

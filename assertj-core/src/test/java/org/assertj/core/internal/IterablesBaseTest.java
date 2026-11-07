@@ -25,13 +25,14 @@ import java.util.List;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for testing <code>{@link Iterables}</code>, set up an instance with {@link StandardComparisonStrategy} and another
  * with {@link ComparatorBasedComparisonStrategy}.
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Iterables#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Iterables#assertionErrorCreator} appropriately.
  *
  * @author Joel Costigliola
  *
@@ -41,7 +42,7 @@ public class IterablesBaseTest {
   protected static final AssertionInfo INFO = someInfo();
 
   protected List<String> actual;
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Iterables iterables;
 
   protected ComparatorBasedComparisonStrategy comparisonStrategy;
@@ -52,12 +53,12 @@ public class IterablesBaseTest {
   @BeforeEach
   public void setUp() {
     actual = newArrayList("Luke", "Yoda", "Leia");
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     iterables = new Iterables();
-    iterables.failures = failures;
+    iterables.assertionErrorCreator = assertionErrorCreator;
     comparisonStrategy = new ComparatorBasedComparisonStrategy(CASE_INSENSITIVE_ORDER);
     iterablesWithCaseInsensitiveComparisonStrategy = new Iterables(comparisonStrategy);
-    iterablesWithCaseInsensitiveComparisonStrategy.failures = failures;
+    iterablesWithCaseInsensitiveComparisonStrategy.assertionErrorCreator = assertionErrorCreator;
     info = someInfo();
   }
 

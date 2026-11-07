@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.bytes;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
@@ -48,13 +47,12 @@ class Bytes_assertNotEqual_Test extends BytesBaseTest {
   }
 
   @Test
-  void should_fail_if_bytes_are_equal() {
+  void should_fail_if_bytes_are_equal() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> bytes.assertNotEqual(info, (byte) 6, (byte) 6));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual((byte) 6, (byte) 6));
+    // WHEN
+    var error = expectAssertionError(() -> bytes.assertNotEqual(info, (byte) 6, (byte) 6));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual((byte) 6, (byte) 6).create());
   }
 
   @Test
@@ -71,12 +69,11 @@ class Bytes_assertNotEqual_Test extends BytesBaseTest {
   }
 
   @Test
-  void should_fail_if_bytes_are_equal_according_to_custom_comparison_strategy() {
+  void should_fail_if_bytes_are_equal_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> bytesWithAbsValueComparisonStrategy.assertNotEqual(info, (byte) 6, (byte) -6));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual((byte) 6, (byte) -6, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertNotEqual(info, (byte) 6, (byte) -6));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual((byte) 6, (byte) -6, absValueComparisonStrategy).create());
   }
 }

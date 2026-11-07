@@ -22,6 +22,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.testkit.CaseInsensitiveCharacterComparator;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -29,7 +30,7 @@ import org.junit.jupiter.api.BeforeEach;
  * Base class for testing <code>{@link CharArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and another
  * with {@link ComparatorBasedComparisonStrategy}.
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link CharArrays#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link CharArrays#assertionErrorCreator} appropriately.
  * 
  * @author Joel Costigliola
  */
@@ -39,7 +40,7 @@ public class CharArraysBaseTest {
    * is initialized with {@link #initActualArray()} with default value = {'a', 'b', 'c'}
    */
   protected char[] actual;
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected CharArrays arrays;
 
   protected ComparatorBasedComparisonStrategy caseInsensitiveComparisonStrategy;
@@ -49,12 +50,12 @@ public class CharArraysBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     arrays = new CharArrays();
-    arrays.failures = failures;
+    arrays.assertionErrorCreator = assertionErrorCreator;
     caseInsensitiveComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
     arraysWithCustomComparisonStrategy = new CharArrays(caseInsensitiveComparisonStrategy);
-    arraysWithCustomComparisonStrategy.failures = failures;
+    arraysWithCustomComparisonStrategy.assertionErrorCreator = assertionErrorCreator;
     initActualArray();
   }
 

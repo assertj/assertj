@@ -48,7 +48,6 @@ import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.MessageFormatter;
 import org.assertj.core.internal.Conditions;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.presentation.PredicateDescription;
@@ -139,7 +138,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     myself = (SELF) selfType.cast(this);
     this.actual = actual;
     info = new WritableAssertionInfo(customRepresentation);
-    assertionErrorCreator = AssertionErrorCreator.INSTANCE;
+    assertionErrorCreator = AssertionErrorCreator.instance();
   }
 
   /**
@@ -236,12 +235,12 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /**
    * Throw an assertion error based on information in this assertion. Equivalent to:
-   * <pre><code class='java'>throw failure(errorMessage, arguments);</code></pre>
+   * <pre><code class='java'>throw assertionError(errorMessage, arguments);</code></pre>
    * <p>
-   * This method is a thin wrapper around {@link #failure(String, Object...) failure()} - see that method for a more detailed
+   * This method is a thin wrapper around {@link #failure(String, Object...) assertionError()} - see that method for a more detailed
    * description.
    * <p>
-   * Note that generally speaking, using {@link #failure(String, Object...) failure()} directly is preferable to using this
+   * Note that generally speaking, using {@link #failure(String, Object...) assertionError()} directly is preferable to using this
    * wrapper method, as the compiler and other code analysis tools will be able to tell that the statement will never return
    * normally and respond appropriately.
    *
@@ -285,13 +284,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @see #failWithMessage(String, Object...)
    */
   protected AssertionError failure(String errorMessage, Object... arguments) {
-    AssertionError assertionError = Failures.instance().failureIfErrorMessageIsOverridden(info);
+    var assertionError = AssertionErrorCreator.instance().errorWithOverriddenMessage(info);
     if (assertionError == null) {
       // error message was not overridden, build it.
       String description = MessageFormatter.instance().format(info.description(), info.representation(), "");
       assertionError = assertionErrorCreator.assertionError(info, description + errorMessage.formatted(arguments));
     }
-    Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
+    assertionErrorCreator.removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
     return assertionError;
   }
@@ -359,7 +358,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
                                   .orElse(errorMessageFormat.formatted(arguments));
     String description = MessageFormatter.instance().format(info.description(), info.representation(), errorMessage);
     AssertionError assertionError = assertionErrorCreator.assertionError(info, description, actual, expected);
-    Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
+    assertionErrorCreator.removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
     return assertionError;
   }
@@ -369,7 +368,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * <p>
    * Instead of writing ...
    *
-   * <pre><code class='java'> throw Failures.instance().failure(info, ShouldBePresent.shouldBePresent());</code></pre>
+   * <pre><code class='java'> throw AssertionErrorCreator.instance().assertionError(info, ShouldBePresent.shouldBePresent());</code></pre>
    * ... you can simply write :
    *
    * <pre><code class='java'> throwAssertionError(info, ShouldBePresent.shouldBePresent());</code></pre>
@@ -388,13 +387,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @return the assertion error
    */
   protected AssertionError assertionError(ErrorMessageFactory errorMessageFactory) {
-    AssertionError failure = Failures.instance().failure(info, errorMessageFactory);
-    removeCustomAssertRelatedElementsFromStackTraceIfNeeded(failure);
-    return failure;
+    var assertionError = AssertionErrorCreator.instance().assertionError(info, errorMessageFactory);
+    removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
+    return assertionError;
   }
 
   private void removeCustomAssertRelatedElementsFromStackTraceIfNeeded(AssertionError assertionError) {
-    if (!Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace()) return;
+    if (!AssertionErrorCreator.instance().isRemoveAssertJRelatedElementsFromStackTrace()) return;
     if (isAssertjAssertClass()) return;
 
     StackTraceElement[] newStackTrace = Arrays.stream(assertionError.getStackTrace())
@@ -972,7 +971,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
       if (predicate.test(actual)) {
         return;
       }
-      throw Failures.instance().failure(info, shouldMatch(actual, predicate, new PredicateDescription(predicateDescription)));
+      throw AssertionErrorCreator.instance().assertionError(info, shouldMatch(actual, predicate,
+                                                                              new PredicateDescription(predicateDescription)));
     });
   }
 
@@ -1219,7 +1219,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
       if (predicate.negate().test(actual)) {
         return;
       }
-      throw Failures.instance().failure(info, shouldNotMatch(actual, predicate, predicateDescription));
+      throw AssertionErrorCreator.instance().assertionError(info, shouldNotMatch(actual, predicate, predicateDescription));
     });
   }
 

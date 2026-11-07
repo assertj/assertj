@@ -16,21 +16,20 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 import java.util.List;
@@ -85,10 +84,8 @@ class Iterables_assertDoesNotContain_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
-    Throwable error = catchThrowable(() -> iterables.assertDoesNotContain(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet("Luke", "Yoda")));
+    var error = expectAssertionError(() -> iterables.assertDoesNotContain(info, actual, expected));
+    then(error).hasMessage(shouldNotContain(actual, expected, newLinkedHashSet("Luke", "Yoda")).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -111,12 +108,9 @@ class Iterables_assertDoesNotContain_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "LuKe", "YODA", "Han" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(info, actual,
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(info, actual,
                                                                                                                expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet("LuKe", "YODA"),
-                                                    comparisonStrategy));
+    then(error).hasMessage(shouldNotContain(actual, expected, newLinkedHashSet("LuKe", "YODA"), comparisonStrategy).create());
   }
 
 }

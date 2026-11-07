@@ -15,12 +15,11 @@
  */
 package org.assertj.core.internal.longarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.testkit.LongArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.LongArrays;
@@ -37,13 +36,13 @@ class LongArrays_assertNullOrEmpty_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_array_is_not_null_and_is_not_empty() {
+    // GIVEN
     AssertionInfo info = someInfo();
     long[] actual = { 6L, 8L };
-
-    Throwable error = catchThrowable(() -> arrays.assertNullOrEmpty(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeNullOrEmpty(actual));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertNullOrEmpty(info, actual));
+    // THEN
+    then(error).hasMessage(shouldBeNullOrEmpty(actual).create());
   }
 
   @Test

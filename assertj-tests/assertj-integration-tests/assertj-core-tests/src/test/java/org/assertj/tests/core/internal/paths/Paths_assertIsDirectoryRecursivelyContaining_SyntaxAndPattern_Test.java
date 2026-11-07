@@ -16,11 +16,11 @@
 package org.assertj.tests.core.internal.paths;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldContainRecursively.directoryShouldContainRecursively;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import java.nio.file.Path;
 
@@ -82,9 +82,10 @@ class Paths_assertIsDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends
     // GIVEN
     Path notExistingPath = tempDir.resolve("doesnt-exist-file");
     // WHEN
-    expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, notExistingPath, TXT_EXTENSION_PATTERN));
+    var error = expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, notExistingPath,
+                                                                                        TXT_EXTENSION_PATTERN));
     // THEN
-    verify(failures).failure(INFO, shouldExist(notExistingPath));
+    then(error).hasMessage(shouldExist(notExistingPath).create());
   }
 
   @Test
@@ -93,16 +94,17 @@ class Paths_assertIsDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends
     Path rootDir = createDirectoryFromRoot("foo2.data");
     Path existingPath = rootDir.resolve("foo2.data");
     // WHEN
-    expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, existingPath, TXT_EXTENSION_PATTERN));
+    var error = expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, existingPath,
+                                                                                        TXT_EXTENSION_PATTERN));
     // THEN
-    verify(failures).failure(INFO, shouldBeDirectory(existingPath));
+    then(error).hasMessage(shouldBeDirectory(existingPath).create());
   }
 
   @Test
   void should_fail_if_actual_is_empty() {
     // WHEN
-    expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, tempDir, TXT_EXTENSION_PATTERN));
+    var error = expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, tempDir, TXT_EXTENSION_PATTERN));
     // THEN
-    verify(failures).failure(INFO, directoryShouldContainRecursively(tempDir, emptyList(), TXT_EXTENSION_PATTERN_DESCRIPTION));
+    then(error).hasMessage(directoryShouldContainRecursively(tempDir, emptyList(), TXT_EXTENSION_PATTERN_DESCRIPTION).create());
   }
 }

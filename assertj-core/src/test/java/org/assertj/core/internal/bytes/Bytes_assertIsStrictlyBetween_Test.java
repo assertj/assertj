@@ -15,15 +15,14 @@
  */
 package org.assertj.core.internal.bytes;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
@@ -64,33 +63,30 @@ class Bytes_assertIsStrictlyBetween_Test extends BytesBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_equal_to_range_start() {
+  void should_fail_if_actual_is_equal_to_range_start() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> bytes.assertIsStrictlyBetween(info, ONE, ONE, TEN));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBetween(ONE, ONE, TEN, false, false));
+    // WHEN
+    var error = expectAssertionError(() -> bytes.assertIsStrictlyBetween(info, ONE, ONE, TEN));
+    // THEN
+    then(error).hasMessage(shouldBeBetween(ONE, ONE, TEN, false, false).create());
   }
 
   @Test
-  void should_fail_if_actual_is_equal_to_range_end() {
+  void should_fail_if_actual_is_equal_to_range_end() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> bytes.assertIsStrictlyBetween(info, ONE, ZERO, ONE));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ONE, false, false));
+    // WHEN
+    var error = expectAssertionError(() -> bytes.assertIsStrictlyBetween(info, ONE, ZERO, ONE));
+    // THEN
+    then(error).hasMessage(shouldBeBetween(ONE, ZERO, ONE, false, false).create());
   }
 
   @Test
-  void should_fail_if_actual_is_not_in_range_start() {
+  void should_fail_if_actual_is_not_in_range_start() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> bytes.assertIsStrictlyBetween(info, ONE, TWO, TEN));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBetween(ONE, TWO, TEN, false, false));
+    // WHEN
+    var error = expectAssertionError(() -> bytes.assertIsStrictlyBetween(info, ONE, TWO, TEN));
+    // THEN
+    then(error).hasMessage(shouldBeBetween(ONE, TWO, TEN, false, false).create());
   }
 
   @Test

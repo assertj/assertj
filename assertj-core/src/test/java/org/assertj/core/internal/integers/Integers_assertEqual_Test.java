@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.integers;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Integers;
@@ -49,12 +48,12 @@ class Integers_assertEqual_Test extends IntegersBaseTest {
 
   @Test
   void should_fail_if_integers_are_not_equal() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> integers.assertEqual(info, 6, 8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(6, 8, info.representation()));
+    // WHEN
+    var error = expectAssertionError(() -> integers.assertEqual(info, 6, 8));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(6, 8, info.representation()).toAssertionError(info).getMessage());
   }
 
   @Test
@@ -71,11 +70,12 @@ class Integers_assertEqual_Test extends IntegersBaseTest {
 
   @Test
   void should_fail_if_integers_are_not_equal_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> integersWithAbsValueComparisonStrategy.assertEqual(info, 6, -8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(6, -8, absValueComparisonStrategy, info.representation()));
+    // WHEN
+    var error = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertEqual(info, 6, -8));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(6, -8, absValueComparisonStrategy,
+                                         info.representation()).toAssertionError(info).getMessage());
   }
 }

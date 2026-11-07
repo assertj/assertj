@@ -16,11 +16,11 @@
 package org.assertj.core.internal.maps;
 
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
@@ -62,8 +62,8 @@ class Maps_assertHasValueSatisfying_Test extends MapsBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_value_matching_condition() {
-    expectAssertionError(() -> maps.assertHasValueSatisfying(INFO, actual, isBlack));
-    verify(failures).failure(INFO, shouldContainValue(actual, isBlack));
+    var error = expectAssertionError(() -> maps.assertHasValueSatisfying(INFO, actual, isBlack));
+    then(error).hasMessage(shouldContainValue(actual, isBlack).create());
   }
 
   @Test

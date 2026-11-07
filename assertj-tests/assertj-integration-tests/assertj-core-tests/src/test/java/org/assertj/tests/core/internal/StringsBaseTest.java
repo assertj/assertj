@@ -23,7 +23,7 @@ import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.AfterEach;
@@ -33,7 +33,7 @@ public class StringsBaseTest {
 
   protected static final AssertionInfo INFO = someInfo();
 
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Strings strings;
 
   protected ComparatorBasedComparisonStrategy comparisonStrategy;
@@ -43,19 +43,19 @@ public class StringsBaseTest {
 
   @BeforeEach
   public void setUp() throws IllegalAccessException {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
 
     strings = Strings.instance();
-    writeField(strings, "failures", failures, true);
+    writeField(strings, "assertionErrorCreator", assertionErrorCreator, true);
 
     comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
     stringsWithCaseInsensitiveComparisonStrategy = new Strings(comparisonStrategy);
-    writeField(stringsWithCaseInsensitiveComparisonStrategy, "failures", failures, true);
+    writeField(stringsWithCaseInsensitiveComparisonStrategy, "assertionErrorCreator", assertionErrorCreator, true);
   }
 
   @AfterEach
   public void tearDown() throws IllegalAccessException {
-    writeField(strings, "failures", Failures.instance(), true);
+    writeField(strings, "assertionErrorCreator", AssertionErrorCreator.instance(), true);
   }
 
 }

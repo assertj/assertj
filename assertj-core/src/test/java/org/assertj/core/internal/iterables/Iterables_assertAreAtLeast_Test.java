@@ -15,11 +15,11 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
@@ -67,11 +67,9 @@ class Iterables_assertAreAtLeast_Test extends IterablesWithConditionsBaseTest {
     AssertionInfo info = someInfo();
     actual = newArrayList("Yoda", "Solo", "Leia");
 
-    Throwable error = catchThrowable(() -> iterables.assertAreAtLeast(someInfo(), actual, 2, jedi));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    var error = expectAssertionError(() -> iterables.assertAreAtLeast(someInfo(), actual, 2, jedi));
     verify(conditions).assertIsNotNull(jedi);
-    verify(failures).failure(info, elementsShouldBeAtLeast(actual, 2, jedi));
+    then(error).hasMessage(elementsShouldBeAtLeast(actual, 2, jedi).create());
   }
 
 }

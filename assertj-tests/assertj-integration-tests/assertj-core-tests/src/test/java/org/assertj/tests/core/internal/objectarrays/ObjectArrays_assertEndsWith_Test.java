@@ -23,8 +23,13 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -32,7 +37,13 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Florent Biville
  */
-class ObjectArrays_assertEndsWith_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertEndsWith_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final String[] actual = array("Luke", "Yoda", "Leia");
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final ObjectArrays arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
 
   @Test
   void should_throw_error_if_sequence_is_null() {
@@ -63,9 +74,9 @@ class ObjectArrays_assertEndsWith_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     // WHEN
-    expectAssertionError(() -> arrays.assertEndsWith(INFO, array("Yoda", "Luke", "Leia", "Obi-Wan"), sequence));
+    var error = expectAssertionError(() -> arrays.assertEndsWith(INFO, array("Yoda", "Luke", "Leia", "Obi-Wan"), sequence));
     // THEN
-    verify(failures).failure(INFO, shouldEndWith(array("Yoda", "Luke", "Leia", "Obi-Wan"), sequence));
+    then(error).hasMessage(shouldEndWith(array("Yoda", "Luke", "Leia", "Obi-Wan"), sequence).create());
   }
 
   @Test
@@ -73,9 +84,9 @@ class ObjectArrays_assertEndsWith_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] sequence = { "Han", "C-3PO" };
     // WHEN
-    expectAssertionError(() -> arrays.assertEndsWith(INFO, array("Yoda", "Luke", "Leia", "Obi-Wan"), sequence));
+    var error = expectAssertionError(() -> arrays.assertEndsWith(INFO, array("Yoda", "Luke", "Leia", "Obi-Wan"), sequence));
     // THEN
-    verify(failures).failure(INFO, shouldEndWith(array("Yoda", "Luke", "Leia", "Obi-Wan"), sequence));
+    then(error).hasMessage(shouldEndWith(array("Yoda", "Luke", "Leia", "Obi-Wan"), sequence).create());
   }
 
   @Test
@@ -83,9 +94,9 @@ class ObjectArrays_assertEndsWith_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
     // WHEN
-    expectAssertionError(() -> arrays.assertEndsWith(INFO, array("Yoda", "Luke", "Leia", "Obi-Wan"), sequence));
+    var error = expectAssertionError(() -> arrays.assertEndsWith(INFO, array("Yoda", "Luke", "Leia", "Obi-Wan"), sequence));
     // THEN
-    verify(failures).failure(INFO, shouldEndWith(array("Yoda", "Luke", "Leia", "Obi-Wan"), sequence));
+    then(error).hasMessage(shouldEndWith(array("Yoda", "Luke", "Leia", "Obi-Wan"), sequence).create());
   }
 
   @Test
@@ -109,9 +120,9 @@ class ObjectArrays_assertEndsWith_Test extends ObjectArraysBaseTest {
     var actual = array("Yoda", "Luke", "Leia", "Obi-Wan");
     Object[] sequence = { "Yoda", "LUKE", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(INFO, actual, sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(INFO, actual, sequence));
     // THEN
-    verify(failures).failure(INFO, shouldEndWith(actual, sequence, caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldEndWith(actual, sequence, caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test
@@ -120,9 +131,9 @@ class ObjectArrays_assertEndsWith_Test extends ObjectArraysBaseTest {
     var actual = array("Yoda", "Luke", "Leia", "Obi-Wan");
     Object[] sequence = { "Han", "C-3PO" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(INFO, actual, sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(INFO, actual, sequence));
     // THEN
-    verify(failures).failure(INFO, shouldEndWith(actual, sequence, caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldEndWith(actual, sequence, caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test
@@ -131,9 +142,9 @@ class ObjectArrays_assertEndsWith_Test extends ObjectArraysBaseTest {
     var actual = array("Yoda", "Luke", "Leia", "Obi-Wan");
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(INFO, actual, sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(INFO, actual, sequence));
     // THEN
-    verify(failures).failure(INFO, shouldEndWith(actual, sequence, caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldEndWith(actual, sequence, caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test

@@ -18,12 +18,12 @@ package org.assertj.core.internal.iterables;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.NoElementsShouldSatisfy.noElementsShouldSatisfy;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -68,9 +68,9 @@ class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
     // GIVEN
     Consumer<String> restrictions = name -> assertThat(name).startsWith("Y");
     // WHEN
-    Throwable assertionError = expectAssertionError(() -> iterables.assertNoneSatisfy(someInfo(), actual, restrictions));
+    var assertionError = expectAssertionError(() -> iterables.assertNoneSatisfy(someInfo(), actual, restrictions));
     // THEN
-    verify(failures).failure(info, noElementsShouldSatisfy(actual, list("Yoda")));
+    then(assertionError).hasMessage(noElementsShouldSatisfy(actual, list("Yoda")).create());
     assertThat(assertionError).isNotNull();
   }
 
@@ -79,9 +79,9 @@ class Iterables_assertNoneSatisfy_Test extends IterablesBaseTest {
     // GIVEN
     Consumer<String> restrictions = name -> assertThat(name).startsWith("L");
     // WHEN
-    expectAssertionError(() -> iterables.assertNoneSatisfy(someInfo(), actual, restrictions));
+    var error = expectAssertionError(() -> iterables.assertNoneSatisfy(someInfo(), actual, restrictions));
     // THEN
-    verify(failures).failure(info, noElementsShouldSatisfy(actual, list("Luke", "Leia")));
+    then(error).hasMessage(noElementsShouldSatisfy(actual, list("Luke", "Leia")).create());
   }
 
   @Test

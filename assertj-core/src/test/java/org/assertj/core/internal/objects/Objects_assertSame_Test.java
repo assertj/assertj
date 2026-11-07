@@ -15,11 +15,10 @@
  */
 package org.assertj.core.internal.objects;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSame.shouldBeSame;
 import static org.assertj.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Objects;
@@ -47,9 +46,7 @@ class Objects_assertSame_Test extends ObjectsBaseTest {
     Object a = new Person("Yoda");
     Object e = new Person("Yoda");
 
-    Throwable error = catchThrowable(() -> objects.assertSame(info, a, e));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeSame(a, e));
+    var error = expectAssertionError(() -> objects.assertSame(info, a, e));
+    then(error).hasMessage(shouldBeSame(a, e).create());
   }
 }

@@ -17,12 +17,12 @@ package org.assertj.core.internal.objects;
 
 import static java.util.Collections.emptySet;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeIn.shouldNotBeIn;
 import static org.assertj.core.internal.ErrorMessages.iterableIsNull;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Objects;
@@ -76,9 +76,9 @@ class Objects_assertIsNotIn_with_Iterable_Test extends ObjectsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> objects.assertIsNotIn(info, "Yoda", values));
+    var error = expectAssertionError(() -> objects.assertIsNotIn(info, "Yoda", values));
     // THEN
-    verify(failures).failure(info, shouldNotBeIn("Yoda", values));
+    then(error).hasMessage(shouldNotBeIn("Yoda", values).create());
   }
 
   @Test
@@ -91,9 +91,9 @@ class Objects_assertIsNotIn_with_Iterable_Test extends ObjectsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> objectsWithCustomComparisonStrategy.assertIsNotIn(info, "YODA", values));
+    var error = expectAssertionError(() -> objectsWithCustomComparisonStrategy.assertIsNotIn(info, "YODA", values));
     // THEN
-    verify(failures).failure(info, shouldNotBeIn("YODA", values, customComparisonStrategy));
+    then(error).hasMessage(shouldNotBeIn("YODA", values, customComparisonStrategy).create());
   }
 
 }

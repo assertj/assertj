@@ -39,7 +39,7 @@ class BooleanArrays_assertContainsAnyOf_Test extends BooleanArraysBaseTest {
   @Test
   void should_delegate_to_internal_Arrays() {
     arrays.assertContainsAnyOf(someInfo(), actual, new boolean[] { false, true });
-    verify(internalArrays).assertContainsAnyOf(someInfo(), failures, actual, new boolean[] { false, true });
+    verify(internalArrays).assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, new boolean[] { false, true });
   }
 
 }

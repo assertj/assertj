@@ -717,9 +717,9 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * 	java.lang.Thread.State: RUNNABLE
    * 		at sun.management.ThreadImpl.dumpThreads0(Native Method)
    * 		at sun.management.ThreadImpl.dumpAllThreads(ThreadImpl.java:446)
-   * 		at org.assertj.core.internal.Failures.threadDumpDescription(Failures.java:193)
-   * 		at org.assertj.core.internal.Failures.printThreadDumpIfNeeded(Failures.java:141)
-   * 		at org.assertj.core.internal.Failures.failure(Failures.java:91)
+   * 		at org.assertj.core.error.AssertionErrorCreator.threadDumpDescription(AssertionErrorCreator.java:193)
+   * 		at org.assertj.core.error.AssertionErrorCreator.printThreadDumpIfNeeded(AssertionErrorCreator.java:141)
+   * 		at org.assertj.core.error.AssertionErrorCreator.assertionError(AssertionErrorCreator.java:91)
    * 		at org.assertj.core.internal.Objects.assertEqual(Objects.java:314)
    * 		at org.assertj.core.api.AbstractAssert.isEqualTo(AbstractAssert.java:198)
    * 		at org.assertj.examples.ThreadDumpOnErrorExample.main(ThreadDumpOnErrorExample.java:28)}</pre>

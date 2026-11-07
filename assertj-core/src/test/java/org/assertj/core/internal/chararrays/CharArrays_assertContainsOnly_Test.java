@@ -15,18 +15,17 @@
  */
 package org.assertj.core.internal.chararrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.CharArrays.arrayOf;
 import static org.assertj.core.testkit.CharArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.CharArrays;
@@ -89,11 +88,10 @@ class CharArrays_assertContainsOnly_Test extends CharArraysBaseTest {
   void should_fail_if_actual_does_not_contain_given_values_only() {
     AssertionInfo info = someInfo();
     char[] expected = { 'a', 'b', 'd' };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsOnly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList('d'), newArrayList('c')));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsOnly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainOnly(actual, expected, newArrayList('d'), newArrayList('c')).create());
   }
 
   @Test
@@ -144,11 +142,10 @@ class CharArrays_assertContainsOnly_Test extends CharArraysBaseTest {
   void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     char[] expected = { 'A', 'b', 'd' };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList('d'), newArrayList('c'),
-                                                     caseInsensitiveComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainOnly(actual, expected, newArrayList('d'), newArrayList('c'),
+                                             caseInsensitiveComparisonStrategy).create());
   }
 }

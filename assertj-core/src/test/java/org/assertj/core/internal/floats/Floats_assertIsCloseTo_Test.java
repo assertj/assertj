@@ -27,7 +27,6 @@ import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.internal.ErrorMessages.offsetIsNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.internal.FloatsBaseTest;
@@ -80,7 +79,7 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
     floats.assertIsCloseTo(INFO, NEGATIVE_INFINITY, NEGATIVE_INFINITY, byLessThan(ONE));
   }
 
-  // error or failure
+  // error
 
   @ParameterizedTest
   @CsvSource({
@@ -89,9 +88,9 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
       "0.375f, 0.125f, 0.25f" })
   void should_fail_if_difference_is_greater_than_or_equal_to_given_precision(float expected, float actual, float precision) {
     // WHEN
-    expectAssertionError(() -> floats.assertIsCloseTo(INFO, actual, expected, byLessThan(precision)));
+    var error = expectAssertionError(() -> floats.assertIsCloseTo(INFO, actual, expected, byLessThan(precision)));
     // THEN
-    verify(failures).failure(INFO, shouldBeEqual(actual, expected, byLessThan(precision), absDiff(expected, actual)));
+    then(error).hasMessage(shouldBeEqual(actual, expected, byLessThan(precision), absDiff(expected, actual)).create());
   }
 
   @ParameterizedTest
@@ -100,9 +99,9 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
       "0.375f, 0.125f, 0.2499999f" })
   void should_fail_if_difference_is_greater_than_given_precision(float expected, float actual, float precision) {
     // WHEN
-    expectAssertionError(() -> floats.assertIsCloseTo(INFO, actual, expected, within(precision)));
+    var error = expectAssertionError(() -> floats.assertIsCloseTo(INFO, actual, expected, within(precision)));
     // THEN
-    verify(failures).failure(INFO, shouldBeEqual(actual, expected, within(precision), absDiff(expected, actual)));
+    then(error).hasMessage(shouldBeEqual(actual, expected, within(precision), absDiff(expected, actual)).create());
   }
 
   @Test
@@ -130,67 +129,67 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
   @Test
   void should_fail_if_actual_is_not_close_enough_to_expected_value() {
     // WHEN
-    expectAssertionError(() -> floats.assertIsCloseTo(INFO, ONE, TEN, within(ONE)));
+    var error = expectAssertionError(() -> floats.assertIsCloseTo(INFO, ONE, TEN, within(ONE)));
     // THEN
-    verify(failures).failure(INFO, shouldBeEqual(ONE, TEN, within(ONE), TEN - ONE));
+    then(error).hasMessage(shouldBeEqual(ONE, TEN, within(ONE), TEN - ONE).create());
   }
 
   @Test
   void should_fail_if_actual_is_not_close_enough_to_expected_value_with_a_strict_offset() {
     // WHEN
-    expectAssertionError(() -> floats.assertIsCloseTo(INFO, ONE, TEN, byLessThan(ONE)));
+    var error = expectAssertionError(() -> floats.assertIsCloseTo(INFO, ONE, TEN, byLessThan(ONE)));
     // THEN
-    verify(failures).failure(INFO, shouldBeEqual(ONE, TEN, byLessThan(ONE), TEN - ONE));
+    then(error).hasMessage(shouldBeEqual(ONE, TEN, byLessThan(ONE), TEN - ONE).create());
   }
 
   @Test
   void should_fail_if_difference_is_equal_to_the_given_strict_offset() {
     // WHEN
-    expectAssertionError(() -> floats.assertIsCloseTo(INFO, TWO, ONE, byLessThan(ONE)));
+    var error = expectAssertionError(() -> floats.assertIsCloseTo(INFO, TWO, ONE, byLessThan(ONE)));
     // THEN
-    verify(failures).failure(INFO, shouldBeEqual(TWO, ONE, byLessThan(ONE), TWO - ONE));
+    then(error).hasMessage(shouldBeEqual(TWO, ONE, byLessThan(ONE), TWO - ONE).create());
   }
 
   @Test
   void should_fail_if_actual_is_NaN_and_expected_is_not() {
     // WHEN
-    expectAssertionError(() -> floats.assertIsCloseTo(INFO, NaN, ONE, within(ONE)));
+    var error = expectAssertionError(() -> floats.assertIsCloseTo(INFO, NaN, ONE, within(ONE)));
     // THEN
-    verify(failures).failure(INFO, shouldBeEqual(NaN, ONE, within(ONE), absDiff(NaN, ONE)));
+    then(error).hasMessage(shouldBeEqual(NaN, ONE, within(ONE), absDiff(NaN, ONE)).create());
   }
 
   @Test
   void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
     // WHEN
-    expectAssertionError(() -> floats.assertIsCloseTo(INFO, POSITIVE_INFINITY, ONE, within(ONE)));
+    var error = expectAssertionError(() -> floats.assertIsCloseTo(INFO, POSITIVE_INFINITY, ONE, within(ONE)));
     // THEN
-    verify(failures).failure(INFO, shouldBeEqual(POSITIVE_INFINITY, ONE, within(ONE), absDiff(POSITIVE_INFINITY, ONE)));
+    then(error).hasMessage(shouldBeEqual(POSITIVE_INFINITY, ONE, within(ONE), absDiff(POSITIVE_INFINITY, ONE)).create());
   }
 
   @Test
   void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
     // WHEN
-    expectAssertionError(() -> floats.assertIsCloseTo(INFO, NEGATIVE_INFINITY, ONE, within(ONE)));
+    var error = expectAssertionError(() -> floats.assertIsCloseTo(INFO, NEGATIVE_INFINITY, ONE, within(ONE)));
     // THEN
-    verify(failures).failure(INFO, shouldBeEqual(NEGATIVE_INFINITY, ONE, within(ONE), absDiff(NEGATIVE_INFINITY, ONE)));
+    then(error).hasMessage(shouldBeEqual(NEGATIVE_INFINITY, ONE, within(ONE), absDiff(NEGATIVE_INFINITY, ONE)).create());
   }
 
   @Test
   void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
     // WHEN
-    expectAssertionError(() -> floats.assertIsCloseTo(INFO, POSITIVE_INFINITY, NEGATIVE_INFINITY, within(ONE)));
+    var error = expectAssertionError(() -> floats.assertIsCloseTo(INFO, POSITIVE_INFINITY, NEGATIVE_INFINITY, within(ONE)));
     // THEN
-    verify(failures).failure(INFO, shouldBeEqual(POSITIVE_INFINITY, NEGATIVE_INFINITY, within(ONE),
-                                                 absDiff(POSITIVE_INFINITY, NEGATIVE_INFINITY)));
+    then(error).hasMessage(shouldBeEqual(POSITIVE_INFINITY, NEGATIVE_INFINITY, within(ONE),
+                                         absDiff(POSITIVE_INFINITY, NEGATIVE_INFINITY)).create());
   }
 
   @Test
   void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
     // WHEN
-    expectAssertionError(() -> floats.assertIsCloseTo(INFO, NEGATIVE_INFINITY, POSITIVE_INFINITY, within(ONE)));
+    var error = expectAssertionError(() -> floats.assertIsCloseTo(INFO, NEGATIVE_INFINITY, POSITIVE_INFINITY, within(ONE)));
     // THEN
-    verify(failures).failure(INFO, shouldBeEqual(NEGATIVE_INFINITY, POSITIVE_INFINITY, within(ONE),
-                                                 absDiff(NEGATIVE_INFINITY, POSITIVE_INFINITY)));
+    then(error).hasMessage(shouldBeEqual(NEGATIVE_INFINITY, POSITIVE_INFINITY, within(ONE),
+                                         absDiff(NEGATIVE_INFINITY, POSITIVE_INFINITY)).create());
   }
 
   // with comparison strategy
@@ -221,17 +220,17 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
   @Test
   void should_fail_if_actual_is_not_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
     // WHEN
-    expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(INFO, 6f, 8f, offset(ONE)));
+    var error = expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(INFO, 6f, 8f, offset(ONE)));
     // THEN
-    verify(failures).failure(INFO, shouldBeEqual(6f, 8f, offset(ONE), TWO));
+    then(error).hasMessage(shouldBeEqual(6f, 8f, offset(ONE), TWO).create());
   }
 
   @Test
   void should_fail_if_actual_is_not_strictly_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
     // WHEN
-    expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(INFO, 6f, 8f, byLessThan(ONE)));
+    var error = expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(INFO, 6f, 8f, byLessThan(ONE)));
     // THEN
-    verify(failures).failure(INFO, shouldBeEqual(6f, 8f, byLessThan(ONE), TWO));
+    then(error).hasMessage(shouldBeEqual(6f, 8f, byLessThan(ONE), TWO).create());
   }
 
   @Test

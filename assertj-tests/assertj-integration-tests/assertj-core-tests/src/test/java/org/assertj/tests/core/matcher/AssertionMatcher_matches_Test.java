@@ -23,7 +23,7 @@ import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoInteractions;
 
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.matcher.AssertionMatcher;
 import org.hamcrest.Description;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +47,7 @@ class AssertionMatcher_matches_Test {
    */
   @BeforeEach
   public void setUp() {
-    Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
+    AssertionErrorCreator.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
   }
 
   @Test
@@ -71,7 +71,7 @@ class AssertionMatcher_matches_Test {
   }
 
   /**
-   * {@link Failures#removeAssertJRelatedElementsFromStackTrace} must be set to true
+   * {@link AssertionErrorCreator#removeAssertJRelatedElementsFromStackTrace} must be set to true
    * in order for this test to pass. It is in {@link this#setUp()}.
    */
   @Test

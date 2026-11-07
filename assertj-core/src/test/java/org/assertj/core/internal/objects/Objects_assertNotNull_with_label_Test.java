@@ -15,10 +15,10 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.testkit.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Objects;
@@ -43,8 +43,9 @@ class Objects_assertNotNull_with_label_Test extends ObjectsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     String specificLabel = "specific label";
-    // WHEN-THEN
-    assertThatAssertionErrorIsThrownBy(() -> objects.assertNotNull(info, null, specificLabel));
-    verify(failures).failure(info, shouldNotBeNull(specificLabel));
+    // WHEN
+    var error = expectAssertionError(() -> objects.assertNotNull(info, null, specificLabel));
+    // THEN
+    then(error).hasMessage(shouldNotBeNull(specificLabel).create());
   }
 }

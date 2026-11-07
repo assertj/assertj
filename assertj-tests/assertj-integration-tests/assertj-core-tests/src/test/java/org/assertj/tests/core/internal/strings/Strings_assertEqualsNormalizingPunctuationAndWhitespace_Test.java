@@ -15,26 +15,26 @@
  */
 package org.assertj.tests.core.internal.strings;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqualNormalizingPunctuationAndWhitespace.shouldBeEqualNormalizingPunctuationAndWhitespace;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.tests.core.internal.StringsBaseTest;
+import org.assertj.core.internal.Strings;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * Tests for <code>{@link org.assertj.core.internal.Strings#normalizePunctuationAndWhitespace(org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)} </code>.
+ * Tests for <code>{@link org.assertj.core.internal.Strings#assertEqualsNormalizingPunctuationAndWhitespace(AssertionInfo, CharSequence, CharSequence)} </code>.
  *
  * @author Harisha Talanki
  */
-class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test extends StringsBaseTest {
+class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test {
 
   @Test
   void should_fail_if_expected_string_is_empty() {
@@ -43,10 +43,11 @@ class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test extends Strin
     String expected = "";
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> strings.assertEqualsNormalizingPunctuationAndWhitespace(info, "{Game} of} Thrones{)", expected));
+    var error = expectAssertionError(() -> Strings.instance()
+                                                  .assertEqualsNormalizingPunctuationAndWhitespace(info, "{Game} of} Thrones{)",
+                                                                                                   expected));
     // THEN
-    verify(failures).failure(info, shouldBeEqualNormalizingPunctuationAndWhitespace(actual, expected), "Game of Thrones",
-                             expected);
+    then(error).hasMessage(shouldBeEqualNormalizingPunctuationAndWhitespace(actual, expected).create());
   }
 
   @Test
@@ -56,15 +57,16 @@ class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test extends Strin
     String expected = "Game of Thrones";
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> strings.assertEqualsNormalizingPunctuationAndWhitespace(info, actual, expected));
+    var error = expectAssertionError(() -> Strings.instance().assertEqualsNormalizingPunctuationAndWhitespace(info, actual,
+                                                                                                              expected));
     // THEN
-    verify(failures).failure(info, shouldBeEqualNormalizingPunctuationAndWhitespace(actual, expected), "GameofThrones", expected);
+    then(error).hasMessage(shouldBeEqualNormalizingPunctuationAndWhitespace(actual, expected).create());
   }
 
   @ParameterizedTest
   @MethodSource("equalNormalizingPunctuationAndWhitespaceGenerator")
   void should_pass_if_both_Strings_are_equal_normalizing_punctuation_and_whitespace(String actual, String expected) {
-    strings.assertEqualsNormalizingPunctuationAndWhitespace(someInfo(), actual, expected);
+    Strings.instance().assertEqualsNormalizingPunctuationAndWhitespace(someInfo(), actual, expected);
   }
 
   public static Stream<Arguments> equalNormalizingPunctuationAndWhitespaceGenerator() {

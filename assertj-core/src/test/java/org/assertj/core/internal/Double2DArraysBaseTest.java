@@ -20,12 +20,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for testing <code>{@link Double2DArrays}</code>.
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Double2DArrays#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Double2DArrays#assertionErrorCreator} appropriately.
  *
  * @author Maciej Wajcht
  */
@@ -35,16 +36,16 @@ public class Double2DArraysBaseTest {
    * is initialized with {@link #initActualArray()} with default value = {{0.0, 2.0, 4.0}, {6.0, 8.0, 10.0}}
    */
   protected double[][] actual;
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Double2DArrays double2dArrays;
   protected Arrays2D arrays2d;
   protected AssertionInfo info = someInfo();
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     double2dArrays = new Double2DArrays();
-    double2dArrays.failures = failures;
+    double2dArrays.assertionErrorCreator = assertionErrorCreator;
     arrays2d = mock(Arrays2D.class);
     double2dArrays.setArrays(arrays2d);
     initActualArray();

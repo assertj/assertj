@@ -2453,7 +2453,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(date).isEqualTo("2003-04-26");
    *
    * try {
-   *   // date with a custom format : failure since the default formats don't match.
+   *   // date with a custom format : assertionError since the default formats don't match.
    *   assertThat(date).isEqualTo("2003/04/26");
    * } catch (AssertionError e) {
    *   assertThat(e).hasMessage("Failed to parse 2003/04/26 with any of these date formats: " +
@@ -2500,7 +2500,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * assertThat(date).isEqualTo("2003-04-26");
    *
    * try {
-   *   // date with a custom format : failure since the default formats don't match.
+   *   // date with a custom format : assertionError since the default formats don't match.
    *   assertThat(date).isEqualTo("2003/04/26");
    * } catch (AssertionError e) {
    *   assertThat(e).hasMessage("Failed to parse 2003/04/26 with any of these date formats: " +
@@ -2610,8 +2610,8 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     date = parseDateWithDefaultDateParsers(dateAsString);
     if (date != null) return date;
     // no matching date format, throw an error
-    throw AssertionErrorCreator.INSTANCE.assertionError(format("Failed to parse %s with any of these date formats:%n   %s",
-                                                               dateAsString, usedFormats()));
+    throw AssertionErrorCreator.instance().assertionError(format("Failed to parse %s with any of these date formats:%n   %s",
+                                                                 dateAsString, usedFormats()));
   }
 
   private String usedFormats() {

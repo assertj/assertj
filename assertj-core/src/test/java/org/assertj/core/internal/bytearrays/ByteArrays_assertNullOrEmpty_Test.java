@@ -15,12 +15,11 @@
  */
 package org.assertj.core.internal.bytearrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.testkit.ByteArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ByteArrays;
@@ -40,10 +39,9 @@ class ByteArrays_assertNullOrEmpty_Test extends ByteArraysBaseTest {
     AssertionInfo info = someInfo();
     byte[] actual = { 6, 8 };
 
-    Throwable error = catchThrowable(() -> arrays.assertNullOrEmpty(info, actual));
+    var error = expectAssertionError(() -> arrays.assertNullOrEmpty(info, actual));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeNullOrEmpty(actual));
+    then(error).hasMessage(shouldBeNullOrEmpty(actual).create());
   }
 
   @Test

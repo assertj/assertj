@@ -16,13 +16,13 @@
 package org.assertj.core.internal.objects;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveAllNullFields.shouldHaveAllNullFields;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -70,9 +70,9 @@ class Objects_assertHasAllNullFieldsOrPropertiesExcept_Test extends ObjectsBaseT
     // GIVEN
     Jedi jedi = new Jedi("Kenobi", null);
     // WHEN
-    expectAssertionError(() -> objects.assertHasAllNullFieldsOrPropertiesExcept(INFO, jedi));
+    var error = expectAssertionError(() -> objects.assertHasAllNullFieldsOrPropertiesExcept(INFO, jedi));
     // THEN
-    verify(failures).failure(INFO, shouldHaveAllNullFields(jedi, list("name"), emptyList()));
+    then(error).hasMessage(shouldHaveAllNullFields(jedi, list("name"), emptyList()).create());
   }
 
   @Test
@@ -80,9 +80,9 @@ class Objects_assertHasAllNullFieldsOrPropertiesExcept_Test extends ObjectsBaseT
     // GIVEN
     Jedi jedi = new Jedi("Kenobi", "blue");
     // WHEN
-    expectAssertionError(() -> objects.assertHasAllNullFieldsOrPropertiesExcept(someInfo(), jedi));
+    var error = expectAssertionError(() -> objects.assertHasAllNullFieldsOrPropertiesExcept(someInfo(), jedi));
     // THEN
-    verify(failures).failure(INFO, shouldHaveAllNullFields(jedi, list("lightSaberColor", "name"), emptyList()));
+    then(error).hasMessage(shouldHaveAllNullFields(jedi, list("lightSaberColor", "name"), emptyList()).create());
   }
 
   @Test
@@ -90,9 +90,9 @@ class Objects_assertHasAllNullFieldsOrPropertiesExcept_Test extends ObjectsBaseT
     // GIVEN
     Jedi jedi = new Jedi("Kenobi", "blue");
     // WHEN
-    expectAssertionError(() -> objects.assertHasAllNullFieldsOrPropertiesExcept(someInfo(), jedi, "name"));
+    var error = expectAssertionError(() -> objects.assertHasAllNullFieldsOrPropertiesExcept(someInfo(), jedi, "name"));
     // THEN
-    verify(failures).failure(INFO, shouldHaveAllNullFields(jedi, list("lightSaberColor"), list("name")));
+    then(error).hasMessage(shouldHaveAllNullFields(jedi, list("lightSaberColor"), list("name")).create());
   }
 
   @Test
@@ -100,9 +100,9 @@ class Objects_assertHasAllNullFieldsOrPropertiesExcept_Test extends ObjectsBaseT
     // GIVEN
     PersonWithPrivateField person = new PersonWithPrivateField(null, "value");
     // WHEN
-    expectAssertionError(() -> objects.assertHasAllNullFieldsOrPropertiesExcept(someInfo(), person));
+    var error = expectAssertionError(() -> objects.assertHasAllNullFieldsOrPropertiesExcept(someInfo(), person));
     // THEN
-    verify(failures).failure(INFO, shouldHaveAllNullFields(person, list("privateField"), emptyList()));
+    then(error).hasMessage(shouldHaveAllNullFields(person, list("privateField"), emptyList()).create());
   }
 
   @Test

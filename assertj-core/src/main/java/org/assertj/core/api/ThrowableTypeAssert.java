@@ -21,8 +21,8 @@ import static org.assertj.core.util.Throwables.catchThrowable;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.description.Description;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.BasicErrorMessageFactory;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
 /**
@@ -106,7 +106,7 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
   private void throwAssertionError(String message) {
     var info = new WritableAssertionInfo();
     info.description(description);
-    throw Failures.instance().failure(info, new BasicErrorMessageFactory(message));
+    throw AssertionErrorCreator.instance().assertionError(info, new BasicErrorMessageFactory(message));
   }
 
   /**

@@ -16,19 +16,18 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import java.util.Locale;
 
@@ -69,11 +68,9 @@ class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
     actual.addAll(newArrayList("Luke", "Luke", null, null));
     Object[] expected = { "Luke", "Luke", "Yoda", "Han", null };
 
-    Throwable error = catchThrowable(() -> iterables.assertContainsOnlyOnce(someInfo(), actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet("Luke", null)));
+    var error = expectAssertionError(() -> iterables.assertContainsOnlyOnce(someInfo(), actual, expected));
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Han"),
+                                                  newLinkedHashSet("Luke", null)).create());
   }
 
   @Test
@@ -82,12 +79,9 @@ class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
     actual.addAll(newArrayList("Luke", "Luke"));
     Object[] expected = { null };
 
-    Throwable error = catchThrowable(() -> iterables.assertContainsOnlyOnce(someInfo(), actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(array((String) null)),
-                                                    newLinkedHashSet()));
+    var error = expectAssertionError(() -> iterables.assertContainsOnlyOnce(someInfo(), actual, expected));
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(array((String) null)),
+                                                  newLinkedHashSet()).create());
   }
 
   @Test
@@ -125,11 +119,8 @@ class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
-    Throwable error = catchThrowable(() -> iterables.assertContainsOnlyOnce(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet()));
+    var error = expectAssertionError(() -> iterables.assertContainsOnlyOnce(info, actual, expected));
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -154,14 +145,11 @@ class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
     actual.addAll(newArrayList("Luke", "Luke"));
     Object[] expected = array("luke", "YOda", "LeIA");
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(),
                                                                                                                  actual,
                                                                                                                  expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(), newLinkedHashSet("luke"),
-                                                    comparisonStrategy));
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(), newLinkedHashSet("luke"),
+                                                  comparisonStrategy).create());
   }
 
   @Test
@@ -170,14 +158,11 @@ class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
     actual.addAll(newArrayList("LUKE"));
     Object[] expected = array("LUke", "LUke", "lukE", "YOda", "Leia", "Han");
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(),
                                                                                                                  actual,
                                                                                                                  expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet("LUke", "lukE"),
-                                                    comparisonStrategy));
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet("LUke", "lukE"),
+                                                  comparisonStrategy).create());
   }
 
   @Test
@@ -185,13 +170,10 @@ class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(info, actual,
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(info, actual,
                                                                                                                  expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet(),
-                                                    comparisonStrategy));
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet(),
+                                                  comparisonStrategy).create());
   }
 
 }

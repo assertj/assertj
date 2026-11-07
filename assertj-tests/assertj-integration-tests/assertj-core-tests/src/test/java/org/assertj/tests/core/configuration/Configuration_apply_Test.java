@@ -24,7 +24,7 @@ import java.util.Date;
 
 import org.assertj.core.api.AssumptionExceptionFactory;
 import org.assertj.core.configuration.Configuration;
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.Introspection;
@@ -48,7 +48,8 @@ class Configuration_apply_Test {
     then(StandardRepresentation.getMaxElementsForPrinting()).isEqualTo(configuration.maxElementsForPrinting());
     then(StandardRepresentation.getMaxStackTraceElementsDisplayed()).isEqualTo(configuration.maxStackTraceElementsDisplayed());
     then(StandardRepresentation.getMaxLengthForSingleLineDescription()).isEqualTo(configuration.maxLengthForSingleLineDescription());
-    boolean removeAssertJRelatedElementsFromStackTrace = Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace();
+    boolean removeAssertJRelatedElementsFromStackTrace = AssertionErrorCreator.instance()
+                                                                              .isRemoveAssertJRelatedElementsFromStackTrace();
     then(removeAssertJRelatedElementsFromStackTrace).isEqualTo(configuration.removeAssertJRelatedElementsFromStackTraceEnabled());
     Date dateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse("2001-02-03T04:05:06");
     then(dateTime).isEqualTo("2001-02-03T04:05:06");

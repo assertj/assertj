@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.characters;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Characters;
@@ -49,12 +48,13 @@ class Characters_assertNotEqual_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_characters_are_equal() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> characters.assertNotEqual(info, 'b', 'b'));
 
-    Throwable error = catchThrowable(() -> characters.assertNotEqual(info, 'b', 'b'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual('b', 'b'));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual('b', 'b').create());
   }
 
   @Test
@@ -72,11 +72,12 @@ class Characters_assertNotEqual_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_characters_are_equal_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> charactersWithCaseInsensitiveComparisonStrategy.assertNotEqual(info, 'b', 'B'));
 
-    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertNotEqual(info, 'b', 'B'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual('b', 'B', caseInsensitiveComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual('b', 'B', caseInsensitiveComparisonStrategy).create());
   }
 }

@@ -15,17 +15,16 @@
  */
 package org.assertj.core.internal.bytearrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.ByteArrays.arrayOf;
 import static org.assertj.core.testkit.ByteArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ByteArrays;
@@ -72,30 +71,27 @@ class ByteArrays_assertStartsWith_with_Integer_Arguments_Test extends ByteArrays
   void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arrays.assertStartsWith(info, actual, IntArrays.arrayOf(6, 8, 10, 12, 20, 22)));
+    var error = expectAssertionError(() -> arrays.assertStartsWith(info, actual, IntArrays.arrayOf(6, 8, 10, 12, 20, 22)));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldStartWith(actual, arrayOf(6, 8, 10, 12, 20, 22)));
+    then(error).hasMessage(shouldStartWith(actual, arrayOf(6, 8, 10, 12, 20, 22)).create());
   }
 
   @Test
   void should_fail_if_actual_does_not_start_with_sequence() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arrays.assertStartsWith(info, actual, IntArrays.arrayOf(8, 10)));
+    var error = expectAssertionError(() -> arrays.assertStartsWith(info, actual, IntArrays.arrayOf(8, 10)));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldStartWith(actual, arrayOf(8, 10)));
+    then(error).hasMessage(shouldStartWith(actual, arrayOf(8, 10)).create());
   }
 
   @Test
   void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arrays.assertStartsWith(info, actual, IntArrays.arrayOf(6, 20)));
+    var error = expectAssertionError(() -> arrays.assertStartsWith(info, actual, IntArrays.arrayOf(6, 20)));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldStartWith(actual, arrayOf(6, 20)));
+    then(error).hasMessage(shouldStartWith(actual, arrayOf(6, 20)).create());
   }
 
   @Test
@@ -135,34 +131,31 @@ class ByteArrays_assertStartsWith_with_Integer_Arguments_Test extends ByteArrays
   void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertStartsWith(info, actual,
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertStartsWith(info, actual,
                                                                                                IntArrays.arrayOf(6, -8, 10, 12,
                                                                                                                  20, 22)));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldStartWith(actual, arrayOf(6, -8, 10, 12, 20, 22), absValueComparisonStrategy));
+    then(error).hasMessage(shouldStartWith(actual, arrayOf(6, -8, 10, 12, 20, 22), absValueComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_does_not_start_with_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertStartsWith(info, actual,
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertStartsWith(info, actual,
                                                                                                IntArrays.arrayOf(-8, 10)));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldStartWith(actual, arrayOf(-8, 10), absValueComparisonStrategy));
+    then(error).hasMessage(shouldStartWith(actual, arrayOf(-8, 10), absValueComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_starts_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertStartsWith(info, actual,
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertStartsWith(info, actual,
                                                                                                IntArrays.arrayOf(6, 20)));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldStartWith(actual, arrayOf(6, 20), absValueComparisonStrategy));
+    then(error).hasMessage(shouldStartWith(actual, arrayOf(6, 20), absValueComparisonStrategy).create());
   }
 
   @Test

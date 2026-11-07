@@ -39,7 +39,7 @@ class ShortArrays_assertContainsAnyOf_Test extends ShortArraysBaseTest {
   @Test
   void should_delegate_to_internal_Arrays() {
     arrays.assertContainsAnyOf(someInfo(), actual, new short[] { 1, 2, 3 });
-    verify(internalArrays).assertContainsAnyOf(someInfo(), failures, actual, new short[] { 1, 2, 3 });
+    verify(internalArrays).assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, new short[] { 1, 2, 3 });
   }
 
 }

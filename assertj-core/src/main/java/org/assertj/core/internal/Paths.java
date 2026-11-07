@@ -76,6 +76,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.util.diff.Delta;
 
 /**
@@ -95,7 +96,7 @@ public class Paths {
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BinaryDiff binaryDiff = new BinaryDiff();
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Failures failures = Failures.instance();
+  AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   NioFilesWrapper nioFilesWrapper = NioFilesWrapper.instance();
 
@@ -119,7 +120,7 @@ public class Paths {
   public void assertIsReadable(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
     assertExists(info, actual);
-    if (!Files.isReadable(actual)) throw failures.failure(info, shouldBeReadable(actual));
+    if (!Files.isReadable(actual)) throw assertionErrorCreator.assertionError(info, shouldBeReadable(actual));
   }
 
   /**
@@ -131,7 +132,7 @@ public class Paths {
   public void assertIsWritable(AssertionInfo info, Path actual) {
     assertNotNull(info, actual);
     assertExists(info, actual);
-    if (!Files.isWritable(actual)) throw failures.failure(info, shouldBeWritable(actual));
+    if (!Files.isWritable(actual)) throw assertionErrorCreator.assertionError(info, shouldBeWritable(actual));
   }
 
   /**
@@ -143,7 +144,7 @@ public class Paths {
   public void assertIsExecutable(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
     assertExists(info, actual);
-    if (!Files.isExecutable(actual)) throw failures.failure(info, shouldBeExecutable(actual));
+    if (!Files.isExecutable(actual)) throw assertionErrorCreator.assertionError(info, shouldBeExecutable(actual));
   }
 
   /**
@@ -154,7 +155,7 @@ public class Paths {
    */
   public void assertExists(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    if (!Files.exists(actual)) throw failures.failure(info, shouldExist(actual));
+    if (!Files.exists(actual)) throw assertionErrorCreator.assertionError(info, shouldExist(actual));
   }
 
   /**
@@ -166,7 +167,7 @@ public class Paths {
   public void assertExistsNoFollowLinks(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
     if (!Files.exists(actual, LinkOption.NOFOLLOW_LINKS))
-      throw failures.failure(info, shouldExistNoFollowLinks(actual));
+      throw assertionErrorCreator.assertionError(info, shouldExistNoFollowLinks(actual));
   }
 
   /**
@@ -177,7 +178,8 @@ public class Paths {
    */
   public void assertDoesNotExist(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    if (!Files.notExists(actual, LinkOption.NOFOLLOW_LINKS)) throw failures.failure(info, shouldNotExist(actual));
+    if (!Files.notExists(actual, LinkOption.NOFOLLOW_LINKS))
+      throw assertionErrorCreator.assertionError(info, shouldNotExist(actual));
   }
 
   /**
@@ -188,7 +190,7 @@ public class Paths {
    */
   public void assertIsRegularFile(final AssertionInfo info, final Path actual) {
     assertExists(info, actual);
-    if (!Files.isRegularFile(actual)) throw failures.failure(info, shouldBeRegularFile(actual));
+    if (!Files.isRegularFile(actual)) throw assertionErrorCreator.assertionError(info, shouldBeRegularFile(actual));
   }
 
   /**
@@ -199,7 +201,7 @@ public class Paths {
    */
   public void assertIsDirectory(final AssertionInfo info, final Path actual) {
     assertExists(info, actual);
-    if (!Files.isDirectory(actual)) throw failures.failure(info, shouldBeDirectory(actual));
+    if (!Files.isDirectory(actual)) throw assertionErrorCreator.assertionError(info, shouldBeDirectory(actual));
   }
 
   /**
@@ -210,7 +212,7 @@ public class Paths {
    */
   public void assertIsSymbolicLink(final AssertionInfo info, final Path actual) {
     assertExistsNoFollowLinks(info, actual);
-    if (!Files.isSymbolicLink(actual)) throw failures.failure(info, shouldBeSymbolicLink(actual));
+    if (!Files.isSymbolicLink(actual)) throw assertionErrorCreator.assertionError(info, shouldBeSymbolicLink(actual));
   }
 
   /**
@@ -221,7 +223,7 @@ public class Paths {
    */
   public void assertIsAbsolute(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    if (!actual.isAbsolute()) throw failures.failure(info, shouldBeAbsolutePath(actual));
+    if (!actual.isAbsolute()) throw assertionErrorCreator.assertionError(info, shouldBeAbsolutePath(actual));
   }
 
   /**
@@ -232,7 +234,7 @@ public class Paths {
    */
   public void assertIsRelative(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    if (actual.isAbsolute()) throw failures.failure(info, shouldBeRelativePath(actual));
+    if (actual.isAbsolute()) throw assertionErrorCreator.assertionError(info, shouldBeRelativePath(actual));
   }
 
   /**
@@ -243,7 +245,7 @@ public class Paths {
    */
   public void assertIsNormalized(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    if (!actual.normalize().equals(actual)) throw failures.failure(info, shouldBeNormalized(actual));
+    if (!actual.normalize().equals(actual)) throw assertionErrorCreator.assertionError(info, shouldBeNormalized(actual));
   }
 
   /**
@@ -254,7 +256,7 @@ public class Paths {
    */
   public void assertIsCanonical(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    if (!actual.equals(toRealPath(actual))) throw failures.failure(info, shouldBeCanonicalPath(actual));
+    if (!actual.equals(toRealPath(actual))) throw assertionErrorCreator.assertionError(info, shouldBeCanonicalPath(actual));
   }
 
   /**
@@ -268,8 +270,9 @@ public class Paths {
     assertNotNull(info, actual);
     checkExpectedParentPathIsNotNull(expected);
     Path parent = toRealPath(actual).getParent();
-    if (parent == null) throw failures.failure(info, shouldHaveParent(actual, expected));
-    if (!parent.equals(toRealPath(expected))) throw failures.failure(info, shouldHaveParent(actual, parent, expected));
+    if (parent == null) throw assertionErrorCreator.assertionError(info, shouldHaveParent(actual, expected));
+    if (!parent.equals(toRealPath(expected)))
+      throw assertionErrorCreator.assertionError(info, shouldHaveParent(actual, parent, expected));
   }
 
   /**
@@ -283,8 +286,8 @@ public class Paths {
     assertNotNull(info, actual);
     checkExpectedParentPathIsNotNull(expected);
     Path parent = actual.getParent();
-    if (parent == null) throw failures.failure(info, shouldHaveParent(actual, expected));
-    if (!parent.equals(expected)) throw failures.failure(info, shouldHaveParent(actual, parent, expected));
+    if (parent == null) throw assertionErrorCreator.assertionError(info, shouldHaveParent(actual, expected));
+    if (!parent.equals(expected)) throw assertionErrorCreator.assertionError(info, shouldHaveParent(actual, parent, expected));
   }
 
   /**
@@ -295,7 +298,7 @@ public class Paths {
    */
   public void assertHasNoParent(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    if (toRealPath(actual).getParent() != null) throw failures.failure(info, shouldHaveNoParent(actual));
+    if (toRealPath(actual).getParent() != null) throw assertionErrorCreator.assertionError(info, shouldHaveNoParent(actual));
   }
 
   /**
@@ -306,7 +309,7 @@ public class Paths {
    */
   public void assertHasNoParentRaw(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    if (actual.getParent() != null) throw failures.failure(info, shouldHaveNoParent(actual));
+    if (actual.getParent() != null) throw assertionErrorCreator.assertionError(info, shouldHaveNoParent(actual));
   }
 
   /**
@@ -320,7 +323,7 @@ public class Paths {
     assertIsRegularFile(info, actual);
     try {
       long actualSize = nioFilesWrapper.size(actual);
-      if (actualSize != expectedSize) throw failures.failure(info, shouldHaveSize(actual, expectedSize));
+      if (actualSize != expectedSize) throw assertionErrorCreator.assertionError(info, shouldHaveSize(actual, expectedSize));
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
@@ -341,7 +344,7 @@ public class Paths {
     Path absoluteOther = Files.exists(other) ? toRealPath(other) : other.toAbsolutePath().normalize();
 
     if (!absoluteActual.startsWith(absoluteOther)) {
-      throw failures.failure(info, shouldStartWith(actual, other));
+      throw assertionErrorCreator.assertionError(info, shouldStartWith(actual, other));
     }
   }
 
@@ -355,7 +358,7 @@ public class Paths {
   public void assertStartsWithRaw(final AssertionInfo info, final Path actual, final Path other) {
     assertNotNull(info, actual);
     assertExpectedStartPathIsNotNull(other);
-    if (!actual.startsWith(other)) throw failures.failure(info, shouldStartWith(actual, other));
+    if (!actual.startsWith(other)) throw assertionErrorCreator.assertionError(info, shouldStartWith(actual, other));
   }
 
   /**
@@ -369,7 +372,7 @@ public class Paths {
     assertNotNull(info, actual);
     assertExpectedEndPathIsNotNull(other);
     Path path = Files.exists(actual) ? toRealPath(actual) : actual;
-    if (!path.endsWith(other.normalize())) throw failures.failure(info, shouldEndWith(actual, other));
+    if (!path.endsWith(other.normalize())) throw assertionErrorCreator.assertionError(info, shouldEndWith(actual, other));
   }
 
   /**
@@ -382,7 +385,7 @@ public class Paths {
   public void assertEndsWithRaw(final AssertionInfo info, final Path actual, final Path end) {
     assertNotNull(info, actual);
     assertExpectedEndPathIsNotNull(end);
-    if (!actual.endsWith(end)) throw failures.failure(info, shouldEndWith(actual, end));
+    if (!actual.endsWith(end)) throw assertionErrorCreator.assertionError(info, shouldEndWith(actual, end));
   }
 
   /**
@@ -395,7 +398,8 @@ public class Paths {
   public void assertHasFileName(final AssertionInfo info, Path actual, String fileName) {
     assertNotNull(info, actual);
     requireNonNull(fileName, "expected fileName should not be null");
-    if (!actual.getFileName().endsWith(fileName)) throw failures.failure(info, shouldHaveName(actual, fileName));
+    if (!actual.getFileName().endsWith(fileName))
+      throw assertionErrorCreator.assertionError(info, shouldHaveName(actual, fileName));
   }
 
   /**
@@ -411,7 +415,7 @@ public class Paths {
     assertIsReadable(info, actual);
     try {
       List<Delta<String>> diffs = diff.diff(actual, expected, charset);
-      if (!diffs.isEmpty()) throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
+      if (!diffs.isEmpty()) throw assertionErrorCreator.assertionError(info, shouldHaveContent(actual, charset, diffs));
     } catch (IOException e) {
       throw new UncheckedIOException("Unable to verify text contents of path:<%s>".formatted(actual), e);
     }
@@ -429,7 +433,8 @@ public class Paths {
     assertIsReadable(info, actual);
     try {
       BinaryDiffResult diffResult = binaryDiff.diff(actual, expected);
-      if (!diffResult.hasNoDiff()) throw failures.failure(info, shouldHaveBinaryContent(actual, diffResult));
+      if (!diffResult.hasNoDiff())
+        throw assertionErrorCreator.assertionError(info, shouldHaveBinaryContent(actual, diffResult));
     } catch (IOException e) {
       throw new UncheckedIOException("Unable to verify binary contents of path:<%s>".formatted(actual), e);
     }
@@ -450,8 +455,8 @@ public class Paths {
     try {
       BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected));
       if (binaryDiffResult.hasDiff())
-        throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult),
-                               FileContent.of(actual), FileContent.of(expected));
+        throw assertionErrorCreator.assertionError(info, shouldHaveBinaryContent(actual, binaryDiffResult),
+                                                   FileContent.of(actual), FileContent.of(expected));
     } catch (IOException ioe) {
       throw new UncheckedIOException(UNABLE_TO_COMPARE_PATH_CONTENTS.formatted(actual, expected), ioe);
     }
@@ -474,8 +479,8 @@ public class Paths {
     assertIsReadable(info, actual);
     try {
       List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
-      if (!diffs.isEmpty()) throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs),
-                                                   FileContent.of(actual), FileContent.of(expected));
+      if (!diffs.isEmpty()) throw assertionErrorCreator.assertionError(info, shouldHaveSameContent(actual, expected, diffs),
+                                                                       FileContent.of(actual), FileContent.of(expected));
     } catch (IOException e) {
       throw new UncheckedIOException(UNABLE_TO_COMPARE_PATH_CONTENTS.formatted(actual, expected), e);
     }
@@ -496,7 +501,7 @@ public class Paths {
     assertIsReadable(info, actual);
     try (InputStream actualStream = nioFilesWrapper.newInputStream(actual)) {
       DigestDiff diff = Digests.digestDiff(actualStream, digest, expected);
-      if (diff.digestsDiffer()) throw failures.failure(info, shouldHaveDigest(actual, diff));
+      if (diff.digestsDiffer()) throw assertionErrorCreator.assertionError(info, shouldHaveDigest(actual, diff));
     } catch (IOException e) {
       throw new UncheckedIOException("Unable to calculate digest of path:<%s>".formatted(actual), e);
     }
@@ -630,7 +635,7 @@ public class Paths {
    */
   public void assertIsEmptyDirectory(AssertionInfo info, Path actual) {
     List<Path> items = directoryContent(info, actual);
-    if (!items.isEmpty()) throw failures.failure(info, shouldBeEmptyDirectory(actual, items));
+    if (!items.isEmpty()) throw assertionErrorCreator.assertionError(info, shouldBeEmptyDirectory(actual, items));
   }
 
   /**
@@ -641,7 +646,7 @@ public class Paths {
    */
   public void assertIsNotEmptyDirectory(AssertionInfo info, Path actual) {
     boolean isEmptyDirectory = directoryContent(info, actual).isEmpty();
-    if (isEmptyDirectory) throw failures.failure(info, shouldNotBeEmpty(actual));
+    if (isEmptyDirectory) throw assertionErrorCreator.assertionError(info, shouldNotBeEmpty(actual));
   }
 
   /**
@@ -653,7 +658,7 @@ public class Paths {
   public void assertIsEmptyFile(AssertionInfo info, Path actual) {
     assertIsRegularFile(info, actual);
     try {
-      if (nioFilesWrapper.size(actual) > 0) throw failures.failure(info, shouldBeEmpty(actual));
+      if (nioFilesWrapper.size(actual) > 0) throw assertionErrorCreator.assertionError(info, shouldBeEmpty(actual));
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
@@ -668,7 +673,7 @@ public class Paths {
   public void assertIsNotEmptyFile(AssertionInfo info, Path actual) {
     assertIsRegularFile(info, actual);
     try {
-      if (nioFilesWrapper.size(actual) == 0) throw failures.failure(info, shouldNotBeEmpty(actual));
+      if (nioFilesWrapper.size(actual) == 0) throw assertionErrorCreator.assertionError(info, shouldNotBeEmpty(actual));
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
@@ -689,7 +694,8 @@ public class Paths {
     requireNonNull(actualFileSystem, "The actual file system should not be null");
 
     if (!expectedFileSystem.equals(actualFileSystem)) {
-      throw failures.failure(info, shouldHaveFileSystem(actual, expectedFileSystem), actualFileSystem, expectedFileSystem);
+      throw assertionErrorCreator.assertionError(info, shouldHaveFileSystem(actual, expectedFileSystem), actualFileSystem,
+                                                 expectedFileSystem);
     }
   }
 
@@ -710,7 +716,8 @@ public class Paths {
     requireNonNull(expectedFileSystem, "The expected file system should not be null");
 
     if (!expectedFileSystem.equals(actualFileSystem)) {
-      throw failures.failure(info, shouldHaveSameFileSystemAs(actualPath, expectedPath), actualFileSystem, expectedFileSystem);
+      throw assertionErrorCreator.assertionError(info, shouldHaveSameFileSystemAs(actualPath, expectedPath), actualFileSystem,
+                                                 expectedFileSystem);
     }
   }
 
@@ -732,7 +739,8 @@ public class Paths {
   private void assertIsDirectoryContaining(AssertionInfo info, Path actual, Filter<Path> filter, String filterDescription) {
     List<Path> matchingFiles = filterDirectory(info, actual, filter);
     if (matchingFiles.isEmpty()) {
-      throw failures.failure(info, directoryShouldContain(actual, directoryContent(info, actual), filterDescription));
+      throw assertionErrorCreator.assertionError(info, directoryShouldContain(actual, directoryContent(info, actual),
+                                                                              filterDescription));
     }
   }
 
@@ -752,14 +760,15 @@ public class Paths {
     assertIsDirectory(info, actual);
     List<Path> actualContent = recursiveContentOf(actual);
     if (actualContent.stream().noneMatch(filter)) {
-      throw failures.failure(info, directoryShouldContainRecursively(actual, actualContent, filterPresentation));
+      throw assertionErrorCreator.assertionError(info,
+                                                 directoryShouldContainRecursively(actual, actualContent, filterPresentation));
     }
   }
 
   private void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, Filter<Path> filter, String filterPresentation) {
     List<Path> matchingPaths = filterDirectory(info, actual, filter);
     if (!matchingPaths.isEmpty()) {
-      throw failures.failure(info, directoryShouldNotContain(actual, matchingPaths, filterPresentation));
+      throw assertionErrorCreator.assertionError(info, directoryShouldNotContain(actual, matchingPaths, filterPresentation));
     }
   }
 
@@ -802,8 +811,11 @@ public class Paths {
   public void assertHasExtension(AssertionInfo info, Path actual, String expected) {
     requireNonNull(expected, "The expected extension should not be null.");
     assertIsRegularFile(info, actual);
-    String extension = getExtension(actual).orElseThrow(() -> failures.failure(info, shouldHaveExtension(actual, expected)));
-    if (!expected.equals(extension)) throw failures.failure(info, shouldHaveExtension(actual, extension, expected));
+    String extension = getExtension(actual).orElseThrow(() -> assertionErrorCreator.assertionError(info,
+                                                                                                   shouldHaveExtension(actual,
+                                                                                                                       expected)));
+    if (!expected.equals(extension))
+      throw assertionErrorCreator.assertionError(info, shouldHaveExtension(actual, extension, expected));
   }
 
   /**
@@ -815,7 +827,7 @@ public class Paths {
   public void assertHasNoExtension(AssertionInfo info, Path actual) {
     assertIsRegularFile(info, actual);
     Optional<String> extension = getExtension(actual);
-    if (extension.isPresent()) throw failures.failure(info, shouldHaveNoExtension(actual, extension.get()));
+    if (extension.isPresent()) throw assertionErrorCreator.assertionError(info, shouldHaveNoExtension(actual, extension.get()));
   }
 
   private static Optional<String> getExtension(Path path) {

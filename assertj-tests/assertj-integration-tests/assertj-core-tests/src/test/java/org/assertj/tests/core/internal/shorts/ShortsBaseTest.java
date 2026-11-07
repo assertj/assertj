@@ -20,7 +20,7 @@ import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Shorts;
 import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ import org.junit.jupiter.api.BeforeEach;
 public class ShortsBaseTest {
 
   private final AbsValueComparator<Short> absValueComparator = new AbsValueComparator<>();
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Shorts shorts;
 
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
@@ -36,13 +36,13 @@ public class ShortsBaseTest {
 
   @BeforeEach
   public void setUp() throws IllegalAccessException {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     shorts = new Shorts(StandardComparisonStrategy.instance());
-    writeField(shorts, "failures", failures);
+    writeField(shorts, "assertionErrorCreator", assertionErrorCreator);
 
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(absValueComparator);
     shortsWithAbsValueComparisonStrategy = new Shorts(absValueComparisonStrategy);
-    writeField(shortsWithAbsValueComparisonStrategy, "failures", failures);
+    writeField(shortsWithAbsValueComparisonStrategy, "assertionErrorCreator", assertionErrorCreator);
   }
 
 }

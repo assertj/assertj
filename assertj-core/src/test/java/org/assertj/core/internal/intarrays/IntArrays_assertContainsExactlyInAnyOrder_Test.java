@@ -16,18 +16,17 @@
 package org.assertj.core.internal.intarrays;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.IntArrays.arrayOf;
 import static org.assertj.core.testkit.IntArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
@@ -89,55 +88,52 @@ class IntArrays_assertContainsExactlyInAnyOrder_Test extends IntArraysBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_given_values_exactly() {
+    // GIVEN
     AssertionInfo info = someInfo();
     int[] expected = { 6, 8, 20 };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, newArrayList(20), newArrayList(10),
-                                                                  StandardComparisonStrategy.instance()));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList(20), newArrayList(10),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
   void should_fail_if_actual_contains_all_given_values_but_size_differ() {
+    // GIVEN
     AssertionInfo info = someInfo();
     int[] expected = { 6, 8 };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(10),
-                                                            StandardComparisonStrategy.instance()));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(10),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
   void should_fail_if_actual_contains_duplicates_and_expected_does_not() {
+    // GIVEN
     AssertionInfo info = someInfo();
     actual = arrayOf(1, 2, 3);
     int[] expected = { 1, 2 };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(3),
-                                                            StandardComparisonStrategy.instance()));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(3),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
   void should_fail_if_expected_contains_duplicates_and_actual_does_not() {
+    // GIVEN
     AssertionInfo info = someInfo();
     actual = arrayOf(1, 2);
     int[] expected = { 1, 2, 3 };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, newArrayList(3), emptyList(),
-                                                            StandardComparisonStrategy.instance()));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList(3), emptyList(),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -180,60 +176,56 @@ class IntArrays_assertContainsExactlyInAnyOrder_Test extends IntArraysBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     int[] expected = { 6, -8, 20 };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
                                                                                                               expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, newArrayList(20), newArrayList(10),
-                                                            absValueComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList(20), newArrayList(10),
+                                                          absValueComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     int[] expected = { 6, 8 };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
                                                                                                               expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(10),
-                                                            absValueComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(10),
+                                                          absValueComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_contains_duplicates_and_expected_does_not_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     actual = arrayOf(1, 2, 3);
     int[] expected = { 1, 2 };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
                                                                                                               expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(3),
-                                                            absValueComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(3),
+                                                          absValueComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_expected_contains_duplicates_and_actual_does_not_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     actual = arrayOf(1, 2);
     int[] expected = { 1, 2, 3 };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
                                                                                                               expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, newArrayList(3), emptyList(),
-                                                            absValueComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList(3), emptyList(),
+                                                          absValueComparisonStrategy).create());
   }
 
 }

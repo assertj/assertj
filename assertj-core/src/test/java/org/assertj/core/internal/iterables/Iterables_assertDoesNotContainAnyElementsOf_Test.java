@@ -16,19 +16,18 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsNull;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
@@ -83,10 +82,8 @@ class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesBaseTest
     AssertionInfo info = someInfo();
     List<String> list = newArrayList("Vador", "Yoda", "Han");
 
-    Throwable error = catchThrowable(() -> iterables.assertDoesNotContainAnyElementsOf(info, actual, list));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContain(actual, list.toArray(), newLinkedHashSet("Yoda")));
+    var error = expectAssertionError(() -> iterables.assertDoesNotContainAnyElementsOf(info, actual, list));
+    then(error).hasMessage(shouldNotContain(actual, list.toArray(), newLinkedHashSet("Yoda")).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -110,13 +107,11 @@ class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesBaseTest
     AssertionInfo info = someInfo();
     List<String> expected = newArrayList("LuKe", "YODA", "Han");
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainAnyElementsOf(info,
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainAnyElementsOf(info,
                                                                                                                             actual,
                                                                                                                             expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldNotContain(actual, expected.toArray(), newLinkedHashSet("LuKe", "YODA"), comparisonStrategy));
+    then(error).hasMessage(shouldNotContain(actual, expected.toArray(), newLinkedHashSet("LuKe", "YODA"),
+                                            comparisonStrategy).create());
   }
 
 }

@@ -16,19 +16,18 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.Name.name;
 import static org.assertj.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
@@ -113,10 +112,8 @@ class Iterables_assertContainsAnyOf_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "Han", "John" };
 
-    Throwable error = catchThrowable(() -> iterables.assertContainsAnyOf(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainAnyOf(actual, expected, StandardComparisonStrategy.instance()));
+    var error = expectAssertionError(() -> iterables.assertContainsAnyOf(info, actual, expected));
+    then(error).hasMessage(shouldContainAnyOf(actual, expected, StandardComparisonStrategy.instance()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -161,11 +158,9 @@ class Iterables_assertContainsAnyOf_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "Han", "John" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAnyOf(info, actual,
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAnyOf(info, actual,
                                                                                                               expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainAnyOf(actual, expected, comparisonStrategy));
+    then(error).hasMessage(shouldContainAnyOf(actual, expected, comparisonStrategy).create());
   }
 
 }

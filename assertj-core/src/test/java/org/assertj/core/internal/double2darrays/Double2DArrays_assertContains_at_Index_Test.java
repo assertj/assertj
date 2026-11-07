@@ -38,6 +38,6 @@ class Double2DArrays_assertContains_at_Index_Test extends Double2DArraysBaseTest
     // WHEN
     double2dArrays.assertContains(info, actual, doubles, atIndex(1));
     // THEN
-    verify(arrays2d).assertContains(info, failures, actual, doubles, atIndex(1));
+    verify(arrays2d).assertContains(info, assertionErrorCreator, actual, doubles, atIndex(1));
   }
 }

@@ -26,21 +26,27 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.tests.core.testkit.TestData.someIndex;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertContains_at_Index_Test {
 
-  @Override
-  protected void initActualArray() {
-    actual = array("Yoda", "Luke", "Leia");
-  }
+  private final String[] actual = array("Yoda", "Luke", "Leia");
+  protected static final AssertionInfo INFO = TestData.someInfo();
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final ObjectArrays arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
 
   @Test
   void should_fail_if_actual_is_null() {
@@ -77,9 +83,9 @@ class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseTest {
     // GIVEN
     Index index = atIndex(1);
     // WHEN
-    expectAssertionError(() -> arrays.assertContains(INFO, actual, "Han", index));
+    var error = expectAssertionError(() -> arrays.assertContains(INFO, actual, "Han", index));
     // THEN
-    verify(failures).failure(INFO, shouldContainAtIndex(actual, "Han", index, "Luke"));
+    then(error).hasMessage(shouldContainAtIndex(actual, "Han", index, "Luke").create());
   }
 
   @Test
@@ -109,9 +115,9 @@ class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseTest {
     // GIVEN
     Index index = atIndex(1);
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContains(INFO, actual, "Han", index));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContains(INFO, actual, "Han", index));
     // THEN
-    verify(failures).failure(INFO, shouldContainAtIndex(actual, "Han", index, "Luke", caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldContainAtIndex(actual, "Han", index, "Luke", caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test

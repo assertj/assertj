@@ -15,18 +15,17 @@
  */
 package org.assertj.core.internal.longarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.LongArrays.arrayOf;
 import static org.assertj.core.testkit.LongArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.LongArrays;
@@ -52,15 +51,14 @@ class LongArrays_assertContainsOnlyOnce_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_actual_contains_given_values_only_more_than_once() {
+    // GIVEN
     AssertionInfo info = someInfo();
     actual = arrayOf(6, -8, 10, -6, -8, 10, -8, 6);
     long[] expected = { 6, -8, 20 };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(20L), newLinkedHashSet(6L, -8L)));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(20L), newLinkedHashSet(6L, -8L)).create());
   }
 
   @Test
@@ -94,14 +92,13 @@ class LongArrays_assertContainsOnlyOnce_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_given_values_only() {
+    // GIVEN
     AssertionInfo info = someInfo();
     long[] expected = { 6, 8, 20 };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((long) 20), newLinkedHashSet()));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((long) 20), newLinkedHashSet()).create());
   }
 
   @Test
@@ -116,18 +113,16 @@ class LongArrays_assertContainsOnlyOnce_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     actual = arrayOf(6, -8, 10, -6, -8, 10, -8);
     long[] expected = { 6, -8, 20 };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(
-                             info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((long) 20),
-                                                    newLinkedHashSet((long) 6, (long) -8),
-                                                    absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((long) 20),
+                                                  newLinkedHashSet((long) 6, (long) -8),
+                                                  absValueComparisonStrategy).create());
   }
 
   @Test
@@ -160,15 +155,13 @@ class LongArrays_assertContainsOnlyOnce_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     long[] expected = { 6, -8, 20 };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(
-                             info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((long) 20), newLinkedHashSet(),
-                                                    absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((long) 20), newLinkedHashSet(),
+                                                  absValueComparisonStrategy).create());
   }
 }

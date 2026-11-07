@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.dates;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
@@ -39,13 +38,14 @@ class Dates_assertHasDayOfMonth_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_has_not_given_day_of_month() {
+    // GIVEN
     AssertionInfo info = someInfo();
     int day_of_month = 5;
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertHasDayOfMonth(info, actual, day_of_month));
 
-    Throwable error = catchThrowable(() -> dates.assertHasDayOfMonth(info, actual, day_of_month));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveDateField(actual, "day of month", day_of_month));
+    // THEN
+    then(error).hasMessage(shouldHaveDateField(actual, "day of month", day_of_month).create());
   }
 
   @Test
@@ -61,13 +61,14 @@ class Dates_assertHasDayOfMonth_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_has_not_given_day_of_month_whatever_custom_comparison_strategy_is() {
+    // GIVEN
     AssertionInfo info = someInfo();
     int day_of_month = 5;
+    // WHEN
+    var error = expectAssertionError(() -> datesWithCustomComparisonStrategy.assertHasDayOfMonth(info, actual, day_of_month));
 
-    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertHasDayOfMonth(info, actual, day_of_month));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveDateField(actual, "day of month", day_of_month));
+    // THEN
+    then(error).hasMessage(shouldHaveDateField(actual, "day of month", day_of_month).create());
   }
 
   @Test

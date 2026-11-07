@@ -15,15 +15,14 @@
  */
 package org.assertj.core.internal.dates;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
@@ -41,24 +40,26 @@ class Dates_assertIsBefore_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_strictly_before_given_date() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Date other = parseDate("2000-01-01");
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertIsBefore(info, actual, other));
 
-    Throwable error = catchThrowable(() -> dates.assertIsBefore(info, actual, other));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBefore(actual, other));
+    // THEN
+    then(error).hasMessage(shouldBeBefore(actual, other).create());
   }
 
   @Test
   void should_fail_if_actual_is_equals_to_given_date() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Date other = parseDate("2011-01-01");
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertIsBefore(info, actual, other));
 
-    Throwable error = catchThrowable(() -> dates.assertIsBefore(info, actual, other));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBefore(actual, other));
+    // THEN
+    then(error).hasMessage(shouldBeBefore(actual, other).create());
   }
 
   @Test
@@ -81,24 +82,26 @@ class Dates_assertIsBefore_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_strictly_before_given_date_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Date other = parseDate("2000-01-01");
+    // WHEN
+    var error = expectAssertionError(() -> datesWithCustomComparisonStrategy.assertIsBefore(info, actual, other));
 
-    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsBefore(info, actual, other));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBefore(actual, other, yearAndMonthComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeBefore(actual, other, yearAndMonthComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_is_equals_to_given_date_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Date other = parseDate("2011-01-31");
+    // WHEN
+    var error = expectAssertionError(() -> datesWithCustomComparisonStrategy.assertIsBefore(info, actual, other));
 
-    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsBefore(info, actual, other));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBefore(actual, other, yearAndMonthComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeBefore(actual, other, yearAndMonthComparisonStrategy).create());
   }
 
   @Test

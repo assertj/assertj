@@ -29,7 +29,6 @@ import static org.assertj.core.util.Lists.list;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -106,9 +105,9 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
-    verify(failures).failure(INFO, shouldBeDirectory(actual));
+    then(error).hasMessage(shouldBeDirectory(actual).create());
   }
 
   @Test
@@ -116,9 +115,9 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
-    verify(failures).failure(INFO, shouldBeDirectory(actual));
+    then(error).hasMessage(shouldBeDirectory(actual).create());
   }
 
   // use mock as it's hard to simulate listFiles(FileFilter.class) to return null
@@ -141,9 +140,9 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
     // GIVEN
     File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
-    verify(failures).failure(INFO, directoryShouldContain(actual, emptyList(), JAVA_SOURCE_PATTERN_DESCRIPTION));
+    then(error).hasMessage(directoryShouldContain(actual, emptyList(), JAVA_SOURCE_PATTERN_DESCRIPTION).create());
   }
 
   @Test
@@ -153,9 +152,9 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
     File file = newFile(actual.getAbsolutePath() + "/Test.class");
     List<File> items = list(file);
     // WHEN
-    expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
-    verify(failures).failure(INFO, directoryShouldContain(actual, items, JAVA_SOURCE_PATTERN_DESCRIPTION));
+    then(error).hasMessage(directoryShouldContain(actual, items, JAVA_SOURCE_PATTERN_DESCRIPTION).create());
   }
 
 }

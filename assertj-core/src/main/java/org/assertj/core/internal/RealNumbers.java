@@ -103,7 +103,7 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
   public void assertIsFinite(AssertionInfo info, NUMBER actual) {
     assertNotNull(info, actual);
     if (isFinite(actual)) return;
-    throw failures.failure(info, shouldBeFinite(actual));
+    throw assertionErrorCreator.assertionError(info, shouldBeFinite(actual));
   }
 
   /**
@@ -123,7 +123,7 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
   public void assertIsNotFinite(AssertionInfo info, NUMBER actual) {
     assertNotNull(info, actual);
     if (isNotFinite(actual)) return;
-    throw failures.failure(info, shouldNotBeFinite(actual));
+    throw assertionErrorCreator.assertionError(info, shouldNotBeFinite(actual));
   }
 
   /**
@@ -143,7 +143,7 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
   public void assertIsInfinite(AssertionInfo info, NUMBER actual) {
     assertNotNull(info, actual);
     if (isInfinite(actual)) return;
-    throw failures.failure(info, shouldBeInfinite(actual));
+    throw assertionErrorCreator.assertionError(info, shouldBeInfinite(actual));
   }
 
   /**
@@ -163,7 +163,7 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
   public void assertIsNotInfinite(AssertionInfo info, NUMBER actual) {
     assertNotNull(info, actual);
     if (isNotInfinite(actual)) return;
-    throw failures.failure(info, shouldNotBeInfinite(actual));
+    throw assertionErrorCreator.assertionError(info, shouldNotBeInfinite(actual));
   }
 
   /**

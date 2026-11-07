@@ -18,6 +18,7 @@ package org.assertj.core.internal;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.TestCondition;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -30,16 +31,16 @@ public class ConditionsBaseTest {
     actual = "Yoda";
   }
 
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected TestCondition<Object> condition;
   protected Conditions conditions;
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     condition = new TestCondition<>();
     conditions = new Conditions();
-    conditions.failures = failures;
+    conditions.assertionErrorCreator = assertionErrorCreator;
   }
 
 }

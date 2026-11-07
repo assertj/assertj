@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.doubles;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeGreater.shouldBeGreater;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Doubles;
@@ -48,23 +47,21 @@ class Doubles_assertGreaterThan_Test extends DoublesBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_equal_to_other() {
+  void should_fail_if_actual_is_equal_to_other() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> doubles.assertGreaterThan(info, 6d, 6d));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreater(6d, 6d));
+    // WHEN
+    var error = expectAssertionError(() -> doubles.assertGreaterThan(info, 6d, 6d));
+    // THEN
+    then(error).hasMessage(shouldBeGreater(6d, 6d).create());
   }
 
   @Test
-  void should_fail_if_actual_is_less_than_other() {
+  void should_fail_if_actual_is_less_than_other() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> doubles.assertGreaterThan(info, 6d, 8d));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreater(6d, 8d));
+    // WHEN
+    var error = expectAssertionError(() -> doubles.assertGreaterThan(info, 6d, 8d));
+    // THEN
+    then(error).hasMessage(shouldBeGreater(6d, 8d).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -77,23 +74,21 @@ class Doubles_assertGreaterThan_Test extends DoublesBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> doublesWithAbsValueComparisonStrategy.assertGreaterThan(info, -6d, 6d));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreater(-6d, 6d, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertGreaterThan(info, -6d, 6d));
+    // THEN
+    then(error).hasMessage(shouldBeGreater(-6d, 6d, absValueComparisonStrategy).create());
   }
 
   @Test
-  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> doublesWithAbsValueComparisonStrategy.assertGreaterThan(info, -6d, 8d));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreater(-6d, 8d, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertGreaterThan(info, -6d, 8d));
+    // THEN
+    then(error).hasMessage(shouldBeGreater(-6d, 8d, absValueComparisonStrategy).create());
   }
 
 }

@@ -45,6 +45,7 @@ import java.util.SortedSet;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.util.Arrays;
 
 /**
@@ -68,7 +69,7 @@ public class Classes {
     return INSTANCE;
   }
 
-  private final Failures failures = Failures.instance();
+  private final AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
   private final ComparisonStrategy comparisonStrategy = StandardComparisonStrategy.instance();
 
   /**
@@ -92,7 +93,7 @@ public class Classes {
       if (!actual.isAssignableFrom(other)) missing.add(other);
     }
 
-    if (!missing.isEmpty()) throw failures.failure(info, shouldBeAssignableFrom(actual, expected, missing));
+    if (!missing.isEmpty()) throw assertionErrorCreator.assertionError(info, shouldBeAssignableFrom(actual, expected, missing));
   }
 
   /**
@@ -111,10 +112,10 @@ public class Classes {
     Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getFields()));
     if (expectedFieldNames.isEmpty()) {
       if (actualFieldNames.isEmpty()) return;
-      throw failures.failure(info, shouldHaveNoPublicFields(actual, actualFieldNames));
+      throw assertionErrorCreator.assertionError(info, shouldHaveNoPublicFields(actual, actualFieldNames));
     }
     if (noMissingElement(actualFieldNames, expectedFieldNames, missingFieldNames)) return;
-    throw failures.failure(info, shouldHaveFields(actual, expectedFieldNames, missingFieldNames));
+    throw assertionErrorCreator.assertionError(info, shouldHaveFields(actual, expectedFieldNames, missingFieldNames));
   }
 
   /**
@@ -133,7 +134,7 @@ public class Classes {
     List<String> notFound = newArrayList(expectedFields);
     if (expectedFields.length == 0) {
       if (actualFieldNames.isEmpty()) return;
-      throw failures.failure(info, shouldHaveNoPublicFields(actual, actualFieldNames));
+      throw assertionErrorCreator.assertionError(info, shouldHaveNoPublicFields(actual, actualFieldNames));
     }
 
     for (String field : expectedFields) {
@@ -144,7 +145,8 @@ public class Classes {
     }
 
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
-    throw failures.failure(info, shouldOnlyHaveFields(actual, newArrayList(expectedFields), notFound, notExpected));
+    throw assertionErrorCreator.assertionError(info, shouldOnlyHaveFields(actual, newArrayList(expectedFields), notFound,
+                                                                          notExpected));
   }
 
   /**
@@ -181,10 +183,10 @@ public class Classes {
     Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getDeclaredFields()));
     if (expectedFieldNames.isEmpty()) {
       if (actualFieldNames.isEmpty()) return;
-      throw failures.failure(info, shouldHaveNoDeclaredFields(actual, actualFieldNames));
+      throw assertionErrorCreator.assertionError(info, shouldHaveNoDeclaredFields(actual, actualFieldNames));
     }
     if (noMissingElement(actualFieldNames, expectedFieldNames, missingFieldNames)) return;
-    throw failures.failure(info, shouldHaveDeclaredFields(actual, expectedFieldNames, missingFieldNames));
+    throw assertionErrorCreator.assertionError(info, shouldHaveDeclaredFields(actual, expectedFieldNames, missingFieldNames));
   }
 
   /**
@@ -204,7 +206,7 @@ public class Classes {
 
     if (expectedFields.length == 0) {
       if (actualFieldNames.isEmpty()) return;
-      throw failures.failure(info, shouldHaveNoDeclaredFields(actual, actualFieldNames));
+      throw assertionErrorCreator.assertionError(info, shouldHaveNoDeclaredFields(actual, actualFieldNames));
     }
 
     for (String field : expectedFields) {
@@ -215,8 +217,9 @@ public class Classes {
     }
 
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
-    throw failures.failure(info,
-                           shouldOnlyHaveDeclaredFields(actual, newArrayList(expectedFields), notFound, notExpected));
+    throw assertionErrorCreator.assertionError(info,
+                                               shouldOnlyHaveDeclaredFields(actual, newArrayList(expectedFields), notFound,
+                                                                            notExpected));
   }
 
   private static Set<String> fieldsToName(Set<Field> fields) {
@@ -259,12 +262,14 @@ public class Classes {
 
     if (expectedMethods.length == 0) {
       if (actualMethods.isEmpty()) return;
-      throw failures.failure(info, shouldNotHaveMethods(actual, declared, getMethodsWithModifier(actualMethods,
-                                                                                                 Modifier.methodModifiers())));
+      throw assertionErrorCreator.assertionError(info, shouldNotHaveMethods(actual, declared,
+                                                                            getMethodsWithModifier(actualMethods,
+                                                                                                   Modifier.methodModifiers())));
     }
 
     if (!noMissingElement(actualMethodNames, expectedMethodNames, missingMethodNames)) {
-      throw failures.failure(info, shouldHaveMethods(actual, declared, expectedMethodNames, missingMethodNames));
+      throw assertionErrorCreator.assertionError(info,
+                                                 shouldHaveMethods(actual, declared, expectedMethodNames, missingMethodNames));
     }
   }
 
@@ -285,19 +290,21 @@ public class Classes {
     Map<String, Integer> methodNamesWithModifier = methodsToNameAndModifier(actualMethods);
 
     if (methods.length == 0 && hasPublicMethods(actualMethods)) {
-      throw failures.failure(info,
-                             shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), false,
-                                                  getMethodsWithModifier(newLinkedHashSet(actualMethods),
-                                                                         Modifier.PUBLIC)));
+      throw assertionErrorCreator.assertionError(info,
+                                                 shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), false,
+                                                                      getMethodsWithModifier(newLinkedHashSet(actualMethods),
+                                                                                             Modifier.PUBLIC)));
     }
 
     if (!noMissingElement(methodNamesWithModifier.keySet(), expectedMethodNames, missingMethodNames)) {
-      throw failures.failure(info, shouldHaveMethods(actual, false, expectedMethodNames, missingMethodNames));
+      throw assertionErrorCreator.assertionError(info,
+                                                 shouldHaveMethods(actual, false, expectedMethodNames, missingMethodNames));
     }
     Map<String, String> nonMatchingModifiers = new LinkedHashMap<>();
     if (!noNonMatchingModifier(expectedMethodNames, methodNamesWithModifier, nonMatchingModifiers, Modifier.PUBLIC)) {
-      throw failures.failure(info, shouldHaveMethods(actual, false, expectedMethodNames,
-                                                     Modifier.toString(Modifier.PUBLIC), nonMatchingModifiers));
+      throw assertionErrorCreator.assertionError(info, shouldHaveMethods(actual, false, expectedMethodNames,
+                                                                         Modifier.toString(Modifier.PUBLIC),
+                                                                         nonMatchingModifiers));
     }
   }
 

@@ -15,15 +15,14 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.AnyElementShouldMatch.anyElementShouldMatch;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 import java.util.Objects;
@@ -52,10 +51,8 @@ class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<String> startsWithM = s -> s.startsWith("M");
 
-    Throwable error = catchThrowable(() -> iterables.assertAnyMatch(info, actual, startsWithM, PredicateDescription.GIVEN));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, anyElementShouldMatch(actual, PredicateDescription.GIVEN));
+    var error = expectAssertionError(() -> iterables.assertAnyMatch(info, actual, startsWithM, PredicateDescription.GIVEN));
+    then(error).hasMessage(anyElementShouldMatch(actual, PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -63,11 +60,9 @@ class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<String> startsWithM = s -> s.startsWith("M");
 
-    Throwable error = catchThrowable(() -> iterables.assertAnyMatch(info, actual, startsWithM,
+    var error = expectAssertionError(() -> iterables.assertAnyMatch(info, actual, startsWithM,
                                                                     new PredicateDescription("custom")));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, anyElementShouldMatch(actual, new PredicateDescription("custom")));
+    then(error).hasMessage(anyElementShouldMatch(actual, new PredicateDescription("custom")).create());
   }
 
   @Test

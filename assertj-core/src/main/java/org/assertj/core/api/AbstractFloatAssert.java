@@ -27,7 +27,6 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.error.AssertionErrorCreator;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Floats;
 
 /**
@@ -117,12 +116,12 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
 
   private void assertIsPrimitiveZero() {
     if (actual == 0.0f) return;
-    throw Failures.instance().failure(info, shouldBeEqual(actual, 0.0f, info.representation()));
+    throw AssertionErrorCreator.instance().assertionError(info, shouldBeEqual(actual, 0.0f, info.representation()));
   }
 
   private void assertIsPrimitiveNonZero() {
     if (actual != 0.0f) return;
-    throw Failures.instance().failure(info, shouldNotBeEqual(actual, 0.0f));
+    throw AssertionErrorCreator.instance().assertionError(info, shouldNotBeEqual(actual, 0.0f));
   }
 
   /**
@@ -214,9 +213,10 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
         // at this point we know that the assertion failed, if actual and expected are Float.NaN first we want
         // to give a clear error message (we need to use equals to check that as Float.NaN != Float.NaN)
         if (Float.valueOf(expected).equals(Float.NaN) && actual.equals(Float.NaN))
-          throw AssertionErrorCreator.INSTANCE.assertionError("Actual and expected values were compared with == because expected was a primitive float, the assertion failed as both were Float.NaN and Float.NaN != Float.NaN (as per Float#equals javadoc)");
+          throw AssertionErrorCreator.instance()
+                                     .assertionError("Actual and expected values were compared with == because expected was a primitive float, the assertion failed as both were Float.NaN and Float.NaN != Float.NaN (as per Float#equals javadoc)");
         // standard error message
-        throw Failures.instance().failure(info, shouldBeEqual(actual, expected, info.representation()));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeEqual(actual, expected, info.representation()));
       }
       floats.assertEqual(info, actual, expected);
     });
@@ -614,7 +614,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
       if (noCustomComparatorSet()) {
         // use primitive comparison since the parameter is a primitive.
         if (other != actual.doubleValue()) return;
-        throw Failures.instance().failure(info, shouldNotBeEqual(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldNotBeEqual(actual, other));
       }
       floats.assertNotEqual(info, actual, other);
     });
@@ -700,7 +700,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
       if (noCustomComparatorSet()) {
         // use primitive comparison since the parameter is a primitive.
         if (actual <= other) return;
-        throw Failures.instance().failure(info, shouldBeLessOrEqual(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeLessOrEqual(actual, other));
       }
       floats.assertLessThanOrEqualTo(info, actual, other);
     });
@@ -781,7 +781,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
       if (noCustomComparatorSet()) {
         // use primitive comparison since the parameter is a primitive.
         if (actual >= other) return;
-        throw Failures.instance().failure(info, shouldBeGreaterOrEqual(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeGreaterOrEqual(actual, other));
       }
       floats.assertGreaterThanOrEqualTo(info, actual, other);
     });

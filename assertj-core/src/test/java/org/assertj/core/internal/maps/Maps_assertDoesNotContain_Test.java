@@ -18,6 +18,7 @@ package org.assertj.core.internal.maps;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsEmpty;
@@ -26,7 +27,6 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.MapsBaseTest;
@@ -69,8 +69,8 @@ class Maps_assertDoesNotContain_Test extends MapsBaseTest {
     // GIVEN
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("job", "Jedi"));
     // WHEN
-    expectAssertionError(() -> maps.assertDoesNotContain(INFO, actual, expected, null));
+    var error = expectAssertionError(() -> maps.assertDoesNotContain(INFO, actual, expected, null));
     // THEN
-    verify(failures).failure(INFO, shouldNotContain(actual, expected, newLinkedHashSet(entry("name", "Yoda"))));
+    then(error).hasMessage(shouldNotContain(actual, expected, newLinkedHashSet(entry("name", "Yoda"))).create());
   }
 }

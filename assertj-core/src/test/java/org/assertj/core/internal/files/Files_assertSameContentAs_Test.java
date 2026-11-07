@@ -29,9 +29,6 @@ import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent
 import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -99,9 +96,10 @@ class Files_assertSameContentAs_Test extends FilesBaseTest {
 
     File notAFile = new File("xyz");
     // WHEN
-    expectAssertionError(() -> underTest.assertSameContentAs(INFO, notAFile, defaultCharset(), expected, defaultCharset()));
+    var error = expectAssertionError(() -> underTest.assertSameContentAs(INFO, notAFile, defaultCharset(), expected,
+                                                                         defaultCharset()));
     // THEN
-    verify(failures).failure(INFO, shouldBeFile(notAFile));
+    then(error).hasMessage(shouldBeFile(notAFile).create());
   }
 
   @Test
@@ -130,9 +128,10 @@ class Files_assertSameContentAs_Test extends FilesBaseTest {
     List<Delta<String>> diffs = diff.diff(actual, defaultCharset(), expected, defaultCharset());
 
     // WHEN
-    expectAssertionError(() -> unMockedFiles.assertSameContentAs(INFO, actual, defaultCharset(), expected, defaultCharset()));
+    var error = expectAssertionError(() -> unMockedFiles.assertSameContentAs(INFO, actual, defaultCharset(), expected,
+                                                                             defaultCharset()));
     // THEN
-    verify(failures).failure(eq(INFO), eq(shouldHaveSameContent(actual, expected, diffs)), any(), any());
+    then(error).hasMessage(shouldHaveSameContent(actual, expected, diffs).create());
   }
 
   @Test

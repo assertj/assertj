@@ -18,16 +18,22 @@ package org.assertj.tests.core.internal.throwables;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Throwables;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Joel Costigliola
  * @author Phillip Webb
  */
-class Throwables_assertHasMessageContaining_Test extends ThrowablesBaseTest {
+class Throwables_assertHasMessageContaining_Test {
+
+  private static final AssertionInfo INFO = someInfo();
+  private final Throwables throwables = Throwables.instance();
+  private Throwable actual = new NullPointerException("Throwable message");
 
   @Test
   void should_pass_if_actual_has_message_containing_with_expected_description() {
@@ -47,9 +53,9 @@ class Throwables_assertHasMessageContaining_Test extends ThrowablesBaseTest {
     // GIVEN
     String content = "expected description part";
     // WHEN
-    expectAssertionError(() -> throwables.assertHasMessageContaining(INFO, actual, content));
+    var error = expectAssertionError(() -> throwables.assertHasMessageContaining(INFO, actual, content));
     // THEN
-    verify(failures).failure(INFO, shouldContain(actual, content));
+    then(error).hasMessage(shouldContain(actual, content).create());
   }
 
 }

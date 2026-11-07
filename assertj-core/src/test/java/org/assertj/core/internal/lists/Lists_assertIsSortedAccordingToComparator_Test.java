@@ -19,12 +19,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.error.ShouldBeSorted.shouldHaveComparableElementsAccordingToGivenComparator;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
 import java.util.List;
@@ -91,7 +91,7 @@ class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTest {
                                                                                      stringDescendingOrderComparator));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(3, actual, stringDescendingOrderComparator));
+    then(error).hasMessage(shouldBeSortedAccordingToGivenComparator(3, actual, stringDescendingOrderComparator).create());
   }
 
   @Test
@@ -106,8 +106,8 @@ class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTest {
                                                                                      stringDescendingOrderComparator));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
+    then(error).hasMessage(shouldHaveComparableElementsAccordingToGivenComparator(actual,
+                                                                                  stringDescendingOrderComparator).create());
   }
 
   @Test
@@ -119,8 +119,8 @@ class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTest {
                                                                                      stringDescendingOrderComparator));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
+    then(error).hasMessage(shouldHaveComparableElementsAccordingToGivenComparator(actual,
+                                                                                  stringDescendingOrderComparator).create());
   }
 
 }

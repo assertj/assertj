@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.testkit.TestData.someIndex;
@@ -27,7 +28,6 @@ import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
@@ -82,7 +82,7 @@ class Lists_assertContains_Test extends ListsBaseTest {
     Throwable error = catchThrowable(() -> lists.assertContains(info, actual, "Han", index));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainAtIndex(actual, "Han", index, "Luke"));
+    then(error).hasMessage(shouldContainAtIndex(actual, "Han", index, "Luke").create());
   }
 
   @Test
@@ -105,7 +105,7 @@ class Lists_assertContains_Test extends ListsBaseTest {
     Throwable error = catchThrowable(() -> listsWithCaseInsensitiveComparisonStrategy.assertContains(info, actual, "Han", index));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainAtIndex(actual, "Han", index, "Luke", comparisonStrategy));
+    then(error).hasMessage(shouldContainAtIndex(actual, "Han", index, "Luke", comparisonStrategy).create());
   }
 
 }

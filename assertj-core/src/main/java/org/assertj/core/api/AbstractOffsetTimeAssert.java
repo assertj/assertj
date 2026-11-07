@@ -28,7 +28,7 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalUnit;
 
 import org.assertj.core.data.TemporalOffset;
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Objects;
 
 /**
@@ -71,7 +71,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
       Objects.instance().assertNotNull(info, actual);
       assertOffsetTimeParameterIsNotNull(other);
       if (!actual.isBefore(other)) {
-        throw Failures.instance().failure(info, shouldBeBefore(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeBefore(actual, other));
       }
     });
   }
@@ -118,7 +118,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
       Objects.instance().assertNotNull(info, actual);
       assertOffsetTimeParameterIsNotNull(other);
       if (actual.isAfter(other)) {
-        throw Failures.instance().failure(info, shouldBeBeforeOrEqualTo(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeBeforeOrEqualTo(actual, other));
       }
     });
   }
@@ -165,7 +165,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
       Objects.instance().assertNotNull(info, actual);
       assertOffsetTimeParameterIsNotNull(other);
       if (actual.isBefore(other)) {
-        throw Failures.instance().failure(info, shouldBeAfterOrEqualTo(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeAfterOrEqualTo(actual, other));
       }
     });
   }
@@ -212,7 +212,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
       Objects.instance().assertNotNull(info, actual);
       assertOffsetTimeParameterIsNotNull(other);
       if (!actual.isAfter(other)) {
-        throw Failures.instance().failure(info, shouldBeAfter(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeAfter(actual, other));
       }
     });
   }
@@ -394,7 +394,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
       Objects.instance().assertNotNull(info, actual);
       assertOffsetTimeParameterIsNotNull(other);
       if (!areEqualIgnoringTimezone(actual, other)) {
-        throw Failures.instance().failure(info, shouldBeEqualIgnoringTimezone(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeEqualIgnoringTimezone(actual, other));
       }
     });
   }
@@ -432,7 +432,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
       Objects.instance().assertNotNull(info, actual);
       assertOffsetTimeParameterIsNotNull(other);
       if (!haveSameHourField(actual, other)) {
-        throw Failures.instance().failure(info, shouldHaveSameHourAs(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldHaveSameHourAs(actual, other));
       }
     });
   }

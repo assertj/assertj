@@ -97,7 +97,7 @@ public class BigDecimals extends Numbers<BigDecimal> {
   public void assertHasScale(AssertionInfo info, BigDecimal actual, int expectedScale) {
     assertNotNull(info, actual);
     if (areEqual(actual.scale(), expectedScale)) return;
-    throw failures.failure(info, shouldHaveScale(actual, expectedScale));
+    throw assertionErrorCreator.assertionError(info, shouldHaveScale(actual, expectedScale));
   }
 
 }

@@ -39,7 +39,7 @@ class FloatArrays_assertContainsAnyOf_Test extends FloatArraysBaseTest {
   @Test
   void should_delegate_to_internal_Arrays() {
     arrays.assertContainsAnyOf(someInfo(), actual, new float[] { 1, 2.0f, 3 });
-    verify(internalArrays).assertContainsAnyOf(someInfo(), failures, actual, new float[] { 1, 2, 3 });
+    verify(internalArrays).assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, new float[] { 1, 2, 3 });
   }
 
 }

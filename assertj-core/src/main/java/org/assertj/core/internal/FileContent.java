@@ -24,7 +24,7 @@ import java.nio.file.Path;
 import org.assertj.core.error.AssertionErrorCreator;
 
 /**
- * Carries the absolute path and full byte contents of a file so that, on assertion failure,
+ * Carries the absolute path and full byte contents of a file so that, on assertion assertionError,
  * {@link AssertionErrorCreator} can reflectively build an
  * {@code org.opentest4j.FileInfo} for IDE file-diff rendering. Holds no opentest4j dependency.
  */

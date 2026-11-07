@@ -22,7 +22,6 @@ import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -69,9 +68,9 @@ class Files_assertHasParent_Test extends FilesBaseTest {
     // GIVEN
     File withoutParent = new File("without-parent");
     // WHEN
-    expectAssertionError(() -> underTest.assertHasParent(INFO, withoutParent, expectedParent));
+    var error = expectAssertionError(() -> underTest.assertHasParent(INFO, withoutParent, expectedParent));
     // THEN
-    verify(failures).failure(INFO, shouldHaveParent(withoutParent, expectedParent));
+    then(error).hasMessage(shouldHaveParent(withoutParent, expectedParent).create());
   }
 
   @Test
@@ -79,9 +78,9 @@ class Files_assertHasParent_Test extends FilesBaseTest {
     // GIVEN
     File expectedParent = new File("./expected-parent");
     // WHEN
-    expectAssertionError(() -> underTest.assertHasParent(INFO, actual, expectedParent));
+    var error = expectAssertionError(() -> underTest.assertHasParent(INFO, actual, expectedParent));
     // THEN
-    verify(failures).failure(INFO, shouldHaveParent(actual, expectedParent));
+    then(error).hasMessage(shouldHaveParent(actual, expectedParent).create());
   }
 
   @Test

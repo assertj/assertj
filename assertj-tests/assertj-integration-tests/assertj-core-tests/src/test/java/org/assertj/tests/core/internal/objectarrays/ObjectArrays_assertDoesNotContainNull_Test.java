@@ -20,10 +20,13 @@ import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -32,12 +35,13 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-class ObjectArrays_assertDoesNotContainNull_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertDoesNotContainNull_Test {
 
-  @Override
-  protected void initActualArray() {
-    actual = array("Luke", "Yoda");
-  }
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final String[] actual = array("Luke", "Yoda");
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final ObjectArrays arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
 
   @Test
   void should_pass_if_actual_does_not_contain_null() {
@@ -62,9 +66,9 @@ class ObjectArrays_assertDoesNotContainNull_Test extends ObjectArraysBaseTest {
     // GIVEN
     var actual = array("Luke", "Yoda", null);
     // WHEN
-    expectAssertionError(() -> arrays.assertDoesNotContainNull(INFO, actual));
+    var error = expectAssertionError(() -> arrays.assertDoesNotContainNull(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldNotContainNull(actual));
+    then(error).hasMessage(shouldNotContainNull(actual).create());
   }
 
   @Test
@@ -91,8 +95,8 @@ class ObjectArrays_assertDoesNotContainNull_Test extends ObjectArraysBaseTest {
     // GIVEN
     var actual = array("Luke", "Yoda", null);
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainNull(INFO, actual));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainNull(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldNotContainNull(actual));
+    then(error).hasMessage(shouldNotContainNull(actual).create());
   }
 }

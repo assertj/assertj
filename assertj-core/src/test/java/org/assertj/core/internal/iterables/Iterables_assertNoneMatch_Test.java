@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -53,10 +52,8 @@ class Iterables_assertNoneMatch_Test extends IterablesBaseTest {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<? super String> predicate = s -> s.startsWith("L");
 
-    Throwable error = catchThrowable(() -> iterables.assertNoneMatch(info, actual, predicate, PredicateDescription.GIVEN));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, noElementsShouldMatch(actual, "Luke", PredicateDescription.GIVEN));
+    var error = expectAssertionError(() -> iterables.assertNoneMatch(info, actual, predicate, PredicateDescription.GIVEN));
+    then(error).hasMessage(noElementsShouldMatch(actual, "Luke", PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -64,11 +61,9 @@ class Iterables_assertNoneMatch_Test extends IterablesBaseTest {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<? super String> predicate = s -> s.startsWith("L");
 
-    Throwable error = catchThrowable(() -> iterables.assertNoneMatch(info, actual, predicate,
+    var error = expectAssertionError(() -> iterables.assertNoneMatch(info, actual, predicate,
                                                                      new PredicateDescription("custom")));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, noElementsShouldMatch(actual, "Luke", new PredicateDescription("custom")));
+    then(error).hasMessage(noElementsShouldMatch(actual, "Luke", new PredicateDescription("custom")).create());
   }
 
 }

@@ -15,14 +15,13 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 import java.util.List;
@@ -63,10 +62,8 @@ class Iterables_assertDoesNotContainNull_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Yoda", null);
 
-    Throwable error = catchThrowable(() -> iterables.assertDoesNotContainNull(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContainNull(actual));
+    var error = expectAssertionError(() -> iterables.assertDoesNotContainNull(info, actual));
+    then(error).hasMessage(shouldNotContainNull(actual).create());
   }
 
   @Test
@@ -92,9 +89,7 @@ class Iterables_assertDoesNotContainNull_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Yoda", null);
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainNull(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContainNull(actual));
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainNull(info, actual));
+    then(error).hasMessage(shouldNotContainNull(actual).create());
   }
 }

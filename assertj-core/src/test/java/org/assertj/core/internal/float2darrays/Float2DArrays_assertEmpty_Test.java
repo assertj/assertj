@@ -34,6 +34,6 @@ class Float2DArrays_assertEmpty_Test extends Float2DArraysBaseTest {
     // WHEN
     float2dArrays.assertEmpty(info, actual);
     // THEN
-    verify(arrays2d).assertEmpty(info, failures, actual);
+    verify(arrays2d).assertEmpty(info, assertionErrorCreator, actual);
   }
 }

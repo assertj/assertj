@@ -41,7 +41,7 @@ class Arrays2D_assertNotEmpty_Test extends Arrays2D_BaseTest {
     // GIVEN
     int[][] actual = null;
     // WHEN
-    var assertionError = expectAssertionError(() -> arrays.assertNotEmpty(someInfo(), failures, actual));
+    var assertionError = expectAssertionError(() -> arrays.assertNotEmpty(someInfo(), assertionErrorCreator, actual));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -50,7 +50,7 @@ class Arrays2D_assertNotEmpty_Test extends Arrays2D_BaseTest {
   @MethodSource("should_fail_if_actual_is_empty_parameters")
   void should_fail_if_actual_is_empty(Object[][] actual) {
     // WHEN
-    var assertionError = expectAssertionError(() -> arrays.assertNotEmpty(someInfo(), failures, actual));
+    var assertionError = expectAssertionError(() -> arrays.assertNotEmpty(someInfo(), assertionErrorCreator, actual));
     // THEN
     then(assertionError).hasMessage(shouldNotBeEmpty().create());
   }
@@ -65,8 +65,8 @@ class Arrays2D_assertNotEmpty_Test extends Arrays2D_BaseTest {
 
   @Test
   void should_pass_if_actual_is_not_empty() {
-    arrays.assertNotEmpty(someInfo(), failures, new int[][] { { 1 }, { 2 } });
-    arrays.assertNotEmpty(someInfo(), failures, new int[][] { { 1 }, {} });
-    arrays.assertNotEmpty(someInfo(), failures, new int[][] { {}, { 2 } });
+    arrays.assertNotEmpty(someInfo(), assertionErrorCreator, new int[][] { { 1 }, { 2 } });
+    arrays.assertNotEmpty(someInfo(), assertionErrorCreator, new int[][] { { 1 }, {} });
+    arrays.assertNotEmpty(someInfo(), assertionErrorCreator, new int[][] { {}, { 2 } });
   }
 }

@@ -16,19 +16,30 @@
 package org.assertj.tests.core.internal.objectarrays;
 
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ElementsShouldNotHave.elementsShouldNotHave;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Condition;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.JediPowerCondition;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-class ObjectArrays_assertDoNotHave_Test extends ObjectArraysWithConditionBaseTest {
+class ObjectArrays_assertDoNotHave_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final String[] actual = array("Luke", "Yoda", "Leia");
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final Condition<String> jediPower = new JediPowerCondition();
 
   @Test
   void should_pass_if_each_element_satisfies_condition() {
@@ -46,9 +57,9 @@ class ObjectArrays_assertDoNotHave_Test extends ObjectArraysWithConditionBaseTes
     // GIVEN
     var actual = array("Darth Vader", "Leia", "Yoda");
     // WHEN
-    expectAssertionError(() -> arrays.assertDoNotHave(INFO, actual, jediPower));
+    var error = expectAssertionError(() -> arrays.assertDoNotHave(INFO, actual, jediPower));
     // THEN
-    verify(failures).failure(INFO, elementsShouldNotHave(actual, newArrayList("Yoda"), jediPower));
+    then(error).hasMessage(elementsShouldNotHave(actual, newArrayList("Yoda"), jediPower).create());
   }
 
 }

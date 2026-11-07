@@ -18,13 +18,13 @@ package org.assertj.core.internal.lists;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.error.ShouldBeSorted.shouldHaveMutuallyComparableElements;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
@@ -77,7 +77,7 @@ class Lists_assertIsSorted_Test extends ListsBaseTest {
     Throwable error = catchThrowable(() -> lists.assertIsSorted(info, actual));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeSorted(1, actual));
+    then(error).hasMessage(shouldBeSorted(1, actual).create());
   }
 
   @Test
@@ -88,7 +88,7 @@ class Lists_assertIsSorted_Test extends ListsBaseTest {
     Throwable error = catchThrowable(() -> listsWithCaseInsensitiveComparisonStrategy.assertIsSorted(info, actual));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparisonStrategy.getComparator()));
+    then(error).hasMessage(shouldBeSortedAccordingToGivenComparator(1, actual, comparisonStrategy.getComparator()).create());
   }
 
   @Test
@@ -99,7 +99,7 @@ class Lists_assertIsSorted_Test extends ListsBaseTest {
     Throwable error = catchThrowable(() -> lists.assertIsSorted(info, actual));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveMutuallyComparableElements(actual));
+    then(error).hasMessage(shouldHaveMutuallyComparableElements(actual).create());
   }
 
   @Test
@@ -110,7 +110,7 @@ class Lists_assertIsSorted_Test extends ListsBaseTest {
     Throwable error = catchThrowable(() -> lists.assertIsSorted(info, actual));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveMutuallyComparableElements(actual));
+    then(error).hasMessage(shouldHaveMutuallyComparableElements(actual).create());
   }
 
   @Test
@@ -124,7 +124,7 @@ class Lists_assertIsSorted_Test extends ListsBaseTest {
     Throwable error = catchThrowable(() -> lists.assertIsSorted(info, actual));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveMutuallyComparableElements(actual));
+    then(error).hasMessage(shouldHaveMutuallyComparableElements(actual).create());
   }
 
 }

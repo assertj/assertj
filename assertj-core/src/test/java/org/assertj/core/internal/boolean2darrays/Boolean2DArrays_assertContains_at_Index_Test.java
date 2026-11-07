@@ -38,6 +38,6 @@ class Boolean2DArrays_assertContains_at_Index_Test extends Boolean2DArraysBaseTe
     // WHEN
     boolean2dArrays.assertContains(info, actual, booleans, atIndex(1));
     // THEN
-    verify(arrays2d).assertContains(info, failures, actual, booleans, atIndex(1));
+    verify(arrays2d).assertContains(info, assertionErrorCreator, actual, booleans, atIndex(1));
   }
 }

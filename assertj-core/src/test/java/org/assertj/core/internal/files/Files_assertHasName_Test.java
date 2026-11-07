@@ -21,7 +21,6 @@ import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
@@ -64,9 +63,9 @@ class Files_assertHasName_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/not_expected.name");
     // WHEN
-    expectAssertionError(() -> underTest.assertHasName(INFO, actual, expectedName));
+    var error = expectAssertionError(() -> underTest.assertHasName(INFO, actual, expectedName));
     // THEN
-    verify(failures).failure(INFO, shouldHaveName(actual, expectedName));
+    then(error).hasMessage(shouldHaveName(actual, expectedName).create());
   }
 
   @Test

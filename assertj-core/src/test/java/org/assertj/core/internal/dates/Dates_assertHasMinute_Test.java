@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.dates;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
@@ -44,13 +43,14 @@ class Dates_assertHasMinute_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_has_not_minute() {
+    // GIVEN
     AssertionInfo info = someInfo();
     int minute = 5;
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertHasMinute(info, actual, minute));
 
-    Throwable error = catchThrowable(() -> dates.assertHasMinute(info, actual, minute));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveDateField(actual, "minute", minute));
+    // THEN
+    then(error).hasMessage(shouldHaveDateField(actual, "minute", minute).create());
   }
 
   @Test
@@ -66,13 +66,14 @@ class Dates_assertHasMinute_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_has_not_minute_whatever_custom_comparison_strategy_is() {
+    // GIVEN
     AssertionInfo info = someInfo();
     int minute = 5;
+    // WHEN
+    var error = expectAssertionError(() -> datesWithCustomComparisonStrategy.assertHasMinute(info, actual, minute));
 
-    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertHasMinute(info, actual, minute));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveDateField(actual, "minute", minute));
+    // THEN
+    then(error).hasMessage(shouldHaveDateField(actual, "minute", minute).create());
   }
 
   @Test

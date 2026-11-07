@@ -38,7 +38,7 @@ class Bytes_assertIsZero_Test extends BytesBaseTest {
   @Override
   public void setUp() {
     super.setUp();
-    resetFailures();
+    resetAssertionErrorCreator();
   }
 
   @Test

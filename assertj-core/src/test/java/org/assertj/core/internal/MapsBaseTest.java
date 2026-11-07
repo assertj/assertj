@@ -37,6 +37,7 @@ import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.testkit.WithPlayerData;
 import org.hibernate.collection.spi.CollectionSemantics;
 import org.hibernate.collection.spi.PersistentMap;
@@ -100,7 +101,7 @@ public class MapsBaseTest extends WithPlayerData {
   }
 
   protected Map<String, String> actual;
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Maps maps;
 
   protected AssertionInfo info;
@@ -108,9 +109,9 @@ public class MapsBaseTest extends WithPlayerData {
   @BeforeEach
   protected void setUp() {
     actual = mapOf(entry("name", "Yoda"), entry("color", "green"));
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     maps = new Maps();
-    maps.failures = failures;
+    maps.assertionErrorCreator = assertionErrorCreator;
     info = someInfo();
   }
 

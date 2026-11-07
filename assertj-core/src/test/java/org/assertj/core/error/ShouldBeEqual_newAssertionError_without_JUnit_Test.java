@@ -28,7 +28,6 @@ import static org.mockito.Mockito.withSettings;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.description.Description;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -50,7 +49,7 @@ class ShouldBeEqual_newAssertionError_without_JUnit_Test {
 
   @BeforeEach
   public void setUp() throws NoSuchFieldException, IllegalAccessException {
-    Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
+    AssertionErrorCreator.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
     description = new TestDescription("Jedi");
     factory = shouldBeEqual("Luke", "Yoda", new StandardRepresentation());
     constructorInvoker = mock(ConstructorInvoker.class, withSettings().defaultAnswer(CALLS_REAL_METHODS));

@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.IntArrays.emptyArray;
@@ -26,7 +27,6 @@ import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.junit.jupiter.api.Test;
@@ -35,51 +35,53 @@ class Arrays_assertContains_Test extends BaseArraysTest {
 
   @Test
   void should_pass_if_actual_contains_given_values() {
-    arrays.assertContains(someInfo(), failures, actual, array("Luke"));
+    arrays.assertContains(someInfo(), assertionErrorCreator, actual, array("Luke"));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_in_different_order() {
-    arrays.assertContains(someInfo(), failures, actual, array("Leia", "Yoda"));
+    arrays.assertContains(someInfo(), assertionErrorCreator, actual, array("Leia", "Yoda"));
   }
 
   @Test
   void should_pass_if_actual_contains_all_given_values() {
-    arrays.assertContains(someInfo(), failures, actual, array("Luke", "Yoda", "Leia"));
+    arrays.assertContains(someInfo(), assertionErrorCreator, actual, array("Luke", "Yoda", "Leia"));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_more_than_once() {
     actual = array("Luke", "Yoda", "Leia", "Luke", "Luke");
-    arrays.assertContains(someInfo(), failures, actual, array("Luke"));
+    arrays.assertContains(someInfo(), assertionErrorCreator, actual, array("Luke"));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_even_if_duplicated() {
-    arrays.assertContains(someInfo(), failures, actual, array("Luke", "Luke"));
+    arrays.assertContains(someInfo(), assertionErrorCreator, actual, array("Luke", "Luke"));
   }
 
   @Test
   void should_pass_if_actual_and_given_values_are_empty() {
     actual = new String[0];
-    arrays.assertContains(someInfo(), failures, actual, array());
+    arrays.assertContains(someInfo(), assertionErrorCreator, actual, array());
   }
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), failures, actual,
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), assertionErrorCreator,
+                                                                                           actual,
                                                                                            emptyArray()));
   }
 
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> arrays.assertContains(someInfo(), failures, actual, null))
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContains(someInfo(), assertionErrorCreator, actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), failures, null,
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), assertionErrorCreator,
+                                                                                           null,
                                                                                            array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
@@ -89,10 +91,10 @@ class Arrays_assertContains_Test extends BaseArraysTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "Leia", "Yoda", "John" };
 
-    Throwable error = catchThrowable(() -> arrays.assertContains(info, failures, actual, expected));
+    Throwable error = catchThrowable(() -> arrays.assertContains(info, assertionErrorCreator, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet("John")));
+    then(error).hasMessage(shouldContain(actual, expected, newLinkedHashSet("John")).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -101,41 +103,42 @@ class Arrays_assertContains_Test extends BaseArraysTest {
 
   @Test
   void should_pass_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), failures, actual, array("LUKE"));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), assertionErrorCreator, actual, array("LUKE"));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_in_different_order_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), failures, actual, array("LEIA", "yODa"));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), assertionErrorCreator, actual, array("LEIA", "yODa"));
   }
 
   @Test
   void should_pass_if_actual_contains_all_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), failures, actual, array("luke", "YODA", "leia"));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), assertionErrorCreator, actual, array("luke", "YODA", "leia"));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
     actual = array("Luke", "Yoda", "Leia", "Luke", "Luke");
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), failures, actual, array("LUke"));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), assertionErrorCreator, actual, array("LUke"));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), failures, actual, array("LUke", "LuKe"));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), assertionErrorCreator, actual, array("LUke", "LuKe"));
   }
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
-                                                                                                                       failures,
+                                                                                                                       assertionErrorCreator,
                                                                                                                        actual,
                                                                                                                        emptyArray()));
   }
 
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), failures,
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
+                                                                                                        assertionErrorCreator,
                                                                                                         actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
@@ -143,7 +146,7 @@ class Arrays_assertContains_Test extends BaseArraysTest {
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
-                                                                                                                       failures,
+                                                                                                                       assertionErrorCreator,
                                                                                                                        null,
                                                                                                                        array("LUke")))
                                                    .withMessage(actualIsNull());
@@ -154,10 +157,11 @@ class Arrays_assertContains_Test extends BaseArraysTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "LeiA", "YODA", "JOhN" };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContains(info, failures, actual, expected));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContains(info, assertionErrorCreator, actual,
+                                                                                             expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet("JOhN"),
-                                                 caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldContain(actual, expected, newLinkedHashSet("JOhN"),
+                                         caseInsensitiveStringComparisonStrategy).create());
   }
 }

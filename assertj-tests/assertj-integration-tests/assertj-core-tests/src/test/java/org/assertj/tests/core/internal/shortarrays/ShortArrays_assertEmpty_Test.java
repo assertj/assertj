@@ -15,14 +15,14 @@
  */
 package org.assertj.tests.core.internal.shortarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
 import static org.assertj.tests.core.testkit.ShortArrays.emptyArray;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ShortArrays;
@@ -33,7 +33,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-class ShortArrays_assertEmpty_Test extends ShortArraysBaseTest {
+class ShortArrays_assertEmpty_Test {
+
+  private short[] actual = arrayOf(6, 8, 10);
+  private final ShortArrays arrays = ShortArrays.instance();
 
   @Test
   void should_fail_if_actual_is_null() {
@@ -46,10 +49,9 @@ class ShortArrays_assertEmpty_Test extends ShortArraysBaseTest {
     AssertionInfo info = someInfo();
     short[] actual = { 6, 8 };
 
-    Throwable error = catchThrowable(() -> arrays.assertEmpty(info, actual));
+    var error = expectAssertionError(() -> arrays.assertEmpty(info, actual));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEmpty(actual));
+    then(error).hasMessage(shouldBeEmpty(actual).create());
   }
 
   @Test

@@ -16,12 +16,12 @@
 package org.assertj.core.internal.files;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
@@ -60,9 +60,9 @@ class File_assertHasSize_Test extends FilesBaseTest {
     // GIVEN
     long expectedSizeInBytes = 36L;
     // WHEN
-    expectAssertionError(() -> underTest.assertHasSizeInBytes(INFO, actual, expectedSizeInBytes));
+    var error = expectAssertionError(() -> underTest.assertHasSizeInBytes(INFO, actual, expectedSizeInBytes));
     // THEN
-    verify(failures).failure(INFO, shouldHaveSize(actual, expectedSizeInBytes));
+    then(error).hasMessage(shouldHaveSize(actual, expectedSizeInBytes).create());
   }
 
   @Test
@@ -70,9 +70,9 @@ class File_assertHasSize_Test extends FilesBaseTest {
     // GIVEN
     File notAFile = new File("xyz");
     // WHEN
-    expectAssertionError(() -> underTest.assertHasSizeInBytes(INFO, notAFile, 36L));
+    var error = expectAssertionError(() -> underTest.assertHasSizeInBytes(INFO, notAFile, 36L));
     // THEN
-    verify(failures).failure(INFO, shouldBeFile(notAFile));
+    then(error).hasMessage(shouldBeFile(notAFile).create());
   }
 
   @Test

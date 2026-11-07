@@ -17,6 +17,7 @@ package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Reusable assertions for arrays of {@code float}s.
@@ -41,8 +42,8 @@ public class Float2DArrays {
   private Arrays2D arrays = Arrays2D.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  /** Assertion failure provider. */
-  Failures failures = Failures.instance();
+  /** Assertion assertionError provider. */
+  AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /**
@@ -61,7 +62,7 @@ public class Float2DArrays {
    * @throws AssertionError if the given array is not {@code null} *and* contains one or more elements.
    */
   public void assertNullOrEmpty(AssertionInfo info, float[][] actual) {
-    arrays.assertNullOrEmpty(info, failures, actual);
+    arrays.assertNullOrEmpty(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -72,7 +73,7 @@ public class Float2DArrays {
    * @throws AssertionError if the given array is not empty.
    */
   public void assertEmpty(AssertionInfo info, float[][] actual) {
-    arrays.assertEmpty(info, failures, actual);
+    arrays.assertEmpty(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -83,7 +84,7 @@ public class Float2DArrays {
    * @throws AssertionError if the given array is empty.
    */
   public void assertNotEmpty(AssertionInfo info, float[][] actual) {
-    arrays.assertNotEmpty(info, failures, actual);
+    arrays.assertNotEmpty(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -98,7 +99,7 @@ public class Float2DArrays {
    */
   public void assertHasDimensions(AssertionInfo info, float[][] actual, int expectedFirstDimension,
                                   int expectedSecondDimension) {
-    arrays.assertHasDimensions(info, failures, actual, expectedFirstDimension, expectedSecondDimension);
+    arrays.assertHasDimensions(info, assertionErrorCreator, actual, expectedFirstDimension, expectedSecondDimension);
   }
 
   /**
@@ -123,7 +124,7 @@ public class Float2DArrays {
    * @param expectedNumberOfRows the expected first dimension size of {@code actual}.
    */
   public void assertNumberOfRows(AssertionInfo info, float[][] actual, int expectedNumberOfRows) {
-    arrays.assertNumberOfRows(info, failures, actual, expectedNumberOfRows);
+    arrays.assertNumberOfRows(info, assertionErrorCreator, actual, expectedNumberOfRows);
   }
 
   /**
@@ -140,7 +141,7 @@ public class Float2DArrays {
    * @throws AssertionError if the given array does not contain the given value at the given index.
    */
   public void assertContains(AssertionInfo info, float[][] actual, float[] value, Index index) {
-    arrays.assertContains(info, failures, actual, value, index);
+    arrays.assertContains(info, assertionErrorCreator, actual, value, index);
   }
 
   /**
@@ -155,6 +156,6 @@ public class Float2DArrays {
    * @throws AssertionError if the given array contains the given value at the given index.
    */
   public void assertDoesNotContain(AssertionInfo info, float[][] actual, float[] value, Index index) {
-    arrays.assertDoesNotContain(info, failures, actual, value, index);
+    arrays.assertDoesNotContain(info, assertionErrorCreator, actual, value, index);
   }
 }

@@ -15,20 +15,19 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.internal.ErrorMessages.emptySubsequence;
 import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
 import static org.assertj.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
@@ -145,11 +144,8 @@ class Iterables_assertDoesNotContainSubsequence_Test extends IterablesBaseTest {
   private void expectFailure(Iterables iterables, Iterable<String> sequence, Object[] subsequence, int index) {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> iterables.assertDoesNotContainSubsequence(info, sequence, subsequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContainSubsequence(actual, subsequence, iterables.getComparisonStrategy(),
-                                                               index));
+    var error = expectAssertionError(() -> iterables.assertDoesNotContainSubsequence(info, sequence, subsequence));
+    then(error).hasMessage(shouldNotContainSubsequence(actual, subsequence, iterables.getComparisonStrategy(), index).create());
   }
 
 }

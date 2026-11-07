@@ -26,6 +26,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -33,7 +34,7 @@ import org.junit.jupiter.api.BeforeEach;
  * Base class for testing <code>{@link Objects}</code>, set up an instance with {@link StandardComparisonStrategy} and another
  * with {@link ComparatorBasedComparisonStrategy}.
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Objects#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Objects#assertionErrorCreator} appropriately.
  *
  * @author Joel Costigliola
  */
@@ -45,7 +46,7 @@ public class ObjectsBaseTest {
 
   protected static final AssertionInfo INFO = someInfo();
 
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Objects objects;
 
   protected ComparatorBasedComparisonStrategy customComparisonStrategy;
@@ -53,12 +54,12 @@ public class ObjectsBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     objects = new Objects();
-    objects.failures = failures;
+    objects.assertionErrorCreator = assertionErrorCreator;
     customComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
     objectsWithCustomComparisonStrategy = new Objects(customComparisonStrategy);
-    objectsWithCustomComparisonStrategy.failures = failures;
+    objectsWithCustomComparisonStrategy.assertionErrorCreator = assertionErrorCreator;
     Assertions.setAllowComparingPrivateFields(true); // reverts to default value
   }
 

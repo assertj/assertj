@@ -16,13 +16,13 @@
 package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
@@ -52,8 +52,8 @@ class Maps_assertNotEmpty_Test extends MapsBaseTest {
 
   @Test
   void should_fail_if_actual_is_empty() {
-    expectAssertionError(() -> maps.assertNotEmpty(INFO, emptyMap()));
-    verify(failures).failure(INFO, shouldNotBeEmpty());
+    var error = expectAssertionError(() -> maps.assertNotEmpty(INFO, emptyMap()));
+    then(error).hasMessage(shouldNotBeEmpty().create());
   }
 
 }

@@ -18,17 +18,16 @@ package org.assertj.core.internal.bigintegers;
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
 import static java.math.BigInteger.ZERO;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.withinPercentage;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.math.BigInteger;
 
@@ -92,12 +91,11 @@ class BigIntegers_assertIsCloseToPercentage_Test extends BigIntegersBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_not_close_enough_to_expected_value() {
+  void should_fail_if_actual_is_not_close_enough_to_expected_value() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbers.assertIsCloseToPercentage(someInfo(), ONE, TEN, withPercentage(10)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqualWithinPercentage(ONE, TEN, withinPercentage(10), TEN.subtract(ONE)));
+    // WHEN
+    var error = expectAssertionError(() -> numbers.assertIsCloseToPercentage(someInfo(), ONE, TEN, withPercentage(10)));
+    // THEN
+    then(error).hasMessage(shouldBeEqualWithinPercentage(ONE, TEN, withinPercentage(10), TEN.subtract(ONE)).create());
   }
 }

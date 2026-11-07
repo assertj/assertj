@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.longs;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Longs;
@@ -53,13 +52,12 @@ class Longs_assertLessThanOrEqualTo_Test extends LongsBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_greater_than_other() {
+  void should_fail_if_actual_is_greater_than_other() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> longs.assertLessThanOrEqualTo(info, 8L, 6L));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLessOrEqual(8L, 6L));
+    // WHEN
+    var error = expectAssertionError(() -> longs.assertLessThanOrEqualTo(info, 8L, 6L));
+    // THEN
+    then(error).hasMessage(shouldBeLessOrEqual(8L, 6L).create());
   }
 
   @Test
@@ -81,12 +79,11 @@ class Longs_assertLessThanOrEqualTo_Test extends LongsBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> longsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, -8L, 6L));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLessOrEqual(-8L, 6L, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, -8L, 6L));
+    // THEN
+    then(error).hasMessage(shouldBeLessOrEqual(-8L, 6L, absValueComparisonStrategy).create());
   }
 }

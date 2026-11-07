@@ -34,6 +34,6 @@ class Long2DArrays_assertNotEmpty_Test extends Long2DArraysBaseTest {
     // WHEN
     long2dArrays.assertNotEmpty(info, actual);
     // THEN
-    verify(arrays2d).assertNotEmpty(info, failures, actual);
+    verify(arrays2d).assertNotEmpty(info, assertionErrorCreator, actual);
   }
 }

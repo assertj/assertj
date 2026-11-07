@@ -15,18 +15,17 @@
  */
 package org.assertj.core.internal.bytearrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.ByteArrays.arrayOf;
 import static org.assertj.core.testkit.ByteArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ByteArrays;
@@ -53,13 +52,11 @@ class ByteArrays_assertContainsOnlyOnce_with_Integer_Arguments_Test extends Byte
   void should_fail_if_actual_contains_given_values_only_more_than_once() {
     AssertionInfo info = someInfo();
     actual = arrayOf(6, -8, 10, -6, -8, 10, -8, 6);
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsOnlyOnce(info, actual, IntArrays.arrayOf(6, -8, 20)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainsOnlyOnce(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 20),
-                                                    newLinkedHashSet((byte) 6, (byte) -8)));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsOnlyOnce(info, actual, IntArrays.arrayOf(6, -8, 20)));
+    // THEN
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 20),
+                                                  newLinkedHashSet((byte) 6, (byte) -8)).create());
   }
 
   @Test
@@ -95,12 +92,11 @@ class ByteArrays_assertContainsOnlyOnce_with_Integer_Arguments_Test extends Byte
   @Test
   void should_fail_if_actual_does_not_contain_given_values_only() {
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsOnlyOnce(info, actual, IntArrays.arrayOf(6, 8, 20)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainsOnlyOnce(actual, arrayOf(6, 8, 20), newLinkedHashSet((byte) 20), newLinkedHashSet()));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsOnlyOnce(info, actual, IntArrays.arrayOf(6, 8, 20)));
+    // THEN
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, arrayOf(6, 8, 20), newLinkedHashSet((byte) 20),
+                                                  newLinkedHashSet()).create());
   }
 
   @Test
@@ -117,17 +113,14 @@ class ByteArrays_assertContainsOnlyOnce_with_Integer_Arguments_Test extends Byte
   void should_fail_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = arrayOf(6, -8, 10, -6, -8, 10, -8);
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual,
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual,
                                                                                                      IntArrays.arrayOf(6, -8,
                                                                                                                        20)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(
-                             info,
-                             shouldContainsOnlyOnce(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 20),
-                                                    newLinkedHashSet((byte) 6, (byte) -8),
-                                                    absValueComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 20),
+                                                  newLinkedHashSet((byte) 6, (byte) -8),
+                                                  absValueComparisonStrategy).create());
   }
 
   @Test
@@ -161,15 +154,12 @@ class ByteArrays_assertContainsOnlyOnce_with_Integer_Arguments_Test extends Byte
   @Test
   void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual,
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual,
                                                                                                      IntArrays.arrayOf(6, -8,
                                                                                                                        20)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(
-                             info,
-                             shouldContainsOnlyOnce(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 20), newLinkedHashSet(),
-                                                    absValueComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 20), newLinkedHashSet(),
+                                                  absValueComparisonStrategy).create());
   }
 }

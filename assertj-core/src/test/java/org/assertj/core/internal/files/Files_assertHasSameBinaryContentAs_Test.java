@@ -27,10 +27,7 @@ import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.IOException;
@@ -129,9 +126,9 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
     BinaryDiff binaryDiff = new BinaryDiff();
     BinaryDiffResult diff = binaryDiff.diff(actual, expectedBytes);
     // WHEN
-    expectAssertionError(() -> unMockedFiles.assertSameBinaryContentAs(INFO, actual, expected));
+    var error = expectAssertionError(() -> unMockedFiles.assertSameBinaryContentAs(INFO, actual, expected));
     // THEN
-    verify(failures).failure(eq(INFO), eq(shouldHaveBinaryContent(actual, diff)), any(), any());
+    then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create());
   }
 
   @Test

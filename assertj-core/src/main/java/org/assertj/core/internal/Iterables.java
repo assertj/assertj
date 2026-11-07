@@ -111,6 +111,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.configuration.Configuration;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.assertj.core.presentation.PredicateDescription;
@@ -130,7 +131,7 @@ public class Iterables {
   private static final Iterables INSTANCE = new Iterables();
   private final ComparisonStrategy comparisonStrategy;
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Failures failures = Failures.instance();
+  AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Conditions conditions = Conditions.instance();
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -190,7 +191,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} is not {@code null} *and* contains one or more elements.
    */
   public void assertNullOrEmpty(AssertionInfo info, Iterable<?> actual) {
-    if (!isNullOrEmpty(actual)) throw failures.failure(info, shouldBeNullOrEmpty(actual));
+    if (!isNullOrEmpty(actual)) throw assertionErrorCreator.assertionError(info, shouldBeNullOrEmpty(actual));
   }
 
   /**
@@ -201,7 +202,7 @@ public class Iterables {
    */
   public void assertNotEmpty(AssertionInfo info, Iterable<?> actual) {
     assertNotNull(info, actual);
-    if (isNullOrEmpty(actual)) throw failures.failure(info, shouldNotBeEmpty());
+    if (isNullOrEmpty(actual)) throw assertionErrorCreator.assertionError(info, shouldNotBeEmpty());
   }
 
   /**
@@ -349,7 +350,7 @@ public class Iterables {
    */
   public void assertContains(AssertionInfo info, Iterable<?> actual, Object[] values) {
     final Collection<?> actualAsCollection = ensureActualCanBeReadMultipleTimes(actual);
-    if (commonCheckThatIterableAssertionSucceeds(info, failures, actualAsCollection, values)) return;
+    if (commonCheckThatIterableAssertionSucceeds(info, assertionErrorCreator, actualAsCollection, values)) return;
     // check for elements in values that are missing in actual.
     assertIterableContainsGivenValues(actual.getClass(), actualAsCollection, values, info);
   }
@@ -364,7 +365,7 @@ public class Iterables {
                                          .collect(toCollection(LinkedHashSet::new));
     if (notFound.isEmpty())
       return;
-    throw failures.failure(info, shouldContain(clazz, actual, values, notFound, comparisonStrategy));
+    throw assertionErrorCreator.assertionError(info, shouldContain(clazz, actual, values, notFound, comparisonStrategy));
   }
 
   private boolean iterableContains(Iterable<?> actual, Object value) {
@@ -414,9 +415,9 @@ public class Iterables {
     }
 
     if (!unexpectedValues.isEmpty() || !missingValues.isEmpty()) {
-      throw failures.failure(info, shouldContainOnly(actualAsCollection, expectedValues,
-                                                     missingValues, unexpectedValues,
-                                                     comparisonStrategy));
+      throw assertionErrorCreator.assertionError(info, shouldContainOnly(actualAsCollection, expectedValues,
+                                                                         missingValues, unexpectedValues,
+                                                                         comparisonStrategy));
     }
   }
 
@@ -433,7 +434,7 @@ public class Iterables {
    *                                  {@code Iterable} contains values that are not in the given array.
    */
   public void assertContainsOnlyOnce(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, values)) return;
+    if (commonCheckThatIterableAssertionSucceeds(info, assertionErrorCreator, actual, values)) return;
     // check for elements in values that are missing in actual.
     Set<Object> notFound = new LinkedHashSet<>();
     Set<Object> notOnlyOnce = new LinkedHashSet<>();
@@ -446,7 +447,8 @@ public class Iterables {
       }
     }
     if (!notFound.isEmpty() || !notOnlyOnce.isEmpty())
-      throw failures.failure(info, shouldContainsOnlyOnce(actual, values, notFound, notOnlyOnce, comparisonStrategy));
+      throw assertionErrorCreator.assertionError(info, shouldContainsOnlyOnce(actual, values, notFound, notOnlyOnce,
+                                                                              comparisonStrategy));
     // assertion succeeded
   }
 
@@ -461,11 +463,12 @@ public class Iterables {
    */
   public void assertContainsOnlyNulls(AssertionInfo info, Iterable<?> actual) {
     assertNotNull(info, actual);
-    // empty => no null elements => failure
-    if (sizeOf(actual) == 0) throw failures.failure(info, shouldContainOnlyNulls(actual));
+    // empty => no null elements => assertionError
+    if (sizeOf(actual) == 0) throw assertionErrorCreator.assertionError(info, shouldContainOnlyNulls(actual));
     // look for any non-null elements
     List<Object> nonNullElements = stream(actual).filter(java.util.Objects::nonNull).collect(toList());
-    if (!nonNullElements.isEmpty()) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
+    if (!nonNullElements.isEmpty())
+      throw assertionErrorCreator.assertionError(info, shouldContainOnlyNulls(actual, nonNullElements));
   }
 
   /**
@@ -490,7 +493,7 @@ public class Iterables {
     // exhausted. Of course if 'actual' really is infinite then this could take a while :-D
     final Iterator<?> actualIterator = actual.iterator();
     if (!actualIterator.hasNext() && sequence.length == 0) return;
-    failIfEmptySinceActualIsNotEmpty(info, failures, actual, sequence);
+    failIfEmptySinceActualIsNotEmpty(info, assertionErrorCreator, actual, sequence);
     // we only store sequence.length entries from actual in the LIFO, no need for more.
     Lifo lifo = new Lifo(sequence.length);
     while (actualIterator.hasNext()) {
@@ -561,9 +564,10 @@ public class Iterables {
    * @throws AssertionError           if the given {@code Iterable} does not contain the given subsequence of objects.
    */
   public void assertContainsSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence) {
-    if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, subsequence)) return;
+    if (commonCheckThatIterableAssertionSucceeds(info, assertionErrorCreator, actual, subsequence)) return;
     if (sizeOf(actual) < subsequence.length) {
-      throw failures.failure(info, actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence));
+      throw assertionErrorCreator.assertionError(info,
+                                                 actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence));
     }
 
     Iterator<?> actualIterator = actual.iterator();
@@ -628,7 +632,8 @@ public class Iterables {
     checkIterableIsNotNull(values);
     List<Object> extra = stream(actual).filter(actualElement -> !iterableContains(values, actualElement))
                                        .collect(toList());
-    if (!extra.isEmpty()) throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
+    if (!extra.isEmpty())
+      throw assertionErrorCreator.assertionError(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
   }
 
   /**
@@ -653,21 +658,23 @@ public class Iterables {
   }
 
   private AssertionError actualDoesNotContainSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    return failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
+    return assertionErrorCreator.assertionError(info, shouldContainSequence(actual, sequence, comparisonStrategy));
   }
 
   private AssertionError actualDoesContainSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence, int index) {
-    return failures.failure(info, shouldNotContainSequence(actual, sequence, index, comparisonStrategy));
+    return assertionErrorCreator.assertionError(info, shouldNotContainSequence(actual, sequence, index, comparisonStrategy));
   }
 
   private AssertionError actualDoesNotContainSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence,
                                                          int subsequenceIndex) {
-    return failures.failure(info, shouldContainSubsequence(actual, subsequence, subsequenceIndex, comparisonStrategy));
+    return assertionErrorCreator.assertionError(info, shouldContainSubsequence(actual, subsequence, subsequenceIndex,
+                                                                               comparisonStrategy));
   }
 
   private AssertionError actualContainsSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence,
                                                    int index) {
-    return failures.failure(info, shouldNotContainSubsequence(actual, subsequence, comparisonStrategy, index));
+    return assertionErrorCreator.assertionError(info,
+                                                shouldNotContainSubsequence(actual, subsequence, comparisonStrategy, index));
   }
 
   /**
@@ -688,7 +695,8 @@ public class Iterables {
     for (Object o : values) {
       if (iterableContains(actual, o)) found.add(o);
     }
-    if (!found.isEmpty()) throw failures.failure(info, shouldNotContain(actual, values, found, comparisonStrategy));
+    if (!found.isEmpty())
+      throw assertionErrorCreator.assertionError(info, shouldNotContain(actual, values, found, comparisonStrategy));
   }
 
   /**
@@ -724,7 +732,7 @@ public class Iterables {
     assertNotNull(info, actual);
     Iterable<?> duplicates = comparisonStrategy.duplicatesFrom(actual);
     if (!isNullOrEmpty(duplicates))
-      throw failures.failure(info, shouldNotHaveDuplicates(actual, duplicates, comparisonStrategy));
+      throw assertionErrorCreator.assertionError(info, shouldNotHaveDuplicates(actual, duplicates, comparisonStrategy));
   }
 
   /**
@@ -741,7 +749,7 @@ public class Iterables {
    * @throws AssertionError           if the given {@code Iterable} does not start with the given sequence of objects.
    */
   public void assertStartsWith(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, sequence)) return;
+    if (commonCheckThatIterableAssertionSucceeds(info, assertionErrorCreator, actual, sequence)) return;
     int i = 0;
     for (Object actualCurrentElement : actual) {
       if (i >= sequence.length) break;
@@ -755,7 +763,7 @@ public class Iterables {
   }
 
   private AssertionError actualDoesNotStartWithSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    return failures.failure(info, shouldStartWith(actual, sequence, comparisonStrategy));
+    return assertionErrorCreator.assertionError(info, shouldStartWith(actual, sequence, comparisonStrategy));
   }
 
   /**
@@ -805,12 +813,13 @@ public class Iterables {
     }
   }
 
-  private boolean commonCheckThatIterableAssertionSucceeds(AssertionInfo info, Failures failures, Iterable<?> actual,
+  private boolean commonCheckThatIterableAssertionSucceeds(AssertionInfo info, AssertionErrorCreator assertionErrorCreator,
+                                                           Iterable<?> actual,
                                                            Object[] sequence) {
     checkNotNullIterables(info, actual, sequence);
     // if both actual and values are empty, then assertion passes.
     if (!actual.iterator().hasNext() && sequence.length == 0) return true;
-    failIfEmptySinceActualIsNotEmpty(info, failures, actual, sequence);
+    failIfEmptySinceActualIsNotEmpty(info, assertionErrorCreator, actual, sequence);
     return false;
   }
 
@@ -829,7 +838,7 @@ public class Iterables {
    */
   public void assertContainsNull(AssertionInfo info, Iterable<?> actual) {
     assertNotNull(info, actual);
-    if (!iterableContains(actual, null)) throw failures.failure(info, shouldContainNull(actual));
+    if (!iterableContains(actual, null)) throw assertionErrorCreator.assertionError(info, shouldContainNull(actual));
   }
 
   /**
@@ -842,7 +851,7 @@ public class Iterables {
    */
   public void assertDoesNotContainNull(AssertionInfo info, Iterable<?> actual) {
     assertNotNull(info, actual);
-    if (iterableContains(actual, null)) throw failures.failure(info, shouldNotContainNull(actual));
+    if (iterableContains(actual, null)) throw assertionErrorCreator.assertionError(info, shouldNotContainNull(actual));
   }
 
   /**
@@ -862,9 +871,9 @@ public class Iterables {
     try {
       List<T> notSatisfiesCondition = notSatisfyingCondition(actual, condition);
       if (!notSatisfiesCondition.isEmpty())
-        throw failures.failure(info, elementsShouldBe(actual, notSatisfiesCondition, condition));
+        throw assertionErrorCreator.assertionError(info, elementsShouldBe(actual, notSatisfiesCondition, condition));
     } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+      throw assertionErrorCreator.assertionError(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
   }
 
@@ -885,9 +894,9 @@ public class Iterables {
     try {
       List<E> satisfiesCondition = satisfiesCondition(actual, condition);
       if (!satisfiesCondition.isEmpty())
-        throw failures.failure(info, elementsShouldNotBe(actual, satisfiesCondition, condition));
+        throw assertionErrorCreator.assertionError(info, elementsShouldNotBe(actual, satisfiesCondition, condition));
     } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+      throw assertionErrorCreator.assertionError(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
   }
 
@@ -908,9 +917,9 @@ public class Iterables {
     try {
       List<E> notSatisfiesCondition = notSatisfyingCondition(actual, condition);
       if (!notSatisfiesCondition.isEmpty())
-        throw failures.failure(info, elementsShouldHave(actual, notSatisfiesCondition, condition));
+        throw assertionErrorCreator.assertionError(info, elementsShouldHave(actual, notSatisfiesCondition, condition));
     } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+      throw assertionErrorCreator.assertionError(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
   }
 
@@ -931,9 +940,9 @@ public class Iterables {
     try {
       List<E> satisfiesCondition = satisfiesCondition(actual, condition);
       if (!satisfiesCondition.isEmpty())
-        throw failures.failure(info, elementsShouldNotHave(actual, satisfiesCondition, condition));
+        throw assertionErrorCreator.assertionError(info, elementsShouldNotHave(actual, satisfiesCondition, condition));
     } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+      throw assertionErrorCreator.assertionError(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
   }
 
@@ -956,9 +965,9 @@ public class Iterables {
     conditions.assertIsNotNull(condition);
     try {
       if (!conditionIsSatisfiedAtLeastNTimes(actual, times, condition))
-        throw failures.failure(info, elementsShouldBeAtLeast(actual, times, condition));
+        throw assertionErrorCreator.assertionError(info, elementsShouldBeAtLeast(actual, times, condition));
     } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+      throw assertionErrorCreator.assertionError(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
   }
 
@@ -987,9 +996,9 @@ public class Iterables {
     conditions.assertIsNotNull(condition);
     try {
       if (!conditionIsSatisfiedAtMostNTimes(actual, condition, n))
-        throw failures.failure(info, elementsShouldBeAtMost(actual, n, condition));
+        throw assertionErrorCreator.assertionError(info, elementsShouldBeAtMost(actual, n, condition));
     } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+      throw assertionErrorCreator.assertionError(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
   }
 
@@ -1018,9 +1027,9 @@ public class Iterables {
     conditions.assertIsNotNull(condition);
     try {
       if (!conditionIsSatisfiedNTimes(actual, condition, times))
-        throw failures.failure(info, elementsShouldBeExactly(actual, times, condition));
+        throw assertionErrorCreator.assertionError(info, elementsShouldBeExactly(actual, times, condition));
     } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+      throw assertionErrorCreator.assertionError(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
   }
 
@@ -1048,9 +1057,9 @@ public class Iterables {
     conditions.assertIsNotNull(condition);
     try {
       if (!conditionIsSatisfiedAtLeastNTimes(actual, times, condition))
-        throw failures.failure(info, elementsShouldHaveAtLeast(actual, times, condition));
+        throw assertionErrorCreator.assertionError(info, elementsShouldHaveAtLeast(actual, times, condition));
     } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+      throw assertionErrorCreator.assertionError(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
   }
 
@@ -1073,9 +1082,9 @@ public class Iterables {
     conditions.assertIsNotNull(condition);
     try {
       if (!conditionIsSatisfiedAtMostNTimes(actual, condition, times))
-        throw failures.failure(info, elementsShouldHaveAtMost(actual, times, condition));
+        throw assertionErrorCreator.assertionError(info, elementsShouldHaveAtMost(actual, times, condition));
     } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+      throw assertionErrorCreator.assertionError(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
   }
 
@@ -1098,9 +1107,9 @@ public class Iterables {
     conditions.assertIsNotNull(condition);
     try {
       if (!conditionIsSatisfiedNTimes(actual, condition, times))
-        throw failures.failure(info, elementsShouldHaveExactly(actual, times, condition));
+        throw assertionErrorCreator.assertionError(info, elementsShouldHaveExactly(actual, times, condition));
     } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+      throw assertionErrorCreator.assertionError(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
   }
 
@@ -1172,14 +1181,19 @@ public class Iterables {
 
   private AssertionError shouldContainExactlyWithIndexAssertionError(Iterable<?> actual, Object[] values,
                                                                      List<IndexedDiff> indexedDiffs, AssertionInfo info) {
-    return failures.failure(info, shouldContainExactlyWithIndexes(actual, list(values), indexedDiffs, comparisonStrategy), actual,
-                            list(values));
+    return assertionErrorCreator.assertionError(info,
+                                                shouldContainExactlyWithIndexes(actual, list(values), indexedDiffs,
+                                                                                comparisonStrategy),
+                                                actual,
+                                                list(values));
   }
 
   private AssertionError shouldContainExactlyWithDiffAssertionError(IterableDiff<Object> diff, Iterable<?> actual,
                                                                     Object[] values, AssertionInfo info) {
-    return failures.failure(info, shouldContainExactly(actual, list(values), diff.missing, diff.unexpected, comparisonStrategy),
-                            actual, list(values));
+    return assertionErrorCreator.assertionError(info,
+                                                shouldContainExactly(actual, list(values), diff.missing, diff.unexpected,
+                                                                     comparisonStrategy),
+                                                actual, list(values));
   }
 
   /**
@@ -1199,7 +1213,7 @@ public class Iterables {
                                                                          .flatMap(Optional::stream)
                                                                          .collect(toList());
     if (!unsatisfiedRequirements.isEmpty())
-      throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
+      throw assertionErrorCreator.assertionError(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
   }
 
   private static <E> Optional<UnsatisfiedRequirement> failsRequirements(Consumer<? super E> requirements, E element) {
@@ -1232,7 +1246,7 @@ public class Iterables {
       failsRequirements(requirementsAtIndex, elementAtIndex).ifPresent(req -> unsatisfiedRequirements.put(index, req));
     }
     if (!unsatisfiedRequirements.isEmpty())
-      throw failures.failure(info, elementsShouldSatisfyExactly(actual, unsatisfiedRequirements, info));
+      throw assertionErrorCreator.assertionError(info, elementsShouldSatisfyExactly(actual, unsatisfiedRequirements, info));
 
   }
 
@@ -1255,10 +1269,10 @@ public class Iterables {
     Deque<ElementsSatisfyingConsumer<E>> satisfiedElementsPerConsumer = satisfiedElementsPerConsumer(actual, consumers);
     // fail fast check
     boolean someRequirementsAreNotMet = satisfiedElementsPerConsumer.stream().anyMatch(e -> e.getElements().isEmpty());
-    if (someRequirementsAreNotMet) throw failures.failure(info, shouldSatisfyExactlyInAnyOrder(actual));
+    if (someRequirementsAreNotMet) throw assertionErrorCreator.assertionError(info, shouldSatisfyExactlyInAnyOrder(actual));
 
     if (!areAllConsumersSatisfied(satisfiedElementsPerConsumer))
-      throw failures.failure(info, shouldSatisfyExactlyInAnyOrder(actual));
+      throw assertionErrorCreator.assertionError(info, shouldSatisfyExactlyInAnyOrder(actual));
   }
 
   /**
@@ -1277,7 +1291,8 @@ public class Iterables {
     actual.forEach(element -> failsRequirements(requirements, element).ifPresentOrElse(unsatisfiedRequirements::add,
                                                                                        () -> satisfiedElements.add(element)));
     if (satisfiedElements.size() != 1) {
-      throw failures.failure(info, shouldSatisfyOnlyOnce(actual, satisfiedElements, unsatisfiedRequirements, info));
+      throw assertionErrorCreator.assertionError(info, shouldSatisfyOnlyOnce(actual, satisfiedElements, unsatisfiedRequirements,
+                                                                             info));
     }
   }
 
@@ -1335,7 +1350,8 @@ public class Iterables {
                                                                                             zipRequirements))
                                                  .flatMap(Optional::stream)
                                                  .collect(toList());
-    if (!errors.isEmpty()) throw failures.failure(info, zippedElementsShouldSatisfy(info, actual, other, errors));
+    if (!errors.isEmpty())
+      throw assertionErrorCreator.assertionError(info, zippedElementsShouldSatisfy(info, actual, other, errors));
   }
 
   private <ACTUAL_ELEMENT, OTHER_ELEMENT> Optional<ZipSatisfyError> failsZipRequirements(ACTUAL_ELEMENT actualElement,
@@ -1368,7 +1384,7 @@ public class Iterables {
       unsatisfiedRequirements.add(result.get());
     }
 
-    throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements, info));
+    throw assertionErrorCreator.assertionError(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements, info));
   }
 
   /**
@@ -1388,9 +1404,10 @@ public class Iterables {
     List<? extends E> nonMatches = stream(actual).filter(predicate.negate()).collect(toList());
 
     if (!nonMatches.isEmpty()) {
-      throw failures.failure(info, elementsShouldMatch(actual,
-                                                       nonMatches.size() == 1 ? nonMatches.get(0) : nonMatches,
-                                                       predicateDescription));
+      throw assertionErrorCreator.assertionError(info, elementsShouldMatch(actual,
+                                                                           nonMatches.size() == 1 ? nonMatches.get(0)
+                                                                               : nonMatches,
+                                                                           predicateDescription));
     }
   }
 
@@ -1408,7 +1425,8 @@ public class Iterables {
     List<E> erroneousElements = stream(actual).map(element -> failsRestrictions(element, restrictions))
                                               .flatMap(Optional::stream)
                                               .collect(toList());
-    if (!erroneousElements.isEmpty()) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousElements));
+    if (!erroneousElements.isEmpty())
+      throw assertionErrorCreator.assertionError(info, noElementsShouldSatisfy(actual, erroneousElements));
   }
 
   private <E> Optional<E> failsRestrictions(E element, Consumer<? super E> restrictions) {
@@ -1436,7 +1454,7 @@ public class Iterables {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
     if (stream(actual).noneMatch(predicate)) {
-      throw failures.failure(info, anyElementShouldMatch(actual, predicateDescription));
+      throw assertionErrorCreator.assertionError(info, anyElementShouldMatch(actual, predicateDescription));
     }
   }
 
@@ -1456,7 +1474,7 @@ public class Iterables {
     stream(actual).filter(predicate)
                   .findFirst()
                   .ifPresent(e -> {
-                    throw failures.failure(info, noElementsShouldMatch(actual, e, predicateDescription));
+                    throw assertionErrorCreator.assertionError(info, noElementsShouldMatch(actual, e, predicateDescription));
                   });
   }
 
@@ -1472,14 +1490,14 @@ public class Iterables {
    * @throws AssertionError           if the given {@code Iterable} does not contain any of given {@code values}.
    */
   public void assertContainsAnyOf(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, values))
+    if (commonCheckThatIterableAssertionSucceeds(info, assertionErrorCreator, actual, values))
       return;
 
     Iterable<Object> valuesToSearchFor = newArrayList(values);
     for (Object element : actual) {
       if (iterableContains(valuesToSearchFor, element)) return;
     }
-    throw failures.failure(info, shouldContainAnyOf(actual, values, comparisonStrategy));
+    throw assertionErrorCreator.assertionError(info, shouldContainAnyOf(actual, values, comparisonStrategy));
   }
 
   /**
@@ -1504,8 +1522,9 @@ public class Iterables {
 
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
 
-    throw failures.failure(info,
-                           shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
+    throw assertionErrorCreator.assertionError(info,
+                                               shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected,
+                                                                              comparisonStrategy));
   }
 
   void assertNotNull(AssertionInfo info, Iterable<?> actual) {
@@ -1513,7 +1532,7 @@ public class Iterables {
   }
 
   private AssertionError actualDoesNotEndWithSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    return failures.failure(info, shouldEndWith(actual, sequence, comparisonStrategy));
+    return assertionErrorCreator.assertionError(info, shouldEndWith(actual, sequence, comparisonStrategy));
   }
 
   private <E> List<E> notSatisfyingCondition(Iterable<? extends E> actual, Condition<? super E> condition) {

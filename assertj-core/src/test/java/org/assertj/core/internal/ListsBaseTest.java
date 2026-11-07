@@ -19,6 +19,7 @@ import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -26,7 +27,7 @@ import org.junit.jupiter.api.BeforeEach;
  * Base class for testing <code>{@link Lists}</code>, set up an instance with {@link StandardComparisonStrategy} and another with
  * {@link ComparatorBasedComparisonStrategy}.
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Lists#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Lists#assertionErrorCreator} appropriately.
  *
  * @author Joel Costigliola
  *
@@ -36,17 +37,17 @@ public class ListsBaseTest {
   protected ComparatorBasedComparisonStrategy comparisonStrategy;
   protected Lists listsWithCaseInsensitiveComparisonStrategy;
 
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Lists lists;
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     lists = new Lists();
-    lists.failures = failures;
+    lists.assertionErrorCreator = assertionErrorCreator;
     comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
     listsWithCaseInsensitiveComparisonStrategy = new Lists(comparisonStrategy);
-    listsWithCaseInsensitiveComparisonStrategy.failures = failures;
+    listsWithCaseInsensitiveComparisonStrategy.assertionErrorCreator = assertionErrorCreator;
   }
 
 }

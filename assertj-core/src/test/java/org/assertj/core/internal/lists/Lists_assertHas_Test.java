@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldHaveAtIndex.shouldHaveAtIndex;
 import static org.assertj.core.testkit.TestData.someIndex;
@@ -27,7 +28,6 @@ import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
@@ -97,7 +97,7 @@ class Lists_assertHas_Test extends ListsBaseTest {
     Throwable error = catchThrowable(() -> lists.assertHas(info, actual, condition, index));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveAtIndex(actual, condition, index, "Luke"));
+    then(error).hasMessage(shouldHaveAtIndex(actual, condition, index, "Luke").create());
   }
 
   @Test

@@ -22,6 +22,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -29,7 +30,7 @@ import org.junit.jupiter.api.BeforeEach;
  * Base class for testing <code>{@link FloatArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and another
  * with {@link ComparatorBasedComparisonStrategy}.
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link FloatArrays#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link FloatArrays#assertionErrorCreator} appropriately.
  * 
  * @author Joel Costigliola
  */
@@ -39,7 +40,7 @@ public class FloatArraysBaseTest {
    * is initialized with {@link #initActualArray()} with default value = {6.0f, 8.0f, 10.0f}
    */
   protected float[] actual;
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected FloatArrays arrays;
 
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
@@ -49,12 +50,12 @@ public class FloatArraysBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     arrays = new FloatArrays();
-    arrays.failures = failures;
+    arrays.assertionErrorCreator = assertionErrorCreator;
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
     arraysWithCustomComparisonStrategy = new FloatArrays(absValueComparisonStrategy);
-    arraysWithCustomComparisonStrategy.failures = failures;
+    arraysWithCustomComparisonStrategy.assertionErrorCreator = assertionErrorCreator;
     initActualArray();
   }
 

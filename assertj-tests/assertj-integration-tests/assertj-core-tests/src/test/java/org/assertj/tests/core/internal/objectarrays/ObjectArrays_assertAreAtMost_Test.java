@@ -16,11 +16,17 @@
 package org.assertj.tests.core.internal.objectarrays;
 
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ElementsShouldBeAtMost.elementsShouldBeAtMost;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Condition;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.JediCondition;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,7 +34,11 @@ import org.junit.jupiter.api.Test;
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  */
-class ObjectArrays_assertAreAtMost_Test extends ObjectArraysWithConditionBaseTest {
+class ObjectArrays_assertAreAtMost_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final Condition<String> jedi = new JediCondition();
 
   @Test
   void should_pass_if_satisfies_at_least_times_condition() {
@@ -51,9 +61,9 @@ class ObjectArrays_assertAreAtMost_Test extends ObjectArraysWithConditionBaseTes
     // GIVEN
     var actual = array("Yoda", "Luke", "Obiwan");
     // WHEN
-    expectAssertionError(() -> arrays.assertAreAtMost(INFO, actual, 2, jedi));
+    var error = expectAssertionError(() -> arrays.assertAreAtMost(INFO, actual, 2, jedi));
     // THEN
-    verify(failures).failure(INFO, elementsShouldBeAtMost(actual, 2, jedi));
+    then(error).hasMessage(elementsShouldBeAtMost(actual, 2, jedi).create());
   }
 
 }

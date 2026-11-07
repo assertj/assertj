@@ -15,10 +15,9 @@
  */
 package org.assertj.core.internal.chararrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
@@ -26,9 +25,9 @@ import static org.assertj.core.testkit.CharArrays.arrayOf;
 import static org.assertj.core.testkit.CharArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.asList;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.CharArrays;
@@ -55,10 +54,10 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
     AssertionInfo info = someInfo();
     char[] expected = arrayOf('a', 'c', 'b');
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex('b', 'c', 1), asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(elementsDifferAtIndex('b', 'c', 1).create());
   }
 
   @Test
@@ -90,12 +89,11 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
     AssertionInfo info = someInfo();
     char[] expected = { 'a', 'b', 'e' };
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList('e'), newArrayList('c')),
-                             asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected),
+                                                newArrayList('e'), newArrayList('c')).create());
   }
 
   @Test
@@ -103,12 +101,11 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
     AssertionInfo info = someInfo();
     char[] expected = { 'a', 'b', 'c', 'c' };
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList('c'), newArrayList()),
-                             asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected),
+                                                newArrayList('c'), newArrayList()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -125,12 +122,10 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
     AssertionInfo info = someInfo();
     char[] expected = { 'A', 'c', 'b' };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual,
-                                                                                                    expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex('b', 'c', 1, caseInsensitiveComparisonStrategy), asList(actual),
-                             asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(elementsDifferAtIndex('b', 'c', 1, caseInsensitiveComparisonStrategy).create());
   }
 
   @Test
@@ -161,13 +156,12 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
     AssertionInfo info = someInfo();
     char[] expected = { 'a', 'B', 'e' };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactly(actual, asList(expected), newArrayList('e'), newArrayList('c'),
-                                                  caseInsensitiveComparisonStrategy),
-                             asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected), newArrayList('e'),
+                                                newArrayList('c'),
+                                                caseInsensitiveComparisonStrategy).create());
   }
 
   @Test
@@ -175,13 +169,12 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
     AssertionInfo info = someInfo();
     char[] expected = { 'a', 'b', 'C', 'c' };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList('c'), newArrayList(),
-                                                        caseInsensitiveComparisonStrategy),
-                             asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected),
+                                                newArrayList('c'), newArrayList(),
+                                                caseInsensitiveComparisonStrategy).create());
   }
 
 }

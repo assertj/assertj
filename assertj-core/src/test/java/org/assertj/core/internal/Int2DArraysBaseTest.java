@@ -19,12 +19,13 @@ import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.mock;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for testing <code>{@link Int2DArrays}</code>.
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Int2DArrays#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Int2DArrays#assertionErrorCreator} appropriately.
  *
  * @author Maciej Wajcht
  */
@@ -34,16 +35,16 @@ public class Int2DArraysBaseTest {
    * is initialized with {@link #initActualArray()} with default value = {{0, 2, 4}, {6, 8, 10}}
    */
   protected int[][] actual;
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Int2DArrays int2DArrays;
   protected Arrays2D arrays2d;
   protected AssertionInfo info = someInfo();
 
   @BeforeEach
   public void setUp() {
-    failures = Failures.instance();
+    assertionErrorCreator = AssertionErrorCreator.instance();
     int2DArrays = new Int2DArrays();
-    int2DArrays.failures = failures;
+    int2DArrays.assertionErrorCreator = assertionErrorCreator;
     arrays2d = mock(Arrays2D.class);
     int2DArrays.setArrays(arrays2d);
     initActualArray();

@@ -18,14 +18,13 @@ package org.assertj.core.internal.bigintegers;
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
 import static java.math.BigInteger.ZERO;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.math.BigInteger;
 
@@ -74,22 +73,20 @@ class BigIntegers_assertIsBetween_Test extends BigIntegersBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_not_in_range_start() {
+  void should_fail_if_actual_is_not_in_range_start() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbers.assertIsBetween(info, ONE, new BigInteger("2"), TEN));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBetween(ONE, new BigInteger("2"), TEN, true, true));
+    // WHEN
+    var error = expectAssertionError(() -> numbers.assertIsBetween(info, ONE, new BigInteger("2"), TEN));
+    // THEN
+    then(error).hasMessage(shouldBeBetween(ONE, new BigInteger("2"), TEN, true, true).create());
   }
 
   @Test
-  void should_fail_if_actual_is_not_in_range_end() {
+  void should_fail_if_actual_is_not_in_range_end() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbers.assertIsBetween(info, ONE, ZERO, ZERO));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ZERO, true, true));
+    // WHEN
+    var error = expectAssertionError(() -> numbers.assertIsBetween(info, ONE, ZERO, ZERO));
+    // THEN
+    then(error).hasMessage(shouldBeBetween(ONE, ZERO, ZERO, true, true).create());
   }
 }

@@ -20,34 +20,39 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Throwables;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Phillip Webb
  */
-class Throwables_assertHasMessageNotContainingAny_Test extends ThrowablesBaseTest {
+class Throwables_assertHasMessageNotContainingAny_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final Throwable actual = new NullPointerException("Throwable message");
 
   @Test
   void should_pass_if_actual_has_a_message_not_containing_the_given_string() {
-    throwables.assertHasMessageNotContainingAny(INFO, actual, "catchable");
+    Throwables.instance().assertHasMessageNotContainingAny(INFO, actual, "catchable");
   }
 
   @Test
   void should_pass_if_actual_has_a_message_not_containing_any_of_the_given_strings() {
-    throwables.assertHasMessageNotContainingAny(INFO, actual, "catchable", "foo");
+    Throwables.instance().assertHasMessageNotContainingAny(INFO, actual, "catchable", "foo");
   }
 
   @Test
   void should_pass_if_actual_has_no_message() {
-    throwables.assertHasMessageNotContainingAny(INFO, new NullPointerException(), "some description");
+    Throwables.instance().assertHasMessageNotContainingAny(INFO, new NullPointerException(), "some description");
   }
 
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    var error = expectAssertionError(() -> throwables.assertHasMessageNotContainingAny(INFO, null, "foo"));
+    var error = expectAssertionError(() -> Throwables.instance().assertHasMessageNotContainingAny(INFO, null, "foo"));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -57,9 +62,9 @@ class Throwables_assertHasMessageNotContainingAny_Test extends ThrowablesBaseTes
     // GIVEN
     String content = "message";
     // WHEN
-    expectAssertionError(() -> throwables.assertHasMessageNotContainingAny(INFO, actual, content));
+    var error = expectAssertionError(() -> Throwables.instance().assertHasMessageNotContainingAny(INFO, actual, content));
     // THEN
-    verify(failures).failure(INFO, shouldNotContain(actual, content), actual.getMessage(), content);
+    then(error).hasMessage(shouldNotContain(actual, content).create());
   }
 
   @Test
@@ -67,8 +72,8 @@ class Throwables_assertHasMessageNotContainingAny_Test extends ThrowablesBaseTes
     // GIVEN
     String[] content = { "catchable", "message" };
     // WHEN
-    expectAssertionError(() -> throwables.assertHasMessageNotContainingAny(INFO, actual, content));
+    var error = expectAssertionError(() -> Throwables.instance().assertHasMessageNotContainingAny(INFO, actual, content));
     // THEN
-    verify(failures).failure(INFO, shouldNotContain(actual, content, singleton("message")), actual.getMessage(), content);
+    then(error).hasMessage(shouldNotContain(actual, content, singleton("message")).create());
   }
 }

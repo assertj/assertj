@@ -44,7 +44,7 @@ class ObjectArrays_assertContains_Test extends ObjectArraysBaseTest {
     // WHEN
     arrays.assertContains(INFO, actual, array("Luke", "Yoda", "Leia"));
     // THEN
-    verify(internalArrays).assertContains(INFO, failures, actual, array("Luke", "Yoda", "Leia"));
+    verify(internalArrays).assertContains(INFO, assertionErrorCreator, actual, array("Luke", "Yoda", "Leia"));
   }
 
 }

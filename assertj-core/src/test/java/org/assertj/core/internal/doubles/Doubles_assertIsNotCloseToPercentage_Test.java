@@ -19,17 +19,16 @@ import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.abs;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.withinPercentage;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldNotBeEqualWithinPercentage.shouldNotBeEqualWithinPercentage;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DoublesBaseTest;
@@ -89,27 +88,25 @@ class Doubles_assertIsNotCloseToPercentage_Test extends DoublesBaseTest {
       "-2, -1, 100",
       "-1, -2, 50"
   })
-  void should_fail_if_difference_is_equal_to_given_percentage(Double actual, Double other, Double percentage) {
+  void should_fail_if_difference_is_equal_to_given_percentage(Double actual, Double other, Double percentage) {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> doubles.assertIsNotCloseToPercentage(someInfo(), actual, other,
+    // WHEN
+    var error = expectAssertionError(() -> doubles.assertIsNotCloseToPercentage(someInfo(), actual, other,
                                                                                 withPercentage(percentage)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqualWithinPercentage(actual, other, withPercentage(percentage),
-                                                                    abs(actual - other)));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqualWithinPercentage(actual, other, withPercentage(percentage),
+                                                            abs(actual - other)).create());
   }
 
   @Test
-  void should_fail_if_actual_is_too_close_to_expected_value() {
+  void should_fail_if_actual_is_too_close_to_expected_value() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> doubles.assertIsNotCloseToPercentage(someInfo(), ONE, TEN,
+    // WHEN
+    var error = expectAssertionError(() -> doubles.assertIsNotCloseToPercentage(someInfo(), ONE, TEN,
                                                                                 withPercentage(ONE_HUNDRED)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqualWithinPercentage(ONE, TEN, withinPercentage(100),
-                                                                    TEN - ONE));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqualWithinPercentage(ONE, TEN, withinPercentage(100),
+                                                            TEN - ONE).create());
   }
 
   @Test

@@ -15,12 +15,12 @@
  */
 package org.assertj.tests.core.internal.arrays2d;
 
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Arrays2D;
-import org.assertj.core.internal.Failures;
 
 class Arrays2D_BaseTest {
 
   Arrays2D arrays = Arrays2D.instance();
-  Failures failures = Failures.instance();
+  AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
 }

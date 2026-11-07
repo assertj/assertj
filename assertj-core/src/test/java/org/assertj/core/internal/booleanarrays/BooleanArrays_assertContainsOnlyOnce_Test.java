@@ -15,18 +15,17 @@
  */
 package org.assertj.core.internal.booleanarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.BooleanArrays.arrayOf;
 import static org.assertj.core.testkit.BooleanArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BooleanArrays;
@@ -55,12 +54,10 @@ class BooleanArrays_assertContainsOnlyOnce_Test extends BooleanArraysBaseTest {
     AssertionInfo info = someInfo();
     actual = arrayOf(true, true, false, false);
     boolean[] expected = { true, false };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(), newLinkedHashSet(true, false)));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(), newLinkedHashSet(true, false)).create());
   }
 
   @Test
@@ -99,12 +96,10 @@ class BooleanArrays_assertContainsOnlyOnce_Test extends BooleanArraysBaseTest {
     AssertionInfo info = someInfo();
     actual = arrayOf(true);
     boolean[] expected = { true, false };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(false), newLinkedHashSet()));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(false), newLinkedHashSet()).create());
   }
 
 }

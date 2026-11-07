@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.floats;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Floats;
@@ -53,13 +52,12 @@ class Floats_assertLessThanOrEqualTo_Test extends FloatsBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_greater_than_other() {
+  void should_fail_if_actual_is_greater_than_other() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> floats.assertLessThanOrEqualTo(info, 8f, 6f));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLessOrEqual(8f, 6f));
+    // WHEN
+    var error = expectAssertionError(() -> floats.assertLessThanOrEqualTo(info, 8f, 6f));
+    // THEN
+    then(error).hasMessage(shouldBeLessOrEqual(8f, 6f).create());
   }
 
   @Test
@@ -81,12 +79,11 @@ class Floats_assertLessThanOrEqualTo_Test extends FloatsBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> floatsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, -8f, 6f));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLessOrEqual(-8f, 6f, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, -8f, 6f));
+    // THEN
+    then(error).hasMessage(shouldBeLessOrEqual(-8f, 6f, absValueComparisonStrategy).create());
   }
 }

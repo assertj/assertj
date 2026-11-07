@@ -38,7 +38,7 @@ class Char2DArrays_assertContains_at_Index_Test extends Char2DArraysBaseTest {
     // WHEN
     char2DArrays.assertContains(info, actual, chars, atIndex(1));
     // THEN
-    verify(arrays2d).assertContains(info, failures, actual, chars, atIndex(1));
+    verify(arrays2d).assertContains(info, assertionErrorCreator, actual, chars, atIndex(1));
   }
 
 }

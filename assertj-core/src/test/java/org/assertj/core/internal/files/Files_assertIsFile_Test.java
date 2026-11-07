@@ -20,7 +20,6 @@ import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
@@ -52,9 +51,9 @@ class Files_assertIsFile_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsFile(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsFile(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldBeFile(actual));
+    then(error).hasMessage(shouldBeFile(actual).create());
   }
 
   @Test

@@ -19,7 +19,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
@@ -50,9 +49,9 @@ class Files_assertHasNoParent_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("x/y/z");
     // WHEN
-    expectAssertionError(() -> underTest.assertHasNoParent(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertHasNoParent(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldHaveNoParent(actual));
+    then(error).hasMessage(shouldHaveNoParent(actual).create());
   }
 
   @Test

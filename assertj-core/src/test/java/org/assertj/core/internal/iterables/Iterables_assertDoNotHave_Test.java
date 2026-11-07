@@ -15,11 +15,11 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ElementsShouldNotHave.elementsShouldNotHave;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
@@ -59,11 +59,9 @@ class Iterables_assertDoNotHave_Test extends IterablesWithConditionsBaseTest {
     AssertionInfo info = someInfo();
     actual = newArrayList("Solo", "Leia", "Yoda");
 
-    Throwable error = catchThrowable(() -> iterables.assertDoNotHave(someInfo(), actual, jediPower));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    var error = expectAssertionError(() -> iterables.assertDoNotHave(someInfo(), actual, jediPower));
     verify(conditions).assertIsNotNull(jediPower);
-    verify(failures).failure(info, elementsShouldNotHave(actual, newArrayList("Yoda"), jediPower));
+    then(error).hasMessage(elementsShouldNotHave(actual, newArrayList("Yoda"), jediPower).create());
   }
 
 }

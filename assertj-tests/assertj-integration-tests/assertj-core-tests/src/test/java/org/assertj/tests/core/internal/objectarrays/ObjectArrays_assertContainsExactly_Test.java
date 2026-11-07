@@ -26,11 +26,22 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
-class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertContainsExactly_Test {
+
+  private final String[] actual = array("Luke", "Yoda", "Leia");
+  protected static final AssertionInfo INFO = TestData.someInfo();
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final ObjectArrays arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
 
   @Test
   void should_pass_if_actual_contains_exactly_given_values() {
@@ -81,10 +92,9 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] expected = { "Luke", "Yoda", "Han" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsExactly(INFO, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO, shouldContainExactly(actual, asList(expected), list("Han"), list("Leia")), asList(actual),
-                             asList(expected));
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected), list("Han"), list("Leia")).create());
   }
 
   @Test
@@ -92,9 +102,9 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] expected = { "Luke", "Leia", "Yoda" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsExactly(INFO, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO, elementsDifferAtIndex("Yoda", "Leia", 1), asList(actual), asList(expected));
+    then(error).hasMessage(elementsDifferAtIndex("Yoda", "Leia", 1).create());
   }
 
   @Test
@@ -103,10 +113,9 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
     var actual = array("Luke", "Leia", "Luke");
     Object[] expected = { "Luke", "Leia" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsExactly(INFO, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO, shouldContainExactly(actual, asList(expected), list(), list("Luke")), asList(actual),
-                             asList(expected));
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected), list(), list("Luke")).create());
   }
 
   @Test
@@ -120,10 +129,9 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
     }
     expected[actual.length] = "extra";
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsExactly(INFO, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO, shouldContainExactly(actual, asList(expected), list("extra"), list()), asList(actual),
-                             asList(expected));
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected), list("extra"), list()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -141,12 +149,10 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] expected = { "Luke", "Yoda", "Han" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(INFO, actual, expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldContainExactly(actual, asList(expected), list("Han"), list("Leia"),
-                                                  caseInsensitiveStringComparisonStrategy),
-                             asList(actual), asList(expected));
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected), list("Han"), list("Leia"),
+                                                caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test
@@ -154,10 +160,9 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] expected = { "Luke", "Leia", "Yoda" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(INFO, actual, expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO, elementsDifferAtIndex("Yoda", "Leia", 1, caseInsensitiveStringComparisonStrategy),
-                             asList(actual), asList(expected));
+    then(error).hasMessage(elementsDifferAtIndex("Yoda", "Leia", 1, caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test
@@ -166,12 +171,10 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
     var actual = array("Luke", "Leia", "Luke");
     Object[] expected = { "Luke", "Leia" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(INFO, actual, expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldContainExactly(actual, asList(expected), list(), list("Luke"),
-                                                  caseInsensitiveStringComparisonStrategy),
-                             asList(actual), asList(expected));
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected), list(), list("Luke"),
+                                                caseInsensitiveStringComparisonStrategy).create());
   }
 
 }

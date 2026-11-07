@@ -28,12 +28,12 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Arrays2D;
-import org.assertj.core.internal.Failures;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Arrays2D#assertContains(AssertionInfo, Failures, Object, Object, Index)}</code>.
+ * Tests for <code>{@link Arrays2D#assertContains(AssertionInfo, AssertionErrorCreator, Object, Object, Index)}</code>.
  *
  * @author Maciej Wajcht
  */
@@ -47,7 +47,7 @@ class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
     int[][] actual = null;
     int[] expectedElement = new int[] { 0, 2, 4 };
     // WHEN
-    var assertionError = expectAssertionError(() -> arrays.assertContains(someInfo(), failures, actual,
+    var assertionError = expectAssertionError(() -> arrays.assertContains(someInfo(), assertionErrorCreator, actual,
                                                                           expectedElement, someIndex()));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
@@ -59,7 +59,7 @@ class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
     int[][] actual = {};
     int[] expectedElement = new int[] { 0, 2, 4 };
     // WHEN
-    var assertionError = expectAssertionError(() -> arrays.assertContains(someInfo(), failures, actual,
+    var assertionError = expectAssertionError(() -> arrays.assertContains(someInfo(), assertionErrorCreator, actual,
                                                                           expectedElement, someIndex()));
     // THEN
     then(assertionError).hasMessage(shouldNotBeEmpty().create());
@@ -70,7 +70,8 @@ class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
     // GIVEN
     Index nullIndex = null;
     // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> arrays.assertContains(someInfo(), failures, actual, new int[] { 0, 2, 4 },
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContains(someInfo(), assertionErrorCreator, actual,
+                                                                            new int[] { 0, 2, 4 },
                                                                             nullIndex))
                                     .withMessage("Index should not be null");
   }
@@ -80,7 +81,8 @@ class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
     // GIVEN
     Index outOfBoundsIndex = atIndex(6);
     // WHEN/THEN
-    assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> arrays.assertContains(someInfo(), failures,
+    assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> arrays.assertContains(someInfo(),
+                                                                                                      assertionErrorCreator,
                                                                                                       actual,
                                                                                                       new int[] { 0, 2, 4 },
                                                                                                       outOfBoundsIndex))
@@ -92,7 +94,7 @@ class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
     // GIVEN
     Index index = atIndex(1);
     // WHEN
-    var assertionError = expectAssertionError(() -> arrays.assertContains(someInfo(), failures, actual,
+    var assertionError = expectAssertionError(() -> arrays.assertContains(someInfo(), assertionErrorCreator, actual,
                                                                           new int[] { 0, 2, 4 }, index));
     // THEN
     then(assertionError).hasMessage(shouldContainAtIndex(actual, new int[] { 0, 2, 4 }, index, new int[] { 6, 8, 10 }).create());
@@ -100,6 +102,6 @@ class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
 
   @Test
   void should_pass_if_actual_contains_value_at_index() {
-    arrays.assertContains(someInfo(), failures, actual, new int[] { 6, 8, 10 }, atIndex(1));
+    arrays.assertContains(someInfo(), assertionErrorCreator, actual, new int[] { 6, 8, 10 }, atIndex(1));
   }
 }

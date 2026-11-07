@@ -20,13 +20,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.testkit.TestData.someIndex;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
@@ -82,7 +82,7 @@ class Lists_assertDoesNotContain_Test extends ListsBaseTest {
     Throwable error = catchThrowable(() -> lists.assertDoesNotContain(info, actual, "Yoda", index));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContainAtIndex(actual, "Yoda", index));
+    then(error).hasMessage(shouldNotContainAtIndex(actual, "Yoda", index).create());
   }
 
   @Test
@@ -99,6 +99,6 @@ class Lists_assertDoesNotContain_Test extends ListsBaseTest {
                                                                                                            index));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContainAtIndex(actual, "YODA", index, comparisonStrategy));
+    then(error).hasMessage(shouldNotContainAtIndex(actual, "YODA", index, comparisonStrategy).create());
   }
 }

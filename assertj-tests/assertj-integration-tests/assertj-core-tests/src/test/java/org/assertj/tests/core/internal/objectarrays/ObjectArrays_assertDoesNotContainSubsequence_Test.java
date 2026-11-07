@@ -24,26 +24,31 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Marcin Mikosik
  */
-class ObjectArrays_assertDoesNotContainSubsequence_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertDoesNotContainSubsequence_Test {
 
-  @Override
-  protected void initActualArray() {
-    actual = array("Yoda", "Luke", "Leia", "Obi-Wan");
-  }
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final String[] actual = array("Yoda", "Luke", "Leia", "Obi-Wan");
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final ObjectArrays arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
 
   private void expectFailure(ObjectArrays arrays, Object[] actual, Object[] subsequence, int index) {
     // WHEN
-    expectAssertionError(() -> arrays.assertDoesNotContainSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> arrays.assertDoesNotContainSubsequence(INFO, actual, subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldNotContainSubsequence(actual, subsequence, arrays.getComparisonStrategy(), index));
+    then(error).hasMessage(shouldNotContainSubsequence(actual, subsequence, arrays.getComparisonStrategy(), index).create());
   }
 
   @Test

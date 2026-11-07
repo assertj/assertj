@@ -16,6 +16,7 @@
 package org.assertj.core.internal.maps;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.condition.Not.not;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
@@ -24,7 +25,6 @@ import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -82,9 +82,9 @@ class Maps_assertHasEntrySatisfying_with_key_and_condition_Test extends MapsBase
     // GIVEN
     String key = "id";
     // WHEN
-    expectAssertionError(() -> maps.assertHasEntrySatisfying(INFO, actual, key, isDigits));
+    var error = expectAssertionError(() -> maps.assertHasEntrySatisfying(INFO, actual, key, isDigits));
     // THEN
-    verify(failures).failure(INFO, shouldContainKeys(actual, newLinkedHashSet(key)));
+    then(error).hasMessage(shouldContainKeys(actual, newLinkedHashSet(key)).create());
   }
 
   @Test
@@ -92,9 +92,9 @@ class Maps_assertHasEntrySatisfying_with_key_and_condition_Test extends MapsBase
     // GIVEN
     String key = "name";
     // WHEN
-    expectAssertionError(() -> maps.assertHasEntrySatisfying(INFO, actual, key, isDigits));
+    var error = expectAssertionError(() -> maps.assertHasEntrySatisfying(INFO, actual, key, isDigits));
     // THEN
-    verify(failures).failure(INFO, elementsShouldBe(actual, actual.get(key), isDigits));
+    then(error).hasMessage(elementsShouldBe(actual, actual.get(key), isDigits).create());
   }
 
   @Test
@@ -102,9 +102,9 @@ class Maps_assertHasEntrySatisfying_with_key_and_condition_Test extends MapsBase
     // GIVEN
     String key = null;
     // WHEN
-    expectAssertionError(() -> maps.assertHasEntrySatisfying(INFO, actual, key, nonNull));
+    var error = expectAssertionError(() -> maps.assertHasEntrySatisfying(INFO, actual, key, nonNull));
     // THEN
-    verify(failures).failure(INFO, elementsShouldBe(actual, actual.get(key), nonNull));
+    then(error).hasMessage(elementsShouldBe(actual, actual.get(key), nonNull).create());
   }
 
   @Test

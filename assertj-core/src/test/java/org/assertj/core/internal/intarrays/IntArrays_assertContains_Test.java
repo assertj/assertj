@@ -48,7 +48,7 @@ class IntArrays_assertContains_Test extends IntArraysBaseTest {
   @Test
   void should_delegate_to_internal_Arrays() {
     arrays.assertContains(someInfo(), actual, arrayOf(1, 2, 3));
-    verify(internalArrays).assertContains(someInfo(), failures, actual, arrayOf(1, 2, 3));
+    verify(internalArrays).assertContains(someInfo(), assertionErrorCreator, actual, arrayOf(1, 2, 3));
   }
 
 }

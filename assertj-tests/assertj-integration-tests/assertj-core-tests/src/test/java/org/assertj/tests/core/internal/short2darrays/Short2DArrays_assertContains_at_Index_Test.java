@@ -32,6 +32,6 @@ class Short2DArrays_assertContains_at_Index_Test extends Short2DArraysBaseTest {
     // WHEN
     short2DArrays.assertContains(info, actual, shorts, atIndex(1));
     // THEN
-    verify(arrays2d).assertContains(info, failures, actual, shorts, atIndex(1));
+    verify(arrays2d).assertContains(info, assertionErrorCreator, actual, shorts, atIndex(1));
   }
 }

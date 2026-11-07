@@ -15,11 +15,10 @@
  */
 package org.assertj.core.internal.objects;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Objects;
@@ -42,10 +41,8 @@ class Objects_assertNotEqual_Test extends ObjectsBaseTest {
   void should_fail_if_objects_are_equal() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> objects.assertNotEqual(info, "Yoda", "Yoda"));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual("Yoda", "Yoda"));
+    var error = expectAssertionError(() -> objects.assertNotEqual(info, "Yoda", "Yoda"));
+    then(error).hasMessage(shouldNotBeEqual("Yoda", "Yoda").create());
   }
 
   @Test
@@ -57,9 +54,7 @@ class Objects_assertNotEqual_Test extends ObjectsBaseTest {
   void should_fail_if_objects_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> objectsWithCustomComparisonStrategy.assertNotEqual(info, "YoDA", "Yoda"));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual("YoDA", "Yoda", customComparisonStrategy));
+    var error = expectAssertionError(() -> objectsWithCustomComparisonStrategy.assertNotEqual(info, "YoDA", "Yoda"));
+    then(error).hasMessage(shouldNotBeEqual("YoDA", "Yoda", customComparisonStrategy).create());
   }
 }

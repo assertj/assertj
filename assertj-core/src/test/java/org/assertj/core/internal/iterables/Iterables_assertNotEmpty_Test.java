@@ -16,14 +16,13 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 
@@ -55,10 +54,8 @@ class Iterables_assertNotEmpty_Test extends IterablesBaseTest {
   void should_fail_if_actual_is_empty() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> iterables.assertNotEmpty(info, emptyList()));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEmpty());
+    var error = expectAssertionError(() -> iterables.assertNotEmpty(info, emptyList()));
+    then(error).hasMessage(shouldNotBeEmpty().create());
   }
 
   @Test
@@ -77,9 +74,7 @@ class Iterables_assertNotEmpty_Test extends IterablesBaseTest {
   void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertNotEmpty(info, emptyList()));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEmpty());
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertNotEmpty(info, emptyList()));
+    then(error).hasMessage(shouldNotBeEmpty().create());
   }
 }

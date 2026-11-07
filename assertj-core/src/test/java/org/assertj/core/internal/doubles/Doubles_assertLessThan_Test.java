@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.doubles;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Doubles;
@@ -48,23 +47,21 @@ class Doubles_assertLessThan_Test extends DoublesBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_equal_to_other() {
+  void should_fail_if_actual_is_equal_to_other() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> doubles.assertLessThan(info, 6d, 6d));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLess(6d, 6d));
+    // WHEN
+    var error = expectAssertionError(() -> doubles.assertLessThan(info, 6d, 6d));
+    // THEN
+    then(error).hasMessage(shouldBeLess(6d, 6d).create());
   }
 
   @Test
-  void should_fail_if_actual_is_greater_than_other() {
+  void should_fail_if_actual_is_greater_than_other() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> doubles.assertLessThan(info, 8d, 6d));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLess(8d, 6d));
+    // WHEN
+    var error = expectAssertionError(() -> doubles.assertLessThan(info, 8d, 6d));
+    // THEN
+    then(error).hasMessage(shouldBeLess(8d, 6d).create());
   }
 
   @Test
@@ -81,22 +78,20 @@ class Doubles_assertLessThan_Test extends DoublesBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> doublesWithAbsValueComparisonStrategy.assertLessThan(info, 6d, -6d));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLess(6d, -6d, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertLessThan(info, 6d, -6d));
+    // THEN
+    then(error).hasMessage(shouldBeLess(6d, -6d, absValueComparisonStrategy).create());
   }
 
   @Test
-  void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> doublesWithAbsValueComparisonStrategy.assertLessThan(info, -8d, 6d));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLess(-8d, 6d, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertLessThan(info, -8d, 6d));
+    // THEN
+    then(error).hasMessage(shouldBeLess(-8d, 6d, absValueComparisonStrategy).create());
   }
 }

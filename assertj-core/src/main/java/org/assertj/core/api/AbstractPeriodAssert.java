@@ -23,7 +23,7 @@ import static org.assertj.core.error.ShouldHavePeriod.shouldHaveYears;
 
 import java.time.Period;
 
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Assertions for {@link Period} type.
@@ -66,7 +66,8 @@ public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SEL
       isNotNull();
       int actualYears = actual.getYears();
       if (expectedYears != actualYears) {
-        throw Failures.instance().failure(info, shouldHaveYears(actual, actualYears, expectedYears), actualYears, expectedYears);
+        throw AssertionErrorCreator.instance().assertionError(info, shouldHaveYears(actual, actualYears, expectedYears),
+                                                              actualYears, expectedYears);
       }
     });
   }
@@ -92,8 +93,9 @@ public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SEL
       isNotNull();
       int actualMonths = actual.getMonths();
       if (expectedMonths != actualMonths) {
-        throw Failures.instance().failure(info, shouldHaveMonths(actual, actualMonths, expectedMonths), actualMonths,
-                                          expectedMonths);
+        throw AssertionErrorCreator.instance().assertionError(info, shouldHaveMonths(actual, actualMonths, expectedMonths),
+                                                              actualMonths,
+                                                              expectedMonths);
       }
     });
   }
@@ -119,7 +121,8 @@ public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SEL
       isNotNull();
       int actualDays = actual.getDays();
       if (expectedDays != actualDays) {
-        throw Failures.instance().failure(info, shouldHaveDays(actual, actualDays, expectedDays), actualDays, expectedDays);
+        throw AssertionErrorCreator.instance().assertionError(info, shouldHaveDays(actual, actualDays, expectedDays),
+                                                              actualDays, expectedDays);
       }
     });
   }
@@ -142,7 +145,8 @@ public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SEL
     return executeAssertion(() -> {
       isNotNull();
       boolean negative = actual.isNegative();
-      if (negative || Period.ZERO.equals(actual)) throw Failures.instance().failure(info, shouldBePositive(actual));
+      if (negative || Period.ZERO.equals(actual))
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBePositive(actual));
     });
   }
 
@@ -164,7 +168,8 @@ public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SEL
     return executeAssertion(() -> {
       isNotNull();
       boolean negative = actual.isNegative();
-      if (!negative || Period.ZERO.equals(actual)) throw Failures.instance().failure(info, shouldBeNegative(actual));
+      if (!negative || Period.ZERO.equals(actual))
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeNegative(actual));
     });
   }
 }

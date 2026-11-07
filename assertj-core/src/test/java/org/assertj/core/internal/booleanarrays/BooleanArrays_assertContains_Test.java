@@ -48,7 +48,7 @@ class BooleanArrays_assertContains_Test extends BooleanArraysBaseTest {
   @Test
   void should_delegate_to_internal_Arrays() {
     arrays.assertContains(someInfo(), actual, arrayOf(true, false));
-    verify(internalArrays).assertContains(someInfo(), failures, actual, arrayOf(true, false));
+    verify(internalArrays).assertContains(someInfo(), assertionErrorCreator, actual, arrayOf(true, false));
   }
 
 }

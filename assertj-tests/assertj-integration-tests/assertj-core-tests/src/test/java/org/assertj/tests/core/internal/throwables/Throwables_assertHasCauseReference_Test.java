@@ -18,17 +18,22 @@ package org.assertj.tests.core.internal.throwables;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveCauseReference.shouldHaveCauseReference;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Throwables;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class Throwables_assertHasCauseReference_Test extends ThrowablesBaseTest {
+class Throwables_assertHasCauseReference_Test {
+
+  private static final AssertionInfo INFO = someInfo();
+  private final Throwables throwables = Throwables.instance();
 
   @Test
   void should_pass_if_actual_cause_and_expected_cause_are_the_same_instance() {
@@ -61,9 +66,9 @@ class Throwables_assertHasCauseReference_Test extends ThrowablesBaseTest {
     // GIVEN
     final Throwable throwable = withCause(cause);
     // WHEN
-    expectAssertionError(() -> throwables.assertHasCauseReference(INFO, throwable, expected));
+    var error = expectAssertionError(() -> throwables.assertHasCauseReference(INFO, throwable, expected));
     // THEN
-    verify(failures).failure(INFO, shouldHaveCauseReference(cause, expected));
+    then(error).hasMessage(shouldHaveCauseReference(cause, expected).create());
   }
 
   private static Stream<Arguments> failingData() {

@@ -16,12 +16,12 @@
 package org.assertj.core.internal.objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveToString.shouldHaveToString;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.assertj.core.api.AssertionInfo;
@@ -62,8 +62,8 @@ class Objects_assertHasToString_Test extends ObjectsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> objects.assertHasToString(info, actual, "bar"));
+    var error = expectAssertionError(() -> objects.assertHasToString(info, actual, "bar"));
     // THEN
-    verify(failures).failure(info, shouldHaveToString("foo", "bar"), "foo", "bar");
+    then(error).hasMessage(shouldHaveToString("foo", "bar").create());
   }
 }

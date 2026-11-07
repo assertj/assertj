@@ -17,6 +17,7 @@ package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Reusable assertions for two-dimensional arrays of objects.
@@ -49,7 +50,7 @@ public class Object2DArrays<ELEMENT> {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Failures failures = Failures.instance();
+  AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
   /**
    * Asserts that the given array is {@code null} or empty.
@@ -59,7 +60,7 @@ public class Object2DArrays<ELEMENT> {
    * @throws AssertionError if the given array is not {@code null} *and* contains one or more elements.
    */
   public void assertNullOrEmpty(AssertionInfo info, ELEMENT[][] actual) {
-    arrays.assertNullOrEmpty(info, failures, actual);
+    arrays.assertNullOrEmpty(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -71,7 +72,7 @@ public class Object2DArrays<ELEMENT> {
    * @throws AssertionError if the given array is not empty.
    */
   public void assertEmpty(AssertionInfo info, ELEMENT[][] actual) {
-    arrays.assertEmpty(info, failures, actual);
+    arrays.assertEmpty(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -83,7 +84,7 @@ public class Object2DArrays<ELEMENT> {
    * @throws AssertionError if the given array is empty.
    */
   public void assertNotEmpty(AssertionInfo info, ELEMENT[][] actual) {
-    arrays.assertNotEmpty(info, failures, actual);
+    arrays.assertNotEmpty(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -98,7 +99,7 @@ public class Object2DArrays<ELEMENT> {
    */
   public void assertHasDimensions(AssertionInfo info, ELEMENT[][] actual, int expectedFirstDimension,
                                   int expectedSecondDimension) {
-    arrays.assertHasDimensions(info, failures, actual, expectedFirstDimension, expectedSecondDimension);
+    arrays.assertHasDimensions(info, assertionErrorCreator, actual, expectedFirstDimension, expectedSecondDimension);
   }
 
   /**
@@ -123,7 +124,7 @@ public class Object2DArrays<ELEMENT> {
    * @param expectedNumberOfRows the expected first dimension size of {@code actual}.
    */
   public void assertNumberOfRows(AssertionInfo info, ELEMENT[][] actual, int expectedNumberOfRows) {
-    arrays.assertNumberOfRows(info, failures, actual, expectedNumberOfRows);
+    arrays.assertNumberOfRows(info, assertionErrorCreator, actual, expectedNumberOfRows);
   }
 
   /**
@@ -140,7 +141,7 @@ public class Object2DArrays<ELEMENT> {
    * @throws AssertionError if the given array does not contain the given object at the given index.
    */
   public void assertContains(AssertionInfo info, ELEMENT[][] actual, ELEMENT[] value, Index index) {
-    arrays.assertContains(info, failures, actual, value, index);
+    arrays.assertContains(info, assertionErrorCreator, actual, value, index);
   }
 
   /**
@@ -155,6 +156,6 @@ public class Object2DArrays<ELEMENT> {
    * @throws AssertionError if the given array contains the given object at the given index.
    */
   public void assertDoesNotContain(AssertionInfo info, ELEMENT[][] actual, ELEMENT[] value, Index index) {
-    arrays.assertDoesNotContain(info, failures, actual, value, index);
+    arrays.assertDoesNotContain(info, assertionErrorCreator, actual, value, index);
   }
 }

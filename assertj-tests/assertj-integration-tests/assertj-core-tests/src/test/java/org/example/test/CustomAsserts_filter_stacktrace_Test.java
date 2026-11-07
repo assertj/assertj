@@ -25,8 +25,8 @@ import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.BasicErrorMessageFactory;
-import org.assertj.core.internal.Failures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -83,7 +83,7 @@ class CustomAsserts_filter_stacktrace_Test {
 
   @Test
   void should_not_filter_when_global_remove_option_is_disabled() {
-    boolean initialValue = Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace();
+    boolean initialValue = AssertionErrorCreator.instance().isRemoveAssertJRelatedElementsFromStackTrace();
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
     try {
       // WHEN

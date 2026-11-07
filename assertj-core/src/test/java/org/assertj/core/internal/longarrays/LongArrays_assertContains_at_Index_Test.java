@@ -15,18 +15,17 @@
  */
 package org.assertj.core.internal.longarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.testkit.LongArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someIndex;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
@@ -71,14 +70,14 @@ class LongArrays_assertContains_at_Index_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_value_at_index() {
+    // GIVEN
     AssertionInfo info = someInfo();
     long value = 6;
     Index index = atIndex(1);
-
-    Throwable error = catchThrowable(() -> arrays.assertContains(info, actual, value, index));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainAtIndex(actual, value, index, 8L));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContains(info, actual, value, index));
+    // THEN
+    then(error).hasMessage(shouldContainAtIndex(actual, value, index, 8L).create());
   }
 
   @Test
@@ -122,14 +121,14 @@ class LongArrays_assertContains_at_Index_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_value_at_index_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     long value = 6;
     Index index = atIndex(1);
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContains(info, actual, value, index));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainAtIndex(actual, value, index, 8L, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContains(info, actual, value, index));
+    // THEN
+    then(error).hasMessage(shouldContainAtIndex(actual, value, index, 8L, absValueComparisonStrategy).create());
   }
 
   @Test

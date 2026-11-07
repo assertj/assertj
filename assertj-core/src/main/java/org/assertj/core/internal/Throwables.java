@@ -46,6 +46,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Reusable assertions for <code>{@link Throwable}</code>s.
@@ -68,7 +69,7 @@ public class Throwables {
     return INSTANCE;
   }
 
-  private final Failures failures = Failures.instance();
+  private final AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
   private Throwables() {}
 
@@ -84,7 +85,8 @@ public class Throwables {
   public void assertHasMessage(AssertionInfo info, Throwable actual, String expectedMessage) {
     assertNotNull(info, actual);
     if (java.util.Objects.equals(actual.getMessage(), expectedMessage)) return;
-    throw failures.failure(info, shouldHaveMessage(actual, expectedMessage), actual.getMessage(), expectedMessage);
+    throw assertionErrorCreator.assertionError(info, shouldHaveMessage(actual, expectedMessage), actual.getMessage(),
+                                               expectedMessage);
   }
 
   /**
@@ -102,9 +104,9 @@ public class Throwables {
       assertHasNoCause(info, actual);
       return;
     }
-    if (actualCause == null) throw failures.failure(info, shouldHaveCause(actual, expectedCause));
+    if (actualCause == null) throw assertionErrorCreator.assertionError(info, shouldHaveCause(actual, expectedCause));
     if (!compareThrowable(actualCause, expectedCause))
-      throw failures.failure(info, shouldHaveCause(actual, expectedCause));
+      throw assertionErrorCreator.assertionError(info, shouldHaveCause(actual, expectedCause));
   }
 
   /**
@@ -117,7 +119,8 @@ public class Throwables {
   public void assertHasCauseReference(AssertionInfo info, Throwable actual, Throwable expectedCause) {
     assertNotNull(info, actual);
     Throwable actualCause = actual.getCause();
-    if (actualCause != expectedCause) throw failures.failure(info, shouldHaveCauseReference(actualCause, expectedCause));
+    if (actualCause != expectedCause)
+      throw assertionErrorCreator.assertionError(info, shouldHaveCauseReference(actualCause, expectedCause));
   }
 
   /**
@@ -135,9 +138,10 @@ public class Throwables {
       assertHasNoCause(info, actual);
       return;
     }
-    if (actualRootCause == null) throw failures.failure(info, shouldHaveRootCause(actual, null, expectedRootCause));
+    if (actualRootCause == null)
+      throw assertionErrorCreator.assertionError(info, shouldHaveRootCause(actual, null, expectedRootCause));
     if (!compareThrowable(actualRootCause, expectedRootCause))
-      throw failures.failure(info, shouldHaveRootCause(actual, actualRootCause, expectedRootCause));
+      throw assertionErrorCreator.assertionError(info, shouldHaveRootCause(actual, actualRootCause, expectedRootCause));
   }
 
   /**
@@ -150,10 +154,12 @@ public class Throwables {
   public void assertHasRootCauseMessage(AssertionInfo info, Throwable actual, String expectedMessage) {
     assertNotNull(info, actual);
     Throwable rootCause = getRootCause(actual);
-    if (null == rootCause) throw failures.failure(info, shouldHaveRootCauseWithMessage(actual, rootCause, expectedMessage));
+    if (null == rootCause)
+      throw assertionErrorCreator.assertionError(info, shouldHaveRootCauseWithMessage(actual, rootCause, expectedMessage));
     if (java.util.Objects.equals(rootCause.getMessage(), expectedMessage)) return;
-    throw failures.failure(info, shouldHaveRootCauseWithMessage(actual, rootCause, expectedMessage), rootCause.getMessage(),
-                           expectedMessage);
+    throw assertionErrorCreator.assertionError(info, shouldHaveRootCauseWithMessage(actual, rootCause, expectedMessage),
+                                               rootCause.getMessage(),
+                                               expectedMessage);
   }
 
   /**
@@ -168,7 +174,7 @@ public class Throwables {
     assertNotNull(info, actual);
     Throwable actualCause = actual.getCause();
     if (actualCause == null) return;
-    throw failures.failure(info, shouldHaveNoCause(actual));
+    throw assertionErrorCreator.assertionError(info, shouldHaveNoCause(actual));
   }
 
   /**
@@ -183,7 +189,7 @@ public class Throwables {
     assertNotNull(info, actual);
     Throwable actualCause = actual.getCause();
     if (actualCause != null) return;
-    throw failures.failure(info, shouldHaveCause(actual));
+    throw assertionErrorCreator.assertionError(info, shouldHaveCause(actual));
   }
 
   /**
@@ -198,7 +204,7 @@ public class Throwables {
     assertNotNull(info, actual);
     Throwable rootCause = getRootCause(actual);
     if (rootCause != null) return;
-    throw failures.failure(info, shouldHaveRootCause(actual));
+    throw assertionErrorCreator.assertionError(info, shouldHaveRootCause(actual));
   }
 
   /**
@@ -213,7 +219,7 @@ public class Throwables {
   public void assertHasMessageStartingWith(AssertionInfo info, Throwable actual, String description) {
     assertNotNull(info, actual);
     if (actual.getMessage() != null && actual.getMessage().startsWith(description)) return;
-    throw failures.failure(info, shouldStartWith(actual.getMessage(), description));
+    throw assertionErrorCreator.assertionError(info, shouldStartWith(actual.getMessage(), description));
   }
 
   /**
@@ -228,7 +234,7 @@ public class Throwables {
   public void assertHasMessageContaining(AssertionInfo info, Throwable actual, String description) {
     assertNotNull(info, actual);
     if (actual.getMessage() != null && actual.getMessage().contains(description)) return;
-    throw failures.failure(info, shouldContain(actual, description));
+    throw assertionErrorCreator.assertionError(info, shouldContain(actual, description));
   }
 
   /**
@@ -248,9 +254,9 @@ public class Throwables {
                                                .collect(toCollection(LinkedHashSet::new));
     if (notFound.isEmpty()) return;
     if (notFound.size() == 1 && values.length == 1) {
-      throw failures.failure(info, shouldContain(actual, values[0]), actual, values[0]);
+      throw assertionErrorCreator.assertionError(info, shouldContain(actual, values[0]), actual, values[0]);
     }
-    throw failures.failure(info, shouldContain(actual, values, notFound), actual, values);
+    throw assertionErrorCreator.assertionError(info, shouldContain(actual, values, notFound), actual, values);
   }
 
   /**
@@ -266,7 +272,7 @@ public class Throwables {
   public void assertHasMessageNotContaining(AssertionInfo info, Throwable actual, String content) {
     assertNotNull(info, actual);
     if (actual.getMessage() == null || !actual.getMessage().contains(content)) return;
-    throw failures.failure(info, shouldNotContain(actual, content), actual.getMessage(), content);
+    throw assertionErrorCreator.assertionError(info, shouldNotContain(actual, content), actual.getMessage(), content);
   }
 
   /**
@@ -285,9 +291,9 @@ public class Throwables {
                                             .collect(toCollection(LinkedHashSet::new));
     if (found.isEmpty()) return;
     if (found.size() == 1 && values.length == 1) {
-      throw failures.failure(info, shouldNotContain(actual, values[0]), actualMessage, values[0]);
+      throw assertionErrorCreator.assertionError(info, shouldNotContain(actual, values[0]), actualMessage, values[0]);
     }
-    throw failures.failure(info, shouldNotContain(actual, values, found), actualMessage, values);
+    throw assertionErrorCreator.assertionError(info, shouldNotContain(actual, values, found), actualMessage, values);
   }
 
   /**
@@ -303,7 +309,7 @@ public class Throwables {
     assertNotNull(info, actual);
     String stackTrace = org.assertj.core.util.Throwables.getStackTrace(actual);
     if (stackTrace != null && stackTrace.contains(description)) return;
-    throw failures.failure(info, shouldContain(stackTrace, description));
+    throw assertionErrorCreator.assertionError(info, shouldContain(stackTrace, description));
   }
 
   /**
@@ -320,7 +326,7 @@ public class Throwables {
     requireNonNull(regex, "regex must not be null");
     assertNotNull(info, actual);
     if (actual.getMessage() != null && regex.matcher(actual.getMessage()).matches()) return;
-    throw failures.failure(info, shouldHaveMessageMatchingRegex(actual, regex.pattern()));
+    throw assertionErrorCreator.assertionError(info, shouldHaveMessageMatchingRegex(actual, regex.pattern()));
   }
 
   /**
@@ -352,7 +358,7 @@ public class Throwables {
     assertNotNull(info, actual);
     Objects.instance().assertNotNull(info, actual.getMessage(), "exception message of actual");
     if (Pattern.compile(regex, Pattern.DOTALL).asPredicate().test(actual.getMessage())) return;
-    throw failures.failure(info, shouldHaveMessageFindingMatchRegex(actual, regex));
+    throw assertionErrorCreator.assertionError(info, shouldHaveMessageFindingMatchRegex(actual, regex));
   }
 
   /**
@@ -367,7 +373,7 @@ public class Throwables {
   public void assertHasMessageEndingWith(AssertionInfo info, Throwable actual, String description) {
     assertNotNull(info, actual);
     if (actual.getMessage() != null && actual.getMessage().endsWith(description)) return;
-    throw failures.failure(info, shouldEndWith(actual.getMessage(), description));
+    throw assertionErrorCreator.assertionError(info, shouldEndWith(actual.getMessage(), description));
   }
 
   /**
@@ -385,7 +391,7 @@ public class Throwables {
     assertNotNull(info, actual);
     checkTypeIsNotNull(type);
     if (type.isInstance(actual.getCause())) return;
-    throw failures.failure(info, shouldHaveCauseInstance(actual, type));
+    throw assertionErrorCreator.assertionError(info, shouldHaveCauseInstance(actual, type));
   }
 
   /**
@@ -405,7 +411,7 @@ public class Throwables {
     checkTypeIsNotNull(type);
     Throwable cause = actual.getCause();
     if (cause != null && type.equals(cause.getClass())) return;
-    throw failures.failure(info, shouldHaveCauseExactlyInstance(actual, type));
+    throw assertionErrorCreator.assertionError(info, shouldHaveCauseExactlyInstance(actual, type));
   }
 
   /**
@@ -423,7 +429,7 @@ public class Throwables {
     assertNotNull(info, actual);
     checkTypeIsNotNull(type);
     if (type.isInstance(getRootCause(actual))) return;
-    throw failures.failure(info, shouldHaveRootCauseInstance(actual, type));
+    throw assertionErrorCreator.assertionError(info, shouldHaveRootCauseInstance(actual, type));
   }
 
   /**
@@ -443,7 +449,7 @@ public class Throwables {
     checkTypeIsNotNull(type);
     Throwable rootCause = getRootCause(actual);
     if (rootCause != null && type.equals(rootCause.getClass())) return;
-    throw failures.failure(info, shouldHaveRootCauseExactlyInstance(actual, type));
+    throw assertionErrorCreator.assertionError(info, shouldHaveRootCauseExactlyInstance(actual, type));
   }
 
   /**
@@ -455,7 +461,7 @@ public class Throwables {
   public void assertHasNoSuppressedExceptions(AssertionInfo info, Throwable actual) {
     assertNotNull(info, actual);
     Throwable[] suppressed = actual.getSuppressed();
-    if (suppressed.length != 0) throw failures.failure(info, shouldHaveNoSuppressedExceptions(actual));
+    if (suppressed.length != 0) throw assertionErrorCreator.assertionError(info, shouldHaveNoSuppressedExceptions(actual));
   }
 
   /**
@@ -473,7 +479,7 @@ public class Throwables {
     for (Throwable throwable : suppressed) {
       if (compareThrowable(throwable, expectedSuppressedException)) return;
     }
-    throw failures.failure(info, shouldHaveSuppressedException(actual, expectedSuppressedException));
+    throw assertionErrorCreator.assertionError(info, shouldHaveSuppressedException(actual, expectedSuppressedException));
   }
 
   private static void doCommonCheckForMessages(AssertionInfo info, Throwable actual, CharSequence[] values) {

@@ -15,19 +15,20 @@
  */
 package org.assertj.tests.core.internal.shortarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
 import static org.assertj.tests.core.testkit.ShortArrays.emptyArray;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ShortArrays;
+import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -36,12 +37,12 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-class ShortArrays_assertDoesNotHaveDuplicates_Test extends ShortArraysBaseTest {
+class ShortArrays_assertDoesNotHaveDuplicates_Test {
 
-  @Override
-  protected void initActualArray() {
-    actual = arrayOf(6, 8);
-  }
+  private short[] actual = arrayOf(6, 8);
+  private final ShortArrays arrays = ShortArrays.instance();
+  private final ComparatorBasedComparisonStrategy absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<>());
+  private final ShortArrays arraysWithCustomComparisonStrategy = new ShortArrays(absValueComparisonStrategy);
 
   @Test
   void should_pass_if_actual_does_not_have_duplicates() {
@@ -64,10 +65,9 @@ class ShortArrays_assertDoesNotHaveDuplicates_Test extends ShortArraysBaseTest {
     AssertionInfo info = someInfo();
     actual = arrayOf(6, 8, 6, 8);
 
-    Throwable error = catchThrowable(() -> arrays.assertDoesNotHaveDuplicates(info, actual));
+    var error = expectAssertionError(() -> arrays.assertDoesNotHaveDuplicates(info, actual));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet((short) 6, (short) 8)));
+    then(error).hasMessage(shouldNotHaveDuplicates(actual, newLinkedHashSet((short) 6, (short) 8)).create());
   }
 
   @Test
@@ -92,10 +92,9 @@ class ShortArrays_assertDoesNotHaveDuplicates_Test extends ShortArraysBaseTest {
     AssertionInfo info = someInfo();
     actual = arrayOf(6, -8, 6, 8);
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldNotHaveDuplicates(actual, newLinkedHashSet((short) 6, (short) 8), absValueComparisonStrategy));
+    then(error).hasMessage(shouldNotHaveDuplicates(actual, newLinkedHashSet((short) 6, (short) 8),
+                                                   absValueComparisonStrategy).create());
   }
 }

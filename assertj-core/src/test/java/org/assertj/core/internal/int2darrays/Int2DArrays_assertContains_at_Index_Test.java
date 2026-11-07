@@ -38,6 +38,6 @@ class Int2DArrays_assertContains_at_Index_Test extends Int2DArraysBaseTest {
     // WHEN
     int2DArrays.assertContains(info, actual, ints, atIndex(1));
     // THEN
-    verify(arrays2d).assertContains(info, failures, actual, ints, atIndex(1));
+    verify(arrays2d).assertContains(info, assertionErrorCreator, actual, ints, atIndex(1));
   }
 }

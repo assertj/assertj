@@ -16,11 +16,17 @@
 package org.assertj.tests.core.internal.objectarrays;
 
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ElementsShouldBeExactly.elementsShouldBeExactly;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Condition;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.JediCondition;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,7 +34,11 @@ import org.junit.jupiter.api.Test;
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  */
-class ObjectArrays_assertAreExactly_Test extends ObjectArraysWithConditionBaseTest {
+class ObjectArrays_assertAreExactly_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final Condition<String> jedi = new JediCondition();
 
   @Test
   void should_pass_if_satisfies_exactly_times_condition() {
@@ -37,7 +47,7 @@ class ObjectArrays_assertAreExactly_Test extends ObjectArraysWithConditionBaseTe
 
   @Test
   void should_throw_error_if_condition_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> arrays.assertAreExactly(INFO, actual = array("Yoda"), 2, null))
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertAreExactly(INFO, array("Yoda"), 2, null))
                                     .withMessage("The condition to evaluate should not be null");
   }
 
@@ -46,9 +56,9 @@ class ObjectArrays_assertAreExactly_Test extends ObjectArraysWithConditionBaseTe
     // GIVEN
     var actual = array("Yoda", "Solo", "Leia");
     // WHEN
-    expectAssertionError(() -> arrays.assertAreExactly(INFO, actual, 2, jedi));
+    var error = expectAssertionError(() -> arrays.assertAreExactly(INFO, actual, 2, jedi));
     // THEN
-    verify(failures).failure(INFO, elementsShouldBeExactly(actual, 2, jedi));
+    then(error).hasMessage(elementsShouldBeExactly(actual, 2, jedi).create());
   }
 
   @Test
@@ -56,9 +66,9 @@ class ObjectArrays_assertAreExactly_Test extends ObjectArraysWithConditionBaseTe
     // GIVEN
     var actual = array("Yoda", "Luke", "Obiwan");
     // WHEN
-    expectAssertionError(() -> arrays.assertAreExactly(INFO, actual, 2, jedi));
+    var error = expectAssertionError(() -> arrays.assertAreExactly(INFO, actual, 2, jedi));
     // THEN
-    verify(failures).failure(INFO, elementsShouldBeExactly(actual, 2, jedi));
+    then(error).hasMessage(elementsShouldBeExactly(actual, 2, jedi).create());
   }
 
 }

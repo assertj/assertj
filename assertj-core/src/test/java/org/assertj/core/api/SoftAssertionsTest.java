@@ -997,8 +997,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     TolkienCharacter frodo = TolkienCharacter.of("frodo", 33, HOBBIT);
     TolkienSoftAssertions softly = new TolkienSoftAssertions();
     // WHEN
-    softly.assertThat(frodo).hasAge(10); // Expect failure - age will be 0 due to not being initialized.
-    softly.assertThat((TolkienCharacter) null).hasAge(11); // Expect failure - argument is null.
+    softly.assertThat(frodo).hasAge(10); // Expect assertionError - age will be 0 due to not being initialized.
+    softly.assertThat((TolkienCharacter) null).hasAge(11); // Expect assertionError - argument is null.
     // THEN
     then(softly.errorsCollected()).hasSize(2);
   }

@@ -18,16 +18,16 @@ package org.assertj.core.internal.iterables;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 
@@ -84,10 +84,10 @@ class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
 
-    Throwable error = catchThrowable(() -> iterables.assertContainsSequence(info, actual, sequence));
+    var error = expectAssertionError(() -> iterables.assertContainsSequence(info, actual, sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence);
+    verifyFailureThrownWhenSequenceNotFound(error, sequence);
   }
 
   @Test
@@ -95,10 +95,10 @@ class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
 
-    Throwable error = catchThrowable(() -> iterables.assertContainsSequence(info, actual, sequence));
+    var error = expectAssertionError(() -> iterables.assertContainsSequence(info, actual, sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence);
+    verifyFailureThrownWhenSequenceNotFound(error, sequence);
   }
 
   @Test
@@ -106,14 +106,12 @@ class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Luke", "Leia", "Han" };
 
-    Throwable error = catchThrowable(() -> iterables.assertContainsSequence(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence);
+    var error = expectAssertionError(() -> iterables.assertContainsSequence(info, actual, sequence));
+    verifyFailureThrownWhenSequenceNotFound(error, sequence);
   }
 
-  private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, Object[] sequence) {
-    verify(failures).failure(info, shouldContainSequence(actual, sequence));
+  private void verifyFailureThrownWhenSequenceNotFound(AssertionError error, Object[] sequence) {
+    then(error).hasMessage(shouldContainSequence(actual, sequence).create());
   }
 
   @Test
@@ -161,11 +159,9 @@ class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, actual,
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, actual,
                                                                                                                  sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
+    then(error).hasMessage(shouldContainSequence(actual, sequence, comparisonStrategy).create());
   }
 
   @Test
@@ -173,11 +169,9 @@ class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Luke", "Leia", "Han" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, actual,
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, actual,
                                                                                                                  sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
+    then(error).hasMessage(shouldContainSequence(actual, sequence, comparisonStrategy).create());
   }
 
   @Test

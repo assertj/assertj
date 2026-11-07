@@ -15,17 +15,16 @@
  */
 package org.assertj.core.internal.chararrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.CharArrays.arrayOf;
 import static org.assertj.core.testkit.CharArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.CharArrays;
@@ -74,33 +73,30 @@ class CharArrays_assertContainsSequence_Test extends CharArraysBaseTest {
   void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
     char[] sequence = { 'a', 'b', 'c', 12, 20, 22 };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainSequence(actual, sequence));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsSequence(info, actual, sequence));
+    // THEN
+    then(error).hasMessage(shouldContainSequence(actual, sequence).create());
   }
 
   @Test
   void should_fail_if_actual_does_not_contain_whole_sequence() {
     AssertionInfo info = someInfo();
     char[] sequence = { 6, 20 };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainSequence(actual, sequence));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsSequence(info, actual, sequence));
+    // THEN
+    then(error).hasMessage(shouldContainSequence(actual, sequence).create());
   }
 
   @Test
   void should_fail_if_actual_contains_first_elements_of_sequence() {
     AssertionInfo info = someInfo();
     char[] sequence = { 6, 20, 22 };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainSequence(actual, sequence));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsSequence(info, actual, sequence));
+    // THEN
+    then(error).hasMessage(shouldContainSequence(actual, sequence).create());
   }
 
   @Test
@@ -140,33 +136,30 @@ class CharArrays_assertContainsSequence_Test extends CharArraysBaseTest {
   void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     char[] sequence = { 'A', 'b', 'c', 12, 20, 22 };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainSequence(actual, sequence, caseInsensitiveComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence));
+    // THEN
+    then(error).hasMessage(shouldContainSequence(actual, sequence, caseInsensitiveComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     char[] sequence = { 6, 20 };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainSequence(actual, sequence, caseInsensitiveComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence));
+    // THEN
+    then(error).hasMessage(shouldContainSequence(actual, sequence, caseInsensitiveComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_contains_first_elements_of_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     char[] sequence = { 6, 20, 22 };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainSequence(actual, sequence, caseInsensitiveComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence));
+    // THEN
+    then(error).hasMessage(shouldContainSequence(actual, sequence, caseInsensitiveComparisonStrategy).create());
   }
 
   @Test

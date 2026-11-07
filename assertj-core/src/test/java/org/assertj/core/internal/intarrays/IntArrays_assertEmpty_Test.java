@@ -15,14 +15,13 @@
  */
 package org.assertj.core.internal.intarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.testkit.IntArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.IntArrays;
@@ -45,13 +44,13 @@ class IntArrays_assertEmpty_Test extends IntArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_empty() {
+    // GIVEN
     AssertionInfo info = someInfo();
     int[] actual = { 6, 8 };
-
-    Throwable error = catchThrowable(() -> arrays.assertEmpty(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEmpty(actual));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertEmpty(info, actual));
+    // THEN
+    then(error).hasMessage(shouldBeEmpty(actual).create());
   }
 
   @Test

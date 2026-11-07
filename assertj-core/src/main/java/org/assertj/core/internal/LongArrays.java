@@ -22,6 +22,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Reusable assertions for arrays of {@code long}s.
@@ -47,7 +48,7 @@ public class LongArrays {
   private Arrays arrays = Arrays.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Failures failures = Failures.instance();
+  AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   LongArrays() {
@@ -91,7 +92,7 @@ public class LongArrays {
    * @throws AssertionError if the given array is not {@code null} *and* contains one or more elements.
    */
   public void assertNullOrEmpty(AssertionInfo info, long[] actual) {
-    arrays.assertNullOrEmpty(info, failures, actual);
+    arrays.assertNullOrEmpty(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -103,7 +104,7 @@ public class LongArrays {
    * @throws AssertionError if the given array is not empty.
    */
   public void assertEmpty(AssertionInfo info, long[] actual) {
-    arrays.assertEmpty(info, failures, actual);
+    arrays.assertEmpty(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -115,7 +116,7 @@ public class LongArrays {
    * @throws AssertionError if the given array is empty.
    */
   public void assertNotEmpty(AssertionInfo info, long[] actual) {
-    arrays.assertNotEmpty(info, failures, actual);
+    arrays.assertNotEmpty(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -237,7 +238,7 @@ public class LongArrays {
    * @throws AssertionError if the given array does not contain the given values.
    */
   public void assertContains(AssertionInfo info, long[] actual, long[] values) {
-    arrays.assertContains(info, failures, actual, values);
+    arrays.assertContains(info, assertionErrorCreator, actual, values);
   }
 
   /**
@@ -254,7 +255,7 @@ public class LongArrays {
    * @throws AssertionError if the given array does not contain the given value at the given index.
    */
   public void assertContains(AssertionInfo info, long[] actual, long value, Index index) {
-    arrays.assertContains(info, failures, actual, value, index);
+    arrays.assertContains(info, assertionErrorCreator, actual, value, index);
   }
 
   /**
@@ -269,7 +270,7 @@ public class LongArrays {
    * @throws AssertionError if the given array contains the given value at the given index.
    */
   public void assertDoesNotContain(AssertionInfo info, long[] actual, long value, Index index) {
-    arrays.assertDoesNotContain(info, failures, actual, value, index);
+    arrays.assertDoesNotContain(info, assertionErrorCreator, actual, value, index);
   }
 
   /**
@@ -285,7 +286,7 @@ public class LongArrays {
    *           that are not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, long[] actual, long[] values) {
-    arrays.assertContainsOnly(info, failures, actual, values);
+    arrays.assertContainsOnly(info, assertionErrorCreator, actual, values);
   }
 
   /**
@@ -296,7 +297,7 @@ public class LongArrays {
    * @param values the expected values
    */
   public void assertContainsExactly(AssertionInfo info, long[] actual, long[] values) {
-    arrays.assertContainsExactly(info, failures, actual, values);
+    arrays.assertContainsExactly(info, assertionErrorCreator, actual, values);
   }
 
   /**
@@ -307,7 +308,7 @@ public class LongArrays {
    * @param values the expected values
    */
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, long[] actual, long[] values) {
-    arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
+    arrays.assertContainsExactlyInAnyOrder(info, assertionErrorCreator, actual, values);
   }
 
   /**
@@ -323,7 +324,7 @@ public class LongArrays {
    *           than once values.
    */
   public void assertContainsOnlyOnce(AssertionInfo info, long[] actual, long[] values) {
-    arrays.assertContainsOnlyOnce(info, failures, actual, values);
+    arrays.assertContainsOnlyOnce(info, assertionErrorCreator, actual, values);
   }
 
   /**
@@ -338,7 +339,7 @@ public class LongArrays {
    * @throws AssertionError if the given array does not contain the given sequence of values.
    */
   public void assertContainsSequence(AssertionInfo info, long[] actual, long[] sequence) {
-    arrays.assertContainsSequence(info, failures, actual, sequence);
+    arrays.assertContainsSequence(info, assertionErrorCreator, actual, sequence);
   }
 
   /**
@@ -353,7 +354,7 @@ public class LongArrays {
    * @throws AssertionError if the given array does not contain the given subsequence of values.
    */
   public void assertContainsSubsequence(AssertionInfo info, long[] actual, long[] subsequence) {
-    arrays.assertContainsSubsequence(info, failures, actual, subsequence);
+    arrays.assertContainsSubsequence(info, assertionErrorCreator, actual, subsequence);
   }
 
   /**
@@ -368,7 +369,7 @@ public class LongArrays {
    * @throws AssertionError if the given array contains any of given values.
    */
   public void assertDoesNotContain(AssertionInfo info, long[] actual, long[] values) {
-    arrays.assertDoesNotContain(info, failures, actual, values);
+    arrays.assertDoesNotContain(info, assertionErrorCreator, actual, values);
   }
 
   /**
@@ -382,7 +383,7 @@ public class LongArrays {
    * @throws AssertionError if the given array contains duplicate values.
    */
   public void assertDoesNotHaveDuplicates(AssertionInfo info, long[] actual) {
-    arrays.assertDoesNotHaveDuplicates(info, failures, actual);
+    arrays.assertDoesNotHaveDuplicates(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -399,7 +400,7 @@ public class LongArrays {
    * @throws AssertionError if the given array does not start with the given sequence of values.
    */
   public void assertStartsWith(AssertionInfo info, long[] actual, long[] sequence) {
-    arrays.assertStartsWith(info, failures, actual, sequence);
+    arrays.assertStartsWith(info, assertionErrorCreator, actual, sequence);
   }
 
   /**
@@ -416,7 +417,7 @@ public class LongArrays {
    * @throws AssertionError if the given array does not end with the given sequence of values.
    */
   public void assertEndsWith(AssertionInfo info, long[] actual, long[] sequence) {
-    arrays.assertEndsWith(info, failures, actual, sequence);
+    arrays.assertEndsWith(info, assertionErrorCreator, actual, sequence);
   }
 
   /**
@@ -426,7 +427,7 @@ public class LongArrays {
    * @param actual the given array.
    */
   public void assertIsSorted(AssertionInfo info, long[] actual) {
-    arrays.assertIsSorted(info, failures, actual);
+    arrays.assertIsSorted(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -438,7 +439,7 @@ public class LongArrays {
    */
   public void assertIsSortedAccordingToComparator(AssertionInfo info, long[] actual,
                                                   Comparator<? super Long> comparator) {
-    Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
+    Arrays.assertIsSortedAccordingToComparator(info, assertionErrorCreator, actual, comparator);
   }
 
   /**
@@ -449,6 +450,6 @@ public class LongArrays {
    * @param values the expected values
    */
   public void assertContainsAnyOf(AssertionInfo info, long[] actual, long[] values) {
-    arrays.assertContainsAnyOf(info, failures, actual, values);
+    arrays.assertContainsAnyOf(info, assertionErrorCreator, actual, values);
   }
 }

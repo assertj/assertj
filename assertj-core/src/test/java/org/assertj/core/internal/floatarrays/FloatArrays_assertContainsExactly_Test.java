@@ -15,10 +15,9 @@
  */
 package org.assertj.core.internal.floatarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
@@ -26,9 +25,9 @@ import static org.assertj.core.testkit.FloatArrays.arrayOf;
 import static org.assertj.core.testkit.FloatArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.asList;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FloatArrays;
@@ -52,13 +51,14 @@ class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest {
 
   @Test
   void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
+    // GIVEN
     AssertionInfo info = someInfo();
     float[] expected = arrayOf(6f, 10f, 8f);
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex(8f, 10f, 1), asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(elementsDifferAtIndex(8f, 10f, 1).create());
   }
 
   @Test
@@ -87,28 +87,26 @@ class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_given_values_exactly() {
+    // GIVEN
     AssertionInfo info = someInfo();
     float[] expected = { 6f, 8f, 20f };
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList(20f), newArrayList(10f)),
-                             asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected), newArrayList(20f), newArrayList(10f)).create());
   }
 
   @Test
   void should_fail_if_actual_contains_all_given_values_but_size_differ() {
+    // GIVEN
     AssertionInfo info = someInfo();
     float[] expected = { 6f, 8f, 10f, 10f };
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList(10f), newArrayList()),
-                             asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected), newArrayList(10f), newArrayList()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -122,15 +120,14 @@ class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest {
 
   @Test
   void should_pass_if_actual_contains_given_values_exactly_in_different_order_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     float[] expected = { -6f, 10f, 8f };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual,
-                                                                                                    expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex(8f, 10f, 1, absValueComparisonStrategy), asList(actual),
-                             asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(elementsDifferAtIndex(8f, 10f, 1, absValueComparisonStrategy).create());
   }
 
   @Test
@@ -158,29 +155,27 @@ class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     float[] expected = { 6f, -8f, 20f };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList(20f), newArrayList(10f),
-                                                        absValueComparisonStrategy),
-                             asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected), newArrayList(20f), newArrayList(10f),
+                                                absValueComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     float[] expected = { 6f, -8f, -10f, 10f };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList(10f), newArrayList(),
-                                                        absValueComparisonStrategy),
-                             asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected), newArrayList(10f), newArrayList(),
+                                                absValueComparisonStrategy).create());
   }
 }

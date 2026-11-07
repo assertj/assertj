@@ -21,6 +21,7 @@ import static org.mockito.Mockito.spy;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -28,14 +29,14 @@ import org.junit.jupiter.api.BeforeEach;
  * Base class for testing <code>{@link Longs}</code>, set up an instance with {@link StandardComparisonStrategy} and another with
  * {@link ComparatorBasedComparisonStrategy}.
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Longs#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Longs#assertionErrorCreator} appropriately.
  *
  * @author Joel Costigliola
  *
  */
 public class LongsBaseTest {
 
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Longs longs;
   protected static final WritableAssertionInfo INFO = someInfo();
 
@@ -44,12 +45,12 @@ public class LongsBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     longs = new Longs();
-    longs.setFailures(failures);
+    longs.setAssertionErrorCreator(assertionErrorCreator);
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<Long>());
     longsWithAbsValueComparisonStrategy = new Longs(absValueComparisonStrategy);
-    longsWithAbsValueComparisonStrategy.failures = failures;
+    longsWithAbsValueComparisonStrategy.assertionErrorCreator = assertionErrorCreator;
   }
 
 }

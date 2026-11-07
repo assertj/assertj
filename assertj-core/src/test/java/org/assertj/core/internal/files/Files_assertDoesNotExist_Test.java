@@ -20,7 +20,6 @@ import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
@@ -48,9 +47,9 @@ class Files_assertDoesNotExist_Test extends FilesBaseTest {
     // GIVEN
     File actual = resourceFile("actual_file.txt");
     // WHEN
-    expectAssertionError(() -> underTest.assertDoesNotExist(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertDoesNotExist(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldNotExist(actual));
+    then(error).hasMessage(shouldNotExist(actual).create());
   }
 
   @Test

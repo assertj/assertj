@@ -25,7 +25,6 @@ import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -82,9 +81,9 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     // GIVEN
     File notAFile = new File("xyz");
     // WHEN
-    expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, notAFile, expected));
+    var error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, notAFile, expected));
     // THEN
-    verify(failures).failure(INFO, shouldBeFile(notAFile));
+    then(error).hasMessage(shouldBeFile(notAFile).create());
   }
 
   @Test
@@ -118,8 +117,8 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     BinaryDiff binaryDiff = new BinaryDiff();
     BinaryDiffResult diff = binaryDiff.diff(actual, expected);
     // WHEN
-    expectAssertionError(() -> unMockedFiles.assertHasBinaryContent(INFO, actual, expected));
+    var error = expectAssertionError(() -> unMockedFiles.assertHasBinaryContent(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO, shouldHaveBinaryContent(actual, diff));
+    then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create());
   }
 }

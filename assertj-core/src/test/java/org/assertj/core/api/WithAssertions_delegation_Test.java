@@ -64,7 +64,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 
@@ -754,7 +754,8 @@ class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   void withAssertions_setRemoveAssertJRelatedElementsFromStackTrace_Test() {
-    boolean removeAssertJRelatedElementsFromStackTrace = Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace();
+    boolean removeAssertJRelatedElementsFromStackTrace = AssertionErrorCreator.instance()
+                                                                              .isRemoveAssertJRelatedElementsFromStackTrace();
     try {
       setRemoveAssertJRelatedElementsFromStackTrace(true);
     } finally {

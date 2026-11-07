@@ -25,16 +25,27 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.tests.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import java.util.Locale;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author William Delanoue
  */
-class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertContainsOnlyOnce_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final String[] actual = array("Luke", "Yoda", "Leia");
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final ObjectArrays arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
 
   @Test
   void should_pass_if_actual_contains_given_values_only_once() {
@@ -58,11 +69,10 @@ class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
     var actual = array("Luke", "Yoda", "Han", "Luke", "Yoda", "Han", "Yoda", "Luke");
     String[] expected = { "Luke", "Yoda", "Leia" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsOnlyOnce(INFO, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsOnlyOnce(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Leia"),
-                                                    newLinkedHashSet("Luke", "Yoda")));
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Leia"),
+                                                  newLinkedHashSet("Luke", "Yoda")).create());
   }
 
   @Test
@@ -72,7 +82,7 @@ class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
 
   @Test
   void should_pass_if_actual_and_given_values_are_empty() {
-    actual = new String[] {};
+    var actual = new String[] {};
     arrays.assertContainsOnlyOnce(INFO, actual, emptyArray());
   }
 
@@ -100,10 +110,9 @@ class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
     // GIVEN
     String[] expected = { "Luke", "Yoda", "Han" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsOnlyOnce(INFO, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsOnlyOnce(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet()));
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet()).create());
   }
 
   @Test
@@ -122,11 +131,10 @@ class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
     var actual = array("Luke", "yODA", "Han", "luke", "yoda", "Han", "YodA");
     String[] expected = { "Luke", "yOda", "Leia" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(INFO, actual, expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Leia"), newLinkedHashSet("Luke", "yOda"),
-                                                    caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Leia"), newLinkedHashSet("Luke", "yOda"),
+                                                  caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test
@@ -163,11 +171,9 @@ class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
     // GIVEN
     String[] expected = { "Luke", "yoda", "han" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(INFO, actual, expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(INFO, actual, expected));
     // THEN
-    verify(failures).failure(
-                             INFO,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("han"), newLinkedHashSet(),
-                                                    caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("han"), newLinkedHashSet(),
+                                                  caseInsensitiveStringComparisonStrategy).create());
   }
 }

@@ -19,13 +19,14 @@ import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 public class BaseArraysTest {
 
   protected Arrays arrays;
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected String[] actual;
   protected ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy;
   protected Arrays arraysWithCustomComparisonStrategy;
@@ -33,7 +34,7 @@ public class BaseArraysTest {
   @BeforeEach
   public void setUp() {
     actual = array("Luke", "Yoda", "Leia");
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     arrays = Arrays.instance();
     caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(new CaseInsensitiveStringComparator());
     arraysWithCustomComparisonStrategy = new Arrays(caseInsensitiveStringComparisonStrategy);

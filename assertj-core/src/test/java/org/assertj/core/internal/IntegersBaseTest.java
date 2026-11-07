@@ -19,6 +19,7 @@ import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -26,14 +27,14 @@ import org.junit.jupiter.api.BeforeEach;
  * Base class for testing <code>{@link Integers}</code>, set up an instance with {@link StandardComparisonStrategy} and another
  * with {@link ComparatorBasedComparisonStrategy}.
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Integers#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Integers#assertionErrorCreator} appropriately.
  *
  * @author Joel Costigliola
  *
  */
 public class IntegersBaseTest {
 
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Integers integers;
 
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
@@ -41,12 +42,12 @@ public class IntegersBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     integers = new Integers();
-    integers.setFailures(failures);
+    integers.setAssertionErrorCreator(assertionErrorCreator);
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<Integer>());
     integersWithAbsValueComparisonStrategy = new Integers(absValueComparisonStrategy);
-    integersWithAbsValueComparisonStrategy.failures = failures;
+    integersWithAbsValueComparisonStrategy.assertionErrorCreator = assertionErrorCreator;
   }
 
 }

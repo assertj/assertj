@@ -16,11 +16,11 @@
 package org.assertj.core.internal.files;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldContainRecursively.directoryShouldContainRecursively;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.IOException;
@@ -89,9 +89,9 @@ class Files_assertIsDirectoryRecursivelyContaining_Predicate_Test extends FilesS
     File notExistingFile = new File("foo/bar/doesnt-exist-file");
     Predicate<File> anyPredicate = f -> true;
     // WHEN
-    expectAssertionError(() -> files.assertIsDirectoryRecursivelyContaining(INFO, notExistingFile, anyPredicate));
+    var error = expectAssertionError(() -> files.assertIsDirectoryRecursivelyContaining(INFO, notExistingFile, anyPredicate));
     // THEN
-    verify(failures).failure(INFO, shouldBeDirectory(notExistingFile));
+    then(error).hasMessage(shouldBeDirectory(notExistingFile).create());
   }
 
   @Test
@@ -100,9 +100,9 @@ class Files_assertIsDirectoryRecursivelyContaining_Predicate_Test extends FilesS
     File existingFile = java.nio.file.Files.createFile(tempDir.resolve("FooFile.txt")).toFile();
     Predicate<File> anyPredicate = f -> true;
     // WHEN
-    expectAssertionError(() -> files.assertIsDirectoryRecursivelyContaining(INFO, existingFile, anyPredicate));
+    var error = expectAssertionError(() -> files.assertIsDirectoryRecursivelyContaining(INFO, existingFile, anyPredicate));
     // THEN
-    verify(failures).failure(INFO, shouldBeDirectory(existingFile));
+    then(error).hasMessage(shouldBeDirectory(existingFile).create());
   }
 
   @Test
@@ -110,8 +110,8 @@ class Files_assertIsDirectoryRecursivelyContaining_Predicate_Test extends FilesS
     // GIVEN
     Predicate<File> alwaysTrue = f -> true;
     // WHEN
-    expectAssertionError(() -> files.assertIsDirectoryRecursivelyContaining(INFO, tempDirAsFile, alwaysTrue));
+    var error = expectAssertionError(() -> files.assertIsDirectoryRecursivelyContaining(INFO, tempDirAsFile, alwaysTrue));
     // THEN
-    verify(failures).failure(INFO, directoryShouldContainRecursively(tempDirAsFile, emptyList(), THE_GIVEN_FILTER_DESCRIPTION));
+    then(error).hasMessage(directoryShouldContainRecursively(tempDirAsFile, emptyList(), THE_GIVEN_FILTER_DESCRIPTION).create());
   }
 }

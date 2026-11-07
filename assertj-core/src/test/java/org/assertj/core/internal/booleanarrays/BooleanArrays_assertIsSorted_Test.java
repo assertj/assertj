@@ -15,15 +15,14 @@
  */
 package org.assertj.core.internal.booleanarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.testkit.BooleanArrays.arrayOf;
 import static org.assertj.core.testkit.BooleanArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BooleanArrays;
@@ -70,11 +69,10 @@ class BooleanArrays_assertIsSorted_Test extends BooleanArraysBaseTest {
   void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     AssertionInfo info = someInfo();
     actual = arrayOf(false, true, false);
-
-    Throwable error = catchThrowable(() -> arrays.assertIsSorted(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeSorted(1, actual));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertIsSorted(info, actual));
+    // THEN
+    then(error).hasMessage(shouldBeSorted(1, actual).create());
   }
 
 }

@@ -15,22 +15,29 @@
  */
 package org.assertj.tests.core.internal.objectarrays;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainOnlyNulls.shouldContainOnlyNulls;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Billy Yuan
  */
-class ObjectArrays_assertContainsOnlyNulls_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertContainsOnlyNulls_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
   private Object[] actual = array();
 
   @Test
@@ -51,9 +58,9 @@ class ObjectArrays_assertContainsOnlyNulls_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_is_empty() {
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsOnlyNulls(INFO, actual));
+    var error = expectAssertionError(() -> arrays.assertContainsOnlyNulls(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldContainOnlyNulls(actual));
+    then(error).hasMessage(shouldContainOnlyNulls(actual).create());
   }
 
   @Test
@@ -62,9 +69,9 @@ class ObjectArrays_assertContainsOnlyNulls_Test extends ObjectArraysBaseTest {
     var actual = array(null, null, "person");
     List<String> nonNulls = list("person");
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsOnlyNulls(INFO, actual));
+    var error = expectAssertionError(() -> arrays.assertContainsOnlyNulls(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldContainOnlyNulls(actual, nonNulls));
+    then(error).hasMessage(shouldContainOnlyNulls(actual, nonNulls).create());
   }
 
   @Test
@@ -73,8 +80,8 @@ class ObjectArrays_assertContainsOnlyNulls_Test extends ObjectArraysBaseTest {
     var actual = array("person", "person2");
     List<String> nonNulls = list("person", "person2");
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsOnlyNulls(INFO, actual));
+    var error = expectAssertionError(() -> arrays.assertContainsOnlyNulls(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldContainOnlyNulls(actual, nonNulls));
+    then(error).hasMessage(shouldContainOnlyNulls(actual, nonNulls).create());
   }
 }

@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.characters;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Characters;
@@ -54,12 +53,13 @@ class Characters_assertGreaterThanOrEqualTo_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_less_than_other() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> characters.assertGreaterThanOrEqualTo(info, 'a', 'b'));
 
-    Throwable error = catchThrowable(() -> characters.assertGreaterThanOrEqualTo(info, 'a', 'b'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreaterOrEqual('a', 'b'));
+    // THEN
+    then(error).hasMessage(shouldBeGreaterOrEqual('a', 'b').create());
   }
 
   @Test
@@ -82,12 +82,13 @@ class Characters_assertGreaterThanOrEqualTo_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThanOrEqualTo(info, 'a',
+    // WHEN
+    var error = expectAssertionError(() -> charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThanOrEqualTo(info, 'a',
                                                                                                                       'B'));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreaterOrEqual('a', 'B', caseInsensitiveComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeGreaterOrEqual('a', 'B', caseInsensitiveComparisonStrategy).create());
   }
 }

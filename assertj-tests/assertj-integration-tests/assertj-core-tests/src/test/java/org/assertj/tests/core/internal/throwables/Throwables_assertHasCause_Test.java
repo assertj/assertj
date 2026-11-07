@@ -19,17 +19,22 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
 import static org.assertj.core.error.ShouldHaveNoCause.shouldHaveNoCause;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Throwables;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
+class Throwables_assertHasCause_Test {
+
+  private static final AssertionInfo INFO = someInfo();
+  private final Throwables throwables = Throwables.instance();
 
   @Test
   void should_pass_if_cause_has_expected_type_and_message() {
@@ -62,9 +67,9 @@ class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
     // GIVEN
     final Throwable throwable = withCause(cause);
     // WHEN
-    expectAssertionError(() -> throwables.assertHasCause(INFO, throwable, expected));
+    var error = expectAssertionError(() -> throwables.assertHasCause(INFO, throwable, expected));
     // THEN
-    verify(failures).failure(INFO, shouldHaveCause(throwable, expected));
+    then(error).hasMessage(shouldHaveCause(throwable, expected).create());
   }
 
   // @format:off
@@ -83,9 +88,9 @@ class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
     final Throwable throwable = withCause(new Throwable());
     final Throwable expected = null;
     // WHEN
-    expectAssertionError(() -> throwables.assertHasCause(INFO, throwable, expected));
+    var error = expectAssertionError(() -> throwables.assertHasCause(INFO, throwable, expected));
     // THEN
-    verify(failures).failure(INFO, shouldHaveNoCause(throwable));
+    then(error).hasMessage(shouldHaveNoCause(throwable).create());
   }
 
   @Test

@@ -20,7 +20,6 @@ import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
@@ -52,9 +51,9 @@ class Files_assertIsDirectory_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/file.txt");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsDirectory(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsDirectory(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldBeDirectory(actual));
+    then(error).hasMessage(shouldBeDirectory(actual).create());
   }
 
   @Test

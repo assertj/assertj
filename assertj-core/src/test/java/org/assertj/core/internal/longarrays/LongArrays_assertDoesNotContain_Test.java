@@ -15,20 +15,19 @@
  */
 package org.assertj.core.internal.longarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.LongArrays.arrayOf;
 import static org.assertj.core.testkit.LongArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.LongArrays;
@@ -73,13 +72,13 @@ class LongArrays_assertDoesNotContain_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_actual_contains_given_values() {
+    // GIVEN
     AssertionInfo info = someInfo();
     long[] expected = { 6L, 8L, 20L };
-
-    Throwable error = catchThrowable(() -> arrays.assertDoesNotContain(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet(6L, 8L)));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertDoesNotContain(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldNotContain(actual, expected, newLinkedHashSet(6L, 8L)).create());
   }
 
   @Test
@@ -118,12 +117,12 @@ class LongArrays_assertDoesNotContain_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     long[] expected = { 6L, -8L, 20L };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet(6L, -8L), absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldNotContain(actual, expected, newLinkedHashSet(6L, -8L), absValueComparisonStrategy).create());
   }
 }

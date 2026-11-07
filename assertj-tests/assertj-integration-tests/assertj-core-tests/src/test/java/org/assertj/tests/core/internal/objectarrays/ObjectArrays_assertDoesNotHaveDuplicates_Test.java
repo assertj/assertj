@@ -22,14 +22,25 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.tests.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Alex Ruiz
  */
-class ObjectArrays_assertDoesNotHaveDuplicates_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertDoesNotHaveDuplicates_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final String[] actual = array("Luke", "Yoda", "Leia");
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final ObjectArrays arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
 
   @Test
   void should_pass_if_actual_does_not_have_duplicates() {
@@ -54,9 +65,9 @@ class ObjectArrays_assertDoesNotHaveDuplicates_Test extends ObjectArraysBaseTest
     // GIVEN
     var actual = array("Luke", "Yoda", "Luke", "Yoda");
     // WHEN
-    expectAssertionError(() -> arrays.assertDoesNotHaveDuplicates(INFO, actual));
+    var error = expectAssertionError(() -> arrays.assertDoesNotHaveDuplicates(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldNotHaveDuplicates(actual, newLinkedHashSet("Luke", "Yoda")));
+    then(error).hasMessage(shouldNotHaveDuplicates(actual, newLinkedHashSet("Luke", "Yoda")).create());
   }
 
   @Test
@@ -82,10 +93,9 @@ class ObjectArrays_assertDoesNotHaveDuplicates_Test extends ObjectArraysBaseTest
     // GIVEN
     var actual = array("LUKE", "Yoda", "Luke", "Yoda");
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(INFO, actual));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(INFO, actual));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldNotHaveDuplicates(actual, newLinkedHashSet("Luke", "Yoda"),
-                                                     caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldNotHaveDuplicates(actual, newLinkedHashSet("Luke", "Yoda"),
+                                                   caseInsensitiveStringComparisonStrategy).create());
   }
 }

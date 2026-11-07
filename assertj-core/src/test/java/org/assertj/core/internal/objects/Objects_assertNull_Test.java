@@ -15,11 +15,10 @@
  */
 package org.assertj.core.internal.objects;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
@@ -40,12 +39,12 @@ class Objects_assertNull_Test extends ObjectsBaseTest {
 
   @Test
   void should_fail_if_object_is_not_null() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Object actual = new Object();
-
-    Throwable error = catchThrowable(() -> objects.assertNull(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(actual, null, info.representation()));
+    // WHEN
+    var error = expectAssertionError(() -> objects.assertNull(info, actual));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(actual, null, info.representation()).toAssertionError(info).getMessage());
   }
 }

@@ -25,11 +25,13 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -37,12 +39,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Marcin Mikosik
  */
-class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertContainsSubsequence_Test {
 
-  @Override
-  protected void initActualArray() {
-    actual = array("Yoda", "Luke", "Leia", "Obi-Wan");
-  }
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final String[] actual = array("Yoda", "Luke", "Leia", "Obi-Wan");
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final ObjectArrays arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
 
   @Test
   void should_pass_if_actual_contains_subsequence_with_elements_between() {
@@ -95,9 +98,9 @@ class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] subsequence = {};
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    verify(failures).failure(INFO, actualIsNotEmpty(actual));
+    then(error).hasMessage(actualIsNotEmpty(actual).create());
   }
 
   @Test
@@ -105,9 +108,9 @@ class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] subsequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    verify(failures).failure(INFO, actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence));
+    then(error).hasMessage(actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence).create());
   }
 
   @Test
@@ -115,9 +118,9 @@ class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] subsequence = { "Luke", "Leia", "Han" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, 2, StandardComparisonStrategy.instance()));
+    then(error).hasMessage(shouldContainSubsequence(actual, subsequence, 2, StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -125,9 +128,9 @@ class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] subsequence = { "Luke", "C-3PO" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, 1, StandardComparisonStrategy.instance()));
+    then(error).hasMessage(shouldContainSubsequence(actual, subsequence, 1, StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -136,9 +139,9 @@ class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBaseTest {
     var actual = array("Leia", "Luke", "Yoda", "Obi-Wan", "Anakin");
     Object[] subsequence = { "Leia", "Obi-Wan", "Han" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, 2, StandardComparisonStrategy.instance()));
+    then(error).hasMessage(shouldContainSubsequence(actual, subsequence, 2, StandardComparisonStrategy.instance()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -183,9 +186,10 @@ class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] subsequence = {};
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSubsequence(INFO, actual,
+                                                                                                        subsequence));
     // THEN
-    verify(failures).failure(INFO, actualIsNotEmpty(actual));
+    then(error).hasMessage(actualIsNotEmpty(actual).create());
   }
 
   @Test
@@ -193,9 +197,10 @@ class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] subsequence = { "LUKE", "LeiA", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSubsequence(INFO, actual,
+                                                                                                        subsequence));
     // THEN
-    verify(failures).failure(INFO, actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence));
+    then(error).hasMessage(actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence).create());
   }
 
   @Test
@@ -203,9 +208,10 @@ class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] subsequence = { "Han", "C-3PO" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSubsequence(INFO, actual,
+                                                                                                        subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, 0, caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldContainSubsequence(actual, subsequence, 0, caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test
@@ -214,8 +220,9 @@ class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBaseTest {
     var actual = array("Yoda", "Luke", "Leia", "Obi-Wan");
     Object[] subsequence = { "LeiA", "Obi-Wan", "Han" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSubsequence(INFO, actual,
+                                                                                                        subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, 2, caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldContainSubsequence(actual, subsequence, 2, caseInsensitiveStringComparisonStrategy).create());
   }
 }

@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.characters;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Characters;
@@ -52,12 +51,12 @@ class Characters_assertEqual_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_characters_are_not_equal() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertEqual(info, 'b', 'a'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual('b', 'a', info.representation()));
+    // WHEN
+    var error = expectAssertionError(() -> characters.assertEqual(info, 'b', 'a'));
+    // THEN
+    then(error).hasMessage(shouldBeEqual('b', 'a', info.representation()).toAssertionError(info).getMessage());
   }
 
   @Test
@@ -75,12 +74,12 @@ class Characters_assertEqual_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_characters_are_not_equal_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertEqual(info, 'b', 'a'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual('b', 'a', caseInsensitiveComparisonStrategy,
-                                                 new StandardRepresentation()));
+    // WHEN
+    var error = expectAssertionError(() -> charactersWithCaseInsensitiveComparisonStrategy.assertEqual(info, 'b', 'a'));
+    // THEN
+    then(error).hasMessage(shouldBeEqual('b', 'a', caseInsensitiveComparisonStrategy,
+                                         new StandardRepresentation()).toAssertionError(info).getMessage());
   }
 }

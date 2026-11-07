@@ -71,7 +71,7 @@ public class FieldsOrPropertiesExtractor {
   }
 
   private static void checkObjectToExtractFromIsNotNull(Object object) {
-    if (object == null) throw AssertionErrorCreator.INSTANCE.assertionError("Expecting actual not to be null");
+    if (object == null) throw AssertionErrorCreator.instance().assertionError("Expecting actual not to be null");
   }
 
 }

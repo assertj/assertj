@@ -19,30 +19,35 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Throwables;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Sandra Parsick
  * @author Georg Berky
  */
-class Throwables_assertHasMessageNotContaining_Test extends ThrowablesBaseTest {
+class Throwables_assertHasMessageNotContaining_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final Throwable actual = new NullPointerException("Throwable message");
 
   @Test
   void should_pass_if_actual_has_a_message_not_containing_the_given_content() {
-    throwables.assertHasMessageNotContaining(INFO, actual, "catchable");
+    Throwables.instance().assertHasMessageNotContaining(INFO, actual, "catchable");
   }
 
   @Test
   void should_pass_if_actual_has_no_message() {
-    throwables.assertHasMessageNotContaining(INFO, new NullPointerException(), "some description");
+    Throwables.instance().assertHasMessageNotContaining(INFO, new NullPointerException(), "some description");
   }
 
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    var error = expectAssertionError(() -> throwables.assertHasMessageNotContaining(INFO, null, "foo"));
+    var error = expectAssertionError(() -> Throwables.instance().assertHasMessageNotContaining(INFO, null, "foo"));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -52,8 +57,8 @@ class Throwables_assertHasMessageNotContaining_Test extends ThrowablesBaseTest {
     // GIVEN
     String content = "message";
     // WHEN
-    expectAssertionError(() -> throwables.assertHasMessageNotContaining(INFO, actual, content));
+    var error = expectAssertionError(() -> Throwables.instance().assertHasMessageNotContaining(INFO, actual, content));
     // THEN
-    verify(failures).failure(INFO, shouldNotContain(actual, content), actual.getMessage(), content);
+    then(error).hasMessage(shouldNotContain(actual, content).create());
   }
 }

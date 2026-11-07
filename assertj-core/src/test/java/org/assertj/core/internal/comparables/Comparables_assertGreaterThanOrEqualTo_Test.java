@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.comparables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 
@@ -59,12 +58,13 @@ class Comparables_assertGreaterThanOrEqualTo_Test extends ComparablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_less_than_other() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> comparables.assertGreaterThanOrEqualTo(info, 6, 8));
 
-    Throwable error = catchThrowable(() -> comparables.assertGreaterThanOrEqualTo(info, 6, 8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreaterOrEqual(6, 8));
+    // THEN
+    then(error).hasMessage(shouldBeGreaterOrEqual(6, 8).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -83,12 +83,13 @@ class Comparables_assertGreaterThanOrEqualTo_Test extends ComparablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> comparablesWithCustomComparisonStrategy.assertGreaterThanOrEqualTo(info, 6, -8));
 
-    Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertGreaterThanOrEqualTo(info, 6, -8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreaterOrEqual(6, -8, customComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeGreaterOrEqual(6, -8, customComparisonStrategy).create());
   }
 
 }

@@ -41,6 +41,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Provides validation helpers shared by internal assertion implementations.
@@ -50,7 +51,7 @@ import org.assertj.core.data.Percentage;
  */
 public final class CommonValidations {
 
-  private static final Failures FAILURES = Failures.instance();
+  private static final AssertionErrorCreator ASSERTION_ERROR_CREATOR = AssertionErrorCreator.instance();
 
   private CommonValidations() {}
 
@@ -108,13 +109,14 @@ public final class CommonValidations {
    * Fails when values are empty while the actual value is not.
    *
    * @param info assertion information
-   * @param failures failure handler
+   * @param assertionErrorCreator assertionError handler
    * @param actual the actual value
    * @param values the values to check
    */
-  public static void failIfEmptySinceActualIsNotEmpty(AssertionInfo info, Failures failures, Object actual,
+  public static void failIfEmptySinceActualIsNotEmpty(AssertionInfo info, AssertionErrorCreator assertionErrorCreator,
+                                                      Object actual,
                                                       Object values) {
-    if (isArrayEmpty(values)) throw failures.failure(info, actualIsNotEmpty(actual));
+    if (isArrayEmpty(values)) throw assertionErrorCreator.assertionError(info, actualIsNotEmpty(actual));
   }
 
   /**
@@ -162,7 +164,7 @@ public final class CommonValidations {
 
   static void checkSameSizes(AssertionInfo info, Object actual, Object other, int sizeOfActual, int sizeOfOther) {
     if (sizeOfActual != sizeOfOther)
-      throw FAILURES.failure(info, shouldHaveSameSizeAs(actual, other, sizeOfActual, sizeOfOther));
+      throw ASSERTION_ERROR_CREATOR.assertionError(info, shouldHaveSameSizeAs(actual, other, sizeOfActual, sizeOfOther));
   }
 
   /**
@@ -174,7 +176,8 @@ public final class CommonValidations {
    * @param info assertion information
    */
   public static void checkSizes(Object actual, int sizeOfActual, int sizeOfOther, AssertionInfo info) {
-    if (sizeOfActual != sizeOfOther) throw FAILURES.failure(info, shouldHaveSize(actual, sizeOfActual, sizeOfOther));
+    if (sizeOfActual != sizeOfOther)
+      throw ASSERTION_ERROR_CREATOR.assertionError(info, shouldHaveSize(actual, sizeOfActual, sizeOfOther));
   }
 
   /**
@@ -188,7 +191,7 @@ public final class CommonValidations {
   public static void checkSizeGreaterThan(Object actual, int boundary, int sizeOfActual,
                                           AssertionInfo info) {
     if (!(sizeOfActual > boundary))
-      throw FAILURES.failure(info, shouldHaveSizeGreaterThan(actual, sizeOfActual, boundary));
+      throw ASSERTION_ERROR_CREATOR.assertionError(info, shouldHaveSizeGreaterThan(actual, sizeOfActual, boundary));
   }
 
   /**
@@ -202,7 +205,7 @@ public final class CommonValidations {
   public static void checkSizeGreaterThanOrEqualTo(Object actual, int boundary, int sizeOfActual,
                                                    AssertionInfo info) {
     if (!(sizeOfActual >= boundary))
-      throw FAILURES.failure(info, shouldHaveSizeGreaterThanOrEqualTo(actual, sizeOfActual, boundary));
+      throw ASSERTION_ERROR_CREATOR.assertionError(info, shouldHaveSizeGreaterThanOrEqualTo(actual, sizeOfActual, boundary));
   }
 
   /**
@@ -216,7 +219,7 @@ public final class CommonValidations {
   public static void checkSizeLessThan(Object actual, int boundary, int sizeOfActual,
                                        AssertionInfo info) {
     if (!(sizeOfActual < boundary))
-      throw FAILURES.failure(info, shouldHaveSizeLessThan(actual, sizeOfActual, boundary));
+      throw ASSERTION_ERROR_CREATOR.assertionError(info, shouldHaveSizeLessThan(actual, sizeOfActual, boundary));
   }
 
   /**
@@ -230,7 +233,7 @@ public final class CommonValidations {
   public static void checkSizeLessThanOrEqualTo(Object actual, int boundary, int sizeOfActual,
                                                 AssertionInfo info) {
     if (!(sizeOfActual <= boundary))
-      throw FAILURES.failure(info, shouldHaveSizeLessThanOrEqualTo(actual, sizeOfActual, boundary));
+      throw ASSERTION_ERROR_CREATOR.assertionError(info, shouldHaveSizeLessThanOrEqualTo(actual, sizeOfActual, boundary));
   }
 
   /**
@@ -250,7 +253,8 @@ public final class CommonValidations {
                                                                                                                             lowerBoundary));
 
     if (!(lowerBoundary <= sizeOfActual && sizeOfActual <= higherBoundary))
-      throw FAILURES.failure(info, shouldHaveSizeBetween(actual, sizeOfActual, lowerBoundary, higherBoundary));
+      throw ASSERTION_ERROR_CREATOR.assertionError(info,
+                                                   shouldHaveSizeBetween(actual, sizeOfActual, lowerBoundary, higherBoundary));
   }
 
   /**
@@ -263,7 +267,7 @@ public final class CommonValidations {
    */
   public static void checkLineCounts(Object actual, int lineCountOfActual, int lineCountOfOther, AssertionInfo info) {
     if (lineCountOfActual != lineCountOfOther)
-      throw FAILURES.failure(info, shouldHaveLinesCount(actual, lineCountOfActual, lineCountOfOther));
+      throw ASSERTION_ERROR_CREATOR.assertionError(info, shouldHaveLinesCount(actual, lineCountOfActual, lineCountOfOther));
   }
 
   /**

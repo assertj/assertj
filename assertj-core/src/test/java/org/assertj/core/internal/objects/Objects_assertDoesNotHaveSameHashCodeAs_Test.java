@@ -21,7 +21,6 @@ import static org.assertj.core.error.ShouldNotHaveSameHashCode.shouldNotHaveSame
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
@@ -72,8 +71,8 @@ class Objects_assertDoesNotHaveSameHashCodeAs_Test extends ObjectsBaseTest {
     AssertionInfo info = someInfo();
     // WHEN
     // Jedi class hashCode is computed with the Jedi's name only
-    expectAssertionError(() -> objects.assertDoesNotHaveSameHashCodeAs(info, greenYoda, greenYoda));
+    var error = expectAssertionError(() -> objects.assertDoesNotHaveSameHashCodeAs(info, greenYoda, greenYoda));
     // THEN
-    verify(failures).failure(info, shouldNotHaveSameHashCode(greenYoda, greenYoda));
+    then(error).hasMessage(shouldNotHaveSameHashCode(greenYoda, greenYoda).create());
   }
 }

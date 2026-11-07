@@ -15,17 +15,16 @@
  */
 package org.assertj.core.internal.bytearrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.ByteArrays.arrayOf;
 import static org.assertj.core.testkit.ByteArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ByteArrays;
@@ -74,10 +73,9 @@ class ByteArrays_assertEndsWith_Test extends ByteArraysBaseTest {
     AssertionInfo info = someInfo();
     byte[] sequence = { 6, 8, 10, 12, 20, 22 };
 
-    Throwable error = catchThrowable(() -> arrays.assertEndsWith(info, actual, sequence));
+    var error = expectAssertionError(() -> arrays.assertEndsWith(info, actual, sequence));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldEndWith(actual, sequence));
+    then(error).hasMessage(shouldEndWith(actual, sequence).create());
   }
 
   @Test
@@ -85,10 +83,9 @@ class ByteArrays_assertEndsWith_Test extends ByteArraysBaseTest {
     AssertionInfo info = someInfo();
     byte[] sequence = { 20, 22 };
 
-    Throwable error = catchThrowable(() -> arrays.assertEndsWith(info, actual, sequence));
+    var error = expectAssertionError(() -> arrays.assertEndsWith(info, actual, sequence));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldEndWith(actual, sequence));
+    then(error).hasMessage(shouldEndWith(actual, sequence).create());
   }
 
   @Test
@@ -96,10 +93,9 @@ class ByteArrays_assertEndsWith_Test extends ByteArraysBaseTest {
     AssertionInfo info = someInfo();
     byte[] sequence = { 6, 20, 22 };
 
-    Throwable error = catchThrowable(() -> arrays.assertEndsWith(info, actual, sequence));
+    var error = expectAssertionError(() -> arrays.assertEndsWith(info, actual, sequence));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldEndWith(actual, sequence));
+    then(error).hasMessage(shouldEndWith(actual, sequence).create());
   }
 
   @Test
@@ -138,10 +134,9 @@ class ByteArrays_assertEndsWith_Test extends ByteArraysBaseTest {
     AssertionInfo info = someInfo();
     byte[] sequence = { 6, -8, 10, 12, 20, 22 };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
+    then(error).hasMessage(shouldEndWith(actual, sequence, absValueComparisonStrategy).create());
   }
 
   @Test
@@ -149,10 +144,9 @@ class ByteArrays_assertEndsWith_Test extends ByteArraysBaseTest {
     AssertionInfo info = someInfo();
     byte[] sequence = { 20, 22 };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
+    then(error).hasMessage(shouldEndWith(actual, sequence, absValueComparisonStrategy).create());
   }
 
   @Test
@@ -160,10 +154,9 @@ class ByteArrays_assertEndsWith_Test extends ByteArraysBaseTest {
     AssertionInfo info = someInfo();
     byte[] sequence = { 6, 20, 22 };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
+    then(error).hasMessage(shouldEndWith(actual, sequence, absValueComparisonStrategy).create());
   }
 
   @Test

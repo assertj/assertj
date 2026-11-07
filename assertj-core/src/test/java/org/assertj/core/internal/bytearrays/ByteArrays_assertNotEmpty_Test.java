@@ -15,15 +15,14 @@
  */
 package org.assertj.core.internal.bytearrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.testkit.ByteArrays.arrayOf;
 import static org.assertj.core.testkit.ByteArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ByteArrays;
@@ -48,10 +47,9 @@ class ByteArrays_assertNotEmpty_Test extends ByteArraysBaseTest {
   void should_fail_if_actual_is_empty() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arrays.assertNotEmpty(info, emptyArray()));
+    var error = expectAssertionError(() -> arrays.assertNotEmpty(info, emptyArray()));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEmpty());
+    then(error).hasMessage(shouldNotBeEmpty().create());
   }
 
   @Test

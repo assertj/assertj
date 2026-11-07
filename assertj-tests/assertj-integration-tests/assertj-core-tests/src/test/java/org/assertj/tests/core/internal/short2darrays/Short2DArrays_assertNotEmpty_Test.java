@@ -29,6 +29,6 @@ class Short2DArrays_assertNotEmpty_Test extends Short2DArraysBaseTest {
     // WHEN
     short2DArrays.assertNotEmpty(info, actual);
     // THEN
-    verify(arrays2d).assertNotEmpty(info, failures, actual);
+    verify(arrays2d).assertNotEmpty(info, assertionErrorCreator, actual);
   }
 }

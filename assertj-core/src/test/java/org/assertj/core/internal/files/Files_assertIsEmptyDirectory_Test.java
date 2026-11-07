@@ -27,7 +27,6 @@ import static org.assertj.core.util.Lists.list;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -56,9 +55,9 @@ class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
     File file = newFile(actual.getAbsolutePath() + "/Test.java");
     List<File> items = list(file);
     // WHEN
-    expectAssertionError(() -> underTest.assertIsEmptyDirectory(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsEmptyDirectory(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldBeEmptyDirectory(actual, items));
+    then(error).hasMessage(shouldBeEmptyDirectory(actual, items).create());
   }
 
   @Test
@@ -76,9 +75,9 @@ class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsEmptyDirectory(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsEmptyDirectory(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldBeDirectory(actual));
+    then(error).hasMessage(shouldBeDirectory(actual).create());
   }
 
   @Test
@@ -86,9 +85,9 @@ class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsEmptyDirectory(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsEmptyDirectory(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldBeDirectory(actual));
+    then(error).hasMessage(shouldBeDirectory(actual).create());
   }
 
   // use mock as it's hard to simulate listFiles(FileFilter.class) to return null

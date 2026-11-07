@@ -15,22 +15,22 @@
  */
 package org.assertj.tests.core.internal.strings;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.internal.ErrorMessages.regexPatternIsNull;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.matchAnything;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.regex.PatternSyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
-import org.assertj.tests.core.internal.StringsBaseTest;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -39,7 +39,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
+class Strings_assertMatches_CharSequence_Test {
+
+  private final ComparatorBasedComparisonStrategy comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final Strings stringsWithCaseInsensitiveComparisonStrategy = new Strings(comparisonStrategy);
 
   private String actual = "Yoda";
 
@@ -47,32 +50,32 @@ class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
   void should_throw_error_if_regular_expression_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       String regex = null;
-      strings.assertMatches(someInfo(), actual, regex);
+      Strings.instance().assertMatches(someInfo(), actual, regex);
     }).withMessage(regexPatternIsNull());
   }
 
   @Test
   void should_throw_error_if_syntax_of_regular_expression_is_invalid() {
-    assertThatExceptionOfType(PatternSyntaxException.class).isThrownBy(() -> strings.assertMatches(someInfo(), actual,
-                                                                                                   "*..."));
+    assertThatExceptionOfType(PatternSyntaxException.class).isThrownBy(() -> Strings.instance().assertMatches(someInfo(), actual,
+                                                                                                              "*..."));
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMatches(someInfo(), null,
-                                                                                           matchAnything().pattern()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Strings.instance().assertMatches(someInfo(), null,
+                                                                                                      matchAnything().pattern()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_does_not_match_regular_expression() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMatches(someInfo(), actual, "Luke"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Strings.instance().assertMatches(someInfo(), actual, "Luke"))
                                                    .withMessage(shouldMatch(actual, "Luke").create());
   }
 
   @Test
   void should_pass_if_actual_matches_Pattern() {
-    strings.assertMatches(someInfo(), actual, "Yod.*");
+    Strings.instance().assertMatches(someInfo(), actual, "Yod.*");
   }
 
   @Test
@@ -102,10 +105,8 @@ class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
   void should_fail_if_actual_does_not_match_regular_expression_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(info, actual, "Luke"));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldMatch(actual, "Luke"));
+    var error = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(info, actual, "Luke"));
+    then(error).hasMessage(shouldMatch(actual, "Luke").create());
   }
 
   @Test

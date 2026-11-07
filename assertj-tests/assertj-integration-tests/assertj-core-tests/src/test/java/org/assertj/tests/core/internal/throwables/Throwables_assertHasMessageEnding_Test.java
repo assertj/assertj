@@ -18,12 +18,18 @@ package org.assertj.tests.core.internal.throwables;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Throwables;
 import org.junit.jupiter.api.Test;
 
-class Throwables_assertHasMessageEnding_Test extends ThrowablesBaseTest {
+class Throwables_assertHasMessageEnding_Test {
+
+  private static final AssertionInfo INFO = someInfo();
+  private final Throwables throwables = Throwables.instance();
+  private Throwable actual = new NullPointerException("Throwable message");
 
   @Test
   void should_pass_if_actual_has_message_ending_with_expected_description() {
@@ -41,8 +47,8 @@ class Throwables_assertHasMessageEnding_Test extends ThrowablesBaseTest {
   @Test
   void should_fail_if_actual_has_message_not_ending_with_expected_description() {
     // WHEN
-    expectAssertionError(() -> throwables.assertHasMessageEndingWith(INFO, actual, "expected end"));
+    var error = expectAssertionError(() -> throwables.assertHasMessageEndingWith(INFO, actual, "expected end"));
     // THEN
-    verify(failures).failure(INFO, shouldEndWith(actual.getMessage(), "expected end"));
+    then(error).hasMessage(shouldEndWith(actual.getMessage(), "expected end").create());
   }
 }

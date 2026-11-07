@@ -23,7 +23,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.ShortArrays;
 import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +40,7 @@ class ShortArraysBaseTest {
    * is initialized with {@link #initActualArray()} with default value = {6, 8, 10}
    */
   protected short[] actual;
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected ShortArrays arrays;
 
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
@@ -51,14 +51,14 @@ class ShortArraysBaseTest {
   @BeforeEach
   public void setUp() {
     initActualArray();
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
 
     arrays = new ShortArrays(StandardComparisonStrategy.instance());
-    writeField(arrays, "failures", failures);
+    writeField(arrays, "assertionErrorCreator", assertionErrorCreator);
 
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
     arraysWithCustomComparisonStrategy = new ShortArrays(absValueComparisonStrategy);
-    writeField(arraysWithCustomComparisonStrategy, "failures", failures);
+    writeField(arraysWithCustomComparisonStrategy, "assertionErrorCreator", assertionErrorCreator);
   }
 
   protected void initActualArray() {

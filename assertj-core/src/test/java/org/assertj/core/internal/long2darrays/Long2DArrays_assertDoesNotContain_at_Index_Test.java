@@ -38,6 +38,6 @@ class Long2DArrays_assertDoesNotContain_at_Index_Test extends Long2DArraysBaseTe
     // WHEN
     long2dArrays.assertDoesNotContain(info, actual, longs, atIndex(1));
     // THEN
-    verify(arrays2d).assertDoesNotContain(info, failures, actual, longs, atIndex(1));
+    verify(arrays2d).assertDoesNotContain(info, assertionErrorCreator, actual, longs, atIndex(1));
   }
 }

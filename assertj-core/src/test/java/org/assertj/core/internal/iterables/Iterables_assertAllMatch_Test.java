@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ElementsShouldMatch.elementsShouldMatch;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -50,10 +49,8 @@ class Iterables_assertAllMatch_Test extends IterablesBaseTest {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<? super String> predicate = s -> s.startsWith("L");
 
-    Throwable error = catchThrowable(() -> iterables.assertAllMatch(info, actual, predicate, PredicateDescription.GIVEN));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsShouldMatch(actual, "Yoda", PredicateDescription.GIVEN));
+    var error = expectAssertionError(() -> iterables.assertAllMatch(info, actual, predicate, PredicateDescription.GIVEN));
+    then(error).hasMessage(elementsShouldMatch(actual, "Yoda", PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -61,22 +58,17 @@ class Iterables_assertAllMatch_Test extends IterablesBaseTest {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<? super String> predicate = s -> s.startsWith("L");
 
-    Throwable error = catchThrowable(() -> iterables.assertAllMatch(info, actual, predicate, new PredicateDescription("custom")));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsShouldMatch(actual, "Yoda", new PredicateDescription("custom")));
+    var error = expectAssertionError(() -> iterables.assertAllMatch(info, actual, predicate, new PredicateDescription("custom")));
+    then(error).hasMessage(elementsShouldMatch(actual, "Yoda", new PredicateDescription("custom")).create());
   }
 
   @Test
   void should_report_all_items_that_do_not_match() {
     List<String> actual = newArrayList("123", "1234", "12345");
 
-    Throwable error = catchThrowable(() -> iterables.assertAllMatch(someInfo(), actual, s -> s.length() <= 3,
+    var error = expectAssertionError(() -> iterables.assertAllMatch(someInfo(), actual, s -> s.length() <= 3,
                                                                     PredicateDescription.GIVEN));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             elementsShouldMatch(actual, newArrayList("1234", "12345"), PredicateDescription.GIVEN));
+    then(error).hasMessage(elementsShouldMatch(actual, newArrayList("1234", "12345"), PredicateDescription.GIVEN).create());
   }
 
 }

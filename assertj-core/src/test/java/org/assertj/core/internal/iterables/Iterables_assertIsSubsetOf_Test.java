@@ -15,16 +15,15 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.internal.ErrorMessages.iterableToLookForIsNull;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 import java.util.List;
@@ -105,10 +104,8 @@ class Iterables_assertIsSubsetOf_Test extends IterablesBaseTest {
     List<String> values = newArrayList("C-3PO", "Leila");
     List<String> extra = newArrayList("Yoda");
 
-    Throwable error = catchThrowable(() -> iterables.assertIsSubsetOf(info, actual, values));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeSubsetOf(actual, values, extra));
+    var error = expectAssertionError(() -> iterables.assertIsSubsetOf(info, actual, values));
+    then(error).hasMessage(shouldBeSubsetOf(actual, values, extra).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -140,10 +137,8 @@ class Iterables_assertIsSubsetOf_Test extends IterablesBaseTest {
     List<String> values = newArrayList("yoda", "C-3PO");
     List<String> extra = newArrayList("Luke");
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertIsSubsetOf(info, actual, values));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertIsSubsetOf(info, actual, values));
+    then(error).hasMessage(shouldBeSubsetOf(actual, values, extra, comparisonStrategy).create());
   }
 
 }

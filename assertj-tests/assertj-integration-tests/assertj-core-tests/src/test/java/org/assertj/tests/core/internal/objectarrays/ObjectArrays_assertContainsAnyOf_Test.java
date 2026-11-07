@@ -39,7 +39,7 @@ class ObjectArrays_assertContainsAnyOf_Test extends ObjectArraysBaseTest {
     // WHEN
     arrays.assertContainsAnyOf(INFO, actual, new String[] { "foo", "bar" });
     // THEN
-    verify(internalArrays).assertContainsAnyOf(INFO, failures, actual, new String[] { "foo", "bar" });
+    verify(internalArrays).assertContainsAnyOf(INFO, assertionErrorCreator, actual, new String[] { "foo", "bar" });
   }
 
 }

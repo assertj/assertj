@@ -15,10 +15,9 @@
  */
 package org.assertj.core.internal.booleanarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
@@ -26,9 +25,9 @@ import static org.assertj.core.testkit.BooleanArrays.arrayOf;
 import static org.assertj.core.testkit.BooleanArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.asList;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BooleanArrays;
@@ -55,10 +54,10 @@ class BooleanArrays_assertContainsExactly_Test extends BooleanArraysBaseTest {
     AssertionInfo info = someInfo();
     boolean[] expected = arrayOf(false, true);
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex(true, false, 0), asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(elementsDifferAtIndex(true, false, 0).create());
   }
 
   @Test
@@ -92,12 +91,11 @@ class BooleanArrays_assertContainsExactly_Test extends BooleanArraysBaseTest {
     AssertionInfo info = someInfo();
     boolean[] expected = { true, true };
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactly(actual, asList(expected), newArrayList(true), newArrayList(false)),
-                             asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected), newArrayList(true),
+                                                newArrayList(false)).create());
   }
 
   @Test
@@ -106,12 +104,11 @@ class BooleanArrays_assertContainsExactly_Test extends BooleanArraysBaseTest {
     boolean[] actual = { true, true };
     boolean[] expected = { true };
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactly(actual, asList(expected), newArrayList(), newArrayList(true)), asList(actual),
-                             asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected), newArrayList(),
+                                                newArrayList(true)).create());
   }
 
 }

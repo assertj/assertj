@@ -34,6 +34,6 @@ class Boolean2DArrays_assertNotEmpty_Test extends Boolean2DArraysBaseTest {
     // WHEN
     boolean2dArrays.assertNotEmpty(info, actual);
     // THEN
-    verify(arrays2d).assertNotEmpty(info, failures, actual);
+    verify(arrays2d).assertNotEmpty(info, assertionErrorCreator, actual);
   }
 }

@@ -20,12 +20,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for testing <code>{@link Long2DArrays}</code>.
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Long2DArrays#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Long2DArrays#assertionErrorCreator} appropriately.
  *
  * @author Maciej Wajcht
  */
@@ -35,16 +36,16 @@ public class Long2DArraysBaseTest {
    * is initialized with {@link #initActualArray()} with default value = {{0, 2, 4}, {6, 8, 10}}
    */
   protected long[][] actual;
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Long2DArrays long2dArrays;
   protected Arrays2D arrays2d;
   protected AssertionInfo info = someInfo();
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     long2dArrays = new Long2DArrays();
-    long2dArrays.failures = failures;
+    long2dArrays.assertionErrorCreator = assertionErrorCreator;
     arrays2d = mock(Arrays2D.class);
     long2dArrays.setArrays(arrays2d);
     initActualArray();

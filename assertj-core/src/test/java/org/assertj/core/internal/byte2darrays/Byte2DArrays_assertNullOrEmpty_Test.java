@@ -34,6 +34,6 @@ class Byte2DArrays_assertNullOrEmpty_Test extends Byte2DArraysBaseTest {
     // WHEN
     byte2dArrays.assertNullOrEmpty(info, actual);
     // THEN
-    verify(arrays2d).assertNullOrEmpty(info, failures, actual);
+    verify(arrays2d).assertNullOrEmpty(info, assertionErrorCreator, actual);
   }
 }

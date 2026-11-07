@@ -15,17 +15,16 @@
  */
 package org.assertj.core.internal.booleanarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.BooleanArrays.arrayOf;
 import static org.assertj.core.testkit.BooleanArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BooleanArrays;
@@ -79,10 +78,10 @@ class BooleanArrays_assertContainsSequence_Test extends BooleanArraysBaseTest {
     AssertionInfo info = someInfo();
     boolean[] sequence = { true, true, true, false, false, false };
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence);
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsSequence(info, actual, sequence));
+    // THEN
+    then(error).hasMessage(shouldContainSequence(actual, sequence).create());
   }
 
   @Test
@@ -96,15 +95,10 @@ class BooleanArrays_assertContainsSequence_Test extends BooleanArraysBaseTest {
   void should_fail_if_actual_contains_first_elements_of_sequence() {
     AssertionInfo info = someInfo();
     boolean[] sequence = { true, true };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence);
-  }
-
-  private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, boolean[] sequence) {
-    verify(failures).failure(info, shouldContainSequence(actual, sequence));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsSequence(info, actual, sequence));
+    // THEN
+    then(error).hasMessage(shouldContainSequence(actual, sequence).create());
   }
 
   @Test

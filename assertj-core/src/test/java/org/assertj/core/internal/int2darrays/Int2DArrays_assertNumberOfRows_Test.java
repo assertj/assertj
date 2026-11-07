@@ -27,7 +27,7 @@ class Int2DArrays_assertNumberOfRows_Test extends Int2DArraysBaseTest {
     // WHEN
     int2DArrays.assertNumberOfRows(info, actual, 2);
     // THEN
-    verify(arrays2d).assertNumberOfRows(info, failures, actual, 2);
+    verify(arrays2d).assertNumberOfRows(info, assertionErrorCreator, actual, 2);
   }
 
 }

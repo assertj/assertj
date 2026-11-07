@@ -38,7 +38,7 @@ import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.presentation.PredicateDescription;
 
 /// [Optional] assertions.
@@ -150,7 +150,8 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
       if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
       // noinspection OptionalGetWithoutIsPresent
       if (!optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue))
-        throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.get(), expectedValue);
+        throw AssertionErrorCreator.instance().assertionError(info, shouldContain(actual, expectedValue), actual.get(),
+                                                              expectedValue);
     });
   }
 
@@ -314,7 +315,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
     return executeAssertion(() -> {
       isNotNull();
       if (actual.isPresent() && optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue)) {
-        throw Failures.instance().failure(info, shouldNotContainValue(actual.get(), expectedValue));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldNotContainValue(actual.get(), expectedValue));
       }
     });
   }

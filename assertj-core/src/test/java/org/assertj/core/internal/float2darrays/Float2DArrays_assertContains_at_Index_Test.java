@@ -38,6 +38,6 @@ class Float2DArrays_assertContains_at_Index_Test extends Float2DArraysBaseTest {
     // WHEN
     float2dArrays.assertContains(info, actual, floats, atIndex(1));
     // THEN
-    verify(arrays2d).assertContains(info, failures, actual, floats, atIndex(1));
+    verify(arrays2d).assertContains(info, assertionErrorCreator, actual, floats, atIndex(1));
   }
 }

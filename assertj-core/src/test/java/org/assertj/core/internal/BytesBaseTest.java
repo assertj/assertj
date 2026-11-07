@@ -18,36 +18,37 @@ package org.assertj.core.internal;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for {@link Bytes} unit tests
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Bytes#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Bytes#assertionErrorCreator} appropriately.
  * 
  * @author Joel Costigliola
  * 
  */
 public class BytesBaseTest {
 
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Bytes bytes;
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected Bytes bytesWithAbsValueComparisonStrategy;
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     bytes = new Bytes();
-    bytes.setFailures(failures);
+    bytes.setAssertionErrorCreator(assertionErrorCreator);
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<Byte>());
     bytesWithAbsValueComparisonStrategy = new Bytes(absValueComparisonStrategy);
-    bytesWithAbsValueComparisonStrategy.failures = failures;
+    bytesWithAbsValueComparisonStrategy.assertionErrorCreator = assertionErrorCreator;
   }
 
-  protected void resetFailures() {
-    bytes.resetFailures();
-    bytesWithAbsValueComparisonStrategy.resetFailures();
+  protected void resetAssertionErrorCreator() {
+    bytes.resetAssertionErrorCreator();
+    bytesWithAbsValueComparisonStrategy.resetAssertionErrorCreator();
   }
 }

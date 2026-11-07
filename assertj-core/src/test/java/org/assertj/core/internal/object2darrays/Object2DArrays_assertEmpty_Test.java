@@ -34,6 +34,6 @@ class Object2DArrays_assertEmpty_Test extends Object2DArraysBaseTest {
     // WHEN
     object2dArrays.assertEmpty(info, actual);
     // THEN
-    verify(arrays2d).assertEmpty(info, failures, actual);
+    verify(arrays2d).assertEmpty(info, assertionErrorCreator, actual);
   }
 }

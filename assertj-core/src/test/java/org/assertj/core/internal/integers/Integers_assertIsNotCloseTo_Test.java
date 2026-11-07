@@ -16,16 +16,15 @@
 package org.assertj.core.internal.integers;
 
 import static java.lang.Math.abs;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.within;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.IntegersBaseTest;
@@ -69,13 +68,12 @@ class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
       "1, 0, 2",
       "0, 1, 2"
   })
-  void should_fail_if_actual_is_too_close_to_the_other_value(int actual, int other, int offset) {
+  void should_fail_if_actual_is_too_close_to_the_other_value(int actual, int other, int offset) {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> integers.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual(actual, other, byLessThan(offset), abs(actual - other)));
+    // WHEN
+    var error = expectAssertionError(() -> integers.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset)));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual(actual, other, byLessThan(offset), abs(actual - other)).create());
   }
 
   @ParameterizedTest
@@ -84,14 +82,13 @@ class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
       "1, 0, 2",
       "0, 1, 2"
   })
-  void should_fail_if_actual_is_too_close_to_the_other_value_with_strict_offset(int actual, int other,
+  void should_fail_if_actual_is_too_close_to_the_other_value_with_strict_offset(int actual, int other,    // GIVEN
                                                                                 int offset) {
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> integers.assertIsNotCloseTo(info, actual, other, byLessThan(offset)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual(actual, other, byLessThan(offset), abs(actual - other)));
+    // WHEN
+    var error = expectAssertionError(() -> integers.assertIsNotCloseTo(info, actual, other, byLessThan(offset)));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual(actual, other, byLessThan(offset), abs(actual - other)).create());
   }
 
   @ParameterizedTest
@@ -100,13 +97,12 @@ class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
       "1, 0, 1",
       "1, 2, 1"
   })
-  void should_fail_if_difference_is_equal_to_given_offset(int actual, int other, int offset) {
+  void should_fail_if_difference_is_equal_to_given_offset(int actual, int other, int offset) {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> integers.assertIsNotCloseTo(someInfo(), actual, other, within(offset)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual(actual, other, within(offset), abs(actual - other)));
+    // WHEN
+    var error = expectAssertionError(() -> integers.assertIsNotCloseTo(someInfo(), actual, other, within(offset)));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual(actual, other, within(offset), abs(actual - other)).create());
   }
 
   @Test

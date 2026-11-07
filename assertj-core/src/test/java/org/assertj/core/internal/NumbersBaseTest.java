@@ -23,12 +23,13 @@ import java.util.Comparator;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 public abstract class NumbersBaseTest<NUMBERS_TYPE extends Numbers<?>, NUMBER_TYPE extends Number> {
 
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected AssertionInfo info = someInfo();
   protected NUMBERS_TYPE numbers;
 
@@ -43,15 +44,15 @@ public abstract class NumbersBaseTest<NUMBERS_TYPE extends Numbers<?>, NUMBER_TY
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     numbers = getNumbers();
-    numbers.setFailures(failures);
+    numbers.setAssertionErrorCreator(assertionErrorCreator);
     comparatorComparisonStrategy = new ComparatorBasedComparisonStrategy(getComparator());
     numbersWithComparatorComparisonStrategy = getNumbers(comparatorComparisonStrategy);
-    numbersWithComparatorComparisonStrategy.failures = failures;
+    numbersWithComparatorComparisonStrategy.assertionErrorCreator = assertionErrorCreator;
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<NUMBER_TYPE>());
     numbersWithAbsValueComparisonStrategy = getNumbers(absValueComparisonStrategy);
-    numbersWithAbsValueComparisonStrategy.failures = failures;
+    numbersWithAbsValueComparisonStrategy.assertionErrorCreator = assertionErrorCreator;
   }
 
   protected abstract NUMBERS_TYPE getNumbers();

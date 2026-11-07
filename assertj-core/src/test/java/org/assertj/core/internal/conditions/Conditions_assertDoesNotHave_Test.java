@@ -15,12 +15,11 @@
  */
 package org.assertj.core.internal.conditions;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotHave.shouldNotHave;
 import static org.assertj.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -51,12 +50,13 @@ class Conditions_assertDoesNotHave_Test extends ConditionsBaseTest {
 
   @Test
   void should_fail_if_Condition_is_met() {
+    // GIVEN
     condition.shouldMatch(true);
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> conditions.assertDoesNotHave(info, actual, condition));
 
-    Throwable error = catchThrowable(() -> conditions.assertDoesNotHave(info, actual, condition));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotHave(actual, condition));
+    // THEN
+    then(error).hasMessage(shouldNotHave(actual, condition).create());
   }
 }

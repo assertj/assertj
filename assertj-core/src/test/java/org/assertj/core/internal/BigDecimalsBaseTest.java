@@ -25,7 +25,7 @@ import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 /**
  * Base class for {@link BigDecimals} unit tests
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link BigDecimals#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link BigDecimals#assertionErrorCreator} appropriately.
  * 
  * @author Joel Costigliola
  * 

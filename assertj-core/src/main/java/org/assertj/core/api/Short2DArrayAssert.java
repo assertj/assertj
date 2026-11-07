@@ -23,7 +23,7 @@ import static org.assertj.core.error.array2d.Array2dElementShouldBeDeepEqual.ele
 import java.util.Comparator;
 
 import org.assertj.core.data.Index;
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Short2DArrays;
 
 /**
@@ -37,7 +37,7 @@ import org.assertj.core.internal.Short2DArrays;
  */
 public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert, short[][], Short> {
 
-  private final Failures failures = Failures.instance();
+  private final AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /** Assertion implementation for two-dimensional short arrays. */
@@ -77,23 +77,28 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
       if (actual == expected) return;
       isNotNull();
       if (expected.length != actual.length) {
-        throw failures.failure(info, shouldHaveSameSizeAs(actual, expected, actual.length, expected.length));
+        throw assertionErrorCreator.assertionError(info,
+                                                   shouldHaveSameSizeAs(actual, expected, actual.length, expected.length));
       }
       for (int i = 0; i < actual.length; i++) {
         short[] actualSubArray = actual[i];
         short[] expectedSubArray = expected[i];
 
         if (actualSubArray == expectedSubArray) continue;
-        if (actualSubArray == null) throw failures.failure(info, shouldNotBeNull("actual[" + i + "]"));
+        if (actualSubArray == null) throw assertionErrorCreator.assertionError(info, shouldNotBeNull("actual[" + i + "]"));
         if (expectedSubArray.length != actualSubArray.length) {
-          throw failures.failure(info, subarraysShouldHaveSameSize(actual, expected, actualSubArray, actualSubArray.length,
-                                                                   expectedSubArray, expectedSubArray.length, i),
-                                 info.representation().toStringOf(actual), info.representation().toStringOf(expected));
+          throw assertionErrorCreator.assertionError(info,
+                                                     subarraysShouldHaveSameSize(actual, expected, actualSubArray,
+                                                                                 actualSubArray.length,
+                                                                                 expectedSubArray, expectedSubArray.length, i),
+                                                     info.representation().toStringOf(actual),
+                                                     info.representation().toStringOf(expected));
         }
         for (int j = 0; j < actualSubArray.length; j++) {
           if (actualSubArray[j] != expectedSubArray[j]) {
-            throw failures.failure(info, elementShouldBeEqual(actualSubArray[j], expectedSubArray[j], i, j),
-                                   info.representation().toStringOf(actual), info.representation().toStringOf(expected));
+            throw assertionErrorCreator.assertionError(info, elementShouldBeEqual(actualSubArray[j], expectedSubArray[j], i, j),
+                                                       info.representation().toStringOf(actual),
+                                                       info.representation().toStringOf(expected));
           }
         }
       }

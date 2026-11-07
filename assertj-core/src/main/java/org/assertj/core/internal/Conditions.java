@@ -26,6 +26,7 @@ import static org.assertj.core.error.ShouldSatisfy.shouldSatisfyAll;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.condition.AllOf;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Verifies that a value satisfies a <code>{@link Condition}</code>.
@@ -45,7 +46,7 @@ public class Conditions {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Failures failures = Failures.instance();
+  AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Conditions() {}
@@ -61,7 +62,7 @@ public class Conditions {
    */
   public <T> void assertIs(AssertionInfo info, T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
-    if (!condition.matches(actual)) throw failures.failure(info, shouldBe(actual, condition));
+    if (!condition.matches(actual)) throw assertionErrorCreator.assertionError(info, shouldBe(actual, condition));
   }
 
   /**
@@ -75,7 +76,7 @@ public class Conditions {
    */
   public <T> void assertIsNot(AssertionInfo info, T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
-    if (condition.matches(actual)) throw failures.failure(info, shouldNotBe(actual, condition));
+    if (condition.matches(actual)) throw assertionErrorCreator.assertionError(info, shouldNotBe(actual, condition));
   }
 
   /**
@@ -89,7 +90,7 @@ public class Conditions {
    */
   public <T> void assertHas(AssertionInfo info, T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
-    if (!condition.matches(actual)) throw failures.failure(info, shouldHave(actual, condition));
+    if (!condition.matches(actual)) throw assertionErrorCreator.assertionError(info, shouldHave(actual, condition));
   }
 
   /**
@@ -103,7 +104,7 @@ public class Conditions {
    */
   public <T> void assertDoesNotHave(AssertionInfo info, T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
-    if (condition.matches(actual)) throw failures.failure(info, shouldNotHave(actual, condition));
+    if (condition.matches(actual)) throw assertionErrorCreator.assertionError(info, shouldNotHave(actual, condition));
   }
 
   /**
@@ -118,8 +119,9 @@ public class Conditions {
     assertIsNotNull(condition);
     if (!condition.matches(actual)) {
       if (condition instanceof AllOf)
-        throw failures.failure(info, shouldSatisfyAll(actual, condition.conditionDescriptionWithStatus(actual)));
-      throw failures.failure(info, shouldSatisfy(actual, condition));
+        throw assertionErrorCreator.assertionError(info,
+                                                   shouldSatisfyAll(actual, condition.conditionDescriptionWithStatus(actual)));
+      throw assertionErrorCreator.assertionError(info, shouldSatisfy(actual, condition));
     }
   }
 

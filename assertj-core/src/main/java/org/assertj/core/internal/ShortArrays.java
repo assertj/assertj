@@ -22,6 +22,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Reusable assertions for arrays of {@code short}s.
@@ -45,7 +46,7 @@ public class ShortArrays {
 
   private final Arrays arrays;
 
-  private final Failures failures = Failures.instance();
+  private final AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
   /**
    * Creates short array assertions using the given comparison strategy.
@@ -64,7 +65,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is not {@code null} *and* contains one or more elements.
    */
   public void assertNullOrEmpty(AssertionInfo info, short[] actual) {
-    arrays.assertNullOrEmpty(info, failures, actual);
+    arrays.assertNullOrEmpty(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -76,7 +77,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is not empty.
    */
   public void assertEmpty(AssertionInfo info, short[] actual) {
-    arrays.assertEmpty(info, failures, actual);
+    arrays.assertEmpty(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -88,7 +89,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array is empty.
    */
   public void assertNotEmpty(AssertionInfo info, short[] actual) {
-    arrays.assertNotEmpty(info, failures, actual);
+    arrays.assertNotEmpty(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -210,7 +211,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array does not contain the given values.
    */
   public void assertContains(AssertionInfo info, short[] actual, short[] values) {
-    arrays.assertContains(info, failures, actual, values);
+    arrays.assertContains(info, assertionErrorCreator, actual, values);
   }
 
   /**
@@ -227,7 +228,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array does not contain the given value at the given index.
    */
   public void assertContains(AssertionInfo info, short[] actual, short value, Index index) {
-    arrays.assertContains(info, failures, actual, value, index);
+    arrays.assertContains(info, assertionErrorCreator, actual, value, index);
   }
 
   /**
@@ -242,7 +243,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array contains the given value at the given index.
    */
   public void assertDoesNotContain(AssertionInfo info, short[] actual, short value, Index index) {
-    arrays.assertDoesNotContain(info, failures, actual, value, index);
+    arrays.assertDoesNotContain(info, assertionErrorCreator, actual, value, index);
   }
 
   /**
@@ -258,7 +259,7 @@ public class ShortArrays {
    *           that are not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, short[] actual, short[] values) {
-    arrays.assertContainsOnly(info, failures, actual, values);
+    arrays.assertContainsOnly(info, assertionErrorCreator, actual, values);
   }
 
   /**
@@ -269,7 +270,7 @@ public class ShortArrays {
    * @param values the expected values
    */
   public void assertContainsExactly(AssertionInfo info, short[] actual, short[] values) {
-    arrays.assertContainsExactly(info, failures, actual, values);
+    arrays.assertContainsExactly(info, assertionErrorCreator, actual, values);
   }
 
   /**
@@ -280,7 +281,7 @@ public class ShortArrays {
    * @param values the expected values
    */
   public void assertContainsExactlyInAnyOrder(AssertionInfo info, short[] actual, short[] values) {
-    arrays.assertContainsExactlyInAnyOrder(info, failures, actual, values);
+    arrays.assertContainsExactlyInAnyOrder(info, assertionErrorCreator, actual, values);
   }
 
   /**
@@ -296,7 +297,7 @@ public class ShortArrays {
    *           than once values.
    */
   public void assertContainsOnlyOnce(AssertionInfo info, short[] actual, short[] values) {
-    arrays.assertContainsOnlyOnce(info, failures, actual, values);
+    arrays.assertContainsOnlyOnce(info, assertionErrorCreator, actual, values);
   }
 
   /**
@@ -311,7 +312,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array does not contain the given sequence of values.
    */
   public void assertContainsSequence(AssertionInfo info, short[] actual, short[] sequence) {
-    arrays.assertContainsSequence(info, failures, actual, sequence);
+    arrays.assertContainsSequence(info, assertionErrorCreator, actual, sequence);
   }
 
   /**
@@ -326,7 +327,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array does not contain the given subsequence of values.
    */
   public void assertContainsSubsequence(AssertionInfo info, short[] actual, short[] subsequence) {
-    arrays.assertContainsSequence(info, failures, actual, subsequence);
+    arrays.assertContainsSequence(info, assertionErrorCreator, actual, subsequence);
   }
 
   /**
@@ -341,7 +342,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array contains any of given values.
    */
   public void assertDoesNotContain(AssertionInfo info, short[] actual, short[] values) {
-    arrays.assertDoesNotContain(info, failures, actual, values);
+    arrays.assertDoesNotContain(info, assertionErrorCreator, actual, values);
   }
 
   /**
@@ -355,7 +356,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array contains duplicate values.
    */
   public void assertDoesNotHaveDuplicates(AssertionInfo info, short[] actual) {
-    arrays.assertDoesNotHaveDuplicates(info, failures, actual);
+    arrays.assertDoesNotHaveDuplicates(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -372,7 +373,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array does not start with the given sequence of values.
    */
   public void assertStartsWith(AssertionInfo info, short[] actual, short[] sequence) {
-    arrays.assertStartsWith(info, failures, actual, sequence);
+    arrays.assertStartsWith(info, assertionErrorCreator, actual, sequence);
   }
 
   /**
@@ -389,7 +390,7 @@ public class ShortArrays {
    * @throws AssertionError if the given array does not end with the given sequence of values.
    */
   public void assertEndsWith(AssertionInfo info, short[] actual, short[] sequence) {
-    arrays.assertEndsWith(info, failures, actual, sequence);
+    arrays.assertEndsWith(info, assertionErrorCreator, actual, sequence);
   }
 
   /**
@@ -399,7 +400,7 @@ public class ShortArrays {
    * @param actual the given array.
    */
   public void assertIsSorted(AssertionInfo info, short[] actual) {
-    arrays.assertIsSorted(info, failures, actual);
+    arrays.assertIsSorted(info, assertionErrorCreator, actual);
   }
 
   /**
@@ -411,7 +412,7 @@ public class ShortArrays {
    */
   public void assertIsSortedAccordingToComparator(AssertionInfo info, short[] actual,
                                                   Comparator<? super Short> comparator) {
-    Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
+    Arrays.assertIsSortedAccordingToComparator(info, assertionErrorCreator, actual, comparator);
   }
 
   /**
@@ -422,6 +423,6 @@ public class ShortArrays {
    * @param values the expected values
    */
   public void assertContainsAnyOf(AssertionInfo info, short[] actual, short[] values) {
-    arrays.assertContainsAnyOf(info, failures, actual, values);
+    arrays.assertContainsAnyOf(info, assertionErrorCreator, actual, values);
   }
 }

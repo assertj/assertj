@@ -26,8 +26,8 @@ import java.util.OptionalDouble;
 
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Doubles;
-import org.assertj.core.internal.Failures;
 
 /**
  * Assertions for {@link java.util.OptionalDouble}.
@@ -152,7 +152,8 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
       isNotNull();
       if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
       if (Double.compare(expectedValue, actual.getAsDouble()) != 0)
-        throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.getAsDouble(), expectedValue);
+        throw AssertionErrorCreator.instance().assertionError(info, shouldContain(actual, expectedValue), actual.getAsDouble(),
+                                                              expectedValue);
     });
   }
 

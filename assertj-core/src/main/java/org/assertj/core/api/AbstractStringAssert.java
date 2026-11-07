@@ -31,8 +31,8 @@ import java.util.Comparator;
 
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Comparables;
-import org.assertj.core.internal.Failures;
 
 /**
  * Base class for assertions on {@link String} values.
@@ -42,7 +42,7 @@ import org.assertj.core.internal.Failures;
 public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> extends AbstractCharSequenceAssert<SELF, String> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Failures failures = Failures.instance();
+  AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
   /**
    * Creates a new {@link String} assertion.
@@ -471,7 +471,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
       try {
         return InstanceOfAssertFactories.BYTE.createAssert(Byte.parseByte(actual)).withAssertionState(myself);
       } catch (NumberFormatException e) {
-        throw failures.failure(info, shouldBeNumeric(actual, BYTE));
+        throw assertionErrorCreator.assertionError(info, shouldBeNumeric(actual, BYTE));
       }
     }, ByteAssert::nullByteAssert);
   }
@@ -547,7 +547,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
         byte[] bytes = actual.getBytes(charsetName);
         return InstanceOfAssertFactories.BYTE_ARRAY.createAssert(bytes).withAssertionState(myself);
       } catch (UnsupportedEncodingException e) {
-        throw failures.failure(charsetName + " is not a supported Charset");
+        throw assertionErrorCreator.assertionError(charsetName + " is not a supported Charset");
       }
     }, ByteArrayAssert::nullByteArrayAssert);
   }
@@ -573,7 +573,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
       try {
         return InstanceOfAssertFactories.SHORT.createAssert(Short.parseShort(actual)).withAssertionState(myself);
       } catch (NumberFormatException e) {
-        throw failures.failure(info, shouldBeNumeric(actual, SHORT));
+        throw assertionErrorCreator.assertionError(info, shouldBeNumeric(actual, SHORT));
       }
     }, ShortAssert::nullShortAssert);
   }
@@ -599,7 +599,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
       try {
         return InstanceOfAssertFactories.INTEGER.createAssert(Integer.parseInt(actual)).withAssertionState(myself);
       } catch (NumberFormatException e) {
-        throw failures.failure(info, shouldBeNumeric(actual, INTEGER));
+        throw assertionErrorCreator.assertionError(info, shouldBeNumeric(actual, INTEGER));
       }
     }, IntegerAssert::nullIntegerAssert);
   }
@@ -625,7 +625,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
       try {
         return InstanceOfAssertFactories.LONG.createAssert(Long.parseLong(actual)).withAssertionState(myself);
       } catch (NumberFormatException e) {
-        throw failures.failure(info, shouldBeNumeric(actual, LONG));
+        throw assertionErrorCreator.assertionError(info, shouldBeNumeric(actual, LONG));
       }
     }, LongAssert::nullLongAssert);
   }
@@ -651,7 +651,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
       try {
         return InstanceOfAssertFactories.FLOAT.createAssert(Float.parseFloat(actual)).withAssertionState(myself);
       } catch (NumberFormatException | NullPointerException e) {
-        throw failures.failure(info, shouldBeNumeric(actual, FLOAT));
+        throw assertionErrorCreator.assertionError(info, shouldBeNumeric(actual, FLOAT));
       }
     }, FloatAssert::nullFloatAssert);
   }
@@ -677,7 +677,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
       try {
         return InstanceOfAssertFactories.DOUBLE.createAssert(Double.parseDouble(actual)).withAssertionState(myself);
       } catch (NumberFormatException | NullPointerException e) {
-        throw failures.failure(info, shouldBeNumeric(actual, DOUBLE));
+        throw assertionErrorCreator.assertionError(info, shouldBeNumeric(actual, DOUBLE));
       }
     }, DoubleAssert::nullDoubleAssert);
   }

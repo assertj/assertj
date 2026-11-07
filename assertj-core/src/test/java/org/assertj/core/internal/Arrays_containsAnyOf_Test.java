@@ -19,13 +19,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
@@ -35,56 +35,58 @@ class Arrays_containsAnyOf_Test extends BaseArraysTest {
 
   @Test
   void should_pass_if_actual_contains_given_values() {
-    arrays.assertContainsAnyOf(someInfo(), failures, actual, array("Luke"));
+    arrays.assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, array("Luke"));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_in_different_order() {
-    arrays.assertContainsAnyOf(someInfo(), failures, actual, array("Leia", "Yoda"));
+    arrays.assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, array("Leia", "Yoda"));
   }
 
   @Test
   void should_pass_if_actual_contains_all_given_values() {
-    arrays.assertContainsAnyOf(someInfo(), failures, actual, array("Luke", "Yoda", "Leia"));
+    arrays.assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, array("Luke", "Yoda", "Leia"));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_more_than_once() {
     actual = array("Luke", "Yoda", "Leia", "Luke", "Luke");
-    arrays.assertContainsAnyOf(someInfo(), failures, actual, array("Luke"));
+    arrays.assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, array("Luke"));
   }
 
   @Test
   void should_pass_if_actual_contains_just_one_of_given_values() {
-    arrays.assertContainsAnyOf(someInfo(), failures, actual, array("Luke", "John", "Tom"));
+    arrays.assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, array("Luke", "John", "Tom"));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_even_if_duplicated() {
-    arrays.assertContainsAnyOf(someInfo(), failures, actual, array("Luke", "Luke"));
+    arrays.assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, array("Luke", "Luke"));
   }
 
   @Test
   void should_pass_if_actual_and_given_values_are_empty() {
     actual = new String[0];
-    arrays.assertContainsAnyOf(someInfo(), failures, actual, array());
+    arrays.assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, array());
   }
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsAnyOf(someInfo(), failures, actual,
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsAnyOf(someInfo(), assertionErrorCreator,
+                                                                                                actual,
                                                                                                 emptyArray()));
   }
 
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsAnyOf(someInfo(), failures, actual, null))
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsAnyOf(someInfo(), failures, null,
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsAnyOf(someInfo(), assertionErrorCreator,
+                                                                                                null,
                                                                                                 array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
@@ -94,10 +96,10 @@ class Arrays_containsAnyOf_Test extends BaseArraysTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "Han", "John" };
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsAnyOf(info, failures, actual, expected));
+    Throwable error = catchThrowable(() -> arrays.assertContainsAnyOf(info, assertionErrorCreator, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainAnyOf(actual, expected, StandardComparisonStrategy.instance()));
+    then(error).hasMessage(shouldContainAnyOf(actual, expected, StandardComparisonStrategy.instance()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -106,34 +108,34 @@ class Arrays_containsAnyOf_Test extends BaseArraysTest {
 
   @Test
   void should_pass_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), failures, actual, array("LUKE"));
+    arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, array("LUKE"));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_in_different_order_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), failures, actual, array("LEIA", "yODa"));
+    arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, array("LEIA", "yODa"));
   }
 
   @Test
   void should_pass_if_actual_contains_all_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), failures, actual,
+    arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), assertionErrorCreator, actual,
                                                            array("luke", "YODA", "leia"));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
     actual = array("Luke", "Yoda", "Leia", "Luke", "Luke");
-    arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), failures, actual, array("LUke"));
+    arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, array("LUke"));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), failures, actual, array("LUke", "LuKe"));
+    arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, array("LUke", "LuKe"));
   }
 
   @Test
   void should_pass_if_actual_contains_just_one_of_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), failures, actual,
+    arraysWithCustomComparisonStrategy.assertContainsAnyOf(someInfo(), assertionErrorCreator, actual,
                                                            array("LuKe", "JoHn", "ToM"));
   }
 
@@ -142,10 +144,11 @@ class Arrays_containsAnyOf_Test extends BaseArraysTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "Han", "John" };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsAnyOf(info, failures, actual,
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsAnyOf(info, assertionErrorCreator,
+                                                                                                  actual,
                                                                                                   expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainAnyOf(actual, expected, caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldContainAnyOf(actual, expected, caseInsensitiveStringComparisonStrategy).create());
   }
 }

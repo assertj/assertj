@@ -15,21 +15,23 @@
  */
 package org.assertj.tests.core.internal.shortarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
 import static org.assertj.tests.core.testkit.ShortArrays.emptyArray;
 import static org.assertj.tests.core.testkit.TestData.someIndex;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ShortArrays;
+import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -38,7 +40,12 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-class ShortArrays_assertDoesNotContain_at_Index_Test extends ShortArraysBaseTest {
+class ShortArrays_assertDoesNotContain_at_Index_Test {
+
+  private short[] actual = arrayOf(6, 8, 10);
+  private final ShortArrays arrays = ShortArrays.instance();
+  private final ComparatorBasedComparisonStrategy absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<>());
+  private final ShortArrays arraysWithCustomComparisonStrategy = new ShortArrays(absValueComparisonStrategy);
 
   @Test
   void should_fail_if_actual_is_null() {
@@ -74,10 +81,9 @@ class ShortArrays_assertDoesNotContain_at_Index_Test extends ShortArraysBaseTest
     short value = 6;
     Index index = atIndex(0);
 
-    Throwable error = catchThrowable(() -> arrays.assertDoesNotContain(info, actual, value, index));
+    var error = expectAssertionError(() -> arrays.assertDoesNotContain(info, actual, value, index));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContainAtIndex(actual, value, index));
+    then(error).hasMessage(shouldNotContainAtIndex(actual, value, index).create());
   }
 
   @Test
@@ -119,9 +125,8 @@ class ShortArrays_assertDoesNotContain_at_Index_Test extends ShortArraysBaseTest
     short value = 6;
     Index index = atIndex(0);
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, value, index));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, value, index));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContainAtIndex(actual, value, index, absValueComparisonStrategy));
+    then(error).hasMessage(shouldNotContainAtIndex(actual, value, index, absValueComparisonStrategy).create());
   }
 }

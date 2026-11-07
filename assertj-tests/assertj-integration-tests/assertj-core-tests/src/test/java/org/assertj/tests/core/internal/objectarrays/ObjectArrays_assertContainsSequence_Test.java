@@ -24,21 +24,26 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-class ObjectArrays_assertContainsSequence_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertContainsSequence_Test {
 
-  @Override
-  protected void initActualArray() {
-    actual = array("Yoda", "Luke", "Leia", "Obi-Wan");
-  }
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final String[] actual = array("Yoda", "Luke", "Leia", "Obi-Wan");
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final ObjectArrays arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
 
   @Test
   void should_pass_if_actual_contains_sequence() {
@@ -87,9 +92,9 @@ class ObjectArrays_assertContainsSequence_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] sequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsSequence(INFO, actual, sequence));
+    var error = expectAssertionError(() -> arrays.assertContainsSequence(INFO, actual, sequence));
     // THEN
-    verifyFailureThrownWhenSequenceNotFound(INFO, sequence);
+    then(error).hasMessage(shouldContainSequence(actual, sequence).create());
   }
 
   @Test
@@ -97,9 +102,9 @@ class ObjectArrays_assertContainsSequence_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] sequence = { "Han", "C-3PO" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsSequence(INFO, actual, sequence));
+    var error = expectAssertionError(() -> arrays.assertContainsSequence(INFO, actual, sequence));
     // THEN
-    verifyFailureThrownWhenSequenceNotFound(INFO, sequence);
+    then(error).hasMessage(shouldContainSequence(actual, sequence).create());
   }
 
   @Test
@@ -107,13 +112,9 @@ class ObjectArrays_assertContainsSequence_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsSequence(INFO, actual, sequence));
+    var error = expectAssertionError(() -> arrays.assertContainsSequence(INFO, actual, sequence));
     // THEN
-    verifyFailureThrownWhenSequenceNotFound(INFO, sequence);
-  }
-
-  private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo INFO, Object[] sequence) {
-    verify(failures).failure(INFO, shouldContainSequence(actual, sequence));
+    then(error).hasMessage(shouldContainSequence(actual, sequence).create());
   }
 
   @Test
@@ -144,9 +145,9 @@ class ObjectArrays_assertContainsSequence_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] sequence = { "LUKE", "LeiA", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(INFO, actual, sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(INFO, actual, sequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSequence(actual, sequence, caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldContainSequence(actual, sequence, caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test
@@ -154,9 +155,9 @@ class ObjectArrays_assertContainsSequence_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] sequence = { "Han", "C-3PO" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(INFO, actual, sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(INFO, actual, sequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSequence(actual, sequence, caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldContainSequence(actual, sequence, caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test
@@ -164,9 +165,9 @@ class ObjectArrays_assertContainsSequence_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] sequence = { "LeiA", "Obi-Wan", "Han" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(INFO, actual, sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(INFO, actual, sequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSequence(actual, sequence, caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldContainSequence(actual, sequence, caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test

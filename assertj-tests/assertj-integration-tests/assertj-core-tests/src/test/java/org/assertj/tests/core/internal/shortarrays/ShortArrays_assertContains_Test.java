@@ -48,7 +48,7 @@ class ShortArrays_assertContains_Test extends ShortArraysBaseTest {
   @Test
   void should_delegate_to_internal_Arrays() {
     arrays.assertContains(someInfo(), actual, arrayOf(6, 8, 10));
-    verify(internalArrays).assertContains(someInfo(), failures, actual, arrayOf(6, 8, 10));
+    verify(internalArrays).assertContains(someInfo(), assertionErrorCreator, actual, arrayOf(6, 8, 10));
   }
 
 }

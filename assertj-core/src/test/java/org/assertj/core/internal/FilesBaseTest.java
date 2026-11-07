@@ -32,6 +32,7 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,7 +51,7 @@ public class FilesBaseTest {
   protected static Files underTest = new Files();
 
   protected static NioFilesWrapper nioFilesWrapper = mock(NioFilesWrapper.class);
-  protected static Failures failures = spy(underTest.failures);
+  protected static AssertionErrorCreator assertionErrorCreator = spy(underTest.assertionErrorCreator);
   protected static Diff diff = mock(Diff.class);
   protected static BinaryDiff binaryDiff = mock(BinaryDiff.class);
   protected static File actual = mock(File.class);
@@ -66,20 +67,20 @@ public class FilesBaseTest {
   @BeforeAll
   static void injectMocks() {
     underTest.nioFilesWrapper = nioFilesWrapper;
-    underTest.failures = failures;
+    underTest.assertionErrorCreator = assertionErrorCreator;
     underTest.diff = diff;
     underTest.binaryDiff = binaryDiff;
   }
 
   @BeforeEach
   void resetMocks() {
-    reset(nioFilesWrapper, failures, diff, binaryDiff, delta, actual);
+    reset(nioFilesWrapper, assertionErrorCreator, diff, binaryDiff, delta, actual);
   }
 
   @BeforeEach
   public void setUp() {
     unMockedFiles = new Files();
-    unMockedFiles.failures = failures;
+    unMockedFiles.assertionErrorCreator = assertionErrorCreator;
     when(delta.toString()).thenReturn("Extra lines at line 2 : [line1a, line1b]");
   }
 

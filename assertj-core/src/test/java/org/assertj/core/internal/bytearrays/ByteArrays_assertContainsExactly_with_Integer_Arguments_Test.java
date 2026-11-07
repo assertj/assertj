@@ -15,10 +15,9 @@
  */
 package org.assertj.core.internal.bytearrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
@@ -26,9 +25,9 @@ import static org.assertj.core.testkit.ByteArrays.arrayOf;
 import static org.assertj.core.testkit.ByteArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.asList;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ByteArrays;
@@ -56,11 +55,10 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
     AssertionInfo info = someInfo();
     int[] expected = IntArrays.arrayOf(6, 10, 8);
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex((byte) 8, (byte) 10, 1), asList(actual),
-                             asList(arrays.toByteArray(expected)));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(elementsDifferAtIndex((byte) 8, (byte) 10, 1).create());
   }
 
   @Test
@@ -92,12 +90,11 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
     AssertionInfo info = someInfo();
     byte[] expected = arrayOf(6, 8, 20);
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList((byte) 20), newArrayList((byte) 10)),
-                             asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected),
+                                                newArrayList((byte) 20), newArrayList((byte) 10)).create());
   }
 
   @Test
@@ -105,12 +102,11 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
     AssertionInfo info = someInfo();
     byte[] expected = arrayOf(6, 8, 10, 10);
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList((byte) 10), newArrayList()),
-                             asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected),
+                                                newArrayList((byte) 10), newArrayList()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -127,12 +123,10 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
     AssertionInfo info = someInfo();
     int[] expected = IntArrays.arrayOf(-6, 10, 8);
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual,
-                                                                                                    expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex((byte) 8, (byte) 10, 1, absValueComparisonStrategy), asList(actual),
-                             asList(arrays.toByteArray(expected)));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(elementsDifferAtIndex((byte) 8, (byte) 10, 1, absValueComparisonStrategy).create());
   }
 
   @Test
@@ -163,13 +157,12 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
     AssertionInfo info = someInfo();
     byte[] expected = arrayOf(6, -8, 20);
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList((byte) 20), newArrayList((byte) 10),
-                                                        absValueComparisonStrategy),
-                             asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected),
+                                                newArrayList((byte) 20), newArrayList((byte) 10),
+                                                absValueComparisonStrategy).create());
   }
 
   @Test
@@ -177,13 +170,12 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
     AssertionInfo info = someInfo();
     byte[] expected = arrayOf(6, 8, 10, 10);
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList((byte) 10), newArrayList(),
-                                                        absValueComparisonStrategy),
-                             asList(actual), asList(expected));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactly(actual, asList(expected),
+                                                newArrayList((byte) 10), newArrayList(),
+                                                absValueComparisonStrategy).create());
   }
 
 }

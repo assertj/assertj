@@ -48,7 +48,7 @@ class DoubleArrays_assertContains_Test extends DoubleArraysBaseTest {
   @Test
   void should_delegate_to_internal_Arrays() {
     arrays.assertContains(someInfo(), actual, arrayOf(6d, 8d, 10d));
-    verify(internalArrays).assertContains(someInfo(), failures, actual, arrayOf(6d, 8d, 10d));
+    verify(internalArrays).assertContains(someInfo(), assertionErrorCreator, actual, arrayOf(6d, 8d, 10d));
   }
 
 }

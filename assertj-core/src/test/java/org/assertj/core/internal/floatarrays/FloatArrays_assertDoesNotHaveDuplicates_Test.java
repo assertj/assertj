@@ -15,16 +15,15 @@
  */
 package org.assertj.core.internal.floatarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.testkit.FloatArrays.arrayOf;
 import static org.assertj.core.testkit.FloatArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FloatArrays;
@@ -62,13 +61,13 @@ class FloatArrays_assertDoesNotHaveDuplicates_Test extends FloatArraysBaseTest {
 
   @Test
   void should_fail_if_actual_contains_duplicates() {
+    // GIVEN
     AssertionInfo info = someInfo();
     actual = arrayOf(6f, 8f, 6f, 8f);
-
-    Throwable error = catchThrowable(() -> arrays.assertDoesNotHaveDuplicates(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet(6f, 8f)));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertDoesNotHaveDuplicates(info, actual));
+    // THEN
+    then(error).hasMessage(shouldNotHaveDuplicates(actual, newLinkedHashSet(6f, 8f)).create());
   }
 
   @Test
@@ -90,13 +89,12 @@ class FloatArrays_assertDoesNotHaveDuplicates_Test extends FloatArraysBaseTest {
 
   @Test
   void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     actual = arrayOf(6f, -8f, 6f, -8f);
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldNotHaveDuplicates(actual, newLinkedHashSet(6f, -8f), absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual));
+    // THEN
+    then(error).hasMessage(shouldNotHaveDuplicates(actual, newLinkedHashSet(6f, -8f), absValueComparisonStrategy).create());
   }
 }

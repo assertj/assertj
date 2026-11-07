@@ -15,22 +15,24 @@
  */
 package org.assertj.tests.core.internal.shortarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.util.FailureMessages.actualIsEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
 import static org.assertj.tests.core.testkit.ShortArrays.emptyArray;
 import static org.assertj.tests.core.testkit.TestData.someIndex;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ShortArrays;
+import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -39,7 +41,12 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-class ShortArrays_assertContains_at_Index_Test extends ShortArraysBaseTest {
+class ShortArrays_assertContains_at_Index_Test {
+
+  private short[] actual = arrayOf(6, 8, 10);
+  private final ShortArrays arrays = ShortArrays.instance();
+  private final ComparatorBasedComparisonStrategy absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<>());
+  private final ShortArrays arraysWithCustomComparisonStrategy = new ShortArrays(absValueComparisonStrategy);
 
   @Test
   void should_fail_if_actual_is_null() {
@@ -75,11 +82,10 @@ class ShortArrays_assertContains_at_Index_Test extends ShortArraysBaseTest {
     short value = 6;
     Index index = atIndex(1);
 
-    Throwable error = catchThrowable(() -> arrays.assertContains(info, actual, value, index));
+    var error = expectAssertionError(() -> arrays.assertContains(info, actual, value, index));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
     short found = 8;
-    verify(failures).failure(info, shouldContainAtIndex(actual, value, index, found));
+    then(error).hasMessage(shouldContainAtIndex(actual, value, index, found).create());
   }
 
   @Test
@@ -129,11 +135,10 @@ class ShortArrays_assertContains_at_Index_Test extends ShortArraysBaseTest {
     short value = 6;
     Index index = atIndex(1);
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContains(info, actual, value, index));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContains(info, actual, value, index));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
     short found = 8;
-    verify(failures).failure(info, shouldContainAtIndex(actual, value, index, found, absValueComparisonStrategy));
+    then(error).hasMessage(shouldContainAtIndex(actual, value, index, found, absValueComparisonStrategy).create());
   }
 
   @Test

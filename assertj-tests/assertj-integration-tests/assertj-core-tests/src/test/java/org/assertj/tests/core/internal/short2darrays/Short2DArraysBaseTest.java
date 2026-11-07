@@ -20,8 +20,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Arrays2D;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Short2DArrays;
 import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,16 +32,16 @@ import org.junit.jupiter.api.BeforeEach;
 class Short2DArraysBaseTest {
 
   protected short[][] actual;
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Short2DArrays short2DArrays;
   protected Arrays2D arrays2d;
   protected AssertionInfo info = TestData.someInfo();
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     short2DArrays = new Short2DArrays();
-    writeField(short2DArrays, "failures", failures);
+    writeField(short2DArrays, "assertionErrorCreator", assertionErrorCreator);
 
     arrays2d = mock(Arrays2D.class);
     short2DArrays.setArrays(arrays2d);

@@ -23,7 +23,6 @@ import static org.assertj.core.testkit.BooleanArrays.arrayOf;
 import static org.assertj.core.testkit.BooleanArrays.emptyArray;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
@@ -83,8 +82,8 @@ class BooleanArrays_assertContainsSubsequence_Test extends BooleanArraysBaseTest
     actual = arrayOf(false, false);
     boolean[] subsequence = { false, true };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, 1, StandardComparisonStrategy.instance()));
+    then(error).hasMessage(shouldContainSubsequence(actual, subsequence, 1, StandardComparisonStrategy.instance()).create());
   }
 }

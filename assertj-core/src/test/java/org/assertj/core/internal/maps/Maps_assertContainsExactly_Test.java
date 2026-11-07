@@ -32,7 +32,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.set;
-import static org.mockito.Mockito.verify;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -82,9 +81,9 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] expected = emptyEntries();
     // WHEN
-    expectAssertionError(() -> maps.assertContainsExactly(INFO, actual, expected, null));
+    var error = expectAssertionError(() -> maps.assertContainsExactly(INFO, actual, expected, null));
     // THEN
-    verify(failures).failure(INFO, shouldBeEmpty(actual));
+    then(error).hasMessage(shouldBeEmpty(actual).create());
   }
 
   @Test
@@ -100,10 +99,11 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
   @Test
   void should_fail_if_actual_contains_given_entries_in_disorder() {
     // WHEN
-    expectAssertionError(() -> maps.assertContainsExactly(INFO, linkedActual,
-                                                          array(entry("color", "green"), entry("name", "Yoda")), null));
+    var error = expectAssertionError(() -> maps.assertContainsExactly(INFO, linkedActual,
+                                                                      array(entry("color", "green"), entry("name", "Yoda")),
+                                                                      null));
     // THEN
-    verify(failures).failure(INFO, elementsDifferAtIndex(entry("name", "Yoda"), entry("color", "green"), 0));
+    then(error).hasMessage(elementsDifferAtIndex(entry("name", "Yoda"), entry("color", "green"), 0).create());
   }
 
   @Test
@@ -122,11 +122,11 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
     Entry<String, String>[] expected = array(entry("name", "Yoda"), entry("color", "green"));
     Map<String, String> underTest = mapOf(entry("name", "Yoda"), entry("job", "Jedi"));
     // WHEN
-    expectAssertionError(() -> maps.assertContainsExactly(INFO, underTest, expected, null));
+    var error = expectAssertionError(() -> maps.assertContainsExactly(INFO, underTest, expected, null));
     // THEN
-    verify(failures).failure(INFO, shouldContainExactly(underTest, list(expected),
-                                                        set(entry("color", "green")),
-                                                        set(entry("job", "Jedi"))));
+    then(error).hasMessage(shouldContainExactly(underTest, list(expected),
+                                                set(entry("color", "green")),
+                                                set(entry("job", "Jedi"))).create());
   }
 
   @Test
@@ -134,11 +134,11 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] expectedEntries = array(entry("name", "Yoda"), entry("color", "yellow"));
     // WHEN
-    expectAssertionError(() -> maps.assertContainsExactly(INFO, actual, expectedEntries, null));
+    var error = expectAssertionError(() -> maps.assertContainsExactly(INFO, actual, expectedEntries, null));
     // THEN
-    verify(failures).failure(INFO, shouldContainExactly(actual, asList(expectedEntries),
-                                                        set(entry("color", "yellow")),
-                                                        set(entry("color", "green"))));
+    then(error).hasMessage(shouldContainExactly(actual, asList(expectedEntries),
+                                                set(entry("color", "yellow")),
+                                                set(entry("color", "green"))).create());
   }
 
   @Test

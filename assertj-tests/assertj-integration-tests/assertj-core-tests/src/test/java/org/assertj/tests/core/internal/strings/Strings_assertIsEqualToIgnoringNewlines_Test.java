@@ -15,18 +15,19 @@
  */
 package org.assertj.tests.core.internal.strings;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLines.shouldBeEqualIgnoringNewLines;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
-import org.assertj.tests.core.internal.StringsBaseTest;
+import org.assertj.core.internal.Strings;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * @author Daniel Weber
  */
-class Strings_assertIsEqualToIgnoringNewlines_Test extends StringsBaseTest {
+class Strings_assertIsEqualToIgnoringNewlines_Test {
 
   private static final String ACTUAL_WITHOUT_NEW_LINES = "Some textWith new lines";
   private static final String ACTUAL_ON_UNIX = "Some text\nWith new lines";
@@ -36,7 +37,7 @@ class Strings_assertIsEqualToIgnoringNewlines_Test extends StringsBaseTest {
   @ParameterizedTest
   @ValueSource(strings = { ACTUAL_WITHOUT_NEW_LINES, ACTUAL_ON_UNIX, ACTUAL_ON_WINDOWS, ACTUAL_WITH_CONSECUTIVE_NEWLINES })
   void should_pass_if_both_texts_contain_new_lines_of_any_kind(String expected) {
-    strings.assertIsEqualToIgnoringNewlines(INFO, "Some text\nWith new lines", expected);
+    Strings.instance().assertIsEqualToIgnoringNewlines(someInfo(), "Some text\nWith new lines", expected);
   }
 
   @ParameterizedTest
@@ -45,9 +46,9 @@ class Strings_assertIsEqualToIgnoringNewlines_Test extends StringsBaseTest {
     // GIVEN
     String expected = "Some text With new lines";
     // WHEN
-    expectAssertionError(() -> strings.assertIsEqualToIgnoringNewlines(INFO, actual, expected));
+    var error = expectAssertionError(() -> Strings.instance().assertIsEqualToIgnoringNewlines(someInfo(), actual, expected));
     // THEN
-    verify(failures).failure(INFO, shouldBeEqualIgnoringNewLines(actual, expected), actual, expected);
+    then(error).hasMessage(shouldBeEqualIgnoringNewLines(actual, expected).create());
   }
 
 }

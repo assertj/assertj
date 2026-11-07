@@ -28,7 +28,6 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.set;
-import static org.mockito.Mockito.verify;
 
 import java.util.Map.Entry;
 
@@ -62,9 +61,9 @@ class Maps_assertContains_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] expected = emptyEntries();
     // WHEN
-    expectAssertionError(() -> maps.assertContains(info, actual, expected, null));
+    var error = expectAssertionError(() -> maps.assertContains(info, actual, expected, null));
     // THEN
-    verify(failures).failure(info, shouldBeEmpty(actual));
+    then(error).hasMessage(shouldBeEmpty(actual).create());
   }
 
   @Test
@@ -102,10 +101,10 @@ class Maps_assertContains_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] expected = array(entry("a", "1"));
     // WHEN
-    expectAssertionError(() -> maps.assertContains(info, emptyMap(), expected, null));
+    var error = expectAssertionError(() -> maps.assertContains(info, emptyMap(), expected, null));
     // THEN
-    verify(failures).failure(info,
-                             shouldContainEntries(emptyMap(), expected, emptySet(), set(entry("a", "1")), info.representation()));
+    then(error).hasMessage(shouldContainEntries(emptyMap(), expected, emptySet(), set(entry("a", "1")),
+                                                info.representation()).create());
   }
 
   @Test
@@ -113,10 +112,10 @@ class Maps_assertContains_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] expected = array(entry("name", "Yoda"), entry("job", "Jedi"));
     // WHEN
-    expectAssertionError(() -> maps.assertContains(info, actual, expected, null));
+    var error = expectAssertionError(() -> maps.assertContains(info, actual, expected, null));
     // THEN
-    verify(failures).failure(info, shouldContainEntries(actual, expected, emptySet(), set(entry("job", "Jedi")),
-                                                        info.representation()));
+    then(error).hasMessage(shouldContainEntries(actual, expected, emptySet(), set(entry("job", "Jedi")),
+                                                info.representation()).create());
   }
 
   @Test
@@ -124,10 +123,10 @@ class Maps_assertContains_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] expected = array(entry("name", "Yoda"), entry("color", "red"));
     // WHEN
-    expectAssertionError(() -> maps.assertContains(info, actual, expected, null));
+    var error = expectAssertionError(() -> maps.assertContains(info, actual, expected, null));
     // THEN
-    verify(failures).failure(info, shouldContainEntries(actual, expected, set(entry("color", "red")), emptySet(),
-                                                        info.representation()));
+    then(error).hasMessage(shouldContainEntries(actual, expected, set(entry("color", "red")), emptySet(),
+                                                info.representation()).create());
   }
 
   @Test
@@ -135,9 +134,9 @@ class Maps_assertContains_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] expected = array(entry("name", "Yoda"), entry("color", "red"), entry("job", "Jedi"));
     // WHEN
-    expectAssertionError(() -> maps.assertContains(info, actual, expected, null));
+    var error = expectAssertionError(() -> maps.assertContains(info, actual, expected, null));
     // THEN
-    verify(failures).failure(info, shouldContainEntries(actual, expected, set(entry("color", "red")), set(entry("job", "Jedi")),
-                                                        info.representation()));
+    then(error).hasMessage(shouldContainEntries(actual, expected, set(entry("color", "red")), set(entry("job", "Jedi")),
+                                                info.representation()).create());
   }
 }

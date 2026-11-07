@@ -27,7 +27,7 @@ import java.time.Instant;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Assertions for {@link Instant} type from new Date &amp; Time API introduced in Java 8.
@@ -66,7 +66,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
       isNotNull();
       assertInstantParameterIsNotNull(other);
       if (!actual.isBefore(other)) {
-        throw Failures.instance().failure(info, shouldBeBefore(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeBefore(actual, other));
       }
     });
   }
@@ -114,7 +114,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
       isNotNull();
       assertInstantParameterIsNotNull(other);
       if (actual.isAfter(other)) {
-        throw Failures.instance().failure(info, shouldBeBeforeOrEqualTo(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeBeforeOrEqualTo(actual, other));
       }
     });
   }
@@ -163,7 +163,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
       isNotNull();
       assertInstantParameterIsNotNull(other);
       if (actual.isBefore(other)) {
-        throw Failures.instance().failure(info, shouldBeAfterOrEqualTo(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeAfterOrEqualTo(actual, other));
       }
     });
   }
@@ -211,7 +211,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
       isNotNull();
       assertInstantParameterIsNotNull(other);
       if (!actual.isAfter(other)) {
-        throw Failures.instance().failure(info, shouldBeAfter(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeAfter(actual, other));
       }
     });
   }
@@ -352,7 +352,8 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
   public SELF isInThePast() {
     return executeAssertion(() -> {
       isNotNull();
-      if (!actual.isBefore(Instant.now())) throw Failures.instance().failure(info, shouldBeInThePast(actual));
+      if (!actual.isBefore(Instant.now()))
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeInThePast(actual));
     });
   }
 
@@ -372,7 +373,8 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
   public SELF isInTheFuture() {
     return executeAssertion(() -> {
       isNotNull();
-      if (!actual.isAfter(Instant.now())) throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
+      if (!actual.isAfter(Instant.now()))
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeInTheFuture(actual));
     });
   }
 

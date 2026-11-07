@@ -208,9 +208,9 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
 
     if (areEqual(actual, expected)) return; // handles correctly NaN comparison
     if (!offset.strict && isGreaterThan(absDiff(actual, expected), offset.value))
-      throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff(actual, expected)));
+      throw assertionErrorCreator.assertionError(info, shouldBeEqual(actual, expected, offset, absDiff(actual, expected)));
     if (offset.strict && isGreaterThanOrEqualTo(absDiff(actual, expected), offset.value))
-      throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff(actual, expected)));
+      throw assertionErrorCreator.assertionError(info, shouldBeEqual(actual, expected, offset, absDiff(actual, expected)));
   }
 
   /**
@@ -235,7 +235,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
     if (!offset.strict && !areEqual(actual, expected)) {
       if (isGreaterThan(diff, offset.value)) return;
     }
-    throw failures.failure(info, shouldNotBeEqual(actual, expected, offset, diff));
+    throw assertionErrorCreator.assertionError(info, shouldNotBeEqual(actual, expected, offset, diff));
   }
 
   /**
@@ -256,7 +256,8 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
     double acceptableDiff = abs(percentage.value * other.doubleValue() / 100d);
     double actualDiff = absDiff(actual, other).doubleValue();
     if (actualDiff > acceptableDiff || Double.isNaN(actualDiff) || Double.isInfinite(actualDiff))
-      throw failures.failure(info, shouldBeEqualWithinPercentage(actual, other, percentage, absDiff(actual, other)));
+      throw assertionErrorCreator.assertionError(info, shouldBeEqualWithinPercentage(actual, other, percentage,
+                                                                                     absDiff(actual, other)));
   }
 
   /**
@@ -277,7 +278,8 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
     boolean areEqual = areEqual(actual, other);
     if (!areEqual && Double.isInfinite(diff)) return;
     if (absDiff(actual, other).doubleValue() <= diff || areEqual)
-      throw failures.failure(info, shouldNotBeEqualWithinPercentage(actual, other, percentage, absDiff(actual, other)));
+      throw assertionErrorCreator.assertionError(info, shouldNotBeEqualWithinPercentage(actual, other, percentage,
+                                                                                        absDiff(actual, other)));
   }
 
   /**

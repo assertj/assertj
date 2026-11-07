@@ -15,17 +15,17 @@
  */
 package org.assertj.tests.core.internal.strings;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
-import org.assertj.tests.core.internal.StringsBaseTest;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -34,23 +34,26 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-class Strings_assertNotEmpty_Test extends StringsBaseTest {
+class Strings_assertNotEmpty_Test {
+
+  private final ComparatorBasedComparisonStrategy comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final Strings stringsWithCaseInsensitiveComparisonStrategy = new Strings(comparisonStrategy);
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertNotEmpty(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Strings.instance().assertNotEmpty(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertNotEmpty(someInfo(), ""))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Strings.instance().assertNotEmpty(someInfo(), ""))
                                                    .withMessage(shouldNotBeEmpty().create());
   }
 
   @Test
   void should_pass_if_actual_is_not_empty() {
-    strings.assertNotEmpty(someInfo(), "Yoda");
+    Strings.instance().assertNotEmpty(someInfo(), "Yoda");
   }
 
   @Test
@@ -64,10 +67,8 @@ class Strings_assertNotEmpty_Test extends StringsBaseTest {
   void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertNotEmpty(info, ""));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEmpty());
+    var error = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertNotEmpty(info, ""));
+    then(error).hasMessage(shouldNotBeEmpty().create());
   }
 
   @Test

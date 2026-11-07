@@ -17,12 +17,12 @@ package org.assertj.tests.core.internal.shorts;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author William Delanoue
  */
-class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
+class Shorts_assertIsStrictlyBetween_Test {
 
   private static final Short ZERO = 0;
   private static final Short ONE = 1;
@@ -42,23 +42,23 @@ class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatAssertionErrorIsThrownBy(() -> shorts.assertIsStrictlyBetween(someInfo(), null, ZERO,
-                                                                            ONE)).withMessage(actualIsNull());
+    assertThatAssertionErrorIsThrownBy(() -> Shorts.instance().assertIsStrictlyBetween(someInfo(), null, ZERO,
+                                                                                       ONE)).withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_start_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> shorts.assertIsStrictlyBetween(someInfo(), ONE, null, ONE));
+    assertThatNullPointerException().isThrownBy(() -> Shorts.instance().assertIsStrictlyBetween(someInfo(), ONE, null, ONE));
   }
 
   @Test
   void should_fail_if_end_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> shorts.assertIsStrictlyBetween(someInfo(), ONE, ZERO, null));
+    assertThatNullPointerException().isThrownBy(() -> Shorts.instance().assertIsStrictlyBetween(someInfo(), ONE, ZERO, null));
   }
 
   @Test
   void should_pass_if_actual_is_in_range() {
-    shorts.assertIsStrictlyBetween(someInfo(), ONE, ZERO, TEN);
+    Shorts.instance().assertIsStrictlyBetween(someInfo(), ONE, ZERO, TEN);
   }
 
   @Test
@@ -66,9 +66,9 @@ class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> shorts.assertIsStrictlyBetween(info, ONE, ONE, TEN));
+    var error = expectAssertionError(() -> Shorts.instance().assertIsStrictlyBetween(info, ONE, ONE, TEN));
     // THEN
-    verify(failures).failure(info, shouldBeBetween(ONE, ONE, TEN, false, false));
+    then(error).hasMessage(shouldBeBetween(ONE, ONE, TEN, false, false).create());
   }
 
   @Test
@@ -76,9 +76,9 @@ class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> shorts.assertIsStrictlyBetween(info, ONE, ZERO, ONE));
+    var error = expectAssertionError(() -> Shorts.instance().assertIsStrictlyBetween(info, ONE, ZERO, ONE));
     // THEN
-    verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ONE, false, false));
+    then(error).hasMessage(shouldBeBetween(ONE, ZERO, ONE, false, false).create());
   }
 
   @Test
@@ -86,14 +86,14 @@ class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> shorts.assertIsStrictlyBetween(info, ONE, TWO, TEN));
+    var error = expectAssertionError(() -> Shorts.instance().assertIsStrictlyBetween(info, ONE, TWO, TEN));
     // THEN
-    verify(failures).failure(info, shouldBeBetween(ONE, TWO, TEN, false, false));
+    then(error).hasMessage(shouldBeBetween(ONE, TWO, TEN, false, false).create());
   }
 
   @Test
   void should_fail_if_actual_is_not_in_range_end() {
-    assertThatIllegalArgumentException().isThrownBy(() -> shorts.assertIsStrictlyBetween(someInfo(), ONE, ZERO, ZERO))
+    assertThatIllegalArgumentException().isThrownBy(() -> Shorts.instance().assertIsStrictlyBetween(someInfo(), ONE, ZERO, ZERO))
                                         .withMessage("The end value <0> must not be less than or equal to the start value <0>!");
   }
 }

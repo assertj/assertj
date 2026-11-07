@@ -35,6 +35,6 @@ class Char2DArrays_assertNullOrEmpty_Test extends Char2DArraysBaseTest {
     // WHEN
     char2DArrays.assertNullOrEmpty(someInfo(), actual);
     // THEN
-    verify(arrays2d).assertNullOrEmpty(info, failures, actual);
+    verify(arrays2d).assertNullOrEmpty(info, assertionErrorCreator, actual);
   }
 }

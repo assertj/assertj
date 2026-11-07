@@ -19,16 +19,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
 import static org.assertj.core.internal.ErrorMessages.emptySequence;
 import static org.assertj.core.internal.ErrorMessages.nullSequence;
 import static org.assertj.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
@@ -98,10 +98,10 @@ class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Luke", "Leia" };
 
-    Throwable error = catchThrowable(() -> iterables.assertDoesNotContainSequence(info, actual, sequence));
+    var error = expectAssertionError(() -> iterables.assertDoesNotContainSequence(info, actual, sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence, 1);
+    verifyFailureThrownWhenSequenceNotFound(error, sequence, 1);
   }
 
   @Test
@@ -109,10 +109,10 @@ class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan" };
 
-    Throwable error = catchThrowable(() -> iterables.assertDoesNotContainSequence(info, actual, sequence));
+    var error = expectAssertionError(() -> iterables.assertDoesNotContainSequence(info, actual, sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence, 0);
+    verifyFailureThrownWhenSequenceNotFound(error, sequence, 0);
   }
 
   @Test
@@ -121,10 +121,10 @@ class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTest {
     actual = newArrayList("Yoda", "Luke", "Yoda", "Obi-Wan");
     Object[] sequence = { "Yoda", "Obi-Wan" };
 
-    Throwable error = catchThrowable(() -> iterables.assertDoesNotContainSequence(info, actual, sequence));
+    var error = expectAssertionError(() -> iterables.assertDoesNotContainSequence(info, actual, sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence, 2);
+    verifyFailureThrownWhenSequenceNotFound(error, sequence, 2);
   }
 
   @Test
@@ -133,10 +133,10 @@ class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTest {
     actual = newArrayList("a", "-", "b", "-", "c");
     Object[] sequence = { "a", "-", "b", "-", "c" };
 
-    Throwable error = catchThrowable(() -> iterables.assertDoesNotContainSequence(info, actual, sequence));
+    var error = expectAssertionError(() -> iterables.assertDoesNotContainSequence(info, actual, sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence, 0);
+    verifyFailureThrownWhenSequenceNotFound(error, sequence, 0);
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -162,12 +162,10 @@ class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "LUKe", "leia" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSequence(info,
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSequence(info,
                                                                                                                        actual,
                                                                                                                        sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 1, comparisonStrategy));
+    then(error).hasMessage(shouldNotContainSequence(actual, sequence, 1, comparisonStrategy).create());
   }
 
   @Test
@@ -175,16 +173,14 @@ class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "YODA", "luke", "lEIA", "Obi-wan" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSequence(info,
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSequence(info,
                                                                                                                        actual,
                                                                                                                        sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 0, comparisonStrategy));
+    then(error).hasMessage(shouldNotContainSequence(actual, sequence, 0, comparisonStrategy).create());
   }
 
-  private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, Object[] sequence, int index) {
-    verify(failures).failure(info, shouldNotContainSequence(actual, sequence, index));
+  private void verifyFailureThrownWhenSequenceNotFound(AssertionError error, Object[] sequence, int index) {
+    then(error).hasMessage(shouldNotContainSequence(actual, sequence, index).create());
   }
 
 }

@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.bytes;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
@@ -53,13 +52,12 @@ class Bytes_assertGreaterThanOrEqualTo_Test extends BytesBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_less_than_other() {
+  void should_fail_if_actual_is_less_than_other() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> bytes.assertGreaterThanOrEqualTo(info, (byte) 6, (byte) 8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreaterOrEqual((byte) 6, (byte) 8));
+    // WHEN
+    var error = expectAssertionError(() -> bytes.assertGreaterThanOrEqualTo(info, (byte) 6, (byte) 8));
+    // THEN
+    then(error).hasMessage(shouldBeGreaterOrEqual((byte) 6, (byte) 8).create());
   }
 
   @Test
@@ -81,13 +79,12 @@ class Bytes_assertGreaterThanOrEqualTo_Test extends BytesBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> bytesWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, (byte) 6,
+    // WHEN
+    var error = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, (byte) 6,
                                                                                                           (byte) -8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreaterOrEqual((byte) 6, (byte) -8, absValueComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeGreaterOrEqual((byte) 6, (byte) -8, absValueComparisonStrategy).create());
   }
 }

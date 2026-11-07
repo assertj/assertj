@@ -17,13 +17,12 @@ package org.assertj.core.internal.bigintegers;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.math.BigInteger;
 
@@ -51,12 +50,12 @@ class BigIntegers_assertEqual_Test extends BigIntegersBaseTest {
 
   @Test
   void should_fail_if_big_integers_are_not_equal() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbers.assertEqual(info, ONE, TEN));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(ONE, TEN, info.representation()));
+    // WHEN
+    var error = expectAssertionError(() -> numbers.assertEqual(info, ONE, TEN));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(ONE, TEN, info.representation()).toAssertionError(info).getMessage());
   }
 
   @Test
@@ -74,12 +73,12 @@ class BigIntegers_assertEqual_Test extends BigIntegersBaseTest {
 
   @Test
   void should_fail_if_big_integers_are_not_equal_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbersWithComparatorComparisonStrategy.assertEqual(info, TEN, ONE));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(TEN, ONE, comparatorComparisonStrategy,
-                                                 new StandardRepresentation()));
+    // WHEN
+    var error = expectAssertionError(() -> numbersWithComparatorComparisonStrategy.assertEqual(info, TEN, ONE));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(TEN, ONE, comparatorComparisonStrategy,
+                                         new StandardRepresentation()).toAssertionError(info).getMessage());
   }
 }

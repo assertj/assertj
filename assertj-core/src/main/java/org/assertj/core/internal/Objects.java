@@ -71,6 +71,7 @@ import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.GroupTypeDescription;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -95,7 +96,7 @@ public class Objects {
   final PropertySupport propertySupport = PropertySupport.instance();
   private final ComparisonStrategy comparisonStrategy;
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Failures failures = Failures.instance();
+  AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
   private final FieldSupport fieldSupport = FieldSupport.comparison();
 
   /**
@@ -141,12 +142,12 @@ public class Objects {
   }
 
   /**
-   * Returns the assertion failure provider.
+   * Returns the assertion assertionError provider.
    *
-   * @return the failure provider
+   * @return the assertionError provider
    */
-  public Failures getFailures() {
-    return failures;
+  public AssertionErrorCreator getAssertionErrorCreator() {
+    return assertionErrorCreator;
   }
 
   /**
@@ -157,7 +158,8 @@ public class Objects {
    * @param type the expected type
    */
   public void assertIsInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
-    if (!isInstanceOfClass(actual, type, info)) throw failures.failure(info, shouldBeInstance(actual, type));
+    if (!isInstanceOfClass(actual, type, info))
+      throw assertionErrorCreator.assertionError(info, shouldBeInstance(actual, type));
   }
 
   /**
@@ -169,7 +171,7 @@ public class Objects {
    */
   public void assertIsInstanceOfAny(AssertionInfo info, Object actual, Class<?>[] types) {
     if (objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
-    throw failures.failure(info, shouldBeInstanceOfAny(actual, types));
+    throw assertionErrorCreator.assertionError(info, shouldBeInstanceOfAny(actual, types));
   }
 
   private boolean objectIsInstanceOfOneOfGivenClasses(Object actual, Class<?>[] types, AssertionInfo info) {
@@ -194,7 +196,7 @@ public class Objects {
    */
   public void assertIsNotInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
     checkTypeIsNotNull(type);
-    if (type.isInstance(actual)) throw failures.failure(info, shouldNotBeInstance(actual, type));
+    if (type.isInstance(actual)) throw assertionErrorCreator.assertionError(info, shouldNotBeInstance(actual, type));
   }
 
   private boolean isInstanceOfClass(Object actual, Class<?> type, AssertionInfo info) {
@@ -212,7 +214,7 @@ public class Objects {
    */
   public void assertIsNotInstanceOfAny(AssertionInfo info, Object actual, Class<?>[] types) {
     if (actual == null || !objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
-    throw failures.failure(info, shouldNotBeInstanceOfAny(actual, types));
+    throw assertionErrorCreator.assertionError(info, shouldNotBeInstanceOfAny(actual, types));
   }
 
   /**
@@ -223,7 +225,8 @@ public class Objects {
    * @param other the comparison object
    */
   public void assertHasSameClassAs(AssertionInfo info, Object actual, Object other) {
-    if (!haveSameClass(actual, other, info)) throw failures.failure(info, shouldHaveSameClass(actual, other));
+    if (!haveSameClass(actual, other, info))
+      throw assertionErrorCreator.assertionError(info, shouldHaveSameClass(actual, other));
   }
 
   private boolean haveSameClass(Object actual, Object other, AssertionInfo info) {
@@ -242,7 +245,8 @@ public class Objects {
    * @param other the comparison object
    */
   public void assertDoesNotHaveSameClassAs(AssertionInfo info, Object actual, Object other) {
-    if (haveSameClass(actual, other, info)) throw failures.failure(info, shouldNotHaveSameClass(actual, other));
+    if (haveSameClass(actual, other, info))
+      throw assertionErrorCreator.assertionError(info, shouldNotHaveSameClass(actual, other));
   }
 
   /**
@@ -254,7 +258,7 @@ public class Objects {
    */
   public void assertIsExactlyInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
     if (!actualIsExactlyInstanceOfType(actual, type, info))
-      throw failures.failure(info, shouldBeExactlyInstance(actual, type));
+      throw assertionErrorCreator.assertionError(info, shouldBeExactlyInstance(actual, type));
   }
 
   private boolean actualIsExactlyInstanceOfType(Object actual, Class<?> expectedType, AssertionInfo info) {
@@ -273,7 +277,7 @@ public class Objects {
   public void assertIsNotExactlyInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
     checkTypeIsNotNull(type);
     if (actual != null && type.equals(actual.getClass()))
-      throw failures.failure(info, shouldNotBeExactlyInstance(actual, type));
+      throw assertionErrorCreator.assertionError(info, shouldNotBeExactlyInstance(actual, type));
   }
 
   /**
@@ -285,7 +289,7 @@ public class Objects {
    */
   public void assertIsOfAnyClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
     boolean itemInArray = isOfOneOfGivenTypes(actual, types, info);
-    if (!itemInArray) throw failures.failure(info, shouldBeOfClassIn(actual, types));
+    if (!itemInArray) throw assertionErrorCreator.assertionError(info, shouldBeOfClassIn(actual, types));
   }
 
   private boolean isOfOneOfGivenTypes(Object actual, Class<?>[] types, AssertionInfo info) {
@@ -303,7 +307,7 @@ public class Objects {
    */
   public void assertIsNotOfAnyClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
     boolean itemInArray = isOfOneOfGivenTypes(actual, types, info);
-    if (itemInArray) throw failures.failure(info, shouldNotBeOfClassIn(actual, types));
+    if (itemInArray) throw assertionErrorCreator.assertionError(info, shouldNotBeOfClassIn(actual, types));
   }
 
   private void checkIsNotNullAndIsNotEmpty(Class<?>[] types) {
@@ -320,7 +324,8 @@ public class Objects {
    */
   public void assertEqual(AssertionInfo info, Object actual, Object expected) {
     if (!areEqual(actual, expected))
-      throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
+      throw assertionErrorCreator.assertionError(info,
+                                                 shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
   }
 
   /**
@@ -331,7 +336,8 @@ public class Objects {
    * @param other the comparison object
    */
   public void assertNotEqual(AssertionInfo info, Object actual, Object other) {
-    if (areEqual(actual, other)) throw failures.failure(info, shouldNotBeEqual(actual, other, comparisonStrategy));
+    if (areEqual(actual, other))
+      throw assertionErrorCreator.assertionError(info, shouldNotBeEqual(actual, other, comparisonStrategy));
   }
 
   private boolean areEqual(Object actual, Object other) {
@@ -346,7 +352,7 @@ public class Objects {
    */
   public void assertNull(AssertionInfo info, Object actual) {
     if (actual != null)
-      throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
+      throw assertionErrorCreator.assertionError(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
   }
 
   /**
@@ -356,7 +362,7 @@ public class Objects {
    * @param actual the actual object
    */
   public void assertNotNull(AssertionInfo info, Object actual) {
-    if (actual == null) throw failures.failure(info, shouldNotBeNull());
+    if (actual == null) throw assertionErrorCreator.assertionError(info, shouldNotBeNull());
   }
 
   /**
@@ -367,7 +373,7 @@ public class Objects {
    * @param label the object label
    */
   public void assertNotNull(AssertionInfo info, Object actual, String label) {
-    if (actual == null) throw failures.failure(info, shouldNotBeNull(label));
+    if (actual == null) throw assertionErrorCreator.assertionError(info, shouldNotBeNull(label));
   }
 
   /**
@@ -378,7 +384,7 @@ public class Objects {
    * @param expected the expected reference
    */
   public void assertSame(AssertionInfo info, Object actual, Object expected) {
-    if (actual != expected) throw failures.failure(info, shouldBeSame(actual, expected));
+    if (actual != expected) throw assertionErrorCreator.assertionError(info, shouldBeSame(actual, expected));
   }
 
   /**
@@ -389,7 +395,7 @@ public class Objects {
    * @param other the comparison reference
    */
   public void assertNotSame(AssertionInfo info, Object actual, Object other) {
-    if (actual == other) throw failures.failure(info, shouldNotBeSame(actual));
+    if (actual == other) throw assertionErrorCreator.assertionError(info, shouldNotBeSame(actual));
   }
 
   /**
@@ -403,7 +409,8 @@ public class Objects {
     assertNotNull(info, actual);
     String actualString = actual.toString();
     if (!actualString.equals(expectedToString))
-      throw failures.failure(info, shouldHaveToString(actualString, expectedToString), actualString, expectedToString);
+      throw assertionErrorCreator.assertionError(info, shouldHaveToString(actualString, expectedToString), actualString,
+                                                 expectedToString);
   }
 
   /**
@@ -417,7 +424,7 @@ public class Objects {
     assertNotNull(info, actual);
     String actualToString = actual.toString();
     if (actualToString.equals(otherToString))
-      throw failures.failure(info, shouldNotHaveToString(otherToString));
+      throw assertionErrorCreator.assertionError(info, shouldNotHaveToString(otherToString));
   }
 
   /**
@@ -464,7 +471,8 @@ public class Objects {
    */
   public void assertIsIn(AssertionInfo info, Object actual, Iterable<?> values) {
     checkNotNullIterable(values);
-    if (!isActualIn(actual, values)) throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
+    if (!isActualIn(actual, values))
+      throw assertionErrorCreator.assertionError(info, shouldBeIn(actual, values, comparisonStrategy));
   }
 
   /**
@@ -476,7 +484,8 @@ public class Objects {
    */
   public void assertIsNotIn(AssertionInfo info, Object actual, Iterable<?> values) {
     checkNotNullIterable(values);
-    if (isActualIn(actual, values)) throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
+    if (isActualIn(actual, values))
+      throw assertionErrorCreator.assertionError(info, shouldNotBeIn(actual, values, comparisonStrategy));
   }
 
   private void checkNotNullIterable(Iterable<?> values) {
@@ -542,13 +551,14 @@ public class Objects {
       if (info.overridingErrorMessage() != null) {
         amendedInfo.overridingErrorMessage(info.overridingErrorMessage());
       }
-      throw failures.failure(amendedInfo,
-                             shouldHaveDeclaredFields(actual.getClass(), newLinkedHashSet(propertiesOrFieldsToIgnore),
-                                                      ignoredFields));
+      throw assertionErrorCreator.assertionError(amendedInfo,
+                                                 shouldHaveDeclaredFields(actual.getClass(),
+                                                                          newLinkedHashSet(propertiesOrFieldsToIgnore),
+                                                                          ignoredFields));
     }
     if (!nullFieldNames.isEmpty())
-      throw failures.failure(info, shouldHaveNoNullFieldsExcept(actual, nullFieldNames,
-                                                                newArrayList(propertiesOrFieldsToIgnore)));
+      throw assertionErrorCreator.assertionError(info, shouldHaveNoNullFieldsExcept(actual, nullFieldNames,
+                                                                                    newArrayList(propertiesOrFieldsToIgnore)));
   }
 
   /**
@@ -571,7 +581,8 @@ public class Objects {
                                                    .filter(name -> getPropertyOrFieldValue(actual, name) != null)
                                                    .collect(toList());
     if (!nonNullFieldNames.isEmpty()) {
-      throw failures.failure(info, shouldHaveAllNullFields(actual, nonNullFieldNames, list(propertiesOrFieldsToIgnore)));
+      throw assertionErrorCreator.assertionError(info, shouldHaveAllNullFields(actual, nonNullFieldNames,
+                                                                               list(propertiesOrFieldsToIgnore)));
     }
   }
 
@@ -630,7 +641,7 @@ public class Objects {
     } catch (IntrospectionError error) {
       error.getterInvocationException()
            .ifPresent(this::throwAsRuntime);
-      throw failures.failure(info, shouldHavePropertyOrField(actual, name));
+      throw assertionErrorCreator.assertionError(info, shouldHavePropertyOrField(actual, name));
     }
   }
 
@@ -647,7 +658,7 @@ public class Objects {
     assertHasFieldOrProperty(info, actual, name);
     Object value = extractPropertyOrField(actual, name);
     if (!deepEquals(value, expectedValue))
-      throw failures.failure(info, shouldHavePropertyOrFieldWithValue(actual, name, expectedValue, value));
+      throw assertionErrorCreator.assertionError(info, shouldHavePropertyOrFieldWithValue(actual, name, expectedValue, value));
   }
 
   /**
@@ -673,7 +684,8 @@ public class Objects {
       List<String> extraFields = actualFields.stream()
                                              .filter(actualField -> !expectedFields.contains(actualField))
                                              .collect(toList());
-      throw failures.failure(info, shouldContainOnly(actual, names, fieldsNotFound, extraFields, FIELDS_GROUP_DESCRIPTION));
+      throw assertionErrorCreator.assertionError(info, shouldContainOnly(actual, names, fieldsNotFound, extraFields,
+                                                                         FIELDS_GROUP_DESCRIPTION));
     }
   }
 
@@ -692,7 +704,8 @@ public class Objects {
   public <A> void assertHasSameHashCodeAs(AssertionInfo info, A actual, Object other) {
     assertNotNull(info, actual);
     requireNonNull(other, "The object used to compare actual's hash code with should not be null");
-    if (actual.hashCode() != other.hashCode()) throw failures.failure(info, shouldHaveSameHashCode(actual, other));
+    if (actual.hashCode() != other.hashCode())
+      throw assertionErrorCreator.assertionError(info, shouldHaveSameHashCode(actual, other));
   }
 
   /**
@@ -707,7 +720,7 @@ public class Objects {
     assertNotNull(info, actual);
     requireNonNull(other, "The object used to compare actual's hash code with should not be null");
     if (actual.hashCode() == other.hashCode())
-      throw failures.failure(info, shouldNotHaveSameHashCode(actual, other));
+      throw assertionErrorCreator.assertionError(info, shouldNotHaveSameHashCode(actual, other));
   }
 
   private void throwAsRuntime(Throwable ex) {

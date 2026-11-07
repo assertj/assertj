@@ -21,7 +21,6 @@ import static org.assertj.core.error.ShouldHaveSameTime.shouldHaveSameTime;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
@@ -69,9 +68,9 @@ class Dates_hasSameTimeAs_Test extends DatesBaseTest {
     // GIVEN
     Date expected = new Date(actual.getTime() + 1);
     // WHEN
-    expectAssertionError(() -> dates.hasSameTimeAs(someInfo(), actual, expected));
+    var error = expectAssertionError(() -> dates.hasSameTimeAs(someInfo(), actual, expected));
     // THEN
-    verify(failures).failure(INFO, shouldHaveSameTime(actual, expected));
+    then(error).hasMessage(shouldHaveSameTime(actual, expected).create());
   }
 
 }

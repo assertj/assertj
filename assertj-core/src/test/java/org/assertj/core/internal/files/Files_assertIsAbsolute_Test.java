@@ -19,7 +19,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
@@ -51,9 +50,9 @@ class Files_assertIsAbsolute_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsAbsolute(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsAbsolute(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldBeAbsolutePath(actual));
+    then(error).hasMessage(shouldBeAbsolutePath(actual).create());
   }
 
   @Test

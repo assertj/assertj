@@ -16,18 +16,17 @@
 package org.assertj.core.internal.chararrays;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.CharArrays.arrayOf;
 import static org.assertj.core.testkit.CharArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
@@ -85,25 +84,22 @@ class CharArrays_assertContainsExactlyInAnyOrder_Test extends CharArraysBaseTest
   void should_fail_if_actual_does_not_contain_given_values_exactly() {
     AssertionInfo info = someInfo();
     char[] expected = { 'a', 'b', 'e' };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, newArrayList('e'), newArrayList('c'),
-                                                                  StandardComparisonStrategy.instance()));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList('e'), newArrayList('c'),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
   void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     AssertionInfo info = someInfo();
     char[] expected = { 'a', 'b' };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList('c'),
-                                                            StandardComparisonStrategy.instance()));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList('c'),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -111,13 +107,11 @@ class CharArrays_assertContainsExactlyInAnyOrder_Test extends CharArraysBaseTest
     AssertionInfo info = someInfo();
     actual = arrayOf('a', 'b', 'b');
     char[] expected = { 'a', 'b' };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList('b'),
-                                                            StandardComparisonStrategy.instance()));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList('b'),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -125,13 +119,11 @@ class CharArrays_assertContainsExactlyInAnyOrder_Test extends CharArraysBaseTest
     AssertionInfo info = someInfo();
     actual = arrayOf('a', 'b');
     char[] expected = { 'a', 'b', 'b' };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, newArrayList('b'), emptyList(),
-                                                            StandardComparisonStrategy.instance()));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList('b'), emptyList(),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -176,27 +168,24 @@ class CharArrays_assertContainsExactlyInAnyOrder_Test extends CharArraysBaseTest
   void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     char[] expected = { 'a', 'B', 'e' };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
                                                                                                               expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, newArrayList('e'), newArrayList('c'),
-                                                                  caseInsensitiveComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList('e'), newArrayList('c'),
+                                                          caseInsensitiveComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     char[] expected = { 'a', 'b' };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
                                                                                                               expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList('c'),
-                                                            caseInsensitiveComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList('c'),
+                                                          caseInsensitiveComparisonStrategy).create());
   }
 
   @Test
@@ -204,14 +193,12 @@ class CharArrays_assertContainsExactlyInAnyOrder_Test extends CharArraysBaseTest
     AssertionInfo info = someInfo();
     actual = arrayOf('a', 'b', 'b');
     char[] expected = { 'a', 'b' };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
                                                                                                               expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList('b'),
-                                                            caseInsensitiveComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList('b'),
+                                                          caseInsensitiveComparisonStrategy).create());
   }
 
   @Test
@@ -219,14 +206,12 @@ class CharArrays_assertContainsExactlyInAnyOrder_Test extends CharArraysBaseTest
     AssertionInfo info = someInfo();
     actual = arrayOf('a', 'b');
     char[] expected = { 'a', 'b', 'b' };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
                                                                                                               expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, newArrayList('b'), emptyList(),
-                                                            caseInsensitiveComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList('b'), emptyList(),
+                                                          caseInsensitiveComparisonStrategy).create());
   }
 
 }

@@ -15,14 +15,13 @@
  */
 package org.assertj.core.internal.objects;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
@@ -72,10 +71,8 @@ class Objects_assertIsOfClassIn_Test extends ObjectsBaseTest {
     AssertionInfo info = someInfo();
     Class<?>[] types = new Class[] { File.class, String.class };
 
-    Throwable error = catchThrowable(() -> objects.assertIsOfAnyClassIn(info, actual, types));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeOfClassIn(actual, types));
+    var error = expectAssertionError(() -> objects.assertIsOfAnyClassIn(info, actual, types));
+    then(error).hasMessage(shouldBeOfClassIn(actual, types).create());
   }
 
   @Test
@@ -83,9 +80,7 @@ class Objects_assertIsOfClassIn_Test extends ObjectsBaseTest {
     AssertionInfo info = someInfo();
     Class<?>[] types = new Class[] {};
 
-    Throwable error = catchThrowable(() -> objects.assertIsOfAnyClassIn(info, actual, types));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeOfClassIn(actual, types));
+    var error = expectAssertionError(() -> objects.assertIsOfAnyClassIn(info, actual, types));
+    then(error).hasMessage(shouldBeOfClassIn(actual, types).create());
   }
 }

@@ -15,18 +15,17 @@
  */
 package org.assertj.core.internal.bytearrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.ByteArrays.arrayOf;
 import static org.assertj.core.testkit.ByteArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ByteArrays;
@@ -89,11 +88,10 @@ class ByteArrays_assertContainsOnly_with_Integer_Arguments_Test extends ByteArra
   void should_fail_if_actual_does_not_contain_given_values_only() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsOnly(info, actual, IntArrays.arrayOf(6, 8, 20)));
+    var error = expectAssertionError(() -> arrays.assertContainsOnly(info, actual, IntArrays.arrayOf(6, 8, 20)));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainOnly(actual, arrayOf(6, 8, 20), newArrayList((byte) 20), newArrayList((byte) 10)));
+    then(error).hasMessage(shouldContainOnly(actual, arrayOf(6, 8, 20), newArrayList((byte) 20),
+                                             newArrayList((byte) 10)).create());
   }
 
   @Test
@@ -144,12 +142,10 @@ class ByteArrays_assertContainsOnly_with_Integer_Arguments_Test extends ByteArra
   void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual,
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual,
                                                                                                  IntArrays.arrayOf(6, -8, 20)));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainOnly(actual, arrayOf(6, -8, 20), newArrayList((byte) 20), newArrayList((byte) 10),
-                                               absValueComparisonStrategy));
+    then(error).hasMessage(shouldContainOnly(actual, arrayOf(6, -8, 20), newArrayList((byte) 20), newArrayList((byte) 10),
+                                             absValueComparisonStrategy).create());
   }
 }

@@ -29,26 +29,30 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.tests.core.testkit.Maps.mapOf;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.WritableAssertionInfo;
-import org.assertj.tests.core.internal.StringsBaseTest;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Strings;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
-class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
+class Strings_assertContainsSubsequence_Test {
+
+  private final ComparatorBasedComparisonStrategy comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final Strings stringsWithCaseInsensitiveComparisonStrategy = new Strings(comparisonStrategy);
 
   private static final WritableAssertionInfo INFO = someInfo();
 
   @Test
   void should_pass_if_actual_contains_subsequence() {
-    strings.assertContainsSubsequence(INFO, "Yoda", array("Yo", "da"));
+    Strings.instance().assertContainsSubsequence(INFO, "Yoda", array("Yo", "da"));
   }
 
   @Test
   void should_pass_if_actual_contains_subsequence_with_values_between() {
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
     String[] subsequence = { "{", "title", "A Game of Thrones", "}" };
-    strings.assertContainsSubsequence(INFO, actual, subsequence);
+    Strings.instance().assertContainsSubsequence(INFO, actual, subsequence);
   }
 
   @Test
@@ -57,9 +61,9 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     String actual = "Yoda";
     String[] subsequence = { "Yo", "da", "Han" };
     // WHEN
-    expectAssertionError(() -> strings.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> Strings.instance().assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContain(actual, subsequence, newLinkedHashSet("Han")));
+    then(error).hasMessage(shouldContain(actual, subsequence, newLinkedHashSet("Han")).create());
   }
 
   @Test
@@ -68,14 +72,14 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
     String[] subsequence = { "{", "author", "A Game of Thrones", "}" };
     // WHEN
-    expectAssertionError(() -> strings.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> Strings.instance().assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, 1));
+    then(error).hasMessage(shouldContainSubsequence(actual, subsequence, 1).create());
   }
 
   @Test
   void should_throw_error_if_subsequence_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> strings.assertContainsSubsequence(INFO, "Yoda", null))
+    assertThatNullPointerException().isThrownBy(() -> Strings.instance().assertContainsSubsequence(INFO, "Yoda", null))
                                     .withMessage(arrayOfValuesToLookForIsNull());
   }
 
@@ -85,7 +89,7 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     String actual = "'author':'George Martin'";
     String[] subsequence = { "author", null };
     // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> strings.assertContainsSubsequence(INFO, actual, subsequence))
+    assertThatNullPointerException().isThrownBy(() -> Strings.instance().assertContainsSubsequence(INFO, actual, subsequence))
                                     .withMessage("Expecting CharSequence elements not to be null but found one at index 1");
   }
 
@@ -95,7 +99,8 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     String actual = "Yoda";
     String[] emptySubsequence = {};
     // WHEN/THEN
-    assertThatIllegalArgumentException().isThrownBy(() -> strings.assertContainsSubsequence(INFO, actual, emptySubsequence))
+    assertThatIllegalArgumentException().isThrownBy(() -> Strings.instance().assertContainsSubsequence(INFO, actual,
+                                                                                                       emptySubsequence))
                                         .withMessage(arrayOfValuesToLookForIsEmpty());
   }
 
@@ -104,16 +109,16 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     // GIVEN
     String actual = null;
     // WHEN
-    var assertionError = expectAssertionError(() -> strings.assertContainsSubsequence(INFO, actual, array("a", "b")));
+    var assertionError = expectAssertionError(() -> Strings.instance().assertContainsSubsequence(INFO, actual, array("a", "b")));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   void should_pass_if_actual_contains_subsequence_that_specifies_multiple_times_the_same_value_bug_544() {
-    strings.assertContainsSubsequence(INFO, "a-b-c-", array("a", "-", "b", "-", "c"));
-    strings.assertContainsSubsequence(INFO, "{ 'title':'A Game of Thrones', 'author':'George Martin'}",
-                                      array("George", " ", "Martin"));
+    Strings.instance().assertContainsSubsequence(INFO, "a-b-c-", array("a", "-", "b", "-", "c"));
+    Strings.instance().assertContainsSubsequence(INFO, "{ 'title':'A Game of Thrones', 'author':'George Martin'}",
+                                                 array("George", " ", "Martin"));
   }
 
   @Test
@@ -129,9 +134,10 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     String actual = "Yoda";
     String[] subsequence = { "Yo", "da", "Han" };
     // WHEN
-    expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual,
+                                                                                                                  subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContain(actual, subsequence, newLinkedHashSet("Han"), comparisonStrategy));
+    then(error).hasMessage(shouldContain(actual, subsequence, newLinkedHashSet("Han"), comparisonStrategy).create());
   }
 
   @Test
@@ -140,9 +146,10 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
     String[] subsequence = { "{", "author", "A Game of Thrones", "}" };
     // WHEN
-    expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual,
+                                                                                                                  subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, 1, comparisonStrategy));
+    then(error).hasMessage(shouldContainSubsequence(actual, subsequence, 1, comparisonStrategy).create());
   }
 
   @Test
@@ -151,9 +158,10 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     String actual = "v1 : v2 : v3";
     String[] subsequence = { "v2", "v2", "v3" };
     // WHEN
-    expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual,
+                                                                                                                  subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, mapOf(entry("v2", 1)), comparisonStrategy));
+    then(error).hasMessage(shouldContainSubsequence(actual, subsequence, mapOf(entry("v2", 1)), comparisonStrategy).create());
   }
 
   @Test
@@ -162,9 +170,10 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     String actual = "v1 : v2 : v2 : v3";
     String[] subsequence = { "v2", "v2", "v2", "v3" };
     // WHEN
-    expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual,
+                                                                                                                  subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, mapOf(entry("v2", 2)), comparisonStrategy));
+    then(error).hasMessage(shouldContainSubsequence(actual, subsequence, mapOf(entry("v2", 2)), comparisonStrategy).create());
   }
 
   @Test
@@ -173,9 +182,9 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     String actual = "v1 : v2 : v3 : v2";
     String[] subsequence = { "v2", "v2", "v2", "v3", "v4", "v5" };
     // WHEN
-    expectAssertionError(() -> strings.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> Strings.instance().assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContain(actual, subsequence, newLinkedHashSet("v4", "v5")));
+    then(error).hasMessage(shouldContain(actual, subsequence, newLinkedHashSet("v4", "v5")).create());
   }
 
   @Test
@@ -184,9 +193,10 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     String actual = "Yoda";
     String[] subsequence = { "Yo", "da", "da" };
     // WHEN
-    expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual,
+                                                                                                                  subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, mapOf(entry("da", 1)), comparisonStrategy));
+    then(error).hasMessage(shouldContainSubsequence(actual, subsequence, mapOf(entry("da", 1)), comparisonStrategy).create());
   }
 
   @Test
@@ -195,8 +205,9 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
     String[] subsequence = new String[] { "George", "George" };
     // WHEN
-    expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual, subsequence));
+    var error = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual,
+                                                                                                                  subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, mapOf(entry("George", 1)), comparisonStrategy));
+    then(error).hasMessage(shouldContainSubsequence(actual, subsequence, mapOf(entry("George", 1)), comparisonStrategy).create());
   }
 }

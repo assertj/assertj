@@ -133,7 +133,7 @@ public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowable
     } catch (Throwable throwable) {
       return throwable;
     }
-    throw AssertionErrorCreator.INSTANCE.assertionError("Expecting code to raise a Throwable");
+    throw AssertionErrorCreator.instance().assertionError("Expecting code to raise a Throwable");
   }
 
   /**
@@ -176,7 +176,7 @@ public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowable
     if (throwable == null) {
       String typeSimpleName = type.getSimpleName();
       String article = startsWithVowel(typeSimpleName) ? "an" : "a";
-      throw AssertionErrorCreator.INSTANCE.assertionError("Expecting code to raise %s %s".formatted(article, typeSimpleName));
+      throw AssertionErrorCreator.instance().assertionError("Expecting code to raise %s %s".formatted(article, typeSimpleName));
     }
     // check exception's type
     new ThrowableAssert<>(throwable).as("Checking code thrown Throwable")

@@ -20,7 +20,7 @@ import static org.assertj.core.error.ShouldBeFalse.shouldBeFalse;
 import static org.assertj.core.error.ShouldBeTrue.shouldBeTrue;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Base class for all implementations of assertions for {@link Boolean}s.
@@ -67,7 +67,7 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
     return executeAssertion(() -> {
       isNotNull();
       if (actual) return;
-      throw Failures.instance().failure(info, shouldBeTrue(actual), actual, true);
+      throw AssertionErrorCreator.instance().assertionError(info, shouldBeTrue(actual), actual, true);
     });
   }
 
@@ -91,7 +91,7 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
     return executeAssertion(() -> {
       isNotNull();
       if (!actual) return;
-      throw Failures.instance().failure(info, shouldBeFalse(actual), actual, false);
+      throw AssertionErrorCreator.instance().assertionError(info, shouldBeFalse(actual), actual, false);
     });
   }
 
@@ -115,7 +115,7 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
   public SELF isEqualTo(boolean expected) {
     return executeAssertion(() -> {
       if (actual == null || actual != expected)
-        throw Failures.instance().failure(info, shouldBeEqual(actual, expected, info.representation()));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeEqual(actual, expected, info.representation()));
     });
   }
 

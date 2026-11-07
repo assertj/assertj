@@ -17,20 +17,18 @@ package org.assertj.core.internal.bigdecimals;
 
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.BigDecimalsBaseTest;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -53,12 +51,12 @@ class BigDecimals_assertEqualByComparison_Test extends BigDecimalsBaseTest {
 
   @Test
   void should_fail_if_big_decimals_are_not_equal_by_comparison() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbers.assertEqualByComparison(info, TEN, ONE));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(TEN, ONE, info.representation()));
+    // WHEN
+    var error = expectAssertionError(() -> numbers.assertEqualByComparison(info, TEN, ONE));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(TEN, ONE, info.representation()).toAssertionError(info).getMessage());
   }
 
   @Test
@@ -76,12 +74,11 @@ class BigDecimals_assertEqualByComparison_Test extends BigDecimalsBaseTest {
 
   @Test
   void should_fail_if_big_decimals_are_not_equal_by_comparison_whatever_custom_comparison_strategy_is() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertEqualByComparison(info, TEN, ONE));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(TEN, ONE, absValueComparisonStrategy,
-                                                 new StandardRepresentation()));
+    // WHEN
+    var error = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertEqualByComparison(info, TEN, ONE));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(TEN, ONE, info.representation()).toAssertionError(info).getMessage());
   }
 }

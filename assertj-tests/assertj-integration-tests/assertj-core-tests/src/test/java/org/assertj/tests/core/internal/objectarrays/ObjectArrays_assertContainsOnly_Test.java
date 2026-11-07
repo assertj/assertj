@@ -16,6 +16,7 @@
 package org.assertj.tests.core.internal.objectarrays;
 
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.util.Arrays.array;
@@ -24,15 +25,26 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.tests.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-class ObjectArrays_assertContainsOnly_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertContainsOnly_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final String[] actual = array("Luke", "Yoda", "Leia");
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final ObjectArrays arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
 
   @Test
   void should_pass_if_actual_contains_given_values_only() {
@@ -81,9 +93,9 @@ class ObjectArrays_assertContainsOnly_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] expected = { "Luke", "Yoda", "Han" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsOnly(INFO, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsOnly(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO, shouldContainOnly(actual, expected, list("Han"), list("Leia")));
+    then(error).hasMessage(shouldContainOnly(actual, expected, list("Han"), list("Leia")).create());
   }
 
   @Test
@@ -138,9 +150,9 @@ class ObjectArrays_assertContainsOnly_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] expected = { "LUKE", "YOda", "Han" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(INFO, actual, expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO, shouldContainOnly(actual, expected, list("Han"), list("Leia"),
-                                                     caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldContainOnly(actual, expected, list("Han"), list("Leia"),
+                                             caseInsensitiveStringComparisonStrategy).create());
   }
 }

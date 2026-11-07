@@ -16,12 +16,17 @@
 package org.assertj.tests.core.internal.objectarrays;
 
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.JediCondition;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -29,11 +34,15 @@ import org.junit.jupiter.api.Test;
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  */
-class ObjectArrays_assertAre_Test extends ObjectArraysWithConditionBaseTest {
+class ObjectArrays_assertAre_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final String[] actual = array("Yoda", "Luke", "Leia");
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
 
   @Test
   void should_pass_if_each_element_satisfies_condition() {
-    arrays.assertAre(INFO, array("Yoda", "Luke"), jedi);
+    arrays.assertAre(INFO, array("Yoda", "Luke"), new JediCondition());
   }
 
   @Test
@@ -47,9 +56,9 @@ class ObjectArrays_assertAre_Test extends ObjectArraysWithConditionBaseTest {
     // GIVEN
     var actual = array("Yoda", "Luke", "Leia");
     // WHEN
-    expectAssertionError(() -> arrays.assertAre(INFO, actual, jedi));
+    var error = expectAssertionError(() -> arrays.assertAre(INFO, actual, new JediCondition()));
     // THEN
-    verify(failures).failure(INFO, elementsShouldBe(actual, newArrayList("Leia"), jedi));
+    then(error).hasMessage(elementsShouldBe(actual, newArrayList("Leia"), new JediCondition()).create());
   }
 
 }

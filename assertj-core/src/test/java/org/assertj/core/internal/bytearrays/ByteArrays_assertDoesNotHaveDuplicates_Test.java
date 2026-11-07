@@ -15,16 +15,15 @@
  */
 package org.assertj.core.internal.bytearrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.testkit.ByteArrays.arrayOf;
 import static org.assertj.core.testkit.ByteArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ByteArrays;
@@ -65,10 +64,9 @@ class ByteArrays_assertDoesNotHaveDuplicates_Test extends ByteArraysBaseTest {
     AssertionInfo info = someInfo();
     actual = arrayOf(6, 8, 6, 8);
 
-    Throwable error = catchThrowable(() -> arrays.assertDoesNotHaveDuplicates(info, actual));
+    var error = expectAssertionError(() -> arrays.assertDoesNotHaveDuplicates(info, actual));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet((byte) 6, (byte) 8)));
+    then(error).hasMessage(shouldNotHaveDuplicates(actual, newLinkedHashSet((byte) 6, (byte) 8)).create());
   }
 
   @Test
@@ -93,10 +91,9 @@ class ByteArrays_assertDoesNotHaveDuplicates_Test extends ByteArraysBaseTest {
     AssertionInfo info = someInfo();
     actual = arrayOf(6, -8, 6, -8);
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldNotHaveDuplicates(actual, newLinkedHashSet((byte) 6, (byte) -8), absValueComparisonStrategy));
+    then(error).hasMessage(shouldNotHaveDuplicates(actual, newLinkedHashSet((byte) 6, (byte) -8),
+                                                   absValueComparisonStrategy).create());
   }
 }

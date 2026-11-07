@@ -15,18 +15,17 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.internal.ErrorMessages.iterableToLookForIsNull;
 import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
@@ -83,10 +82,8 @@ class Iterables_assertContainsAll_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     List<String> expected = newArrayList("Han", "Luke");
 
-    Throwable error = catchThrowable(() -> iterables.assertContainsAll(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContain(actual, expected.toArray(), newLinkedHashSet("Han")));
+    var error = expectAssertionError(() -> iterables.assertContainsAll(info, actual, expected));
+    then(error).hasMessage(shouldContain(actual, expected.toArray(), newLinkedHashSet("Han")).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -124,11 +121,9 @@ class Iterables_assertContainsAll_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     List<String> expected = newArrayList("Han", "LUKE");
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(info, actual,
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(info, actual,
                                                                                                             expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContain(actual, expected.toArray(), newLinkedHashSet("Han"), comparisonStrategy));
+    then(error).hasMessage(shouldContain(actual, expected.toArray(), newLinkedHashSet("Han"), comparisonStrategy).create());
   }
 
 }

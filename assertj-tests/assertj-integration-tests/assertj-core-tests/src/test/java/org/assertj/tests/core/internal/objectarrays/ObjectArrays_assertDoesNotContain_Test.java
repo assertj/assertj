@@ -26,15 +26,26 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.tests.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-class ObjectArrays_assertDoesNotContain_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertDoesNotContain_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final String[] actual = array("Luke", "Yoda", "Leia");
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final ObjectArrays arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
 
   @Test
   void should_pass_if_actual_does_not_contain_given_values() {
@@ -71,9 +82,9 @@ class ObjectArrays_assertDoesNotContain_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] expected = { "Luke", "Yoda", "Han" };
     // WHEN
-    expectAssertionError(() -> arrays.assertDoesNotContain(INFO, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertDoesNotContain(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO, shouldNotContain(actual, expected, newLinkedHashSet("Luke", "Yoda")));
+    then(error).hasMessage(shouldNotContain(actual, expected, newLinkedHashSet("Luke", "Yoda")).create());
   }
 
   @Test
@@ -99,10 +110,9 @@ class ObjectArrays_assertDoesNotContain_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] expected = { "LUKE", "Yoda", "Han" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(INFO, actual, expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldNotContain(actual, expected, newLinkedHashSet("LUKE", "Yoda"),
-                                              caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldNotContain(actual, expected, newLinkedHashSet("LUKE", "Yoda"),
+                                            caseInsensitiveStringComparisonStrategy).create());
   }
 }

@@ -22,12 +22,12 @@ import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Arrays2D;
-import org.assertj.core.internal.Failures;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Arrays2D#assertEmpty(AssertionInfo, Failures, Object)}</code>.
+ * Tests for <code>{@link Arrays2D#assertEmpty(AssertionInfo, AssertionErrorCreator, Object)}</code>.
  *
  * @author Maciej Wajcht
  */
@@ -38,7 +38,7 @@ class Arrays2D_assertEmpty_Test extends Arrays2D_BaseTest {
     // GIVEN
     int[][] actual = null;
     // WHEN
-    var assertionError = expectAssertionError(() -> arrays.assertEmpty(someInfo(), failures, actual));
+    var assertionError = expectAssertionError(() -> arrays.assertEmpty(someInfo(), assertionErrorCreator, actual));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -48,7 +48,7 @@ class Arrays2D_assertEmpty_Test extends Arrays2D_BaseTest {
     // GIVEN
     int[][] actual = { { 4 }, { 6, 8 } };
     // WHEN
-    var assertionError = expectAssertionError(() -> arrays.assertEmpty(someInfo(), failures, actual));
+    var assertionError = expectAssertionError(() -> arrays.assertEmpty(someInfo(), assertionErrorCreator, actual));
     // THEN
     then(assertionError).hasMessage(shouldBeEmpty(actual).create());
 
@@ -56,8 +56,8 @@ class Arrays2D_assertEmpty_Test extends Arrays2D_BaseTest {
 
   @Test
   void should_pass_if_actual_is_empty() {
-    arrays.assertEmpty(someInfo(), failures, new int[][] {});
-    arrays.assertEmpty(someInfo(), failures, new int[][] { {} });
-    arrays.assertEmpty(someInfo(), failures, new int[][] { {}, {}, {} });
+    arrays.assertEmpty(someInfo(), assertionErrorCreator, new int[][] {});
+    arrays.assertEmpty(someInfo(), assertionErrorCreator, new int[][] { {} });
+    arrays.assertEmpty(someInfo(), assertionErrorCreator, new int[][] { {}, {}, {} });
   }
 }

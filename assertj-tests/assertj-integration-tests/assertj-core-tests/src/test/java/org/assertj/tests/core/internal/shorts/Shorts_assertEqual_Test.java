@@ -15,16 +15,19 @@
  */
 package org.assertj.tests.core.internal.shorts;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.internal.Shorts;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -33,7 +36,11 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-class Shorts_assertEqual_Test extends ShortsBaseTest {
+class Shorts_assertEqual_Test {
+
+  private final Shorts shorts = new Shorts(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<>());
+  private final Shorts shortsWithAbsValueComparisonStrategy = new Shorts(absValueComparisonStrategy);
 
   @Test
   void should_fail_if_actual_is_null() {
@@ -50,9 +57,10 @@ class Shorts_assertEqual_Test extends ShortsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> shorts.assertEqual(info, (short) 6, (short) 8));
+    var assertionError = expectAssertionError(() -> Shorts.instance().assertEqual(info, (short) 6, (short) 8));
     // THEN
-    verify(failures).failure(info, shouldBeEqual((short) 6, (short) 8, info.representation()));
+    then(assertionError).hasMessage(shouldBeEqual((short) 6, (short) 8, new StandardRepresentation()).toAssertionError(info)
+                                                                                                     .getMessage());
   }
 
   @Test
@@ -71,9 +79,9 @@ class Shorts_assertEqual_Test extends ShortsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertEqual(info, (short) 6, (short) 8));
+    var assertionError = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertEqual(info, (short) 6, (short) 8));
     // THEN
-    verify(failures).failure(info, shouldBeEqual((short) 6, (short) 8, absValueComparisonStrategy,
-                                                 new StandardRepresentation()));
+    then(assertionError).hasMessage(shouldBeEqual((short) 6, (short) 8, absValueComparisonStrategy,
+                                                  new StandardRepresentation()).toAssertionError(info).getMessage());
   }
 }

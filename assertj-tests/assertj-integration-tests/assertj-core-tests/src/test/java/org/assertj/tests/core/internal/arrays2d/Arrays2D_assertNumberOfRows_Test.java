@@ -34,7 +34,7 @@ class Arrays2D_assertNumberOfRows_Test extends Arrays2D_BaseTest {
     // GIVEN
     char[][] actual = null;
     // WHEN
-    var assertionError = expectAssertionError(() -> arrays.assertNumberOfRows(someInfo(), failures, actual, 1));
+    var assertionError = expectAssertionError(() -> arrays.assertNumberOfRows(someInfo(), assertionErrorCreator, actual, 1));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -46,7 +46,7 @@ class Arrays2D_assertNumberOfRows_Test extends Arrays2D_BaseTest {
     int expectedNumberOfRows = 2;
     // WHEN
     var assertionError = expectAssertionError(
-                                              () -> arrays.assertNumberOfRows(someInfo(), failures, actual,
+                                              () -> arrays.assertNumberOfRows(someInfo(), assertionErrorCreator, actual,
                                                                               expectedNumberOfRows));
     // THEN
     then(assertionError).hasMessage(shouldHaveFirstDimension(actual, actual.length, expectedNumberOfRows).create());
@@ -58,7 +58,7 @@ class Arrays2D_assertNumberOfRows_Test extends Arrays2D_BaseTest {
     // GIVEN
     int expectedNumberOfRows = 3;
     // WHEN / THEN
-    arrays.assertNumberOfRows(someInfo(), failures, actual, expectedNumberOfRows);
+    arrays.assertNumberOfRows(someInfo(), assertionErrorCreator, actual, expectedNumberOfRows);
   }
 
   private static Stream<char[][]> arrays2d() {

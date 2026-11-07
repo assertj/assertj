@@ -15,11 +15,10 @@
  */
 package org.assertj.core.internal.dates;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqualWithTimePrecision.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -82,50 +81,55 @@ class Dates_assertIsEqualWithPrecision_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_ms_fields_differ() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-09-27T12:23:35.998");
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.MICROSECONDS));
 
-    Throwable error = catchThrowable(() -> dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.MICROSECONDS));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(actual, other, TimeUnit.MICROSECONDS));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(actual, other, TimeUnit.MICROSECONDS).create());
   }
 
   @Test
   void should_fail_if_second_fields_differ() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-09-27T12:23:36.999");
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.MILLISECONDS));
 
-    Throwable error = catchThrowable(() -> dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.MILLISECONDS));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(actual, other, TimeUnit.MILLISECONDS));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(actual, other, TimeUnit.MILLISECONDS).create());
   }
 
   @Test
   void should_fail_if_minute_fields_differ() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-09-27T12:24:35.999");
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.SECONDS));
 
-    Throwable error = catchThrowable(() -> dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.SECONDS));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(actual, other, TimeUnit.SECONDS));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(actual, other, TimeUnit.SECONDS).create());
   }
 
   @Test
   void should_fail_if_hour_fields_differ() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-09-27T13:23:35.999");
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.MINUTES));
 
-    Throwable error = catchThrowable(() -> dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.MINUTES));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(actual, other, TimeUnit.MINUTES));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(actual, other, TimeUnit.MINUTES).create());
   }
 
   @Test
   void should_fail_if_hour_fields_differ_but_are_equal_when_am_pm_not_taken_into_account() {
+    // GIVEN
     AssertionInfo info = someInfo();
     final Date now = new Date();
     // build date differing only by AM/PM value 18 = 6PM <-> 6AM
@@ -137,22 +141,23 @@ class Dates_assertIsEqualWithPrecision_Test extends DatesBaseTest {
     calendar2.set(Calendar.HOUR_OF_DAY, 6);
     Date date1 = calendar1.getTime();
     Date date2 = calendar2.getTime();
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertIsEqualWithPrecision(info, date1, date2, TimeUnit.MINUTES));
 
-    Throwable error = catchThrowable(() -> dates.assertIsEqualWithPrecision(info, date1, date2, TimeUnit.MINUTES));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(date1, date2, TimeUnit.MINUTES));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(date1, date2, TimeUnit.MINUTES).create());
   }
 
   @Test
   void should_fail_if_day_not_equal() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-09-28T12:23:35.999");
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.HOURS));
 
-    Throwable error = catchThrowable(() -> dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.HOURS));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(actual, other, TimeUnit.HOURS));
+    // THEN
+    then(error).hasMessage(shouldBeEqual(actual, other, TimeUnit.HOURS).create());
   }
 
 }

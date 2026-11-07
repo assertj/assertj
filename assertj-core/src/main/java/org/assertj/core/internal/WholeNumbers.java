@@ -19,6 +19,7 @@ import static org.assertj.core.error.ShouldBeEven.shouldBeEven;
 import static org.assertj.core.error.ShouldBeOdd.shouldBeOdd;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Assertions and predicates for whole numbers.
@@ -53,7 +54,7 @@ public interface WholeNumbers<NUMBER extends Number> {
    * @throws AssertionError if the actual value is {@code null}.
    */
   default void assertIsOdd(AssertionInfo info, NUMBER actual) {
-    if (!isOdd(actual)) throw Failures.instance().failure(info, shouldBeOdd(actual));
+    if (!isOdd(actual)) throw AssertionErrorCreator.instance().assertionError(info, shouldBeOdd(actual));
   }
 
   /**
@@ -64,6 +65,6 @@ public interface WholeNumbers<NUMBER extends Number> {
    * @throws AssertionError if the actual value is {@code null}.
    */
   default void assertIsEven(AssertionInfo info, NUMBER actual) {
-    if (!isEven(actual)) throw Failures.instance().failure(info, shouldBeEven(actual));
+    if (!isEven(actual)) throw AssertionErrorCreator.instance().assertionError(info, shouldBeEven(actual));
   }
 }

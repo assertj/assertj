@@ -38,6 +38,6 @@ class Byte2DArrays_assertDoesNotContain_at_Index_Test extends Byte2DArraysBaseTe
     // WHEN
     byte2dArrays.assertDoesNotContain(info, actual, bytes, atIndex(1));
     // THEN
-    verify(arrays2d).assertDoesNotContain(info, failures, actual, bytes, atIndex(1));
+    verify(arrays2d).assertDoesNotContain(info, assertionErrorCreator, actual, bytes, atIndex(1));
   }
 }

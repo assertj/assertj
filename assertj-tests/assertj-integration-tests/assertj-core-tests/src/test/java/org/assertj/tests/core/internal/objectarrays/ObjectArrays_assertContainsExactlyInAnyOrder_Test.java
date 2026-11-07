@@ -25,15 +25,25 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Lovro Pandzic
  */
-class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertContainsExactlyInAnyOrder_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final String[] actual = array("Luke", "Yoda", "Leia");
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final ObjectArrays arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
 
   @Test
   void should_pass_if_actual_contains_exactly_in_any_order_given_values() {
@@ -81,10 +91,10 @@ class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArraysBase
     // GIVEN
     Object[] expected = { "Luke", "Yoda", "Han" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(INFO, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO, shouldContainExactlyInAnyOrder(actual, expected, list("Han"), list("Leia"),
-                                                                  StandardComparisonStrategy.instance()));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, list("Han"), list("Leia"),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -93,11 +103,10 @@ class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArraysBase
     var actual = array("Luke", "Leia", "Luke");
     Object[] expected = { "Luke", "Leia" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(INFO, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), list("Luke"),
-                                                            StandardComparisonStrategy.instance()));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), list("Luke"),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -106,11 +115,10 @@ class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArraysBase
     var actual = array("Luke", "Leia");
     Object[] expected = { "Luke", "Leia", "Luke" };
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(INFO, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldContainExactlyInAnyOrder(actual, expected, list("Luke"), emptyList(),
-                                                            StandardComparisonStrategy.instance()));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, list("Luke"), emptyList(),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -128,11 +136,11 @@ class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArraysBase
     // GIVEN
     Object[] expected = { "Luke", "Yoda", "Han" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(INFO, actual,
-                                                                                                  expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(INFO, actual,
+                                                                                                              expected));
     // THEN
-    verify(failures).failure(INFO, shouldContainExactlyInAnyOrder(actual, expected, list("Han"), list("Leia"),
-                                                                  caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, list("Han"), list("Leia"),
+                                                          caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test
@@ -141,12 +149,11 @@ class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArraysBase
     var actual = array("Luke", "Leia", "Luke");
     Object[] expected = { "Luke", "Leia" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(INFO, actual,
-                                                                                                  expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(INFO, actual,
+                                                                                                              expected));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), list("Luke"),
-                                                            caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), list("Luke"),
+                                                          caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test
@@ -155,12 +162,11 @@ class ObjectArrays_assertContainsExactlyInAnyOrder_Test extends ObjectArraysBase
     var actual = array("Luke", "Leia");
     Object[] expected = { "Luke", "Leia", "Luke" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(INFO, actual,
-                                                                                                  expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(INFO, actual,
+                                                                                                              expected));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldContainExactlyInAnyOrder(actual, expected, list("Luke"), emptyList(),
-                                                            caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, list("Luke"), emptyList(),
+                                                          caseInsensitiveStringComparisonStrategy).create());
   }
 
 }

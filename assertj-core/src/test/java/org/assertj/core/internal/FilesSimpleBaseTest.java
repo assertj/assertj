@@ -25,6 +25,7 @@ import java.io.UncheckedIOException;
 import java.nio.file.Path;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -45,15 +46,15 @@ public abstract class FilesSimpleBaseTest {
   protected File tempDirAsFile;
 
   protected Files files;
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
 
   @BeforeEach
   public void setUp(@TempDir Path tempDir) {
     this.tempDir = tempDir;
     tempDirAsFile = tempDir.toFile();
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     files = new Files();
-    files.failures = failures;
+    files.assertionErrorCreator = assertionErrorCreator;
   }
 
   public Path createDirectory(Path parent, String name, String... files) {

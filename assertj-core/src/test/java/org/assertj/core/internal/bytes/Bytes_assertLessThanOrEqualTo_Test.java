@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.bytes;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
@@ -53,13 +52,12 @@ class Bytes_assertLessThanOrEqualTo_Test extends BytesBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_greater_than_other() {
+  void should_fail_if_actual_is_greater_than_other() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> bytes.assertLessThanOrEqualTo(info, (byte) 8, (byte) 6));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLessOrEqual((byte) 8, (byte) 6));
+    // WHEN
+    var error = expectAssertionError(() -> bytes.assertLessThanOrEqualTo(info, (byte) 8, (byte) 6));
+    // THEN
+    then(error).hasMessage(shouldBeLessOrEqual((byte) 8, (byte) 6).create());
   }
 
   @Test
@@ -81,13 +79,12 @@ class Bytes_assertLessThanOrEqualTo_Test extends BytesBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> bytesWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, (byte) -8,
+    // WHEN
+    var error = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, (byte) -8,
                                                                                                        (byte) 6));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLessOrEqual((byte) -8, (byte) 6, absValueComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeLessOrEqual((byte) -8, (byte) 6, absValueComparisonStrategy).create());
   }
 }

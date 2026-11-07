@@ -16,18 +16,17 @@
 package org.assertj.core.internal.booleanarrays;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.BooleanArrays.arrayOf;
 import static org.assertj.core.testkit.BooleanArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
@@ -83,26 +82,23 @@ class BooleanArrays_assertContainsExactlyInAnyOrder_Test extends BooleanArraysBa
   void should_fail_if_actual_does_not_contain_given_values_exactly() {
     AssertionInfo info = someInfo();
     boolean[] expected = { true, true };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected,
-                                                                  newArrayList(true), newArrayList(false),
-                                                                  StandardComparisonStrategy.instance()));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected,
+                                                          newArrayList(true), newArrayList(false),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
   void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     AssertionInfo info = someInfo();
     boolean[] expected = { true };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(false),
-                                                            StandardComparisonStrategy.instance()));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(false),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -110,13 +106,11 @@ class BooleanArrays_assertContainsExactlyInAnyOrder_Test extends BooleanArraysBa
     AssertionInfo info = someInfo();
     actual = arrayOf(true, false, true);
     boolean[] expected = { true, false };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(true),
-                                                            StandardComparisonStrategy.instance()));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList(true),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -124,13 +118,11 @@ class BooleanArrays_assertContainsExactlyInAnyOrder_Test extends BooleanArraysBa
     AssertionInfo info = someInfo();
     actual = arrayOf(true, false);
     boolean[] expected = { true, false, true };
-
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, newArrayList(true), emptyList(),
-                                                            StandardComparisonStrategy.instance()));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList(true), emptyList(),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
 }

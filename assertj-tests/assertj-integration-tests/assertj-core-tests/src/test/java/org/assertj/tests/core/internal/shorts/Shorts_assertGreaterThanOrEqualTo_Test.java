@@ -15,32 +15,38 @@
  */
 package org.assertj.tests.core.internal.shorts;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Shorts;
+import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
-class Shorts_assertGreaterThanOrEqualTo_Test extends ShortsBaseTest {
+class Shorts_assertGreaterThanOrEqualTo_Test {
+
+  private final ComparatorBasedComparisonStrategy absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<>());
+  private final Shorts shortsWithAbsValueComparisonStrategy = new Shorts(absValueComparisonStrategy);
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatAssertionErrorIsThrownBy(() -> shorts.assertGreaterThanOrEqualTo(someInfo(), null,
-                                                                               (short) 8)).withMessage(actualIsNull());
+    assertThatAssertionErrorIsThrownBy(() -> Shorts.instance().assertGreaterThanOrEqualTo(someInfo(), null,
+                                                                                          (short) 8)).withMessage(actualIsNull());
   }
 
   @Test
   void should_pass_if_actual_is_greater_than_other() {
-    shorts.assertGreaterThanOrEqualTo(someInfo(), (short) 8, (short) 6);
+    Shorts.instance().assertGreaterThanOrEqualTo(someInfo(), (short) 8, (short) 6);
   }
 
   @Test
   void should_pass_if_actual_is_equal_to_other() {
-    shorts.assertGreaterThanOrEqualTo(someInfo(), (short) 6, (short) 6);
+    Shorts.instance().assertGreaterThanOrEqualTo(someInfo(), (short) 6, (short) 6);
   }
 
   @Test
@@ -48,9 +54,9 @@ class Shorts_assertGreaterThanOrEqualTo_Test extends ShortsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> shorts.assertGreaterThanOrEqualTo(info, (short) 6, (short) 8));
+    var error = expectAssertionError(() -> Shorts.instance().assertGreaterThanOrEqualTo(info, (short) 6, (short) 8));
     // THEN
-    verify(failures).failure(info, shouldBeGreaterOrEqual((short) 6, (short) 8));
+    then(error).hasMessage(shouldBeGreaterOrEqual((short) 6, (short) 8).create());
   }
 
   @Test
@@ -75,8 +81,9 @@ class Shorts_assertGreaterThanOrEqualTo_Test extends ShortsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, (short) 6, (short) -8));
+    var error = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, (short) 6,
+                                                                                                           (short) -8));
     // THEN
-    verify(failures).failure(info, shouldBeGreaterOrEqual((short) 6, (short) -8, absValueComparisonStrategy));
+    then(error).hasMessage(shouldBeGreaterOrEqual((short) 6, (short) -8, absValueComparisonStrategy).create());
   }
 }

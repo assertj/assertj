@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.characters;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Characters;
@@ -54,12 +53,13 @@ class Characters_assertLessThanOrEqualTo_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_greater_than_other() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> characters.assertLessThanOrEqualTo(info, 'b', 'a'));
 
-    Throwable error = catchThrowable(() -> characters.assertLessThanOrEqualTo(info, 'b', 'a'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLessOrEqual('b', 'a'));
+    // THEN
+    then(error).hasMessage(shouldBeLessOrEqual('b', 'a').create());
   }
 
   @Test
@@ -82,12 +82,13 @@ class Characters_assertLessThanOrEqualTo_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLessThanOrEqualTo(info, 'B',
+    // WHEN
+    var error = expectAssertionError(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLessThanOrEqualTo(info, 'B',
                                                                                                                    'a'));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLessOrEqual('B', 'a', caseInsensitiveComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeLessOrEqual('B', 'a', caseInsensitiveComparisonStrategy).create());
   }
 }

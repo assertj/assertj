@@ -40,7 +40,7 @@ class Arrays2D_assertHasDimensions_Test extends Arrays2D_BaseTest {
     // GIVEN
     char[][] actual = null;
     // WHEN
-    var assertionError = expectAssertionError(() -> arrays.assertHasDimensions(someInfo(), failures, actual, 2, 3));
+    var assertionError = expectAssertionError(() -> arrays.assertHasDimensions(someInfo(), assertionErrorCreator, actual, 2, 3));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -50,7 +50,7 @@ class Arrays2D_assertHasDimensions_Test extends Arrays2D_BaseTest {
     // GIVEN
     int expectedFirstDimensionSize = 10;
     // WHEN
-    var assertionError = expectAssertionError(() -> arrays.assertHasDimensions(someInfo(), failures, actual,
+    var assertionError = expectAssertionError(() -> arrays.assertHasDimensions(someInfo(), assertionErrorCreator, actual,
                                                                                expectedFirstDimensionSize, 3));
     // THEN
     then(assertionError).hasMessage(shouldHaveFirstDimension(actual, actual.length, expectedFirstDimensionSize).create());
@@ -61,7 +61,7 @@ class Arrays2D_assertHasDimensions_Test extends Arrays2D_BaseTest {
     // GIVEN
     int expectedSecondDimensionSize = 10;
     // WHEN
-    var assertionError = expectAssertionError(() -> arrays.assertHasDimensions(someInfo(), failures, actual, 2,
+    var assertionError = expectAssertionError(() -> arrays.assertHasDimensions(someInfo(), assertionErrorCreator, actual, 2,
                                                                                expectedSecondDimensionSize));
     // THEN
     then(assertionError).hasMessage(shouldHaveSize(new char[] { 'a', 'b', 'c' }, 3, expectedSecondDimensionSize, 0).create());
@@ -69,6 +69,6 @@ class Arrays2D_assertHasDimensions_Test extends Arrays2D_BaseTest {
 
   @Test
   void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    arrays.assertHasDimensions(someInfo(), failures, actual, 2, 3);
+    arrays.assertHasDimensions(someInfo(), assertionErrorCreator, actual, 2, 3);
   }
 }

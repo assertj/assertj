@@ -28,6 +28,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.ShouldBeAfter;
 import org.assertj.core.error.ShouldBeAfterOrEqualTo;
@@ -51,7 +52,7 @@ public class Comparables {
   private final ComparisonStrategy comparisonStrategy;
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Failures failures = Failures.instance();
+  AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
   /**
    * Build a {@link Comparables} using a {@link StandardComparisonStrategy}.
@@ -84,18 +85,18 @@ public class Comparables {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  void setFailures(Failures failures) {
-    this.failures = failures;
+  void setAssertionErrorCreator(AssertionErrorCreator assertionErrorCreator) {
+    this.assertionErrorCreator = assertionErrorCreator;
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  void resetFailures() {
-    this.failures = Failures.instance();
+  void resetAssertionErrorCreator() {
+    this.assertionErrorCreator = AssertionErrorCreator.instance();
   }
 
   @Override
   public int hashCode() {
-    return hash(comparisonStrategy, failures);
+    return hash(comparisonStrategy, assertionErrorCreator);
   }
 
   @Override
@@ -107,12 +108,12 @@ public class Comparables {
     if (comparisonStrategy == null) {
       if (other.comparisonStrategy != null) return false;
     } else if (!comparisonStrategy.equals(other.comparisonStrategy)) return false;
-    return java.util.Objects.equals(failures, other.failures);
+    return java.util.Objects.equals(assertionErrorCreator, other.assertionErrorCreator);
   }
 
   @Override
   public String toString() {
-    return "Comparables [comparisonStrategy=%s, failures=%s]".formatted(comparisonStrategy, failures);
+    return "Comparables [comparisonStrategy=%s, assertionErrorCreator=%s]".formatted(comparisonStrategy, assertionErrorCreator);
   }
 
   /**
@@ -128,7 +129,8 @@ public class Comparables {
   public <T> void assertEqual(AssertionInfo info, T actual, T expected) {
     assertNotNull(info, actual);
     if (areEqual(actual, expected)) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
+    throw assertionErrorCreator.assertionError(info,
+                                               shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
   }
 
   /**
@@ -157,7 +159,7 @@ public class Comparables {
     assertNotNull(info, actual);
     if (!areEqual(actual, other))
       return;
-    throw failures.failure(info, shouldNotBeEqual(actual, other, comparisonStrategy));
+    throw assertionErrorCreator.assertionError(info, shouldNotBeEqual(actual, other, comparisonStrategy));
   }
 
   /**
@@ -175,7 +177,8 @@ public class Comparables {
   public <T> void assertEqualByComparison(AssertionInfo info, Comparable<? super T> actual, T expected) {
     assertNotNull(info, actual);
     // we don't delegate to comparisonStrategy, as this assertion makes it clear it relies on Comparable
-    if (actual.compareTo(expected) != 0) throw failures.failure(info, shouldBeEqual(actual, expected, info.representation()));
+    if (actual.compareTo(expected) != 0)
+      throw assertionErrorCreator.assertionError(info, shouldBeEqual(actual, expected, info.representation()));
   }
 
   /**
@@ -193,7 +196,7 @@ public class Comparables {
   public <T> void assertNotEqualByComparison(AssertionInfo info, Comparable<? super T> actual, T other) {
     assertNotNull(info, actual);
     // we don't delegate to comparisonStrategy, as this assertion makes it clear it relies on Comparable
-    if (actual.compareTo(other) == 0) throw failures.failure(info, shouldNotBeEqual(actual, other));
+    if (actual.compareTo(other) == 0) throw assertionErrorCreator.assertionError(info, shouldNotBeEqual(actual, other));
   }
 
   /**
@@ -243,7 +246,7 @@ public class Comparables {
                                   TriFunction<Comparable<? super T>, T, ComparisonStrategy, ErrorMessageFactory> errorMessageFactory) {
     assertNotNull(info, actual);
     if (isLessThan(actual, other)) return;
-    throw failures.failure(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
+    throw assertionErrorCreator.assertionError(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
   }
 
   /**
@@ -286,7 +289,7 @@ public class Comparables {
     assertNotNull(info, actual);
     if (!isGreaterThan(actual, other))
       return;
-    throw failures.failure(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
+    throw assertionErrorCreator.assertionError(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
   }
 
   /**
@@ -330,7 +333,7 @@ public class Comparables {
     assertNotNull(info, actual);
     if (isGreaterThan(actual, other))
       return;
-    throw failures.failure(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
+    throw assertionErrorCreator.assertionError(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
   }
 
   private boolean isGreaterThan(Object actual, Object other) {
@@ -377,7 +380,7 @@ public class Comparables {
     assertNotNull(info, actual);
     if (!isLessThan(actual, other))
       return;
-    throw failures.failure(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
+    throw assertionErrorCreator.assertionError(info, errorMessageFactory.apply(actual, other, comparisonStrategy));
   }
 
   private <T> boolean isLessThan(Object actual, Object other) {
@@ -421,7 +424,8 @@ public class Comparables {
     boolean checkUpperBoundaryRange = inclusiveEnd ? !isGreaterThan(actual, end) : isLessThan(actual, end);
     if (checkLowerBoundaryRange && checkUpperBoundaryRange)
       return;
-    throw failures.failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
+    throw assertionErrorCreator.assertionError(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd,
+                                                                     comparisonStrategy));
   }
 
   private <T> void checkBoundsValidity(T start, T end, boolean inclusiveStart, boolean inclusiveEnd) {

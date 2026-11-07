@@ -16,12 +16,12 @@
 package org.assertj.tests.core.internal.shorts;
 
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author William Delanoue
  */
-class Shorts_assertIsBetween_Test extends ShortsBaseTest {
+class Shorts_assertIsBetween_Test {
 
   private static final Short ZERO = 0;
   private static final Short ONE = 1;
@@ -41,32 +41,33 @@ class Shorts_assertIsBetween_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatAssertionErrorIsThrownBy(() -> shorts.assertIsBetween(someInfo(), null, ZERO, ONE)).withMessage(actualIsNull());
+    assertThatAssertionErrorIsThrownBy(() -> Shorts.instance().assertIsBetween(someInfo(), null, ZERO,
+                                                                               ONE)).withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_start_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> shorts.assertIsBetween(someInfo(), ONE, null, ONE));
+    assertThatNullPointerException().isThrownBy(() -> Shorts.instance().assertIsBetween(someInfo(), ONE, null, ONE));
   }
 
   @Test
   void should_fail_if_end_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> shorts.assertIsBetween(someInfo(), ONE, ZERO, null));
+    assertThatNullPointerException().isThrownBy(() -> Shorts.instance().assertIsBetween(someInfo(), ONE, ZERO, null));
   }
 
   @Test
   void should_pass_if_actual_is_in_range() {
-    shorts.assertIsBetween(someInfo(), ONE, ZERO, TEN);
+    Shorts.instance().assertIsBetween(someInfo(), ONE, ZERO, TEN);
   }
 
   @Test
   void should_pass_if_actual_is_equal_to_range_start() {
-    shorts.assertIsBetween(someInfo(), ONE, ONE, TEN);
+    Shorts.instance().assertIsBetween(someInfo(), ONE, ONE, TEN);
   }
 
   @Test
   void should_pass_if_actual_is_equal_to_range_end() {
-    shorts.assertIsBetween(someInfo(), ONE, ZERO, ONE);
+    Shorts.instance().assertIsBetween(someInfo(), ONE, ZERO, ONE);
   }
 
   @Test
@@ -74,9 +75,9 @@ class Shorts_assertIsBetween_Test extends ShortsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> shorts.assertIsBetween(info, ONE, TWO, TEN));
+    var error = expectAssertionError(() -> Shorts.instance().assertIsBetween(info, ONE, TWO, TEN));
     // THEN
-    verify(failures).failure(info, shouldBeBetween(ONE, TWO, TEN, true, true));
+    then(error).hasMessage(shouldBeBetween(ONE, TWO, TEN, true, true).create());
   }
 
   @Test
@@ -84,8 +85,8 @@ class Shorts_assertIsBetween_Test extends ShortsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> shorts.assertIsBetween(info, ONE, ZERO, ZERO));
+    var error = expectAssertionError(() -> Shorts.instance().assertIsBetween(info, ONE, ZERO, ZERO));
     // THEN
-    verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ZERO, true, true));
+    then(error).hasMessage(shouldBeBetween(ONE, ZERO, ZERO, true, true).create());
   }
 }

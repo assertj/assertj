@@ -19,15 +19,21 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveCauseExactlyInstance.shouldHaveCauseExactlyInstance;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Throwables;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Jean-Christophe Gay
  */
-class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesBaseTest {
+class Throwables_assertHasCauseExactlyInstanceOf_Test {
+
+  private static final AssertionInfo INFO = someInfo();
+  private final Throwables throwables = Throwables.instance();
+  private Throwable actual = new NullPointerException("Throwable message");
 
   private final Throwable throwableWithCause = new Throwable(new IllegalArgumentException());
 
@@ -63,9 +69,9 @@ class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesBaseTest
     // GIVEN
     Class<NullPointerException> expectedCauseType = NullPointerException.class;
     // WHEN
-    expectAssertionError(() -> throwables.assertHasCauseExactlyInstanceOf(INFO, actual, expectedCauseType));
+    var error = expectAssertionError(() -> throwables.assertHasCauseExactlyInstanceOf(INFO, actual, expectedCauseType));
     // THEN
-    verify(failures).failure(INFO, shouldHaveCauseExactlyInstance(actual, expectedCauseType));
+    then(error).hasMessage(shouldHaveCauseExactlyInstance(actual, expectedCauseType).create());
   }
 
   @Test
@@ -73,10 +79,10 @@ class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesBaseTest
     // GIVEN
     Class<NullPointerException> expectedCauseType = NullPointerException.class;
     // WHEN
-    expectAssertionError(() -> throwables.assertHasCauseExactlyInstanceOf(INFO, throwableWithCause,
-                                                                          expectedCauseType));
+    var error = expectAssertionError(() -> throwables.assertHasCauseExactlyInstanceOf(INFO, throwableWithCause,
+                                                                                      expectedCauseType));
     // THEN
-    verify(failures).failure(INFO, shouldHaveCauseExactlyInstance(throwableWithCause, expectedCauseType));
+    then(error).hasMessage(shouldHaveCauseExactlyInstance(throwableWithCause, expectedCauseType).create());
   }
 
   @Test
@@ -84,9 +90,9 @@ class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesBaseTest
     // GIVEN
     Class<RuntimeException> expectedCauseType = RuntimeException.class;
     // WHEN
-    expectAssertionError(() -> throwables.assertHasCauseExactlyInstanceOf(INFO, throwableWithCause,
-                                                                          expectedCauseType));
+    var error = expectAssertionError(() -> throwables.assertHasCauseExactlyInstanceOf(INFO, throwableWithCause,
+                                                                                      expectedCauseType));
     // THEN
-    verify(failures).failure(INFO, shouldHaveCauseExactlyInstance(throwableWithCause, expectedCauseType));
+    then(error).hasMessage(shouldHaveCauseExactlyInstance(throwableWithCause, expectedCauseType).create());
   }
 }

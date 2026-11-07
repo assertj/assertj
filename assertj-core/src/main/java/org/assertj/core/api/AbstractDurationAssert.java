@@ -27,7 +27,7 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import java.time.Duration;
 import java.util.function.Function;
 
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.presentation.StandardRepresentation;
 
@@ -129,7 +129,8 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
       isNotNull();
       long actualNanos = actual.toNanos();
       if (otherNanos != actualNanos) {
-        throw Failures.instance().failure(info, shouldHaveNanos(actual, actualNanos, otherNanos), actualNanos, otherNanos);
+        throw AssertionErrorCreator.instance().assertionError(info, shouldHaveNanos(actual, actualNanos, otherNanos),
+                                                              actualNanos, otherNanos);
       }
     });
   }
@@ -155,7 +156,8 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
       isNotNull();
       long actualMillis = actual.toMillis();
       if (otherMillis != actualMillis) {
-        throw Failures.instance().failure(info, shouldHaveMillis(actual, actualMillis, otherMillis), actualMillis, otherMillis);
+        throw AssertionErrorCreator.instance().assertionError(info, shouldHaveMillis(actual, actualMillis, otherMillis),
+                                                              actualMillis, otherMillis);
       }
     });
   }
@@ -181,8 +183,8 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
       isNotNull();
       long actualSeconds = actual.getSeconds();
       if (otherSeconds != actualSeconds) {
-        throw Failures.instance().failure(info, shouldHaveSeconds(actual, actualSeconds, otherSeconds),
-                                          actualSeconds, otherSeconds);
+        throw AssertionErrorCreator.instance().assertionError(info, shouldHaveSeconds(actual, actualSeconds, otherSeconds),
+                                                              actualSeconds, otherSeconds);
       }
     });
   }
@@ -208,8 +210,8 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
       isNotNull();
       long actualMinutes = actual.toMinutes();
       if (otherMinutes != actualMinutes) {
-        throw Failures.instance().failure(info, shouldHaveMinutes(actual, actualMinutes, otherMinutes),
-                                          actualMinutes, otherMinutes);
+        throw AssertionErrorCreator.instance().assertionError(info, shouldHaveMinutes(actual, actualMinutes, otherMinutes),
+                                                              actualMinutes, otherMinutes);
       }
     });
   }
@@ -235,7 +237,8 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
       isNotNull();
       long actualHours = actual.toHours();
       if (otherHours != actualHours) {
-        throw Failures.instance().failure(info, shouldHaveHours(actual, actualHours, otherHours), actualHours, otherHours);
+        throw AssertionErrorCreator.instance().assertionError(info, shouldHaveHours(actual, actualHours, otherHours),
+                                                              actualHours, otherHours);
       }
     });
   }
@@ -261,7 +264,8 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
       isNotNull();
       long actualDays = actual.toDays();
       if (otherDays != actualDays) {
-        throw Failures.instance().failure(info, shouldHaveDays(actual, actualDays, otherDays), actualDays, otherDays);
+        throw AssertionErrorCreator.instance().assertionError(info, shouldHaveDays(actual, actualDays, otherDays), actualDays,
+                                                              otherDays);
       }
     });
   }
@@ -306,7 +310,8 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
       checkArgument(allowedDifference != null, "allowed difference duration should not be null");
       checkArgument(!allowedDifference.isNegative(), "allowed difference duration should be >= 0");
       if (absDiff(actual, expected).compareTo(allowedDifference) > 0) {
-        throw Failures.instance().failure(info, shouldBeCloseTo(actual, expected, allowedDifference, absDiff(actual, expected)));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeCloseTo(actual, expected, allowedDifference,
+                                                                                    absDiff(actual, expected)));
       }
     });
   }

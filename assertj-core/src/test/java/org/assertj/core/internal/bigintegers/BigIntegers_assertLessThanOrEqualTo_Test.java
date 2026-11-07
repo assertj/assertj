@@ -17,13 +17,12 @@ package org.assertj.core.internal.bigintegers;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.math.BigInteger;
 
@@ -59,13 +58,12 @@ class BigIntegers_assertLessThanOrEqualTo_Test extends BigIntegersBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_less_than_other() {
+  void should_fail_if_actual_is_less_than_other() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbers.assertLessThanOrEqualTo(info, TEN, ONE));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLessOrEqual(TEN, ONE));
+    // WHEN
+    var error = expectAssertionError(() -> numbers.assertLessThanOrEqualTo(info, TEN, ONE));
+    // THEN
+    then(error).hasMessage(shouldBeLessOrEqual(TEN, ONE).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -83,14 +81,13 @@ class BigIntegers_assertLessThanOrEqualTo_Test extends BigIntegersBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, TEN.negate(),
+    // WHEN
+    var error = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, TEN.negate(),
                                                                                                          ONE));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLessOrEqual(TEN.negate(), ONE, absValueComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeLessOrEqual(TEN.negate(), ONE, absValueComparisonStrategy).create());
   }
 
 }

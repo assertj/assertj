@@ -15,20 +15,19 @@
  */
 package org.assertj.core.internal.chararrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.CharArrays.arrayOf;
 import static org.assertj.core.testkit.CharArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.CharArrays;
@@ -75,11 +74,10 @@ class CharArrays_assertDoesNotContain_Test extends CharArraysBaseTest {
   void should_fail_if_actual_contains_given_values() {
     AssertionInfo info = someInfo();
     char[] expected = { 'a', 'b', 'd' };
-
-    Throwable error = catchThrowable(() -> arrays.assertDoesNotContain(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet('a', 'b')));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertDoesNotContain(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldNotContain(actual, expected, newLinkedHashSet('a', 'b')).create());
   }
 
   @Test
@@ -120,11 +118,10 @@ class CharArrays_assertDoesNotContain_Test extends CharArraysBaseTest {
   void should_fail_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     char[] expected = { 'A', 'b', 'd' };
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldNotContain(actual, expected, newLinkedHashSet('A', 'b'), caseInsensitiveComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldNotContain(actual, expected, newLinkedHashSet('A', 'b'),
+                                            caseInsensitiveComparisonStrategy).create());
   }
 }

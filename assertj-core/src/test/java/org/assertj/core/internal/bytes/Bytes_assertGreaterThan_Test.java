@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.bytes;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeGreater.shouldBeGreater;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
@@ -48,21 +47,19 @@ class Bytes_assertGreaterThan_Test extends BytesBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_equal_to_other() {
-    Throwable error = catchThrowable(() -> bytes.assertGreaterThan(someInfo(), (byte) 6, (byte) 6));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(someInfo(), shouldBeGreater((byte) 6, (byte) 6));
+  void should_fail_if_actual_is_equal_to_other() {    // WHEN
+    var error = expectAssertionError(() -> bytes.assertGreaterThan(someInfo(), (byte) 6, (byte) 6));
+    // THEN
+    then(error).hasMessage(shouldBeGreater((byte) 6, (byte) 6).create());
   }
 
   @Test
-  void should_fail_if_actual_is_less_than_other() {
+  void should_fail_if_actual_is_less_than_other() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> bytes.assertGreaterThan(info, (byte) 6, (byte) 8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreater((byte) 6, (byte) 8));
+    // WHEN
+    var error = expectAssertionError(() -> bytes.assertGreaterThan(info, (byte) 6, (byte) 8));
+    // THEN
+    then(error).hasMessage(shouldBeGreater((byte) 6, (byte) 8).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -75,22 +72,20 @@ class Bytes_assertGreaterThan_Test extends BytesBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
-    Throwable error = catchThrowable(() -> bytesWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), (byte) -6,
+  void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {    // WHEN
+    var error = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), (byte) -6,
                                                                                                  (byte) 6));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(someInfo(), shouldBeGreater((byte) -6, (byte) 6, absValueComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeGreater((byte) -6, (byte) 6, absValueComparisonStrategy).create());
   }
 
   @Test
-  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> bytesWithAbsValueComparisonStrategy.assertGreaterThan(info, (byte) -6, (byte) 8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreater((byte) -6, (byte) 8, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertGreaterThan(info, (byte) -6, (byte) 8));
+    // THEN
+    then(error).hasMessage(shouldBeGreater((byte) -6, (byte) 8, absValueComparisonStrategy).create());
   }
 
 }

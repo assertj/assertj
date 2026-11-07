@@ -22,8 +22,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
-import org.assertj.tests.core.internal.StringsBaseTest;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -31,30 +32,35 @@ import org.junit.jupiter.api.Test;
  *
  * @author Michal Kordas
  */
-class Strings_assertDoesNotStartWith_Test extends StringsBaseTest {
+class Strings_assertDoesNotStartWith_Test {
+
+  private final ComparatorBasedComparisonStrategy comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);;
+  private final Strings stringsWithCaseInsensitiveComparisonStrategy = new Strings(comparisonStrategy);
 
   @Test
   void should_fail_if_actual_starts_with_prefix() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotStartWith(someInfo(), "Yoda", "Yo"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Strings.instance().assertDoesNotStartWith(someInfo(), "Yoda",
+                                                                                                               "Yo"))
                                                    .withMessage(shouldNotStartWith("Yoda", "Yo").create());
   }
 
   @Test
   void should_throw_error_if_prefix_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> strings.assertDoesNotStartWith(someInfo(), "Yoda", null))
+    assertThatNullPointerException().isThrownBy(() -> Strings.instance().assertDoesNotStartWith(someInfo(), "Yoda", null))
                                     .withMessage("The given prefix should not be null");
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotStartWith(someInfo(), null, "Yoda"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Strings.instance().assertDoesNotStartWith(someInfo(), null,
+                                                                                                               "Yoda"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_pass_if_actual_does_not_start_with_prefix() {
-    strings.assertDoesNotStartWith(someInfo(), "Yoda", "Luke");
-    strings.assertDoesNotStartWith(someInfo(), "Yoda", "YO");
+    Strings.instance().assertDoesNotStartWith(someInfo(), "Yoda", "Luke");
+    Strings.instance().assertDoesNotStartWith(someInfo(), "Yoda", "YO");
   }
 
   @Test

@@ -16,11 +16,11 @@
 package org.assertj.core.internal.objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotHaveToString.shouldNotHaveToString;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
@@ -58,8 +58,8 @@ class Objects_assertDoesNotHaveToString_Test extends ObjectsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> objects.assertDoesNotHaveToString(info, actual, "Person[name='foo']"));
+    var error = expectAssertionError(() -> objects.assertDoesNotHaveToString(info, actual, "Person[name='foo']"));
     // THEN
-    verify(failures).failure(info, shouldNotHaveToString("Person[name='foo']"));
+    then(error).hasMessage(shouldNotHaveToString("Person[name='foo']").create());
   }
 }

@@ -19,9 +19,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainEntry.shouldContainEntry;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
@@ -92,7 +92,7 @@ class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test extends M
     Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfyingConditions(info, actual, isAge, isGreen));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainEntry(actual, isAge, isGreen));
+    then(error).hasMessage(shouldContainEntry(actual, isAge, isGreen).create());
   }
 
   @Test
@@ -102,7 +102,7 @@ class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test extends M
     Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfyingConditions(info, actual, isColor, isBlack));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainEntry(actual, isColor, isBlack));
+    then(error).hasMessage(shouldContainEntry(actual, isColor, isBlack).create());
   }
 
   @Test
@@ -112,7 +112,7 @@ class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test extends M
     Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfyingConditions(info, actual, isAge, isBlack));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainEntry(actual, isAge, isBlack));
+    then(error).hasMessage(shouldContainEntry(actual, isAge, isBlack).create());
   }
 
   @Test

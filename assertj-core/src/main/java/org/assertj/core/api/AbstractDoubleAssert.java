@@ -28,7 +28,6 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Doubles;
-import org.assertj.core.internal.Failures;
 
 /**
  * Base class for all implementations of assertions for {@link Double}s.
@@ -474,9 +473,10 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
         // At this point we know that the assertion failed, if actual and expected are Double.NaN we want to
         // give a clear error message (we need to use equals to check that as Double.NaN != Double.NaN)
         if (Double.valueOf(expected).equals(Double.NaN) && actual.equals(Double.NaN))
-          throw AssertionErrorCreator.INSTANCE.assertionError("Actual and expected values were compared with == because expected was a primitive double, the assertion failed as both were Double.NaN and Double.NaN != Double.NaN (as per Double#equals javadoc)");
+          throw AssertionErrorCreator.instance()
+                                     .assertionError("Actual and expected values were compared with == because expected was a primitive double, the assertion failed as both were Double.NaN and Double.NaN != Double.NaN (as per Double#equals javadoc)");
         // standard error message
-        throw Failures.instance().failure(info, shouldBeEqual(actual, expected, info.representation()));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeEqual(actual, expected, info.representation()));
       }
       // doubles.assertEqual honors the custom comparator
       doubles.assertEqual(info, actual, expected);
@@ -591,7 +591,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
         isNotNull();
         // use primitive comparison since the parameter is a primitive.
         if (other != actual) return;
-        throw Failures.instance().failure(info, shouldNotBeEqual(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldNotBeEqual(actual, other));
       }
       doubles.assertNotEqual(info, actual, other);
     });
@@ -676,7 +676,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
       if (noCustomComparatorSet()) {
         // use primitive comparison since the parameter is a primitive.
         if (actual <= other) return;
-        throw Failures.instance().failure(info, shouldBeLessOrEqual(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeLessOrEqual(actual, other));
       }
       doubles.assertLessThanOrEqualTo(info, actual, other);
     });
@@ -758,7 +758,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
       if (noCustomComparatorSet()) {
         // use primitive comparison since the parameter is a primitive.
         if (actual >= other) return;
-        throw Failures.instance().failure(info, shouldBeGreaterOrEqual(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeGreaterOrEqual(actual, other));
       }
       doubles.assertGreaterThanOrEqualTo(info, actual, other);
     });
@@ -850,12 +850,12 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
 
   private void assertIsPrimitiveZero() {
     if (actual == 0.0) return;
-    throw Failures.instance().failure(info, shouldBeEqual(actual, 0.0, info.representation()));
+    throw AssertionErrorCreator.instance().assertionError(info, shouldBeEqual(actual, 0.0, info.representation()));
   }
 
   private void assertIsPrimitiveNonZero() {
     if (actual != 0.0) return;
-    throw Failures.instance().failure(info, shouldNotBeEqual(actual, 0.0));
+    throw AssertionErrorCreator.instance().assertionError(info, shouldNotBeEqual(actual, 0.0));
   }
 
   private boolean noCustomComparatorSet() {

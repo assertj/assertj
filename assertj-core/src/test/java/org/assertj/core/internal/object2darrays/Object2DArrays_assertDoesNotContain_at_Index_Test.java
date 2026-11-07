@@ -38,6 +38,6 @@ class Object2DArrays_assertDoesNotContain_at_Index_Test extends Object2DArraysBa
     // WHEN
     object2dArrays.assertDoesNotContain(info, actual, strings, atIndex(1));
     // THEN
-    verify(arrays2d).assertDoesNotContain(info, failures, actual, strings, atIndex(1));
+    verify(arrays2d).assertDoesNotContain(info, assertionErrorCreator, actual, strings, atIndex(1));
   }
 }

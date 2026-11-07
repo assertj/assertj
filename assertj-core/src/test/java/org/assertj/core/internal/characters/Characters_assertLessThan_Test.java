@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.characters;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Characters;
@@ -49,22 +48,24 @@ class Characters_assertLessThan_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_equal_to_other() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> characters.assertLessThan(info, 'b', 'b'));
 
-    Throwable error = catchThrowable(() -> characters.assertLessThan(info, 'b', 'b'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLess('b', 'b'));
+    // THEN
+    then(error).hasMessage(shouldBeLess('b', 'b').create());
   }
 
   @Test
   void should_fail_if_actual_is_greater_than_other() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> characters.assertLessThan(info, 'b', 'a'));
 
-    Throwable error = catchThrowable(() -> characters.assertLessThan(info, 'b', 'a'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLess('b', 'a'));
+    // THEN
+    then(error).hasMessage(shouldBeLess('b', 'a').create());
   }
 
   @Test
@@ -82,21 +83,23 @@ class Characters_assertLessThan_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLessThan(info, 'b', 'B'));
 
-    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLessThan(info, 'b', 'B'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLess('b', 'B', caseInsensitiveComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeLess('b', 'B', caseInsensitiveComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLessThan(info, 'B', 'a'));
 
-    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLessThan(info, 'B', 'a'));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLess('B', 'a', caseInsensitiveComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeLess('B', 'a', caseInsensitiveComparisonStrategy).create());
   }
 }

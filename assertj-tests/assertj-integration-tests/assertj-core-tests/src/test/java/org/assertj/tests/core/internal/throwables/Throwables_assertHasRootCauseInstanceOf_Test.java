@@ -19,17 +19,23 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveRootCauseInstance.shouldHaveRootCauseInstance;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Throwables;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Jean-Christophe Gay
  */
-class Throwables_assertHasRootCauseInstanceOf_Test extends ThrowablesBaseTest {
+class Throwables_assertHasRootCauseInstanceOf_Test {
+
+  private static final AssertionInfo INFO = someInfo();
+  private final Throwables throwables = Throwables.instance();
+  private Throwable actual = new NullPointerException("Throwable message");
 
   private static final Throwable throwableWithCause = new Throwable(new Exception(new IllegalArgumentException()));
 
@@ -64,9 +70,9 @@ class Throwables_assertHasRootCauseInstanceOf_Test extends ThrowablesBaseTest {
     // GIVEN
     Class<NullPointerException> expectedCauseType = NullPointerException.class;
     // WHEN
-    expectAssertionError(() -> throwables.assertHasRootCauseInstanceOf(INFO, actual, expectedCauseType));
+    var error = expectAssertionError(() -> throwables.assertHasRootCauseInstanceOf(INFO, actual, expectedCauseType));
     // THEN
-    verify(failures).failure(INFO, shouldHaveRootCauseInstance(actual, expectedCauseType));
+    then(error).hasMessage(shouldHaveRootCauseInstance(actual, expectedCauseType).create());
   }
 
   @Test
@@ -74,8 +80,8 @@ class Throwables_assertHasRootCauseInstanceOf_Test extends ThrowablesBaseTest {
     // GIVEN
     Class<NullPointerException> expectedCauseType = NullPointerException.class;
     // WHEN
-    expectAssertionError(() -> throwables.assertHasRootCauseInstanceOf(INFO, throwableWithCause, expectedCauseType));
+    var error = expectAssertionError(() -> throwables.assertHasRootCauseInstanceOf(INFO, throwableWithCause, expectedCauseType));
     // THEN
-    verify(failures).failure(INFO, shouldHaveRootCauseInstance(throwableWithCause, expectedCauseType));
+    then(error).hasMessage(shouldHaveRootCauseInstance(throwableWithCause, expectedCauseType).create());
   }
 }

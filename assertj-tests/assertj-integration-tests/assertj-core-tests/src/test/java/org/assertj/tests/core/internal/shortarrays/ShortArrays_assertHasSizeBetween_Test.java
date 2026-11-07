@@ -19,39 +19,46 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.error.ShouldHaveSizeBetween.shouldHaveSizeBetween;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 
+import org.assertj.core.internal.ShortArrays;
 import org.junit.jupiter.api.Test;
 
-class ShortArrays_assertHasSizeBetween_Test extends ShortArraysBaseTest {
+class ShortArrays_assertHasSizeBetween_Test {
+
+  private final short[] actual = arrayOf(6, 8, 10);;
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeBetween(someInfo(), null, 0, 6))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> ShortArrays.instance().assertHasSizeBetween(someInfo(), null,
+                                                                                                                 0, 6))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_throw_illegal_argument_exception_if_lower_boundary_is_greater_than_higher_boundary() {
-    assertThatIllegalArgumentException().isThrownBy(() -> arrays.assertHasSizeBetween(someInfo(), actual, 4, 2))
+    assertThatIllegalArgumentException().isThrownBy(() -> ShortArrays.instance().assertHasSizeBetween(someInfo(), actual, 4, 2))
                                         .withMessage("The higher boundary <2> must be greater than the lower boundary <4>.");
   }
 
   @Test
   void should_fail_if_size_of_actual_is_not_greater_than_or_equal_to_lower_boundary() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeBetween(someInfo(), actual, 4, 6))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> ShortArrays.instance().assertHasSizeBetween(someInfo(),
+                                                                                                                 actual, 4, 6))
                                                    .withMessage(shouldHaveSizeBetween(actual, actual.length, 4, 6).create());
   }
 
   @Test
   void should_fail_if_size_of_actual_is_not_less_than_higher_boundary() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeBetween(someInfo(), actual, 1, 2))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> ShortArrays.instance().assertHasSizeBetween(someInfo(),
+                                                                                                                 actual, 1, 2))
                                                    .withMessage(shouldHaveSizeBetween(actual, actual.length, 1, 2).create());
   }
 
   @Test
   void should_pass_if_size_of_actual_is_between_boundaries() {
-    arrays.assertHasSizeBetween(someInfo(), actual, 1, 6);
-    arrays.assertHasSizeBetween(someInfo(), actual, actual.length, actual.length);
+    ShortArrays.instance().assertHasSizeBetween(someInfo(), actual, 1, 6);
+    ShortArrays.instance().assertHasSizeBetween(someInfo(), actual, actual.length, actual.length);
   }
 }

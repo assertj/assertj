@@ -68,6 +68,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.util.diff.Delta;
 
 /**
@@ -100,7 +101,7 @@ public class Files {
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BinaryDiff binaryDiff = new BinaryDiff();
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Failures failures = Failures.instance();
+  AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   NioFilesWrapper nioFilesWrapper = NioFilesWrapper.instance();
 
@@ -131,8 +132,8 @@ public class Files {
     try {
       List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
       if (diffs.isEmpty()) return;
-      throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs),
-                             FileContent.of(actual), FileContent.of(expected));
+      throw assertionErrorCreator.assertionError(info, shouldHaveSameContent(actual, expected, diffs),
+                                                 FileContent.of(actual), FileContent.of(expected));
     } catch (MalformedInputException e) {
       try {
         // MalformedInputException is thrown by readLine() called in diff
@@ -142,8 +143,8 @@ public class Files {
           // fall back to the UncheckedIOException : not throwing an error is wrong as there was one in the first place.
           throw e;
         }
-        throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult),
-                               FileContent.of(actual), FileContent.of(expected));
+        throw assertionErrorCreator.assertionError(info, shouldHaveBinaryContent(actual, binaryDiffResult),
+                                                   FileContent.of(actual), FileContent.of(expected));
       } catch (IOException ioe) {
         throw new UncheckedIOException(UNABLE_TO_COMPARE_FILE_CONTENTS.formatted(actual, expected), ioe);
       }
@@ -171,8 +172,8 @@ public class Files {
     try {
       BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected.toPath()));
       if (binaryDiffResult.hasDiff())
-        throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult),
-                               FileContent.of(actual), FileContent.of(expected));
+        throw assertionErrorCreator.assertionError(info, shouldHaveBinaryContent(actual, binaryDiffResult),
+                                                   FileContent.of(actual), FileContent.of(expected));
     } catch (IOException ioe) {
       throw new UncheckedIOException(UNABLE_TO_COMPARE_FILE_CONTENTS.formatted(actual, expected), ioe);
     }
@@ -196,7 +197,7 @@ public class Files {
     try {
       BinaryDiffResult result = binaryDiff.diff(actual, expected);
       if (result.hasNoDiff()) return;
-      throw failures.failure(info, shouldHaveBinaryContent(actual, result));
+      throw assertionErrorCreator.assertionError(info, shouldHaveBinaryContent(actual, result));
     } catch (IOException e) {
       String msg = "Unable to verify binary contents of file:<%s>".formatted(actual);
       throw new UncheckedIOException(msg, e);
@@ -215,7 +216,7 @@ public class Files {
   public void assertHasSizeInBytes(AssertionInfo info, File actual, long expectedSizeInBytes) {
     assertIsFile(info, actual);
     if (expectedSizeInBytes == actual.length()) return;
-    throw failures.failure(info, shouldHaveSize(actual, expectedSizeInBytes));
+    throw assertionErrorCreator.assertionError(info, shouldHaveSize(actual, expectedSizeInBytes));
   }
 
   /**
@@ -237,7 +238,7 @@ public class Files {
     try {
       List<Delta<String>> diffs = diff.diff(actual, expected, charset);
       if (diffs.isEmpty()) return;
-      throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
+      throw assertionErrorCreator.assertionError(info, shouldHaveContent(actual, charset, diffs));
     } catch (IOException e) {
       String msg = "Unable to verify text contents of file:<%s>".formatted(actual);
       throw new UncheckedIOException(msg, e);
@@ -255,7 +256,7 @@ public class Files {
   public void assertIsFile(AssertionInfo info, File actual) {
     assertNotNull(info, actual);
     if (actual.isFile()) return;
-    throw failures.failure(info, shouldBeFile(actual));
+    throw assertionErrorCreator.assertionError(info, shouldBeFile(actual));
   }
 
   /**
@@ -269,7 +270,7 @@ public class Files {
   public void assertIsDirectory(AssertionInfo info, File actual) {
     assertNotNull(info, actual);
     if (actual.isDirectory()) return;
-    throw failures.failure(info, shouldBeDirectory(actual));
+    throw assertionErrorCreator.assertionError(info, shouldBeDirectory(actual));
   }
 
   /**
@@ -282,7 +283,7 @@ public class Files {
    */
   public void assertIsAbsolute(AssertionInfo info, File actual) {
     if (isAbsolutePath(info, actual)) return;
-    throw failures.failure(info, shouldBeAbsolutePath(actual));
+    throw assertionErrorCreator.assertionError(info, shouldBeAbsolutePath(actual));
   }
 
   /**
@@ -295,7 +296,7 @@ public class Files {
    */
   public void assertIsRelative(AssertionInfo info, File actual) {
     if (!isAbsolutePath(info, actual)) return;
-    throw failures.failure(info, shouldBeRelativePath(actual));
+    throw assertionErrorCreator.assertionError(info, shouldBeRelativePath(actual));
   }
 
   /**
@@ -309,7 +310,7 @@ public class Files {
   public void assertExists(AssertionInfo info, File actual) {
     assertNotNull(info, actual);
     if (actual.exists()) return;
-    throw failures.failure(info, shouldExist(actual));
+    throw assertionErrorCreator.assertionError(info, shouldExist(actual));
   }
 
   /**
@@ -323,7 +324,7 @@ public class Files {
   public void assertDoesNotExist(AssertionInfo info, File actual) {
     assertNotNull(info, actual);
     if (!actual.exists()) return;
-    throw failures.failure(info, shouldNotExist(actual));
+    throw assertionErrorCreator.assertionError(info, shouldNotExist(actual));
   }
 
   /**
@@ -337,7 +338,7 @@ public class Files {
   public void assertCanWrite(AssertionInfo info, File actual) {
     assertNotNull(info, actual);
     if (actual.canWrite()) return;
-    throw failures.failure(info, shouldBeWritable(actual));
+    throw assertionErrorCreator.assertionError(info, shouldBeWritable(actual));
   }
 
   /**
@@ -352,7 +353,7 @@ public class Files {
   public void assertIsEmptyFile(AssertionInfo info, File actual) {
     assertIsFile(info, actual);
     if (actual.length() == 0) return;
-    throw failures.failure(info, shouldBeEmpty(actual));
+    throw assertionErrorCreator.assertionError(info, shouldBeEmpty(actual));
   }
 
   /**
@@ -367,7 +368,7 @@ public class Files {
   public void assertIsNotEmptyFile(AssertionInfo info, File actual) {
     assertIsFile(info, actual);
     if (actual.length() > 0) return;
-    throw failures.failure(info, shouldNotBeEmpty(actual));
+    throw assertionErrorCreator.assertionError(info, shouldNotBeEmpty(actual));
   }
 
   /**
@@ -381,7 +382,7 @@ public class Files {
   public void assertCanRead(AssertionInfo info, File actual) {
     assertNotNull(info, actual);
     if (actual.canRead()) return;
-    throw failures.failure(info, shouldBeReadable(actual));
+    throw assertionErrorCreator.assertionError(info, shouldBeReadable(actual));
   }
 
   /**
@@ -395,7 +396,7 @@ public class Files {
   public void assertIsExecutable(AssertionInfo info, File actual) {
     assertNotNull(info, actual);
     if (actual.canExecute()) return;
-    throw failures.failure(info, shouldBeExecutable(actual));
+    throw assertionErrorCreator.assertionError(info, shouldBeExecutable(actual));
   }
 
   /**
@@ -420,7 +421,7 @@ public class Files {
     } catch (IOException e) {
       throw new UncheckedIOException("Unable to get canonical form of [%s] or [%s].".formatted(actual, expected), e);
     }
-    throw failures.failure(info, shouldHaveParent(actual, expected));
+    throw assertionErrorCreator.assertionError(info, shouldHaveParent(actual, expected));
   }
 
   /**
@@ -437,8 +438,11 @@ public class Files {
   public void assertHasExtension(AssertionInfo info, File actual, String expected) {
     requireNonNull(expected, "The expected extension should not be null.");
     assertIsFile(info, actual);
-    String extension = getFileExtension(actual).orElseThrow(() -> failures.failure(info, shouldHaveExtension(actual, expected)));
-    if (!expected.equals(extension)) throw failures.failure(info, shouldHaveExtension(actual, extension, expected));
+    String extension = getFileExtension(actual).orElseThrow(() -> assertionErrorCreator.assertionError(info,
+                                                                                                       shouldHaveExtension(actual,
+                                                                                                                           expected)));
+    if (!expected.equals(extension))
+      throw assertionErrorCreator.assertionError(info, shouldHaveExtension(actual, extension, expected));
   }
 
   /**
@@ -450,7 +454,7 @@ public class Files {
   public void assertHasNoExtension(AssertionInfo info, File actual) {
     assertIsFile(info, actual);
     Optional<String> extension = getFileExtension(actual);
-    if (extension.isPresent()) throw failures.failure(info, shouldHaveNoExtension(actual, extension.get()));
+    if (extension.isPresent()) throw assertionErrorCreator.assertionError(info, shouldHaveNoExtension(actual, extension.get()));
   }
 
   /**
@@ -467,7 +471,7 @@ public class Files {
     assertNotNull(info, actual);
     requireNonNull(expected, "The expected name should not be null.");
     if (expected.equals(actual.getName())) return;
-    throw failures.failure(info, shouldHaveName(actual, expected));
+    throw assertionErrorCreator.assertionError(info, shouldHaveName(actual, expected));
   }
 
   /**
@@ -481,7 +485,7 @@ public class Files {
   public void assertHasNoParent(AssertionInfo info, File actual) {
     assertNotNull(info, actual);
     if (actual.getParentFile() == null) return;
-    throw failures.failure(info, shouldHaveNoParent(actual));
+    throw assertionErrorCreator.assertionError(info, shouldHaveNoParent(actual));
   }
 
   /**
@@ -500,7 +504,7 @@ public class Files {
     assertCanRead(info, actual);
     try (InputStream actualStream = nioFilesWrapper.newInputStream(actual.toPath())) {
       DigestDiff digestDiff = digestDiff(actualStream, digest, expected);
-      if (digestDiff.digestsDiffer()) throw failures.failure(info, shouldHaveDigest(actual, digestDiff));
+      if (digestDiff.digestsDiffer()) throw assertionErrorCreator.assertionError(info, shouldHaveDigest(actual, digestDiff));
     } catch (IOException e) {
       throw new UncheckedIOException("Unable to calculate digest of path:<%s>".formatted(actual), e);
     }
@@ -557,7 +561,7 @@ public class Files {
    */
   public void assertIsEmptyDirectory(AssertionInfo info, File actual) {
     List<File> files = directoryContent(info, actual);
-    if (!files.isEmpty()) throw failures.failure(info, shouldBeEmptyDirectory(actual, files));
+    if (!files.isEmpty()) throw assertionErrorCreator.assertionError(info, shouldBeEmptyDirectory(actual, files));
   }
 
   /**
@@ -568,7 +572,7 @@ public class Files {
    */
   public void assertIsNotEmptyDirectory(AssertionInfo info, File actual) {
     boolean isEmptyDirectory = directoryContent(info, actual).isEmpty();
-    if (isEmptyDirectory) throw failures.failure(info, shouldNotBeEmpty());
+    if (isEmptyDirectory) throw assertionErrorCreator.assertionError(info, shouldNotBeEmpty());
   }
 
   /**
@@ -598,7 +602,8 @@ public class Files {
   private void assertIsDirectoryContaining(AssertionInfo info, File actual, Predicate<File> filter, String filterDescription) {
     requireNonNull(filter, "The files filter should not be null");
     if (!isDirectoryContaining(info, actual, filter)) {
-      throw failures.failure(info, directoryShouldContain(actual, directoryContent(info, actual), filterDescription));
+      throw assertionErrorCreator.assertionError(info, directoryShouldContain(actual, directoryContent(info, actual),
+                                                                              filterDescription));
     }
   }
 
@@ -631,7 +636,8 @@ public class Files {
                                                       String filterPresentation) {
     if (!isDirectoryRecursivelyContaining(info, actual, filter)) {
       List<File> directoryContent = sortedRecursiveRelativeContentOf(actual);
-      throw failures.failure(info, directoryShouldContainRecursively(actual, directoryContent, filterPresentation));
+      throw assertionErrorCreator.assertionError(info, directoryShouldContainRecursively(actual, directoryContent,
+                                                                                         filterPresentation));
     }
   }
 
@@ -665,7 +671,7 @@ public class Files {
   private void assertIsDirectoryNotContaining(AssertionInfo info, File actual, FileFilter filter, String filterPresentation) {
     List<File> matchingFiles = filterDirectory(info, actual, filter);
     if (!matchingFiles.isEmpty()) {
-      throw failures.failure(info, directoryShouldNotContain(actual, matchingFiles, filterPresentation));
+      throw assertionErrorCreator.assertionError(info, directoryShouldNotContain(actual, matchingFiles, filterPresentation));
     }
   }
 

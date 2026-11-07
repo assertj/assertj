@@ -15,14 +15,13 @@
  */
 package org.assertj.core.internal.objects;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSameHashCode.shouldHaveSameHashCode;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
@@ -69,10 +68,8 @@ class Objects_assertHasSameHashCodeAs_Test extends ObjectsBaseTest {
     // Jedi class hashCode is computed with the Jedi's name only
     Jedi luke = new Jedi("Luke", "green");
 
-    Throwable error = catchThrowable(() -> objects.assertHasSameHashCodeAs(info, greenYoda, luke));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveSameHashCode(greenYoda, luke));
+    var error = expectAssertionError(() -> objects.assertHasSameHashCodeAs(info, greenYoda, luke));
+    then(error).hasMessage(shouldHaveSameHashCode(greenYoda, luke).create());
   }
 
 }

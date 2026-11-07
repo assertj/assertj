@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.objects;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeInstanceOfAny.shouldNotBeInstanceOfAny;
 import static org.assertj.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.io.File;
 
@@ -79,9 +78,7 @@ class Objects_assertIsNotInstanceOfAny_Test extends ObjectsBaseTest {
     AssertionInfo info = someInfo();
     Class<?>[] types = { String.class, Person.class };
 
-    Throwable error = catchThrowable(() -> objects.assertIsNotInstanceOfAny(info, actual, types));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeInstanceOfAny(actual, types));
+    var error = expectAssertionError(() -> objects.assertIsNotInstanceOfAny(info, actual, types));
+    then(error).hasMessage(shouldNotBeInstanceOfAny(actual, types).create());
   }
 }

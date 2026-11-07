@@ -24,13 +24,24 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
-class ObjectArrays_assertContainsAll_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertContainsAll_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final String[] actual = array("Luke", "Yoda", "Leia");
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final ObjectArrays arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
 
   @Test
   void should_pass_if_actual_contains_all_iterable_values() {
@@ -69,9 +80,9 @@ class ObjectArrays_assertContainsAll_Test extends ObjectArraysBaseTest {
     // GIVEN
     List<String> expected = list("Han", "Luke");
     // WHEN
-    expectAssertionError(() -> arrays.assertContainsAll(INFO, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsAll(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO, shouldContain(actual, expected.toArray(), newLinkedHashSet("Han")));
+    then(error).hasMessage(shouldContain(actual, expected.toArray(), newLinkedHashSet("Han")).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -95,7 +106,7 @@ class ObjectArrays_assertContainsAll_Test extends ObjectArraysBaseTest {
 
   @Test
   void should_pass_if_actual_contains_all_iterable_values_more_than_once_according_to_custom_comparison_strategy() {
-    actual = array("Luke", "Yoda", "Leia", "Luke", "Luke");
+    var actual = array("Luke", "Yoda", "Leia", "Luke", "Luke");
     arraysWithCustomComparisonStrategy.assertContainsAll(INFO, actual, list("LUKE"));
   }
 
@@ -122,10 +133,9 @@ class ObjectArrays_assertContainsAll_Test extends ObjectArraysBaseTest {
     // GIVEN
     List<String> expected = list("Han", "LUKE");
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsAll(INFO, actual, expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsAll(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO,
-                             shouldContain(actual, expected.toArray(), newLinkedHashSet("Han"),
-                                           caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldContain(actual, expected.toArray(), newLinkedHashSet("Han"),
+                                         caseInsensitiveStringComparisonStrategy).create());
   }
 }

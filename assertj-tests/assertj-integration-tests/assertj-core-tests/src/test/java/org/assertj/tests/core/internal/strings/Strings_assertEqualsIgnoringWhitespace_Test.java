@@ -15,19 +15,18 @@
  */
 package org.assertj.tests.core.internal.strings;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.tests.core.testkit.CharArrays.arrayOf;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.tests.core.internal.StringsBaseTest;
+import org.assertj.core.internal.Strings;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -41,21 +40,20 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author Alexander Bischof
  * @author Dan Corder
  */
-class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest {
+class Strings_assertEqualsIgnoringWhitespace_Test {
 
   @Test
   void should_fail_if_actual_is_null_and_expected_is_not() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> strings.assertEqualsIgnoringWhitespace(info, null, "Luke"));
+    var error = expectAssertionError(() -> Strings.instance().assertEqualsIgnoringWhitespace(info, null, "Luke"));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenStringsAreNotEqualIgnoringWhitespace(info, null, "Luke");
+    then(error).hasMessage(shouldBeEqualIgnoringWhitespace(null, "Luke").create());
   }
 
   @Test
   void should_fail_if_actual_is_not_null_and_expected_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> strings.assertEqualsIgnoringWhitespace(someInfo(), "Luke", null))
+    assertThatNullPointerException().isThrownBy(() -> Strings.instance().assertEqualsIgnoringWhitespace(someInfo(), "Luke", null))
                                     .withMessage(charSequenceToLookForIsNull());
   }
 
@@ -63,16 +61,15 @@ class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest {
   void should_fail_if_both_Strings_are_not_equal_ignoring_whitespace() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> strings.assertEqualsIgnoringWhitespace(info, "Yoda", "Luke"));
+    var error = expectAssertionError(() -> Strings.instance().assertEqualsIgnoringWhitespace(info, "Yoda", "Luke"));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenStringsAreNotEqualIgnoringWhitespace(info, "Yoda", "Luke");
+    then(error).hasMessage(shouldBeEqualIgnoringWhitespace("Yoda", "Luke").create());
   }
 
   @ParameterizedTest
   @MethodSource("equalIgnoringWhitespaceGenerator")
   void should_pass_if_both_Strings_are_equal_ignoring_whitespace(String actual, String expected) {
-    strings.assertEqualsIgnoringWhitespace(someInfo(), actual, expected);
+    Strings.instance().assertEqualsIgnoringWhitespace(someInfo(), actual, expected);
   }
 
   public static Stream<Arguments> equalIgnoringWhitespaceGenerator() {
@@ -92,8 +89,4 @@ class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest {
                      Arguments.of(" abc", "abc "));
   }
 
-  void verifyFailureThrownWhenStringsAreNotEqualIgnoringWhitespace(AssertionInfo info, String actual,
-                                                                   String expected) {
-    verify(failures).failure(info, shouldBeEqualIgnoringWhitespace(actual, expected), actual, expected);
-  }
 }

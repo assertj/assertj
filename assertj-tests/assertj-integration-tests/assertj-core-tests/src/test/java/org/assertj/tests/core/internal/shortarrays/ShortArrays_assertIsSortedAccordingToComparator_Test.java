@@ -15,15 +15,15 @@
  */
 package org.assertj.tests.core.internal.shortarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
 import static org.assertj.tests.core.testkit.ShortArrays.emptyArray;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Comparator;
 
@@ -37,15 +37,16 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-class ShortArrays_assertIsSortedAccordingToComparator_Test extends ShortArraysBaseTest {
+class ShortArrays_assertIsSortedAccordingToComparator_Test {
+
+  private short[] actual = arrayOf(6, 8, 10);
+  private final ShortArrays arrays = ShortArrays.instance();
 
   private Comparator<Short> shortDescendingOrderComparator;
   private Comparator<Short> shortAscendingOrderComparator;
 
-  @Override
   @BeforeEach
   public void setUp() {
-    super.setUp();
     actual = new short[] { 4, 3, 2, 2, 1 };
     shortDescendingOrderComparator = (short1, short2) -> -short1.compareTo(short2);
     shortAscendingOrderComparator = (short1, short2) -> short1.compareTo(short2);
@@ -79,11 +80,10 @@ class ShortArrays_assertIsSortedAccordingToComparator_Test extends ShortArraysBa
     AssertionInfo info = someInfo();
     actual = new short[] { 3, 2, 1, 9 };
 
-    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual,
+    var error = expectAssertionError(() -> arrays.assertIsSortedAccordingToComparator(info, actual,
                                                                                       shortDescendingOrderComparator));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual, shortDescendingOrderComparator));
+    then(error).hasMessage(shouldBeSortedAccordingToGivenComparator(2, actual, shortDescendingOrderComparator).create());
   }
 
 }

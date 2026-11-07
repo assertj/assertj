@@ -16,10 +16,9 @@
 package org.assertj.tests.core.internal.shortarrays;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -27,17 +26,24 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
 import static org.assertj.tests.core.testkit.ShortArrays.emptyArray;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.internal.ShortArrays;
+import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShortArrays#assertContainsExactlyInAnyOrder(AssertionInfo, short[], short[])}</code>.
  */
-class ShortArrays_assertContainsExactlyInAnyOrder_Test extends ShortArraysBaseTest {
+class ShortArrays_assertContainsExactlyInAnyOrder_Test {
+
+  private short[] actual = arrayOf(6, 8, 10);
+  private final ShortArrays arrays = ShortArrays.instance();
+  private final ComparatorBasedComparisonStrategy absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<>());
+  private final ShortArrays arraysWithCustomComparisonStrategy = new ShortArrays(absValueComparisonStrategy);
 
   @Test
   void should_pass_if_actual_contains_given_values_exactly_in_any_order() {
@@ -85,12 +91,10 @@ class ShortArrays_assertContainsExactlyInAnyOrder_Test extends ShortArraysBaseTe
     AssertionInfo info = someInfo();
     short[] expected = { 6, 8, 20 };
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, newArrayList((short) 20), newArrayList((short) 10),
-                                                            StandardComparisonStrategy.instance()));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList((short) 20), newArrayList((short) 10),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -98,12 +102,10 @@ class ShortArrays_assertContainsExactlyInAnyOrder_Test extends ShortArraysBaseTe
     AssertionInfo info = someInfo();
     short[] expected = { 6, 8 };
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((short) 10),
-                                                            StandardComparisonStrategy.instance()));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((short) 10),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -112,12 +114,10 @@ class ShortArrays_assertContainsExactlyInAnyOrder_Test extends ShortArraysBaseTe
     actual = arrayOf(1, 2, 3);
     short[] expected = { 1, 2 };
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((short) 3),
-                                                            StandardComparisonStrategy.instance()));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((short) 3),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -126,12 +126,10 @@ class ShortArrays_assertContainsExactlyInAnyOrder_Test extends ShortArraysBaseTe
     actual = arrayOf(1, 2);
     short[] expected = { 1, 2, 3 };
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, newArrayList((short) 3), emptyList(),
-                                                            StandardComparisonStrategy.instance()));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList((short) 3), emptyList(),
+                                                          StandardComparisonStrategy.instance()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -177,12 +175,11 @@ class ShortArrays_assertContainsExactlyInAnyOrder_Test extends ShortArraysBaseTe
     AssertionInfo info = someInfo();
     short[] expected = { 6, -8, 20 };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
                                                                                                               expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, newArrayList((short) 20),
-                                                                  newArrayList((short) 10), absValueComparisonStrategy));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList((short) 20), newArrayList((short) 10),
+                                                          absValueComparisonStrategy).create());
   }
 
   @Test
@@ -190,12 +187,11 @@ class ShortArrays_assertContainsExactlyInAnyOrder_Test extends ShortArraysBaseTe
     AssertionInfo info = someInfo();
     short[] expected = { 6, 8 };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
                                                                                                               expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((short) 10),
-                                                                  absValueComparisonStrategy));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((short) 10),
+                                                          absValueComparisonStrategy).create());
   }
 
   @Test
@@ -204,13 +200,11 @@ class ShortArrays_assertContainsExactlyInAnyOrder_Test extends ShortArraysBaseTe
     actual = arrayOf(1, 2, 3);
     short[] expected = { 1, 2 };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
                                                                                                               expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((short) 3),
-                                                            absValueComparisonStrategy));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList((short) 3),
+                                                          absValueComparisonStrategy).create());
   }
 
   @Test
@@ -219,13 +213,11 @@ class ShortArrays_assertContainsExactlyInAnyOrder_Test extends ShortArraysBaseTe
     actual = arrayOf(1, 2);
     short[] expected = { 1, 2, 3 };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual,
                                                                                                               expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainExactlyInAnyOrder(actual, expected, newArrayList((short) 3), emptyList(),
-                                                            absValueComparisonStrategy));
+    then(error).hasMessage(shouldContainExactlyInAnyOrder(actual, expected, newArrayList((short) 3), emptyList(),
+                                                          absValueComparisonStrategy).create());
   }
 
 }

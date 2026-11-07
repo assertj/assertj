@@ -27,8 +27,8 @@ import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 import org.assertj.core.description.Description;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.BasicErrorMessageFactory;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
 
 /**
@@ -69,7 +69,8 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   protected SELF hasBeenThrown() {
     return executeAssertion(() -> {
       if (actual == null) {
-        throw Failures.instance().failure(info, new BasicErrorMessageFactory("%nExpecting code to raise a throwable."));
+        throw AssertionErrorCreator.instance().assertionError(info,
+                                                              new BasicErrorMessageFactory("%nExpecting code to raise a throwable."));
       }
     });
   }
@@ -77,9 +78,9 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   SELF hasBeenThrown(Object returnedValue) {
     return executeAssertionNavigation(() -> {
       if (actual == null) {
-        throw Failures.instance().failure(info,
-                                          new BasicErrorMessageFactory("%nExpecting code to raise a throwable, but it returned %s instead.",
-                                                                       returnedValue));
+        throw AssertionErrorCreator.instance().assertionError(info,
+                                                              new BasicErrorMessageFactory("%nExpecting code to raise a throwable, but it returned %s instead.",
+                                                                                           returnedValue));
       }
       return myself;
     }, () -> myself);
@@ -891,7 +892,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public void doesNotThrowAnyException() {
     executeAssertion(() -> {
-      if (actual != null) throw Failures.instance().failure(info, shouldNotHaveThrown(actual));
+      if (actual != null) throw AssertionErrorCreator.instance().assertionError(info, shouldNotHaveThrown(actual));
     });
   }
 

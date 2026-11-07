@@ -17,11 +17,12 @@ package org.assertj.core.internal.objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS;
 import static org.assertj.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
@@ -48,12 +49,12 @@ class Objects_assertEqual_Test extends ObjectsBaseTest {
 
   @Test
   void should_fail_if_objects_are_not_equal() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> objects.assertEqual(info, "Luke", "Yoda"));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual("Luke", "Yoda", info.representation()));
+    // WHEN
+    var error = expectAssertionError(() -> objects.assertEqual(info, "Luke", "Yoda"));
+    // THEN
+    then(error).hasMessage(shouldBeEqual("Luke", "Yoda", info.representation()).toAssertionError(info).getMessage());
   }
 
   @Test
@@ -74,12 +75,13 @@ class Objects_assertEqual_Test extends ObjectsBaseTest {
 
   @Test
   void should_fail_if_objects_are_not_equal_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> objectsWithCustomComparisonStrategy.assertEqual(info, "Luke", "Yoda"));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual("Luke", "Yoda", customComparisonStrategy, STANDARD_REPRESENTATION));
+    // WHEN
+    var error = expectAssertionError(() -> objectsWithCustomComparisonStrategy.assertEqual(info, "Luke", "Yoda"));
+    // THEN
+    then(error).hasMessage(shouldBeEqual("Luke", "Yoda", customComparisonStrategy, STANDARD_REPRESENTATION).toAssertionError(info)
+                                                                                                           .getMessage());
   }
 
   @Test

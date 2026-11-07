@@ -17,13 +17,12 @@ package org.assertj.core.internal.bigdecimals;
 
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 
@@ -53,13 +52,12 @@ class BigDecimals_assertNotEqual_Test extends BigDecimalsBaseTest {
   }
 
   @Test
-  void should_fail_if_big_decimals_are_equal() {
+  void should_fail_if_big_decimals_are_equal() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbers.assertNotEqual(info, ONE, ONE));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual(ONE, ONE));
+    // WHEN
+    var error = expectAssertionError(() -> numbers.assertNotEqual(info, ONE, ONE));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual(ONE, ONE).create());
   }
 
   @Test
@@ -76,13 +74,12 @@ class BigDecimals_assertNotEqual_Test extends BigDecimalsBaseTest {
   }
 
   @Test
-  void should_fail_if_big_decimals_are_equal_according_to_custom_comparison_strategy() {
+  void should_fail_if_big_decimals_are_equal_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> numbersWithComparatorComparisonStrategy.assertNotEqual(info, ONE_WITH_3_DECIMALS,
+    // WHEN
+    var error = expectAssertionError(() -> numbersWithComparatorComparisonStrategy.assertNotEqual(info, ONE_WITH_3_DECIMALS,
                                                                                                   ONE));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual(ONE_WITH_3_DECIMALS, ONE, comparatorComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual(ONE_WITH_3_DECIMALS, ONE, comparatorComparisonStrategy).create());
   }
 }

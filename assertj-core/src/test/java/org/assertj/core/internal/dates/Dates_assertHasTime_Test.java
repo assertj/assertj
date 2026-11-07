@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.dates;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveTime.shouldHaveTime;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
@@ -56,11 +55,12 @@ class Dates_assertHasTime_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_has_not_same_time() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertHasTime(someInfo(), actual, 24L));
 
-    Throwable error = catchThrowable(() -> dates.assertHasTime(someInfo(), actual, 24L));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveTime(actual, 24L));
+    // THEN
+    then(error).hasMessage(shouldHaveTime(actual, 24L).create());
   }
 }

@@ -19,7 +19,7 @@ import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Throwables;
 import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.AfterEach;
@@ -29,7 +29,7 @@ import org.junit.jupiter.api.BeforeEach;
 public class ThrowablesBaseTest {
 
   protected static final AssertionInfo INFO = TestData.someInfo();
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Throwables throwables;
   protected static Throwable actual;
 
@@ -40,14 +40,14 @@ public class ThrowablesBaseTest {
 
   @BeforeEach
   public void setUp() throws IllegalAccessException {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     throwables = Throwables.instance();
-    writeField(throwables, "failures", failures, true);
+    writeField(throwables, "assertionErrorCreator", assertionErrorCreator, true);
   }
 
   @AfterEach
   public void tearDown() throws IllegalAccessException {
-    writeField(throwables, "failures", Failures.instance(), true);
+    writeField(throwables, "assertionErrorCreator", AssertionErrorCreator.instance(), true);
   }
 
 }

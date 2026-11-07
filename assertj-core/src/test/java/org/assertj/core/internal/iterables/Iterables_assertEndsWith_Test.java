@@ -18,15 +18,15 @@ package org.assertj.core.internal.iterables;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
@@ -78,10 +78,10 @@ class Iterables_assertEndsWith_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
 
-    Throwable error = catchThrowable(() -> iterables.assertEndsWith(info, actual, sequence));
+    var error = expectAssertionError(() -> iterables.assertEndsWith(info, actual, sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence);
+    verifyFailureThrownWhenSequenceNotFound(error, sequence);
   }
 
   @Test
@@ -89,10 +89,10 @@ class Iterables_assertEndsWith_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
 
-    Throwable error = catchThrowable(() -> iterables.assertEndsWith(info, actual, sequence));
+    var error = expectAssertionError(() -> iterables.assertEndsWith(info, actual, sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence);
+    verifyFailureThrownWhenSequenceNotFound(error, sequence);
   }
 
   @Test
@@ -100,10 +100,10 @@ class Iterables_assertEndsWith_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
 
-    Throwable error = catchThrowable(() -> iterables.assertEndsWith(info, actual, sequence));
+    var error = expectAssertionError(() -> iterables.assertEndsWith(info, actual, sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence);
+    verifyFailureThrownWhenSequenceNotFound(error, sequence);
   }
 
   @Test
@@ -111,14 +111,12 @@ class Iterables_assertEndsWith_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Luke", "Leia" };
 
-    Throwable error = catchThrowable(() -> iterables.assertEndsWith(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSequenceNotFound(info, sequence);
+    var error = expectAssertionError(() -> iterables.assertEndsWith(info, actual, sequence));
+    verifyFailureThrownWhenSequenceNotFound(error, sequence);
   }
 
-  private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, Object[] sequence) {
-    verify(failures).failure(info, shouldEndWith(actual, sequence));
+  private void verifyFailureThrownWhenSequenceNotFound(AssertionError error, Object[] sequence) {
+    then(error).hasMessage(shouldEndWith(actual, sequence).create());
   }
 
   @Test
@@ -150,10 +148,8 @@ class Iterables_assertEndsWith_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldEndWith(actual, sequence, comparisonStrategy));
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, sequence));
+    then(error).hasMessage(shouldEndWith(actual, sequence, comparisonStrategy).create());
   }
 
   @Test
@@ -161,10 +157,8 @@ class Iterables_assertEndsWith_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, sequence));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldEndWith(actual, sequence, comparisonStrategy));
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, sequence));
+    then(error).hasMessage(shouldEndWith(actual, sequence, comparisonStrategy).create());
   }
 
 }

@@ -37,6 +37,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Reusable assertions for <code>{@link List}</code>s.
@@ -62,7 +63,7 @@ public class Lists {
   private final ComparisonStrategy comparisonStrategy;
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Failures failures = Failures.instance();
+  AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Lists() {
@@ -106,7 +107,8 @@ public class Lists {
     checkIndexValueIsValid(index, actual.size() - 1);
     Object actualElement = actual.get(index.value);
     if (areEqual(actualElement, value)) return;
-    throw failures.failure(info, shouldContainAtIndex(actual, value, index, actual.get(index.value), comparisonStrategy));
+    throw assertionErrorCreator.assertionError(info, shouldContainAtIndex(actual, value, index, actual.get(index.value),
+                                                                          comparisonStrategy));
   }
 
   /**
@@ -126,7 +128,7 @@ public class Lists {
     if (indexValue >= actual.size()) return;
     Object actualElement = actual.get(index.value);
     if (!areEqual(actualElement, value)) return;
-    throw failures.failure(info, shouldNotContainAtIndex(actual, value, index, comparisonStrategy));
+    throw assertionErrorCreator.assertionError(info, shouldNotContainAtIndex(actual, value, index, comparisonStrategy));
   }
 
   /**
@@ -166,11 +168,11 @@ public class Lists {
       for (int i = 0; i < comparableList.size() - 1; i++) {
         // array is sorted in ascending order iif element i is less or equal than element i+1
         if (comparableList.get(i).compareTo(comparableList.get(i + 1)) > 0)
-          throw failures.failure(info, shouldBeSorted(i, actual));
+          throw assertionErrorCreator.assertionError(info, shouldBeSorted(i, actual));
       }
     } catch (ClassCastException e) {
       // elements are either not Comparable or not mutually Comparable (e.g. List<Object> containing String and Integer)
-      throw failures.failure(info, shouldHaveMutuallyComparableElements(actual));
+      throw assertionErrorCreator.assertionError(info, shouldHaveMutuallyComparableElements(actual));
     }
   }
 
@@ -205,10 +207,11 @@ public class Lists {
       for (int i = 0; i < actual.size() - 1; i++) {
         // List is sorted in comparator defined order if current element is less or equal than next element
         if (rawComparator.compare(actual.get(i), actual.get(i + 1)) > 0)
-          throw failures.failure(info, shouldBeSortedAccordingToGivenComparator(i, actual, comparator));
+          throw assertionErrorCreator.assertionError(info, shouldBeSortedAccordingToGivenComparator(i, actual, comparator));
       }
     } catch (ClassCastException e) {
-      throw failures.failure(info, shouldHaveComparableElementsAccordingToGivenComparator(actual, comparator));
+      throw assertionErrorCreator.assertionError(info,
+                                                 shouldHaveComparableElementsAccordingToGivenComparator(actual, comparator));
     }
   }
 
@@ -229,7 +232,7 @@ public class Lists {
    */
   public <T> void assertHas(AssertionInfo info, List<? extends T> actual, Condition<? super T> condition, Index index) {
     if (conditionIsMetAtIndex(info, actual, condition, index)) return;
-    throw failures.failure(info, shouldHaveAtIndex(actual, condition, index, actual.get(index.value)));
+    throw assertionErrorCreator.assertionError(info, shouldHaveAtIndex(actual, condition, index, actual.get(index.value)));
   }
 
   /**
@@ -249,7 +252,7 @@ public class Lists {
    */
   public <T> void assertIs(AssertionInfo info, List<? extends T> actual, Condition<? super T> condition, Index index) {
     if (conditionIsMetAtIndex(info, actual, condition, index)) return;
-    throw failures.failure(info, shouldBeAtIndex(actual, condition, index, actual.get(index.value)));
+    throw assertionErrorCreator.assertionError(info, shouldBeAtIndex(actual, condition, index, actual.get(index.value)));
   }
 
   /**

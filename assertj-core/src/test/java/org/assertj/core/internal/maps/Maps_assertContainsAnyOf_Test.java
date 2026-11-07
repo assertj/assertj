@@ -25,7 +25,6 @@ import static org.assertj.core.internal.ErrorMessages.entryToLookForIsNull;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.HashMap;
 
@@ -64,9 +63,9 @@ class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
     AssertionInfo info = INFO;
     MapEntry<String, String>[] expected = emptyEntries();
     // WHEN
-    expectAssertionError(() -> maps.assertContainsAnyOf(info, actual, expected, null));
+    var error = expectAssertionError(() -> maps.assertContainsAnyOf(info, actual, expected, null));
     // THEN
-    verify(failures).failure(info, shouldBeEmpty(actual));
+    then(error).hasMessage(shouldBeEmpty(actual).create());
   }
 
   @Test
@@ -105,8 +104,8 @@ class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
     AssertionInfo info = INFO;
     MapEntry<String, String>[] expected = array(entry("name", "Vador"), entry("job", "Jedi"));
     // WHEN
-    expectAssertionError(() -> maps.assertContainsAnyOf(info, actual, expected, null));
+    var error = expectAssertionError(() -> maps.assertContainsAnyOf(info, actual, expected, null));
     // THEN
-    verify(failures).failure(info, shouldContainAnyOf(actual, expected));
+    then(error).hasMessage(shouldContainAnyOf(actual, expected).create());
   }
 }

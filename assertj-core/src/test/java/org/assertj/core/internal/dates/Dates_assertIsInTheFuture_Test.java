@@ -15,14 +15,13 @@
  */
 package org.assertj.core.internal.dates;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.DateUtil.monthOf;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -41,23 +40,25 @@ class Dates_assertIsInTheFuture_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_in_the_future() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertIsInTheFuture(info, actual));
 
-    Throwable error = catchThrowable(() -> dates.assertIsInTheFuture(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeInTheFuture(actual));
+    // THEN
+    then(error).hasMessage(shouldBeInTheFuture(actual).create());
   }
 
   @Test
   void should_fail_if_actual_is_today() {
+    // GIVEN
     AssertionInfo info = someInfo();
     actual = new Date();
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertIsInTheFuture(info, actual));
 
-    Throwable error = catchThrowable(() -> dates.assertIsInTheFuture(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeInTheFuture(actual));
+    // THEN
+    then(error).hasMessage(shouldBeInTheFuture(actual).create());
   }
 
   @Test
@@ -76,16 +77,18 @@ class Dates_assertIsInTheFuture_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_in_the_future_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> datesWithCustomComparisonStrategy.assertIsInTheFuture(info, actual));
 
-    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsInTheFuture(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeInTheFuture(actual, yearAndMonthComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeInTheFuture(actual, yearAndMonthComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_is_today_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     // we want actual to be different from today but still in the same month so that it is = today according to our
     // comparison strategy (that compares only month and year)
@@ -96,11 +99,11 @@ class Dates_assertIsInTheFuture_Test extends DatesBaseTest {
     cal.add(Calendar.DAY_OF_MONTH, -2);
     Date yesterday = cal.getTime();
     actual = monthOf(tomorrow) == monthOf(new Date()) ? tomorrow : yesterday;
+    // WHEN
+    var error = expectAssertionError(() -> datesWithCustomComparisonStrategy.assertIsInTheFuture(info, actual));
 
-    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsInTheFuture(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeInTheFuture(actual, yearAndMonthComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeInTheFuture(actual, yearAndMonthComparisonStrategy).create());
   }
 
   @Test

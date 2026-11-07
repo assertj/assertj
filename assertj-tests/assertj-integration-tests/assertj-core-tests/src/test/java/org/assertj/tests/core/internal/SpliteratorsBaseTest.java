@@ -21,7 +21,7 @@ import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Spliterators;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,25 +35,25 @@ public class SpliteratorsBaseTest {
 
   protected static final AssertionInfo INFO = someInfo();
 
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Spliterators spliterators;
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     spliterators = new Spliterators();
-    setFailures(spliterators, failures);
+    setAssertionErrorCreator(spliterators, assertionErrorCreator);
   }
 
   @AfterEach
   public void tearDown() {
-    setFailures(spliterators, Failures.instance());
+    setAssertionErrorCreator(spliterators, AssertionErrorCreator.instance());
   }
 
-  private void setFailures(Spliterators spliterators, Failures failures) {
+  private void setAssertionErrorCreator(Spliterators spliterators, AssertionErrorCreator assertionErrorCreator) {
     try {
       Object iterables = readField(spliterators, "iterables", true);
-      writeField(iterables, "failures", failures, true);
+      writeField(iterables, "assertionErrorCreator", assertionErrorCreator, true);
     } catch (IllegalAccessException e) {
       throw new RuntimeException(e);
     }

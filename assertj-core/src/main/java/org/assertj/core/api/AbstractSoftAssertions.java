@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.assertj.core.annotation.CanIgnoreReturnValue;
 import org.assertj.core.error.AssertionErrorCreator;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.annotation.Contract;
 
 /**
@@ -38,7 +37,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    */
   public static void assertAll(AssertionErrorCollector collector) {
     List<AssertionError> errors = collector.assertionErrorsCollected();
-    if (!errors.isEmpty()) throw AssertionErrorCreator.INSTANCE.multipleAssertionsError(errors);
+    if (!errors.isEmpty()) throw AssertionErrorCreator.instance().multipleAssertionsError(errors);
   }
 
   @Override
@@ -57,7 +56,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   @CanIgnoreReturnValue
   @Contract("_ -> fail")
   public <T> T fail(String failureMessage) {
-    AssertionError error = Failures.instance().failure(failureMessage);
+    AssertionError error = AssertionErrorCreator.instance().assertionError(failureMessage);
     collectAssertionError(error);
     return null;
   }
@@ -104,7 +103,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   @CanIgnoreReturnValue
   @Contract("_, _ -> fail")
   public <T> T fail(String failureMessage, Throwable realCause) {
-    AssertionError error = Failures.instance().failure(failureMessage);
+    AssertionError error = AssertionErrorCreator.instance().assertionError(failureMessage);
     error.initCause(realCause);
     collectAssertionError(error);
     return null;
@@ -155,7 +154,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    */
   @Contract("_ -> fail")
   public void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
-    AssertionError error = Failures.instance().expectedThrowableNotThrown(throwableClass);
+    AssertionError error = AssertionErrorCreator.instance().expectedThrowableNotThrown(throwableClass);
     collectAssertionError(error);
   }
 

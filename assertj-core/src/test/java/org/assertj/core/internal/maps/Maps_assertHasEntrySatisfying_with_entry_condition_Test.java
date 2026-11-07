@@ -17,10 +17,10 @@ package org.assertj.core.internal.maps;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainEntry.shouldContainEntry;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
@@ -65,9 +65,9 @@ class Maps_assertHasEntrySatisfying_with_entry_condition_Test extends MapsBaseTe
   @Test
   void should_fail_if_actual_does_not_contain_any_entry_matching_the_given_condition() {
     // WHEN
-    expectAssertionError(() -> maps.assertHasEntrySatisfying(INFO, actual, blackColorCondition));
+    var error = expectAssertionError(() -> maps.assertHasEntrySatisfying(INFO, actual, blackColorCondition));
     // THEN
-    verify(failures).failure(INFO, shouldContainEntry(actual, blackColorCondition));
+    then(error).hasMessage(shouldContainEntry(actual, blackColorCondition).create());
   }
 
   @Test

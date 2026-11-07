@@ -38,6 +38,6 @@ class Char2DArrays_assertDoesNotContain_at_Index_Test extends Char2DArraysBaseTe
     // WHEN
     char2DArrays.assertDoesNotContain(info, actual, chars, atIndex(1));
     // THEN
-    verify(arrays2d).assertDoesNotContain(info, failures, actual, chars, atIndex(1));
+    verify(arrays2d).assertDoesNotContain(info, assertionErrorCreator, actual, chars, atIndex(1));
   }
 }

@@ -20,13 +20,14 @@ import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for tests involving {@link Doubles}
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Doubles#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Doubles#assertionErrorCreator} appropriately.
  *
  * @author Joel Costigliola
  */
@@ -34,7 +35,7 @@ public class DoublesBaseTest {
 
   protected static final WritableAssertionInfo INFO = someInfo();
 
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Doubles doubles;
 
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
@@ -42,12 +43,12 @@ public class DoublesBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     doubles = new Doubles();
-    doubles.setFailures(failures);
+    doubles.setAssertionErrorCreator(assertionErrorCreator);
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<Double>());
     doublesWithAbsValueComparisonStrategy = new Doubles(absValueComparisonStrategy);
-    doublesWithAbsValueComparisonStrategy.failures = failures;
+    doublesWithAbsValueComparisonStrategy.assertionErrorCreator = assertionErrorCreator;
   }
 
   protected Double NaN() {

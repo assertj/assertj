@@ -20,7 +20,6 @@ import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
@@ -48,9 +47,9 @@ class Files_assertIsRelative_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsRelative(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsRelative(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldBeRelativePath(actual));
+    then(error).hasMessage(shouldBeRelativePath(actual).create());
   }
 
   @Test

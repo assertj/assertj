@@ -18,13 +18,13 @@ package org.assertj.core.internal.objects;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeIn.shouldBeIn;
 import static org.assertj.core.internal.ErrorMessages.arrayIsNull;
 import static org.assertj.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Objects;
@@ -70,9 +70,9 @@ class Objects_assertIsIn_with_array_Test extends ObjectsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> objects.assertIsIn(info, "Luke", values));
+    var error = expectAssertionError(() -> objects.assertIsIn(info, "Luke", values));
     // THEN
-    verify(failures).failure(info, shouldBeIn("Luke", asList(values)));
+    then(error).hasMessage(shouldBeIn("Luke", asList(values)).create());
   }
 
   @Test
@@ -80,9 +80,9 @@ class Objects_assertIsIn_with_array_Test extends ObjectsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> objects.assertIsIn(info, "Luke", emptyArray()));
+    var error = expectAssertionError(() -> objects.assertIsIn(info, "Luke", emptyArray()));
     // THEN
-    verify(failures).failure(info, shouldBeIn("Luke", emptyList()));
+    then(error).hasMessage(shouldBeIn("Luke", emptyList()).create());
   }
 
   @Test
@@ -95,8 +95,8 @@ class Objects_assertIsIn_with_array_Test extends ObjectsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> objectsWithCustomComparisonStrategy.assertIsIn(info, "Luke", values));
+    var error = expectAssertionError(() -> objectsWithCustomComparisonStrategy.assertIsIn(info, "Luke", values));
     // THEN
-    verify(failures).failure(info, shouldBeIn("Luke", asList(values), customComparisonStrategy));
+    then(error).hasMessage(shouldBeIn("Luke", asList(values), customComparisonStrategy).create());
   }
 }

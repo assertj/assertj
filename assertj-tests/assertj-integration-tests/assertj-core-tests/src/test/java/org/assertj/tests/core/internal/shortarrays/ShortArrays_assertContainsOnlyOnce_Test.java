@@ -15,10 +15,9 @@
  */
 package org.assertj.tests.core.internal.shortarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -26,10 +25,12 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
 import static org.assertj.tests.core.testkit.ShortArrays.emptyArray;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ShortArrays;
+import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -37,7 +38,12 @@ import org.junit.jupiter.api.Test;
  * 
  * @author William Delanoue
  */
-class ShortArrays_assertContainsOnlyOnce_Test extends ShortArraysBaseTest {
+class ShortArrays_assertContainsOnlyOnce_Test {
+
+  private short[] actual = arrayOf(6, 8, 10);
+  private final ShortArrays arrays = ShortArrays.instance();
+  private final ComparatorBasedComparisonStrategy absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<>());
+  private final ShortArrays arraysWithCustomComparisonStrategy = new ShortArrays(absValueComparisonStrategy);
 
   @Test
   void should_pass_if_actual_contains_given_values_only() {
@@ -55,13 +61,10 @@ class ShortArrays_assertContainsOnlyOnce_Test extends ShortArraysBaseTest {
     actual = arrayOf(6, -8, 10, -6, -8, 10, -8, 6);
     short[] expected = { 6, -8, 20 };
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(
-                             info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((short) 20),
-                                                    newLinkedHashSet((short) 6, (short) -8)));
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((short) 20),
+                                                  newLinkedHashSet((short) 6, (short) -8)).create());
   }
 
   @Test
@@ -98,11 +101,9 @@ class ShortArrays_assertContainsOnlyOnce_Test extends ShortArraysBaseTest {
     AssertionInfo info = someInfo();
     short[] expected = { 6, 8, 20 };
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
+    var error = expectAssertionError(() -> arrays.assertContainsOnlyOnce(info, actual, expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((short) 20), newLinkedHashSet()));
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((short) 20), newLinkedHashSet()).create());
   }
 
   @Test
@@ -121,13 +122,10 @@ class ShortArrays_assertContainsOnlyOnce_Test extends ShortArraysBaseTest {
     actual = arrayOf(6, -8, 10, -6, -8, 10, -8);
     short[] expected = { 6, -8, 20 };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(
-                             info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((short) 20),
-                                                    newLinkedHashSet((short) 6, (short) -8), absValueComparisonStrategy));
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((short) 20),
+                                                  newLinkedHashSet((short) 6, (short) -8), absValueComparisonStrategy).create());
   }
 
   @Test
@@ -163,12 +161,9 @@ class ShortArrays_assertContainsOnlyOnce_Test extends ShortArraysBaseTest {
     AssertionInfo info = someInfo();
     short[] expected = { 6, -8, 20 };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(
-                             info,
-                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((short) 20), newLinkedHashSet(),
-                                                    absValueComparisonStrategy));
+    then(error).hasMessage(shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((short) 20), newLinkedHashSet(),
+                                                  absValueComparisonStrategy).create());
   }
 }

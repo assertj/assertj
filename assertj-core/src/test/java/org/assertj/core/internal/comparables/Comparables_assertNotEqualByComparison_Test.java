@@ -15,11 +15,11 @@
  */
 package org.assertj.core.internal.comparables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -62,12 +62,13 @@ class Comparables_assertNotEqualByComparison_Test extends ComparablesBaseTest {
 
   @Test
   void should_fail_if_objects_are_equal() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> comparables.assertNotEqualByComparison(info, "Yoda", "Yoda"));
 
-    Throwable error = catchThrowable(() -> comparables.assertNotEqualByComparison(info, "Yoda", "Yoda"));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual("Yoda", "Yoda"));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual("Yoda", "Yoda").create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -92,13 +93,14 @@ class Comparables_assertNotEqualByComparison_Test extends ComparablesBaseTest {
 
   @Test
   void should_fail_if_objects_are_equal_whatever_custom_comparison_strategy_is() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertNotEqualByComparison(info,
+    // WHEN
+    var error = expectAssertionError(() -> comparablesWithCustomComparisonStrategy.assertNotEqualByComparison(info,
                                                                                                               new Person("Yoda"),
                                                                                                               new Person("Yoda")));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual(new Person("Yoda"), new Person("Yoda")));
+    // THEN
+    then(error).hasMessage(shouldNotBeEqual(new Person("Yoda"), new Person("Yoda")).create());
   }
 }

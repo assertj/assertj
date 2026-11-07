@@ -38,6 +38,6 @@ class Long2DArrays_assertContains_at_Index_Test extends Long2DArraysBaseTest {
     // WHEN
     long2dArrays.assertContains(info, actual, longs, atIndex(1));
     // THEN
-    verify(arrays2d).assertContains(info, failures, actual, longs, atIndex(1));
+    verify(arrays2d).assertContains(info, assertionErrorCreator, actual, longs, atIndex(1));
   }
 }

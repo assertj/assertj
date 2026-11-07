@@ -17,11 +17,11 @@ package org.assertj.core.internal.comparables;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
@@ -63,12 +63,12 @@ class Comparables_assertEqualByComparison_Test extends ComparablesBaseTest {
 
   @Test
   void should_fail_if_objects_are_not_equal() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> comparables.assertEqualByComparison(info, "Luke", "Yoda"));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual("Luke", "Yoda", info.representation()));
+    // WHEN
+    var error = expectAssertionError(() -> comparables.assertEqualByComparison(info, "Luke", "Yoda"));
+    // THEN
+    then(error).hasMessage(shouldBeEqual("Luke", "Yoda", info.representation()).toAssertionError(info).getMessage());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -95,12 +95,12 @@ class Comparables_assertEqualByComparison_Test extends ComparablesBaseTest {
 
   @Test
   void should_fail_if_objects_are_not_equal_whatever_custom_comparison_strategy_is() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertEqualByComparison(info, "Luke", "Yoda"));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual("Luke", "Yoda", info.representation()));
+    // WHEN
+    var error = expectAssertionError(() -> comparablesWithCustomComparisonStrategy.assertEqualByComparison(info, "Luke", "Yoda"));
+    // THEN
+    then(error).hasMessage(shouldBeEqual("Luke", "Yoda", info.representation()).toAssertionError(info).getMessage());
   }
 
 }

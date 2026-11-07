@@ -29,9 +29,9 @@ import java.util.Comparator;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.TemporalOffset;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
 import org.assertj.core.internal.Comparables;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
 /**
@@ -564,7 +564,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
     return executeAssertion(() -> {
       Objects.instance().assertNotNull(info, actual);
       if (!actual.isBefore(ZonedDateTime.now(actual.getZone())))
-        throw Failures.instance().failure(info, shouldBeInThePast(actual));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeInThePast(actual));
     });
   }
 
@@ -585,7 +585,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
     return executeAssertion(() -> {
       Objects.instance().assertNotNull(info, actual);
       if (!actual.isAfter(ZonedDateTime.now(actual.getZone())))
-        throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeInTheFuture(actual));
     });
   }
 

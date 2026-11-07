@@ -26,7 +26,6 @@ import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.internal.DoublesBaseTest;
 import org.junit.jupiter.api.Test;
@@ -116,25 +115,25 @@ class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
   })
   void should_fail_if_difference_is_equal_to_given_offset(Double actual, Double other, Double offset) {
     // WHEN
-    expectAssertionError(() -> doubles.assertIsNotCloseTo(INFO, actual, other, within(offset)));
+    var error = expectAssertionError(() -> doubles.assertIsNotCloseTo(INFO, actual, other, within(offset)));
     // THEN
-    verify(failures).failure(INFO, shouldNotBeEqual(actual, other, within(offset), absDiff(actual, other)));
+    then(error).hasMessage(shouldNotBeEqual(actual, other, within(offset), absDiff(actual, other)).create());
   }
 
   @Test
   void should_fail_if_actual_is_too_close_to_expected_value() {
     // WHEN
-    expectAssertionError(() -> doubles.assertIsNotCloseTo(INFO, ONE, TWO, within(TEN)));
+    var error = expectAssertionError(() -> doubles.assertIsNotCloseTo(INFO, ONE, TWO, within(TEN)));
     // THEN
-    verify(failures).failure(INFO, shouldNotBeEqual(ONE, TWO, within(TEN), ONE));
+    then(error).hasMessage(shouldNotBeEqual(ONE, TWO, within(TEN), ONE).create());
   }
 
   @Test
   void should_fail_if_actual_is_too_close_to_expected_value_with_strict_offset() {
     // WHEN
-    expectAssertionError(() -> doubles.assertIsNotCloseTo(INFO, ONE, TWO, byLessThan(TEN)));
+    var error = expectAssertionError(() -> doubles.assertIsNotCloseTo(INFO, ONE, TWO, byLessThan(TEN)));
     // THEN
-    verify(failures).failure(INFO, shouldNotBeEqual(ONE, TWO, byLessThan(TEN), ONE));
+    then(error).hasMessage(shouldNotBeEqual(ONE, TWO, byLessThan(TEN), ONE).create());
   }
 
   @Test

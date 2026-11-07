@@ -3527,7 +3527,7 @@ public class Assertions implements InstanceOfAssertFactories {
       messageBuilder.append("%nExecutable #%d failed with:%n%s".formatted(i, getStackTrace(exceptionsThrown.get(i))));
     }
 
-    throw AssertionErrorCreator.INSTANCE.assertionError(messageBuilder.toString());
+    throw AssertionErrorCreator.instance().assertionError(messageBuilder.toString());
   }
 
   /**

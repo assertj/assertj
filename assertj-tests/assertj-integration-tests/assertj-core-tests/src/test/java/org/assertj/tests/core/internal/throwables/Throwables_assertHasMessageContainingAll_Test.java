@@ -22,29 +22,34 @@ import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Throwables;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Phillip Webb
  */
-class Throwables_assertHasMessageContainingAll_Test extends ThrowablesBaseTest {
+class Throwables_assertHasMessageContainingAll_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final Throwable actual = new NullPointerException("Throwable message");
 
   @Test
   void should_pass_if_actual_has_message_containing_the_expected_string() {
-    throwables.assertHasMessageContainingAll(INFO, actual, "able");
+    Throwables.instance().assertHasMessageContainingAll(INFO, actual, "able");
   }
 
   @Test
   void should_pass_if_actual_has_message_containing_all_the_expected_strings() {
-    throwables.assertHasMessageContainingAll(INFO, actual, "able", "message");
+    Throwables.instance().assertHasMessageContainingAll(INFO, actual, "able", "message");
   }
 
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    var error = expectAssertionError(() -> throwables.assertHasMessageContainingAll(INFO, null, "Boom"));
+    var error = expectAssertionError(() -> Throwables.instance().assertHasMessageContainingAll(INFO, null, "Boom"));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -54,9 +59,9 @@ class Throwables_assertHasMessageContainingAll_Test extends ThrowablesBaseTest {
     // GIVEN
     String content = "expected description part";
     // WHEN
-    expectAssertionError(() -> throwables.assertHasMessageContainingAll(INFO, actual, content));
+    var error = expectAssertionError(() -> Throwables.instance().assertHasMessageContainingAll(INFO, actual, content));
     // THEN
-    verify(failures).failure(INFO, shouldContain(actual, content), actual, content);
+    then(error).hasMessage(shouldContain(actual, content).create());
   }
 
   @Test
@@ -64,14 +69,15 @@ class Throwables_assertHasMessageContainingAll_Test extends ThrowablesBaseTest {
     // GIVEN
     String[] content = { "catchable", "message" };
     // WHEN
-    expectAssertionError(() -> throwables.assertHasMessageContainingAll(INFO, actual, content));
+    var error = expectAssertionError(() -> Throwables.instance().assertHasMessageContainingAll(INFO, actual, content));
     // THEN
-    verify(failures).failure(INFO, shouldContain(actual, content, singleton("catchable")), actual, content);
+    then(error).hasMessage(shouldContain(actual, content, singleton("catchable")).create());
   }
 
   @Test
   void should_throw_error_if_expected_strings_are_null() {
-    assertThatNullPointerException().isThrownBy(() -> throwables.assertHasMessageContainingAll(INFO, actual, (String) null))
+    assertThatNullPointerException().isThrownBy(() -> Throwables.instance().assertHasMessageContainingAll(INFO, actual,
+                                                                                                          (String) null))
                                     .withMessage(charSequenceToLookForIsNull());
   }
 }

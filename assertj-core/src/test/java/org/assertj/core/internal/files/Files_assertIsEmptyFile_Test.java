@@ -23,7 +23,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
 import static org.assertj.core.util.Files.newFolder;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.io.File;
@@ -45,7 +44,7 @@ class Files_assertIsEmptyFile_Test extends FilesBaseTest {
     // WHEN
     underTest.assertIsEmptyFile(INFO, actual);
     // THEN
-    verifyNoInteractions(failures);
+    verifyNoInteractions(assertionErrorCreator);
   }
 
   @Test
@@ -53,9 +52,9 @@ class Files_assertIsEmptyFile_Test extends FilesBaseTest {
     // GIVEN
     File actual = resourceFile("actual_file.txt");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsEmptyFile(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsEmptyFile(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldBeEmpty(actual));
+    then(error).hasMessage(shouldBeEmpty(actual).create());
   }
 
   @Test
@@ -63,9 +62,9 @@ class Files_assertIsEmptyFile_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
     // WHEN
-    expectAssertionError(() -> underTest.assertIsEmptyFile(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsEmptyFile(INFO, actual));
     // THEN
-    verify(failures).failure(INFO, shouldBeFile(actual));
+    then(error).hasMessage(shouldBeFile(actual).create());
   }
 
   @Test

@@ -22,11 +22,21 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.Test;
 
-class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertEndsWithFirstAndRest_Test {
+
+  private static final AssertionInfo INFO = TestData.someInfo();
+  private final ObjectArrays arrays = new ObjectArrays(StandardComparisonStrategy.instance());
+  private final ComparatorBasedComparisonStrategy caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+  private final ObjectArrays arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
 
   @Test
   void should_throw_error_if_sequence_is_null() {
@@ -47,9 +57,10 @@ class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBaseTest 
     // GIVEN
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     // WHEN
-    expectAssertionError(() -> arrays.assertEndsWith(INFO, array("Yoda", "Luke", "Leia", "Obi-Wan"), "Luke", sequence));
+    var error = expectAssertionError(() -> arrays.assertEndsWith(INFO, array("Yoda", "Luke", "Leia", "Obi-Wan"), "Luke",
+                                                                 sequence));
     // THEN
-    verifyFailureThrownWhenSequenceNotFound("Luke", sequence);
+    then(error).hasMessage(shouldEndWith(array("Yoda", "Luke", "Leia", "Obi-Wan"), prepend("Luke", sequence)).create());
   }
 
   @Test
@@ -57,9 +68,10 @@ class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBaseTest 
     // GIVEN
     Object[] sequence = { "Han", "C-3PO" };
     // WHEN
-    expectAssertionError(() -> arrays.assertEndsWith(INFO, array("Yoda", "Luke", "Leia", "Obi-Wan"), "Obi-Wan", sequence));
+    var error = expectAssertionError(() -> arrays.assertEndsWith(INFO, array("Yoda", "Luke", "Leia", "Obi-Wan"), "Obi-Wan",
+                                                                 sequence));
     // THEN
-    verifyFailureThrownWhenSequenceNotFound("Obi-Wan", sequence);
+    then(error).hasMessage(shouldEndWith(array("Yoda", "Luke", "Leia", "Obi-Wan"), prepend("Obi-Wan", sequence)).create());
   }
 
   @Test
@@ -67,13 +79,10 @@ class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBaseTest 
     // GIVEN
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
     // WHEN
-    expectAssertionError(() -> arrays.assertEndsWith(INFO, array("Yoda", "Luke", "Leia", "Obi-Wan"), "Luke", sequence));
+    var error = expectAssertionError(() -> arrays.assertEndsWith(INFO, array("Yoda", "Luke", "Leia", "Obi-Wan"), "Luke",
+                                                                 sequence));
     // THEN
-    verifyFailureThrownWhenSequenceNotFound("Luke", sequence);
-  }
-
-  private void verifyFailureThrownWhenSequenceNotFound(Object first, Object[] sequence) {
-    verify(failures).failure(INFO, shouldEndWith(array("Yoda", "Luke", "Leia", "Obi-Wan"), prepend(first, sequence)));
+    then(error).hasMessage(shouldEndWith(array("Yoda", "Luke", "Leia", "Obi-Wan"), prepend("Luke", sequence)).create());
   }
 
   @Test
@@ -92,10 +101,9 @@ class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBaseTest 
     String[] actual = array("Yoda", "Luke", "Leia", "Obi-Wan");
     Object[] sequence = { "LUKE", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(INFO, actual, "Yoda", sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(INFO, actual, "Yoda", sequence));
     // THEN
-    verify(failures).failure(INFO, shouldEndWith(actual, prepend("Yoda", sequence),
-                                                 caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldEndWith(actual, prepend("Yoda", sequence), caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test
@@ -104,10 +112,9 @@ class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBaseTest 
     String[] actual = array("Yoda", "Luke", "Leia", "Obi-Wan");
     Object[] sequence = { "Han", "C-3PO" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(INFO, actual, "Yoda", sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(INFO, actual, "Yoda", sequence));
     // THEN
-    verify(failures).failure(INFO, shouldEndWith(actual, prepend("Yoda", sequence),
-                                                 caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldEndWith(actual, prepend("Yoda", sequence), caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test
@@ -115,11 +122,13 @@ class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBaseTest 
     // GIVEN
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
     // WHEN
-    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(INFO, array("Yoda", "Luke", "Leia", "Obi-Wan"),
-                                                                                 "Luke", sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(INFO,
+                                                                                             array("Yoda", "Luke", "Leia",
+                                                                                                   "Obi-Wan"),
+                                                                                             "Luke", sequence));
     // THEN
-    verify(failures).failure(INFO, shouldEndWith(array("Yoda", "Luke", "Leia", "Obi-Wan"), prepend("Luke", sequence),
-                                                 caseInsensitiveStringComparisonStrategy));
+    then(error).hasMessage(shouldEndWith(array("Yoda", "Luke", "Leia", "Obi-Wan"), prepend("Luke", sequence),
+                                         caseInsensitiveStringComparisonStrategy).create());
   }
 
   @Test

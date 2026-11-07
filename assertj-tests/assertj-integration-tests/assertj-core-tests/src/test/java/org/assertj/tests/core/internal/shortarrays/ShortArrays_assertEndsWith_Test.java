@@ -15,20 +15,21 @@
  */
 package org.assertj.tests.core.internal.shortarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
 import static org.assertj.tests.core.testkit.ShortArrays.emptyArray;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ShortArrays;
+import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -37,12 +38,12 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Florent Biville
  */
-class ShortArrays_assertEndsWith_Test extends ShortArraysBaseTest {
+class ShortArrays_assertEndsWith_Test {
 
-  @Override
-  protected void initActualArray() {
-    actual = arrayOf(6, 8, 10, 12);
-  }
+  private short[] actual = arrayOf(6, 8, 10, 12);
+  private final ShortArrays arrays = ShortArrays.instance();
+  private final ComparatorBasedComparisonStrategy absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<>());
+  private final ShortArrays arraysWithCustomComparisonStrategy = new ShortArrays(absValueComparisonStrategy);
 
   @Test
   void should_throw_error_if_sequence_is_null() {
@@ -72,10 +73,9 @@ class ShortArrays_assertEndsWith_Test extends ShortArraysBaseTest {
     AssertionInfo info = someInfo();
     short[] sequence = { 6, 8, 10, 12, 20, 22 };
 
-    Throwable error = catchThrowable(() -> arrays.assertEndsWith(info, actual, sequence));
+    var error = expectAssertionError(() -> arrays.assertEndsWith(info, actual, sequence));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldEndWith(actual, sequence));
+    then(error).hasMessage(shouldEndWith(actual, sequence).create());
   }
 
   @Test
@@ -83,10 +83,9 @@ class ShortArrays_assertEndsWith_Test extends ShortArraysBaseTest {
     AssertionInfo info = someInfo();
     short[] sequence = { 20, 22 };
 
-    Throwable error = catchThrowable(() -> arrays.assertEndsWith(info, actual, sequence));
+    var error = expectAssertionError(() -> arrays.assertEndsWith(info, actual, sequence));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldEndWith(actual, sequence));
+    then(error).hasMessage(shouldEndWith(actual, sequence).create());
   }
 
   @Test
@@ -94,10 +93,9 @@ class ShortArrays_assertEndsWith_Test extends ShortArraysBaseTest {
     AssertionInfo info = someInfo();
     short[] sequence = { 6, 20, 22 };
 
-    Throwable error = catchThrowable(() -> arrays.assertEndsWith(info, actual, sequence));
+    var error = expectAssertionError(() -> arrays.assertEndsWith(info, actual, sequence));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldEndWith(actual, sequence));
+    then(error).hasMessage(shouldEndWith(actual, sequence).create());
   }
 
   @Test
@@ -135,10 +133,9 @@ class ShortArrays_assertEndsWith_Test extends ShortArraysBaseTest {
     AssertionInfo info = someInfo();
     short[] sequence = { 6, -8, 10, 12, 20, 22 };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
+    then(error).hasMessage(shouldEndWith(actual, sequence, absValueComparisonStrategy).create());
   }
 
   @Test
@@ -146,10 +143,9 @@ class ShortArrays_assertEndsWith_Test extends ShortArraysBaseTest {
     AssertionInfo info = someInfo();
     short[] sequence = { 20, 22 };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
+    then(error).hasMessage(shouldEndWith(actual, sequence, absValueComparisonStrategy).create());
   }
 
   @Test
@@ -157,10 +153,9 @@ class ShortArrays_assertEndsWith_Test extends ShortArraysBaseTest {
     AssertionInfo info = someInfo();
     short[] sequence = { 6, 20, 22 };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
+    then(error).hasMessage(shouldEndWith(actual, sequence, absValueComparisonStrategy).create());
   }
 
   @Test

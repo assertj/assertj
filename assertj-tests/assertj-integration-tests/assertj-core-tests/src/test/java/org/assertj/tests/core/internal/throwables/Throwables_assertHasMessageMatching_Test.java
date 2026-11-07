@@ -19,17 +19,23 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveMessageMatchingRegex.shouldHaveMessageMatchingRegex;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import java.util.regex.Pattern;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Throwables;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Libor Ondrusek
  */
-class Throwables_assertHasMessageMatching_Test extends ThrowablesBaseTest {
+class Throwables_assertHasMessageMatching_Test {
+
+  private static final AssertionInfo INFO = someInfo();
+  private final Throwables throwables = Throwables.instance();
+  private Throwable actual = new NullPointerException("Throwable message");
 
   public static final String REGEX = "Given id='\\d{2,4}' not exists";
 
@@ -48,9 +54,9 @@ class Throwables_assertHasMessageMatching_Test extends ThrowablesBaseTest {
   @Test
   void should_fail_if_throwable_message_does_not_match_given_regex() {
     // WHEN
-    expectAssertionError(() -> throwables.assertHasMessageMatching(INFO, actual, REGEX));
+    var error = expectAssertionError(() -> throwables.assertHasMessageMatching(INFO, actual, REGEX));
     // THEN
-    verify(failures).failure(INFO, shouldHaveMessageMatchingRegex(actual, REGEX));
+    then(error).hasMessage(shouldHaveMessageMatchingRegex(actual, REGEX).create());
   }
 
   @Test
@@ -78,9 +84,9 @@ class Throwables_assertHasMessageMatching_Test extends ThrowablesBaseTest {
     // GIVEN
     actual = new RuntimeException();
     // WHEN
-    expectAssertionError(() -> throwables.assertHasMessageMatching(INFO, actual, REGEX));
+    var error = expectAssertionError(() -> throwables.assertHasMessageMatching(INFO, actual, REGEX));
     // THEN
-    verify(failures).failure(INFO, shouldHaveMessageMatchingRegex(actual, REGEX));
+    then(error).hasMessage(shouldHaveMessageMatchingRegex(actual, REGEX).create());
   }
 
 }

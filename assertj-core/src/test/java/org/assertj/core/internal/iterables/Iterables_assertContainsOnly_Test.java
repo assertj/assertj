@@ -27,7 +27,6 @@ import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
-import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 
@@ -84,9 +83,9 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     Object[] expected = array("Luke", "Yoda", "Leia");
     actual.clear();
     // WHEN
-    expectAssertionError(() -> iterables.assertContainsOnly(someInfo(), actual, expected));
+    var error = expectAssertionError(() -> iterables.assertContainsOnly(someInfo(), actual, expected));
     // THEN
-    verify(failures).failure(info, shouldContainOnly(actual, expected, list("Luke", "Yoda", "Leia"), emptyList()));
+    then(error).hasMessage(shouldContainOnly(actual, expected, list("Luke", "Yoda", "Leia"), emptyList()).create());
   }
 
   @Test
@@ -94,9 +93,9 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     // GIVEN
     Object[] expected = emptyArray();
     // WHEN
-    expectAssertionError(() -> iterables.assertContainsOnly(someInfo(), actual, expected));
+    var error = expectAssertionError(() -> iterables.assertContainsOnly(someInfo(), actual, expected));
     // THEN
-    verify(failures).failure(info, shouldContainOnly(actual, expected, emptyList(), list("Luke", "Yoda", "Leia")));
+    then(error).hasMessage(shouldContainOnly(actual, expected, emptyList(), list("Luke", "Yoda", "Leia")).create());
   }
 
   @Test
@@ -124,9 +123,9 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     // GIVEN
     Object[] expected = { "Luke", "Yoda", "Han" };
     // WHEN
-    expectAssertionError(() -> iterables.assertContainsOnly(info, actual, expected));
+    var error = expectAssertionError(() -> iterables.assertContainsOnly(info, actual, expected));
     // THEN
-    verify(failures).failure(info, shouldContainOnly(actual, expected, list("Han"), list("Leia")));
+    then(error).hasMessage(shouldContainOnly(actual, expected, list("Han"), list("Leia")).create());
   }
 
   @Test
@@ -134,9 +133,9 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     // GIVEN
     Object[] expected = { "Luke", "Yoda" };
     // WHEN
-    expectAssertionError(() -> iterables.assertContainsOnly(info, actual, expected));
+    var error = expectAssertionError(() -> iterables.assertContainsOnly(info, actual, expected));
     // THEN
-    verify(failures).failure(info, shouldContainOnly(actual, expected, emptyList(), list("Leia")));
+    then(error).hasMessage(shouldContainOnly(actual, expected, emptyList(), list("Leia")).create());
   }
 
   @Test
@@ -144,9 +143,9 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     // GIVEN
     Object[] expected = { "Luke", "Yoda", "Obiwan", "Leia" };
     // WHEN
-    expectAssertionError(() -> iterables.assertContainsOnly(info, actual, expected));
+    var error = expectAssertionError(() -> iterables.assertContainsOnly(info, actual, expected));
     // THEN
-    verify(failures).failure(info, shouldContainOnly(actual, expected, list("Obiwan"), emptyList()));
+    then(error).hasMessage(shouldContainOnly(actual, expected, list("Obiwan"), emptyList()).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -181,9 +180,10 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     // GIVEN
     Object[] expected = { "Luke", "Yoda", "Han" };
     // WHEN
-    expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(info, actual, expected));
+    var error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(info, actual,
+                                                                                                             expected));
     // THEN
-    verify(failures).failure(info, shouldContainOnly(actual, expected, list("Han"), list("Leia"), comparisonStrategy));
+    then(error).hasMessage(shouldContainOnly(actual, expected, list("Han"), list("Leia"), comparisonStrategy).create());
   }
 
   @Test

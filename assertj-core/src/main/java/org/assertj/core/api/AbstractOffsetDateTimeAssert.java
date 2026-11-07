@@ -32,8 +32,8 @@ import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.data.TemporalUnitOffset;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Comparables;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
 
@@ -619,7 +619,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
       Objects.instance().assertNotNull(info, actual);
       assertOffsetDateTimeParameterIsNotNull(other);
       if (!areEqualIgnoringTimezone(actual, other)) {
-        throw Failures.instance().failure(info, shouldBeEqualIgnoringTimezone(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeEqualIgnoringTimezone(actual, other));
       }
     });
   }
@@ -641,7 +641,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
     return executeAssertion(() -> {
       Objects.instance().assertNotNull(info, actual);
       if (!actual.isBefore(OffsetDateTime.now(actual.getOffset())))
-        throw Failures.instance().failure(info, shouldBeInThePast(actual));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeInThePast(actual));
     });
   }
 
@@ -662,7 +662,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
     return executeAssertion(() -> {
       Objects.instance().assertNotNull(info, actual);
       if (!actual.isAfter(OffsetDateTime.now(actual.getOffset())))
-        throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeInTheFuture(actual));
     });
   }
 
@@ -871,7 +871,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
       Objects.instance().assertNotNull(info, actual);
       assertOffsetDateTimeParameterIsNotNull(other);
       if (!actual.toInstant().equals(other.toInstant()))
-        throw Failures.instance().failure(info, shouldBeAtSameInstant(actual, other));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeAtSameInstant(actual, other));
     });
   }
 

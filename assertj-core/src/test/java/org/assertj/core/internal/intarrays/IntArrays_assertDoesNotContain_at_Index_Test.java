@@ -15,17 +15,16 @@
  */
 package org.assertj.core.internal.intarrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.testkit.IntArrays.emptyArray;
 import static org.assertj.core.testkit.TestData.someIndex;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
@@ -71,13 +70,13 @@ class IntArrays_assertDoesNotContain_at_Index_Test extends IntArraysBaseTest {
 
   @Test
   void should_fail_if_actual_contains_value_at_index() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Index index = atIndex(0);
-
-    Throwable error = catchThrowable(() -> arrays.assertDoesNotContain(info, actual, 6, index));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContainAtIndex(actual, 6, index));
+    // WHEN
+    var error = expectAssertionError(() -> arrays.assertDoesNotContain(info, actual, 6, index));
+    // THEN
+    then(error).hasMessage(shouldNotContainAtIndex(actual, 6, index).create());
   }
 
   @Test
@@ -114,12 +113,12 @@ class IntArrays_assertDoesNotContain_at_Index_Test extends IntArraysBaseTest {
 
   @Test
   void should_fail_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Index index = atIndex(0);
-
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, 6, index));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContainAtIndex(actual, 6, index, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, 6, index));
+    // THEN
+    then(error).hasMessage(shouldNotContainAtIndex(actual, 6, index, absValueComparisonStrategy).create());
   }
 }

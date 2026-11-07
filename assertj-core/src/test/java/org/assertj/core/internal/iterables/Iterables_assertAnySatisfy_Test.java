@@ -19,7 +19,6 @@ import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
 import static org.assertj.core.testkit.TestData.someInfo;
@@ -112,11 +111,9 @@ class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
   void should_fail_if_the_iterable_under_test_is_empty_whatever_the_assertions_requirements_are() {
     actual.clear();
 
-    Throwable error = catchThrowable(() -> iterables.assertAnySatisfy(someInfo(), actual, $ -> assertThat(true).isTrue()));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    var error = expectAssertionError(() -> iterables.assertAnySatisfy(someInfo(), actual, $ -> assertThat(true).isTrue()));
     List<UnsatisfiedRequirement> errors = emptyList();
-    verify(failures).failure(info, elementsShouldSatisfyAny(actual, errors, someInfo()));
+    then(error).hasMessage(elementsShouldSatisfyAny(actual, errors, someInfo()).create());
   }
 
   @Test

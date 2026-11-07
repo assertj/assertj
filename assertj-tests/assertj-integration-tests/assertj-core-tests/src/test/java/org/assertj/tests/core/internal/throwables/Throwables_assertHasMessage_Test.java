@@ -18,12 +18,18 @@ package org.assertj.tests.core.internal.throwables;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Throwables;
 import org.junit.jupiter.api.Test;
 
-class Throwables_assertHasMessage_Test extends ThrowablesBaseTest {
+class Throwables_assertHasMessage_Test {
+
+  private static final AssertionInfo INFO = someInfo();
+  private final Throwables throwables = Throwables.instance();
+  private Throwable actual = new NullPointerException("Throwable message");
 
   @Test
   void should_pass_if_actual_has_expected_message() {
@@ -45,8 +51,8 @@ class Throwables_assertHasMessage_Test extends ThrowablesBaseTest {
     // GIVEN
     String expectedMessage = "expected message";
     // WHEN
-    expectAssertionError(() -> throwables.assertHasMessage(INFO, actual, expectedMessage));
+    var error = expectAssertionError(() -> throwables.assertHasMessage(INFO, actual, expectedMessage));
     // THEN
-    verify(failures).failure(INFO, shouldHaveMessage(actual, expectedMessage), "Throwable message", expectedMessage);
+    then(error).hasMessage(shouldHaveMessage(actual, expectedMessage).create());
   }
 }

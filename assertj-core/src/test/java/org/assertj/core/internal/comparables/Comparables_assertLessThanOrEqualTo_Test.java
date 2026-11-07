@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.comparables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 
@@ -59,12 +58,13 @@ class Comparables_assertLessThanOrEqualTo_Test extends ComparablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_greater_than_other() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> comparables.assertLessThanOrEqualTo(info, 8, 6));
 
-    Throwable error = catchThrowable(() -> comparables.assertLessThanOrEqualTo(info, 8, 6));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLessOrEqual(8, 6));
+    // THEN
+    then(error).hasMessage(shouldBeLessOrEqual(8, 6).create());
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -83,12 +83,13 @@ class Comparables_assertLessThanOrEqualTo_Test extends ComparablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
+    // WHEN
+    var error = expectAssertionError(() -> comparablesWithCustomComparisonStrategy.assertLessThanOrEqualTo(info, -8, 6));
 
-    Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertLessThanOrEqualTo(info, -8, 6));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeLessOrEqual(-8, 6, customComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeLessOrEqual(-8, 6, customComparisonStrategy).create());
   }
 
 }

@@ -34,6 +34,6 @@ class Object2DArrays_assertNullOrEmpty_Test extends Object2DArraysBaseTest {
     // WHEN
     object2dArrays.assertNullOrEmpty(info, actual);
     // THEN
-    verify(arrays2d).assertNullOrEmpty(info, failures, actual);
+    verify(arrays2d).assertNullOrEmpty(info, assertionErrorCreator, actual);
   }
 }

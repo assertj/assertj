@@ -170,11 +170,12 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
       // at this point, both actual and expected are not null, we can compare them recursively!
       List<ComparisonDifference> differences = determineDifferencesWith(expected);
       if (!differences.isEmpty())
-        throw objects.getFailures().failure(info, shouldBeEqualByComparingFieldByFieldRecursively(actual,
-                                                                                                  expected,
-                                                                                                  differences,
-                                                                                                  recursiveComparisonConfiguration,
-                                                                                                  info.representation()));
+        throw objects.getAssertionErrorCreator().assertionError(info,
+                                                                shouldBeEqualByComparingFieldByFieldRecursively(actual,
+                                                                                                                expected,
+                                                                                                                differences,
+                                                                                                                recursiveComparisonConfiguration,
+                                                                                                                info.representation()));
     });
   }
 
@@ -219,15 +220,19 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   public SELF isNotEqualTo(Object other) {
     return executeAssertion(() -> {
       if (actual == other)
-        throw objects.getFailures().failure(info, shouldNotBeEqualComparingFieldByFieldRecursively(actual, other,
-                                                                                                   recursiveComparisonConfiguration,
-                                                                                                   info.representation()));
+        throw objects.getAssertionErrorCreator().assertionError(info,
+                                                                shouldNotBeEqualComparingFieldByFieldRecursively(actual,
+                                                                                                                 other,
+                                                                                                                 recursiveComparisonConfiguration,
+                                                                                                                 info.representation()));
       if (other != null && actual != null) {
         List<ComparisonDifference> differences = determineDifferencesWith(other);
         if (differences.isEmpty())
-          throw objects.getFailures().failure(info, shouldNotBeEqualComparingFieldByFieldRecursively(actual, other,
-                                                                                                     recursiveComparisonConfiguration,
-                                                                                                     info.representation()));
+          throw objects.getAssertionErrorCreator().assertionError(info,
+                                                                  shouldNotBeEqualComparingFieldByFieldRecursively(actual,
+                                                                                                                   other,
+                                                                                                                   recursiveComparisonConfiguration,
+                                                                                                                   info.representation()));
       }
       // either actual or other was null (but not both) or there were no differences
     });

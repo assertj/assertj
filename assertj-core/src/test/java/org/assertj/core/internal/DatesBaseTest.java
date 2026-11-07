@@ -27,13 +27,14 @@ import java.util.Date;
 
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.util.YearAndMonthComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for {@link Dates} unit tests
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Dates#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Dates#assertionErrorCreator} appropriately.
  *
  * @author Joel Costigliola
  */
@@ -41,7 +42,7 @@ public abstract class DatesBaseTest {
 
   protected static final WritableAssertionInfo INFO = someInfo();
 
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected Dates dates;
   protected ComparatorBasedComparisonStrategy yearAndMonthComparisonStrategy;
   protected Dates datesWithCustomComparisonStrategy;
@@ -53,12 +54,12 @@ public abstract class DatesBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     dates = new Dates();
-    dates.failures = failures;
+    dates.assertionErrorCreator = assertionErrorCreator;
     yearAndMonthComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
     datesWithCustomComparisonStrategy = new Dates(yearAndMonthComparisonStrategy);
-    datesWithCustomComparisonStrategy.failures = failures;
+    datesWithCustomComparisonStrategy.assertionErrorCreator = assertionErrorCreator;
     initActualDate();
   }
 

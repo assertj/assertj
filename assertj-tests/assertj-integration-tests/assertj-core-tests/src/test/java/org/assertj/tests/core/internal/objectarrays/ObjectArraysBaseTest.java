@@ -24,9 +24,9 @@ import java.util.Comparator;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Arrays;
 import org.assertj.core.internal.Conditions;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
 import org.assertj.tests.core.testkit.TestData;
@@ -47,7 +47,7 @@ public class ObjectArraysBaseTest {
    * is initialized with {@link #initActualArray()}
    */
   protected String[] actual;
-  protected Failures failures;
+  protected AssertionErrorCreator assertionErrorCreator;
   protected ObjectArrays arrays;
   protected Conditions conditions;
 
@@ -56,13 +56,13 @@ public class ObjectArraysBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(Failures.instance());
+    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     arrays = new ObjectArrays(StandardComparisonStrategy.instance());
-    writeField(arrays, "failures", failures);
+    writeField(arrays, "assertionErrorCreator", assertionErrorCreator);
 
     caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
     arraysWithCustomComparisonStrategy = new ObjectArrays(caseInsensitiveStringComparisonStrategy);
-    writeField(arraysWithCustomComparisonStrategy, "failures", failures);
+    writeField(arraysWithCustomComparisonStrategy, "assertionErrorCreator", assertionErrorCreator);
     conditions = spy(Conditions.instance());
     writeField(arrays, "conditions", conditions);
     initActualArray();

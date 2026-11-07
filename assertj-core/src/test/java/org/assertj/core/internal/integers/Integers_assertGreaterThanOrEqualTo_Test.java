@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.integers;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Integers;
@@ -53,13 +52,12 @@ class Integers_assertGreaterThanOrEqualTo_Test extends IntegersBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_less_than_other() {
+  void should_fail_if_actual_is_less_than_other() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> integers.assertGreaterThanOrEqualTo(info, 6, 8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreaterOrEqual(6, 8));
+    // WHEN
+    var error = expectAssertionError(() -> integers.assertGreaterThanOrEqualTo(info, 6, 8));
+    // THEN
+    then(error).hasMessage(shouldBeGreaterOrEqual(6, 8).create());
   }
 
   @Test
@@ -81,12 +79,11 @@ class Integers_assertGreaterThanOrEqualTo_Test extends IntegersBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> integersWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, 6, -8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeGreaterOrEqual(6, -8, absValueComparisonStrategy));
+    // WHEN
+    var error = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, 6, -8));
+    // THEN
+    then(error).hasMessage(shouldBeGreaterOrEqual(6, -8, absValueComparisonStrategy).create());
   }
 }

@@ -772,8 +772,8 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     TolkienHero samnullGamgee = null;
     TolkienSoftAssertions softly = new TolkienSoftAssertions();
     // WHEN
-    softly.then(frodo).hasAge(10); // Expect failure - age will be 0 due to not being initialized.
-    softly.then(samnullGamgee).hasAge(11); // Expect failure - argument is null.
+    softly.then(frodo).hasAge(10); // Expect assertionError - age will be 0 due to not being initialized.
+    softly.then(samnullGamgee).hasAge(11); // Expect assertionError - argument is null.
     // THEN
     assertThat(softly.errorsCollected()).hasSize(2);
   }

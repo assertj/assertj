@@ -19,10 +19,8 @@ import static org.assertj.core.api.BDDAssertions.then;
 
 import org.assertj.core.api.ConcreteAssert;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("AbstractAssert#failure")
 class AbstractAssert_failure_Test {
 
   private ConcreteAssert assertion;

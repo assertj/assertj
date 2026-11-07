@@ -15,16 +15,15 @@
  */
 package org.assertj.core.internal.dates;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.DateUtil.monthOf;
 import static org.assertj.core.util.DateUtil.tomorrow;
 import static org.assertj.core.util.DateUtil.yesterday;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
@@ -42,13 +41,14 @@ class Dates_assertIsToday_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_today() {
+    // GIVEN
     AssertionInfo info = someInfo();
     actual = parseDate("2111-01-01");
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertIsToday(info, actual));
 
-    Throwable error = catchThrowable(() -> dates.assertIsToday(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeToday(actual));
+    // THEN
+    then(error).hasMessage(shouldBeToday(actual).create());
   }
 
   @Test
@@ -64,13 +64,14 @@ class Dates_assertIsToday_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_today_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     actual = parseDate("2111-01-01");
+    // WHEN
+    var error = expectAssertionError(() -> datesWithCustomComparisonStrategy.assertIsToday(info, actual));
 
-    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsToday(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeToday(actual, yearAndMonthComparisonStrategy));
+    // THEN
+    then(error).hasMessage(shouldBeToday(actual, yearAndMonthComparisonStrategy).create());
   }
 
   @Test

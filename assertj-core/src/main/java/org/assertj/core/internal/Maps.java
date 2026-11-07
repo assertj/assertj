@@ -74,6 +74,7 @@ import java.util.function.Supplier;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.MapEntry;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.UnsatisfiedRequirement;
 
 /**
@@ -100,7 +101,7 @@ public class Maps {
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Failures failures = Failures.instance();
+  AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Conditions conditions = Conditions.instance();
@@ -124,7 +125,7 @@ public class Maps {
                                                                  .flatMap(Optional::stream)
                                                                  .collect(toList());
     if (!unsatisfiedRequirements.isEmpty())
-      throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
+      throw assertionErrorCreator.assertionError(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
   }
 
   private static <K, V> Optional<UnsatisfiedRequirement> failsRequirements(BiConsumer<? super K, ? super V> entryRequirements,
@@ -158,7 +159,7 @@ public class Maps {
       unsatisfiedRequirements.add(result.get());
     }
 
-    throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements, info));
+    throw assertionErrorCreator.assertionError(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements, info));
   }
 
   /**
@@ -179,7 +180,8 @@ public class Maps {
                                                .flatMap(Optional::stream)
                                                .collect(toList());
 
-    if (!erroneousEntries.isEmpty()) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousEntries));
+    if (!erroneousEntries.isEmpty())
+      throw assertionErrorCreator.assertionError(info, noElementsShouldSatisfy(actual, erroneousEntries));
   }
 
   private <V, K> Optional<Entry<K, V>> failsRestrictions(Entry<K, V> entry,
@@ -201,7 +203,7 @@ public class Maps {
    * @param actual the actual map
    */
   public void assertNullOrEmpty(AssertionInfo info, Map<?, ?> actual) {
-    if (actual != null && !actual.isEmpty()) throw failures.failure(info, shouldBeNullOrEmpty(actual));
+    if (actual != null && !actual.isEmpty()) throw assertionErrorCreator.assertionError(info, shouldBeNullOrEmpty(actual));
   }
 
   /**
@@ -212,7 +214,7 @@ public class Maps {
    */
   public void assertEmpty(AssertionInfo info, Map<?, ?> actual) {
     assertNotNull(info, actual);
-    if (!actual.isEmpty()) throw failures.failure(info, shouldBeEmpty(actual));
+    if (!actual.isEmpty()) throw assertionErrorCreator.assertionError(info, shouldBeEmpty(actual));
   }
 
   /**
@@ -223,7 +225,7 @@ public class Maps {
    */
   public void assertNotEmpty(AssertionInfo info, Map<?, ?> actual) {
     assertNotNull(info, actual);
-    if (actual.isEmpty()) throw failures.failure(info, shouldNotBeEmpty());
+    if (actual.isEmpty()) throw assertionErrorCreator.assertionError(info, shouldNotBeEmpty());
   }
 
   /**
@@ -396,7 +398,7 @@ public class Maps {
     for (Entry<? extends K, ? extends V> entry : entries) {
       if (containsEntry(actual, entry, valueEquals)) return;
     }
-    throw failures.failure(info, shouldContainAnyOf(actual, entries));
+    throw assertionErrorCreator.assertionError(info, shouldContainAnyOf(actual, entries));
   }
 
   /**
@@ -413,7 +415,8 @@ public class Maps {
     assertContainsKey(info, actual, key);
     conditions.assertIsNotNull(valueCondition);
     V value = actual.get(key);
-    if (!valueCondition.matches(value)) throw failures.failure(info, elementsShouldBe(actual, value, valueCondition));
+    if (!valueCondition.matches(value))
+      throw assertionErrorCreator.assertionError(info, elementsShouldBe(actual, value, valueCondition));
   }
 
   /**
@@ -451,7 +454,7 @@ public class Maps {
       if (entryCondition.matches(entry)) return;
     }
 
-    throw failures.failure(info, shouldContainEntry(actual, entryCondition));
+    throw assertionErrorCreator.assertionError(info, shouldContainEntry(actual, entryCondition));
   }
 
   /**
@@ -474,7 +477,7 @@ public class Maps {
       if (keyCondition.matches(entry.getKey()) && valueCondition.matches(entry.getValue())) return;
     }
 
-    throw failures.failure(info, shouldContainEntry(actual, keyCondition, valueCondition));
+    throw assertionErrorCreator.assertionError(info, shouldContainEntry(actual, keyCondition, valueCondition));
   }
 
   /**
@@ -493,7 +496,7 @@ public class Maps {
       if (keyCondition.matches(key)) return;
     }
 
-    throw failures.failure(info, shouldContainKey(actual, keyCondition));
+    throw assertionErrorCreator.assertionError(info, shouldContainKey(actual, keyCondition));
   }
 
   /**
@@ -512,7 +515,7 @@ public class Maps {
       if (valueCondition.matches(value)) return;
     }
 
-    throw failures.failure(info, shouldContainValue(actual, valueCondition));
+    throw assertionErrorCreator.assertionError(info, shouldContainValue(actual, valueCondition));
   }
 
   /**
@@ -535,7 +538,7 @@ public class Maps {
         found.add(entry);
       }
     }
-    if (!found.isEmpty()) throw failures.failure(info, shouldNotContain(actual, entries, found));
+    if (!found.isEmpty()) throw assertionErrorCreator.assertionError(info, shouldNotContain(actual, entries, found));
   }
 
   /**
@@ -554,7 +557,7 @@ public class Maps {
     failIfEmpty(keys, () -> keysToLookForIsEmpty("array of keys"));
 
     Set<K> notFound = getNotFoundKeys(actual, keys);
-    if (!notFound.isEmpty()) throw failures.failure(info, shouldContainKeys(actual, notFound));
+    if (!notFound.isEmpty()) throw assertionErrorCreator.assertionError(info, shouldContainKeys(actual, notFound));
   }
 
   /**
@@ -581,7 +584,7 @@ public class Maps {
    */
   public <K, V> void assertDoesNotContainKey(AssertionInfo info, Map<K, V> actual, K key) {
     assertNotNull(info, actual);
-    if (containsKey(actual, key)) throw failures.failure(info, shouldNotContainKey(actual, key));
+    if (containsKey(actual, key)) throw assertionErrorCreator.assertionError(info, shouldNotContainKey(actual, key));
   }
 
   /**
@@ -597,7 +600,7 @@ public class Maps {
     assertNotNull(info, actual);
     requireNonNull(keys, () -> keysToLookForIsNull("array of keys"));
     Set<K> found = getFoundKeys(actual, keys);
-    if (!found.isEmpty()) throw failures.failure(info, shouldNotContainKeys(actual, found));
+    if (!found.isEmpty()) throw assertionErrorCreator.assertionError(info, shouldNotContainKeys(actual, found));
   }
 
   /**
@@ -638,7 +641,7 @@ public class Maps {
     Set<K> notExpected = getNotExpectedKeys(actual, keys);
 
     if (!notFound.isEmpty() || !notExpected.isEmpty())
-      throw failures.failure(info, shouldContainOnlyKeys(actual, keys, notFound, notExpected));
+      throw assertionErrorCreator.assertionError(info, shouldContainOnlyKeys(actual, keys, notFound, notExpected));
   }
 
   private static <K> Set<K> getFoundKeys(Map<K, ?> actual, K[] expectedKeys) {
@@ -735,7 +738,8 @@ public class Maps {
   public <K, V> void assertContainsValue(AssertionInfo info, Map<K, V> actual, V value,
                                          BiPredicate<? super V, ? super V> valueEquals) {
     assertNotNull(info, actual);
-    if (!containsValue(actual, value, valueEquals)) throw failures.failure(info, shouldContainValue(actual, value));
+    if (!containsValue(actual, value, valueEquals))
+      throw assertionErrorCreator.assertionError(info, shouldContainValue(actual, value));
   }
 
   /**
@@ -756,7 +760,7 @@ public class Maps {
     failIfEmpty(values, valuesToLookForIsEmpty());
 
     Set<V> notFound = getNotFoundValues(actual, values, valueEquals);
-    if (!notFound.isEmpty()) throw failures.failure(info, shouldContainValues(actual, notFound));
+    if (!notFound.isEmpty()) throw assertionErrorCreator.assertionError(info, shouldContainValues(actual, notFound));
   }
 
   /**
@@ -772,7 +776,8 @@ public class Maps {
   public <K, V> void assertDoesNotContainValue(AssertionInfo info, Map<K, V> actual, V value,
                                                BiPredicate<? super V, ? super V> valueEquals) {
     assertNotNull(info, actual);
-    if (containsValue(actual, value, valueEquals)) throw failures.failure(info, shouldNotContainValue(actual, value));
+    if (containsValue(actual, value, valueEquals))
+      throw assertionErrorCreator.assertionError(info, shouldNotContainValue(actual, value));
   }
 
   private static <V> Set<V> getNotFoundValues(Map<?, V> actual, V[] expectedValues,
@@ -819,7 +824,7 @@ public class Maps {
     Set<Entry<K, V>> notExpected = getNotExpectedEntries(actual, entries, valueEquals);
 
     if (!(notFound.isEmpty() && notExpected.isEmpty()))
-      throw failures.failure(info, shouldContainOnly(actual, entries, notFound, notExpected));
+      throw assertionErrorCreator.assertionError(info, shouldContainOnly(actual, entries, notFound, notExpected));
   }
 
   private <K, V> Set<Entry<? extends K, ? extends V>> getNotFoundEntries(Map<K, V> actual,
@@ -896,7 +901,7 @@ public class Maps {
       for (K keyFromActual : actual.keySet()) {
         if (!deepEquals(keyFromActual, entries[index].getKey())) {
           Entry<K, V> actualEntry = entry(keyFromActual, actual.get(keyFromActual));
-          throw failures.failure(info, elementsDifferAtIndex(actualEntry, entries[index], index));
+          throw assertionErrorCreator.assertionError(info, elementsDifferAtIndex(actualEntry, entries[index], index));
         }
         index++;
       }
@@ -904,7 +909,7 @@ public class Maps {
       return;
     }
 
-    throw failures.failure(info, shouldContainExactly(actual, asList(entries), notFound, notExpected));
+    throw assertionErrorCreator.assertionError(info, shouldContainExactly(actual, asList(entries), notFound, notExpected));
   }
 
   private <K, V> void compareActualMapAndExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] entries,
@@ -945,8 +950,10 @@ public class Maps {
         entriesWithWrongValue.add(entry); // can only be wrong value since key was found
     }
     if (!entriesWithWrongValue.isEmpty() || !entriesWithKeyNotFound.isEmpty())
-      throw failures.failure(info, shouldContainEntries(actual, entries, entriesWithWrongValue, entriesWithKeyNotFound,
-                                                        info.representation()));
+      throw assertionErrorCreator.assertionError(info,
+                                                 shouldContainEntries(actual, entries, entriesWithWrongValue,
+                                                                      entriesWithKeyNotFound,
+                                                                      info.representation()));
   }
 
   private static <K, V> Map<K, V> entriesToMap(Entry<? extends K, ? extends V>[] entries) {
@@ -1003,7 +1010,7 @@ public class Maps {
   // this should be only called when actual is not empty
   private <K, V> void failIfEntriesIsEmptySinceActualIsNotEmpty(AssertionInfo info, Map<K, V> actual,
                                                                 Entry<? extends K, ? extends V>[] entries) {
-    if (entries.length == 0) throw failures.failure(info, shouldBeEmpty(actual));
+    if (entries.length == 0) throw assertionErrorCreator.assertionError(info, shouldBeEmpty(actual));
   }
 
 }

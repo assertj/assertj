@@ -25,8 +25,8 @@ import java.util.Comparator;
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.TemporalOffset;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Comparables;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
 /**
@@ -82,9 +82,10 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
       requireNonNull(other, "The temporal object to compare actual with should not be null");
       requireNonNull(offset, "The offset should not be null");
       if (offset.isBeyondOffset(actual, other)) {
-        throw Failures.instance().failure(info,
-                                          shouldBeCloseTo(actual, other,
-                                                          offset.getBeyondOffsetDifferenceDescription(actual, other)));
+        throw AssertionErrorCreator.instance().assertionError(info,
+                                                              shouldBeCloseTo(actual, other,
+                                                                              offset.getBeyondOffsetDifferenceDescription(actual,
+                                                                                                                          other)));
       }
     });
   }

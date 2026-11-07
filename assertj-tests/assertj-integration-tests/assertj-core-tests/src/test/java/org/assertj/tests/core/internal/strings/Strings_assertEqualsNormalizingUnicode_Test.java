@@ -16,16 +16,16 @@
 package org.assertj.tests.core.internal.strings;
 
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqualNormalizingUnicode.shouldBeEqualNormalizingUnicode;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.tests.core.internal.StringsBaseTest;
+import org.assertj.core.internal.Strings;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -36,10 +36,11 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author Julieta Navarro
  */
-class Strings_assertEqualsNormalizingUnicode_Test extends StringsBaseTest {
+class Strings_assertEqualsNormalizingUnicode_Test {
   @Test
   void should_fail_if_actual_is_not_null_and_expected_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> strings.assertEqualsToNormalizingUnicode(someInfo(), "\u0041", null))
+    assertThatNullPointerException().isThrownBy(() -> Strings.instance().assertEqualsToNormalizingUnicode(someInfo(), "\u0041",
+                                                                                                          null))
                                     .withMessage(charSequenceToLookForIsNull());
   }
 
@@ -50,15 +51,15 @@ class Strings_assertEqualsNormalizingUnicode_Test extends StringsBaseTest {
     String expected = "\u0062";
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> strings.assertEqualsToNormalizingUnicode(info, actual, expected));
+    var error = expectAssertionError(() -> Strings.instance().assertEqualsToNormalizingUnicode(info, actual, expected));
     // THEN
-    verify(failures).failure(info, shouldBeEqualNormalizingUnicode(actual, expected, "Ä", expected), "Ä", expected);
+    then(error).hasMessage(shouldBeEqualNormalizingUnicode(actual, expected, "Ä", expected).create());
   }
 
   @ParameterizedTest
   @MethodSource("equalNormalizingUnicodeGenerator")
   void should_pass_if_both_Strings_are_equal_after_unicode_is_normalized(String actual, String expected) {
-    strings.assertEqualsToNormalizingUnicode(someInfo(), actual, expected);
+    Strings.instance().assertEqualsToNormalizingUnicode(someInfo(), actual, expected);
   }
 
   public static Stream<Arguments> equalNormalizingUnicodeGenerator() {

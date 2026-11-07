@@ -19,17 +19,22 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveNoCause.shouldHaveNoCause;
 import static org.assertj.core.error.ShouldHaveRootCause.shouldHaveRootCause;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Throwables;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
+class Throwables_assertHasRootCause_Test {
+
+  private static final AssertionInfo INFO = someInfo();
+  private final Throwables throwables = Throwables.instance();
 
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: throwable = {0} / expected root cause = {1}")
@@ -60,9 +65,9 @@ class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
     // GIVEN
     final Throwable throwable = withRootCause(actualRootCause);
     // WHEN
-    expectAssertionError(() -> throwables.assertHasRootCause(INFO, throwable, unexpectedRootCause));
+    var error = expectAssertionError(() -> throwables.assertHasRootCause(INFO, throwable, unexpectedRootCause));
     // THEN
-    verify(failures).failure(INFO, shouldHaveRootCause(throwable, actualRootCause, unexpectedRootCause));
+    then(error).hasMessage(shouldHaveRootCause(throwable, actualRootCause, unexpectedRootCause).create());
   }
 
   // @format:off
@@ -93,9 +98,9 @@ class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
     final Throwable throwable = withRootCause(rootCause);
     final Throwable expected = null;
     // WHEN
-    expectAssertionError(() -> throwables.assertHasRootCause(INFO, throwable, expected));
+    var error = expectAssertionError(() -> throwables.assertHasRootCause(INFO, throwable, expected));
     // THEN
-    verify(failures).failure(INFO, shouldHaveNoCause(throwable));
+    then(error).hasMessage(shouldHaveNoCause(throwable).create());
   }
 
   private static Throwable withRootCause(Throwable rootCause) {

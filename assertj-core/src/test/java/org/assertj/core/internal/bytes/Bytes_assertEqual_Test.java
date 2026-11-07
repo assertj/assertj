@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.bytes;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
@@ -50,12 +49,12 @@ class Bytes_assertEqual_Test extends BytesBaseTest {
 
   @Test
   void should_fail_if_bytes_are_not_equal() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> bytes.assertEqual(info, (byte) 6, (byte) 8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual((byte) 6, (byte) 8, info.representation()));
+    // WHEN
+    var error = expectAssertionError(() -> bytes.assertEqual(info, (byte) 6, (byte) 8));
+    // THEN
+    then(error).hasMessage(shouldBeEqual((byte) 6, (byte) 8, info.representation()).toAssertionError(info).getMessage());
   }
 
   @Test
@@ -73,12 +72,12 @@ class Bytes_assertEqual_Test extends BytesBaseTest {
 
   @Test
   void should_fail_if_bytes_are_not_equal_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> bytesWithAbsValueComparisonStrategy.assertEqual(info, (byte) 6, (byte) 8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual((byte) 6, (byte) 8, absValueComparisonStrategy,
-                                                 new StandardRepresentation()));
+    // WHEN
+    var error = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertEqual(info, (byte) 6, (byte) 8));
+    // THEN
+    then(error).hasMessage(shouldBeEqual((byte) 6, (byte) 8, absValueComparisonStrategy,
+                                         new StandardRepresentation()).toAssertionError(info).getMessage());
   }
 }

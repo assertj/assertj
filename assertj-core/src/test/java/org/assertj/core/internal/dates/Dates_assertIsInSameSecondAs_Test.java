@@ -15,15 +15,14 @@
  */
 package org.assertj.core.internal.dates;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeInSameSecond.shouldBeInSameSecond;
 import static org.assertj.core.internal.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
@@ -46,13 +45,14 @@ class Dates_assertIsInSameSecondAs_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_in_same_second_as_given_date() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T03:15:02");
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertIsInSameSecondAs(info, actual, other));
 
-    Throwable error = catchThrowable(() -> dates.assertIsInSameSecondAs(info, actual, other));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeInSameSecond(actual, other));
+    // THEN
+    then(error).hasMessage(shouldBeInSameSecond(actual, other).create());
   }
 
   @Test
@@ -76,13 +76,14 @@ class Dates_assertIsInSameSecondAs_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_in_same_second_as_given_date_whatever_custom_comparison_strategy_is() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T03:15:02");
+    // WHEN
+    var error = expectAssertionError(() -> datesWithCustomComparisonStrategy.assertIsInSameSecondAs(info, actual, other));
 
-    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsInSameSecondAs(info, actual, other));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeInSameSecond(actual, other));
+    // THEN
+    then(error).hasMessage(shouldBeInSameSecond(actual, other).create());
   }
 
   @Test

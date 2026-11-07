@@ -39,7 +39,7 @@ class DoubleArrays_assertContainsAnyOf_Test extends DoubleArraysBaseTest {
   @Test
   void should_delegate_to_internal_Arrays() {
     arrays.assertContainsAnyOf(someInfo(), actual, new double[] { 1, 2, 3 });
-    verify(internalArrays).assertContainsAnyOf(someInfo(), failures, actual, new double[] { 1, 2, 3 });
+    verify(internalArrays).assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, new double[] { 1, 2, 3 });
   }
 
 }

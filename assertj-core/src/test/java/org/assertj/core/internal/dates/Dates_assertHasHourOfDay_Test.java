@@ -15,13 +15,12 @@
  */
 package org.assertj.core.internal.dates;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
@@ -44,13 +43,14 @@ class Dates_assertHasHourOfDay_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_has_not_given_hour_of_day() {
+    // GIVEN
     AssertionInfo info = someInfo();
     int hour_of_day = 5;
+    // WHEN
+    var error = expectAssertionError(() -> dates.assertHasHourOfDay(info, actual, hour_of_day));
 
-    Throwable error = catchThrowable(() -> dates.assertHasHourOfDay(info, actual, hour_of_day));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveDateField(actual, "hour", hour_of_day));
+    // THEN
+    then(error).hasMessage(shouldHaveDateField(actual, "hour", hour_of_day).create());
   }
 
   @Test
@@ -66,13 +66,14 @@ class Dates_assertHasHourOfDay_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_has_not_given_hour_of_day_whatever_custom_comparison_strategy_is() {
+    // GIVEN
     AssertionInfo info = someInfo();
     int hour_of_day = 5;
+    // WHEN
+    var error = expectAssertionError(() -> datesWithCustomComparisonStrategy.assertHasHourOfDay(info, actual, hour_of_day));
 
-    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertHasHourOfDay(info, actual, hour_of_day));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveDateField(actual, "hour", hour_of_day));
+    // THEN
+    then(error).hasMessage(shouldHaveDateField(actual, "hour", hour_of_day).create());
   }
 
   @Test

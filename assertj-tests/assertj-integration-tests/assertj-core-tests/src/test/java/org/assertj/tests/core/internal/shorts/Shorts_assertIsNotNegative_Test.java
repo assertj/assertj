@@ -19,7 +19,9 @@ import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Shorts;
+import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,22 +29,24 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-class Shorts_assertIsNotNegative_Test extends ShortsBaseTest {
+class Shorts_assertIsNotNegative_Test {
+
+  private final Shorts shortsWithAbsValueComparisonStrategy = new Shorts(new ComparatorBasedComparisonStrategy(new AbsValueComparator<>()));;
 
   @Test
   void should_succeed_since_actual_is_not_negative() {
-    shorts.assertIsNotNegative(someInfo(), (short) 6);
+    Shorts.instance().assertIsNotNegative(someInfo(), (short) 6);
   }
 
   @Test
   void should_succeed_since_actual_is_zero() {
-    shorts.assertIsNotNegative(someInfo(), (short) 0);
+    Shorts.instance().assertIsNotNegative(someInfo(), (short) 0);
   }
 
   @Test
   void should_fail_since_actual_is_negative() {
-    assertThatAssertionErrorIsThrownBy(() -> shorts.assertIsNotNegative(someInfo(), (short) -6))
-                                                                                                .withMessage("%nExpecting actual:%n  -6%nto be greater than or equal to:%n  0%n".formatted());
+    assertThatAssertionErrorIsThrownBy(() -> Shorts.instance().assertIsNotNegative(someInfo(), (short) -6))
+                                                                                                           .withMessage("%nExpecting actual:%n  -6%nto be greater than or equal to:%n  0%n".formatted());
   }
 
   @Test

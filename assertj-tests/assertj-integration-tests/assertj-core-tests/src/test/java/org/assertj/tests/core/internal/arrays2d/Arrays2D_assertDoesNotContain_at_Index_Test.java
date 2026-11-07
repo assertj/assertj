@@ -27,12 +27,12 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.Index;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Arrays2D;
-import org.assertj.core.internal.Failures;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Arrays2D#assertDoesNotContain(AssertionInfo, Failures, Object, Object, Index)}</code>.
+ * Tests for <code>{@link Arrays2D#assertDoesNotContain(AssertionInfo, AssertionErrorCreator, Object, Object, Index)}</code>.
  *
  * @author Maciej Wajcht
  */
@@ -46,7 +46,8 @@ class Arrays2D_assertDoesNotContain_at_Index_Test extends Arrays2D_BaseTest {
     int[][] actual = null;
     int[] expectedElement = { 0, 2, 4 };
     // WHEN
-    ThrowingCallable assertion = () -> arrays.assertDoesNotContain(someInfo(), failures, actual, expectedElement, someIndex());
+    ThrowingCallable assertion = () -> arrays.assertDoesNotContain(someInfo(), assertionErrorCreator, actual, expectedElement,
+                                                                   someIndex());
     var assertionError = expectAssertionError(assertion);
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
@@ -54,12 +55,12 @@ class Arrays2D_assertDoesNotContain_at_Index_Test extends Arrays2D_BaseTest {
 
   @Test
   void should_pass_if_actual_does_not_contain_value_at_Index() {
-    arrays.assertDoesNotContain(someInfo(), failures, actual, new int[] { 0, 2, 4 }, atIndex(1));
+    arrays.assertDoesNotContain(someInfo(), assertionErrorCreator, actual, new int[] { 0, 2, 4 }, atIndex(1));
   }
 
   @Test
   void should_pass_if_actual_is_empty() {
-    arrays.assertDoesNotContain(someInfo(), failures, new int[][] {}, new int[] { 0, 2, 4 }, someIndex());
+    arrays.assertDoesNotContain(someInfo(), assertionErrorCreator, new int[][] {}, new int[] { 0, 2, 4 }, someIndex());
   }
 
   @Test
@@ -67,7 +68,8 @@ class Arrays2D_assertDoesNotContain_at_Index_Test extends Arrays2D_BaseTest {
     // GIVEN
     Index nullIndex = null;
     // WHEN
-    ThrowingCallable assertion = () -> arrays.assertDoesNotContain(someInfo(), failures, actual, new int[] { 0, 2, 4 },
+    ThrowingCallable assertion = () -> arrays.assertDoesNotContain(someInfo(), assertionErrorCreator, actual,
+                                                                   new int[] { 0, 2, 4 },
                                                                    nullIndex);
     // THEN
     assertThatNullPointerException().isThrownBy(assertion)
@@ -76,7 +78,7 @@ class Arrays2D_assertDoesNotContain_at_Index_Test extends Arrays2D_BaseTest {
 
   @Test
   void should_pass_if_Index_is_out_of_bounds() {
-    arrays.assertDoesNotContain(someInfo(), failures, actual, new int[] { 0, 2, 4 }, atIndex(6));
+    arrays.assertDoesNotContain(someInfo(), assertionErrorCreator, actual, new int[] { 0, 2, 4 }, atIndex(6));
   }
 
   @Test
@@ -85,7 +87,8 @@ class Arrays2D_assertDoesNotContain_at_Index_Test extends Arrays2D_BaseTest {
     Index index = atIndex(0);
     int[] expectedElement = { 0, 2, 4 };
     // WHEN
-    ThrowingCallable assertion = () -> arrays.assertDoesNotContain(someInfo(), failures, actual, expectedElement, index);
+    ThrowingCallable assertion = () -> arrays.assertDoesNotContain(someInfo(), assertionErrorCreator, actual, expectedElement,
+                                                                   index);
     var assertionError = expectAssertionError(assertion);
     // THEN
     then(assertionError).hasMessage(shouldNotContainAtIndex(actual, new int[] { 0, 2, 4 }, index).create());

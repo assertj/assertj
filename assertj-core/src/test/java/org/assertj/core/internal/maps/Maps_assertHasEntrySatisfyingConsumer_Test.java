@@ -17,6 +17,7 @@ package org.assertj.core.internal.maps;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
@@ -24,7 +25,6 @@ import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -74,9 +74,10 @@ class Maps_assertHasEntrySatisfyingConsumer_Test extends MapsBaseTest {
     // GIVEN
     String key = "id";
     // WHEN
-    expectAssertionError(() -> maps.assertHasEntrySatisfying(INFO, actual, key, s -> assertThat(s).containsPattern(IS_DIGITS)));
+    var error = expectAssertionError(() -> maps.assertHasEntrySatisfying(INFO, actual, key,
+                                                                         s -> assertThat(s).containsPattern(IS_DIGITS)));
     // THEN
-    verify(failures).failure(INFO, shouldContainKeys(actual, newLinkedHashSet(key)));
+    then(error).hasMessage(shouldContainKeys(actual, newLinkedHashSet(key)).create());
   }
 
   @Test

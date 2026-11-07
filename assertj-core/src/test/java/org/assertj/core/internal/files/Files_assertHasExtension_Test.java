@@ -22,7 +22,6 @@ import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
-import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
@@ -68,9 +67,9 @@ class Files_assertHasExtension_Test extends FilesBaseTest {
     // GIVEN
     File actual = tempDir;
     // WHEN
-    expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expectedExtension));
+    var error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expectedExtension));
     // THEN
-    verify(failures).failure(INFO, shouldBeFile(actual));
+    then(error).hasMessage(shouldBeFile(actual).create());
   }
 
   @Test
@@ -78,9 +77,9 @@ class Files_assertHasExtension_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/file.png");
     // WHEN
-    expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expectedExtension));
+    var error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expectedExtension));
     // THEN
-    verify(failures).failure(INFO, shouldHaveExtension(actual, "png", expectedExtension));
+    then(error).hasMessage(shouldHaveExtension(actual, "png", expectedExtension).create());
   }
 
   @ParameterizedTest

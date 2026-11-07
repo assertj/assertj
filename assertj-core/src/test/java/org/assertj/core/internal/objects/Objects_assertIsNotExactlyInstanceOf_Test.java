@@ -15,12 +15,11 @@
  */
 package org.assertj.core.internal.objects;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeExactlyInstanceOf.shouldNotBeExactlyInstance;
 import static org.assertj.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
@@ -55,9 +54,7 @@ class Objects_assertIsNotExactlyInstanceOf_Test extends ObjectsBaseTest {
   void should_fail_if_actual_is_exactly_instance_of_type() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> objects.assertIsNotExactlyInstanceOf(info, "Yoda", String.class));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeExactlyInstance("Yoda", String.class));
+    var error = expectAssertionError(() -> objects.assertIsNotExactlyInstanceOf(info, "Yoda", String.class));
+    then(error).hasMessage(shouldNotBeExactlyInstance("Yoda", String.class).create());
   }
 }

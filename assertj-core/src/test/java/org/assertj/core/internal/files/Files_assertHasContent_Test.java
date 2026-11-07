@@ -23,7 +23,6 @@ import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -86,9 +85,9 @@ class Files_assertHasContent_Test extends FilesBaseTest {
     // GIVEN
     File notAFile = new File("xyz");
     // WHEN
-    expectAssertionError(() -> underTest.assertHasContent(INFO, notAFile, expected, charset));
+    var error = expectAssertionError(() -> underTest.assertHasContent(INFO, notAFile, expected, charset));
     // THEN
-    verify(failures).failure(INFO, shouldBeFile(notAFile));
+    then(error).hasMessage(shouldBeFile(notAFile).create());
   }
 
   @Test
@@ -115,8 +114,8 @@ class Files_assertHasContent_Test extends FilesBaseTest {
     Diff diff = new Diff();
     List<Delta<String>> diffs = diff.diff(actual, expected, charset);
     // WHEN
-    expectAssertionError(() -> unMockedFiles.assertHasContent(INFO, actual, expected, charset));
+    var error = expectAssertionError(() -> unMockedFiles.assertHasContent(INFO, actual, expected, charset));
     // THEN
-    verify(failures).failure(INFO, shouldHaveContent(actual, charset, diffs));
+    then(error).hasMessage(shouldHaveContent(actual, charset, diffs).create());
   }
 }

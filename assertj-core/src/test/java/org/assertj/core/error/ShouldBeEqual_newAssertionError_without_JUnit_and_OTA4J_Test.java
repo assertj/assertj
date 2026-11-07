@@ -31,7 +31,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.description.Description;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.Representation;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,7 +51,7 @@ class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
 
   @BeforeEach
   public void setUp() throws NoSuchFieldException, IllegalAccessException {
-    Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
+    AssertionErrorCreator.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
     description = new TestDescription("Jedi");
     factory = shouldBeEqual("Luke", "Yoda", STANDARD_REPRESENTATION);
     constructorInvoker = mock(ConstructorInvoker.class);

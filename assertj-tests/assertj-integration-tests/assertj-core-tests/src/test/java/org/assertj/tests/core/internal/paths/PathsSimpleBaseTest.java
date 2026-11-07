@@ -16,16 +16,13 @@
 package org.assertj.tests.core.internal.paths;
 
 import static java.util.Arrays.stream;
-import static org.assertj.tests.core.testkit.FieldTestUtils.writeField;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.spy;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Path;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Paths;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
@@ -40,14 +37,11 @@ public abstract class PathsSimpleBaseTest {
   protected Path tempDir;
 
   protected Paths paths;
-  protected Failures failures;
 
   @BeforeEach
   public void setUp(@TempDir Path tempDir) {
     this.tempDir = tempDir;
-    failures = spy(Failures.instance());
     paths = Paths.instance();
-    writeField(paths, "failures", failures);
   }
 
   Path createDirectory(Path parent, String name, String... files) {

@@ -19,19 +19,20 @@ import static java.lang.Math.abs;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Shorts;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
+class Shorts_assertIsCloseTo_Test {
 
   private static final Short ZERO = 0;
   private static final Short ONE = 1;
@@ -45,8 +46,8 @@ class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
       "0, 2, 5"
   })
   void should_pass_if_difference_is_less_than_given_offset(short actual, short expected, short offset) {
-    shorts.assertIsCloseTo(someInfo(), actual, expected, within(offset));
-    shorts.assertIsCloseTo(someInfo(), actual, expected, byLessThan(offset));
+    Shorts.instance().assertIsCloseTo(someInfo(), actual, expected, within(offset));
+    Shorts.instance().assertIsCloseTo(someInfo(), actual, expected, byLessThan(offset));
   }
 
   @ParameterizedTest
@@ -61,7 +62,7 @@ class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
       "-32768, -32768, 0"
   })
   void should_pass_if_difference_is_equal_to_given_offset(short actual, short expected, short offset) {
-    shorts.assertIsCloseTo(someInfo(), actual, expected, within(offset));
+    Shorts.instance().assertIsCloseTo(someInfo(), actual, expected, within(offset));
   }
 
   @ParameterizedTest
@@ -76,9 +77,9 @@ class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> shorts.assertIsCloseTo(info, actual, expected, within(offset)));
+    var error = expectAssertionError(() -> Shorts.instance().assertIsCloseTo(info, actual, expected, within(offset)));
     // THEN
-    verify(failures).failure(info, shouldBeEqual(actual, expected, within(offset), (short) abs(actual - expected)));
+    then(error).hasMessage(shouldBeEqual(actual, expected, within(offset), (short) abs(actual - expected)).create());
   }
 
   @ParameterizedTest
@@ -93,24 +94,24 @@ class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> shorts.assertIsCloseTo(info, actual, expected, byLessThan(offset)));
+    var error = expectAssertionError(() -> Shorts.instance().assertIsCloseTo(info, actual, expected, byLessThan(offset)));
     // THEN
-    verify(failures).failure(info, shouldBeEqual(actual, expected, byLessThan(offset), (short) abs(actual - expected)));
+    then(error).hasMessage(shouldBeEqual(actual, expected, byLessThan(offset), (short) abs(actual - expected)).create());
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatAssertionErrorIsThrownBy(() -> shorts.assertIsCloseTo(someInfo(), null, ONE,
-                                                                    within(ONE))).withMessage(actualIsNull());
+    assertThatAssertionErrorIsThrownBy(() -> Shorts.instance().assertIsCloseTo(someInfo(), null, ONE,
+                                                                               within(ONE))).withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_expected_value_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> shorts.assertIsCloseTo(someInfo(), ONE, null, within(ONE)));
+    assertThatNullPointerException().isThrownBy(() -> Shorts.instance().assertIsCloseTo(someInfo(), ONE, null, within(ONE)));
   }
 
   @Test
   void should_fail_if_offset_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> shorts.assertIsCloseTo(someInfo(), ONE, ZERO, null));
+    assertThatNullPointerException().isThrownBy(() -> Shorts.instance().assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
 }

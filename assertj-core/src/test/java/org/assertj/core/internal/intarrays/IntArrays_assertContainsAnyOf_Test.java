@@ -39,7 +39,7 @@ class IntArrays_assertContainsAnyOf_Test extends IntArraysBaseTest {
   @Test
   void should_delegate_to_internal_Arrays() {
     arrays.assertContainsAnyOf(someInfo(), actual, new int[] { 1, 2, 3 });
-    verify(internalArrays).assertContainsAnyOf(someInfo(), failures, actual, new int[] { 1, 2, 3 });
+    verify(internalArrays).assertContainsAnyOf(someInfo(), assertionErrorCreator, actual, new int[] { 1, 2, 3 });
   }
 
 }

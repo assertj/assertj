@@ -15,53 +15,55 @@
  */
 package org.assertj.tests.core.internal.strings;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.verify;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
-import org.assertj.tests.core.internal.StringsBaseTest;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Strings#assertStartsWith(AssertionInfo, CharSequence, CharSequence)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-class Strings_assertStartsWith_Test extends StringsBaseTest {
+class Strings_assertStartsWith_Test {
+
+  private final Strings stringsWithCaseInsensitiveComparisonStrategy = new Strings(new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
 
   @Test
   void should_fail_if_actual_does_not_start_with_prefix() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> strings.assertStartsWith(info, "Yoda", "Luke"));
+    var error = expectAssertionError(() -> Strings.instance().assertStartsWith(info, "Yoda", "Luke"));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldStartWith("Yoda", "Luke"));
+    then(error).hasMessage(shouldStartWith("Yoda", "Luke").create());
   }
 
   @Test
   void should_throw_error_if_prefix_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> strings.assertStartsWith(someInfo(), "Yoda", null))
+    assertThatNullPointerException().isThrownBy(() -> Strings.instance().assertStartsWith(someInfo(), "Yoda", null))
                                     .withMessage("The given prefix should not be null");
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertStartsWith(someInfo(), null, "Yoda"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Strings.instance().assertStartsWith(someInfo(), null,
+                                                                                                         "Yoda"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_pass_if_actual_starts_with_prefix() {
-    strings.assertStartsWith(someInfo(), "Yoda", "Yo");
+    Strings.instance().assertStartsWith(someInfo(), "Yoda", "Yo");
   }
 
   @Test
@@ -78,10 +80,10 @@ class Strings_assertStartsWith_Test extends StringsBaseTest {
   void should_fail_if_actual_does_not_start_with_prefix_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertStartsWith(info, "Yoda", "Luke"));
+    var error = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertStartsWith(info, "Yoda", "Luke"));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldStartWith("Yoda", "Luke", comparisonStrategy));
+    then(error).hasMessage(shouldStartWith("Yoda", "Luke",
+                                           new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE)).create());
   }
 
 }

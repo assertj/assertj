@@ -15,14 +15,14 @@
  */
 package org.assertj.tests.core.internal.strings;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.shouldBeEqualIgnoringNewLineDifferences;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
 
-import org.assertj.tests.core.internal.StringsBaseTest;
+import org.assertj.core.internal.Strings;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -35,12 +35,12 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author Mauricio Aniche
  */
-class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBaseTest {
+class Strings_assertIsEqualToNormalizingNewlines_Test {
 
   @ParameterizedTest
   @MethodSource
   void should_pass_if_both_strings_are_equals_after_normalizing_newlines(String actual, String expected) {
-    strings.assertEqualsIgnoringWhitespace(someInfo(), actual, expected);
+    Strings.instance().assertEqualsIgnoringWhitespace(someInfo(), actual, expected);
   }
 
   public static Stream<Arguments> should_pass_if_both_strings_are_equals_after_normalizing_newlines() {
@@ -67,10 +67,9 @@ class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBaseTest {
     String actual = "Lord of the Rings\r\n\r\nis cool";
     String expected = "Lord of the Rings\nis cool";
     // WHEN
-    expectAssertionError(() -> strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
+    var error = expectAssertionError(() -> Strings.instance().assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
     // THEN
-    verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, expected),
-                             "Lord of the Rings\n\nis cool", expected);
+    then(error).hasMessage(shouldBeEqualIgnoringNewLineDifferences(actual, expected).create());
   }
 
   @Test
@@ -79,9 +78,9 @@ class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBaseTest {
     String actual = null;
     String expected = "";
     // WHEN
-    expectAssertionError(() -> strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
+    var error = expectAssertionError(() -> Strings.instance().assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
     // THEN
-    verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(null, expected), null, expected);
+    then(error).hasMessage(shouldBeEqualIgnoringNewLineDifferences(null, expected).create());
   }
 
   @Test
@@ -90,8 +89,8 @@ class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBaseTest {
     String actual = "";
     String expected = null;
     // WHEN
-    expectAssertionError(() -> strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
+    var error = expectAssertionError(() -> Strings.instance().assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
     // THEN
-    verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, null), actual, null);
+    then(error).hasMessage(shouldBeEqualIgnoringNewLineDifferences(actual, null).create());
   }
 }

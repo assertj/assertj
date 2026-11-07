@@ -38,7 +38,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import org.assertj.core.internal.Failures;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Futures;
 import org.assertj.core.presentation.PredicateDescription;
 
@@ -246,7 +246,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
       isCompleted();
       RESULT actualResult = actual.join();
       if (!Objects.equals(actualResult, expected))
-        throw Failures.instance().failure(info, shouldBeEqual(actualResult, expected, info.representation()));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldBeEqual(actualResult, expected, info.representation()));
     });
   }
 
@@ -324,7 +324,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
 
       RESULT actualResult = actual.join();
       if (!predicate.test(actualResult))
-        throw Failures.instance().failure(info, shouldMatch(actualResult, predicate, description));
+        throw AssertionErrorCreator.instance().assertionError(info, shouldMatch(actualResult, predicate, description));
     });
   }
 

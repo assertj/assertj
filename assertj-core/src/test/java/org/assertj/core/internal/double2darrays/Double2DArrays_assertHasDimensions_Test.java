@@ -34,6 +34,6 @@ class Double2DArrays_assertHasDimensions_Test extends Double2DArraysBaseTest {
     // WHEN
     double2dArrays.assertHasDimensions(info, actual, 2, 3);
     // THEN
-    verify(arrays2d).assertHasDimensions(info, failures, actual, 2, 3);
+    verify(arrays2d).assertHasDimensions(info, assertionErrorCreator, actual, 2, 3);
   }
 }
