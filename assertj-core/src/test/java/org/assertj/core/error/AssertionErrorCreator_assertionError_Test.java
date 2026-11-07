@@ -34,7 +34,7 @@ import org.opentest4j.FileInfo;
 
 class AssertionErrorCreator_assertionError_Test {
 
-  private final AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+  private final AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.INSTANCE;
 
   @Test
   void should_create_AssertionFailedError_using_reflection() {
