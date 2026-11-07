@@ -251,7 +251,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   }
 
   /**
-   * Verifies that the {@link CompletableFuture} will complete normally withing given {@link Duration} with a value
+   * Verifies that the {@link CompletableFuture} will complete normally within given {@link Duration} with a value
    * that matches the given {@link Predicate}.
    * <p>
    * Assertion succeeds:
