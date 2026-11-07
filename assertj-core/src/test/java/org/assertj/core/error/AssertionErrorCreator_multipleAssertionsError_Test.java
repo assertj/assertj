@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 class AssertionErrorCreator_multipleAssertionsError_Test {
 
-  private final AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+  private final AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.INSTANCE;
 
   @Test
   void should_create_MultipleAssertionsError() {

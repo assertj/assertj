@@ -34,7 +34,7 @@ import org.opentest4j.FileInfo;
 
 class AssertionErrorCreator_assertionError_Test {
 
-  private final AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+  private final AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.INSTANCE;
 
   @Test
   void should_create_AssertionFailedError_using_reflection() {
@@ -56,20 +56,20 @@ class AssertionErrorCreator_assertionError_Test {
   @Test
   void should_create_AssertionError_when_an_AssertionFailedError_could_not_be_created() throws Exception {
     // GIVEN
-    String message = "error message";
     ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);
-    Representation representation = mock(Representation.class);
+    AssertionErrorCreator underTest = new AssertionErrorCreator(constructorInvoker);
     given(constructorInvoker.newInstance(anyString(), any(Class[].class), any())).willThrow(Exception.class);
-    assertionErrorCreator.constructorInvoker = constructorInvoker;
+    String message = "error message";
+    Representation representation = mock(Representation.class);
     // WHEN
-    AssertionError assertionError = assertionErrorCreator.assertionError(message, "actual", "expected", representation);
+    AssertionError assertionError = underTest.assertionError(message, "actual", "expected", representation);
     // THEN
     then(assertionError).isNotInstanceOf(AssertionFailedError.class)
                         .hasMessage(message);
   }
 
   @Test
-  public void should_honor_representation_in_AssertionFailedError_actual_and_expected_values() {
+  void should_honor_representation_in_AssertionFailedError_actual_and_expected_values() {
     // WHEN
     var assertionError = assertionErrorCreator.assertionError("boom", List.of("actual"), List.of("expected"),
                                                               STANDARD_REPRESENTATION);
@@ -81,7 +81,7 @@ class AssertionErrorCreator_assertionError_Test {
   }
 
   @Test
-  public void should_honor_custom_representation_in_AssertionFailedError_actual_and_expected_values() {
+  void should_honor_custom_representation_in_AssertionFailedError_actual_and_expected_values() {
     // GIVEN
     Representation representation = new ItemRepresentation();
     // WHEN
