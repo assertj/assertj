@@ -39,7 +39,7 @@ import org.assertj.core.util.Throwables;
 public class AssertionErrorCreator {
 
   /// The [AssertionErrorCreator] instance.
-  public static final AssertionErrorCreator INSTANCE = new AssertionErrorCreator(new ConstructorInvoker());
+  private static final AssertionErrorCreator INSTANCE = new AssertionErrorCreator(new ConstructorInvoker());
 
   /// Returns the singleton instance of this class.
   ///

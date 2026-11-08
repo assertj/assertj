@@ -16,18 +16,16 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 class AssertionErrorCreator_multipleAssertionsError_Test {
-
-  private final AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.INSTANCE;
 
   @Test
   void should_create_MultipleAssertionsError() {
@@ -37,10 +35,10 @@ class AssertionErrorCreator_multipleAssertionsError_Test {
     AssertionError error2 = new AssertionError("error2");
     List<AssertionError> errors = list(error1, error2);
     // WHEN
-    var assertionError = assertionErrorCreator.multipleAssertionsError(description, null, errors);
+    var assertionError = AssertionErrorCreator.instance().multipleAssertionsError(description, null, errors);
     // THEN
     then(assertionError).isInstanceOf(MultipleAssertionsError.class)
-                        .hasMessage(StandardRepresentation.STANDARD_REPRESENTATION.toStringOf(assertionError));
+                        .hasMessage(STANDARD_REPRESENTATION.toStringOf(assertionError));
     then(((MultipleAssertionsError) assertionError).getErrors()).containsExactly(error1, error2);
   }
 
