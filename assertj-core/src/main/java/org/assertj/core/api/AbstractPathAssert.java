@@ -509,9 +509,10 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   /// @see Files#isHidden(Path)
   /// @since 3.28.0
   public SELF isHidden() {
-    isNotNull();
-    assertIsHidden();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsHidden();
+    });
   }
 
   private void assertIsHidden() {
@@ -547,9 +548,10 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   /// @see Files#isHidden(Path)
   /// @since 3.28.0
   public SELF isNotHidden() {
-    isNotNull();
-    assertIsNotHidden();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsNotHidden();
+    });
   }
 
   private void assertIsNotHidden() {
