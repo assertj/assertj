@@ -700,7 +700,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   /// assertThat(hiddenFile).isHidden();
   ///
   /// // assertions will fail
-  /// assertThat(notHiddenFile).isHidden;
+  /// assertThat(notHiddenFile).isHidden();
   /// ```
   ///
   /// @return `this` assertion object.

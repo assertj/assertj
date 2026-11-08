@@ -578,6 +578,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   /// ```
   ///
   /// @return self
+  /// @throws UncheckedIOException if an I/O error occurs.
   /// @see Files#isHidden(Path)
   /// @since 3.28.0
   public SELF isHidden() {
@@ -615,7 +616,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   /// ```
   ///
   /// @return self
-  ///
+  /// @throws UncheckedIOException if an I/O error occurs.
   /// @see Files#isHidden(Path)
   /// @since 3.28.0
   public SELF isNotHidden() {

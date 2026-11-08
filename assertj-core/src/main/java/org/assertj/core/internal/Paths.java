@@ -124,12 +124,6 @@ public class Paths {
     if (!Files.isExecutable(actual)) throw failures.failure(info, shouldBeExecutable(actual));
   }
 
-  /**
-   * Verifies that the path exists.
-   *
-   * @param info assertion information
-   * @param actual the actual path
-   */
   public void assertExists(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
     if (!Files.exists(actual)) throw failures.failure(info, shouldExist(actual));
