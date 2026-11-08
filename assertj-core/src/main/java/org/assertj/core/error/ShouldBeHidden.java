@@ -18,7 +18,7 @@ package org.assertj.core.error;
 import java.io.File;
 import java.nio.file.Path;
 
-/// Creates an error message indicating that an assertion that verifies that a `[File]` is hidden failed.
+/// Creates an error message indicating that an assertion that verifies that a [File] or [Path] is hidden failed.
 ///
 /// @author Philippe Marschall
 /// @since 3.28.0

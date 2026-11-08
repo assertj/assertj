@@ -699,13 +699,12 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   /// // assertion will pass
   /// assertThat(hiddenFile).isHidden();
   ///
-  /// // assertions will fail
+  /// // assertion will fail
   /// assertThat(notHiddenFile).isHidden();
   /// ```
   ///
   /// @return `this` assertion object.
   /// @throws AssertionError if the actual `File` is `null`.
-  /// @throws AssertionError if the actual `File` can not be read by the application.
   /// @see File#isHidden()
   /// @since 3.28.0
   public SELF isHidden() {
@@ -733,13 +732,12 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   /// // assertion will pass
   /// assertThat(notHiddenFile).isNotHidden();
   ///
-  /// // assertions will fail
+  /// // assertion will fail
   /// assertThat(hiddenFile).isNotHidden();
   /// ```
   ///
   /// @return `this` assertion object.
   /// @throws AssertionError if the actual `File` is `null`.
-  /// @throws AssertionError if the actual `File` can not be read by the application.
   /// @see File#isHidden()
   /// @since 3.28.0
   public SELF isNotHidden() {

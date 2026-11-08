@@ -562,18 +562,18 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   /// Examples:
   ///
   /// ```java
-  /// // Create a hidden file.
+  /// // Create a Unix hidden file
   /// Path hiddenFile = Paths.get(".hiddenFile");
   /// Files.createFile(hiddenFile);
   ///
-  /// // Create a not hidden file.
+  /// // Create a visible file.
   /// Path notHiddenFile = Paths.get("notHiddenFile");
   /// Files.createFile(notHiddenFile);
   ///
-  /// // The following assertion succeed:
+  /// // The following assertion succeeds:
   /// assertThat(hiddenFile).isHidden();
   ///
-  /// // The following assertion fail:
+  /// // The following assertion fails:
   /// assertThat(notHiddenFile).isHidden();
   /// ```
   ///
@@ -597,21 +597,21 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
 
   /// Verifies that the actual [Path] is not hidden, according to [Files#isHidden(Path)].
   ///
-  /// Examples:
+  /// Example:
   ///
   /// ```java
-  /// // Create a not hidden file.
+  /// // Create a visible file
   /// Path notHiddenFile = Paths.get("notHiddenFile");
   /// Files.createFile(notHiddenFile);
   ///
-  /// // Create a hidden file.
+  /// // Create a Unix hidden file
   /// Path hiddenFile = Paths.get(".hiddenFile");
   /// Files.createFile(hiddenFile);
   ///
-  /// // The following assertion succeed:
+  /// // The following assertion succeeds:
   /// assertThat(notHiddenFile).isNotHidden();
   ///
-  /// // The following assertion fail:
+  /// // The following assertion fails:
   /// assertThat(hiddenFile).isNotHidden();
   /// ```
   ///
