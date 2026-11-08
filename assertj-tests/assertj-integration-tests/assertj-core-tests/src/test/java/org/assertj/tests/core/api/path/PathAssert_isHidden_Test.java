@@ -16,29 +16,29 @@
 package org.assertj.tests.core.api.path;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeHidden.shouldBeHidden;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.tests.core.api.path.PathFactory.createUnixPaths;
-import static org.assertj.tests.core.api.path.PathFactory.createWindowsPaths;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.junit.jupiter.api.condition.OS.WINDOWS;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.util.List;
 
+import org.assertj.tests.core.testkit.PathFactory;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.io.TempDir;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 
 class PathAssert_isHidden_Test {
 
   @TempDir
-  static Path tempDir;
+  Path tempDir;
 
   @Test
   void should_fail_if_actual_is_null() {
@@ -51,55 +51,80 @@ class PathAssert_isHidden_Test {
   }
 
   @DisabledOnOs(WINDOWS)
-  @ParameterizedTest
-  @MethodSource
-  void should_fail_if_actual_is_not_hidden_on_Unix(Path actual) {
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isHidden());
-    // THEN
-    then(assertionError).hasMessage(shouldBeHidden(actual).create());
-  }
+  @Nested
+  class On_Unix {
 
-  static List<Path> should_fail_if_actual_is_not_hidden_on_Unix() throws IOException {
-    return createUnixPaths(tempDir, false);
+    @Test
+    void should_fail_if_actual_does_not_exist_and_is_not_hidden() {
+      // GIVEN
+      Path actual = PathFactory.createPath(tempDir);
+      // WHEN
+      AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isHidden());
+      // THEN
+      then(assertionError).hasMessage(shouldBeHidden(actual).create());
+    }
+
+    @Test
+    void should_pass_if_actual_does_not_exist_and_is_hidden() {
+      // GIVEN
+      Path actual = PathFactory.Unix.createHiddenPath(tempDir);
+      // WHEN/THEN
+      assertThat(actual).isHidden();
+    }
+
+    @Test
+    void should_fail_if_actual_exists_and_is_not_hidden() throws IOException {
+      // GIVEN
+      Path actual = PathFactory.createFile(tempDir);
+      // WHEN
+      AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isHidden());
+      // THEN
+      then(assertionError).hasMessage(shouldBeHidden(actual).create());
+    }
+
+    @Test
+    void should_pass_if_actual_exists_and_is_hidden() throws IOException {
+      // GIVEN
+      Path actual = PathFactory.Unix.createHiddenFile(tempDir);
+      // WHEN/THEN
+      assertThat(actual).isHidden();
+    }
+
   }
 
   @EnabledOnOs(WINDOWS)
-  @ParameterizedTest
-  @MethodSource
-  void should_fail_if_actual_is_not_hidden_on_Windows(Path actual) {
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isHidden());
-    // THEN
-    then(assertionError).hasMessage(shouldBeHidden(actual).create());
-  }
+  @Nested
+  class On_Windows {
 
-  static List<Path> should_fail_if_actual_is_not_hidden_on_Windows() throws IOException {
-    return createWindowsPaths(tempDir, false);
-  }
+    @Test
+    void should_fail_if_actual_does_not_exist() {
+      // GIVEN
+      Path actual = PathFactory.createPath(tempDir);
+      // WHEN
+      Exception exception = catchException(() -> assertThat(actual).isHidden());
+      // THEN
+      then(exception).isInstanceOf(UncheckedIOException.class)
+                     .hasCauseInstanceOf(NoSuchFileException.class);
+    }
 
-  @DisabledOnOs(WINDOWS)
-  @ParameterizedTest
-  @MethodSource
-  void should_pass_if_actual_is_hidden_on_Unix(Path actual) {
-    // WHEN/THEN
-    assertThat(actual).isHidden();
-  }
+    @Test
+    void should_fail_if_actual_exists_and_is_not_hidden() throws IOException {
+      // GIVEN
+      Path actual = PathFactory.createFile(tempDir);
+      // WHEN
+      AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isHidden());
+      // THEN
+      then(assertionError).hasMessage(shouldBeHidden(actual).create());
+    }
 
-  static List<Path> should_pass_if_actual_is_hidden_on_Unix() throws IOException {
-    return createUnixPaths(tempDir, true);
-  }
+    @Test
+    void should_pass_if_actual_exists_and_is_hidden() throws IOException {
+      // GIVEN
+      Path actual = PathFactory.Windows.createHiddenFile(tempDir);
+      // WHEN/THEN
+      assertThat(actual).isHidden();
+    }
 
-  @EnabledOnOs(WINDOWS)
-  @ParameterizedTest
-  @MethodSource
-  void should_pass_if_actual_is_hidden_on_Windows(Path actual) {
-    // WHEN/THEN
-    assertThat(actual).isHidden();
-  }
-
-  static List<Path> should_pass_if_actual_is_hidden_on_Windows() throws IOException {
-    return createWindowsPaths(tempDir, true);
   }
 
 }
