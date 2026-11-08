@@ -217,7 +217,7 @@ class MultipleAssertionsError_getMessage_Test {
     var assertionError2 = new AssertionError("bam");
     StandardRepresentation.setMaxStackTraceElementsDisplayed(10);
     // WHEN
-    var error = AssertionErrorCreator.INSTANCE.multipleAssertionsError(List.of(assertionError1, assertionError2));
+    var error = AssertionErrorCreator.instance().multipleAssertionsError(List.of(assertionError1, assertionError2));
     // THEN
     then(error).message().contains("first 10 stack trace elements:");
   }
