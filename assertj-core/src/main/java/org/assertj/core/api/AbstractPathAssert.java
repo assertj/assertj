@@ -17,6 +17,8 @@ package org.assertj.core.api;
 
 import static java.nio.file.Files.readAllBytes;
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldBeHidden.shouldBeHidden;
+import static org.assertj.core.error.ShouldNotBeHidden.shouldNotBeHidden;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.io.IOException;
@@ -480,6 +482,82 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    */
   public SELF isExecutable() {
     return executeAssertion(() -> paths.assertIsExecutable(info, actual));
+  }
+
+  /// Verifies that the actual [Path] is hidden, according to [Files#isHidden(Path)].
+  ///
+  /// Examples:
+  ///
+  /// ```java
+  /// // Create a Unix hidden file
+  /// Path hiddenFile = Paths.get(".hiddenFile");
+  /// Files.createFile(hiddenFile);
+  ///
+  /// // Create a visible file.
+  /// Path notHiddenFile = Paths.get("notHiddenFile");
+  /// Files.createFile(notHiddenFile);
+  ///
+  /// // The following assertion succeeds:
+  /// assertThat(hiddenFile).isHidden();
+  ///
+  /// // The following assertion fails:
+  /// assertThat(notHiddenFile).isHidden();
+  /// ```
+  ///
+  /// @return self
+  /// @throws UncheckedIOException if an I/O error occurs.
+  /// @see Files#isHidden(Path)
+  /// @since 3.28.0
+  public SELF isHidden() {
+    isNotNull();
+    assertIsHidden();
+    return myself;
+  }
+
+  private void assertIsHidden() {
+    try {
+      if (!Files.isHidden(actual)) throw assertionError(shouldBeHidden(actual));
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+  }
+
+  /// Verifies that the actual [Path] is not hidden, according to [Files#isHidden(Path)].
+  ///
+  /// Example:
+  ///
+  /// ```java
+  /// // Create a visible file
+  /// Path notHiddenFile = Paths.get("notHiddenFile");
+  /// Files.createFile(notHiddenFile);
+  ///
+  /// // Create a Unix hidden file
+  /// Path hiddenFile = Paths.get(".hiddenFile");
+  /// Files.createFile(hiddenFile);
+  ///
+  /// // The following assertion succeeds:
+  /// assertThat(notHiddenFile).isNotHidden();
+  ///
+  /// // The following assertion fails:
+  /// assertThat(hiddenFile).isNotHidden();
+  /// ```
+  ///
+  /// @return self
+  /// @throws UncheckedIOException if an I/O error occurs.
+  /// @see Files#isHidden(Path)
+  /// @since 3.28.0
+  public SELF isNotHidden() {
+    isNotNull();
+    assertIsNotHidden();
+    return myself;
+  }
+
+  private void assertIsNotHidden() {
+    try {
+      if (Files.isHidden(actual)) throw assertionError(shouldNotBeHidden(actual));
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
   }
 
   /**

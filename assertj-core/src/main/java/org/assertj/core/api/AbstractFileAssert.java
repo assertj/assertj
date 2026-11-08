@@ -19,6 +19,8 @@ import static java.nio.file.Files.readAllBytes;
 import static java.nio.file.Files.readString;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.FileSizeAssert.nullFileSizeAssert;
+import static org.assertj.core.error.ShouldBeHidden.shouldBeHidden;
+import static org.assertj.core.error.ShouldNotBeHidden.shouldNotBeHidden;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.io.File;
@@ -565,6 +567,72 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    */
   public SELF canRead() {
     return executeAssertion(() -> files.assertCanRead(info, actual));
+  }
+
+  /// Verifies that the actual [File] is hidden, according to [File#isHidden()].
+  ///
+  /// Example:
+  ///
+  /// ```java
+  /// File tmpDir = Files.createTempDirectory("tmp").toFile();
+  /// File hiddenFile = new File(tmpDir, ".hiddenFile");
+  /// hiddenFile.createNewFile();
+  ///
+  /// File notHiddenFile = new File(tmpDir, "notHiddenFile");
+  /// notHiddenFile.createNewFile();
+  ///
+  /// // assertion will pass
+  /// assertThat(hiddenFile).isHidden();
+  ///
+  /// // assertion will fail
+  /// assertThat(notHiddenFile).isHidden();
+  /// ```
+  ///
+  /// @return `this` assertion object.
+  /// @throws AssertionError if the actual `File` is `null`.
+  /// @see File#isHidden()
+  /// @since 3.28.0
+  public SELF isHidden() {
+    isNotNull();
+    assertIsHidden();
+    return myself;
+  }
+
+  private void assertIsHidden() {
+    if (!actual.isHidden()) throw assertionError(shouldBeHidden(actual));
+  }
+
+  /// Verifies that the actual [File] is not hidden, according to [File#isHidden()].
+  ///
+  /// Example:
+  ///
+  /// ```java
+  /// File tmpDir = Files.createTempDirectory("tmp").toFile();
+  /// File notHiddenFile = new File(tmpDir, "notHiddenFile");
+  /// notHiddenFile.createNewFile();
+  ///
+  /// File hiddenFile = new File(tmpDir, ".hiddenFile");
+  /// hiddenFile.createNewFile();
+  ///
+  /// // assertion will pass
+  /// assertThat(notHiddenFile).isNotHidden();
+  ///
+  /// // assertion will fail
+  /// assertThat(hiddenFile).isNotHidden();
+  /// ```
+  ///
+  /// @return `this` assertion object.
+  /// @throws AssertionError if the actual `File` is `null`.
+  /// @see File#isHidden()
+  /// @since 3.28.0
+  public SELF isNotHidden() {
+    isNotNull();
+    assertIsNotHidden();
+    return myself;
+  }
+
+  private void assertIsNotHidden() {
+    if (actual.isHidden()) throw assertionError(shouldNotBeHidden(actual));
   }
 
   /**
