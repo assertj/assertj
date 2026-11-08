@@ -27,7 +27,6 @@ import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEmptyDirectory.shouldBeEmptyDirectory;
 import static org.assertj.core.error.ShouldBeExecutable.shouldBeExecutable;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
-import static org.assertj.core.error.ShouldBeHidden.shouldBeHidden;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
 import static org.assertj.core.error.ShouldBeWritable.shouldBeWritable;
@@ -45,7 +44,6 @@ import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-import static org.assertj.core.error.ShouldNotBeHidden.shouldNotBeHidden;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.internal.Digests.digestDiff;
@@ -399,34 +397,6 @@ public class Files {
     assertNotNull(info, actual);
     if (actual.canExecute()) return;
     throw failures.failure(info, shouldBeExecutable(actual));
-  }
-
-  /**
-   * Asserts that the given file is hidden.
-   *
-   * @param info   contains information about the assertion.
-   * @param actual the given file.
-   * @throws AssertionError if the given file is {@code null}.
-   * @throws AssertionError if the given file can not be executed.
-   */
-  public void assertIsHidden(AssertionInfo info, File actual) {
-    assertNotNull(info, actual);
-    if (actual.isHidden()) return;
-    throw failures.failure(info, shouldBeHidden(actual));
-  }
-
-  /**
-   * Asserts that the given file is not hidden.
-   *
-   * @param info   contains information about the assertion.
-   * @param actual the given file.
-   * @throws AssertionError if the given file is {@code null}.
-   * @throws AssertionError if the given file can not be executed.
-   */
-  public void assertIsNotHidden(AssertionInfo info, File actual) {
-    assertNotNull(info, actual);
-    if (!actual.isHidden()) return;
-    throw failures.failure(info, shouldNotBeHidden(actual));
   }
 
   /**

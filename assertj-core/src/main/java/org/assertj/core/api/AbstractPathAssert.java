@@ -18,6 +18,8 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldBeHidden.shouldBeHidden;
+import static org.assertj.core.error.ShouldNotBeHidden.shouldNotBeHidden;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.io.IOException;
@@ -555,70 +557,79 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     return myself;
   }
 
-  /**
-   * Assert that the tested {@link Path} is a hidden file (according to {@link Files#isHidden(Path)}
-   * ).
-   * <p>
-   * On Windows systems this will check the hidden flag. On Unix systems this will check whether the file
-   * name starts with {@code '.'}.
-   * </p>
-   * <p>
-   * Examples:
-   * <pre><code class="java"> // Create a hidden file.
-   * Path hiddenFile = Paths.get(".hiddenFile");
-   * Files.createFile(hiddenFile);
-   *
-   * // Create a not hidden file.
-   * Path notHiddenFile = Paths.get("notHiddenFile");
-   * Files.createFile(notHiddenFile);
-   *
-   * // The following assertion succeed:
-   * assertThat(hiddenFile).isHidden();
-   *
-   * // The following assertion fail:
-   * assertThat(notHiddenFile).isHidden();</code></pre>
-   *
-   * @return self
-   *
-   * @see Files#isHidden(Path)
-   * @since 3.28.0
-   */
+  /// Verifies that the actual [Path] is hidden, according to [Files#isHidden(Path)].
+  ///
+  /// Examples:
+  ///
+  /// ```java
+  /// // Create a hidden file.
+  /// Path hiddenFile = Paths.get(".hiddenFile");
+  /// Files.createFile(hiddenFile);
+  ///
+  /// // Create a not hidden file.
+  /// Path notHiddenFile = Paths.get("notHiddenFile");
+  /// Files.createFile(notHiddenFile);
+  ///
+  /// // The following assertion succeed:
+  /// assertThat(hiddenFile).isHidden();
+  ///
+  /// // The following assertion fail:
+  /// assertThat(notHiddenFile).isHidden();
+  /// ```
+  ///
+  /// @return self
+  /// @see Files#isHidden(Path)
+  /// @since 3.28.0
   public SELF isHidden() {
-    paths.assertIsHidden(info, actual);
+    isNotNull();
+    assertIsHidden();
     return myself;
   }
 
-  /**
-   * Assert that the tested {@link Path} is not a hidden file (according to {@link Files#isHidden(Path)}
-   * ).
-   * <p>
-   * On Windows systems this will check the hidden flag. On Unix systems this will check whether the file
-   * name starts with {@code '.'}.
-   * </p>
-   * <p>
-   * Examples:
-   * <pre><code class="java"> // Create a not hidden file.
-   * Path notHiddenFile = Paths.get("notHiddenFile");
-   * Files.createFile(notHiddenFile);
-   *
-   * // Create a hidden file.
-   * Path hiddenFile = Paths.get(".hiddenFile");
-   * Files.createFile(hiddenFile);
-   *
-   * // The following assertion succeed:
-   * assertThat(notHiddenFile).isNotHidden();
-   *
-   * // The following assertion fail:
-   * assertThat(hiddenFile).isNotHidden();</code></pre>
-   *
-   * @return self
-   *
-   * @see Files#isHidden(Path)
-   * @since 3.28.0
-   */
+  private void assertIsHidden() {
+    try {
+      if (!Files.isHidden(actual)) throw assertionError(shouldBeHidden(actual));
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+  }
+
+  /// Verifies that the actual [Path] is not hidden, according to [Files#isHidden(Path)].
+  ///
+  /// Examples:
+  ///
+  /// ```java
+  /// // Create a not hidden file.
+  /// Path notHiddenFile = Paths.get("notHiddenFile");
+  /// Files.createFile(notHiddenFile);
+  ///
+  /// // Create a hidden file.
+  /// Path hiddenFile = Paths.get(".hiddenFile");
+  /// Files.createFile(hiddenFile);
+  ///
+  /// // The following assertion succeed:
+  /// assertThat(notHiddenFile).isNotHidden();
+  ///
+  /// // The following assertion fail:
+  /// assertThat(hiddenFile).isNotHidden();
+  /// ```
+  ///
+  /// @return self
+  ///
+  /// @see Files#isHidden(Path)
+  /// @since 3.28.0
   public SELF isNotHidden() {
-    paths.assertIsNotHidden(info, actual);
+    isNotNull();
+    assertIsNotHidden();
     return myself;
+  }
+
+  private void assertIsNotHidden() {
+    try {
+      if (Files.isHidden(actual)) throw assertionError(shouldNotBeHidden(actual));
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
   }
 
   /**
