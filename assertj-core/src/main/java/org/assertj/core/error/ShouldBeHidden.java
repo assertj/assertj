@@ -18,13 +18,12 @@ package org.assertj.core.error;
 import java.io.File;
 import java.nio.file.Path;
 
-/**
- * Creates an error message indicating that an assertion that verifies that a <code>{@link File}</code> is hidden
- * failed.
- *
- * @author Philippe Marschall
- */
+/// Creates an error message indicating that an assertion that verifies that a `[File]` is hidden failed.
+///
+/// @author Philippe Marschall
+/// @since 3.28.0
 public class ShouldBeHidden extends BasicErrorMessageFactory {
+
   private static final String SHOULD_BE_HIDDEN = "%nExpecting actual:%n  %s%nto be hidden.";
 
   private ShouldBeHidden(File actual) {
@@ -35,22 +34,18 @@ public class ShouldBeHidden extends BasicErrorMessageFactory {
     super(SHOULD_BE_HIDDEN, actual);
   }
 
-  /**
-   * Creates an error for a path expected to be hidden.
-   *
-   * @param actual the actual path
-   * @return the error message factory
-   */
+  /// Creates an error for a path expected to be hidden.
+  ///
+  /// @param actual the actual path
+  /// @return the error message factory
   public static ErrorMessageFactory shouldBeHidden(File actual) {
     return new ShouldBeHidden(actual);
   }
 
-  /**
-   * Creates an error for a path expected to be hidden.
-   *
-   * @param actual the actual path
-   * @return the error message factory
-   */
+  /// Creates an error for a path expected to be hidden.
+  ///
+  /// @param actual the actual path
+  /// @return the error message factory
   public static ErrorMessageFactory shouldBeHidden(Path actual) {
     return new ShouldBeHidden(actual);
   }
