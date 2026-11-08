@@ -45,8 +45,8 @@ class ShouldBeEqual_Test {
     // WHEN
     AssertionFailedError error = catchThrowableOfType(AssertionFailedError.class, code);
     // THEN
-    then(error.getActual().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf(actual));
-    then(error.getExpected().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf(expected));
+    then(error.getActual().getStringRepresentation()).isEqualTo(STANDARD_REPRESENTATION.toStringOf(actual));
+    then(error.getExpected().getStringRepresentation()).isEqualTo(STANDARD_REPRESENTATION.toStringOf(expected));
     then(error).hasMessage(format("[Jedi] %n" +
                                   "expected: \"Yoda\"%n" +
                                   " but was: \"Luke\"%n" +
@@ -62,8 +62,8 @@ class ShouldBeEqual_Test {
     // WHEN
     AssertionFailedError error = catchThrowableOfType(AssertionFailedError.class, code);
     // THEN
-    then(error.getActual().getValue()).isEqualTo("[1, 2, 3]");
-    then(error.getExpected().getValue()).isEqualTo("[1, 2, 4]");
+    then(error.getActual().getStringRepresentation()).isEqualTo("[1, 2, 3]");
+    then(error.getExpected().getStringRepresentation()).isEqualTo("[1, 2, 4]");
     then(error).hasMessage(format("[numbers] %n" +
                                   "expected: [1, 2, 4]%n" +
                                   " but was: [1, 2, 3]"));

@@ -113,6 +113,18 @@ class AssertionErrorCreator_assertionError_Test {
     });
   }
 
+  @Test
+  void should_remove_AssertJ_elements_from_AssertionFailedError_stack_trace_when_configured() {
+    // GIVEN
+    var underTest = new AssertionErrorCreator(new ConstructorInvoker());
+    underTest.setRemoveAssertJRelatedElementsFromStackTrace(true);
+    // WHEN
+    var assertionError = underTest.assertionError("boom", "actual", "expected", STANDARD_REPRESENTATION);
+    // THEN
+    then(assertionError).isInstanceOf(AssertionFailedError.class);
+    then(assertionError.getStackTrace()).noneMatch(element -> element.getClassName().startsWith("org.assertj.core.error."));
+  }
+
   record Item(String name) {
 
     @Override

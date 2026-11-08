@@ -50,12 +50,10 @@ public class AssertionErrorCreator {
 
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class, Object.class);
   private final Method valueWrapperCreateMethod;
+  private final ConstructorInvoker constructorInvoker;
   private final Constructor<?> fileInfoConstructor;
   /// flag indicating whether or not we remove elements related to AssertJ from assertion error stack trace.
   private boolean removeAssertJRelatedElementsFromStackTrace = Configuration.REMOVE_ASSERTJ_RELATED_ELEMENTS_FROM_STACK_TRACE;
-
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  ConstructorInvoker constructorInvoker;
 
   AssertionErrorCreator(ConstructorInvoker constructorInvoker) {
     this.constructorInvoker = constructorInvoker;
@@ -116,7 +114,10 @@ public class AssertionErrorCreator {
                                                 valueWrapper(expected, representation),
                                                 valueWrapper(actual, representation));
 
-      if (o instanceof AssertionError error) return Optional.of(error);
+      if (o instanceof AssertionError error) {
+        removeAssertJRelatedElementsFromStackTraceIfNeeded(error);
+        return Optional.of(error);
+      }
 
     } catch (@SuppressWarnings("unused") Throwable ignored) {}
     return Optional.empty();
