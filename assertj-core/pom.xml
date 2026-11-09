@@ -24,8 +24,6 @@
       --add-opens=java.base/java.util=ALL-UNNAMED
       --add-opens=java.base/sun.nio.fs=ALL-UNNAMED
     </argLine>
-    <rootDirectory>${project.basedir}/../</rootDirectory>
-    <spotless.skip>false</spotless.skip>
     <jacoco.skip>true</jacoco.skip> <!-- https://github.com/assertj/assertj/issues/3580 -->
     <!-- Dependency versions -->
     <byte-buddy.version>1.18.3</byte-buddy.version>
