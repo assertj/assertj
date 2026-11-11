@@ -39,6 +39,8 @@ import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
 import static org.assertj.core.error.ShouldBeSealed.shouldBeSealed;
 import static org.assertj.core.error.ShouldBeSealed.shouldNotBeSealed;
 import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
+import static org.assertj.core.error.ShouldHaveEnclosingClass.shouldHaveEnclosingClass;
+import static org.assertj.core.error.ShouldHaveNoEnclosingClass.shouldHaveNoEnclosingClass;
 import static org.assertj.core.error.ShouldHaveNoPackage.shouldHaveNoPackage;
 import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
 import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
@@ -810,6 +812,76 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   private void assertHasNoSuperclass() {
     if (actual.getSuperclass() != null) throw assertionError(shouldHaveNoSuperclass(actual));
+  }
+
+  /// Verifies that the actual {@code Class} has the given {@code enclosingClass} as direct enclosing class.
+  ///
+  /// Example:
+  /// ```java
+  /// public class Outer {
+  ///   public class Inner {
+  ///   }
+  /// }
+  ///
+  /// // this assertion succeeds:
+  /// assertThat(Outer.Inner.class).hasEnclosingClass(Outer.class);
+  ///
+  /// // this assertion fails:
+  /// assertThat(Outer.Inner.class).hasEnclosingClass(String.class);
+  /// ```
+  ///
+  /// @param enclosingClass the class which must be the direct enclosing class of actual.
+  /// @return {@code this} assertions object
+  /// @throws NullPointerException if {@code enclosingClass} is {@code null}.
+  /// @throws AssertionError if {@code actual} is {@code null}.
+  /// @throws AssertionError if the actual {@code Class} doesn't have the given class as direct enclosing class.
+  /// @see #hasNoEnclosingClass()
+  /// @since 3.28.0
+  public SELF hasEnclosingClass(Class<?> enclosingClass) {
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasEnclosingClass(enclosingClass);
+    });
+  }
+
+  private void assertHasEnclosingClass(Class<?> enclosingClass) {
+    requireNonNull(enclosingClass, shouldNotBeNull("enclosingClass")::create);
+    Class<?> actualEnclosingClass = actual.getEnclosingClass();
+    if (actualEnclosingClass == null || !actualEnclosingClass.equals(enclosingClass)) {
+      throw assertionError(shouldHaveEnclosingClass(actual, enclosingClass));
+    }
+  }
+
+  /// Verifies that the actual {@code Class} has no enclosing class (as in [Class#getEnclosingClass()], when `null`
+  /// is returned).
+  ///
+  /// Example:
+  /// ```java
+  /// // this assertion succeeds as top-level classes have no enclosing class:
+  /// assertThat(String.class).hasNoEnclosingClass();
+  ///
+  /// // this assertion fails as Inner has Outer as enclosing class:
+  /// public class Outer {
+  ///   public class Inner {
+  ///   }
+  /// }
+  /// assertThat(Outer.Inner.class).hasNoEnclosingClass();
+  /// ```
+  ///
+  /// @return {@code this} assertions object
+  /// @throws AssertionError if {@code actual} is {@code null}.
+  /// @throws AssertionError if the actual {@code Class} has an enclosing class.
+  /// @see #hasEnclosingClass(Class)
+  /// @since 3.28.0
+  public SELF hasNoEnclosingClass() {
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasNoEnclosingClass();
+    });
+  }
+
+  private void assertHasNoEnclosingClass() {
+    if (actual.getEnclosingClass() != null) throw assertionError(shouldHaveNoEnclosingClass(actual));
   }
 
   /**
