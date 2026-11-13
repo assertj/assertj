@@ -1,0 +1,4 @@
+* xref:index.adoc[]
+* xref:assertions-guide.adoc[]
+* xref:release-notes.adoc[]
+* xref:dependency-metadata.adoc[]

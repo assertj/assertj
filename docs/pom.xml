@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-parent</artifactId>
+    <version>3.27.8-SNAPSHOT</version>
+    <relativePath>../assertj-parent</relativePath>
+  </parent>
+
+  <artifactId>docs</artifactId>
+
+  <name>AssertJ Docs</name>
+
+  <properties>
+    <gpg.skip>true</gpg.skip>
+    <maven.install.skip>true</maven.install.skip>
+    <maven.deploy.skip>true</maven.deploy.skip>
+    <!-- a license header would show up in the pages that include a whole example -->
+    <license.skip>true</license.skip>
+    <!-- the examples in src/test/java are only compiled, some of them fail on purpose -->
+    <skipTests>true</skipTests>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <!-- for the JUnit 4 soft assertions examples -->
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <skipIfEmpty>true</skipIfEmpty>
+        </configuration>
+      </plugin>
+      <plugin>
+        <!-- sets antora-component.version and antora-component.prerelease from the project version -->
+        <groupId>io.spring.maven.antora</groupId>
+        <artifactId>antora-component-version-maven-plugin</artifactId>
+        <version>0.0.4</version>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>antora-component-version</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!-- the Antora Collector extension overlays the filtered antora.yml onto both components -->
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>antora-resources</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/antora</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>antora-resources</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.antora</groupId>
+        <artifactId>antora-maven-plugin</artifactId>
+        <version>1.0.0-alpha.5</version>
+        <!-- enables the "antora" lifecycle: ./mvnw -f docs antora -->
+        <extensions>true</extensions>
+        <configuration>
+          <!-- pass "-Dnode.executable=..." to avoid the download -->
+          <nodeVersion>v26</nodeVersion>
+          <options>
+            <option>log-level=info</option>
+          </options>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

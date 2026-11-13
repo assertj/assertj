@@ -1,0 +1,12 @@
+name: assertj-guava
+title: AssertJ Guava
+version: true
+nav:
+  - modules/ROOT/nav.adoc
+ext:
+  collector:
+    - run:
+        command: ./mvnw -q -f docs process-resources
+        local: true
+      scan:
+        - dir: docs/target/antora

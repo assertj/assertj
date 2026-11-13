@@ -16,3 +16,9 @@ updates:
       github-actions:
         patterns:
           - "*"
+  - package-ecosystem: "npm"
+    directory: "/docs"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependabot: npm"
