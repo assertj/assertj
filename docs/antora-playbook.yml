@@ -1,0 +1,17 @@
+antora:
+  extensions:
+    - '@antora/collector-extension'
+site:
+  title: AssertJ Docs
+  start_page: assertj-core::index.adoc
+content:
+  sources:
+    - url: ./.. # the local repository, relative to this playbook
+      branches: HEAD # use the worktree so that uncommitted changes are included
+      start_paths: docs/assertj-*
+ui:
+  bundle:
+    url: https://github.com/assertj/antora-ui/releases/latest/download/ui-bundle.zip
+    snapshot: true
+output:
+  dir: ./target/site
