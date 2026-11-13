@@ -97,6 +97,7 @@
     <module>assertj-core</module>
     <module>assertj-guava</module>
     <module>assertj-tests</module>
+    <module>docs</module>
   </modules>
 
   <scm>

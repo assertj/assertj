@@ -1,0 +1,14 @@
+name: assertj-core
+title: AssertJ Core
+version: true
+nav:
+  - modules/ROOT/nav.adoc
+ext:
+  collector:
+    - run:
+        command: ./mvnw -q -f docs process-resources
+        local: true
+      scan:
+        - dir: docs/target/antora
+        - dir: docs/src/test/java
+          into: modules/ROOT/examples/java
