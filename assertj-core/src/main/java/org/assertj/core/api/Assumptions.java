@@ -978,16 +978,15 @@ public class Assumptions {
     return assumption(Assertions.assertThat(actual));
   }
 
-  /**
-   * Creates a new instance of <code>{@link GenericComparableAssert}</code> assumption.
-   *
-   * @param <T> the type of actual.
-   * @param actual the actual value.
-   * @return the created assumption for assertion object.
-   * @since 2.9.0 / 3.9.0
-   */
+  /// Creates a new assumption for a [GenericComparableAssert].
+  ///
+  /// @param <ACTUAL> the type of the actual value.
+  /// @param <COMPARABLE_TYPE> the type accepted by comparable assertion methods.
+  /// @param actual the actual value.
+  /// @return the created assumption for the assertion object.
+  /// @since 2.9.0 / 3.9.0
   @SuppressWarnings("unchecked")
-  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assumeThat(T actual) {
+  public static <ACTUAL extends Comparable<? super COMPARABLE_TYPE>, COMPARABLE_TYPE> AbstractComparableAssert<?, ACTUAL, COMPARABLE_TYPE> assumeThat(ACTUAL actual) {
     return assumption(Assertions.assertThat(actual));
   }
 

@@ -837,14 +837,13 @@ public interface WithAssertions extends InstanceOfAssertFactories {
     return Assertions.assertThat(actual);
   }
 
-  /**
-   * Creates a new instance of <code>{@link GenericComparableAssert}</code> with standard comparison semantics.
-   *
-   * @param <T> the type of actual.
-   * @param actual the actual value.
-   * @return the created assertion object.
-   */
-  default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(final T actual) {
+  /// Creates a new instance of [GenericComparableAssert] with standard comparison semantics.
+  ///
+  /// @param <ACTUAL> the type of the actual value.
+  /// @param <COMPARABLE_TYPE> the type accepted by comparable assertion methods.
+  /// @param actual the actual value.
+  /// @return the created assertion object.
+  default <ACTUAL extends Comparable<? super COMPARABLE_TYPE>, COMPARABLE_TYPE> AbstractComparableAssert<?, ACTUAL, COMPARABLE_TYPE> assertThat(final ACTUAL actual) {
     return Assertions.assertThat(actual);
   }
 

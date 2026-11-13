@@ -36,7 +36,7 @@ import org.assertj.core.internal.Characters;
  * @author Mikhail Mazursky
  */
 public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAssert<SELF>> extends
-    AbstractComparableAssert<SELF, Character> {
+    AbstractComparableAssert<SELF, Character, Character> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Characters characters = Characters.instance();
