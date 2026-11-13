@@ -134,13 +134,6 @@ Writing your own assertions is simple: create a class inheriting from `AbstractA
 
 TIP: Add a static method `assertThat` to provide a handy entry point to your new assertion class.
 
-Sections:
-
-* xref:extension.adoc#custom-assertions-creation[Creating your own assertion class]
-* Providing an entry point for all your custom assertions
-* Providing an entry point for all your custom assertions and AssertJ ones ?
-* Enabling soft assertions on your custom assertions
-
 [[custom-assertions-creation]]
 === Creating your own assertion class
 

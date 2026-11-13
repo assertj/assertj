@@ -4,31 +4,6 @@ NOTE: AssertJ Core would not exist without its contributors, you can find them a
 
 The latest release notes can be found in the {assertj-core-github}/releases[GitHub releases].
 
-Older release notes:
-
-- xref:release-notes.adoc#v3-23-0-release-notes[AssertJ Core 3.23.0]
-- xref:release-notes.adoc#v3-22-0-release-notes[AssertJ Core 3.22.0]
-- xref:release-notes.adoc#v3-21-0-release-notes[AssertJ Core 3.21.0]
-- xref:release-notes.adoc#v3-20-2-release-notes[AssertJ Core 3.20.2]
-- xref:release-notes.adoc#v3-20-1-release-notes[AssertJ Core 3.20.1]
-- xref:release-notes.adoc#v3-20-0-release-notes[AssertJ Core 3.20.0]
-- xref:release-notes.adoc#v3-19-0-release-notes[AssertJ Core 3.19.0]
-- xref:release-notes.adoc#v3-18-1-release-notes[AssertJ Core 3.18.1]
-- xref:release-notes.adoc#v3-18-0-release-notes[AssertJ Core 3.18.0]
-- xref:release-notes.adoc#v3-17-2-release-notes[AssertJ Core 3.17.2]
-- xref:release-notes.adoc#v3-17-1-release-notes[AssertJ Core 3.17.1]
-- xref:release-notes.adoc#v3-17-0-release-notes[AssertJ Core 3.17.0]
-- xref:release-notes.adoc#v3-16-1-release-notes[AssertJ Core 3.16.1]
-- xref:release-notes.adoc#v3-16-0-release-notes[AssertJ Core 3.16.0]
-- xref:release-notes.adoc#v3-15-0-release-notes[AssertJ Core 3.15.0]
-- xref:release-notes.adoc#v3-14-0-release-notes[AssertJ Core 3.14.0]
-- xref:release-notes.adoc#v3-13-2-release-notes[AssertJ Core 3.13.2]
-- xref:release-notes.adoc#v3-13-1-release-notes[AssertJ Core 3.13.1]
-- xref:release-notes.adoc#v3-13-0-release-notes[AssertJ Core 3.13.0]
-- xref:release-notes.adoc#v3-12-2-release-notes[AssertJ Core 3.12.2]
-- xref:release-notes.adoc#v3-12-1-release-notes[AssertJ Core 3.12.1]
-- xref:release-notes.adoc#v3-12-0-release-notes[AssertJ Core 3.12.0]
-
 Even older release notes can be found in the old site: https://joel-costigliola.github.io/assertj/assertj-core-news.html, this is important to be aware of breaking changes if you are migrating from an old version.
 
 [[v3-23-0-release-notes]]
