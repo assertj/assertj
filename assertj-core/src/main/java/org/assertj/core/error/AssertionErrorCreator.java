@@ -266,9 +266,7 @@ public class AssertionErrorCreator {
     String overridingErrorMessage = info.overridingErrorMessage();
     if (isNullOrEmpty(overridingErrorMessage)) return null;
     String message = MessageFormatter.instance().format(info.description(), info.representation(), overridingErrorMessage);
-    AssertionError assertionError = assertionError(info, message);
-    removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
-    return assertionError;
+    return assertionError(info, message);
   }
 
   /**
@@ -310,9 +308,7 @@ public class AssertionErrorCreator {
     AssertionError error = errorWithOverriddenMessage(info);
     if (error != null) return error;
     String assertionErrorMessage = assertionErrorMessage(info, messageFactory);
-    AssertionError assertionError = assertionError(info, assertionErrorMessage);
-    removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
-    return assertionError;
+    return assertionError(info, assertionErrorMessage);
   }
 
   /**
@@ -339,9 +335,7 @@ public class AssertionErrorCreator {
    */
   public AssertionError assertionError(AssertionInfo info, ErrorMessageFactory messageFactory, Object actual, Object expected) {
     String assertionErrorMessage = assertionErrorMessage(info, messageFactory);
-    AssertionError assertionError = assertionError(info, assertionErrorMessage, actual, expected);
-    removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
-    return assertionError;
+    return assertionError(info, assertionErrorMessage, actual, expected);
   }
 
   private static void printThreadDumpIfNeeded(AssertionInfo info) {
