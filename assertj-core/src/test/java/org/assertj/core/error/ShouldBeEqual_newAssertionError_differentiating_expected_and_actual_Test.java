@@ -24,7 +24,6 @@ import static org.assertj.core.util.Strings.concat;
 
 import java.util.Comparator;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
@@ -36,12 +35,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
-/**
- * Tests for
- * <code>{@link ShouldBeEqual#toAssertionError(AssertionInfo)}</code>.
- *
- * @author Joel Costigliola (based on Tomasz Nurkiewicz ideas)
- */
+/// Tests for [AssertionErrorCreator#assertionError(org.assertj.core.api.AssertionInfo, ShouldBeEqual)].
+///
+/// @author Joel Costigliola (based on Tomasz Nurkiewicz ideas)
 class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
 
   private Description description;
@@ -58,7 +54,8 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     Double expected = 42d;
     ShouldBeEqual shouldBeEqual = ShouldBeEqual.shouldBeEqual(actual, expected, StandardRepresentation.STANDARD_REPRESENTATION);
     // WHEN
-    AssertionError error = shouldBeEqual.toAssertionError(assertionInfo(description, STANDARD_REPRESENTATION));
+    AssertionError error = AssertionErrorCreator.instance().assertionError(assertionInfo(description, STANDARD_REPRESENTATION),
+                                                                           shouldBeEqual);
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage(format("[my test] %n" +
@@ -73,7 +70,8 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     Person expected = new Person("Jake", 47);
     var shouldBeEqual = shouldBeEqual(actual, expected, STANDARD_REPRESENTATION);
     // WHEN
-    AssertionError error = shouldBeEqual.toAssertionError(assertionInfo(description, STANDARD_REPRESENTATION));
+    AssertionError error = AssertionErrorCreator.instance().assertionError(assertionInfo(description, STANDARD_REPRESENTATION),
+                                                                           shouldBeEqual);
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +
@@ -90,7 +88,8 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     ComparisonStrategy ageComparisonStrategy = new ComparatorBasedComparisonStrategy(new PersonComparator());
     var shouldBeEqual = shouldBeEqual(actual, expected, ageComparisonStrategy, STANDARD_REPRESENTATION);
     // WHEN
-    AssertionError error = shouldBeEqual.toAssertionError(assertionInfo(description, STANDARD_REPRESENTATION));
+    AssertionError error = AssertionErrorCreator.instance().assertionError(assertionInfo(description, STANDARD_REPRESENTATION),
+                                                                           shouldBeEqual);
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +
@@ -107,7 +106,8 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     Object expected = new ToStringIsNull();
     var shouldBeEqual = shouldBeEqual(actual, expected, STANDARD_REPRESENTATION);
     // WHEN
-    AssertionError error = shouldBeEqual.toAssertionError(assertionInfo(description, STANDARD_REPRESENTATION));
+    AssertionError error = AssertionErrorCreator.instance().assertionError(assertionInfo(description, STANDARD_REPRESENTATION),
+                                                                           shouldBeEqual);
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +
@@ -123,7 +123,8 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     Object expected = null;
     var shouldBeEqual = shouldBeEqual(actual, expected, STANDARD_REPRESENTATION);
     // WHEN
-    AssertionError error = shouldBeEqual.toAssertionError(assertionInfo(description, STANDARD_REPRESENTATION));
+    AssertionError error = AssertionErrorCreator.instance().assertionError(assertionInfo(description, STANDARD_REPRESENTATION),
+                                                                           shouldBeEqual);
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +

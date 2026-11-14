@@ -19,9 +19,9 @@ import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.AssertionsUtil.shouldBeEqualMessage;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.math.BigInteger;
@@ -54,7 +54,7 @@ class BigIntegers_assertEqualByComparison_Test extends BigIntegersBaseTest {
     // WHEN
     var error = expectAssertionError(() -> numbers.assertEqualByComparison(info, TEN, ONE));
     // THEN
-    then(error).hasMessage(shouldBeEqual(TEN, ONE, info.representation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, TEN, ONE));
   }
 
   @Test
@@ -77,6 +77,6 @@ class BigIntegers_assertEqualByComparison_Test extends BigIntegersBaseTest {
     // WHEN
     var error = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertEqualByComparison(info, TEN, ONE));
     // THEN
-    then(error).hasMessage(shouldBeEqual(TEN, ONE, info.representation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, TEN, ONE));
   }
 }

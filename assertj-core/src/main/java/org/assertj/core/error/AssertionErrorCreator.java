@@ -321,7 +321,8 @@ public class AssertionErrorCreator {
   public AssertionError assertionError(AssertionInfo info, ShouldBeEqual shouldBeEqual) {
     AssertionError error = errorWithOverriddenMessage(info);
     if (error != null) return error;
-    return shouldBeEqual.toAssertionError(info);
+    String message = shouldBeEqual.smartErrorMessage(info.description(), info.representation());
+    return assertionError(info, message, shouldBeEqual.actual, shouldBeEqual.expected);
   }
 
   /**

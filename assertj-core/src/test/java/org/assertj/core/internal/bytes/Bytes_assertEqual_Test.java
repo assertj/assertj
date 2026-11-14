@@ -17,15 +17,14 @@ package org.assertj.core.internal.bytes;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.AssertionsUtil.shouldBeEqualMessage;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.BytesBaseTest;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -54,7 +53,7 @@ class Bytes_assertEqual_Test extends BytesBaseTest {
     // WHEN
     var error = expectAssertionError(() -> bytes.assertEqual(info, (byte) 6, (byte) 8));
     // THEN
-    then(error).hasMessage(shouldBeEqual((byte) 6, (byte) 8, info.representation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, (byte) 6, (byte) 8));
   }
 
   @Test
@@ -77,7 +76,6 @@ class Bytes_assertEqual_Test extends BytesBaseTest {
     // WHEN
     var error = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertEqual(info, (byte) 6, (byte) 8));
     // THEN
-    then(error).hasMessage(shouldBeEqual((byte) 6, (byte) 8, absValueComparisonStrategy,
-                                         new StandardRepresentation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, (byte) 6, (byte) 8, absValueComparisonStrategy));
   }
 }

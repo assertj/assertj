@@ -19,9 +19,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.ThrowableAssertAlternative;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 import org.opentest4j.TestAbortedException;
 
 public class AssertionsUtil {
@@ -39,4 +44,29 @@ public class AssertionsUtil {
   public static void expectAssumptionNotMetException(ThrowingCallable shouldRaiseError) {
     assertThatThrownBy(shouldRaiseError).isInstanceOf(TestAbortedException.class);
   }
+
+  /// Returns the message of the [AssertionError] reported when `actual` is not equal to `expected`.
+  ///
+  /// @param info the assertion information, its representation is used to format the values
+  /// @param actual the actual value
+  /// @param expected the expected value
+  /// @return the expected error message
+  public static String shouldBeEqualMessage(AssertionInfo info, Object actual, Object expected) {
+    return shouldBeEqualMessage(info, actual, expected, StandardComparisonStrategy.instance());
+  }
+
+  /// Returns the message of the [AssertionError] reported when `actual` is not equal to `expected` according to the
+  /// given comparison strategy.
+  ///
+  /// @param info the assertion information, its representation is used to format the values
+  /// @param actual the actual value
+  /// @param expected the expected value
+  /// @param comparisonStrategy the comparison strategy used to compare the values
+  /// @return the expected error message
+  public static String shouldBeEqualMessage(AssertionInfo info, Object actual, Object expected,
+                                            ComparisonStrategy comparisonStrategy) {
+    var shouldBeEqual = shouldBeEqual(actual, expected, comparisonStrategy, info.representation());
+    return AssertionErrorCreator.instance().assertionError(info, shouldBeEqual).getMessage();
+  }
+
 }

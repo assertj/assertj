@@ -18,9 +18,9 @@ package org.assertj.core.internal.comparables;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.AssertionsUtil.shouldBeEqualMessage;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.math.BigDecimal;
@@ -68,7 +68,7 @@ class Comparables_assertEqualByComparison_Test extends ComparablesBaseTest {
     // WHEN
     var error = expectAssertionError(() -> comparables.assertEqualByComparison(info, "Luke", "Yoda"));
     // THEN
-    then(error).hasMessage(shouldBeEqual("Luke", "Yoda", info.representation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, "Luke", "Yoda"));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -100,7 +100,7 @@ class Comparables_assertEqualByComparison_Test extends ComparablesBaseTest {
     // WHEN
     var error = expectAssertionError(() -> comparablesWithCustomComparisonStrategy.assertEqualByComparison(info, "Luke", "Yoda"));
     // THEN
-    then(error).hasMessage(shouldBeEqual("Luke", "Yoda", info.representation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, "Luke", "Yoda"));
   }
 
 }

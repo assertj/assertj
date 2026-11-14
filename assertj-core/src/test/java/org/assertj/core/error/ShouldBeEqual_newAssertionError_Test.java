@@ -22,7 +22,6 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 
 import java.util.stream.Stream;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
@@ -31,12 +30,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.opentest4j.AssertionFailedError;
 
-/**
- * Tests for <code>{@link ShouldBeEqual#toAssertionError(AssertionInfo)}</code>.
- *
- * @author Alex Ruiz
- * @author Dan Corder
- */
+/// Tests for [AssertionErrorCreator#assertionError(org.assertj.core.api.AssertionInfo, ShouldBeEqual)].
+///
+/// @author Alex Ruiz
+/// @author Dan Corder
 class ShouldBeEqual_newAssertionError_Test {
 
   @ParameterizedTest
@@ -46,7 +43,8 @@ class ShouldBeEqual_newAssertionError_Test {
     Description description = new TestDescription("Jedi");
     var shouldBeEqual = shouldBeEqual("Luke", "Yoda", STANDARD_REPRESENTATION);
     // WHEN
-    var assertionError = shouldBeEqual.toAssertionError(assertionInfo(description, STANDARD_REPRESENTATION));
+    var assertionError = AssertionErrorCreator.instance().assertionError(assertionInfo(description, STANDARD_REPRESENTATION),
+                                                                         shouldBeEqual);
     // THEN
     then(assertionError).isInstanceOf(AssertionFailedError.class)
                         .hasMessage(format("[Jedi] %n" +

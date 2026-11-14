@@ -17,15 +17,14 @@ package org.assertj.core.internal.floats;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.AssertionsUtil.shouldBeEqualMessage;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Floats;
 import org.assertj.core.internal.FloatsBaseTest;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -54,7 +53,7 @@ class Floats_assertEqual_Test extends FloatsBaseTest {
     // WHEN
     var error = expectAssertionError(() -> floats.assertEqual(info, 6f, 8f));
     // THEN
-    then(error).hasMessage(shouldBeEqual(6f, 8f, info.representation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, 6f, 8f));
   }
 
   @Test
@@ -76,7 +75,6 @@ class Floats_assertEqual_Test extends FloatsBaseTest {
     // WHEN
     var error = expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertEqual(info, 6f, -8f));
     // THEN
-    then(error).hasMessage(shouldBeEqual(6f, -8f, absValueComparisonStrategy,
-                                         new StandardRepresentation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, 6f, -8f, absValueComparisonStrategy));
   }
 }

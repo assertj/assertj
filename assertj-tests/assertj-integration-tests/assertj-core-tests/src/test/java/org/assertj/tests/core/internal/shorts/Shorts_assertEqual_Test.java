@@ -16,17 +16,16 @@
 package org.assertj.tests.core.internal.shorts;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.tests.core.util.AssertionsUtil.shouldBeEqualMessage;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.internal.Shorts;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
@@ -59,8 +58,7 @@ class Shorts_assertEqual_Test {
     // WHEN
     var assertionError = expectAssertionError(() -> Shorts.instance().assertEqual(info, (short) 6, (short) 8));
     // THEN
-    then(assertionError).hasMessage(shouldBeEqual((short) 6, (short) 8, new StandardRepresentation()).toAssertionError(info)
-                                                                                                     .getMessage());
+    then(assertionError).hasMessage(shouldBeEqualMessage(info, (short) 6, (short) 8));
   }
 
   @Test
@@ -81,7 +79,6 @@ class Shorts_assertEqual_Test {
     // WHEN
     var assertionError = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertEqual(info, (short) 6, (short) 8));
     // THEN
-    then(assertionError).hasMessage(shouldBeEqual((short) 6, (short) 8, absValueComparisonStrategy,
-                                                  new StandardRepresentation()).toAssertionError(info).getMessage());
+    then(assertionError).hasMessage(shouldBeEqualMessage(info, (short) 6, (short) 8, absValueComparisonStrategy));
   }
 }

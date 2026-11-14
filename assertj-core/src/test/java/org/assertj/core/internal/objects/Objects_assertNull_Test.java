@@ -16,9 +16,9 @@
 package org.assertj.core.internal.objects;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.AssertionsUtil.shouldBeEqualMessage;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
@@ -45,6 +45,6 @@ class Objects_assertNull_Test extends ObjectsBaseTest {
     // WHEN
     var error = expectAssertionError(() -> objects.assertNull(info, actual));
     // THEN
-    then(error).hasMessage(shouldBeEqual(actual, null, info.representation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, actual, null));
   }
 }

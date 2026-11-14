@@ -17,9 +17,9 @@ package org.assertj.core.internal.integers;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.AssertionsUtil.shouldBeEqualMessage;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AssertionInfo;
@@ -53,7 +53,7 @@ class Integers_assertEqual_Test extends IntegersBaseTest {
     // WHEN
     var error = expectAssertionError(() -> integers.assertEqual(info, 6, 8));
     // THEN
-    then(error).hasMessage(shouldBeEqual(6, 8, info.representation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, 6, 8));
   }
 
   @Test
@@ -75,7 +75,6 @@ class Integers_assertEqual_Test extends IntegersBaseTest {
     // WHEN
     var error = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertEqual(info, 6, -8));
     // THEN
-    then(error).hasMessage(shouldBeEqual(6, -8, absValueComparisonStrategy,
-                                         info.representation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, 6, -8, absValueComparisonStrategy));
   }
 }

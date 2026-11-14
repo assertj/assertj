@@ -19,9 +19,9 @@ import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.AssertionsUtil.shouldBeEqualMessage;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.math.BigDecimal;
@@ -29,7 +29,6 @@ import java.math.BigDecimal;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.BigDecimalsBaseTest;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -59,7 +58,7 @@ class BigDecimals_assertEqual_Test extends BigDecimalsBaseTest {
     // WHEN
     var error = expectAssertionError(() -> numbers.assertEqual(info, ONE_WITH_3_DECIMALS, ONE));
     // THEN
-    then(error).hasMessage(shouldBeEqual(ONE_WITH_3_DECIMALS, ONE, info.representation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, ONE_WITH_3_DECIMALS, ONE));
   }
 
   @Test
@@ -82,8 +81,7 @@ class BigDecimals_assertEqual_Test extends BigDecimalsBaseTest {
     // WHEN
     var error = expectAssertionError(() -> numbersWithComparatorComparisonStrategy.assertEqual(info, TEN, ONE));
     // THEN
-    then(error).hasMessage(shouldBeEqual(TEN, ONE, comparatorComparisonStrategy,
-                                         new StandardRepresentation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, TEN, ONE, comparatorComparisonStrategy));
   }
 
 }

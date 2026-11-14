@@ -17,15 +17,14 @@ package org.assertj.core.internal.characters;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.AssertionsUtil.shouldBeEqualMessage;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Characters;
 import org.assertj.core.internal.CharactersBaseTest;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -56,7 +55,7 @@ class Characters_assertEqual_Test extends CharactersBaseTest {
     // WHEN
     var error = expectAssertionError(() -> characters.assertEqual(info, 'b', 'a'));
     // THEN
-    then(error).hasMessage(shouldBeEqual('b', 'a', info.representation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, 'b', 'a'));
   }
 
   @Test
@@ -79,7 +78,6 @@ class Characters_assertEqual_Test extends CharactersBaseTest {
     // WHEN
     var error = expectAssertionError(() -> charactersWithCaseInsensitiveComparisonStrategy.assertEqual(info, 'b', 'a'));
     // THEN
-    then(error).hasMessage(shouldBeEqual('b', 'a', caseInsensitiveComparisonStrategy,
-                                         new StandardRepresentation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, 'b', 'a', caseInsensitiveComparisonStrategy));
   }
 }

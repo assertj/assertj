@@ -23,7 +23,6 @@ import static org.assertj.core.util.introspection.ClassUtils.haveSameClassNameIn
 
 import java.util.Objects;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
@@ -99,28 +98,6 @@ public class ShouldBeEqual {
     this.comparisonStrategy = comparisonStrategy;
     this.representation = representation;
     this.haveSameClassNameInDifferentPackages = haveSameClassNameInDifferentPackages(actual, expected);
-  }
-
-  /**
-   * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are
-   * equal failed.<br>
-   * The <code>{@link AssertionError}</code> message is built so that it differentiates {@link #actual} and
-   * {@link #expected} description in case their string representations are the same (as float 42 and double 42).
-   * <p>
-   * If opentest4j is on the classpath and the description is standard (no comparator was used and {@link #actual} and
-   * {@link #expected} string representation is different), this method will instead create a
-   * {@code org.opentest4j.AssertionFailedError} that highlights the difference(s) between the expected and actual objects.
-   * </p>
-   * {@link AssertionError} stack trace won't show AssertJ related elements if {@link AssertionErrorCreator} is configured to filter
-   * them (see {@link AssertionErrorCreator#setRemoveAssertJRelatedElementsFromStackTrace(boolean)}).
-   *
-   * @param info the assertion information, providing the description and the {@link Representation} used to format values.
-   * @return the created {@code AssertionError}.
-   */
-  public AssertionError toAssertionError(AssertionInfo info) {
-    String message = smartErrorMessage(info.description(), info.representation());
-    // creates an opentest4j AssertionFailedError if available (nicely displayed in IDEs), otherwise a plain AssertionError
-    return AssertionErrorCreator.instance().assertionError(info, message, actual, expected);
   }
 
   /**

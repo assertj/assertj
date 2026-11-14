@@ -17,15 +17,14 @@ package org.assertj.core.internal.doubles;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.AssertionsUtil.shouldBeEqualMessage;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.DoublesBaseTest;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -54,7 +53,7 @@ class Doubles_assertEqual_Test extends DoublesBaseTest {
     // WHEN
     var error = expectAssertionError(() -> doubles.assertEqual(info, 6d, 8d));
     // THEN
-    then(error).hasMessage(shouldBeEqual(6d, 8d, info.representation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, 6d, 8d));
   }
 
   @Test
@@ -76,7 +75,6 @@ class Doubles_assertEqual_Test extends DoublesBaseTest {
     // WHEN
     var error = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertEqual(info, 6d, 8d));
     // THEN
-    then(error).hasMessage(shouldBeEqual(6d, 8d, absValueComparisonStrategy,
-                                         new StandardRepresentation()).toAssertionError(info).getMessage());
+    then(error).hasMessage(shouldBeEqualMessage(info, 6d, 8d, absValueComparisonStrategy));
   }
 }
