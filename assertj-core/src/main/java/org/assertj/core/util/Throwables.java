@@ -153,35 +153,45 @@ public final class Throwables {
     return newArrayList(Thread.currentThread().getStackTrace());
   }
 
-  /**
-   * Removes the AssertJ-related elements from the <code>{@link Throwable}</code> stack trace that have little value for
-   * end user, that is assertj elements and the ones coming from assertj (for example assertj calling some java jdk
-   * classes to build assertion errors dynamically).
-   * <p>
-   * Therefore, instead of seeing this:
-   * <pre><code class='java'> --------------- stack trace not filtered -----------------
-   * org.opentest4j.AssertionFailedError:
-   * expected: "messi"
-   * but was: "ronaldo"
-   *
-   * at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
-   * at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
-   * at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
-   * at org.assertj.core/org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:28)
-   * at org.assertj.core/org.assertj.core.error.ShouldBeEqual.assertionFailedError(ShouldBeEqual.java:208)
-   * at org.assertj.core/org.assertj.core.error.ShouldBeEqual.toAssertionError(ShouldBeEqual.java:113)
-   *
-   * --------------- stack trace filtered -----------------
-   * org.opentest4j.AssertionFailedError:
-   * expected: "messi"
-   * but was: "ronaldo"
-   *
-   * at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-   * at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-   * at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)</code></pre>
-   *
-   * @param throwable the {@code Throwable} to filter stack trace.
-   */
+  /// Removes the AssertJ-related elements from the [Throwable] stack trace that have little value for the end user, that
+  /// is AssertJ elements and the ones coming from AssertJ (for example AssertJ calling some JDK classes to build assertion
+  /// errors dynamically).
+  ///
+  /// Therefore, instead of seeing the first stack trace below, users see the second one:
+  /// ```
+  /// --------------- stack trace not filtered -----------------
+  /// org.opentest4j.AssertionFailedError:
+  /// expected: "messi"
+  ///  but was: "ronaldo"
+  ///
+  /// at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+  /// at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+  /// at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+  /// at org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:43)
+  /// at org.assertj.core.error.AssertionErrorCreator.assertionFailedError(AssertionErrorCreator.java:111)
+  /// at org.assertj.core.error.AssertionErrorCreator.assertionError(AssertionErrorCreator.java:105)
+  /// at org.assertj.core.error.AssertionErrorCreator.assertionError(AssertionErrorCreator.java:175)
+  /// at org.assertj.core.error.AssertionErrorCreator.assertionError(AssertionErrorCreator.java:333)
+  /// at org.assertj.core.internal.Objects.assertEqual(Objects.java:327)
+  /// at org.assertj.core.api.AbstractAssert.lambda$isEqualTo$0(AbstractAssert.java:501)
+  /// at org.assertj.core.api.AbstractAssert.executeAssertion(AbstractAssert.java:155)
+  /// at org.assertj.core.api.AbstractAssert.isEqualTo(AbstractAssert.java:501)
+  /// at org.assertj.core.api.AbstractStringAssert.isEqualTo(AbstractStringAssert.java:429)
+  /// at com.example.PlayerTest.should_be_messi(PlayerTest.java:15)
+  /// at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+  /// at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+  ///
+  /// --------------- stack trace filtered -----------------
+  /// org.opentest4j.AssertionFailedError:
+  /// expected: "messi"
+  ///  but was: "ronaldo"
+  ///
+  /// at com.example.PlayerTest.should_be_messi(PlayerTest.java:15)
+  /// at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+  /// at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+  /// ```
+  ///
+  /// @param throwable the `Throwable` to filter stack trace.
   public static void removeAssertJRelatedElementsFromStackTrace(Throwable throwable) {
     if (throwable == null) return;
     List<StackTraceElement> purgedStack = list();
