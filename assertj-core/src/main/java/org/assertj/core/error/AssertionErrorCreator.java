@@ -102,7 +102,7 @@ public class AssertionErrorCreator {
   /// @param representation the value representation
   /// @return the assertion error
   public AssertionError assertionError(String message, Object actual, Object expected, Representation representation) {
-    return assertionFailedError(message, actual, expected, representation).orElse(assertionError(message));
+    return assertionFailedError(message, actual, expected, representation).orElseGet(() -> assertionError(message));
   }
 
   private Optional<AssertionError> assertionFailedError(String message, Object actual, Object expected,
