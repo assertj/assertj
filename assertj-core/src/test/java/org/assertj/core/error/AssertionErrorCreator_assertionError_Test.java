@@ -64,7 +64,7 @@ class AssertionErrorCreator_assertionError_Test {
     // GIVEN
     ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);
     AssertionErrorCreator underTest = new AssertionErrorCreator(constructorInvoker);
-    given(constructorInvoker.newInstance(anyString(), any(Class[].class), any())).willThrow(Exception.class);
+    given(constructorInvoker.newInstance(anyString(), any(Class[].class), any())).willThrow(new Exception());
     String message = "error message";
     Representation representation = mock(Representation.class);
     // WHEN
