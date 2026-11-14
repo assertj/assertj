@@ -16,6 +16,8 @@
     <argLine>
       <!-- https://github.com/mockito/mockito/issues/3037 -->
       -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
+      <!-- JDK 28 disables ReflectionFactory#newConstructorForSerialization, still used by Objenesis (Mockito, EqualsVerifier) -->
+      -Djdk.reflect.allowNonSerializableConstruction=true
       <!-- java.base -->
       --add-opens java.base/java.lang=org.assertj.core
       --add-opens java.base/java.math=ALL-UNNAMED

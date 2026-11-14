@@ -19,6 +19,8 @@
     <argLine>
       <!-- https://github.com/mockito/mockito/issues/3037 -->
       -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
+      <!-- JDK 28 disables ReflectionFactory#newConstructorForSerialization, still used by Objenesis (Mockito, EqualsVerifier) -->
+      -Djdk.reflect.allowNonSerializableConstruction=true
       -Dfile.encoding=${project.build.sourceEncoding}
       @${project.basedir}/argFile
     </argLine>
