@@ -118,15 +118,9 @@ public class ShouldBeEqual {
    * @return the created {@code AssertionError}.
    */
   public AssertionError toAssertionError(AssertionInfo info) {
-    var assertionError = createAssertionError(info.description(), info.representation());
-    AssertionErrorCreator.instance().printThreadDumpIfNeeded(info);
-    return assertionError;
-  }
-
-  private AssertionError createAssertionError(Description description, Representation representation) {
-    String message = smartErrorMessage(description, representation);
+    String message = smartErrorMessage(info.description(), info.representation());
     // creates an opentest4j AssertionFailedError if available (nicely displayed in IDEs), otherwise a plain AssertionError
-    return AssertionErrorCreator.instance().assertionError(message, actual, expected, representation);
+    return AssertionErrorCreator.instance().assertionError(info, message, actual, expected);
   }
 
   /**

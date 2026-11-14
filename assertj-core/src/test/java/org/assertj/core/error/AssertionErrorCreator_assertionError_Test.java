@@ -23,11 +23,17 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.List;
 
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.internal.FileContent;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 import org.opentest4j.FileInfo;
@@ -123,6 +129,56 @@ class AssertionErrorCreator_assertionError_Test {
     // THEN
     then(assertionError).isInstanceOf(AssertionFailedError.class);
     then(assertionError.getStackTrace()).noneMatch(element -> element.getClassName().startsWith("org.assertj.core.error."));
+  }
+
+  @Nested
+  class Thread_dump {
+
+    private final PrintStream originalErr = System.err;
+    private final ByteArrayOutputStream err = new ByteArrayOutputStream();
+
+    @BeforeEach
+    void setUp() {
+      System.setErr(new PrintStream(err, true));
+    }
+
+    @AfterEach
+    void tearDown() {
+      System.setErr(originalErr);
+    }
+
+    @Test
+    void should_print_thread_dump_if_requested_by_assertion_info() {
+      // GIVEN
+      var info = new WritableAssertionInfo();
+      info.enablePrintThreadDumpOnError();
+      // WHEN
+      assertionErrorCreator.assertionError(info, "boom");
+      // THEN
+      then(err.toString()).contains("java.lang.Thread.State", "\"main\"");
+    }
+
+    @Test
+    void should_print_thread_dump_with_actual_and_expected_if_requested_by_assertion_info() {
+      // GIVEN
+      var info = new WritableAssertionInfo();
+      info.enablePrintThreadDumpOnError();
+      // WHEN
+      assertionErrorCreator.assertionError(info, "boom", "actual", "expected");
+      // THEN
+      then(err.toString()).contains("java.lang.Thread.State", "\"main\"");
+    }
+
+    @Test
+    void should_not_print_thread_dump_if_not_requested_by_assertion_info() {
+      // GIVEN
+      var info = new WritableAssertionInfo();
+      // WHEN
+      assertionErrorCreator.assertionError(info, "boom");
+      assertionErrorCreator.assertionError(info, "boom", "actual", "expected");
+      // THEN
+      then(err.toString()).isEmpty();
+    }
   }
 
   record Item(String name) {

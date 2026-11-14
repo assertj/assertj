@@ -178,15 +178,6 @@ public class AssertionErrorCreator {
   }
 
   /**
-   * Prints a thread dump to {@code System.err} if the given assertion info requests it.
-   *
-   * @param info the assertion information
-   */
-  public void printThreadDumpIfNeeded(AssertionInfo info) {
-    if (info.printThreadDumpOnError()) System.err.println(threadDumpDescription());
-  }
-
-  /**
    * Returns a description of all current threads.
    *
    * @return the thread dump description
@@ -351,5 +342,9 @@ public class AssertionErrorCreator {
     AssertionError assertionError = assertionError(info, assertionErrorMessage, actual, expected);
     removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     return assertionError;
+  }
+
+  private static void printThreadDumpIfNeeded(AssertionInfo info) {
+    if (info.printThreadDumpOnError()) System.err.println(threadDumpDescription());
   }
 }
