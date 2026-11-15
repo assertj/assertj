@@ -131,7 +131,7 @@ public final class DualValue {
     return "DualValue [fieldLocation=%s, actual=%s, expected=%s]".formatted(fieldLocation, actual, expected);
   }
 
-  public String valuesDescription() {
+  String valuesDescription() {
     return "actual=%s (%s), expected=%s (%s)".formatted(actual, getActualTypeDescription(), expected,
                                                         getExpectedTypeDescription());
   }
@@ -661,6 +661,11 @@ public final class DualValue {
     return false;
   }
 
+  /**
+   * Returns true if any of actual or expected value is a proxied value.
+   *
+   * @return true if any of actual or expected value is a proxied value.
+   */
   public boolean hasProxyAndNonProxyValue() {
     return isActualAProxiedValue() != isExpectedAProxiedValue();
   }
