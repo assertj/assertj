@@ -15,7 +15,10 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import org.junit.jupiter.api.Disabled;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +41,15 @@ class Issue_3551_Test {
   private PersonRepository repository;
 
   @Test
-  @Disabled
   void test() {
+    // GIVEN
     Person alice = repository.getPerson();
     Person bob = new PersonImpl("bob");
     alice.getName();
-    // FIXME Recursive comparison fails but incorrectly as it does not gather the right fields
-    // assertThat(alice).usingRecursiveComparison().isEqualTo(bob);
+    // WHEN
+    var iae = catchIllegalArgumentException(() -> assertThat(alice).usingRecursiveComparison().isEqualTo(bob));
+    // THEN
+    then(iae).hasMessageContaining("can't compare a proxied value with a non proxied one");
   }
 
   interface Person {

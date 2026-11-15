@@ -22,6 +22,7 @@ import static org.assertj.core.internal.RecursiveHelper.isContainer;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 
+import java.lang.reflect.Proxy;
 import java.nio.file.Path;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -128,6 +129,11 @@ public final class DualValue {
   @Override
   public String toString() {
     return "DualValue [fieldLocation=%s, actual=%s, expected=%s]".formatted(fieldLocation, actual, expected);
+  }
+
+  public String valuesDescription() {
+    return "actual=%s (%s), expected=%s (%s)".formatted(actual, getActualTypeDescription(), expected,
+                                                        getExpectedTypeDescription());
   }
 
   /**
@@ -655,4 +661,19 @@ public final class DualValue {
     return false;
   }
 
+  public boolean hasProxyAndNonProxyValue() {
+    return isActualAProxiedValue() != isExpectedAProxiedValue();
+  }
+
+  private boolean isActualAProxiedValue() {
+    return isProxy(actual);
+  }
+
+  private boolean isExpectedAProxiedValue() {
+    return isProxy(expected);
+  }
+
+  private static boolean isProxy(Object value) {
+    return value != null && Proxy.isProxyClass(value.getClass());
+  }
 }

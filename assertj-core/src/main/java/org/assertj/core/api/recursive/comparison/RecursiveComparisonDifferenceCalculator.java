@@ -302,6 +302,10 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
+      if (dualValue.hasProxyAndNonProxyValue()) {
+        throw new IllegalArgumentException("can't compare a proxied value with a non proxied one: %s".formatted(dualValue.valuesDescription()));
+      }
+
       if (dualValue.isActualAnEnum() || dualValue.isExpectedAnEnum()) {
         compareAsEnums(dualValue, comparisonState, recursiveComparisonConfiguration);
         continue;
