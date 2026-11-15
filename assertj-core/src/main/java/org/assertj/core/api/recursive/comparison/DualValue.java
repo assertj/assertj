@@ -95,6 +95,10 @@ public final class DualValue {
     hashCode = computeHashCode();
   }
 
+  public DualValue sibling(Object actualFieldValue, Object expectedFieldValue) {
+    return new DualValue(fieldLocation, actualFieldValue, expectedFieldValue, parentDualValue, isKeyMapDualValue);
+  }
+
   private int computeHashCode() {
     return identityHashCode(actual) + identityHashCode(expected) + fieldLocation.hashCode() + (isKeyMapDualValue ? 1 : 0);
   }
@@ -665,11 +669,11 @@ public final class DualValue {
     return isActualAProxiedValue() != isExpectedAProxiedValue();
   }
 
-  private boolean isActualAProxiedValue() {
+  public boolean isActualAProxiedValue() {
     return isProxy(actual);
   }
 
-  private boolean isExpectedAProxiedValue() {
+  public boolean isExpectedAProxiedValue() {
     return isProxy(expected);
   }
 

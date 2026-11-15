@@ -13,6 +13,10 @@
   <name>AssertJ Core Integration Tests (Spring Boot)</name>
 
   <properties>
+    <argLine>
+      <!-- java.base -->
+      --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+    </argLine>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>
     <spotless.skip>false</spotless.skip>
   </properties>

@@ -32,6 +32,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -42,6 +43,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiPredicate;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -97,6 +99,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   // registered messages section
   private TypeMessages typeMessages = new TypeMessages();
   private FieldMessages fieldMessages = new FieldMessages();
+
+  Map<Class<?>, Function<Object, Object>> typeTransformers = new HashMap<>();
 
   private RecursiveComparisonIntrospectionStrategy introspectionStrategy = DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY;
 
@@ -656,6 +660,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   @SuppressWarnings("unchecked")
   public <T> void registerEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
     registerComparatorForType(toComparator(equals), type);
+  }
+
+  public <T> void registerTypeMapper(Function<? super T, Object> mapper, Class<T> type) {
+    typeTransformers.put(type, (Function<Object, Object>) mapper);
   }
 
   /**
