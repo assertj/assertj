@@ -15,7 +15,14 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import org.junit.jupiter.api.Disabled;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +31,7 @@ import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.projection.TargetAware;
 import org.springframework.stereotype.Repository;
 
 import jakarta.persistence.Entity;
@@ -38,14 +46,48 @@ class Issue_3551_Test {
   private PersonRepository repository;
 
   @Test
-  @Disabled
-  void test() {
+  void should_fail_when_comparing_proxied_value_with_non_proxied_value_if_non_proxied_value_extractor_is_registered() {
+    // GIVEN
     Person alice = repository.getPerson();
     Person bob = new PersonImpl("bob");
     alice.getName();
-    // FIXME Recursive comparison fails but incorrectly as it does not gather the right fields
-    // assertThat(alice).usingRecursiveComparison().isEqualTo(bob);
+    // WHEN
+    var iae = catchIllegalArgumentException(() -> assertThat(alice).usingRecursiveComparison().isEqualTo(bob));
+    // THEN
+    then(iae).hasMessageContaining("can't compare a proxied value with a non proxied one");
   }
+
+  @Test
+  void should_pass_when_comparing_proxied_real_value_with_non_proxied_value_as_per_proxied_value_extractor() {
+    // GIVEN
+    WithObject alice = new WithObject(repository.getPerson());
+    WithObject expected = new WithObject(new PersonImpl("alice"));
+    var recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
+    // WHEN
+    recursiveComparisonConfiguration.registerTypeMapper(value -> new HashMap((Map)((TargetAware) value).getTarget()), alice.value.getClass());
+    // THEN
+    then(alice).usingRecursiveComparison(recursiveComparisonConfiguration).isEqualTo(expected);
+  }
+
+  static class WithObject {
+    public Object value;
+
+    public WithObject(Object value) {
+      this.value = value;
+    }
+
+    public static WithObject of(Object value) {
+      return new WithObject(value);
+    }
+
+    @Override
+    public String toString() {
+      return "WithObject value=%s".formatted(value);
+    }
+
+  }
+
+
 
   interface Person {
     String getName();
