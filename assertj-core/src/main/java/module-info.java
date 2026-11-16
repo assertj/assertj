@@ -61,4 +61,7 @@ module org.assertj.core {
   // Services loaded by org.assertj.core.configuration.ConfigurationProvider
   uses org.assertj.core.configuration.Configuration;
   uses org.assertj.core.presentation.Representation;
+
+  // See SyntheticParameterizedTypeTest and https://github.com/easymock/objenesis/issues/555
+  opens org.assertj.core.api to org.assertj.tests.core;
 }
