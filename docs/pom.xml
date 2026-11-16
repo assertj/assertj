@@ -34,7 +34,6 @@
       <!-- for the JUnit 4 soft assertions examples -->
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
