@@ -118,8 +118,6 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <rootDirectory>${project.basedir}</rootDirectory>
-    <spotless.skip>true</spotless.skip>
     <!-- Plugin versions -->
     <arcmutate-pitest.version>2.3.3</arcmutate-pitest.version>
     <central-publishing-maven-plugin.version>0.12.0</central-publishing-maven-plugin.version>
@@ -172,7 +170,7 @@
                 <include>src/test/java/**/*.java</include>
               </includes>
               <eclipse>
-                <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
+                <file>${project.rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
               </eclipse>
               <importOrder>
                 <order>#,java|javax,org,</order>
@@ -246,7 +244,7 @@
               <additionalOption>-html5</additionalOption>
               <additionalOption>--allow-script-in-comments</additionalOption>
             </additionalOptions>
-            <javadocDirectory>${rootDirectory}/javadoc-theme</javadocDirectory>
+            <javadocDirectory>${project.rootDirectory}/javadoc-theme</javadocDirectory>
             <addStylesheets>
               <stylesheet>assertj-theme.css</stylesheet>
               <stylesheet>hljs-theme.css</stylesheet>
@@ -351,6 +349,7 @@
         <artifactId>spotless-maven-plugin</artifactId>
         <executions>
           <execution>
+            <phase>validate</phase>
             <goals>
               <goal>check</goal>
             </goals>

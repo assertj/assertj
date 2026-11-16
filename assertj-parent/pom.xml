@@ -16,7 +16,6 @@
 
   <properties>
     <additionalparam>-Xdoclint:none</additionalparam>
-    <spotless.skip>true</spotless.skip>
     <!-- Dependency versions -->
     <guava.version>33.7.1-jre</guava.version>
     <junit.version>4.13.2</junit.version>
