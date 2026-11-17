@@ -1,0 +1,116 @@
+/*
+ * Copyright 2012-2026 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.assertj.tests.core.error;
+
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
+
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.description.TextDescription;
+import org.assertj.core.error.ErrorMessageFactory;
+import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.tests.core.testkit.TestDescription;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class ShouldContainCharSequenceOnlyOnce_create_Test {
+
+  private ErrorMessageFactory factoryWithSeveralOccurrences;
+  private ErrorMessageFactory factoryWithNoOccurrence;
+
+  @BeforeEach
+  public void setUp() {
+    factoryWithSeveralOccurrences = shouldContainOnlyOnce("aaamotifmotifaabbbmotifaaa", "motif", 3);
+    factoryWithNoOccurrence = shouldContainOnlyOnce("aaamodifmoifaabbbmotfaaa", "motif", 0);
+  }
+
+  @Test
+  void should_create_error_message_when_string_to_search_appears_several_times() {
+    // WHEN
+    String message = factoryWithSeveralOccurrences.create(new TestDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"aaamotifmotifaabbbmotifaaa\"%nto contain:%n  \"motif\"%nonly once but it appeared 3 times ".formatted());
+  }
+
+  @Test
+  void should_create_error_message_when_string_to_search_does_not_appear() {
+    // WHEN
+    String message = factoryWithNoOccurrence.create(new TestDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"aaamodifmoifaabbbmotfaaa\"%nto contain:%n  \"motif\"%nonly once but it did not appear ".formatted());
+  }
+
+  @Test
+  void should_create_error_message_when_string_to_search_does_not_appear_with_custom_comparison_strategy() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainOnlyOnce("aaamoDifmoifaabbbmotfaaa", "MOtif", 0,
+                                                        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"aaamoDifmoifaabbbmotfaaa\"%nto contain:%n  \"MOtif\"%nonly once but it did not appear when comparing values using CaseInsensitiveStringComparator".formatted());
+  }
+
+  @Test
+  void should_create_error_message_when_string_to_search_appears_several_times_with_custom_comparison_strategy() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainOnlyOnce("aaamotIFmoTifaabbbmotifaaa", "MOtif", 3,
+                                                        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"aaamotIFmoTifaabbbmotifaaa\"%nto contain:%n  \"MOtif\"%nonly once but it appeared 3 times when comparing values using CaseInsensitiveStringComparator".formatted());
+  }
+
+  @Test
+  void should_create_error_message_with_multiline_actual_when_string_does_not_appear() {
+    // GIVEN
+    String actual = "aaa%nbbb%nccc".formatted();
+    ErrorMessageFactory factory = shouldContainOnlyOnce(actual, "motif", 0);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"aaa%n" +
+                                   "  bbb%n" +
+                                   "  ccc\"%n" +
+                                   "to contain:%n" +
+                                   "  \"motif\"%n" +
+                                   "only once but it did not appear "));
+  }
+
+  @Test
+  void should_create_error_message_with_multiline_actual_when_string_appears_several_times() {
+    // GIVEN
+    String actual = "aaamotifaaa%nbbbmotifbbb%ncccmotifccc".formatted();
+    ErrorMessageFactory factory = shouldContainOnlyOnce(actual, "motif", 3);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"aaamotifaaa%n" +
+                                   "  bbbmotifbbb%n" +
+                                   "  cccmotifccc\"%n" +
+                                   "to contain:%n" +
+                                   "  \"motif\"%n" +
+                                   "only once but it appeared 3 times "));
+  }
+
+}

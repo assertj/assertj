@@ -1,0 +1,57 @@
+/*
+ * Copyright 2012-2026 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.assertj.tests.core.error;
+
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotEndWithWhitespaces.shouldNotEndWithWhitespaces;
+
+import org.assertj.core.description.TextDescription;
+import org.assertj.core.error.ErrorMessageFactory;
+import org.junit.jupiter.api.Test;
+
+/**
+ * author: Lim Wonjae
+ */
+class ShouldNotEndWithWhitespaces_create_Test {
+
+  @Test
+  void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldNotEndWithWhitespaces("abc %d");
+    // WHEN
+    String message = factory.create(new TextDescription("Test"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting string not to end with whitespaces but found one, string was:%n" +
+                                   "  \"abc %%d\""));
+  }
+
+  @Test
+  void should_create_error_message_with_multiline_values_correctly_indented() {
+    // GIVEN
+    String actual = "abc%ndef%nghi ".formatted();
+    ErrorMessageFactory factory = shouldNotEndWithWhitespaces(actual);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting string not to end with whitespaces but found one, string was:%n" +
+                                   "  \"abc%n" +
+                                   "  def%n" +
+                                   "  ghi \""));
+  }
+}

@@ -42,7 +42,6 @@ public class MessageFormatter {
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   DescriptionFormatter descriptionFormatter = DescriptionFormatter.instance();
 
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   MessageFormatter() {}
 
   /**

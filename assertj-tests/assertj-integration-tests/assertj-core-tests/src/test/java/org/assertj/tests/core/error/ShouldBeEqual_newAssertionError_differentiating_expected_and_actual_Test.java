@@ -1,0 +1,173 @@
+/*
+ * Copyright 2012-2026 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.assertj.tests.core.error;
+
+import static java.lang.Integer.toHexString;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Strings.concat;
+
+import java.util.Comparator;
+
+import org.assertj.core.api.WritableAssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.description.Description;
+import org.assertj.core.error.AssertionErrorCreator;
+import org.assertj.core.error.ShouldBeEqual;
+import org.assertj.core.presentation.Representation;
+import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.tests.core.testkit.TestDescription;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
+
+/// Tests for [AssertionErrorCreator#assertionError(org.assertj.core.api.AssertionInfo, ShouldBeEqual)].
+///
+/// @author Joel Costigliola (based on Tomasz Nurkiewicz ideas)
+class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
+
+  private Description description;
+
+  @BeforeEach
+  public void setUp() {
+    description = new TestDescription("my test");
+  }
+
+  @Test
+  void should_create_AssertionError_with_message_differentiating_expected_double_and_actual_float() {
+    // GIVEN
+    Float actual = 42f;
+    Double expected = 42d;
+    ShouldBeEqual shouldBeEqual = ShouldBeEqual.shouldBeEqual(actual, expected, StandardRepresentation.STANDARD_REPRESENTATION);
+    // WHEN
+    AssertionError error = AssertionErrorCreator.instance().assertionError(assertionInfo(description, STANDARD_REPRESENTATION),
+                                                                           shouldBeEqual);
+    // THEN
+    then(error).isInstanceOf(AssertionFailedError.class)
+               .hasMessage(format("[my test] %n" +
+                                  "expected: 42.0%n" +
+                                  " but was: 42.0f"));
+  }
+
+  @Test
+  void should_create_AssertionError_with_message_differentiating_expected_and_actual_persons() {
+    // GIVEN
+    Person actual = new Person("Jake", 43);
+    Person expected = new Person("Jake", 47);
+    var shouldBeEqual = shouldBeEqual(actual, expected, STANDARD_REPRESENTATION);
+    // WHEN
+    AssertionError error = AssertionErrorCreator.instance().assertionError(assertionInfo(description, STANDARD_REPRESENTATION),
+                                                                           shouldBeEqual);
+    // THEN
+    then(error).isInstanceOf(AssertionFailedError.class)
+               .hasMessage("[my test] %n" +
+                           "expected: \"Person[name=Jake] (Person@%s)\"%n" +
+                           " but was: \"Person[name=Jake] (Person@%s)\"",
+                           toHexString(expected.hashCode()), toHexString(actual.hashCode()));
+  }
+
+  @Test
+  void should_create_AssertionError_with_message_differentiating_expected_and_actual_persons_even_if_a_comparator_based_comparison_strategy_is_used() {
+    // GIVEN
+    Person actual = new Person("Jake", 43);
+    Person expected = new Person("Jake", 47);
+    ComparisonStrategy ageComparisonStrategy = new ComparatorBasedComparisonStrategy(new PersonComparator());
+    var shouldBeEqual = shouldBeEqual(actual, expected, ageComparisonStrategy, STANDARD_REPRESENTATION);
+    // WHEN
+    AssertionError error = AssertionErrorCreator.instance().assertionError(assertionInfo(description, STANDARD_REPRESENTATION),
+                                                                           shouldBeEqual);
+    // THEN
+    then(error).isInstanceOf(AssertionFailedError.class)
+               .hasMessage("[my test] %n" +
+                           "expected: \"Person[name=Jake] (Person@%s)\"%n" +
+                           " but was: \"Person[name=Jake] (Person@%s)\"%n" +
+                           "when comparing values using PersonComparator",
+                           toHexString(expected.hashCode()), toHexString(actual.hashCode()));
+  }
+
+  @Test
+  void should_create_AssertionError_with_message_differentiating_null_and_object_with_null_toString() {
+    // GIVEN
+    Object actual = null;
+    Object expected = new ToStringIsNull();
+    var shouldBeEqual = shouldBeEqual(actual, expected, STANDARD_REPRESENTATION);
+    // WHEN
+    AssertionError error = AssertionErrorCreator.instance().assertionError(assertionInfo(description, STANDARD_REPRESENTATION),
+                                                                           shouldBeEqual);
+    // THEN
+    then(error).isInstanceOf(AssertionFailedError.class)
+               .hasMessage("[my test] %n" +
+                           "expected: \"null (ToStringIsNull@%s)\"%n" +
+                           " but was: null",
+                           toHexString(expected.hashCode()));
+  }
+
+  @Test
+  void should_create_AssertionError_with_message_differentiating_object_with_null_toString_and_null() {
+    // GIVEN
+    Object actual = new ToStringIsNull();
+    Object expected = null;
+    var shouldBeEqual = shouldBeEqual(actual, expected, STANDARD_REPRESENTATION);
+    // WHEN
+    AssertionError error = AssertionErrorCreator.instance().assertionError(assertionInfo(description, STANDARD_REPRESENTATION),
+                                                                           shouldBeEqual);
+    // THEN
+    then(error).isInstanceOf(AssertionFailedError.class)
+               .hasMessage("[my test] %n" +
+                           "expected: null%n" +
+                           " but was: \"null (ToStringIsNull@%s)\"",
+                           toHexString(actual.hashCode()));
+  }
+
+  private static class Person {
+    private final String name;
+    private final int age;
+
+    public Person(String name, int age) {
+      this.name = name;
+      this.age = age;
+    }
+
+    @Override
+    public String toString() {
+      return concat("Person[name=", name, "]");
+    }
+  }
+
+  private static class PersonComparator implements Comparator<Person> {
+    @Override
+    public int compare(Person p1, Person p2) {
+      return p1.age - p2.age;
+    }
+  }
+
+  public static class ToStringIsNull {
+    @Override
+    public String toString() {
+      return null;
+    }
+  }
+
+  private static WritableAssertionInfo assertionInfo(Description description, Representation representation) {
+    var info = new WritableAssertionInfo(representation);
+    info.description(description);
+    return info;
+  }
+
+}

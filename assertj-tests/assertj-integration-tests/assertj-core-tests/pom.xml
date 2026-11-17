@@ -29,6 +29,8 @@
       --add-opens org.assertj.core/org.assertj.core.groups=nl.jqno.equalsverifier
       <!-- org.apache.commons.lang3 -->
       --add-opens org.assertj.core/org.assertj.core.internal=org.apache.commons.lang3
+      <!-- org.assertj.tests.core -->
+      --add-opens org.assertj.core/org.assertj.core.error=org.assertj.tests.core
     </argLine>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>
     <spotless.skip>false</spotless.skip>
