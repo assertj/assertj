@@ -17,35 +17,20 @@ package org.assertj.core.api.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.testkit.ClasspathResources.resourceFile;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.io.File;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractByteArrayAssert;
 import org.assertj.core.api.FileAssert;
-import org.assertj.core.api.FileAssertBaseTest;
 import org.assertj.core.api.NavigationMethodWithComparatorBaseTest;
 import org.junit.jupiter.api.Test;
 
-class FileAssert_binaryContent_Test extends FileAssertBaseTest implements NavigationMethodWithComparatorBaseTest<FileAssert> {
-
-  @Override
-  protected FileAssert invoke_api_method() {
-    assertions.binaryContent();
-    return assertions;
-  }
-
-  @Override
-  protected void verify_internal_effects() {
-    verify(files).assertCanRead(getInfo(assertions), getActual(assertions));
-  }
-
-  @Override
-  protected FileAssert create_assertions() {
-    return new FileAssert(resourceFile("actual_file.txt"));
-  }
+class FileAssert_binaryContent_Test implements NavigationMethodWithComparatorBaseTest<FileAssert> {
 
   @Test
   void should_return_ByteArrayAssert_on_path_content() {
@@ -57,9 +42,19 @@ class FileAssert_binaryContent_Test extends FileAssertBaseTest implements Naviga
     byteArrayAssert.asString(UTF_8).isEqualTo("actual%n".formatted());
   }
 
+  @Test
+  void should_fail_if_actual_is_not_readable() {
+    // GIVEN
+    File actual = new File("does-not-exist");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).binaryContent());
+    // THEN
+    then(assertionError).hasMessage(shouldBeReadable(actual).create());
+  }
+
   @Override
   public FileAssert getAssertion() {
-    return assertions;
+    return new FileAssert(resourceFile("actual_file.txt"));
   }
 
   @Override
