@@ -44,7 +44,8 @@ import org.assertj.core.internal.Floats;
  * @author Nicolas François
  * @author Jin Kwon
  */
-public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>> extends AbstractComparableAssert<SELF, Float>
+public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>>
+    extends AbstractComparableAssert<SELF, Float, Float>
     implements FloatingPointNumberAssert<SELF, Float> {
 
   private static final Float NEGATIVE_ZERO = -0.0f;

@@ -21,15 +21,15 @@ import org.assertj.core.internal.Comparables;
  * Base class to test {@link org.assertj.core.api.GenericComparableAssert}.
  */
 public abstract class GenericComparableAssertBaseTest
-    extends ComparableAssertBaseTest<GenericComparableAssert<Integer>, Integer> {
+    extends ComparableAssertBaseTest<GenericComparableAssert<Integer, Integer>, Integer> {
 
   @Override
-  protected GenericComparableAssert<Integer> create_assertions() {
+  protected GenericComparableAssert<Integer, Integer> create_assertions() {
     return new GenericComparableAssert<>(8);
   }
 
   @Override
-  protected Comparables getComparables(GenericComparableAssert<Integer> someAssertions) {
+  protected Comparables getComparables(GenericComparableAssert<Integer, Integer> someAssertions) {
     return someAssertions.comparables;
   }
 }

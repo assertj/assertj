@@ -1369,55 +1369,30 @@ public final class BDDAssumptions extends Assumptions {
     return assumeThat(actual);
   }
 
-  /**
-   * Creates a new assumption's instance for a {@link Comparable} value.
-   * <p>
-   * Examples:
-   * <pre>{@code
-   *  class Yoda implements Comparable<Yoda> {
-   *    public int compareTo(Yoda to) {
-   *      return 0;
-   *    }
-   *  }
-   * }</pre>
-   * <p>
-   * Executed test:
-   * <pre><code class='java'> {@literal @Test}
-   * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new Yoda()).isEqualByComparingTo(new Yoda());
-   *   // the remaining code is executed
-   *   // ...
-   * }</code></pre>
-   * <p>
-   * Skipped test:
-   * <pre><code class='java'> {@literal @Test}
-   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new Yoda()).isNotEqualByComparingTo(new Yoda());
-   *   // the remaining code is NOT executed.
-   *   // ...
-   *}</code></pre>
-   *
-   * @param <T> the type of the actual comparable value.
-   * @param actual the actual {@link Comparable} value to be validated.
-   * @return the {@link AbstractComparableAssert} assertion object to be used for assumptions.
-   * @since 3.14.0
-   */
-  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> given(T actual) {
+  /// Creates an assumption for the actual comparable value.
+  ///
+  /// If the assumption is not met, the test is skipped.
+  ///
+  /// @param <ACTUAL> the type of the actual value.
+  /// @param <COMPARABLE_TYPE> the type accepted by comparable assertion methods.
+  /// @param actual the actual value to validate.
+  /// @return the assertion object to use for assumptions.
+  /// @since 3.14.0
+  public static <ACTUAL extends Comparable<? super COMPARABLE_TYPE>, COMPARABLE_TYPE> AbstractComparableAssert<?, ACTUAL, COMPARABLE_TYPE> given(ACTUAL actual) {
     return assumeThat(actual);
   }
 
-  /**
-   * Creates a new assumption's instance of a <code>{@link Comparable}</code> value.
-   * <p>
-   * Use this over {@link #given(Comparable)} in case of ambiguous method resolution when the object under test
-   * implements several interfaces Assertj provides <code>given</code> for.
-   *
-   * @param <T> the type of elements.
-   * @param actual the actual value.
-   * @return the created assumption for assertion object.
-   * @since 3.23.0
-   */
-  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> givenComparable(T actual) {
+  /// Creates an assumption for a comparable value.
+  ///
+  /// Use this when method resolution for [#given(Comparable)] is ambiguous because the actual value implements
+  /// several interfaces for which AssertJ provides a `given` method.
+  ///
+  /// @param <ACTUAL> the type of the actual value.
+  /// @param <COMPARABLE_TYPE> the type accepted by comparable assertion methods.
+  /// @param actual the actual value.
+  /// @return the created assumption for the assertion object.
+  /// @since 3.23.0
+  public static <ACTUAL extends Comparable<? super COMPARABLE_TYPE>, COMPARABLE_TYPE> AbstractComparableAssert<?, ACTUAL, COMPARABLE_TYPE> givenComparable(ACTUAL actual) {
     return given(actual);
   }
 
