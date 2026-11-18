@@ -67,7 +67,7 @@ class FileAssert_isNotHidden_Test {
       // GIVEN
       File actual = PathFactory.createPath(tempDir).toFile();
       // WHEN/THEN
-      assertThat(actual).isNotHidden();
+      then(actual).isNotHidden();
     }
 
     @Test
@@ -85,7 +85,7 @@ class FileAssert_isNotHidden_Test {
       // GIVEN
       File actual = PathFactory.createFile(tempDir).toFile();
       // WHEN/THEN
-      assertThat(actual).isNotHidden();
+      then(actual).isNotHidden();
     }
 
   }
@@ -99,7 +99,7 @@ class FileAssert_isNotHidden_Test {
       // GIVEN
       File actual = PathFactory.createPath(tempDir).toFile();
       // WHEN/THEN
-      assertThat(actual).isNotHidden();
+      then(actual).isNotHidden();
     }
 
     @Test
@@ -117,7 +117,7 @@ class FileAssert_isNotHidden_Test {
       // GIVEN
       File actual = PathFactory.createFile(tempDir).toFile();
       // WHEN/THEN
-      assertThat(actual).isNotHidden();
+      then(actual).isNotHidden();
     }
 
   }

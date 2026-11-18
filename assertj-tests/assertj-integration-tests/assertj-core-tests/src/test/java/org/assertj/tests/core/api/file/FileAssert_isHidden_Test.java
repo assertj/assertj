@@ -67,7 +67,7 @@ class FileAssert_isHidden_Test {
       // GIVEN
       File actual = PathFactory.Unix.createHiddenPath(tempDir).toFile();
       // WHEN/THEN
-      assertThat(actual).isHidden();
+      then(actual).isHidden();
     }
 
     @Test
@@ -85,7 +85,7 @@ class FileAssert_isHidden_Test {
       // GIVEN
       File actual = PathFactory.Unix.createHiddenFile(tempDir).toFile();
       // WHEN/THEN
-      assertThat(actual).isHidden();
+      then(actual).isHidden();
     }
 
   }
@@ -119,7 +119,7 @@ class FileAssert_isHidden_Test {
       // GIVEN
       File actual = PathFactory.Windows.createHiddenFile(tempDir).toFile();
       // WHEN/THEN
-      assertThat(actual).isHidden();
+      then(actual).isHidden();
     }
 
   }
