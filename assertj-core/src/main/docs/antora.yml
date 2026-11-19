@@ -1,0 +1,18 @@
+name: assertj-core
+title: AssertJ Core
+nav:
+- modules/ROOT/nav.adoc
+asciidoc:
+  attributes:
+    project-description: 'Provide assertions for JDK types (String, Iterable, Stream, Path, File, Map, ...)'
+    assertj-core-javadoc-root: "{assertj-javadoc-root}/assertj-core/latest/"
+    assertj-core-repo: https://github.com/assertj/assertj
+    assertj-examples-base-package: https://github.com/assertj/assertj-examples/blob/main/assertions-examples/src/test/java/org/assertj/examples/
+    release-branch: main
+    current-branch: "{assertj-core-repo}/tree/{release-branch}"
+
+ext:
+  collector:
+    scan:
+      dir: assertj-core/src/test/java/org/example/core
+      into: modules/ROOT/examples
