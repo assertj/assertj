@@ -1,0 +1,12 @@
+name: assertj-guava
+title: AssertJ Guava
+version: true
+nav:
+  - modules/ROOT/nav.adoc
+ext:
+  collector:
+    - run:
+        command: ./mvnw -q -pl assertj-guava io.spring.maven.antora:antora-component-version-maven-plugin:antora-component-version resources:copy-resources@antora-resources
+        local: true
+      scan:
+        - dir: assertj-guava/target/antora

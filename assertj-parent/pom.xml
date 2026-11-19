@@ -220,6 +220,82 @@
 
   <profiles>
     <profile>
+      <!-- enables the "antora" lifecycle in modules with docs: ./mvnw -pl <module> antora -->
+      <id>antora</id>
+      <activation>
+        <file>
+          <exists>${basedir}/src/docs/antora/antora.yml</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <!-- sets antora-component.version and antora-component.prerelease from the project version -->
+            <groupId>io.spring.maven.antora</groupId>
+            <artifactId>antora-component-version-maven-plugin</artifactId>
+            <version>0.0.4</version>
+          </plugin>
+          <plugin>
+            <groupId>org.antora</groupId>
+            <artifactId>antora-maven-plugin</artifactId>
+            <version>1.0.0-alpha.5</version>
+            <extensions>true</extensions>
+            <configuration>
+              <!-- pass "-Dnode.executable=..." to avoid the download -->
+              <nodeVersion>v26</nodeVersion>
+              <playbookFile>src/docs/antora/antora-playbook.yml</playbookFile>
+              <options>
+                <option>log-level=info</option>
+              </options>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+              <execution>
+                <!-- the Antora plugin only reads package.json from the module's base directory,
+                     so the one next to this POM (kept up to date by Dependabot) is copied there -->
+                <id>antora-package-json</id>
+                <phase>pre-antora</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${basedir}</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${rootDirectory}/assertj-parent</directory>
+                      <includes>
+                        <include>package.json</include>
+                      </includes>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+              <execution>
+                <!-- not bound to a phase: run by the Antora Collector extension (see src/docs/antora/antora.yml)
+                     to overlay the filtered antora.yml onto the component -->
+                <id>antora-resources</id>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${project.build.directory}/antora</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>src/docs/antora-resources</directory>
+                      <filtering>true</filtering>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
       <id>publish</id>
       <build>
         <plugins>

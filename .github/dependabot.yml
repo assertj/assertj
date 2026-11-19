@@ -17,7 +17,7 @@ updates:
         patterns:
           - "*"
   - package-ecosystem: "npm"
-    directory: "/docs"
+    directory: "/assertj-parent"
     schedule:
       interval: "weekly"
     labels:
