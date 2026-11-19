@@ -243,6 +243,8 @@
             <configuration>
               <!-- pass "-Dnode.executable=..." to avoid the download -->
               <nodeVersion>v26</nodeVersion>
+              <!-- shared by all modules with docs so that Node.js is installed only once -->
+              <nodeInstallDirectory>${rootDirectory}/target</nodeInstallDirectory>
               <playbookFile>src/docs/antora/antora-playbook.yml</playbookFile>
               <options>
                 <option>log-level=info</option>
