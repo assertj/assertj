@@ -43,6 +43,10 @@ import org.assertj.core.util.diff.Patch;
  */
 public class MyersDiff<T> implements DiffAlgorithm<T> {
 
+  // Myers allocates one path node per (d, k) pair, i.e. O(d^2) nodes: past this many edits,
+  // report the region between the common prefix and suffix as a single change instead.
+  static final int MAX_EDIT_DISTANCE = 10_000;
+
   /** The equalizer. */
   private final Equalizer<T> equalizer;
 
@@ -98,6 +102,7 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
 
     diagonal[middle + 1] = new Snake(0, -1, null);
     for (int d = 0; d < MAX; d++) {
+      if (d > MAX_EDIT_DISTANCE) return singleChangePath(orig, rev);
       for (int k = -d; k <= d; k += 2) {
         final int kmiddle = middle + k;
         final int kplus = kmiddle + 1;
@@ -137,6 +142,19 @@ public class MyersDiff<T> implements DiffAlgorithm<T> {
 
     // According to Myers, this cannot happen
     throw new IllegalStateException("could not find a diff path");
+  }
+
+  private PathNode singleChangePath(List<T> orig, List<T> rev) {
+    int prefix = 0;
+    while (prefix < orig.size() && prefix < rev.size() && equals(orig.get(prefix), rev.get(prefix)))
+      prefix++;
+    int suffix = 0;
+    while (suffix < orig.size() - prefix && suffix < rev.size() - prefix
+           && equals(orig.get(orig.size() - 1 - suffix), rev.get(rev.size() - 1 - suffix)))
+      suffix++;
+    PathNode commonPrefix = new Snake(prefix, prefix, new DiffNode(0, 0, new Snake(0, -1, null)));
+    PathNode node = new DiffNode(orig.size() - suffix, rev.size() - suffix, commonPrefix);
+    return suffix > 0 ? new Snake(orig.size(), rev.size(), node) : node;
   }
 
   private boolean equals(T orig, T rev) {
