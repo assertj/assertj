@@ -16,17 +16,7 @@ The `Assertions` class provides static methods to change each configuration prop
 
 [source,java]
 ----
-Assertions.setAllowComparingPrivateFields(true);
-Assertions.setAllowExtractingPrivateFields(false);
-Assertions.setExtractBareNamePropertyMethods(false);
-Assertions.setLenientDateParsing(true);
-Assertions.setMaxElementsForPrinting(100);
-Assertions.setMaxLengthForSingleLineDescription(250);
-Assertions.setRemoveAssertJRelatedElementsFromStackTrace(true);
-Assertions.useRepresentation(myRepresentation);
-Assertions.registerCustomDateFormat(myCustomDateFormat);
-Assertions.setPrintAssertionsDescription(true);
-Assertions.setConsumerDescription(description -> writeToFile(description, report));
+include::example$java/example/core/ConfigurationExample.java[tags=single_properties,indent=0]
 ----
 
 === Representation
@@ -73,12 +63,12 @@ Example:
 
 [source,java]
 ----
-String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
+include::example$java/example/core/ConfigurationExample.java[tags=single_line_description,indent=0]
 ----
 
 this array is formatted on one line as its length < 80:
 
-[source,java]
+[source,text]
 ----
 ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice"]
 ----
@@ -87,18 +77,17 @@ Whereas this array ...
 
 [source,java]
 ----
-String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards! (Discworld)");
+include::example$java/example/core/ConfigurationExample.java[tags=multi_line_description,indent=0]
 ----
 
 \... is formatted on multiple lines with one element per line:
 
-[source,java]
+[source,text]
 ----
-
 ["A Game of Thrones",
- "The Lord of the Rings",
- "Assassin's Apprentice",
- "Guards! Guards! (Discworld)"]
+    "The Lord of the Rings",
+    "Assassin's Apprentice",
+    "Guards! Guards! (Discworld)"]
 ----
 
 === RemoveAssertJRelatedElementsFromStackTrace
@@ -119,18 +108,7 @@ Example:
 
 [source,java]
 ----
-Configuration configuration = new Configuration();
-
-configuration.setBareNamePropertyExtraction(false);
-configuration.setComparingPrivateFields(false);
-configuration.setExtractingPrivateFields(false);
-configuration.setLenientDateParsing(true);
-configuration.setMaxElementsForPrinting(1001);
-configuration.setMaxLengthForSingleLineDescription(81);
-configuration.setRemoveAssertJRelatedElementsFromStackTrace(false);
-
-// don't forget to apply it!
-configuration.applyAndDisplay();
+include::example$java/example/core/ConfigurationExample.java[tags=configuration,indent=0]
 ----
 
 Printing the above configuration produces the following output:
@@ -138,15 +116,19 @@ Printing the above configuration produces the following output:
 [source,plaintext]
 ----
 Applying configuration org.assertj.core.configuration.Configuration
-- representation .................................. = BinaryRepresentation
+- representation .................................. = StandardRepresentation
 - comparingPrivateFieldsEnabled ................... = false
-- extractingPrivateFieldsEnabled .................. = true
+- extractingPrivateFieldsEnabled .................. = false
 - bareNamePropertyExtractionEnabled ............... = false
 - lenientDateParsingEnabled ....................... = true
-- additional date formats ......................... = [yyyy_MM_dd, yyyy|MM|dd]
-- maxLengthForSingleLineDescription ............... = 150
-- maxElementsForPrinting .......................... = 2000
-- removeAssertJRelatedElementsFromStackTraceEnabled = true
+- additional date formats ......................... = []
+- maxLengthForSingleLineDescription ............... = 81
+- maxElementsForPrinting .......................... = 1001
+- maxStackTraceElementsDisplayed................... = 3
+- printAssertionsDescription ...................... = false
+- descriptionConsumer ............................. = null
+- removeAssertJRelatedElementsFromStackTraceEnabled = false
+- preferredAssumptionException .................... = AUTO_DETECT(try in order org.testng.SkipException, org.junit.AssumptionViolatedException and org.opentest4j.TestAbortedException)
 ----
 
 
@@ -172,7 +154,7 @@ include::example$java/example/core/CustomConfiguration.java[tag=user_guide]
 ----
 
 With this custom configuration, the content of `META-INF/services/org.assertj.core.configuration.Configuration` must be:
-[source,java]
+[source,text]
 ----
 example.core.CustomConfiguration
 ----
@@ -186,8 +168,12 @@ Applying configuration example.core.CustomConfiguration
 - extractingPrivateFieldsEnabled .................. = true
 - bareNamePropertyExtractionEnabled ............... = false
 - lenientDateParsingEnabled ....................... = true
-- additionnal date formats ........................ = [yyyy_MM_dd, yyyy|MM|dd]
+- additional date formats ......................... = [yyyy_MM_dd, yyyy|MM|dd]
 - maxLengthForSingleLineDescription ............... = 150
 - maxElementsForPrinting .......................... = 2000
+- maxStackTraceElementsDisplayed................... = 3
+- printAssertionsDescription ...................... = false
+- descriptionConsumer ............................. = null
 - removeAssertJRelatedElementsFromStackTraceEnabled = true
+- preferredAssumptionException .................... = AUTO_DETECT(try in order org.testng.SkipException, org.junit.AssumptionViolatedException and org.opentest4j.TestAbortedException)
 ----
