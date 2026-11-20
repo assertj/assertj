@@ -16,5 +16,15 @@
 package example.data;
 
 public enum Race {
-  HOBBIT, MAIA, ELF, DWARF, MAN, ORC
+  HOBBIT("Hobbit"), MAIA("Maia"), ELF("Elf"), DWARF("Dwarf"), MAN("Man"), ORC("Orc");
+
+  private final String name;
+
+  Race(String name) {
+    this.name = name;
+  }
+
+  public String getName() {
+    return name;
+  }
 }
