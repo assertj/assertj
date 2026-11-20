@@ -10,7 +10,6 @@ asciidoc:
     assertj-core-javadoc: 'https://www.javadoc.io/doc/org.assertj/assertj-core/${project.version}'
     assertj-guava-javadoc: 'https://www.javadoc.io/doc/org.assertj/assertj-guava/${project.version}'
     assertj-core-github: 'https://github.com/assertj/assertj'
-    assertj-doc-github: 'https://github.com/assertj/doc'
     assertj-examples-github: 'https://github.com/assertj/assertj-examples'
     assertj-examples-base-package: 'https://github.com/assertj/assertj-examples/blob/main/assertions-examples/src/test/java/org/assertj/examples'
     assertj-guava-github: 'https://github.com/assertj/assertj'

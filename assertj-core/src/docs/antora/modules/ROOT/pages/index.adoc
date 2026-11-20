@@ -31,6 +31,6 @@ Ask AssertJ related questions on {StackOverflow}.
 
 You are very welcome to suggest or contribute improvements to this guide, that's one great way to give back to open source projects!
 
-The repository containing the guide is {assertj-doc-github}, you can {assertj-doc-github}/issues[create a new issue], submit a pull request. Et voila!
+This guide is maintained along with the source code in {assertj-core-github}, you can {assertj-core-github}/issues[create a new issue], submit a pull request. Et voilà!
 
 This guide is written with the awesome https://asciidoctor.org/docs/asciidoc-writers-guide/[Asciidoctor] which makes it easy to improve.
