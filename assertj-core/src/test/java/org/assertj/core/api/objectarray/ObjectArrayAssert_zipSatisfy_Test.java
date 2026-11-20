@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
@@ -54,5 +55,16 @@ class ObjectArrayAssert_zipSatisfy_Test extends ObjectArrayAssertBaseTest {
           .zipSatisfy(other, requirements);
     // THEN
     then(softly.assertionErrorsCollected()).singleElement(THROWABLE).hasMessage("error message");
+  }
+
+  @Test
+  void should_include_requirement_stack_traces() {
+    // GIVEN
+    String[] actual = array("actual");
+    String[] expected = array("expected");
+    // WHEN
+    var error = expectAssertionError(() -> then(actual).zipSatisfy(expected, (a, e) -> then(a).startsWith(e)));
+    // THEN
+    then(error).hasMessageContainingAll("to start with:", "\tat ");
   }
 }
