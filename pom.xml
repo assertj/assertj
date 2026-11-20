@@ -259,6 +259,7 @@
             <locale>en_US</locale>
             <excludePackageNames>*.internal</excludePackageNames>
             <nohelp>true</nohelp>
+            <use>false</use>
             <bottom><![CDATA[
               Copyright &#169; {currentYear} {organizationName}. All rights reserved.
               <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
