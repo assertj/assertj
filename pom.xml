@@ -171,6 +171,10 @@
                 <include>src/main/java/**/*.java</include>
                 <include>src/test/java/**/*.java</include>
               </includes>
+              <excludes>
+                <!-- documentation examples: the import ordering would strip their AsciiDoc callouts -->
+                <exclude>src/test/java/example/**/*.java</exclude>
+              </excludes>
               <eclipse>
                 <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
               </eclipse>

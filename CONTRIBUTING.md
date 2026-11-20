@@ -144,6 +144,32 @@ Some examples are:
 * `returnToMap()` in `MapSizeAssert`
 * `returnToThrowable()` in `SuppressedExceptionsAssert`
 
+## Documentation
+
+The user guides are written in AsciiDoc and built with [Antora](https://antora.org).
+Each module keeps its own guide next to its code:
+
+| Module          | Pages                                              | Code examples included in the pages  |
+|-----------------|----------------------------------------------------|--------------------------------------|
+| `assertj-core`  | `assertj-core/src/docs/antora/modules/ROOT/pages`  | `assertj-core/src/test/java/example` |
+| `assertj-guava` | `assertj-guava/src/docs/antora/modules/ROOT/pages` | none                                 |
+
+The code examples are compiled with the test sources of the module, so an API change that breaks them fails the build.
+They are not executed as tests, because some of them fail on purpose, and they are excluded from `spotless:apply`, because it would strip their AsciiDoc callouts such as `// <1>`.
+Pages include them by tag, e.g. `include::example$java/example/core/SimpleAssertionsExample.java[tag=user_guide]`.
+
+To preview your changes, generate the site of the module you are working on:
+
+```shell
+./mvnw -pl assertj-core antora
+```
+
+Then open `assertj-core/target/site/index.html` in a browser (the build prints the full `file://` URL at the end).
+Use `-pl assertj-guava` and `assertj-guava/target/site/index.html` for the Guava guide, or `-pl assertj-core,assertj-guava` to generate both.
+Each preview only contains the guide of that module; the complete site is assembled from all AssertJ repositories by [docs.assertj.dev](https://github.com/assertj/docs.assertj.dev).
+No Node.js installation is required: the first run downloads Node.js into `target/node` and the Antora packages into the module's `node_modules`.
+To use a Node.js installation from your `PATH` instead, add `-Dnode.executable=node`.
+
 ## Binary Compatibility
 
 Try to keep [binary compatibility](https://docs.oracle.com/javase/specs/jls/se25/html/jls-13.html) whenever possible.

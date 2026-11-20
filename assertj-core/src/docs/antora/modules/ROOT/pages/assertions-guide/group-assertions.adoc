@@ -1,0 +1,289 @@
+= Iterable and array assertions
+
+[[assertions-reference]]
+== Reference
+
+All the available assertions are described in:
+
+* iterables: {assertj-core-javadoc}/org/assertj/core/api/AbstractIterableAssert.html#method.summary
+* arrays: {assertj-core-javadoc}/org/assertj/core/api/AbstractObjectArrayAssert.html#method.summary
+
+The next sections focus on some features worth knowing to get the best of AssertJ, notably:
+
+* Different ways of xref:assertions-guide/group-assertions.adoc#contains[checking iterables/arrays content]
+* xref:assertions-guide/group-assertions.adoc#satisfy[Running assertions on some elements (any, all, none)]
+* xref:assertions-guide/group-assertions.adoc#navigation[Navigating] to a given element to check it
+* xref:assertions-guide/group-assertions.adoc#filtering[Filtering]  elements before asserting]
+* xref:assertions-guide/group-assertions.adoc#extracting[Extracting/mapping] elements before asserting
+* xref:assertions-guide/group-assertions.adoc#comparator[Comparing elements] with a specific comparator
+
+[[contains]]
+== Checking iterables/arrays content
+
+There are different flavors of `contains` assertion, here's a table to help choose the most relevant one:
+
+[%autowidth]
+|===
+|Assertion |Description
+
+|{assertj-core-javadoc}/org/assertj/core/api/AbstractIterableAssert.html#contains(ELEMENT&#46;&#46;&#46;)[`contains`]
+|Verifies that the actual iterable/array contains the given values in any order
+
+|{assertj-core-javadoc}/org/assertj/core/api/AbstractIterableAssert.html#containsOnly(ELEMENT&#46;&#46;&#46;)[`containsOnly`]
+|Verifies that the actual group contains only the given values and nothing else in any order and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found)
+
+|{assertj-core-javadoc}/org/assertj/core/api/AbstractIterableAssert.html#containsExactly(ELEMENT&#46;&#46;&#46;)[`containsExactly`]
+|Verifies that the actual iterable/array contains exactly the given values and nothing else **in order**
+
+|{assertj-core-javadoc}/org/assertj/core/api/AbstractIterableAssert.html#containsExactlyInAnyOrder(ELEMENT&#46;&#46;&#46;)[`containsExactlyInAnyOrder`]
+|Verifies that the actual iterable/array contains exactly the given values and nothing else **in any order**
+
+|{assertj-core-javadoc}/org/assertj/core/api/AbstractIterableAssert.html#containsSequence(ELEMENT&#46;&#46;&#46;)[`containsSequence`]
+|Verifies that the actual group contains the given sequence in the correct order and **without extra values between the sequence values**
+
+|{assertj-core-javadoc}/org/assertj/core/api/AbstractIterableAssert.html#containsSubsequence(ELEMENT&#46;&#46;&#46;)[`containsSubsequence`]
+|Verifies that the actual group contains the given subsequence in the correct order **possibly with other values between them**
+
+|{assertj-core-javadoc}/org/assertj/core/api/AbstractIterableAssert.html#containsOnlyOnce(ELEMENT&#46;&#46;&#46;)[`containsOnlyOnce`]
+|Verifies that the actual iterable/array contains the given values only once
+
+|{assertj-core-javadoc}/org/assertj/core/api/AbstractIterableAssert.html#containsAnyOf(ELEMENT&#46;&#46;&#46;)[`containsAnyOf`]
+|Verifies that the actual iterable/array contains at least one of the given values (like an `or` operator on the given values)
+
+|===
+
+TIP: the assertions above have a variant accepting an iterable/array argument, ex: `containsExactly(E...)` and `containsExactlyElementsOf(Iterable)`
+
+[[satisfy]]
+== Verify assertions on some elements
+
+=== Satisfy
+
+You can assert that all or any elements verify the given assertions with `allSatisfy` and `anySatisfy`, conversely `noneSatisfy` lets you assert that no elements verify the given assertions.
+
+The given assertions are expressed with a `Consumer` (typically with a lambda).
+
+Examples:
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=satisfy,indent=0]
+----
+
+NOTE: if `allSatisfy` fails, all the elements and their failing the assertions are reported.
+
+=== Match
+
+You can assert that all or any elements match the given `Predicate` with `allMatch` and `anyMatch`, conversely `noneMatch` lets you assert that no elements verify the given predicate.
+
+Examples:
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=match,indent=0]
+----
+
+TIP: You can pass a predicate description to make the error message more explicit if the assertion fails.
+
+[[navigation]]
+== Navigating to a given element
+
+The idea is to navigate to a given element in order to check it, you can navigate to the xref:assertions-guide/group-assertions.adoc#navigation-fle[first, last or any element by index] or if you expect only one element use xref:assertions-guide/group-assertions.adoc#navigation-singleElement[`singleElement`].
+
+NOTE: this is only available for iterables at the moment.
+
+[[navigation-fle]]
+=== First / last / element(index)
+
+Use `first`, `last` and `element(index)` to navigate to the corresponding element, after navigating you can only use object assertions unless you have specified an Assert class or preferrably an `InstanceOfAssertFactory` as shown in the following examples.
+
+Examples:
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=navigation,indent=0]
+----
+
+[[navigation-singleElement]]
+=== Single element
+
+`singleElement` checks that the iterable has only one element and navigates to it, after navigating you can only use object assertions unless you have specified an Assert class or preferrably an `InstanceOfAssertFactory` as shown in the following examples.
+
+Examples:
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=single_element,indent=0]
+----
+
+[[filtering]]
+== Filtering elements
+
+Filtering is handy to target assertions on some specific elements, the filter criteria can be expressed by:
+
+* a xref:assertions-guide/group-assertions.adoc#filtering-with-a-predicate[java Predicate]
+* an xref:assertions-guide/group-assertions.adoc#filtering-on-a-property-or-a-field[element property/field having a specific value (or not) or in a set of values (or not)]
+* an xref:assertions-guide/group-assertions.adoc#filtering-on-null-value[element property/field having a null value]
+* an element xref:assertions-guide/group-assertions.adoc#filtering-elements-matching-given-assertions[matching some assertions]
+* an element matching a xref:assertions-guide/group-assertions.adoc#filtering-with-a-condition[Condition]
+
+Let's explore these options in some examples taken from {assertj-examples-github}/tree/main/assertions-examples/src/test/java/org/assertj/examples/FilterExamples.java#L47[FilterExamples] from the {assertj-examples-github}[assertions-examples] project.
+
+=== Filtering with a Predicate
+
+You specify the filter condition using simple predicate, best expressed with a lambda.
+
+Example:
+
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=filtered_on_predicate,indent=0]
+----
+
+=== Filtering on a property or a field
+
+First you specify the property/field name to filter on and then its expected value. The filter first tries to get the value from a property, then from a field. Reading private fields is supported by default, but can be disabled globally by calling `Assertions.setAllowExtractingPrivateFields(false)`.
+
+Filter supports nested properties/fields. Note that if an intermediate value is null the whole nested property/field is considered to be null, for example reading `"address.street.name"` will return null if `"address.street"` is null.
+
+Filters support these basic operations: `not`, `in`, `notIn`
+
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=filter_imports,indent=0]
+...
+
+include::example$java/example/core/GroupAssertionsExample.java[tags=filtered_on_property,indent=0]
+----
+
+=== Filtering on a function return value
+
+This is a more flexible way of getting the value to filter on but note that there is no support for operators like `not`, `in` and `notIn`.
+
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=filtered_on_function,indent=0]
+----
+
+=== Filtering on null value
+
+Filters the elements whose specified property/field is null.
+
+Filter supports nested properties/fields. Note that if an intermediate value is null the whole nested property/field is considered to be null, for example reading `"address.street.name"` will return null if `"address.street"` is null.
+
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=filtered_on_null,indent=0]
+----
+
+=== Filtering elements matching given assertions
+
+Filters the iterable under test keeping only elements matching the given assertions specified with a `Consumer`.
+
+Example: check hobbits whose age < 34
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=filtered_on_assertions,indent=0]
+----
+=== Filtering with a Condition
+
+Filter the iterable/array under test keeping only elements matching the given xref:extension.adoc#conditions[`Condition`].
+
+Two methods are available: being(Condition) and having(Condition). They do the same job - pick the one that makes your code more readable!
+
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=condition_import,indent=0]
+
+include::example$java/example/core/GroupAssertionsExample.java[tags=filtered_on_condition,indent=0]
+----
+
+[[extracting]]
+== Extracting elements values
+
+=== What problem extracting solves
+
+Let's say you have called some service and got a list (or an array) of `TolkienCharacter`, to check the results you have to build the expected TolkienCharacters, that can be quite tedious!
+
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=without_extracting,indent=0]
+----
+
+Instead, it is usually enough to check some fields or properties on the elements, for that you have to extract the fields/properties before performing your assertions, something like:
+
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=extracting_with_stream,indent=0]
+----
+
+This is too much work (even with the stream API), instead AssertJ can help extracting values from the elements under tests, there are several ways of doing so:
+
+* Extracting a xref:assertions-guide/group-assertions.adoc#extracting-single-value-per-element[single value] per element
+* Extracting a xref:assertions-guide/group-assertions.adoc#extracting-multiple-values[multiple values] per element
+* Extracting and xref:assertions-guide/group-assertions.adoc#flat-extracting[flattening multiple values] per element
+
+=== Extracting single value per element
+
+Specify the field/property to extract (or pass a `Function`) from each elements and perform assertions on the extracted values.
+
+Extracting by name can access private fields/properties which is handy to check internals not exposed with public methods (lambda won't work here), it also supports nested field/property like `"race.name"`.
+
+Examples:
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=extracting_single_value,indent=0]
+----
+
+Note that extracting one property can be made strongly typed by giving the property type as the second argument.
+
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=extracting_single_typed_value,indent=0]
+----
+
+=== Extracting multiple values
+
+You can extract several values from the elements under test and check them using {assertj-core-javadoc}/org/assertj/core/api/Assertions.html#tuple(java.lang.Object&#46;&#46;&#46;)[tuples].
+
+As an example, let's check the name, age and race's name of each TolkienCharacter element:
+
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=tuple_import,indent=0]
+
+include::example$java/example/core/GroupAssertionsExample.java[tags=extracting_multiple_values,indent=0]
+----
+
+The extracted name, age and race's name values of the current element are grouped in a tuple, thus you need to use tuples for specifying the expected values.
+
+More examples are available in link:{assertj-examples-base-package}/IterableAssertionsExamples.java#L210[IterableAssertionsExamples.java] of the link:{assertj-examples-github}[assertj-examples] project.
+
+[[flat-extracting]]
+=== Extracting and flattening multiple values per element
+
+Flat extracting is hard to explain but easy to understand with an example, so let's see how it works (in functional programming it is juts a flatMap).
+
+Let's assume we have a `Player` class with a `teamMates` property returning a `List<Player>` and we want to assert that it returns the expected players:
+[source,java]
+----
+Player jordan = ... // initialized with Pippen and Kukoc team mates
+Player magic = ... // initialized with Jabbar and Worthy team mates
+include::example$java/example/core/GroupAssertionsExample.java[tags=flat_extracting,indent=0]
+----
+
+TIP: You can use `flatMap` in place of `flatExtracting` (except for the variant taking a String)
+
+Flat extracting can be used to group multiple values if you don't want to use `extracting` and tuples:
+
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=flat_extracting_multiple_values,indent=0]
+----
+
+[[comparator]]
+== Comparing elements with a specific comparator
+
+`usingElementComparator` allows you to change the way elements are compared (instead of using the elements `equals` method).
+
+Examples:
+[source,java]
+----
+include::example$java/example/core/GroupAssertionsExample.java[tags=element_comparator,indent=0]
+----

@@ -25,3 +25,7 @@ dependency-reduced-pom.xml
 .mvn/wrapper/maven-wrapper.jar
 # macOS specific files
 .DS_Store
+#Node.js (the Antora build copies package.json from assertj-parent into each module with docs)
+node_modules
+/*/package.json
+!/assertj-parent/package.json
