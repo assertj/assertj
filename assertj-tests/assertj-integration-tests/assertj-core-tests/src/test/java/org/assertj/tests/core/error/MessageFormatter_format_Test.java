@@ -20,11 +20,15 @@ import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
+import org.assertj.core.error.IndentWrapper;
 import org.assertj.core.error.MessageFormatter;
+import org.assertj.core.presentation.CompositeRepresentation;
+import org.assertj.core.presentation.Representation;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -76,5 +80,36 @@ class MessageFormatter_format_Test {
                      arguments("%n", "%n".formatted()),
                      arguments("%%%n%E", "%%" + "%n".formatted() + "%E"),
                      arguments("%%n", "%" + "%n".formatted()));
+  }
+
+  @Test
+  void should_disambiguate_enums_in_indented_arguments() {
+    // GIVEN
+    var actual = IndentWrapper.of(List.of(First.VALUE));
+    var expected = List.of(Second.VALUE);
+    // WHEN
+    var message = messageFormatter.format(null, STANDARD_REPRESENTATION, "%s != %s", actual, expected);
+    // THEN
+    then(message).contains("VALUE (" + First.class.getName() + "@")
+                 .contains("VALUE (" + Second.class.getName() + "@");
+  }
+
+  @Test
+  void should_preserve_custom_representations_in_composite() {
+    // GIVEN
+    Representation customRepresentation = value -> "custom group";
+    var representation = new CompositeRepresentation(List.of(customRepresentation));
+    // WHEN
+    var message = messageFormatter.format(null, representation, "%s != %s", List.of(First.VALUE), List.of(Second.VALUE));
+    // THEN
+    then(message).isEqualTo("custom group != custom group");
+  }
+
+  private enum First {
+    VALUE
+  }
+
+  private enum Second {
+    VALUE
   }
 }

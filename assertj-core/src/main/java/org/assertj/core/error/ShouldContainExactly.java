@@ -15,8 +15,8 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.System.lineSeparator;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
-import static org.assertj.core.util.Strings.escapePercent;
 
 import java.util.List;
 
@@ -24,6 +24,7 @@ import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.internal.IndexedDiff;
+import org.assertj.core.presentation.Representation;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains exactly a given set
@@ -155,22 +156,25 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
           "  %s%n" +
           "to contain exactly (and in same order):%n" +
           "  %s%n" +
-          formatIndexDifferences(indexDiffs), actual, expected, comparisonStrategy);
+          "%s", actual, expected, new IndexDifferences(indexDiffs), comparisonStrategy);
   }
 
-  private static String formatIndexDifferences(List<IndexedDiff> indexedDiffs) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("but there were differences at these indexes");
-    if (indexedDiffs.size() >= Configuration.MAX_INDICES_FOR_PRINTING) {
-      sb.append(" (only showing the first %d mismatches)".formatted(Configuration.MAX_INDICES_FOR_PRINTING));
+  record IndexDifferences(List<IndexedDiff> differences) {
+
+    String format(Representation representation) {
+      StringBuilder sb = new StringBuilder();
+      sb.append("but there were differences at these indexes");
+      if (differences.size() >= Configuration.MAX_INDICES_FOR_PRINTING) {
+        sb.append(" (only showing the first %d mismatches)".formatted(Configuration.MAX_INDICES_FOR_PRINTING));
+      }
+      sb.append(":").append(lineSeparator());
+      for (IndexedDiff diff : differences) {
+        Object expected = diff.expected instanceof Enum<?> ? representation.toStringOf(diff.expected) : diff.expected;
+        Object actual = diff.actual instanceof Enum<?> ? representation.toStringOf(diff.actual) : diff.actual;
+        sb.append("  - element at index %d: expected \"%s\" but was \"%s\"%n".formatted(diff.index, expected, actual));
+      }
+      return sb.toString();
     }
-    sb.append(":%n");
-    for (IndexedDiff diff : indexedDiffs) {
-      sb.append(escapePercent("  - element at index %d: expected \"%s\" but was \"%s\"%n".formatted(
-                                                                                                    diff.index, diff.expected,
-                                                                                                    diff.actual)));
-    }
-    return sb.toString();
   }
 
   /**
