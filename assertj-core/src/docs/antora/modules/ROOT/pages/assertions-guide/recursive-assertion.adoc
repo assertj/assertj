@@ -7,42 +7,9 @@ For example if the object under test is an instance of class A, A has a B field 
 Example:
 [source,java]
 ----
-class Author {
-  String name;
-  String email;
-  List<Book> books = new ArrayList<>();
+include::example$java/example/core/RecursiveAssertionExample.java[tags=classes,indent=0]
 
-  Author(String name, String email) {
-    this.name = name;
-    this.email = email;
-  }
-}
-
-class Book {
-  String title;
-  Author[] authors;
-
-  Book(String title, Author[] authors) {
-    this.title = title;
-    this.authors = authors;
-  }
-}
-
-Author pramodSadalage = new Author("Pramod Sadalage", "p.sadalage@recursive.test");
-Author martinFowler = new Author("Martin Fowler", "m.fowler@recursive.test");
-Author kentBeck = new Author("Kent Beck", "k.beck@recursive.test");
-
-Book noSqlDistilled = new Book("NoSql Distilled", new Author[] {pramodSadalage, martinFowler});
-pramodSadalage.books.add(noSqlDistilled);
-martinFowler.books.add(noSqlDistilled);
-
-Book refactoring = new Book("Refactoring", new Author[] {martinFowler, kentBeck});
-martinFowler.books.add(refactoring);
-kentBeck.books.add(refactoring);
-
-// assertion succeeds
-assertThat(pramodSadalage).usingRecursiveAssertion()
-                          .allFieldsSatisfy(field -> field != null);
+include::example$java/example/core/RecursiveAssertionExample.java[tags=user_guide,indent=0]
 ----
 
 The above example is best rewritten with `hasNoNullFields()` which is common enough that it is supported out of the box.
