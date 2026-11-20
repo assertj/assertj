@@ -23,9 +23,5 @@ If the error message is expensive to build, use the overloaded methods taking a 
 Example:
 [source,java]
 ----
-assertThat(player.isRookie()).overridingErrorMessage(() -> "Expecting Player to be a rookie but was not.")
-                             .isTrue();
-
-assertThat(player.isRookie()).withFailMessage(() -> "Expecting Player to be a rookie but was not.")
-                             .isTrue();
+include::example$java/example/core/OverridingErrorMessageExample.java[tags=lazy_error_message,indent=0]
 ----

@@ -39,4 +39,23 @@ public class OverridingErrorMessageExample {
     }
   }
 
+  @Test
+  void lazy_error_message() {
+    Player player = new Player();
+    // tag::lazy_error_message[]
+    assertThat(player.isRookie()).overridingErrorMessage(() -> "Expecting Player to be a rookie but was not.")
+                                 .isTrue();
+
+    assertThat(player.isRookie()).withFailMessage(() -> "Expecting Player to be a rookie but was not.")
+                                 .isTrue();
+    // end::lazy_error_message[]
+  }
+
+  private static class Player {
+
+    boolean isRookie() {
+      return true;
+    }
+  }
+
 }
