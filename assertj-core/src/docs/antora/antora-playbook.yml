@@ -1,6 +1,7 @@
 antora:
   extensions:
     - '@antora/collector-extension'
+    - '@springio/antora-extensions/root-attachments-extension'
 site:
   title: AssertJ Docs
   start_page: assertj-core::index.adoc

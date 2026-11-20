@@ -6,9 +6,14 @@ nav:
 ext:
   collector:
     - run:
-        command: ./mvnw -q -pl assertj-guava io.spring.maven.antora:antora-component-version-maven-plugin:antora-component-version resources:copy-resources@antora-resources
-        local: true
+        - command: ./mvnw -q -pl assertj-guava io.spring.maven.antora:antora-component-version-maven-plugin:antora-component-version resources:copy-resources@antora-resources
+          local: true
+        - command: ./mvnw -q -DskipTests -pl assertj-guava -am package javadoc:javadoc
+          local: true
       scan:
         - dir: assertj-guava/target/antora
+        - dir: assertj-guava/target/reports/apidocs
+          clean: true
+          into: modules/ROOT/attachments/api
         - dir: assertj-guava/src/test/java/example
           into: modules/ROOT/examples/java/example

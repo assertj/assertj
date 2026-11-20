@@ -57,7 +57,7 @@ This section describes the assertions provided by AssertJ Guava.
 
 == Multiset
 
-In addition to `Iterable` {assertj-core-javadoc}/org/assertj/core/api/AbstractIterableAssert.html#method.summary[assertions], the following are also available.
+In addition to `Iterable` {assertj-core-javadoc}/org/assertj/core/api/AbstractIterableAssert.html#method-summary[assertions], the following are also available.
 
 [%autowidth]
 |===
@@ -282,4 +282,4 @@ In addition to `Iterable` {assertj-core-javadoc}/org/assertj/core/api/AbstractIt
 [[javadoc]]
 == Javadoc
 
-The latest Javadoc for AssertJ Guava API is {assertj-guava-javadoc}[here].
+The Javadoc for AssertJ Guava API is {assertj-guava-javadoc}/index.html[here].

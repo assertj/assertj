@@ -2,7 +2,7 @@
 
 This section describes the assertions provided by AssertJ Core and other useful features to get the best of it.
 
-AssertJ Core {assertj-core-javadoc}[Javadoc] explains each assertion, most of them with code examples so be sure to check it if you want to know what a specific assertion does.
+AssertJ Core {assertj-core-javadoc}/index.html[Javadoc] explains each assertion, most of them with code examples so be sure to check it if you want to know what a specific assertion does.
 
 [[simple-example]]
 == A simple example
@@ -23,4 +23,4 @@ Except for `isNotNull` which is a base assertion, the other assertions are `Stri
 [[javadoc]]
 == Javadoc
 
-{assertj-core-javadoc} is the latest version of AssertJ Core Javadoc, each assertion is explained, most of them with code examples so be sure to check it if you want to know what a specific assertion does.
+The {assertj-core-javadoc}/index.html[AssertJ Core Javadoc] explains each assertion, most of them with code examples so be sure to check it if you want to know what a specific assertion does.

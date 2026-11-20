@@ -148,7 +148,7 @@
           </links>
           <offlineLinks>
             <offlineLink>
-              <url>https://javadoc.io/static/org.assertj/assertj-core/${project.version}</url>
+              <url>https://docs.assertj.dev/assertj-core/current/api</url>
               <location>${project.basedir}/../assertj-core/target/reports/apidocs</location>
             </offlineLink>
           </offlineLinks>

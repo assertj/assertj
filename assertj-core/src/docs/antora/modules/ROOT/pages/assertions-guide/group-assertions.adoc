@@ -5,8 +5,8 @@
 
 All the available assertions are described in:
 
-* iterables: {assertj-core-javadoc}/org/assertj/core/api/AbstractIterableAssert.html#method.summary
-* arrays: {assertj-core-javadoc}/org/assertj/core/api/AbstractObjectArrayAssert.html#method.summary
+* iterables: {assertj-core-javadoc}/org/assertj/core/api/AbstractIterableAssert.html#method-summary
+* arrays: {assertj-core-javadoc}/org/assertj/core/api/AbstractObjectArrayAssert.html#method-summary
 
 The next sections focus on some features worth knowing to get the best of AssertJ, notably:
 

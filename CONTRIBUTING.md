@@ -166,6 +166,7 @@ To preview your changes, generate the site of the module you are working on:
 
 Then open `assertj-core/target/site/index.html` in a browser (the build prints the full `file://` URL at the end).
 Use `-pl assertj-guava` and `assertj-guava/target/site/index.html` for the Guava guide, or `-pl assertj-core,assertj-guava` to generate both.
+The build also generates the module's Javadoc and attaches it to the site, which the guide links to.
 Each preview only contains the guide of that module; the complete site is assembled from all AssertJ repositories by [docs.assertj.dev](https://github.com/assertj/docs.assertj.dev).
 No Node.js installation is required: the first run downloads Node.js into `target/node` and the Antora packages into the module's `node_modules`.
 To use a Node.js installation from your `PATH` instead, add `-Dnode.executable=node`.
