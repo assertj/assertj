@@ -87,16 +87,7 @@ import static org.assertj.core.api.Assertions.*;
 
 [source,java]
 ----
-import static org.assertj.core.api.Assertions.assertThat;  // main one
-import static org.assertj.core.api.Assertions.atIndex; // for List assertions
-import static org.assertj.core.api.Assertions.entry;  // for Map assertions
-import static org.assertj.core.api.Assertions.tuple; // when extracting several properties at once
-import static org.assertj.core.api.Assertions.fail; // use when writing exception tests
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown; // idem
-import static org.assertj.core.api.Assertions.filter; // for Iterable/Array assertions
-import static org.assertj.core.api.Assertions.offset; // for floating number assertions
-import static org.assertj.core.api.Assertions.anyOf; // use with Condition
-import static org.assertj.core.api.Assertions.contentOf; // use with File assertions
+include::example$java/example/core/AbstractAssertionsExamples.java[tags=static_imports,indent=0]
 ----
 
 === Alternative entry points
@@ -106,53 +97,13 @@ AssertJ provides other entry points class, notably the `WithAssertions` interfac
 `WithAssertions` example:
 [source,java]
 ----
-import org.assertj.core.api.WithAssertions;
-
-public class WithAssertionsExamples extends AbstractAssertionsExamples implements WithAssertions {
-
-  // the data used are initialized in AbstractAssertionsExamples.
-
-  @Test
-  public void withAssertions_examples() {
-
-    // assertThat methods come from WithAssertions - no static import needed
-    assertThat(frodo.age).isEqualTo(33);
-    assertThat(frodo.getName()).isEqualTo("Frodo").isNotEqualTo("Frodon");
-
-    assertThat(frodo).isIn(fellowshipOfTheRing);
-    assertThat(frodo).isIn(sam, frodo, pippin);
-    assertThat(sauron).isNotIn(fellowshipOfTheRing);
-
-    assertThat(frodo).matches(p -> p.age > 30 && p.getRace() == HOBBIT);
-    assertThat(frodo.age).matches(p -> p > 30);
-  }
-}
+include::example$java/example/core/WithAssertionsExamples.java[tags=user_guide,indent=0]
 ----
 
 `BDDAssertions` example:
 [source,java]
 ----
-import static org.assertj.core.api.BDDAssertions.then;
-
-public class BDDAssertionsExamples extends AbstractAssertionsExamples {
-
-  // the data used are initialized in AbstractAssertionsExamples.
-
-  @Test
-  public void withAssertions_examples() {
-
-    // then methods come from BDDAssertions.then static 
-    then(frodo.age).isEqualTo(33);
-    then(frodo.getName()).isEqualTo("Frodo").isNotEqualTo("Frodon");
-
-    then(frodo).isIn(fellowshipOfTheRing);
-    then(frodo).isIn(sam, frodo, pippin);
-    then(sauron).isNotIn(fellowshipOfTheRing);
-
-    then(frodo).matches(p -> p.age > 30 && p.getRace() == HOBBIT);
-    then(frodo.age).matches(p -> p > 30);
-  }
-}
+include::example$java/example/core/BDDAssertionsExamples.java[tags=user_guide,indent=0]
 ----
 
 
