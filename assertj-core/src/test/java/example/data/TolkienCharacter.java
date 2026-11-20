@@ -15,11 +15,13 @@
  */
 package example.data;
 
+// tag::fields[]
+// constructor and getters omitted for brevity
 public class TolkienCharacter {
-
   public final String name;
   public final Integer age;
-  public final Race race;
+  public final Race race; // Race is an enum
+  // end::fields[]
 
   public TolkienCharacter(String name, Integer age, Race race) {
 
@@ -48,4 +50,6 @@ public class TolkienCharacter {
     return String.format("TolkienCharacter [name=%s, age=%s, race=%s]", name, age, race);
   }
 
+// tag::fields[]
 }
+// end::fields[]

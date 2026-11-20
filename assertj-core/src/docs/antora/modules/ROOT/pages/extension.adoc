@@ -12,8 +12,7 @@ Once your Condition is created, you can use it with methods: `is(myCondition)` o
 Example:
 [source,java]
 ----
-// jedi is a Condition
-assertThat("Yoda").is(jedi);
+include::example$java/example/core/ExtensionExample.java[tags=condition,indent=0]
 ----
 
 Conditions can be combined with :
@@ -40,20 +39,9 @@ Let's define two similar conditions: `jedi` and `jediPower` with the same implem
 
 [source,java]
 ----
-import static org.assertj.core.util.Sets.newLinkedHashSet;
+include::example$java/example/core/ExtensionExample.java[tags=condition_import,indent=0]
 
-static Set<String> JEDIS = newLinkedHashSet("Luke", "Yoda", "Obiwan");
-
-// implementation with Java 8 lambda
-Condition<String> jediPower = new Condition<>(JEDIS::contains, "jedi power");
-
-// implementation with Java 7
-Condition<String> jedi = new Condition<String>("jedi") {
-  @Override
-  public boolean matches(String value) {
-    return JEDIS.contains(value);
-  }
-};
+include::example$java/example/core/ExtensionExample.java[tags=condition_creation,indent=0]
 ----
 
 The String parameter is describing the condition, this is used in error messages.
@@ -65,22 +53,20 @@ The String parameter is describing the condition, this is used in error messages
 Usage with single instances:
 [source,java]
 ----
-assertThat("Yoda").is(jedi);
-assertThat("Vader").isNot(jedi);
-
-assertThat("Yoda").has(jediPower);
-assertThat("Solo").doesNotHave(jediPower);
+include::example$java/example/core/ExtensionExample.java[tags=condition_usage,indent=0]
 ----
 
 The Condition description is used in error messages, ex:
 [source,java]
 ----
-assertThat("Vader").is(jedi);
+include::example$java/example/core/ExtensionExample.java[tags=condition_error_message,indent=0]
 ----
 will fail with the following error message:
 [source,text]
 ----
-"expecting:<'Vader'> to be:<jedi>"
+Expecting actual:
+  "Vader"
+to be jedi
 ----
 
 
@@ -89,20 +75,7 @@ Usage with collections:
 
 [source,java]
 ----
-assertThat(list("Luke", "Yoda")).are(jedi);
-assertThat(list("Leia", "Solo")).areNot(jedi);
-
-assertThat(list("Luke", "Yoda")).have(jediPower);
-assertThat(list("Leia", "Solo")).doNotHave(jediPower);
-
-assertThat(list("Luke", "Yoda", "Leia")).areAtLeast(2, jedi);
-assertThat(list("Luke", "Yoda", "Leia")).haveAtLeast(2, jediPower);
-
-assertThat(list("Luke", "Yoda", "Leia")).areAtMost(2, jedi);
-assertThat(list("Luke", "Yoda", "Leia")).haveAtMost(2, jediPower);
-
-assertThat(list("Luke", "Yoda", "Leia")).areExactly(2, jedi);
-assertThat(list("Luke", "Yoda", "Leia")).haveExactly(2, jediPower);
+include::example$java/example/core/ExtensionExample.java[tags=condition_usage_with_collections,indent=0]
 ----
 
 [[combining-condition]]
@@ -113,15 +86,13 @@ Conditions can be combined with `allOf(Condition...)` (logical and) or `anyOf(Co
 Let's define a sith condition:
 [source,java]
 ----
-List<String> SITHS = list("Sidious", "Vader", "Plagueis");
-Condition<String> sith = new Condition<>(SITHS::contains, "sith");
+include::example$java/example/core/ExtensionExample.java[tags=sith_condition,indent=0]
 ----
 
 We can write these assertions:
 [source,java]
 ----
-assertThat("Vader").is(anyOf(jedi, sith));
-assertThat("Solo").is(allOf(not(jedi), not(sith)));
+include::example$java/example/core/ExtensionExample.java[tags=combining_conditions,indent=0]
 ----
 
 
@@ -144,12 +115,7 @@ The example is taken from {assertj-examples-github}/[assertj-examples] and more 
 We want to have assertion for the `TolkienCharacter` domain model class shown below:
 [source,java]
 ----
-// getter/setter omitted for brevity
-public class TolkienCharacter {
-  private String name;
-  private Race race; // Race is an enum
-  private int age;
-}
+include::example$java/example/data/TolkienCharacter.java[tags=fields,indent=0]
 ----
 
 Let's name our assertion class `TolkienCharacterAssert`, we make it inherit from `AbstractAssert` and specify two generic parameters: the first is the class itself (needed for assertion chaining) and the second is the class we want to make assertions on: TolkienCharacter.
@@ -158,38 +124,7 @@ Inheriting from `AbstractAssert` will give you all the basic assertions: `isEqua
 
 [source,java]
 ----
-public class TolkienCharacterAssert extends AbstractAssert<TolkienCharacterAssert, TolkienCharacter> { <1>
-
-  public TolkienCharacterAssert(TolkienCharacter actual) { <2>
-    super(actual, TolkienCharacterAssert.class);
-  }
-
-  public static TolkienCharacterAssert assertThat(TolkienCharacter actual) { <3>
-    return new TolkienCharacterAssert(actual);
-  }
-
-  public TolkienCharacterAssert hasName(String name) { <4>
-    // check that actual TolkienCharacter we want to make assertions on is not null.
-    isNotNull();
-    // check assertion logic
-    if (!Objects.equals(actual.getName(), name)) {
-      failWithMessage("Expected character's name to be <%s> but was <%s>", name, actual.getName());
-    }
-    // return this to allow chaining other assertion methods
-    return this;
-  }
-
-  public TolkienCharacterAssert hasAge(int age) { <4>
-    // check that actual TolkienCharacter we want to make assertions on is not null.
-    isNotNull();
-    // check assertion logic
-    if (actual.getAge() != age) {
-      failWithMessage("Expected character's age to be <%s> but was <%s>", age, actual.getAge());
-    }
-    // return this to allow chaining other assertion methods
-    return this;
-  }
-}
+include::example$java/example/core/TolkienCharacterAssert.java[tags=user_guide,indent=0]
 ----
 <1> Inherits from AbstractAssert
 <2> Constructor to build your assertion class with the object under test
@@ -202,11 +137,7 @@ public class TolkienCharacterAssert extends AbstractAssert<TolkienCharacterAsser
 To use our custom assertion class, simply call the `assertThat` factory method with the object to test:
 [source,java]
 ----
-// use assertThat from TolkienCharacterAssert to check TolkienCharacter
-TolkienCharacterAssert.assertThat(frodo).hasName("Frodo");
-
-// code is more elegant when TolkienCharacterAssert.assertThat is imported statically :
-assertThat(frodo).hasName("Frodo");
+include::example$java/example/core/ExtensionExample.java[tags=custom_assertion_usage,indent=0]
 ----
 
 Well, that was not too difficult, but having to add a static import for each `assertThat` method of you custom assertion classes is not very handy, it would be better to have a unique assertion entry point. This is what we are going to do in the next section.
@@ -219,35 +150,17 @@ Now that you have a bunch of custom assertions classes, you want to access them 
 Example:
 [source,java]
 ----
-public class MyProjectAssertions {
-
-  // give access to TolkienCharacter assertion
-  public static TolkienCharacterAssert assertThat(TolkienCharacter actual) {
-    return new TolkienCharacterAssert(actual);
-  }
-
-  // give access to TolkienCharacter Race assertion
-  public static RaceAssert assertThat(Race actual) {
-    return new RaceAssert(actual);
-  }
-}
+include::example$java/example/core/MyProjectAssertions.java[tags=user_guide,indent=0]
 ----
 
 Usage:
 [source,java]
 ----
 import static my.project.MyProjectAssertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThat;
+include::example$java/example/core/MyProjectAssertionsExample.java[tags=import,indent=0]
 ...
 
-@Test
-public void successful_custom_assertion_example() {
-  // assertThat(TolkienCharacter) comes from my.project.MyProjectAssertions.assertThat
-  assertThat(frodo).hasName("Frodo");
-
-  // assertThat(String) comes from org.assertj.core.api.Assertions.assertThat
-  assertThat("frodo").contains("do");
-}
+include::example$java/example/core/MyProjectAssertionsExample.java[tags=user_guide,indent=0]
 ----
 
 WARNING: You could also make your custom Assertions entry point class inherit AssertJ's `Assertions`, that will work fine if and only if you have one entry point class for your custom assertions classes!
