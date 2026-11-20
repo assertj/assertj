@@ -16,11 +16,20 @@
 package org.assertj.core.error;
 
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Strings.formatIfArgs;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.assertj.core.api.comparisonstrategy.AbstractComparisonStrategy;
 import org.assertj.core.description.Description;
+import org.assertj.core.presentation.CompositeRepresentation;
 import org.assertj.core.presentation.Representation;
+import org.assertj.core.presentation.StandardRepresentation;
 
 /**
  * Formats the messages to be included in assertion errors.
@@ -64,7 +73,7 @@ public class MessageFormatter {
   public String format(Description d, Representation p, String format, Object... args) {
     requireNonNull(format);
     requireNonNull(args);
-    return descriptionFormatter.format(d) + formatIfArgs(format, format(p, args));
+    return descriptionFormatter.format(d) + formatIfArgs(format, format(disambiguateEnums(p, args), args));
   }
 
   private Object[] format(Representation p, Object[] args) {
@@ -80,10 +89,62 @@ public class MessageFormatter {
     if (o instanceof AbstractComparisonStrategy strategy) {
       return strategy.asText();
     }
+    if (o instanceof ShouldContainExactly.IndexDifferences differences) {
+      return differences.format(p);
+    }
     if (o instanceof IndentWrapper indentWrapper) {
       String text = p.toStringOf(indentWrapper.value());
       return IndentWrapper.indentAllLines(text);
     }
     return p.toStringOf(o);
+  }
+
+  private static Representation disambiguateEnums(Representation representation, Object[] arguments) {
+    if (representation instanceof CompositeRepresentation composite
+        && representation.getClass() == CompositeRepresentation.class
+        && composite.getAllRepresentationsOrderedByPriority().size() == 1) {
+      representation = STANDARD_REPRESENTATION;
+    }
+    if (representation == null || representation.getClass() != StandardRepresentation.class) return representation;
+    var disambiguatingRepresentation = new EnumDisambiguatingRepresentation(arguments);
+    return disambiguatingRepresentation.ambiguousRepresentations.isEmpty() ? representation : disambiguatingRepresentation;
+  }
+
+  private static class EnumDisambiguatingRepresentation extends StandardRepresentation {
+
+    private final Map<String, Class<?>> enumTypesByRepresentation = new HashMap<>();
+    private final Set<String> ambiguousRepresentations = new HashSet<>();
+
+    private EnumDisambiguatingRepresentation(Object[] arguments) {
+      for (Object argument : arguments) {
+        Object value = argument instanceof IndentWrapper wrapper ? wrapper.value() : argument;
+        if (hasCustomFormatterFor(value)) continue;
+        if (value instanceof Collection<?> collection) {
+          collection.forEach(this::collectEnum);
+        } else if (value instanceof Object[] array) {
+          for (Object element : array)
+            collectEnum(element);
+        } else {
+          collectEnum(value);
+        }
+      }
+    }
+
+    private void collectEnum(Object value) {
+      if (!(value instanceof Enum<?> enumValue) || hasCustomFormatterFor(value)) return;
+      String representation = super.toStringOf(value);
+      Class<?> enumType = enumValue.getDeclaringClass();
+      Class<?> previousType = enumTypesByRepresentation.putIfAbsent(representation, enumType);
+      if (previousType != null && previousType != enumType) ambiguousRepresentations.add(representation);
+    }
+
+    @Override
+    public String toStringOf(Object value) {
+      if (value instanceof Enum<?> && !hasCustomFormatterFor(value)
+          && ambiguousRepresentations.contains(super.toStringOf(value))) {
+        return STANDARD_REPRESENTATION.unambiguousToStringOf(value, true);
+      }
+      return super.toStringOf(value);
+    }
   }
 }
