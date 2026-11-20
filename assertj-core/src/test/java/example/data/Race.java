@@ -16,5 +16,5 @@
 package example.data;
 
 public enum Race {
-  HOBBIT, MAIA, ELF, DWARF, MAN
+  HOBBIT, MAIA, ELF, DWARF, MAN, ORC
 }

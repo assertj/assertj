@@ -17,9 +17,24 @@ package example.core;
 
 // @formatter:off
 
+import static example.data.Race.HOBBIT;
+import static example.data.Race.MAIA;
+import static example.data.Race.ORC;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assumptions.assumeThat;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
+import example.data.TolkienCharacter;
+
 class AssumptionsDemo {
+
+  private final TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+  private final TolkienCharacter sauron = new TolkienCharacter("Sauron", 9000, MAIA);
+  private final List<TolkienCharacter> fellowshipOfTheRing = Arrays.asList(frodo);
 
   // tag::assumption_not_met[]
   @Test
