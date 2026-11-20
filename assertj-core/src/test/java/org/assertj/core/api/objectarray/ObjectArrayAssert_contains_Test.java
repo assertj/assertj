@@ -15,11 +15,15 @@
  */
 package org.assertj.core.api.objectarray;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#contains(Object...)}</code>.
@@ -37,5 +41,20 @@ class ObjectArrayAssert_contains_Test extends ObjectArrayAssertBaseTest {
   @Override
   protected void verify_internal_effects() {
     verify(arrays).assertContains(getInfo(assertions), getActual(assertions), array("Yoda", "Luke"));
+  }
+
+  @Test
+  void should_disambiguate_enum_elements_of_a_self_referencing_array() {
+    // GIVEN
+    Object[] actual = new Object[2];
+    actual[0] = actual;
+    actual[1] = org.assertj.core.internal.objects.pkg1.Example.VALUE;
+    var expected = org.assertj.core.internal.objects.pkg2.Example.VALUE;
+    // WHEN
+    var error = expectAssertionError(() -> assertThat(actual).contains(expected));
+    // THEN
+    then(error).hasMessageContaining("(this array)")
+               .hasMessageContaining("VALUE (org.assertj.core.internal.objects.pkg1.Example@")
+               .hasMessageContaining("VALUE (org.assertj.core.internal.objects.pkg2.Example@");
   }
 }
