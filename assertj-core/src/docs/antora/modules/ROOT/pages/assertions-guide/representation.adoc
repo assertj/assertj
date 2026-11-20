@@ -15,25 +15,7 @@ Let's go over these different options with a custom `Representation`.
 An example of a custom `Representation`:
 [source,java]
 ----
-// dummy class
-private class Example {}
-
-public class CustomRepresentation extends StandardRepresentation { // <1>
-
-  // override fallbackToStringOf to handle Example formatting
-  @Override
-  public String fallbackToStringOf(Object o) { // <2>
-    if (o instanceof Example) return "Example";
-    // fallback to default formatting.
-    return super.fallbackToStringOf(o);
-  }
-
-  // override a predefined type formatting: String
-  @Override
-  protected String toStringOf(String str) { // <3>
-    return "$" + str + "$";
-  }
-}
+include::example$java/example/core/RepresentationExample.java[tags=custom_representation,indent=0]
 ----
 <1> Extends `org.assertj.core.presentation.StandardRepresentation` to get AssertJ default representation.
 <2> Override `fallbackToStringOf` and handle your specific types before falling back to the default formatting.
@@ -44,27 +26,27 @@ Let's see the above custom representation in action when representing `Example` 
 This assertion fails ...
 [source,java]
 ----
-assertThat(new Example()).isNull();
+include::example$java/example/core/RepresentationExample.java[tags=example_is_null,indent=0]
 ----
 ...with the following error:
-[source,java]
+[source,text]
 ----
-expected:<[null]> but was:<[Example]>
+expected: null
+ but was: Example
 ----
 
 This one fails ...
 [source,java]
 ----
-// this one fails ...
-assertThat("foo").startsWith("bar");
+include::example$java/example/core/RepresentationExample.java[tags=string_starts_with,indent=0]
 ----
 ...with the following error:
-[source,java]
+[source,text]
 ----
-Expecting:
-  <$foo$>
+Expecting actual:
+  $foo$
 to start with:
-  <$bar$>
+  $bar$
 ----
 
 [[custom-representation-global-scope-change]]
@@ -74,8 +56,7 @@ You only have to register `CustomRepresentation` once but need to do it before e
 
 [source,java]
 ----
-// to call before executing tests
-Assertions.useRepresentation(new CustomRepresentation());
+include::example$java/example/core/RepresentationExample.java[tags=use_representation,indent=0]
 ----
 
 Consider writing a JUnit 5 extension implementing https://junit.org/junit5/docs/current/api/org/junit/jupiter/api/extension/BeforeAllCallback.html[`BeforeAllCallback`] to make sure the representation is set once for all before any test is executed.
@@ -88,14 +69,7 @@ Follow this approach if you want to use a specific representation for a single a
 Example with the failing assertions used before:
 [source,java]
 ----
-Representation customRepresentation = new CustomRepresentation();
-
-// this assertion fails ...
-assertThat(new Example()).withRepresentation(customRepresentation)
-                         .isNull();
-
-assertThat("foo").withRepresentation(customRepresentation)
-                 .startsWith("bar");
+include::example$java/example/core/RepresentationExample.java[tags=per_assertion_representation,indent=0]
 ----
 
 
@@ -118,34 +92,7 @@ The Lotr library is composed of an `Hobbit` class and a specific representation 
 ----
 package org.assertj.example.lotr;
 
-public class Hobbit {
-
-  public String name;
-  public String age;
-
-  @Override
-  public String toString() {
-    return format("Hobbit [name=%s, age=%s]", name, age);
-  }
-}
-
-public class LotrRepresentation implements Representation {
-
-  @Override
-  public String toStringOf(Object object) {
-    if (object instanceof Hobbit) {
-      Hobbit hobbit = (Hobbit) object;
-      return String.format("HOBBIT [name=%s, age=%s]", hobbit.name, hobbit.age);
-    }
-    return null;
-  }
-
-  // only needed if another library was to represent Hobbit, in this case the one with highest priority wins
-  @Override
-  public int getPriority() {
-    return 5;
-  }
-}
+include::example$java/example/core/RepresentationExample.java[tags=lotr,indent=0]
 ----
 
 `LotrRepresentation` is registered by creating a `META-INF/services/org.assertj.core.presentation.Representation` file that contain `org.assertj.example.lotr.LotrRepresentation`, the file must be available in the classpath (typically by putting it in `src/main/resources` it will end up in the library jar).
@@ -156,33 +103,7 @@ Similarly the star wars library defines a `Jedi` and a `StarWarsRepresentation`:
 ----
 package org.assertj.example.starwars;
 
-public class Jedi {
-
-  public String name;
-  public String age;
-
-  @Override
-  public String toString() {
-    return format("Jedi [name=%s, age=%s]", name, age);
-  }
-}
-
-public class StarWarsRepresentation implements Representation {
-
-  @Override
-  public String toStringOf(Object object) {
-    if (object instanceof Jedi) {
-      Jedi jedi = (Jedi) object;
-      return String.format("JEDI [name=%s, age=%s]", jedi.name, jedi.age);
-    }
-    return null;
-  }
-
-  @Override
-  public int getPriority() {
-    return 10;
-  }
-}
+include::example$java/example/core/RepresentationExample.java[tags=starwars,indent=0]
 ----
 
 Same as the Lotr library, `StarWarsRepresentation` is registered by creating a `META-INF/services/org.assertj.core.presentation.Representation` file that contain `org.assertj.example.starwars.StarWarsRepresentation`.
@@ -192,15 +113,7 @@ The consuming project specifies both libraries as dependencies, since both have 
 The following test fails with frodo and luke being represented by `LotrRepresentation` and `StarWarsRepresentation` respectively.
 [source,java]
 ----
-Hobbit frodo = new Hobbit();
-frodo.name = "Frodo";
-frodo.age = "33";
-
-Jedi luke = new Jedi();
-luke.name = "Luke";
-luke.age = "23";
-
-assertThat(frodo).isEqualTo(luke);
+include::example$java/example/core/RepresentationExample.java[tags=fine_grained_representations,indent=0]
 ----
 
 Error message:
