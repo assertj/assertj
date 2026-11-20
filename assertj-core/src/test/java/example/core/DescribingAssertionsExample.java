@@ -17,6 +17,10 @@ package example.core;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.function.Consumer;
+
+import org.assertj.core.api.Assertions;
+import org.assertj.core.description.Description;
 import org.junit.jupiter.api.Test;
 
 import example.data.Race;
@@ -37,6 +41,29 @@ public class DescribingAssertionsExample {
     } catch (AssertionError error) {
       // do nothing
     }
+  }
+
+  @Test
+  void description_consumer() {
+    // tag::description_consumer[]
+    // initialize the description consumer
+    final StringBuilder descriptionReportBuilder = new StringBuilder(String.format("Assertions:%n"));
+    Consumer<Description> descriptionConsumer = desc -> descriptionReportBuilder.append(String.format("-- %s%n", desc));
+
+    // use the description consumer for any following assertions descriptions.
+    Assertions.setDescriptionConsumer(descriptionConsumer);
+
+    // execute some assertions
+    TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, Race.HOBBIT);
+    assertThat(frodo.getName()).as("check name")
+                               .isEqualTo("Frodo");
+    assertThat(frodo.getAge()).as("check age")
+                              .isEqualTo(33);
+
+    // get the report
+    String descriptionReport = descriptionReportBuilder.toString();
+    // end::description_consumer[]
+    Assertions.setDescriptionConsumer(null);
   }
 
 }

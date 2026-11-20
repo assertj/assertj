@@ -14,7 +14,9 @@ The error message starts with the given description in `[]` :
 
 [source, text]
 ----
-[check Frodo's age] expected:<100> but was:\<33>
+[check Frodo's age]
+expected: 100
+ but was: 33
 ----
 
 [[assertion-description-consumer]]
@@ -29,22 +31,7 @@ Both options are exposed in AssertJ xref:assertions-guide/configuration.adoc[`Co
 Example: using a description consumer
 [source,java]
 ----
-// initialize the description consumer
-final StringBuilder descriptionReportBuilder = new StringBuilder(String.format("Assertions:%n"));
-Consumer<Description> descriptionConsumer = desc -> descriptionReportBuilder.append(String.format("-- %s%n", desc));
-
-// use the description consumer for any following assertions descriptions.
-Assertions.setDescriptionConsumer(descriptionConsumer);
-
-// execute some assertions
-TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, Race.HOBBIT);
-assertThat(frodo.getName()).as("check name")
-                          .isEqualTo("Frodo");
-assertThat(frodo.getAge()).as("check age")
-                          .isEqualTo(33);
-
-// get the report
-String descriptionReport = descriptionReportBuilder.toString();
+include::example$java/example/core/DescribingAssertionsExample.java[tags=description_consumer,indent=0]
 ----
 resulting `descriptionReport`:
 [source, text]
