@@ -34,23 +34,17 @@ The previous test fails with the message below reporting all the errors:
 Multiple Failures (3 failures)
 -- failure 1 --
 [great authors]
-Expecting:
- <"George Martin">
-to be equal to:
- <"JRR Tolkien">
-but was not.
+expected: "JRR Tolkien"
+ but was: "George Martin"
 -- failure 2 --
 [response to Everything]
-Expecting:
- \<42>
+Expecting actual:
+  42
 to be greater than:
- \<100>
+  100
 -- failure 3 --
-Expecting:
- <"gandalf">
-to be equal to:
- <"sauron">
-but was not.
+expected: "Sauron"
+ but was: "Gandalf"
 ----
 
 [[bdd-soft-assertions]]
@@ -119,39 +113,7 @@ This extension throws an `ExtensionConfigurationException` if:
 Example:
 [source,java]
 ----
-import org.assertj.core.api.SoftAssertions;
-import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-
-@ExtendWith(SoftAssertionsExtension.class)
-public class JUnit5SoftAssertionsExtensionAssertionsExamples {
-
-  @InjectSoftAssertions
-  private SoftAssertions softly;
-
-  @Test
-  public void chained_soft_assertions_example() {
-    String name = "Michael Jordan - Bulls";
-    softly.assertThat(name).startsWith("Mi")
-                           .contains("Bulls");
-    // no need to call softly.assertAll(), this is done by the extension
-  }
-
-  // nested classes test work too
-  @Nested
-  class NestedExample {
-
-    @Test
-    public void football_assertions_example() {
-      String kylian = "Kylian Mbappé";
-      softly.assertThat(kylian).startsWith("Ky")
-                               .contains("bap");
-      // no need to call softly.assertAll(), this is done by the extension
-    }
-  }
-}
+include::example$java/example/core/JUnit5SoftAssertionsExtensionAssertionsExamples.java[tags=user_guide,indent=0]
 ----
 
 [[junit5-soft-assertions-parameter-injection]]
@@ -217,9 +179,7 @@ Let's assume we have written an entry point for `TolkienCharacter` soft assertio
 
 [source,java]
 ----
-TolkienSoftAssertions softly = new TolkienSoftAssertions();
-softly.assertThat(frodo).hasRace(HOBBIT)
-                        .hasName("Frodo");
+include::example$java/example/core/CustomSoftAssertionsExample.java[tags=tolkien_soft_assertions,indent=0]
 ----
 If we want to check standard soft assertions we could make `TolkienSoftAssertions` inherit `SoftAssertions` but if we want to have `GoTSoftAssertions` too then we are stuck as Java does not allow multiple inheritance.
 
@@ -231,20 +191,9 @@ The typical custom `SoftAssertionsProvider` interface exposes default `assertTha
 
 [source,java]
 ----
-public interface TolkienSoftAssertionsProvider extends SoftAssertionsProvider {
-  // custom assertions
-  default TolkienCharacterAssert assertThat(TolkienCharacter actual) {
-    return proxy(TolkienCharacterAssert.class, TolkienCharacter.class, actual);
-  }
-}
+include::example$java/example/core/TolkienSoftAssertionsProvider.java[tags=user_guide,indent=0]
 
-// let's add a Game of Thrones entry point
-public interface GoTSoftAssertionsProvider extends SoftAssertionsProvider {
-  // custom assertions
-  default GoTCharacterAssert assertThat(GoTCharacter actual) {
-    return proxy(GoTCharacterAssert.class, GoTCharacter.class, actual);
-  }
-}
+include::example$java/example/core/GoTSoftAssertionsProvider.java[tags=user_guide,indent=0]
 ----
 
 [.underline]#Step 2# +
@@ -256,34 +205,14 @@ To get standard soft assertions, inherit from `SoftAssertions` instead of `Abstr
 Let's define our concrete entry points implementing both `TolkienSoftAssertionsProvider` and `GoTSoftAssertionsProvider`:
 [source,java]
 ----
-// we extend SoftAssertions to get standard soft assertions
-public class FantasySoftAssertions extends SoftAssertions
-                                   implements TolkienSoftAssertionsProvider, GoTSoftAssertionsProvider {
-
-  // we can even add more assertions here
-  public HumanAssert assertThat(Human actual) {
-    return proxy(HumanAssert.class, Human.class, actual);
-  }
-}
+include::example$java/example/core/FantasySoftAssertions.java[tags=user_guide,indent=0]
 ----
 
 [.underline]#Step 3# +
 The last step is to use `FantasySoftAssertions`:
 [source,java]
 ----
-FantasySoftAssertions softly = new FantasySoftAssertions();
-
-// custom TolkienCharacter assertions
-softly.assertThat(frodo).hasRace(HOBBIT);
-
-// custom GoTCharacter assertions
-softly.assertThat(nedStark).isDead();
-
-// standard assertions
-softly.assertThat("Games of Thrones").startsWith("Games")
-                                     .endsWith("Thrones");
-// verify assertions
-softly.assertAll();
+include::example$java/example/core/CustomSoftAssertionsExample.java[tags=fantasy_soft_assertions,indent=0]
 ----
 
 [.underline]#Optional step: create a custom JUnit 4 `Rule`# +
@@ -292,24 +221,12 @@ Because our custom assertions are defined in an interface, we can also combine t
 JUnit 4 rule so that we can use our custom assertions as a test rule for use in JUnit 4:
 [source,java]
 ----
-// we extend JUnitSoftAssertions to get standard soft assertions classes
-public class JUnitFantasySoftAssertions extends JUnitSoftAssertions
-                                   implements TolkienSoftAssertionsProvider, GoTSoftAssertionsProvider {}
+include::example$java/example/core/JUnitFantasySoftAssertions.java[tags=user_guide,indent=0]
 ----
 Then in our test class we use it per normal:
 [source,java]
 ----
-public class JUnit4_StandardAndCustomSoftAssertionsExamples {
-  @Rule
-  public final JUnitFantasySoftAssertions softly = new JUnitFantasySoftAssertions();
-
-  @Test
-  public void successful_junit_soft_custom_assertion_example() {
-    softly.assertThat(frodo).hasName("Frodo")
-                            .hasAge(33);
-    softly.assertThat(frodo.age).isEqualTo(33);
-  }
-}
+include::example$java/example/core/JUnit4_StandardAndCustomSoftAssertionsExamples.java[tags=user_guide,indent=0]
 ----
 
 The rule will automatically take care of calling `assertAll()` at the end of every test.
@@ -323,16 +240,7 @@ Since 3.16.0 it is capable of injecting any `SoftAssertionsProvider`, we can the
 
 [source,java]
 ----
-@ExtendWith(SoftAssertionsExtension.class)
-public class JUnit5_StandardAndCustomSoftAssertionsExamples {
-
-  @Test
-  public void successful_junit_soft_custom_assertion_example(FantasySoftAssertions softly) {
-    softly.assertThat(frodo).hasName("Frodo")
-                            .hasAge(33);
-    softly.assertThat(frodo.age).isEqualTo(33);
-  }
-}
+include::example$java/example/core/JUnit5_StandardAndCustomSoftAssertionsExamples.java[tags=user_guide,indent=0]
 ----
 
 [[soft-assertions-collect-listener]]
@@ -345,32 +253,20 @@ The action is specified by the `AfterAssertionErrorCollected` functional interfa
 Example:
 [source,java]
 ----
-SoftAssertions softly = new SoftAssertions();
-StringBuilder reportBuilder = new StringBuilder(format("Assertions report:%n"));
-
-// register our callback
-softly.setAfterAssertionErrorCollected(error -> reportBuilder.append(format("------------------%n%s%n", error.getMessage())));
-// the AssertionError corresponding to the failing assertions are registered in the report
-softly.assertThat("The Beatles").isEqualTo("The Rolling Stones");
-softly.assertThat(123).isEqualTo(123)
-                      .isEqualTo(456);
+include::example$java/example/core/CustomSoftAssertionsExample.java[tags=after_assertion_error_collected,indent=0]
 ----
 resulting `reportBuilder`:
 [source,text]
 ----
 Assertions report:
 ------------------
-Expecting:
- <"The Beatles">
-to be equal to:
- <"The Rolling Stones">
-but was not.
+
+expected: "The Rolling Stones"
+ but was: "The Beatles"
 ------------------
-Expecting:
- \<123>
-to be equal to:
- \<456>
-but was not.
+
+expected: 456
+ but was: 123
 ----
 
 
@@ -379,22 +275,7 @@ Alternatively, if you have defined your own `SoftAssertions` class and inherited
 Example:
 [source,java]
 ----
-class TolkienSoftAssertions extends AbstractSoftAssertions {
+include::example$java/example/core/CustomSoftAssertionsExample.java[tags=tolkien_soft_assertions_class,indent=0]
 
-  public TolkienHeroesAssert assertThat(TolkienHero actual) {
-    return proxy(TolkienHeroesAssert.class, TolkienHero.class, actual);
-  }
-
-  @Override
-  public void onAssertionErrorCollected(AssertionError assertionError) {
-    System.out.println(assertionError);
-  }
-}
-
-TolkienSoftAssertions softly = new TolkienSoftAssertions();
-
-TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
-
-// the AssertionError corresponding to this failing assertion is printed to the console.
-softly.assertThat(frodo).hasName("Bilbo");
+include::example$java/example/core/CustomSoftAssertionsExample.java[tags=on_assertion_error_collected,indent=0]
 ----

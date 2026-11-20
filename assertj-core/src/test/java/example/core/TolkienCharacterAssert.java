@@ -21,6 +21,7 @@ import java.util.Objects;
 
 import org.assertj.core.api.AbstractAssert;
 
+import example.data.Race;
 import example.data.TolkienCharacter;
 
 // tag::user_guide[]
@@ -55,6 +56,16 @@ public class TolkienCharacterAssert extends AbstractAssert<TolkienCharacterAsser
     // return this to allow chaining other assertion methods
     return this;
   }
+  // end::user_guide[]
+
+  public TolkienCharacterAssert hasRace(Race race) {
+    isNotNull();
+    if (actual.getRace() != race) {
+      failWithMessage("Expected character's race to be <%s> but was <%s>", race, actual.getRace());
+    }
+    return this;
+  }
+  // tag::user_guide[]
 }
 // end::user_guide[]
 // @formatter:on
