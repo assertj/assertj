@@ -10,3 +10,5 @@ ext:
         local: true
       scan:
         - dir: assertj-guava/target/antora
+        - dir: assertj-guava/src/test/java/example
+          into: modules/ROOT/examples/java/example
