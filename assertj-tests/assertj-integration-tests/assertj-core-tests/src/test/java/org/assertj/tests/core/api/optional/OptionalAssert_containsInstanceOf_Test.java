@@ -54,7 +54,7 @@ class OptionalAssert_containsInstanceOf_Test {
     // GIVEN
     Optional<String> optional = Optional.of("something");
     // WHEN/THEN
-    assertThat(optional).containsInstanceOf(String.class);
+    then(optional).containsInstanceOf(String.class);
   }
 
   @Test
@@ -62,7 +62,7 @@ class OptionalAssert_containsInstanceOf_Test {
     // GIVEN
     Optional<SubClass> optional = Optional.of(new SubClass());
     // WHEN/THEN
-    assertThat(optional).containsInstanceOf(ParentClass.class);
+    then(optional).containsInstanceOf(ParentClass.class);
   }
 
   @Test

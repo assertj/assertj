@@ -53,7 +53,7 @@ class OptionalAssert_containsInstanceOf_Test {
     // GIVEN
     Optional<String> actual = Optional.of("something");
     // WHEN/THEN
-    assertThat(actual).containsInstanceOf(String.class);
+    then(actual).containsInstanceOf(String.class);
   }
 
 }
