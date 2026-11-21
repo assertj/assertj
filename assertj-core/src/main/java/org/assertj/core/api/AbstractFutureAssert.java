@@ -15,14 +15,20 @@
  */
 package org.assertj.core.api;
 
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static org.assertj.core.error.future.ShouldBeCancelled.shouldBeCancelled;
+import static org.assertj.core.error.future.ShouldBeCompletedWithin.shouldBeCompletedWithin;
+import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
+import static org.assertj.core.error.future.ShouldHaveFailedWithin.shouldHaveFailedWithin;
+import static org.assertj.core.error.future.ShouldNotBeCancelled.shouldNotBeCancelled;
+import static org.assertj.core.error.future.ShouldNotBeDone.shouldNotBeDone;
+
 import java.time.Duration;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import org.assertj.core.internal.Futures;
 
 /**
  * future assertion base class.
@@ -35,9 +41,6 @@ import org.assertj.core.internal.Futures;
  */
 public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SELF, ACTUAL, RESULT>, ACTUAL extends Future<RESULT>, RESULT>
     extends AbstractAssertWithComparator<SELF, ACTUAL> {
-
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Futures futures = Futures.instance();
 
   /**
    * Creates a new {@link Future} assertion.
@@ -74,7 +77,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * @since 2.7.0 / 3.7.0
    */
   public SELF isCancelled() {
-    return executeAssertion(() -> futures.assertIsCancelled(info, actual));
+    return executeAssertion(this::assertIsCancelled);
   }
 
   /**
@@ -102,7 +105,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * @since 2.7.0 / 3.7.0
    */
   public SELF isNotCancelled() {
-    return executeAssertion(() -> futures.assertIsNotCancelled(info, actual));
+    return executeAssertion(this::assertIsNotCancelled);
   }
 
   /**
@@ -137,7 +140,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * @since 2.7.0 / 3.7.0
    */
   public SELF isDone() {
-    return executeAssertion(() -> futures.assertIsDone(info, actual));
+    return executeAssertion(this::assertIsDone);
   }
 
   /**
@@ -172,7 +175,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * @since 2.7.0 / 3.7.0
    */
   public SELF isNotDone() {
-    return executeAssertion(() -> futures.assertIsNotDone(info, actual));
+    return executeAssertion(this::assertIsNotDone);
   }
 
   /**
@@ -449,23 +452,81 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
   }
 
   private WithThrowable internalFailsWithin(Duration timeout) {
-    return executeAssertionNavigation(() -> new WithThrowable(futures.assertFailedWithin(info, actual, timeout)),
+    return executeAssertionNavigation(() -> new WithThrowable(assertFailedWithin(timeout)),
                                       WithThrowable::dummyWithThrowable);
   }
 
   private WithThrowable internalFailsWithin(long timeout, TimeUnit unit) {
-    return executeAssertionNavigation(() -> new WithThrowable(futures.assertFailedWithin(info, actual, timeout, unit)),
+    return executeAssertionNavigation(() -> new WithThrowable(assertFailedWithin(timeout, unit)),
                                       WithThrowable::dummyWithThrowable);
   }
 
   private ObjectAssert<RESULT> internalSucceedsWithin(Duration timeout) {
-    RESULT result = futures.assertSucceededWithin(info, actual, timeout);
+    RESULT result = assertSucceededWithin(timeout);
     return new ObjectAssert<>(result).withAssertionState(myself);
   }
 
   private ObjectAssert<RESULT> internalSucceedsWithin(long timeout, TimeUnit unit) {
-    RESULT result = futures.assertSucceededWithin(info, actual, timeout, unit);
+    RESULT result = assertSucceededWithin(timeout, unit);
     return new ObjectAssert<>(result).withAssertionState(myself);
+  }
+
+  private void assertIsCancelled() {
+    isNotNull();
+    if (!actual.isCancelled()) throw assertionError(shouldBeCancelled(actual));
+  }
+
+  private void assertIsNotCancelled() {
+    isNotNull();
+    if (actual.isCancelled()) throw assertionError(shouldNotBeCancelled(actual));
+  }
+
+  private void assertIsDone() {
+    isNotNull();
+    if (!actual.isDone()) throw assertionError(shouldBeDone(actual));
+  }
+
+  private void assertIsNotDone() {
+    isNotNull();
+    if (actual.isDone()) throw assertionError(shouldNotBeDone(actual));
+  }
+
+  private RESULT assertSucceededWithin(long timeout, TimeUnit unit) {
+    isNotNull();
+    try {
+      return actual.get(timeout, unit);
+    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
+      throw assertionError(shouldBeCompletedWithin(actual, timeout, unit, e));
+    }
+  }
+
+  private RESULT assertSucceededWithin(Duration timeout) {
+    isNotNull();
+    try {
+      return actual.get(timeout.toNanos(), NANOSECONDS);
+    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
+      throw assertionError(shouldBeCompletedWithin(actual, timeout, e));
+    }
+  }
+
+  private Exception assertFailedWithin(Duration timeout) {
+    isNotNull();
+    try {
+      actual.get(timeout.toNanos(), NANOSECONDS);
+      throw assertionError(shouldHaveFailedWithin(actual, timeout));
+    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
+      return e;
+    }
+  }
+
+  private Exception assertFailedWithin(long timeout, TimeUnit unit) {
+    isNotNull();
+    try {
+      actual.get(timeout, unit);
+      throw assertionError(shouldHaveFailedWithin(actual, timeout, unit));
+    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
+      return e;
+    }
   }
 
 }

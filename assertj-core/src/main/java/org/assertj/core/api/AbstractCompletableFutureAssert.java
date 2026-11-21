@@ -15,12 +15,16 @@
  */
 package org.assertj.core.api;
 
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.error.future.ShouldBeCancelled.shouldBeCancelled;
 import static org.assertj.core.error.future.ShouldBeCompleted.shouldBeCompleted;
 import static org.assertj.core.error.future.ShouldBeCompletedExceptionally.shouldHaveCompletedExceptionally;
+import static org.assertj.core.error.future.ShouldBeCompletedWithin.shouldBeCompletedWithin;
 import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
+import static org.assertj.core.error.future.ShouldHaveCompletedExceptionallyWithin.shouldHaveCompletedExceptionallyWithin;
+import static org.assertj.core.error.future.ShouldHaveFailedWithin.shouldHaveFailedWithin;
 import static org.assertj.core.error.future.ShouldNotBeCancelled.shouldNotBeCancelled;
 import static org.assertj.core.error.future.ShouldNotBeCompleted.shouldNotBeCompleted;
 import static org.assertj.core.error.future.ShouldNotBeCompletedExceptionally.shouldNotHaveCompletedExceptionally;
@@ -39,7 +43,6 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import org.assertj.core.error.AssertionErrorCreator;
-import org.assertj.core.internal.Futures;
 import org.assertj.core.presentation.PredicateDescription;
 
 /**
@@ -51,9 +54,6 @@ import org.assertj.core.presentation.PredicateDescription;
 // TODO deprecate completed for succeeds?
 public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompletableFutureAssert<SELF, RESULT>, RESULT> extends
     AbstractAssertWithComparator<SELF, CompletableFuture<RESULT>> {
-
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Futures futures = Futures.instance();
 
   /**
    * Creates a new {@link CompletableFuture} assertion.
@@ -444,7 +444,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout.
    */
   public ObjectAssert<RESULT> succeedsWithin(Duration timeout) {
-    return executeAssertionNavigation(() -> newObjectAssert(futures.assertSucceededWithin(info, actual, timeout)),
+    return executeAssertionNavigation(() -> newObjectAssert(assertSucceededWithin(timeout)),
                                       ObjectAssert::nullObjectAssert);
   }
 
@@ -489,7 +489,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout.
    */
   public ObjectAssert<RESULT> succeedsWithin(long timeout, TimeUnit unit) {
-    return executeAssertionNavigation(() -> newObjectAssert(futures.assertSucceededWithin(info, actual, timeout, unit)),
+    return executeAssertionNavigation(() -> newObjectAssert(assertSucceededWithin(timeout, unit)),
                                       ObjectAssert::nullObjectAssert);
   }
 
@@ -586,7 +586,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @since 3.18.0
    */
   public WithThrowable failsWithin(Duration timeout) {
-    return executeWithThrowableAssertionNavigation(() -> new WithThrowable(futures.assertFailedWithin(info, actual, timeout)));
+    return executeWithThrowableAssertionNavigation(() -> new WithThrowable(assertFailedWithin(timeout)));
   }
 
   /**
@@ -621,8 +621,8 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @since 3.18.0
    */
   public WithThrowable failsWithin(long timeout, TimeUnit unit) {
-    return executeWithThrowableAssertionNavigation(() -> new WithThrowable(futures.assertFailedWithin(info, actual, timeout,
-                                                                                                      unit)));
+    return executeWithThrowableAssertionNavigation(() -> new WithThrowable(assertFailedWithin(timeout,
+                                                                                              unit)));
   }
 
   /**
@@ -648,9 +648,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @since 3.27.0
    */
   public WithThrowable completesExceptionallyWithin(Duration timeout) {
-    return executeWithThrowableAssertionNavigation(() -> new WithThrowable(futures.assertCompletedExceptionallyWithin(info,
-                                                                                                                      actual,
-                                                                                                                      timeout)));
+    return executeWithThrowableAssertionNavigation(() -> new WithThrowable(assertCompletedExceptionallyWithin(timeout)));
   }
 
   /**
@@ -677,14 +675,74 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @since 3.27.0
    */
   public WithThrowable completesExceptionallyWithin(long timeout, TimeUnit unit) {
-    return executeWithThrowableAssertionNavigation(() -> new WithThrowable(futures.assertCompletedExceptionallyWithin(info,
-                                                                                                                      actual,
-                                                                                                                      timeout,
-                                                                                                                      unit)));
+    return executeWithThrowableAssertionNavigation(() -> new WithThrowable(assertCompletedExceptionallyWithin(timeout,
+                                                                                                              unit)));
   }
 
   private WithThrowable executeWithThrowableAssertionNavigation(Supplier<WithThrowable> navigationCode) {
     return executeAssertionNavigation(navigationCode, WithThrowable::dummyWithThrowable);
+  }
+
+  private RESULT assertSucceededWithin(Duration timeout) {
+    isNotNull();
+    try {
+      return actual.get(timeout.toNanos(), NANOSECONDS);
+    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
+      throw assertionError(shouldBeCompletedWithin(actual, timeout, e));
+    }
+  }
+
+  private RESULT assertSucceededWithin(long timeout, TimeUnit unit) {
+    isNotNull();
+    try {
+      return actual.get(timeout, unit);
+    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
+      throw assertionError(shouldBeCompletedWithin(actual, timeout, unit, e));
+    }
+  }
+
+  private Exception assertFailedWithin(Duration timeout) {
+    isNotNull();
+    try {
+      actual.get(timeout.toNanos(), NANOSECONDS);
+      throw assertionError(shouldHaveFailedWithin(actual, timeout));
+    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
+      return e;
+    }
+  }
+
+  private Exception assertFailedWithin(long timeout, TimeUnit unit) {
+    isNotNull();
+    try {
+      actual.get(timeout, unit);
+      throw assertionError(shouldHaveFailedWithin(actual, timeout, unit));
+    } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
+      return e;
+    }
+  }
+
+  private Exception assertCompletedExceptionallyWithin(Duration timeout) {
+    isNotNull();
+    try {
+      actual.get(timeout.toNanos(), NANOSECONDS);
+      throw assertionError(shouldHaveCompletedExceptionallyWithin(actual, timeout));
+    } catch (ExecutionException | CancellationException e) {
+      return e;
+    } catch (InterruptedException | TimeoutException e) {
+      throw assertionError(shouldHaveCompletedExceptionallyWithin(actual, timeout));
+    }
+  }
+
+  private Exception assertCompletedExceptionallyWithin(long timeout, TimeUnit unit) {
+    isNotNull();
+    try {
+      actual.get(timeout, unit);
+      throw assertionError(shouldHaveCompletedExceptionallyWithin(actual, timeout, unit));
+    } catch (ExecutionException | CancellationException e) {
+      return e;
+    } catch (InterruptedException | TimeoutException e) {
+      throw assertionError(shouldHaveCompletedExceptionallyWithin(actual, timeout, unit));
+    }
   }
 
 }
