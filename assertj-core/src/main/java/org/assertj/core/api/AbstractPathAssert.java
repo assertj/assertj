@@ -16,27 +16,80 @@
 package org.assertj.core.api;
 
 import static java.nio.file.Files.readAllBytes;
+import static java.nio.file.Files.walk;
+import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.StreamSupport.stream;
+import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
+import static org.assertj.core.error.ShouldBeCanonicalPath.shouldBeCanonicalPath;
+import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.ShouldBeEmptyDirectory.shouldBeEmptyDirectory;
+import static org.assertj.core.error.ShouldBeExecutable.shouldBeExecutable;
 import static org.assertj.core.error.ShouldBeHidden.shouldBeHidden;
+import static org.assertj.core.error.ShouldBeNormalized.shouldBeNormalized;
+import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
+import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
+import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
+import static org.assertj.core.error.ShouldBeSymbolicLink.shouldBeSymbolicLink;
+import static org.assertj.core.error.ShouldBeWritable.shouldBeWritable;
+import static org.assertj.core.error.ShouldContain.directoryShouldContain;
+import static org.assertj.core.error.ShouldContainRecursively.directoryShouldContainRecursively;
+import static org.assertj.core.error.ShouldEndWithPath.shouldEndWith;
+import static org.assertj.core.error.ShouldExist.shouldExist;
+import static org.assertj.core.error.ShouldExist.shouldExistNoFollowLinks;
+import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
+import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
+import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
+import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
+import static org.assertj.core.error.ShouldHaveFileSystem.shouldHaveFileSystem;
+import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
+import static org.assertj.core.error.ShouldHaveNoExtension.shouldHaveNoExtension;
+import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
+import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
+import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
+import static org.assertj.core.error.ShouldHaveSameFileSystemAs.shouldHaveSameFileSystemAs;
+import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
+import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeHidden.shouldNotBeHidden;
+import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
+import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
+import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
+import static org.assertj.core.internal.Digests.digestDiff;
+import static org.assertj.core.internal.Digests.fromHex;
+import static org.assertj.core.util.Files.getFileNameExtension;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.ClosedFileSystemException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.DirectoryStream.Filter;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.nio.file.ProviderMismatchException;
 import java.nio.file.spi.FileSystemProvider;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.exception.PathsException;
-import org.assertj.core.internal.Paths;
+import org.assertj.core.internal.BinaryDiff;
+import org.assertj.core.internal.BinaryDiffResult;
+import org.assertj.core.internal.Diff;
+import org.assertj.core.internal.DigestDiff;
+import org.assertj.core.internal.FileContent;
+import org.assertj.core.util.diff.Delta;
 
 /**
  * Assertions for {@link Path} objects
@@ -90,12 +143,12 @@ import org.assertj.core.internal.Paths;
  */
 public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> extends AbstractComparableAssert<SELF, Path> {
 
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  /** Internal assertions for paths. */
-  protected Paths paths = Paths.instance();
+  private static final String UNABLE_TO_COMPARE_PATH_CONTENTS = "Unable to compare contents of paths:<%s> and:<%s>";
+  private static final Filter<Path> ANY = any -> true;
+  private static final Diff DIFF = new Diff();
+  private static final BinaryDiff BINARY_DIFF = new BinaryDiff();
 
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Charset charset = Charset.defaultCharset();
+  private Charset charset = Charset.defaultCharset();
 
   /**
    * Creates a new {@link Path} assertion.
@@ -139,7 +192,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.15
    */
   public SELF hasSameTextualContentAs(Path expected) {
-    return executeAssertion(() -> paths.assertHasSameTextualContentAs(info, actual, charset, expected, Charset.defaultCharset()));
+    return executeAssertion(() -> assertHasSameTextualContentAs(charset, expected, Charset.defaultCharset()));
   }
 
   /**
@@ -170,7 +223,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.15
    */
   public SELF hasSameTextualContentAs(Path expected, Charset expectedCharset) {
-    return executeAssertion(() -> paths.assertHasSameTextualContentAs(info, actual, charset, expected, expectedCharset));
+    return executeAssertion(() -> assertHasSameTextualContentAs(charset, expected, expectedCharset));
   }
 
   /**
@@ -202,7 +255,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if the content of the actual {@code Path} is not equal to the given binary content.
    */
   public SELF hasBinaryContent(byte[] expected) {
-    return executeAssertion(() -> paths.assertHasBinaryContent(info, actual, expected));
+    return executeAssertion(() -> assertHasBinaryContent(expected));
   }
 
   /**
@@ -232,7 +285,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.15
    */
   public SELF hasSameBinaryContentAs(Path expected) {
-    return executeAssertion(() -> paths.assertHasSameBinaryContentAs(info, actual, expected));
+    return executeAssertion(() -> assertHasSameBinaryContentAs(expected));
   }
 
   /**
@@ -319,7 +372,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   /// @throws AssertionError if the actual `Path` is not a [readable][Files#isReadable(Path)] file.
   /// @throws AssertionError if the content of the actual `Path` is not equal to the given content.
   public SELF hasContent(String expected) {
-    return executeAssertion(() -> paths.assertHasTextualContent(info, actual, expected, charset));
+    return executeAssertion(() -> assertHasTextualContent(expected, charset));
   }
 
   /**
@@ -346,7 +399,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.23.0
    */
   public SELF hasFileSystem(FileSystem expected) {
-    return executeAssertion(() -> paths.assertHasFileSystem(info, actual, expected));
+    return executeAssertion(() -> assertHasFileSystem(expected));
   }
 
   /**
@@ -372,7 +425,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.23.0
    */
   public SELF hasSameFileSystemAs(Path expected) {
-    return executeAssertion(() -> paths.assertHasSameFileSystemAs(info, actual, expected));
+    return executeAssertion(() -> assertHasSameFileSystemAs(expected));
   }
 
   /**
@@ -408,7 +461,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Files#isReadable(Path)
    */
   public SELF isReadable() {
-    return executeAssertion(() -> paths.assertIsReadable(info, actual));
+    return executeAssertion(this::assertIsReadable);
   }
 
   /**
@@ -444,7 +497,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Files#isWritable(Path)
    */
   public SELF isWritable() {
-    return executeAssertion(() -> paths.assertIsWritable(info, actual));
+    return executeAssertion(this::assertIsWritable);
   }
 
   /**
@@ -481,7 +534,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Files#isExecutable(Path)
    */
   public SELF isExecutable() {
-    return executeAssertion(() -> paths.assertIsExecutable(info, actual));
+    return executeAssertion(this::assertIsExecutable);
   }
 
   /// Verifies that the actual [Path] is hidden, according to [Files#isHidden(Path)].
@@ -602,7 +655,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Files#exists(Path, LinkOption...)
    */
   public SELF exists() {
-    return executeAssertion(() -> paths.assertExists(info, actual));
+    return executeAssertion(this::assertExists);
   }
 
   /**
@@ -640,7 +693,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Files#exists(Path, LinkOption...)
    */
   public SELF existsNoFollowLinks() {
-    return executeAssertion(() -> paths.assertExistsNoFollowLinks(info, actual));
+    return executeAssertion(this::assertExistsNoFollowLinks);
   }
 
   /**
@@ -686,7 +739,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see LinkOption#NOFOLLOW_LINKS
    */
   public SELF doesNotExist() {
-    return executeAssertion(() -> paths.assertDoesNotExist(info, actual));
+    return executeAssertion(this::assertDoesNotExist);
   }
 
   /**
@@ -737,7 +790,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @return self
    */
   public SELF isRegularFile() {
-    return executeAssertion(() -> paths.assertIsRegularFile(info, actual));
+    return executeAssertion(this::assertIsRegularFile);
   }
 
   /**
@@ -787,7 +840,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @return self
    */
   public SELF isDirectory() {
-    return executeAssertion(() -> paths.assertIsDirectory(info, actual));
+    return executeAssertion(this::assertIsDirectory);
   }
 
   /**
@@ -832,7 +885,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @return self
    */
   public SELF isSymbolicLink() {
-    return executeAssertion(() -> paths.assertIsSymbolicLink(info, actual));
+    return executeAssertion(this::assertIsSymbolicLink);
   }
 
   /**
@@ -867,7 +920,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#isAbsolute()
    */
   public SELF isAbsolute() {
-    return executeAssertion(() -> paths.assertIsAbsolute(info, actual));
+    return executeAssertion(this::assertIsAbsolute);
   }
 
   /**
@@ -898,7 +951,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#isAbsolute()
    */
   public SELF isRelative() {
-    return executeAssertion(() -> paths.assertIsRelative(info, actual));
+    return executeAssertion(this::assertIsRelative);
   }
 
   /**
@@ -926,7 +979,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @return self
    */
   public SELF isNormalized() {
-    return executeAssertion(() -> paths.assertIsNormalized(info, actual));
+    return executeAssertion(this::assertIsNormalized);
   }
 
   /**
@@ -966,7 +1019,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Files#isSameFile(Path, Path)
    */
   public SELF isCanonical() {
-    return executeAssertion(() -> paths.assertIsCanonical(info, actual));
+    return executeAssertion(this::assertIsCanonical);
   }
 
   /**
@@ -1003,7 +1056,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#getFileName()
    */
   public SELF hasFileName(final String fileName) {
-    return executeAssertion(() -> paths.assertHasFileName(info, actual, fileName));
+    return executeAssertion(() -> assertHasFileName(fileName));
   }
 
   /**
@@ -1040,7 +1093,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#getParent()
    */
   public SELF hasParent(final Path expected) {
-    return executeAssertion(() -> paths.assertHasParent(info, actual, expected));
+    return executeAssertion(() -> assertHasParent(expected));
   }
 
   /**
@@ -1088,7 +1141,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#getParent()
    */
   public SELF hasParentRaw(final Path expected) {
-    return executeAssertion(() -> paths.assertHasParentRaw(info, actual, expected));
+    return executeAssertion(() -> assertHasParentRaw(expected));
   }
 
   /**
@@ -1122,7 +1175,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#getParent()
    */
   public SELF hasNoParent() {
-    return executeAssertion(() -> paths.assertHasNoParent(info, actual));
+    return executeAssertion(this::assertHasNoParent);
   }
 
   /**
@@ -1161,7 +1214,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#getParent()
    */
   public SELF hasNoParentRaw() {
-    return executeAssertion(() -> paths.assertHasNoParentRaw(info, actual));
+    return executeAssertion(this::assertHasNoParentRaw);
   }
 
   /**
@@ -1190,7 +1243,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.21.0
    */
   public SELF hasSize(long expectedSize) {
-    return executeAssertion(() -> paths.assertHasSize(info, actual, expectedSize));
+    return executeAssertion(() -> assertHasSize(expectedSize));
   }
 
   /**
@@ -1231,7 +1284,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#toRealPath(LinkOption...)
    */
   public SELF startsWith(final Path other) {
-    return executeAssertion(() -> paths.assertStartsWith(info, actual, other));
+    return executeAssertion(() -> assertStartsWith(other));
   }
 
   /**
@@ -1276,7 +1329,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#startsWith(Path)
    */
   public SELF startsWithRaw(final Path other) {
-    return executeAssertion(() -> paths.assertStartsWithRaw(info, actual, other));
+    return executeAssertion(() -> assertStartsWithRaw(other));
   }
 
   /**
@@ -1317,7 +1370,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#toRealPath(LinkOption...)
    */
   public SELF endsWith(final Path other) {
-    return executeAssertion(() -> paths.assertEndsWith(info, actual, other));
+    return executeAssertion(() -> assertEndsWith(other));
   }
 
   /**
@@ -1357,7 +1410,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#endsWith(Path)
    */
   public SELF endsWithRaw(final Path other) {
-    return executeAssertion(() -> paths.assertEndsWithRaw(info, actual, other));
+    return executeAssertion(() -> assertEndsWithRaw(other));
   }
 
   /**
@@ -1392,7 +1445,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.11.0
    */
   public SELF hasDigest(MessageDigest digest, byte[] expected) {
-    return executeAssertion(() -> paths.assertHasDigest(info, actual, digest, expected));
+    return executeAssertion(() -> assertHasDigest(digest, expected));
   }
 
   /**
@@ -1427,7 +1480,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.11.0
    */
   public SELF hasDigest(MessageDigest digest, String expected) {
-    return executeAssertion(() -> paths.assertHasDigest(info, actual, digest, expected));
+    return executeAssertion(() -> assertHasDigest(digest, expected));
   }
 
   /**
@@ -1462,7 +1515,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.11.0
    */
   public SELF hasDigest(String algorithm, byte[] expected) {
-    return executeAssertion(() -> paths.assertHasDigest(info, actual, algorithm, expected));
+    return executeAssertion(() -> assertHasDigest(algorithm, expected));
   }
 
   /**
@@ -1496,7 +1549,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.11.0
    */
   public SELF hasDigest(String algorithm, String expected) {
-    return executeAssertion(() -> paths.assertHasDigest(info, actual, algorithm, expected));
+    return executeAssertion(() -> assertHasDigest(algorithm, expected));
   }
 
   /**
@@ -1547,7 +1600,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isDirectoryContaining(Predicate<Path> filter) {
-    return executeAssertion(() -> paths.assertIsDirectoryContaining(info, actual, filter));
+    return executeAssertion(() -> assertIsDirectoryContaining(filter));
   }
 
   /**
@@ -1609,7 +1662,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isDirectoryContaining(String syntaxAndPattern) {
-    return executeAssertion(() -> paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern));
+    return executeAssertion(() -> assertIsDirectoryContaining(syntaxAndPattern));
   }
 
   /**
@@ -1663,7 +1716,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.16.0
    */
   public SELF isDirectoryRecursivelyContaining(String syntaxAndPattern) {
-    return executeAssertion(() -> paths.assertIsDirectoryRecursivelyContaining(info, actual, syntaxAndPattern));
+    return executeAssertion(() -> assertIsDirectoryRecursivelyContaining(syntaxAndPattern));
   }
 
   /**
@@ -1706,7 +1759,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.16.0
    */
   public SELF isDirectoryRecursivelyContaining(Predicate<Path> filter) {
-    return executeAssertion(() -> paths.assertIsDirectoryRecursivelyContaining(info, actual, filter));
+    return executeAssertion(() -> assertIsDirectoryRecursivelyContaining(filter));
   }
 
   /**
@@ -1745,7 +1798,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isDirectoryNotContaining(Predicate<Path> filter) {
-    return executeAssertion(() -> paths.assertIsDirectoryNotContaining(info, actual, filter));
+    return executeAssertion(() -> assertIsDirectoryNotContaining(filter));
   }
 
   /**
@@ -1789,7 +1842,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isDirectoryNotContaining(String syntaxAndPattern) {
-    return executeAssertion(() -> paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern));
+    return executeAssertion(() -> assertIsDirectoryNotContaining(syntaxAndPattern));
   }
 
   /**
@@ -1824,7 +1877,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isEmptyDirectory() {
-    return executeAssertion(() -> paths.assertIsEmptyDirectory(info, actual));
+    return executeAssertion(this::assertIsEmptyDirectory);
   }
 
   /**
@@ -1859,7 +1912,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isNotEmptyDirectory() {
-    return executeAssertion(() -> paths.assertIsNotEmptyDirectory(info, actual));
+    return executeAssertion(this::assertIsNotEmptyDirectory);
   }
 
   /**
@@ -1888,7 +1941,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isEmptyFile() {
-    return executeAssertion(() -> paths.assertIsEmptyFile(info, actual));
+    return executeAssertion(this::assertIsEmptyFile);
   }
 
   /**
@@ -1917,7 +1970,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isNotEmptyFile() {
-    return executeAssertion(() -> paths.assertIsNotEmptyFile(info, actual));
+    return executeAssertion(this::assertIsNotEmptyFile);
   }
 
   /**
@@ -1938,7 +1991,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    */
   public AbstractByteArrayAssert<?> binaryContent() {
     return executeAssertionNavigation(() -> {
-      paths.assertIsReadable(info, actual);
+      assertIsReadable();
       return new ByteArrayAssert(readPath()).withAssertionState(myself);
     }, ByteArrayAssert::nullByteArrayAssert);
   }
@@ -1984,7 +2037,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    */
   public AbstractStringAssert<?> content(Charset charset) {
     return executeAssertionNavigation(() -> {
-      paths.assertIsReadable(info, actual);
+      assertIsReadable();
       String pathContent = readPath(charset);
       return new StringAssert(pathContent).withAssertionState(myself);
     }, StringAssert::nullStringAssert);
@@ -2060,7 +2113,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.21.0
    */
   public SELF hasExtension(String expectedExtension) {
-    return executeAssertion(() -> paths.assertHasExtension(info, actual, expectedExtension));
+    return executeAssertion(() -> assertHasExtension(expectedExtension));
   }
 
   /**
@@ -2081,7 +2134,381 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if the actual {@code Path} does have an extension.
    */
   public SELF hasNoExtension() {
-    return executeAssertion(() -> paths.assertHasNoExtension(info, actual));
+    return executeAssertion(this::assertHasNoExtension);
+  }
+
+  private void assertIsReadable() {
+    assertExists();
+    if (!Files.isReadable(actual)) throw assertionError(shouldBeReadable(actual));
+  }
+
+  private void assertIsWritable() {
+    assertExists();
+    if (!Files.isWritable(actual)) throw assertionError(shouldBeWritable(actual));
+  }
+
+  private void assertIsExecutable() {
+    assertExists();
+    if (!Files.isExecutable(actual)) throw assertionError(shouldBeExecutable(actual));
+  }
+
+  private void assertExists() {
+    isNotNull();
+    if (!Files.exists(actual)) throw assertionError(shouldExist(actual));
+  }
+
+  private void assertExistsNoFollowLinks() {
+    isNotNull();
+    if (!Files.exists(actual, NOFOLLOW_LINKS)) throw assertionError(shouldExistNoFollowLinks(actual));
+  }
+
+  private void assertDoesNotExist() {
+    isNotNull();
+    if (!Files.notExists(actual, NOFOLLOW_LINKS)) throw assertionError(shouldNotExist(actual));
+  }
+
+  private void assertIsRegularFile() {
+    assertExists();
+    if (!Files.isRegularFile(actual)) throw assertionError(shouldBeRegularFile(actual));
+  }
+
+  private void assertIsDirectory() {
+    assertExists();
+    if (!Files.isDirectory(actual)) throw assertionError(shouldBeDirectory(actual));
+  }
+
+  private void assertIsSymbolicLink() {
+    assertExistsNoFollowLinks();
+    if (!Files.isSymbolicLink(actual)) throw assertionError(shouldBeSymbolicLink(actual));
+  }
+
+  private void assertIsAbsolute() {
+    isNotNull();
+    if (!actual.isAbsolute()) throw assertionError(shouldBeAbsolutePath(actual));
+  }
+
+  private void assertIsRelative() {
+    isNotNull();
+    if (actual.isAbsolute()) throw assertionError(shouldBeRelativePath(actual));
+  }
+
+  private void assertIsNormalized() {
+    isNotNull();
+    if (!actual.normalize().equals(actual)) throw assertionError(shouldBeNormalized(actual));
+  }
+
+  private void assertIsCanonical() {
+    isNotNull();
+    if (!actual.equals(toRealPath(actual))) throw assertionError(shouldBeCanonicalPath(actual));
+  }
+
+  private void assertHasParent(Path expected) {
+    isNotNull();
+    requireNonNull(expected, "expected parent path should not be null");
+    Path parent = toRealPath(actual).getParent();
+    if (parent == null) throw assertionError(shouldHaveParent(actual, expected));
+    if (!parent.equals(toRealPath(expected))) throw assertionError(shouldHaveParent(actual, parent, expected));
+  }
+
+  private void assertHasParentRaw(Path expected) {
+    isNotNull();
+    requireNonNull(expected, "expected parent path should not be null");
+    Path parent = actual.getParent();
+    if (parent == null) throw assertionError(shouldHaveParent(actual, expected));
+    if (!parent.equals(expected)) throw assertionError(shouldHaveParent(actual, parent, expected));
+  }
+
+  private void assertHasNoParent() {
+    isNotNull();
+    if (toRealPath(actual).getParent() != null) throw assertionError(shouldHaveNoParent(actual));
+  }
+
+  private void assertHasNoParentRaw() {
+    isNotNull();
+    if (actual.getParent() != null) throw assertionError(shouldHaveNoParent(actual));
+  }
+
+  private void assertHasSize(long expectedSize) {
+    assertIsRegularFile();
+    try {
+      if (Files.size(actual) != expectedSize) throw assertionError(shouldHaveSize(actual, expectedSize));
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+  }
+
+  private void assertStartsWith(Path other) {
+    isNotNull();
+    requireNonNull(other, "the expected start path should not be null");
+    Path absoluteActual = Files.exists(actual) ? toRealPath(actual) : actual.toAbsolutePath().normalize();
+    Path absoluteOther = Files.exists(other) ? toRealPath(other) : other.toAbsolutePath().normalize();
+    if (!absoluteActual.startsWith(absoluteOther)) throw assertionError(shouldStartWith(actual, other));
+  }
+
+  private void assertStartsWithRaw(Path other) {
+    isNotNull();
+    requireNonNull(other, "the expected start path should not be null");
+    if (!actual.startsWith(other)) throw assertionError(shouldStartWith(actual, other));
+  }
+
+  private void assertEndsWith(Path other) {
+    isNotNull();
+    requireNonNull(other, "the expected end path should not be null");
+    Path path = Files.exists(actual) ? toRealPath(actual) : actual;
+    if (!path.endsWith(other.normalize())) throw assertionError(shouldEndWith(actual, other));
+  }
+
+  private void assertEndsWithRaw(Path end) {
+    isNotNull();
+    requireNonNull(end, "the expected end path should not be null");
+    if (!actual.endsWith(end)) throw assertionError(shouldEndWith(actual, end));
+  }
+
+  private void assertHasFileName(String fileName) {
+    isNotNull();
+    requireNonNull(fileName, "expected fileName should not be null");
+    if (!actual.getFileName().endsWith(fileName)) throw assertionError(shouldHaveName(actual, fileName));
+  }
+
+  private void assertHasTextualContent(String expected, Charset charset) {
+    requireNonNull(expected, "The text to compare to should not be null");
+    assertIsReadable();
+    try {
+      List<Delta<String>> diffs = DIFF.diff(actual, expected, charset);
+      if (!diffs.isEmpty()) throw assertionError(shouldHaveContent(actual, charset, diffs));
+    } catch (IOException e) {
+      throw new UncheckedIOException("Unable to verify text contents of path:<%s>".formatted(actual), e);
+    }
+  }
+
+  private void assertHasBinaryContent(byte[] expected) {
+    requireNonNull(expected, "The binary content to compare to should not be null");
+    assertIsReadable();
+    try {
+      BinaryDiffResult diffResult = BINARY_DIFF.diff(actual, expected);
+      if (diffResult.hasDiff()) throw assertionError(shouldHaveBinaryContent(actual, diffResult));
+    } catch (IOException e) {
+      throw new UncheckedIOException("Unable to verify binary contents of path:<%s>".formatted(actual), e);
+    }
+  }
+
+  private void assertHasSameBinaryContentAs(Path expected) {
+    verifyIsReadable(expected);
+    assertIsReadable();
+    try {
+      BinaryDiffResult binaryDiffResult = BINARY_DIFF.diff(actual, readAllBytes(expected));
+      if (binaryDiffResult.hasDiff())
+        throw assertionErrorCreator.assertionError(info, shouldHaveBinaryContent(actual, binaryDiffResult),
+                                                   FileContent.of(actual), FileContent.of(expected));
+    } catch (IOException e) {
+      throw new UncheckedIOException(UNABLE_TO_COMPARE_PATH_CONTENTS.formatted(actual, expected), e);
+    }
+  }
+
+  private void assertHasSameTextualContentAs(Charset actualCharset, Path expected, Charset expectedCharset) {
+    verifyIsReadable(expected);
+    assertIsReadable();
+    try {
+      List<Delta<String>> diffs = DIFF.diff(actual, actualCharset, expected, expectedCharset);
+      if (!diffs.isEmpty())
+        throw assertionErrorCreator.assertionError(info, shouldHaveSameContent(actual, expected, diffs),
+                                                   FileContent.of(actual), FileContent.of(expected));
+    } catch (IOException e) {
+      throw new UncheckedIOException(UNABLE_TO_COMPARE_PATH_CONTENTS.formatted(actual, expected), e);
+    }
+  }
+
+  private void assertHasDigest(MessageDigest digest, byte[] expected) {
+    requireNonNull(digest, "The message digest algorithm should not be null");
+    requireNonNull(expected, "The binary representation of digest to compare to should not be null");
+    assertIsRegularFile();
+    assertIsReadable();
+    try (InputStream actualStream = Files.newInputStream(actual)) {
+      DigestDiff digestDiff = digestDiff(actualStream, digest, expected);
+      if (digestDiff.digestsDiffer()) throw assertionError(shouldHaveDigest(actual, digestDiff));
+    } catch (IOException e) {
+      throw new UncheckedIOException("Unable to calculate digest of path:<%s>".formatted(actual), e);
+    }
+  }
+
+  private void assertHasDigest(MessageDigest digest, String expected) {
+    requireNonNull(expected, "The string representation of digest to compare to should not be null");
+    assertHasDigest(digest, fromHex(expected));
+  }
+
+  private void assertHasDigest(String algorithm, byte[] expected) {
+    requireNonNull(algorithm, "The message digest algorithm should not be null");
+    try {
+      assertHasDigest(MessageDigest.getInstance(algorithm), expected);
+    } catch (NoSuchAlgorithmException e) {
+      throw new IllegalStateException("Unable to find digest implementation for: <%s>".formatted(algorithm), e);
+    }
+  }
+
+  private void assertHasDigest(String algorithm, String expected) {
+    requireNonNull(expected, "The string representation of digest to compare to should not be null");
+    assertHasDigest(algorithm, fromHex(expected));
+  }
+
+  private void assertIsDirectoryContaining(Predicate<Path> filter) {
+    requireNonNull(filter, "The paths filter should not be null");
+    assertIsDirectoryContaining(filter::test, "the given filter");
+  }
+
+  private void assertIsDirectoryContaining(String syntaxAndPattern) {
+    requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
+    PathMatcher pathMatcher = pathMatcher(syntaxAndPattern);
+    Filter<Path> pathFilter = path -> pathMatcher.matches(actual.relativize(path));
+    assertIsDirectoryContaining(pathFilter, "the '%s' pattern".formatted(syntaxAndPattern));
+  }
+
+  private void assertIsDirectoryContaining(Filter<Path> filter, String filterDescription) {
+    List<Path> matchingFiles = filterDirectory(filter);
+    if (matchingFiles.isEmpty())
+      throw assertionError(directoryShouldContain(actual, directoryContent(), filterDescription));
+  }
+
+  private void assertIsDirectoryRecursivelyContaining(String syntaxAndPattern) {
+    requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
+    PathMatcher pathMatcher = pathMatcher(syntaxAndPattern);
+    assertIsDirectoryRecursivelyContaining(pathMatcher::matches, "the '%s' pattern".formatted(syntaxAndPattern));
+  }
+
+  private void assertIsDirectoryRecursivelyContaining(Predicate<Path> filter) {
+    requireNonNull(filter, "The files filter should not be null");
+    assertIsDirectoryRecursivelyContaining(filter, "the given filter");
+  }
+
+  private void assertIsDirectoryRecursivelyContaining(Predicate<Path> filter, String filterPresentation) {
+    assertIsDirectory();
+    List<Path> actualContent = recursiveContentOf(actual);
+    if (actualContent.stream().noneMatch(filter))
+      throw assertionError(directoryShouldContainRecursively(actual, actualContent, filterPresentation));
+  }
+
+  private void assertIsDirectoryNotContaining(Predicate<Path> filter) {
+    requireNonNull(filter, "The paths filter should not be null");
+    assertIsDirectoryNotContaining(filter::test, "the given filter");
+  }
+
+  private void assertIsDirectoryNotContaining(String syntaxAndPattern) {
+    requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
+    PathMatcher pathMatcher = pathMatcher(syntaxAndPattern);
+    assertIsDirectoryNotContaining(pathMatcher::matches, "the '%s' pattern".formatted(syntaxAndPattern));
+  }
+
+  private void assertIsDirectoryNotContaining(Filter<Path> filter, String filterPresentation) {
+    List<Path> matchingPaths = filterDirectory(filter);
+    if (!matchingPaths.isEmpty()) throw assertionError(directoryShouldNotContain(actual, matchingPaths, filterPresentation));
+  }
+
+  private void assertIsEmptyDirectory() {
+    List<Path> items = directoryContent();
+    if (!items.isEmpty()) throw assertionError(shouldBeEmptyDirectory(actual, items));
+  }
+
+  private void assertIsNotEmptyDirectory() {
+    if (directoryContent().isEmpty()) throw assertionError(shouldNotBeEmpty(actual));
+  }
+
+  private void assertIsEmptyFile() {
+    assertIsRegularFile();
+    if (actualSize() > 0) throw assertionError(shouldBeEmpty(actual));
+  }
+
+  private void assertIsNotEmptyFile() {
+    assertIsRegularFile();
+    if (actualSize() == 0) throw assertionError(shouldNotBeEmpty(actual));
+  }
+
+  private void assertHasFileSystem(FileSystem expectedFileSystem) {
+    isNotNull();
+    requireNonNull(expectedFileSystem, "The expected file system should not be null");
+    FileSystem actualFileSystem = actual.getFileSystem();
+    requireNonNull(actualFileSystem, "The actual file system should not be null");
+    if (!expectedFileSystem.equals(actualFileSystem))
+      throw assertionErrorCreator.assertionError(info, shouldHaveFileSystem(actual, expectedFileSystem), actualFileSystem,
+                                                 expectedFileSystem);
+  }
+
+  private void assertHasSameFileSystemAs(Path expectedPath) {
+    isNotNull();
+    requireNonNull(expectedPath, "The expected path should not be null");
+    FileSystem actualFileSystem = actual.getFileSystem();
+    requireNonNull(actualFileSystem, "The actual file system should not be null");
+    FileSystem expectedFileSystem = expectedPath.getFileSystem();
+    requireNonNull(expectedFileSystem, "The expected file system should not be null");
+    if (!expectedFileSystem.equals(actualFileSystem))
+      throw assertionErrorCreator.assertionError(info, shouldHaveSameFileSystemAs(actual, expectedPath), actualFileSystem,
+                                                 expectedFileSystem);
+  }
+
+  private void assertHasExtension(String expected) {
+    requireNonNull(expected, "The expected extension should not be null.");
+    assertIsRegularFile();
+    String extension = getExtension().orElseThrow(() -> assertionError(shouldHaveExtension(actual, expected)));
+    if (!expected.equals(extension)) throw assertionError(shouldHaveExtension(actual, extension, expected));
+  }
+
+  private void assertHasNoExtension() {
+    assertIsRegularFile();
+    Optional<String> extension = getExtension();
+    if (extension.isPresent()) throw assertionError(shouldHaveNoExtension(actual, extension.get()));
+  }
+
+  private Optional<String> getExtension() {
+    return getFileNameExtension(actual.getFileName().toString());
+  }
+
+  private long actualSize() {
+    try {
+      return Files.size(actual);
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+  }
+
+  private List<Path> filterDirectory(Filter<Path> filter) {
+    assertIsDirectory();
+    try (DirectoryStream<Path> stream = Files.newDirectoryStream(actual, filter)) {
+      return stream(stream.spliterator(), false).map(actual::relativize).collect(toList());
+    } catch (IOException e) {
+      throw new UncheckedIOException("Unable to list directory content: <%s>".formatted(actual), e);
+    }
+  }
+
+  private List<Path> directoryContent() {
+    return filterDirectory(ANY);
+  }
+
+  private static List<Path> recursiveContentOf(Path directory) {
+    try (Stream<Path> pathStream = walk(directory)) {
+      return pathStream.filter(path -> !path.equals(directory))
+                       .map(directory::relativize)
+                       .sorted()
+                       .collect(toList());
+    } catch (IOException e) {
+      throw new UncheckedIOException("Unable to walk recursively the directory :<%s>".formatted(directory), e);
+    }
+  }
+
+  private PathMatcher pathMatcher(String syntaxAndPattern) {
+    isNotNull();
+    return actual.getFileSystem().getPathMatcher(syntaxAndPattern);
+  }
+
+  private static void verifyIsReadable(Path expected) {
+    requireNonNull(expected, "The given Path to compare actual content to should not be null");
+    checkArgument(Files.exists(expected), "The given Path <%s> to compare actual content to should exist", expected);
+    checkArgument(Files.isReadable(expected), "The given Path <%s> to compare actual content to should be readable", expected);
+  }
+
+  private static Path toRealPath(Path path) {
+    try {
+      return path.toRealPath();
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
   }
 
 }

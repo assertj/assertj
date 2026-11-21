@@ -1,0 +1,136 @@
+/*
+ * Copyright 2012-2026 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.assertj.tests.core.api.path;
+
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
+import static org.assertj.core.error.ShouldContain.directoryShouldContain;
+import static org.assertj.core.error.ShouldExist.shouldExist;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.function.Predicate;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+class PathAssert_isDirectoryContaining_Predicate_Test {
+
+  @TempDir
+  Path tempDir;
+
+  @Test
+  void should_fail_if_filter_is_null() throws IOException {
+    // GIVEN
+    Path actual = createDirectory(tempDir.resolve("actual"));
+    Predicate<Path> filter = null;
+    // WHEN
+    var npe = catchNullPointerException(() -> assertThat(actual).isDirectoryContaining(filter));
+    // THEN
+    then(npe).hasMessage("The paths filter should not be null");
+  }
+
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    Path actual = null;
+    Predicate<Path> filter = path -> true;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).isDirectoryContaining(filter));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
+  }
+
+  @Test
+  void should_fail_if_actual_does_not_exist() {
+    // GIVEN
+    Path actual = tempDir.resolve("non-existent");
+    Predicate<Path> filter = path -> true;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).isDirectoryContaining(filter));
+    // THEN
+    then(assertionError).hasMessage(shouldExist(actual).create());
+  }
+
+  @Test
+  void should_fail_if_actual_is_not_a_directory() throws IOException {
+    // GIVEN
+    Path actual = createFile(tempDir.resolve("file"));
+    Predicate<Path> filter = path -> true;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).isDirectoryContaining(filter));
+    // THEN
+    then(assertionError).hasMessage(shouldBeDirectory(actual).create());
+  }
+
+  @Test
+  void should_fail_if_actual_is_empty() throws IOException {
+    // GIVEN
+    Path actual = createDirectory(tempDir.resolve("actual"));
+    Predicate<Path> filter = path -> true;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).isDirectoryContaining(filter));
+    // THEN
+    then(assertionError).hasMessage(directoryShouldContain(actual, emptyList(), "the given filter").create());
+  }
+
+  @Test
+  void should_pass_if_actual_contains_at_least_one_path_matching_the_given_predicate() throws IOException {
+    // GIVEN
+    Path actual = createDirectory(tempDir.resolve("actual"));
+    createFile(actual.resolve("file"));
+    Predicate<Path> filter = Files::isRegularFile;
+    // WHEN/THEN
+    then(actual).isDirectoryContaining(filter);
+  }
+
+  @Test
+  void should_fail_if_actual_does_not_contain_any_paths_matching_the_given_predicate() throws IOException {
+    // GIVEN
+    Path actual = createDirectory(tempDir.resolve("actual"));
+    Path directory = createDirectory(actual.resolve("directory"));
+    Predicate<Path> filter = Files::isRegularFile;
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).isDirectoryContaining(filter));
+    // THEN
+    then(assertionError).hasMessage(directoryShouldContain(actual, singletonList(actual.relativize(directory)),
+                                                           "the given filter").create());
+  }
+
+  @Test
+  void error_message_should_list_actual_directory_sorted_content() throws IOException {
+    // GIVEN
+    createDirectory(tempDir.resolve("directory1"));
+    createDirectory(tempDir.resolve("directory2"));
+    createFile(tempDir.resolve("file1.txt"));
+    createFile(tempDir.resolve("file2.txt"));
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(tempDir).isDirectoryContaining(path -> false));
+    // THEN
+    then(assertionError).hasMessageContainingAll("The directory content was:",
+                                                 "[directory1, directory2, file1.txt, file2.txt]");
+  }
+
+}

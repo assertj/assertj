@@ -15,54 +15,46 @@
  */
 package org.assertj.core.api.path;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.testkit.ClasspathResources.resourcePath;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractByteArrayAssert;
 import org.assertj.core.api.NavigationMethodWithComparatorBaseTest;
 import org.assertj.core.api.PathAssert;
-import org.assertj.core.api.PathAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Ashley Scopes
- */
-class PathAssert_binaryContent_Test extends PathAssertBaseTest implements NavigationMethodWithComparatorBaseTest<PathAssert> {
-
-  @Override
-  protected PathAssert invoke_api_method() {
-    assertions.binaryContent();
-    return assertions;
-  }
-
-  @Override
-  protected void verify_internal_effects() {
-    verify(paths).assertIsReadable(getInfo(assertions), getActual(assertions));
-  }
-
-  @Override
-  protected PathAssert create_assertions() {
-    return new PathAssert(resourcePath("actual_file.txt"));
-  }
+class PathAssert_binaryContent_Test implements NavigationMethodWithComparatorBaseTest<PathAssert> {
 
   @Test
   void should_return_ByteArrayAssert_on_path_content() {
     // GIVEN
-    Path path = resourcePath("actual_file.txt");
+    Path file = resourcePath("actual_file.txt");
     // WHEN
-    AbstractByteArrayAssert<?> byteAssert = assertThat(path).binaryContent();
+    AbstractByteArrayAssert<?> byteArrayAssert = assertThat(file).binaryContent();
     // THEN
-    byteAssert.asString(StandardCharsets.UTF_8).isEqualTo("actual%n".formatted());
+    byteArrayAssert.asString(UTF_8).isEqualTo("actual%n".formatted());
+  }
+
+  @Test
+  void should_fail_if_actual_does_not_exist() {
+    // GIVEN
+    Path actual = Path.of("does-not-exist");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).binaryContent());
+    // THEN
+    then(assertionError).hasMessage(shouldExist(actual).create());
   }
 
   @Override
   public PathAssert getAssertion() {
-    return assertions;
+    return new PathAssert(resourcePath("actual_file.txt"));
   }
 
   @Override

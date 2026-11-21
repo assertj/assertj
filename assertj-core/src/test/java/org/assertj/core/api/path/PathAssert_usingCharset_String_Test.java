@@ -15,23 +15,50 @@
  */
 package org.assertj.core.api.path;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
 
-import org.assertj.core.api.PathAssert;
-import org.assertj.core.api.PathAssertBaseTest;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-/**
- * Test for <code>{@link PathAssert#usingCharset(String)}</code>.
- */
-class PathAssert_usingCharset_String_Test extends PathAssertBaseTest {
+import org.assertj.core.api.AbstractPathAssert;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-  @Override
-  protected PathAssert invoke_api_method() {
-    return assertions.usingCharset(otherCharset.name());
+class PathAssert_usingCharset_String_Test {
+
+  @TempDir
+  Path tempDir;
+
+  @Test
+  void should_fail_if_charset_is_not_supported() {
+    // GIVEN
+    Path actual = tempDir;
+    // WHEN
+    var iae = catchIllegalArgumentException(() -> assertThat(actual).usingCharset("Klingon"));
+    // THEN
+    then(iae).hasMessage("Charset:<'Klingon'> is not supported on this system");
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    assertThat(getCharset(assertions)).isEqualTo(otherCharset);
+  @Test
+  void should_return_this() {
+    // GIVEN
+    AbstractPathAssert<?> fileAssert = assertThat(tempDir);
+    // WHEN
+    AbstractPathAssert<?> result = fileAssert.usingCharset(ISO_8859_1.name());
+    // THEN
+    then(result).isSameAs(fileAssert);
   }
+
+  @Test
+  void should_read_actual_content_with_given_charset() throws IOException {
+    // GIVEN
+    Path actual = Files.writeString(tempDir.resolve("actual.txt"), "é à", ISO_8859_1);
+    // WHEN/THEN
+    then(actual).usingCharset(ISO_8859_1.name()).hasContent("é à");
+  }
+
 }

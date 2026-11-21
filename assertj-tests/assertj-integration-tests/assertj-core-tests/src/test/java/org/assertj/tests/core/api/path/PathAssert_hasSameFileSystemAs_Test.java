@@ -1,0 +1,119 @@
+/*
+ * Copyright 2012-2026 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.assertj.tests.core.api.path;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveSameFileSystemAs.shouldHaveSameFileSystemAs;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.withSettings;
+
+import java.nio.file.FileSystem;
+import java.nio.file.Path;
+
+import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
+
+class PathAssert_hasSameFileSystemAs_Test {
+
+  @Test
+  void should_fail_if_actual_path_is_null() {
+    // GIVEN
+    Path actualPath = null;
+    Path expectedPath = mock(Path.class, withSettings().stubOnly());
+    // WHEN
+    var error = expectAssertionError(() -> assertThat(actualPath).hasSameFileSystemAs(expectedPath));
+    // THEN
+    then(error).hasMessage(actualIsNull());
+  }
+
+  @Test
+  void should_fail_if_expected_path_is_null() {
+    // GIVEN
+    Path actualPath = mock(Path.class, withSettings().stubOnly());
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(actualPath).hasSameFileSystemAs(null));
+    // THEN
+    then(error).isInstanceOf(NullPointerException.class)
+               .hasMessage("The expected path should not be null");
+  }
+
+  @Test
+  void should_fail_if_expected_filesystem_is_null() {
+    // GIVEN
+    Path actualPath = mock(Path.class, withSettings().stubOnly());
+    FileSystem actualFileSystem = mock(FileSystem.class, withSettings().stubOnly());
+    given(actualPath.getFileSystem()).willReturn(actualFileSystem);
+    Path expectedPath = mock(Path.class, withSettings().stubOnly());
+    given(expectedPath.getFileSystem()).willReturn(null);
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(actualPath).hasSameFileSystemAs(expectedPath));
+    // THEN
+    then(error).isInstanceOf(NullPointerException.class)
+               .hasMessage("The expected file system should not be null");
+  }
+
+  @Test
+  void should_fail_if_actual_filesystem_is_null() {
+    // GIVEN
+    Path actualPath = mock(Path.class, withSettings().stubOnly());
+    given(actualPath.getFileSystem()).willReturn(null);
+    Path expectedPath = mock(Path.class, withSettings().stubOnly());
+    FileSystem expectedFileSystem = mock(FileSystem.class, withSettings().stubOnly());
+    given(expectedPath.getFileSystem()).willReturn(expectedFileSystem);
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(actualPath).hasSameFileSystemAs(expectedPath));
+    // THEN
+    then(error).isInstanceOf(NullPointerException.class)
+               .hasMessage("The actual file system should not be null");
+  }
+
+  @Test
+  void should_fail_if_file_systems_differ() {
+    // GIVEN
+    Path actualPath = mock(Path.class, withSettings().stubOnly());
+    FileSystem actualFileSystem = mock(FileSystem.class, withSettings().stubOnly());
+    given(actualPath.getFileSystem()).willReturn(actualFileSystem);
+    Path expectedPath = mock(Path.class, withSettings().stubOnly());
+    FileSystem expectedFileSystem = mock(FileSystem.class, withSettings().stubOnly());
+    given(expectedPath.getFileSystem()).willReturn(expectedFileSystem);
+    // WHEN
+    var error = expectAssertionError(() -> assertThat(actualPath).hasSameFileSystemAs(expectedPath));
+    // THEN
+    then(error).hasMessage(shouldHaveSameFileSystemAs(actualPath, expectedPath).create())
+               .isInstanceOf(AssertionFailedError.class)
+               .extracting(AssertionFailedError.class::cast)
+               .satisfies(failure -> then(failure.getActual().getEphemeralValue()).isSameAs(actualFileSystem))
+               .satisfies(failure -> then(failure.getExpected().getEphemeralValue()).isSameAs(expectedFileSystem));
+  }
+
+  @Test
+  void should_pass_if_file_systems_are_same() {
+    // GIVEN
+    Path actualPath = mock(Path.class, withSettings().stubOnly());
+    FileSystem actualFileSystem = mock(FileSystem.class, withSettings().stubOnly());
+    given(actualPath.getFileSystem()).willReturn(actualFileSystem);
+    Path expectedPath = mock(Path.class, withSettings().stubOnly());
+    given(expectedPath.getFileSystem()).willReturn(actualFileSystem);
+    // WHEN/THEN
+    then(actualPath).hasSameFileSystemAs(expectedPath);
+  }
+
+}

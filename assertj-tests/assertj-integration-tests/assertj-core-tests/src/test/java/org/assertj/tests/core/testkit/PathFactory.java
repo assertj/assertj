@@ -22,6 +22,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.DosFileAttributeView;
 
+import org.junit.platform.commons.function.Try;
+import org.opentest4j.TestAbortedException;
+
 /// [Path] factory methods for filesystem-based tests.
 public class PathFactory {
 
@@ -40,6 +43,17 @@ public class PathFactory {
   /// @return the generated path
   public static Path createPath(Path parent) {
     return parent.resolve(randomUUID().toString());
+  }
+
+  /// Creates a symbolic link to the given target, aborting the current test if the file system does not support it.
+  ///
+  /// @param link the path of the symbolic link to create
+  /// @param target the target of the symbolic link
+  /// @return the created symbolic link path
+  /// @see <a href="https://github.com/assertj/assertj/issues/3183">assertj/assertj#3183</a>
+  public static Path tryToCreateSymbolicLink(Path link, Path target) {
+    return Try.call(() -> Files.createSymbolicLink(link, target))
+              .getOrThrow(e -> new TestAbortedException("Failed to create symbolic link", e));
   }
 
   /// Provides filesystem [Path] factories specific to Unix.

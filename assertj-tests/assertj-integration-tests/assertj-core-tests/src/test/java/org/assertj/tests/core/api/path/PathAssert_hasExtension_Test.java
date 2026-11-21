@@ -1,0 +1,118 @@
+/*
+ * Copyright 2012-2026 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.assertj.tests.core.api.path;
+
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
+import static org.assertj.core.error.ShouldExist.shouldExist;
+import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+
+import java.io.IOException;
+import java.nio.file.Path;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+class PathAssert_hasExtension_Test {
+
+  @TempDir
+  Path tempDir;
+
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    Path actual = null;
+    String expected = "txt";
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasExtension(expected));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
+  }
+
+  @Test
+  void should_fail_if_actual_does_not_exist() {
+    // GIVEN
+    Path actual = tempDir.resolve("non-existent");
+    String expected = "txt";
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasExtension(expected));
+    // THEN
+    then(assertionError).hasMessage(shouldExist(actual).create());
+  }
+
+  @Test
+  void should_fail_if_actual_is_not_a_regular_file() throws IOException {
+    // GIVEN
+    Path actual = createDirectory(tempDir.resolve("directory"));
+    String expected = "txt";
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasExtension(expected));
+    // THEN
+    then(assertionError).hasMessage(shouldBeRegularFile(actual).create());
+  }
+
+  @Test
+  void should_fail_if_expected_extension_is_null() throws IOException {
+    // GIVEN
+    Path actual = createFile(tempDir.resolve("file.txt"));
+    String expected = null;
+    // WHEN
+    var npe = catchNullPointerException(() -> assertThat(actual).hasExtension(expected));
+    // THEN
+    then(npe).hasMessage("The expected extension should not be null.");
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = { "file", "file." })
+  void should_fail_if_actual_has_no_extension(String filename) throws IOException {
+    // GIVEN
+    Path actual = createFile(tempDir.resolve(filename));
+    String expected = "log";
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasExtension(expected));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveExtension(actual, expected).create());
+  }
+
+  @Test
+  void should_fail_if_actual_does_not_have_the_expected_extension() throws IOException {
+    // GIVEN
+    Path actual = createFile(tempDir.resolve("file.txt"));
+    String expected = "log";
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasExtension(expected));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveExtension(actual, "txt", expected).create());
+  }
+
+  @Test
+  void should_pass_if_actual_has_expected_extension() throws IOException {
+    // GIVEN
+    Path actual = createFile(tempDir.resolve("file.txt"));
+    String expected = "txt";
+    // WHEN/THEN
+    then(actual).hasExtension(expected);
+  }
+
+}

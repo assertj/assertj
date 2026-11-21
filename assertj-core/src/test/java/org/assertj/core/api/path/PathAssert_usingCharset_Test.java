@@ -15,25 +15,59 @@
  */
 package org.assertj.core.api.path;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import org.assertj.core.api.PathAssert;
-import org.assertj.core.api.PathAssertBaseTest;
+import org.assertj.core.api.AbstractPathAssert;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-/**
- * Test for <code>{@link PathAssert#usingCharset(Charset)}</code>.
- */
-class PathAssert_usingCharset_Test extends PathAssertBaseTest {
+class PathAssert_usingCharset_Test {
 
-  @Override
-  protected PathAssert invoke_api_method() {
-    return assertions.usingCharset(otherCharset);
+  @TempDir
+  Path tempDir;
+
+  @Test
+  void should_fail_if_charset_is_null() {
+    // GIVEN
+    Path actual = tempDir;
+    // WHEN
+    var npe = catchNullPointerException(() -> assertThat(actual).usingCharset((Charset) null));
+    // THEN
+    then(npe).hasMessage("The charset should not be null");
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    assertThat(getCharset(assertions)).isEqualTo(otherCharset);
+  @Test
+  void should_return_this() {
+    // GIVEN
+    AbstractPathAssert<?> fileAssert = assertThat(tempDir);
+    // WHEN
+    AbstractPathAssert<?> result = fileAssert.usingCharset(ISO_8859_1);
+    // THEN
+    then(result).isSameAs(fileAssert);
   }
+
+  @Test
+  void should_read_actual_content_with_given_charset() throws IOException {
+    // GIVEN
+    Path actual = Files.writeString(tempDir.resolve("actual.txt"), "é à", ISO_8859_1);
+    // WHEN/THEN
+    then(actual).usingCharset(ISO_8859_1).hasContent("é à");
+  }
+
+  @Test
+  void should_read_actual_content_with_default_charset_if_not_set() throws IOException {
+    // GIVEN
+    Path actual = Files.writeString(tempDir.resolve("actual.txt"), "é à", Charset.defaultCharset());
+    // WHEN/THEN
+    then(actual).hasContent("é à");
+  }
+
 }
