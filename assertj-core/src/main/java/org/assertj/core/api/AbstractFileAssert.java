@@ -106,8 +106,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   private static final Diff DIFF = new Diff();
   private static final BinaryDiff BINARY_DIFF = new BinaryDiff();
 
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Charset charset = Charset.defaultCharset();
+  private Charset charset = Charset.defaultCharset();
 
   /**
    * Creates a new {@link File} assertion.
