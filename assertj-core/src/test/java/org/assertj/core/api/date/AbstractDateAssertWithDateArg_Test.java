@@ -24,7 +24,6 @@ import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
 import org.assertj.core.api.DateAssertBaseTest;
-import org.assertj.core.internal.Dates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -138,7 +137,7 @@ public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseT
   protected abstract DateAssert assertionInvocationWithStringArg(String dateAsString);
 
   /**
-   * Overrides to verify that the {@link Dates} assertion method was invoked with the given date.
+   * Overrides to verify that the internal assertion method was invoked with the given date.
    * <p/>
    * example with <code>isBefore</code> date assertion:<br>
    * <code>verify(dates).assertIsBefore(getInfo(assertions),

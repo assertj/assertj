@@ -15,40 +15,58 @@
  */
 package org.assertj.core.api.date;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Comparator;
 import java.util.Date;
 
-import org.assertj.core.api.DateAssert;
 import org.assertj.core.api.DateAssertBaseTest;
-import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link DateAssert#usingComparator(java.util.Comparator)}</code> and
- * <code>{@link DateAssert#usingDefaultComparator()}</code>.
- *
- * @author Joel Costigliola
- */
 class DateAssert_usingComparator_Test extends DateAssertBaseTest {
 
-  private Comparator<Date> comparator = alwaysEqual();
+  private final Comparator<Date> comparator = alwaysEqual();
 
   @Test
   void using_default_comparator_test() {
+    // WHEN
     assertions.usingDefaultComparator();
-    assertThat(getObjects(assertions)).isSameAs(Objects.instance());
-    assertThat(Dates.instance()).isSameAs(getDates(assertions));
+    // THEN
+    then(getObjects(assertions)).isSameAs(Objects.instance());
   }
 
   @Test
   void using_custom_comparator_test() {
-    // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
+    // WHEN
     assertions.usingComparator(comparator);
-    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
-    assertThat(getDates(assertions).getComparator()).isSameAs(comparator);
+    // THEN
+    then(getObjects(assertions).getComparator()).isSameAs(comparator);
   }
+
+  @Test
+  void date_specific_assertions_should_honor_custom_comparator() {
+    // GIVEN
+    Date actual = new Date(1000);
+    Date other = new Date(0);
+    // WHEN/THEN
+    then(actual).usingComparator(comparator).isBeforeOrEqualTo(other);
+  }
+
+  @Test
+  void date_specific_assertions_should_use_default_comparator_after_usingDefaultComparator() {
+    // GIVEN
+    Date actual = new Date(1000);
+    Date other = new Date(0);
+    // WHEN
+    var assertionError = expectAssertionError(() -> then(actual).usingComparator(comparator)
+                                                                .usingDefaultComparator()
+                                                                .isBeforeOrEqualTo(other));
+    // THEN
+    then(assertionError).hasMessage(shouldBeBeforeOrEqualTo(actual, other).create());
+  }
+
 }

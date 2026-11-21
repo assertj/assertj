@@ -21,7 +21,6 @@ import static org.mockito.Mockito.mock;
 import java.util.Date;
 
 import org.assertj.core.configuration.Configuration;
-import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,15 +33,12 @@ import org.junit.jupiter.api.BeforeEach;
 public abstract class DateAssertBaseTest {
 
   protected DateAssert assertions;
-  protected Dates dates;
   protected Objects objects;
 
   @BeforeEach
   protected void setUp() {
-    dates = mock(Dates.class);
     objects = mock(Objects.class);
     assertions = new DateAssert(new Date());
-    assertions.dates = dates;
     assertions.objects = objects;
   }
 
@@ -68,10 +64,6 @@ public abstract class DateAssertBaseTest {
 
   protected Objects getObjects(DateAssert someAssertions) {
     return someAssertions.objects;
-  }
-
-  protected Dates getDates(DateAssert someAssertions) {
-    return someAssertions.dates;
   }
 
 }

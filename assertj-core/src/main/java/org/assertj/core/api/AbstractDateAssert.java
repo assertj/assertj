@@ -18,9 +18,44 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 import static java.time.ZoneId.systemDefault;
 import static java.util.Objects.requireNonNull;
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
+import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
+import static org.assertj.core.error.ShouldBeAfterYear.shouldBeAfterYear;
+import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
+import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
+import static org.assertj.core.error.ShouldBeBeforeYear.shouldBeBeforeYear;
+import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
+import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
+import static org.assertj.core.error.ShouldBeInSameDay.shouldBeInSameDay;
+import static org.assertj.core.error.ShouldBeInSameHourWindow.shouldBeInSameHourWindow;
+import static org.assertj.core.error.ShouldBeInSameMinuteWindow.shouldBeInSameMinuteWindow;
+import static org.assertj.core.error.ShouldBeInSameMonth.shouldBeInSameMonth;
+import static org.assertj.core.error.ShouldBeInSameSecondWindow.shouldBeInSameSecondWindow;
+import static org.assertj.core.error.ShouldBeInSameYear.shouldBeInSameYear;
+import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
+import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
+import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
+import static org.assertj.core.error.ShouldHaveSameTime.shouldHaveSameTime;
+import static org.assertj.core.error.ShouldHaveTime.shouldHaveTime;
+import static org.assertj.core.error.ShouldNotBeBetween.shouldNotBeBetween;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.DateUtil.dayOfMonthOf;
+import static org.assertj.core.util.DateUtil.dayOfWeekOf;
+import static org.assertj.core.util.DateUtil.hourOfDayOf;
+import static org.assertj.core.util.DateUtil.millisecondOf;
+import static org.assertj.core.util.DateUtil.minuteOf;
+import static org.assertj.core.util.DateUtil.monthOf;
+import static org.assertj.core.util.DateUtil.now;
+import static org.assertj.core.util.DateUtil.secondOf;
+import static org.assertj.core.util.DateUtil.timeDifference;
+import static org.assertj.core.util.DateUtil.truncateTime;
+import static org.assertj.core.util.DateUtil.yearOf;
 import static org.assertj.core.util.Lists.list;
 
 import java.sql.Timestamp;
@@ -42,10 +77,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import org.assertj.core.annotation.CheckReturnValue;
-import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.error.AssertionErrorCreator;
-import org.assertj.core.internal.Dates;
 
 /**
  * Base class for all implementations of assertions for {@link Date}s.
@@ -98,9 +131,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   static ThreadLocal<LinkedHashSet<DateFormat>> userDateFormats = ThreadLocal.withInitial(LinkedHashSet::new);
-
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Dates dates = Dates.instance();
 
   /**
    * Creates a new {@link Date} assertion.
@@ -499,7 +529,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} is not strictly before the given one.
    */
   public SELF isBefore(Date other) {
-    return executeAssertion(() -> dates.assertIsBefore(info, actual, other));
+    return executeAssertion(() -> assertIsBefore(other));
   }
 
   /**
@@ -522,7 +552,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isBefore(Instant other) {
-    return executeAssertion(() -> dates.assertIsBefore(info, actual, dateFrom(other)));
+    return executeAssertion(() -> assertIsBefore(dateFrom(other)));
   }
 
   /**
@@ -597,7 +627,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} is not before or equals to the given one.
    */
   public SELF isBeforeOrEqualTo(Date other) {
-    return executeAssertion(() -> dates.assertIsBeforeOrEqualTo(info, actual, other));
+    return executeAssertion(() -> assertIsBeforeOrEqualTo(other));
   }
 
   /**
@@ -620,7 +650,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isBeforeOrEqualTo(Instant other) {
-    return executeAssertion(() -> dates.assertIsBeforeOrEqualTo(info, actual, dateFrom(other)));
+    return executeAssertion(() -> assertIsBeforeOrEqualTo(dateFrom(other)));
   }
 
   /**
@@ -693,7 +723,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} is not strictly after the given one.
    */
   public SELF isAfter(Date other) {
-    return executeAssertion(() -> dates.assertIsAfter(info, actual, other));
+    return executeAssertion(() -> assertIsAfter(other));
   }
 
   /**
@@ -716,7 +746,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isAfter(Instant other) {
-    return executeAssertion(() -> dates.assertIsAfter(info, actual, dateFrom(other)));
+    return executeAssertion(() -> assertIsAfter(dateFrom(other)));
   }
 
   /**
@@ -791,7 +821,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} is not after or equals to the given one.
    */
   public SELF isAfterOrEqualTo(Date other) {
-    return executeAssertion(() -> dates.assertIsAfterOrEqualTo(info, actual, other));
+    return executeAssertion(() -> assertIsAfterOrEqualTo(other));
   }
 
   /**
@@ -813,7 +843,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isAfterOrEqualTo(Instant other) {
-    return executeAssertion(() -> dates.assertIsAfterOrEqualTo(info, actual, dateFrom(other)));
+    return executeAssertion(() -> assertIsAfterOrEqualTo(dateFrom(other)));
   }
 
   /**
@@ -991,7 +1021,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} is not in (start, end) period.
    */
   public SELF isBetween(Date start, Date end, boolean inclusiveStart, boolean inclusiveEnd) {
-    return executeAssertion(() -> dates.assertIsBetween(info, actual, start, end, inclusiveStart, inclusiveEnd));
+    return executeAssertion(() -> assertIsBetween(start, end, inclusiveStart, inclusiveEnd));
   }
 
   /**
@@ -1047,7 +1077,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public SELF isBetween(String start, String end, boolean inclusiveStart, boolean inclusiveEnd) {
-    return executeAssertion(() -> dates.assertIsBetween(info, actual, parse(start), parse(end), inclusiveStart, inclusiveEnd));
+    return executeAssertion(() -> assertIsBetween(parse(start), parse(end), inclusiveStart, inclusiveEnd));
   }
 
   /**
@@ -1068,8 +1098,8 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isBetween(Instant start, Instant end, boolean inclusiveStart, boolean inclusiveEnd) {
-    return executeAssertion(() -> dates.assertIsBetween(info, actual, dateFrom(start), dateFrom(end), inclusiveStart,
-                                                        inclusiveEnd));
+    return executeAssertion(() -> assertIsBetween(dateFrom(start), dateFrom(end), inclusiveStart,
+                                                  inclusiveEnd));
   }
 
   /**
@@ -1099,7 +1129,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} is not in (start, end) period.
    */
   public SELF isNotBetween(Date start, Date end, boolean inclusiveStart, boolean inclusiveEnd) {
-    return executeAssertion(() -> dates.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd));
+    return executeAssertion(() -> assertIsNotBetween(start, end, inclusiveStart, inclusiveEnd));
   }
 
   /**
@@ -1130,8 +1160,8 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isNotBetween(Instant start, Instant end, boolean inclusiveStart, boolean inclusiveEnd) {
-    return executeAssertion(() -> dates.assertIsNotBetween(info, actual, dateFrom(start), dateFrom(end), inclusiveStart,
-                                                           inclusiveEnd));
+    return executeAssertion(() -> assertIsNotBetween(dateFrom(start), dateFrom(end), inclusiveStart,
+                                                     inclusiveEnd));
   }
 
   /**
@@ -1306,7 +1336,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} is not in the past.
    */
   public SELF isInThePast() {
-    return executeAssertion(() -> dates.assertIsInThePast(info, actual));
+    return executeAssertion(this::assertIsInThePast);
   }
 
   /**
@@ -1325,7 +1355,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} is not today.
    */
   public SELF isToday() {
-    return executeAssertion(() -> dates.assertIsToday(info, actual));
+    return executeAssertion(this::assertIsToday);
   }
 
   /**
@@ -1341,7 +1371,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} is not in the future.
    */
   public SELF isInTheFuture() {
-    return executeAssertion(() -> dates.assertIsInTheFuture(info, actual));
+    return executeAssertion(this::assertIsInTheFuture);
   }
 
   /**
@@ -1362,7 +1392,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} year is after or equals to the given year.
    */
   public SELF isBeforeYear(int year) {
-    return executeAssertion(() -> dates.assertIsBeforeYear(info, actual, year));
+    return executeAssertion(() -> assertIsBeforeYear(year));
   }
 
   /**
@@ -1383,7 +1413,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} year is before or equals to the given year.
    */
   public SELF isAfterYear(int year) {
-    return executeAssertion(() -> dates.assertIsAfterYear(info, actual, year));
+    return executeAssertion(() -> assertIsAfterYear(year));
   }
 
   /**
@@ -1405,7 +1435,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} year is not equal to the given year.
    */
   public SELF hasYear(int year) {
-    return executeAssertion(() -> dates.assertHasYear(info, actual, year));
+    return executeAssertion(() -> assertHasYear(year));
   }
 
   /**
@@ -1428,7 +1458,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} month is not equal to the given month.
    */
   public SELF hasMonth(int month) {
-    return executeAssertion(() -> dates.assertHasMonth(info, actual, month));
+    return executeAssertion(() -> assertHasMonth(month));
   }
 
   /**
@@ -1450,7 +1480,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} month is not equal to the given day of month.
    */
   public SELF hasDayOfMonth(int dayOfMonth) {
-    return executeAssertion(() -> dates.assertHasDayOfMonth(info, actual, dayOfMonth));
+    return executeAssertion(() -> assertHasDayOfMonth(dayOfMonth));
   }
 
   /**
@@ -1473,7 +1503,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} week is not equal to the given day of week.
    */
   public SELF hasDayOfWeek(int dayOfWeek) {
-    return executeAssertion(() -> dates.assertHasDayOfWeek(info, actual, dayOfWeek));
+    return executeAssertion(() -> assertHasDayOfWeek(dayOfWeek));
   }
 
   /**
@@ -1494,7 +1524,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} hour is not equal to the given hour.
    */
   public SELF hasHourOfDay(int hourOfDay) {
-    return executeAssertion(() -> dates.assertHasHourOfDay(info, actual, hourOfDay));
+    return executeAssertion(() -> assertHasHourOfDay(hourOfDay));
   }
 
   /**
@@ -1515,7 +1545,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} minute is not equal to the given minute.
    */
   public SELF hasMinute(int minute) {
-    return executeAssertion(() -> dates.assertHasMinute(info, actual, minute));
+    return executeAssertion(() -> assertHasMinute(minute));
   }
 
   /**
@@ -1536,7 +1566,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} second is not equal to the given second.
    */
   public SELF hasSecond(int second) {
-    return executeAssertion(() -> dates.assertHasSecond(info, actual, second));
+    return executeAssertion(() -> assertHasSecond(second));
   }
 
   /**
@@ -1557,7 +1587,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} millisecond is not equal to the given millisecond.
    */
   public SELF hasMillisecond(int millisecond) {
-    return executeAssertion(() -> dates.assertHasMillisecond(info, actual, millisecond));
+    return executeAssertion(() -> assertHasMillisecond(millisecond));
   }
 
   /**
@@ -1578,7 +1608,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if actual and given {@code Date} are not in the same year.
    */
   public SELF isInSameYearAs(Date other) {
-    return executeAssertion(() -> dates.assertIsInSameYearAs(info, actual, other));
+    return executeAssertion(() -> assertIsInSameYearAs(other));
   }
 
   /**
@@ -1600,7 +1630,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isInSameYearAs(Instant other) {
-    return executeAssertion(() -> dates.assertIsInSameYearAs(info, actual, dateFrom(other)));
+    return executeAssertion(() -> assertIsInSameYearAs(dateFrom(other)));
   }
 
   /**
@@ -1667,7 +1697,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if actual and given {@code Date} are not in the same month and year.
    */
   public SELF isInSameMonthAs(Date other) {
-    return executeAssertion(() -> dates.assertIsInSameMonthAs(info, actual, other));
+    return executeAssertion(() -> assertIsInSameMonthAs(other));
   }
 
   /**
@@ -1689,7 +1719,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isInSameMonthAs(Instant other) {
-    return executeAssertion(() -> dates.assertIsInSameMonthAs(info, actual, dateFrom(other)));
+    return executeAssertion(() -> assertIsInSameMonthAs(dateFrom(other)));
   }
 
   /**
@@ -1754,7 +1784,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if actual and given {@code Date} are not in the same day, month and year.
    */
   public SELF isInSameDayAs(Date other) {
-    return executeAssertion(() -> dates.assertIsInSameDayAs(info, actual, other));
+    return executeAssertion(() -> assertIsInSameDayAs(other));
   }
 
   /**
@@ -1775,7 +1805,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isInSameDayAs(Instant other) {
-    return executeAssertion(() -> dates.assertIsInSameDayAs(info, actual, dateFrom(other)));
+    return executeAssertion(() -> assertIsInSameDayAs(dateFrom(other)));
   }
 
   /**
@@ -1852,7 +1882,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if actual and given {@code Date} are not in the same hour.
    */
   public SELF isInSameHourWindowAs(Date other) {
-    return executeAssertion(() -> dates.assertIsInSameHourWindowAs(info, actual, other));
+    return executeAssertion(() -> assertIsInSameHourWindowAs(other));
   }
 
   /**
@@ -1887,7 +1917,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isInSameHourWindowAs(Instant other) {
-    return executeAssertion(() -> dates.assertIsInSameHourWindowAs(info, actual, dateFrom(other)));
+    return executeAssertion(() -> assertIsInSameHourWindowAs(dateFrom(other)));
   }
 
   /**
@@ -1964,7 +1994,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if actual and given {@code Date} are not in the same minute.
    */
   public SELF isInSameMinuteWindowAs(Date other) {
-    return executeAssertion(() -> dates.assertIsInSameMinuteWindowAs(info, actual, other));
+    return executeAssertion(() -> assertIsInSameMinuteWindowAs(other));
   }
 
   /**
@@ -2000,7 +2030,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isInSameMinuteWindowAs(Instant other) {
-    return executeAssertion(() -> dates.assertIsInSameMinuteWindowAs(info, actual, dateFrom(other)));
+    return executeAssertion(() -> assertIsInSameMinuteWindowAs(dateFrom(other)));
   }
 
   /**
@@ -2083,7 +2113,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if actual and given {@code Date} are not in the same second.
    */
   public SELF isInSameSecondWindowAs(Date other) {
-    return executeAssertion(() -> dates.assertIsInSameSecondWindowAs(info, actual, other));
+    return executeAssertion(() -> assertIsInSameSecondWindowAs(other));
   }
 
   /**
@@ -2125,7 +2155,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isInSameSecondWindowAs(Instant other) {
-    return executeAssertion(() -> dates.assertIsInSameSecondWindowAs(info, actual, dateFrom(other)));
+    return executeAssertion(() -> assertIsInSameSecondWindowAs(dateFrom(other)));
   }
 
   /**
@@ -2199,7 +2229,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} is not close to the given date by less than delta.
    */
   public SELF isCloseTo(Date other, long deltaInMilliseconds) {
-    return executeAssertion(() -> dates.assertIsCloseTo(info, actual, other, deltaInMilliseconds));
+    return executeAssertion(() -> assertIsCloseTo(other, deltaInMilliseconds));
   }
 
   /**
@@ -2230,7 +2260,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isCloseTo(Instant other, long deltaInMilliseconds) {
-    return executeAssertion(() -> dates.assertIsCloseTo(info, actual, dateFrom(other), deltaInMilliseconds));
+    return executeAssertion(() -> assertIsCloseTo(dateFrom(other), deltaInMilliseconds));
   }
 
   /**
@@ -2290,7 +2320,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @see Date#getTime()
    */
   public SELF hasTime(long timestamp) {
-    return executeAssertion(() -> dates.assertHasTime(info, actual, timestamp));
+    return executeAssertion(() -> assertHasTime(timestamp));
   }
 
   /**
@@ -2315,7 +2345,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @see Date#getTime()
    */
   public SELF hasSameTimeAs(Date date) {
-    return executeAssertion(() -> dates.hasSameTimeAs(info, actual, date));
+    return executeAssertion(() -> assertHasSameTime(date));
   }
 
   /**
@@ -2371,7 +2401,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public SELF hasSameTimeAs(String dateAsString) {
-    return executeAssertion(() -> dates.hasSameTimeAs(info, actual, parse(dateAsString)));
+    return executeAssertion(() -> assertHasSameTime(parse(dateAsString)));
   }
 
   /**
@@ -2662,28 +2692,206 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     return dates;
   }
 
-  @Override
-  @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Date> customComparator) {
-    return usingComparator(customComparator, null);
-  }
-
-  @Override
-  @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Date> customComparator, String customComparatorDescription) {
-    this.dates = new Dates(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
-    return super.usingComparator(customComparator, customComparatorDescription);
-  }
-
-  @Override
-  @CheckReturnValue
-  public SELF usingDefaultComparator() {
-    this.dates = Dates.instance();
-    return super.usingDefaultComparator();
-  }
-
   private Date dateFrom(Instant instant) {
     return actual instanceof Timestamp ? Timestamp.from(instant) : Date.from(instant);
+  }
+
+  private void assertIsBefore(Date other) {
+    isNotNull();
+    dateParameterIsNotNull(other);
+    if (!isBefore(actual, other)) throw assertionError(shouldBeBefore(actual, other, getComparisonStrategy()));
+  }
+
+  private void assertIsBeforeOrEqualTo(Date other) {
+    isNotNull();
+    dateParameterIsNotNull(other);
+    if (!isBeforeOrEqualTo(actual, other)) throw assertionError(shouldBeBeforeOrEqualTo(actual, other, getComparisonStrategy()));
+  }
+
+  private void assertIsAfter(Date other) {
+    isNotNull();
+    dateParameterIsNotNull(other);
+    if (!isAfter(actual, other)) throw assertionError(shouldBeAfter(actual, other, getComparisonStrategy()));
+  }
+
+  private void assertIsAfterOrEqualTo(Date other) {
+    isNotNull();
+    dateParameterIsNotNull(other);
+    if (!isAfterOrEqualTo(actual, other)) throw assertionError(shouldBeAfterOrEqualTo(actual, other, getComparisonStrategy()));
+  }
+
+  private void assertIsBetween(Date start, Date end, boolean inclusiveStart, boolean inclusiveEnd) {
+    if (!actualIsBetweenGivenPeriod(start, end, inclusiveStart, inclusiveEnd))
+      throw assertionError(shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, getComparisonStrategy()));
+  }
+
+  private void assertIsNotBetween(Date start, Date end, boolean inclusiveStart, boolean inclusiveEnd) {
+    if (actualIsBetweenGivenPeriod(start, end, inclusiveStart, inclusiveEnd))
+      throw assertionError(shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, getComparisonStrategy()));
+  }
+
+  private boolean actualIsBetweenGivenPeriod(Date start, Date end, boolean inclusiveStart, boolean inclusiveEnd) {
+    isNotNull();
+    requireNonNull(start, "The start date of period to compare actual with should not be null");
+    requireNonNull(end, "The end date of period to compare actual with should not be null");
+    boolean checkLowerBoundaryPeriod = inclusiveStart ? isAfterOrEqualTo(actual, start) : isAfter(actual, start);
+    boolean checkUpperBoundaryPeriod = inclusiveEnd ? isBeforeOrEqualTo(actual, end) : isBefore(actual, end);
+    return checkLowerBoundaryPeriod && checkUpperBoundaryPeriod;
+  }
+
+  private void assertIsInThePast() {
+    isNotNull();
+    if (!isBefore(actual, now())) throw assertionError(shouldBeInThePast(actual, getComparisonStrategy()));
+  }
+
+  private void assertIsToday() {
+    isNotNull();
+    Date todayWithoutTime = truncateTime(now());
+    Date actualWithoutTime = truncateTime(actual);
+    if (!getComparisonStrategy().areEqual(actualWithoutTime, todayWithoutTime))
+      throw assertionError(shouldBeToday(actual, getComparisonStrategy()));
+  }
+
+  private void assertIsInTheFuture() {
+    isNotNull();
+    if (!isAfter(actual, now())) throw assertionError(shouldBeInTheFuture(actual, getComparisonStrategy()));
+  }
+
+  private void assertIsBeforeYear(int year) {
+    isNotNull();
+    if (yearOf(actual) >= year) throw assertionError(shouldBeBeforeYear(actual, year));
+  }
+
+  private void assertIsAfterYear(int year) {
+    isNotNull();
+    if (yearOf(actual) <= year) throw assertionError(shouldBeAfterYear(actual, year));
+  }
+
+  private void assertHasYear(int year) {
+    isNotNull();
+    if (yearOf(actual) != year) throw assertionError(shouldHaveDateField(actual, "year", year));
+  }
+
+  private void assertHasMonth(int month) {
+    isNotNull();
+    if (monthOf(actual) != month) throw assertionError(shouldHaveDateField(actual, "month", month));
+  }
+
+  private void assertHasDayOfMonth(int dayOfMonth) {
+    isNotNull();
+    if (dayOfMonthOf(actual) != dayOfMonth) throw assertionError(shouldHaveDateField(actual, "day of month", dayOfMonth));
+  }
+
+  private void assertHasDayOfWeek(int dayOfWeek) {
+    isNotNull();
+    if (dayOfWeekOf(actual) != dayOfWeek) throw assertionError(shouldHaveDateField(actual, "day of week", dayOfWeek));
+  }
+
+  private void assertHasHourOfDay(int hourOfDay) {
+    isNotNull();
+    if (hourOfDayOf(actual) != hourOfDay) throw assertionError(shouldHaveDateField(actual, "hour", hourOfDay));
+  }
+
+  private void assertHasMinute(int minute) {
+    isNotNull();
+    if (minuteOf(actual) != minute) throw assertionError(shouldHaveDateField(actual, "minute", minute));
+  }
+
+  private void assertHasSecond(int second) {
+    isNotNull();
+    if (secondOf(actual) != second) throw assertionError(shouldHaveDateField(actual, "second", second));
+  }
+
+  private void assertHasMillisecond(int millisecond) {
+    isNotNull();
+    if (millisecondOf(actual) != millisecond) throw assertionError(shouldHaveDateField(actual, "millisecond", millisecond));
+  }
+
+  private void assertIsInSameYearAs(Date other) {
+    isNotNull();
+    dateParameterIsNotNull(other);
+    if (!areInSameYear(actual, other)) throw assertionError(shouldBeInSameYear(actual, other));
+  }
+
+  private void assertIsInSameMonthAs(Date other) {
+    isNotNull();
+    dateParameterIsNotNull(other);
+    if (!areInSameMonth(actual, other)) throw assertionError(shouldBeInSameMonth(actual, other));
+  }
+
+  private void assertIsInSameDayAs(Date other) {
+    isNotNull();
+    dateParameterIsNotNull(other);
+    if (!areInSameDayOfMonth(actual, other)) throw assertionError(shouldBeInSameDay(actual, other));
+  }
+
+  private void assertIsInSameHourWindowAs(Date other) {
+    isNotNull();
+    dateParameterIsNotNull(other);
+    if (timeDifference(actual, other) >= HOURS.toMillis(1)) throw assertionError(shouldBeInSameHourWindow(actual, other));
+  }
+
+  private void assertIsInSameMinuteWindowAs(Date other) {
+    isNotNull();
+    dateParameterIsNotNull(other);
+    if (timeDifference(actual, other) >= MINUTES.toMillis(1)) throw assertionError(shouldBeInSameMinuteWindow(actual, other));
+  }
+
+  private void assertIsInSameSecondWindowAs(Date other) {
+    isNotNull();
+    dateParameterIsNotNull(other);
+    if (timeDifference(actual, other) >= SECONDS.toMillis(1)) throw assertionError(shouldBeInSameSecondWindow(actual, other));
+  }
+
+  private void assertIsCloseTo(Date other, long deltaInMilliseconds) {
+    isNotNull();
+    dateParameterIsNotNull(other);
+    long difference = Math.abs(actual.getTime() - other.getTime());
+    if (difference > deltaInMilliseconds)
+      throw assertionError(shouldBeCloseTo(actual, other, deltaInMilliseconds, difference));
+  }
+
+  private void assertHasTime(long timestamp) {
+    isNotNull();
+    if (actual.getTime() != timestamp) throw assertionError(shouldHaveTime(actual, timestamp));
+  }
+
+  private void assertHasSameTime(Date expected) {
+    isNotNull();
+    dateParameterIsNotNull(expected);
+    if (actual.getTime() != expected.getTime()) throw assertionError(shouldHaveSameTime(actual, expected));
+  }
+
+  private static boolean areInSameYear(Date actual, Date other) {
+    return yearOf(actual) == yearOf(other);
+  }
+
+  private static boolean areInSameMonth(Date actual, Date other) {
+    return areInSameYear(actual, other) && monthOf(actual) == monthOf(other);
+  }
+
+  private static boolean areInSameDayOfMonth(Date actual, Date other) {
+    return areInSameMonth(actual, other) && dayOfMonthOf(actual) == dayOfMonthOf(other);
+  }
+
+  private static void dateParameterIsNotNull(Date date) {
+    requireNonNull(date, "The date to compare actual with should not be null");
+  }
+
+  private boolean isBefore(Date actual, Date other) {
+    return getComparisonStrategy().isLessThan(actual, other);
+  }
+
+  private boolean isBeforeOrEqualTo(Date actual, Date other) {
+    return getComparisonStrategy().isLessThanOrEqualTo(actual, other);
+  }
+
+  private boolean isAfter(Date actual, Date other) {
+    return getComparisonStrategy().isGreaterThan(actual, other);
+  }
+
+  private boolean isAfterOrEqualTo(Date actual, Date other) {
+    return getComparisonStrategy().isGreaterThanOrEqualTo(actual, other);
   }
 
 }

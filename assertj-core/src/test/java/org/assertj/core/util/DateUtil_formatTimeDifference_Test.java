@@ -17,7 +17,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.internal.DatesBaseTest.parseDatetime;
+import static org.assertj.core.testkit.Dates.parseDatetime;
 import static org.assertj.core.util.DateUtil.formatTimeDifference;
 
 import java.util.Date;

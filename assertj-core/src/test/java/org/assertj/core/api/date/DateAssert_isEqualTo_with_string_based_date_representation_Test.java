@@ -20,8 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.registerCustomDateFormat;
 import static org.assertj.core.api.Assertions.useDefaultDateFormatsOnly;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.internal.DatesBaseTest.parseDate;
-import static org.assertj.core.internal.DatesBaseTest.parseDatetime;
+import static org.assertj.core.testkit.Dates.parseDate;
+import static org.assertj.core.testkit.Dates.parseDatetime;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
