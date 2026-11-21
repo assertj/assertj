@@ -17,17 +17,16 @@ package org.assertj.tests.core.api.path;
 
 import static java.nio.file.Files.createFile;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeCanonicalPath.shouldBeCanonicalPath;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.PathFactory.tryToCreateSymbolicLink;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
@@ -49,16 +48,13 @@ class PathAssert_isCanonical_Test {
   }
 
   @Test
-  void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
+  void should_rethrow_IOException_as_UncheckedIOException_if_actual_does_not_exist() {
     // GIVEN
-    Path actual = mock(Path.class);
-    IOException exception = new IOException("boom!");
-    given(actual.toRealPath()).willThrow(exception);
+    Path actual = tempDir.resolve("non-existent");
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(actual).isCanonical());
+    var uncheckedIOException = catchThrowableOfType(UncheckedIOException.class, () -> assertThat(actual).isCanonical());
     // THEN
-    then(thrown).isInstanceOf(UncheckedIOException.class)
-                .hasCause(exception);
+    then(uncheckedIOException).hasCauseInstanceOf(NoSuchFileException.class);
   }
 
   @Test
