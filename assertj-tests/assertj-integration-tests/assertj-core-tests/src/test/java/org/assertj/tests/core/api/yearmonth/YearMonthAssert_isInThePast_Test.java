@@ -13,37 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api.yearmonth;
+package org.assertj.tests.core.api.yearmonth;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.YearMonth;
 
 import org.junit.jupiter.api.Test;
 
-class YearMonthAssert_hasYear_Test {
+class YearMonthAssert_isInThePast_Test extends YearMonthAssertBaseTest {
 
   @Test
-  void should_pass_if_actual_is_in_given_year() {
-    // GIVEN
-    YearMonth actual = YearMonth.of(2022, 1);
-    // WHEN/THEN
-    then(actual).hasYear(2022);
+  void should_pass_if_actual_is_in_the_past() {
+    assertThat(BEFORE).isInThePast();
   }
 
   @Test
-  void should_fail_if_actual_is_not_in_given_year() {
-    // GIVEN
-    YearMonth actual = YearMonth.of(2022, 1);
-    int expectedYear = 2021;
+  void should_fail_if_actual_is_today() {
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(actual).hasYear(expectedYear));
+    var assertionError = expectAssertionError(() -> assertThat(REFERENCE).isInThePast());
     // THEN
-    then(assertionError).hasMessage(shouldHaveDateField(actual, "year", expectedYear).create());
+    then(assertionError).hasMessage(shouldBeInThePast(REFERENCE).create());
+  }
+
+  @Test
+  void should_fail_if_actual_is_in_the_future() {
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(AFTER).isInThePast());
+    // THEN
+    then(assertionError).hasMessage(shouldBeInThePast(AFTER).create());
   }
 
   @Test
@@ -51,7 +53,7 @@ class YearMonthAssert_hasYear_Test {
     // GIVEN
     YearMonth actual = null;
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(actual).hasYear(YearMonth.now().getYear()));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isInThePast());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

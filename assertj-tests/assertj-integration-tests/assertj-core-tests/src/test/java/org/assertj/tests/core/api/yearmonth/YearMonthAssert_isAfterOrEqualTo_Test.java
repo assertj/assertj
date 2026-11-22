@@ -13,55 +13,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api.yearmonth;
+package org.assertj.tests.core.api.yearmonth;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.time.YearMonth;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
-class YearMonthAssert_isBeforeOrEqualTo_Test extends YearMonthAssertBaseTest {
+class YearMonthAssert_isAfterOrEqualTo_Test extends YearMonthAssertBaseTest {
 
   @Test
-  void should_pass_if_actual_is_before_year_month_parameter() {
-    assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE);
+  void should_pass_if_actual_is_after_year_month_parameter() {
+    assertThat(AFTER).isAfterOrEqualTo(REFERENCE);
   }
 
   @Test
-  void should_pass_if_actual_is_before_year_month_as_string_parameter() {
-    assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE.toString());
+  void should_pass_if_actual_is_after_year_month_as_string_parameter() {
+    assertThat(AFTER).isAfterOrEqualTo(REFERENCE.toString());
   }
 
   @Test
   void should_pass_if_actual_is_equal_to_year_month_parameter() {
-    assertThat(REFERENCE).isBeforeOrEqualTo(REFERENCE);
+    assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE);
   }
 
   @Test
   void should_pass_if_actual_is_equal_to_year_month_as_string_parameter() {
-    assertThat(REFERENCE).isBeforeOrEqualTo(REFERENCE.toString());
+    assertThat(REFERENCE).isAfterOrEqualTo(REFERENCE.toString());
   }
 
   @Test
-  void should_fail_if_actual_is_after_year_month_parameter() {
+  void should_fail_if_actual_is_before_year_month_parameter() {
     // WHEN
-    ThrowingCallable code = () -> assertThat(AFTER).isBeforeOrEqualTo(REFERENCE);
+    ThrowingCallable code = () -> assertThat(BEFORE).isAfterOrEqualTo(REFERENCE);
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeBeforeOrEqualTo(AFTER, REFERENCE).create());
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeAfterOrEqualTo(BEFORE, REFERENCE).create());
   }
 
   @Test
-  void should_fail_if_actual_is_after_year_month_as_string_parameter() {
+  void should_fail_if_actual_is_before_year_month_as_string_parameter() {
     // WHEN
-    ThrowingCallable code = () -> assertThat(AFTER).isBeforeOrEqualTo(REFERENCE.toString());
+    ThrowingCallable code = () -> assertThat(BEFORE).isAfterOrEqualTo(REFERENCE.toString());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeBeforeOrEqualTo(AFTER, REFERENCE).create());
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeAfterOrEqualTo(BEFORE, REFERENCE).create());
   }
 
   @Test
@@ -69,7 +69,7 @@ class YearMonthAssert_isBeforeOrEqualTo_Test extends YearMonthAssertBaseTest {
     // GIVEN
     YearMonth yearMonth = null;
     // WHEN
-    ThrowingCallable code = () -> assertThat(yearMonth).isBeforeOrEqualTo(YearMonth.now());
+    ThrowingCallable code = () -> assertThat(yearMonth).isAfterOrEqualTo(YearMonth.now());
     // THEN
     assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
@@ -79,7 +79,7 @@ class YearMonthAssert_isBeforeOrEqualTo_Test extends YearMonthAssertBaseTest {
     // GIVEN
     YearMonth otherYearMonth = null;
     // WHEN
-    ThrowingCallable code = () -> assertThat(YearMonth.now()).isBeforeOrEqualTo(otherYearMonth);
+    ThrowingCallable code = () -> assertThat(YearMonth.now()).isAfterOrEqualTo(otherYearMonth);
     // THEN
     assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The YearMonth to compare actual with should not be null");
@@ -90,7 +90,7 @@ class YearMonthAssert_isBeforeOrEqualTo_Test extends YearMonthAssertBaseTest {
     // GIVEN
     String otherYearMonthAsString = null;
     // WHEN
-    ThrowingCallable code = () -> assertThat(YearMonth.now()).isBeforeOrEqualTo(otherYearMonthAsString);
+    ThrowingCallable code = () -> assertThat(YearMonth.now()).isAfterOrEqualTo(otherYearMonthAsString);
     // THEN
     assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the YearMonth to compare actual with should not be null");

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api.yearmonth;
+package org.assertj.tests.core.api.yearmonth;
 
 import java.time.YearMonth;
 

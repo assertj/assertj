@@ -13,38 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api.yearmonth;
+package org.assertj.tests.core.api.yearmonth;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHaveDateField.shouldHaveMonth;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import java.time.Month;
 import java.time.YearMonth;
 
 import org.junit.jupiter.api.Test;
 
-class YearMonthAssert_hasMonth_Test {
+class YearMonthAssert_hasMonthValue_Test {
 
   @Test
   void should_pass_if_actual_is_in_given_month() {
     // GIVEN
     YearMonth actual = YearMonth.of(2021, 2);
     // WHEN/THEN
-    then(actual).hasMonth(Month.FEBRUARY);
+    then(actual).hasMonthValue(2);
   }
 
   @Test
   void should_fail_if_actual_is_not_in_given_month() {
     // GIVEN
     YearMonth actual = YearMonth.of(2022, 1);
-    Month wrongMonth = Month.DECEMBER;
+    int wrongMonth = 12;
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(actual).hasMonth(wrongMonth));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(wrongMonth));
     // THEN
-    then(assertionError).hasMessage(shouldHaveMonth(actual, wrongMonth).create());
+    then(assertionError).hasMessage(shouldHaveDateField(actual, "month", wrongMonth).create());
   }
 
   @Test
@@ -52,7 +51,7 @@ class YearMonthAssert_hasMonth_Test {
     // GIVEN
     YearMonth actual = null;
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(actual).hasMonth(YearMonth.now().getMonth()));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(5));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

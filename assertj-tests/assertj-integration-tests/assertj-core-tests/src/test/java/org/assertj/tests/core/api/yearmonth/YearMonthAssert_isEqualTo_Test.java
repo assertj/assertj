@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api.yearmonth;
+package org.assertj.tests.core.api.yearmonth;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.YearMonth;
 
@@ -28,19 +29,19 @@ import org.junit.jupiter.api.Test;
 /**
  * Only test String based assertion (tests with {@link YearMonth} are already done)
  */
-class YearMonthAssert_isNotEqualTo_Test extends YearMonthAssertBaseTest {
+class YearMonthAssert_isEqualTo_Test extends YearMonthAssertBaseTest {
 
   @Test
-  void should_pass_if_actual_is_not_equal_to_year_month_as_string_parameter() {
-    assertThat(REFERENCE).isNotEqualTo(AFTER.toString());
+  void should_pass_if_actual_is_equal_to_year_month_as_string_parameter() {
+    assertThat(REFERENCE).isEqualTo(REFERENCE.toString());
   }
 
   @Test
-  void should_fail_if_actual_is_equal_to_year_month_as_string_parameter() {
+  void should_fail_if_actual_is_not_equal_to_year_month_as_string_parameter() {
     // WHEN
-    ThrowingCallable code = () -> assertThat(REFERENCE).isNotEqualTo(REFERENCE.toString());
+    var assertionError = expectAssertionError(() -> assertThat(AFTER).isEqualTo(REFERENCE.toString()));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldNotBeEqual(REFERENCE, REFERENCE).create());
+    then(assertionError).hasMessage(shouldBeEqualMessage(AFTER + " (java.time.YearMonth)", REFERENCE + " (java.time.YearMonth)"));
   }
 
   @Test
@@ -48,7 +49,7 @@ class YearMonthAssert_isNotEqualTo_Test extends YearMonthAssertBaseTest {
     // GIVEN
     String otherYearMonthAsString = null;
     // WHEN
-    ThrowingCallable code = () -> assertThat(YearMonth.now()).isNotEqualTo(otherYearMonthAsString);
+    ThrowingCallable code = () -> assertThat(YearMonth.now()).isEqualTo(otherYearMonthAsString);
     // THEN
     assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the YearMonth to compare actual with should not be null");
