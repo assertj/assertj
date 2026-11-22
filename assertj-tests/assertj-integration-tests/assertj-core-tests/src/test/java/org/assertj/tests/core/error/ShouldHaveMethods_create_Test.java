@@ -24,6 +24,7 @@ import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.util.Sets.newTreeSet;
 
 import java.lang.reflect.Modifier;
+import java.util.Map;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.error.ErrorMessageFactory;
@@ -150,6 +151,48 @@ class ShouldHaveMethods_create_Test {
                                    "  [\"finalize\"]%n" +
                                    "but the following are not public:%n" +
                                    "  {\"finalize\"=\"protected\"}"));
+  }
+
+  @Test
+  void should_create_error_message_for_shouldHaveMethods_with_missing_and_non_matching_modifier() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldHaveMethods(Person.class, false,
+                                                    newTreeSet("finalize", "getAddress", "getName"),
+                                                    Modifier.toString(Modifier.PUBLIC),
+                                                    newTreeSet("getAddress"),
+                                                    Maps.mapOf(entry("finalize", Modifier.toString(Modifier.PROTECTED))));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  org.assertj.tests.core.testkit.Person%n" +
+                                   "to have public methods:%n" +
+                                   "  [\"finalize\", \"getAddress\", \"getName\"]%n" +
+                                   "but could not find:%n" +
+                                   "  [\"getAddress\"]%n" +
+                                   "and the following are not public:%n" +
+                                   "  {\"finalize\"=\"protected\"}"));
+  }
+
+  @Test
+  void should_create_error_message_for_shouldHaveMethods_with_modifier_and_missing_methods_only() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldHaveMethods(Person.class, false,
+                                                    newTreeSet("getAddress", "getName"),
+                                                    Modifier.toString(Modifier.PUBLIC),
+                                                    newTreeSet("getAddress"),
+                                                    Map.of());
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting%n" +
+                                   "  org.assertj.tests.core.testkit.Person%n" +
+                                   "to have public methods:%n" +
+                                   "  [\"getAddress\", \"getName\"]%n" +
+                                   "but could not find:%n" +
+                                   "  [\"getAddress\"]"));
   }
 
 }

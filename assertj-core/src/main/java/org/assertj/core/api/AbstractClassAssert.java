@@ -1117,13 +1117,14 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
                                                 getMethodsWithModifier(actualMethods, Modifier.methodModifiers())));
     }
     SortedSet<String> expectedMethodNames = newTreeSet(expectedMethods);
-    SortedSet<String> missingMethodNames = missingElements(methodsToName(actualMethods), expectedMethodNames, TreeSet::new);
+    SortedSet<String> missingMethodNames = missingElements(methodsToName(actualMethods.stream()), expectedMethodNames,
+                                                           TreeSet::new);
     if (!missingMethodNames.isEmpty())
       throw assertionError(shouldHaveMethods(actual, declared, expectedMethodNames, missingMethodNames));
   }
 
-  private static SortedSet<String> methodsToName(Set<Method> methods) {
-    return methods.stream().map(Method::getName).collect(toCollection(TreeSet::new));
+  private static SortedSet<String> methodsToName(Stream<Method> methods) {
+    return methods.map(Method::getName).collect(toCollection(TreeSet::new));
   }
 
   /**
@@ -1156,44 +1157,32 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   private void assertHasPublicMethods(String... methodNames) {
     isNotNull();
-    Method[] actualMethods = actual.getMethods();
-    if (methodNames.length == 0 && hasPublicMethods(actualMethods)) {
-      throw assertionError(shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), false,
-                                                getMethodsWithModifier(newLinkedHashSet(actualMethods), Modifier.PUBLIC)));
+    SortedSet<String> publicMethodNames = methodsToName(stream(actual.getMethods()));
+    if (methodNames.length == 0) {
+      if (publicMethodNames.isEmpty()) return;
+      throw assertionError(shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), false, publicMethodNames));
     }
     SortedSet<String> expectedMethodNames = newTreeSet(methodNames);
-    Map<String, Integer> methodNamesWithModifier = methodsToNameAndModifier(actualMethods);
-    SortedSet<String> missingMethodNames = missingElements(methodNamesWithModifier.keySet(), expectedMethodNames,
-                                                           TreeSet::new);
-    if (!missingMethodNames.isEmpty())
-      throw assertionError(shouldHaveMethods(actual, false, expectedMethodNames, missingMethodNames));
-    Map<String, String> nonMatchingModifiers = nonMatchingModifiers(expectedMethodNames, methodNamesWithModifier,
-                                                                    Modifier.PUBLIC);
-    if (!nonMatchingModifiers.isEmpty())
-      throw assertionError(shouldHaveMethods(actual, false, expectedMethodNames, Modifier.toString(Modifier.PUBLIC),
-                                             nonMatchingModifiers));
-  }
-
-  private static boolean hasPublicMethods(Method[] methods) {
-    return stream(methods).anyMatch(method -> Modifier.isPublic(method.getModifiers()));
-  }
-
-  private static Map<String, Integer> methodsToNameAndModifier(Method[] methods) {
-    Map<String, Integer> methodMap = new LinkedHashMap<>(methods.length);
-    for (Method method : methods) {
-      methodMap.put(method.getName(), method.getModifiers());
+    Set<Method> allMethods = filterSyntheticMembers(getAllMethods(actual));
+    SortedSet<String> missingMethodNames = newTreeSet();
+    Map<String, String> nonPublicMethods = new LinkedHashMap<>();
+    for (String expectedMethodName : expectedMethodNames) {
+      if (publicMethodNames.contains(expectedMethodName)) continue;
+      allMethods.stream()
+                .filter(method -> method.getName().equals(expectedMethodName))
+                .filter(method -> !Modifier.isPublic(method.getModifiers()))
+                .findFirst()
+                .ifPresentOrElse(method -> nonPublicMethods.put(expectedMethodName, modifiersOf(method)),
+                                 () -> missingMethodNames.add(expectedMethodName));
     }
-    return methodMap;
+    if (!missingMethodNames.isEmpty() || !nonPublicMethods.isEmpty())
+      throw assertionError(shouldHaveMethods(actual, false, expectedMethodNames, Modifier.toString(Modifier.PUBLIC),
+                                             missingMethodNames, nonPublicMethods));
   }
 
-  private static Map<String, String> nonMatchingModifiers(Set<String> expectedMethodNames,
-                                                          Map<String, Integer> methodsModifier, int modifier) {
-    Map<String, String> nonMatchingModifiers = new LinkedHashMap<>();
-    methodsModifier.forEach((method, methodModifiers) -> {
-      if (expectedMethodNames.contains(method) && (methodModifiers & modifier) == 0)
-        nonMatchingModifiers.put(method, Modifier.toString(methodModifiers));
-    });
-    return nonMatchingModifiers;
+  private static String modifiersOf(Method method) {
+    String modifiers = Modifier.toString(method.getModifiers());
+    return modifiers.isEmpty() ? "package-private" : modifiers;
   }
 
   private static SortedSet<String> getMethodsWithModifier(Set<Method> methods, int modifier) {

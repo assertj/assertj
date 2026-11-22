@@ -15,6 +15,9 @@
  */
 package org.assertj.core.error;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -50,7 +53,24 @@ public class ShouldHaveMethods extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldHaveMethods(Class<?> actual, boolean declared, SortedSet<String> expected,
                                                       String modifier, Map<String, String> nonMatching) {
-    return new ShouldHaveMethods(actual, expected, modifier, nonMatching, declared);
+    return shouldHaveMethods(actual, declared, expected, modifier, Collections.emptySortedSet(), nonMatching);
+  }
+
+  /// Creates an error for expected methods that are either missing or that do not have the expected modifier.
+  ///
+  /// The "could not find" and "not <modifier>" sections are only included when they are not empty.
+  ///
+  /// @param actual the actual class
+  /// @param declared whether declared methods are checked
+  /// @param expected the expected methods
+  /// @param modifier the expected modifier
+  /// @param missing the expected methods that could not be found
+  /// @param nonMatching the expected methods found without the expected modifier, mapped to their actual modifiers
+  /// @return the error message factory
+  public static ErrorMessageFactory shouldHaveMethods(Class<?> actual, boolean declared, SortedSet<String> expected,
+                                                      String modifier, SortedSet<String> missing,
+                                                      Map<String, String> nonMatching) {
+    return new ShouldHaveMethods(actual, expected, modifier, missing, nonMatching, declared);
   }
 
   /**
@@ -90,15 +110,34 @@ public class ShouldHaveMethods extends BasicErrorMessageFactory {
           "  %s", actual, expected, missing);
   }
 
-  private ShouldHaveMethods(Class<?> actual, Set<String> expected, String modifier, Map<String, String> nonMatching,
-                            boolean declared) {
-    super("%n" +
-          "Expecting%n" +
-          "  %s%n" +
-          "to have " + (declared ? "declared " : "") + modifier + " " + "methods:%n" +
-          "  %s%n" +
-          "but the following are not " + modifier + ":%n" +
-          "  %s", actual, expected, nonMatching);
+  private ShouldHaveMethods(Class<?> actual, Set<String> expected, String modifier, Set<String> missing,
+                            Map<String, String> nonMatching, boolean declared) {
+    super(modifierMessageFormat(declared, modifier, missing, nonMatching),
+          modifierMessageArguments(actual, expected, missing, nonMatching));
+  }
+
+  private static String modifierMessageFormat(boolean declared, String modifier, Set<String> missing,
+                                              Map<String, String> nonMatching) {
+    StringBuilder format = new StringBuilder("%n" +
+                                             "Expecting%n" +
+                                             "  %s%n" +
+                                             "to have " + (declared ? "declared " : "") + modifier + " methods:%n" +
+                                             "  %s");
+    if (!missing.isEmpty()) format.append("%n" +
+                                          "but could not find:%n" +
+                                          "  %s");
+    if (!nonMatching.isEmpty()) format.append("%n" +
+                                              (missing.isEmpty() ? "but" : "and") + " the following are not " + modifier + ":%n" +
+                                              "  %s");
+    return format.toString();
+  }
+
+  private static Object[] modifierMessageArguments(Class<?> actual, Set<String> expected, Set<String> missing,
+                                                   Map<String, String> nonMatching) {
+    List<Object> arguments = new ArrayList<>(List.of(actual, expected));
+    if (!missing.isEmpty()) arguments.add(missing);
+    if (!nonMatching.isEmpty()) arguments.add(nonMatching);
+    return arguments.toArray();
   }
 
   private ShouldHaveMethods(Class<?> actual, String modifier, boolean declared,
