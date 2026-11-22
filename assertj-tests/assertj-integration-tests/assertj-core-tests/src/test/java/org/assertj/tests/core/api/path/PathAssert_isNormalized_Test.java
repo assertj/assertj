@@ -78,8 +78,7 @@ class PathAssert_isNormalized_Test {
       "../d",
   })
   void should_pass_on_unix_if_actual_is_normalized(Path actual) {
-    // WHEN/THEN
-    then(actual).isNormalized();
+    assertThat(actual).isNormalized();
   }
 
   @ParameterizedTest
@@ -90,8 +89,7 @@ class PathAssert_isNormalized_Test {
       "..\\d",
   })
   void should_pass_on_windows_if_actual_is_normalized(Path actual) {
-    // WHEN/THEN
-    then(actual).isNormalized();
+    assertThat(actual).isNormalized();
   }
 
 }
