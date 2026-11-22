@@ -1,0 +1,98 @@
+/*
+ * Copyright 2012-2026 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.assertj.tests.core.api.charsequence;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
+import org.junit.jupiter.api.Test;
+
+class CharSequenceAssert_containsAnyOf_Test {
+
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    CharSequence actual = null;
+    CharSequence[] values = array("Yoda", "Luke");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsAnyOf(values));
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeNull().create());
+  }
+
+  @Test
+  void should_fail_if_values_is_null() {
+    // GIVEN
+    CharSequence actual = "Master Yoda";
+    CharSequence[] values = null;
+    // WHEN
+    var exception = catchNullPointerException(() -> assertThat(actual).containsAnyOf(values));
+    // THEN
+    then(exception).hasMessage("The array of values to look for should not be null");
+  }
+
+  @Test
+  void should_fail_if_values_is_empty() {
+    // GIVEN
+    CharSequence actual = "Master Yoda";
+    CharSequence[] values = array();
+    // WHEN
+    var exception = catchIllegalArgumentException(() -> assertThat(actual).containsAnyOf(values));
+    // THEN
+    then(exception).hasMessage("The array of values to look for should not be empty");
+  }
+
+  @Test
+  void should_fail_if_values_contains_null() {
+    // GIVEN
+    CharSequence actual = "Master Yoda";
+    CharSequence[] values = array("Yoda", "Luke", null);
+    // WHEN
+    var exception = catchNullPointerException(() -> assertThat(actual).containsAnyOf(values));
+    // THEN
+    then(exception).hasMessage("Expecting CharSequence elements not to be null but found one at index 2");
+  }
+
+  @Test
+  void should_fail_if_actual_does_not_contain_any_value() {
+    // GIVEN
+    CharSequence actual = "Leia";
+    CharSequence[] values = array("Yoda", "Luke");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsAnyOf(values));
+    // THEN
+    then(assertionError).hasMessage(shouldContainAnyOf(actual, values, StandardComparisonStrategy.instance()).create());
+  }
+
+  @Test
+  void should_pass_if_actual_contains_any_value() {
+    assertThat("Master Yoda").containsAnyOf("Yoda", "Luke");
+  }
+
+  @Test
+  void should_pass_if_actual_contains_any_value_according_to_custom_comparison_strategy() {
+    assertThat("Master Yoda").usingComparator(CaseInsensitiveStringComparator.INSTANCE).containsAnyOf("YODA", "LUKE");
+  }
+
+}

@@ -39,6 +39,5 @@ class CharSequenceAssert_usingCustomComparator_Test extends CharSequenceAssertBa
   @Override
   protected void verify_internal_effects() {
     assertThat(getComparisonStrategyComparatorOf(getObjects(assertions))).isSameAs(CaseInsensitiveCharSequenceComparator.INSTANCE);
-    assertThat(getComparisonStrategyComparatorOf(getStrings(assertions))).isSameAs(CaseInsensitiveCharSequenceComparator.INSTANCE);
   }
 }

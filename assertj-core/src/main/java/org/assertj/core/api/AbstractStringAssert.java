@@ -16,6 +16,8 @@
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldBeBase64.shouldBeBase64;
+import static org.assertj.core.error.ShouldBeBase64Url.shouldBeBase64Url;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.BYTE;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.DOUBLE;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.FLOAT;
@@ -251,7 +253,10 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @since 3.16.0
    */
   public SELF isBase64() {
-    return executeAssertion(() -> strings.assertIsBase64(info, actual));
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!isDecodable(Base64.getDecoder(), actual)) throw assertionError(shouldBeBase64(actual));
+    });
   }
 
   /**
@@ -296,7 +301,10 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @since 4.0.0
    */
   public SELF isBase64Url() {
-    return executeAssertion(() -> strings.assertIsBase64Url(info, actual));
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!isDecodable(Base64.getUrlDecoder(), actual)) throw assertionError(shouldBeBase64Url(actual));
+    });
   }
 
   /**
@@ -680,5 +688,14 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
         throw assertionErrorCreator.assertionError(info, shouldBeNumeric(actual, DOUBLE));
       }
     }, DoubleAssert::nullDoubleAssert);
+  }
+
+  private static boolean isDecodable(Base64.Decoder decoder, String value) {
+    try {
+      decoder.decode(value);
+      return true;
+    } catch (IllegalArgumentException e) {
+      return false;
+    }
   }
 }

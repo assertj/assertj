@@ -33,7 +33,6 @@ class StringAssert_usingCustomComparator_Test extends StringAssertBaseTest {
   @Override
   protected void verify_internal_effects() {
     assertThat(getComparisonStrategyComparatorOf(getObjects(assertions))).isSameAs(CaseInsensitiveCharSequenceComparator.INSTANCE);
-    assertThat(getComparisonStrategyComparatorOf(getStrings(assertions))).isSameAs(CaseInsensitiveCharSequenceComparator.INSTANCE);
     assertThat(getComparisonStrategyComparatorOf(getComparables(assertions))).isSameAs(CaseInsensitiveCharSequenceComparator.INSTANCE);
   }
 

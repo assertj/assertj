@@ -392,6 +392,19 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return assertionError;
   }
 
+  /// Creates an assertion error from the given error message factory, with the given actual and expected values so that
+  /// IDEs can show a diff between them.
+  ///
+  /// @param errorMessageFactory the factory used to create the error message
+  /// @param actual the actual value used for the IDE diff
+  /// @param expected the expected value used for the IDE diff
+  /// @return the assertion error
+  AssertionError assertionError(ErrorMessageFactory errorMessageFactory, Object actual, Object expected) {
+    var assertionError = AssertionErrorCreator.instance().assertionError(info, errorMessageFactory, actual, expected);
+    removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
+    return assertionError;
+  }
+
   private void removeCustomAssertRelatedElementsFromStackTraceIfNeeded(AssertionError assertionError) {
     if (!AssertionErrorCreator.instance().isRemoveAssertJRelatedElementsFromStackTrace()) return;
     if (isAssertjAssertClass()) return;

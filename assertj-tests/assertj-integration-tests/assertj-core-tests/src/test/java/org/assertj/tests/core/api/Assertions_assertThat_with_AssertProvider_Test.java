@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AssertProvider;
 import org.assertj.core.api.Assertions;
-import org.assertj.core.internal.Strings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -61,14 +60,12 @@ class Assertions_assertThat_with_AssertProvider_Test {
   }
 
   private static class TestedObjectAssert extends AbstractAssert<TestedObjectAssert, TestedObject> {
-    private Strings strings = Strings.instance();
-
     public TestedObjectAssert(TestedObject testedObject) {
       super(testedObject, TestedObjectAssert.class);
     }
 
     public TestedObjectAssert containsText(String text) {
-      strings.assertContains(info, actual.text, text);
+      Assertions.assertThat(actual.text).contains(text);
       return this;
     }
   }

@@ -15,12 +15,6 @@
  */
 package org.assertj.core.api;
 
-import static org.mockito.Mockito.mock;
-
-import java.util.Set;
-
-import org.assertj.core.internal.Strings;
-
 /**
  * Base class for {@link CharSequenceAssert} tests.
  * 
@@ -28,23 +22,9 @@ import org.assertj.core.internal.Strings;
  * @author Mikhail Mazursky
  */
 public abstract class CharSequenceAssertBaseTest extends BaseTestTemplate<CharSequenceAssert, CharSequence> {
-  protected Strings strings;
-
-  protected static final Set<Character> NON_BREAKING_SPACES = Set.of('\u00A0', '\u2007', '\u202F');
-
   @Override
   protected CharSequenceAssert create_assertions() {
     return new CharSequenceAssert("Yoda");
   }
 
-  @Override
-  protected void inject_internal_objects() {
-    super.inject_internal_objects();
-    strings = mock(Strings.class);
-    assertions.strings = strings;
-  }
-
-  protected Strings getStrings(CharSequenceAssert someAssertions) {
-    return someAssertions.strings;
-  }
 }

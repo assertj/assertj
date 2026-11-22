@@ -21,7 +21,6 @@ import org.assertj.core.api.StringAssert;
 import org.assertj.core.api.StringAssertBaseTest;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Objects;
-import org.assertj.core.internal.Strings;
 import org.assertj.core.testkit.CaseInsensitiveCharSequenceComparator;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -40,7 +39,6 @@ class StringAssert_usingDefaultComparator_Test extends StringAssertBaseTest {
   @Override
   protected void verify_internal_effects() {
     assertThat(getObjects(assertions)).isSameAs(Objects.instance());
-    assertThat(getStrings(assertions)).isSameAs(Strings.instance());
     assertThat(getComparables(assertions)).isEqualTo(new Comparables());
   }
 }

@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 import org.assertj.core.internal.Objects;
-import org.assertj.core.internal.Strings;
 import org.assertj.core.testkit.CaseInsensitiveCharSequenceComparator;
 
 /**
@@ -39,6 +38,5 @@ class CharSequenceAssert_usingDefaultComparator_Test extends CharSequenceAssertB
   @Override
   protected void verify_internal_effects() {
     assertThat(getObjects(assertions)).isSameAs(Objects.instance());
-    assertThat(getStrings(assertions)).isSameAs(Strings.instance());
   }
 }
