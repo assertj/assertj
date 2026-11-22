@@ -21,9 +21,9 @@ import static org.assertj.core.api.assumptions.BaseAssumptionRunner.assumptionRu
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ClassAssert;
-import org.assertj.core.api.ClassAssertBaseTest.AnnotatedClass;
-import org.assertj.core.api.ClassAssertBaseTest.AnotherAnnotation;
-import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
+import org.assertj.core.testkit.AnnotatedClass;
+import org.assertj.core.testkit.AnnotatedClass.AnotherAnnotation;
+import org.assertj.core.testkit.AnnotatedClass.MyAnnotation;
 
 /**
  * verify that assertions final methods in {@link ClassAssert} work with assumptions (i.e. that they are proxied correctly).

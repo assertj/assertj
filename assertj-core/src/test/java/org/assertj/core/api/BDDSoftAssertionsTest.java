@@ -92,14 +92,14 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.ClassAssertBaseTest.AnnotatedClass;
-import org.assertj.core.api.ClassAssertBaseTest.AnotherAnnotation;
-import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.error.MultipleAssertionsError;
 import org.assertj.core.testkit.Animal;
+import org.assertj.core.testkit.AnnotatedClass;
+import org.assertj.core.testkit.AnnotatedClass.AnotherAnnotation;
+import org.assertj.core.testkit.AnnotatedClass.MyAnnotation;
 import org.assertj.core.testkit.CartoonCharacter;
 import org.assertj.core.testkit.Name;
 import org.assertj.core.testkit.Person;

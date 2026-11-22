@@ -18,6 +18,7 @@ package org.assertj.core.api;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.function.Predicate.not;
+import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
@@ -30,6 +31,7 @@ import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeStatic;
 import static org.assertj.core.error.ShouldBeAbstract.shouldBeAbstract;
 import static org.assertj.core.error.ShouldBeAnnotation.shouldBeAnnotation;
 import static org.assertj.core.error.ShouldBeAnnotation.shouldNotBeAnnotation;
+import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFrom;
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
 import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
 import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
@@ -39,6 +41,12 @@ import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
 import static org.assertj.core.error.ShouldBeSealed.shouldBeSealed;
 import static org.assertj.core.error.ShouldBeSealed.shouldNotBeSealed;
 import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
+import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
+import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
+import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
+import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
+import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoDeclaredFields;
+import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoPublicFields;
 import static org.assertj.core.error.ShouldHaveNoPackage.shouldHaveNoPackage;
 import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
 import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
@@ -47,17 +55,31 @@ import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveRecord
 import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.ShouldNotBePrimitive.shouldNotBePrimitive;
+import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveDeclaredFields;
+import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveFields;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Arrays.isNullOrEmpty;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.Sets.newTreeSet;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
-
-import org.assertj.core.internal.Classes;
 
 /**
  * Base class for all implementations of assertions for {@link Class}es.
@@ -70,8 +92,6 @@ import org.assertj.core.internal.Classes;
  */
 public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>>
     extends AbstractAssertWithComparator<SELF, Class<?>> {
-
-  Classes classes = Classes.instance();
 
   /**
    * Creates a new {@link Class} assertion.
@@ -104,7 +124,19 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @see Class#isAssignableFrom(Class)
    */
   public SELF isAssignableFrom(Class<?>... others) {
-    return executeAssertion(() -> classes.assertIsAssignableFrom(info, actual, others));
+    return executeAssertion(() -> assertIsAssignableFrom(others));
+  }
+
+  private void assertIsAssignableFrom(Class<?>... others) {
+    isNotNull();
+    checkArgument(!isNullOrEmpty(others), "Expecting at least one Class to be specified");
+    Set<Class<?>> expected = newLinkedHashSet(others);
+    Set<Class<?>> missing = new LinkedHashSet<>();
+    for (Class<?> other : expected) {
+      classParameterIsNotNull(other);
+      if (!actual.isAssignableFrom(other)) missing.add(other);
+    }
+    if (!missing.isEmpty()) throw assertionError(shouldBeAssignableFrom(actual, expected, missing));
   }
 
   /**
@@ -841,7 +873,19 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @see Class#getField(String)
    */
   public SELF hasPublicFields(String... fields) {
-    return executeAssertion(() -> classes.assertHasPublicFields(info, actual, fields));
+    return executeAssertion(() -> assertHasPublicFields(fields));
+  }
+
+  private void assertHasPublicFields(String... fields) {
+    isNotNull();
+    Set<String> expectedFieldNames = newLinkedHashSet(fields);
+    Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getFields()));
+    if (expectedFieldNames.isEmpty()) {
+      if (actualFieldNames.isEmpty()) return;
+      throw assertionError(shouldHaveNoPublicFields(actual, actualFieldNames));
+    }
+    Set<String> missingFieldNames = missingElements(actualFieldNames, expectedFieldNames, LinkedHashSet::new);
+    if (!missingFieldNames.isEmpty()) throw assertionError(shouldHaveFields(actual, expectedFieldNames, missingFieldNames));
   }
 
   /**
@@ -872,7 +916,21 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasOnlyPublicFields(String... fields) {
-    return executeAssertion(() -> classes.assertHasOnlyPublicFields(info, actual, fields));
+    return executeAssertion(() -> assertHasOnlyPublicFields(fields));
+  }
+
+  private void assertHasOnlyPublicFields(String... expectedFields) {
+    isNotNull();
+    Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getFields()));
+    if (expectedFields.length == 0) {
+      if (actualFieldNames.isEmpty()) return;
+      throw assertionError(shouldHaveNoPublicFields(actual, actualFieldNames));
+    }
+    List<String> notExpected = new ArrayList<>(actualFieldNames);
+    List<String> notFound = newArrayList(expectedFields);
+    removeFoundFields(expectedFields, notExpected, notFound);
+    if (notExpected.isEmpty() && notFound.isEmpty()) return;
+    throw assertionError(shouldOnlyHaveFields(actual, newArrayList(expectedFields), notFound, notExpected));
   }
 
   /**
@@ -899,7 +957,20 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @see Class#getDeclaredField(String)
    */
   public SELF hasDeclaredFields(String... fields) {
-    return executeAssertion(() -> classes.assertHasDeclaredFields(info, actual, fields));
+    return executeAssertion(() -> assertHasDeclaredFields(fields));
+  }
+
+  private void assertHasDeclaredFields(String... fields) {
+    isNotNull();
+    Set<String> expectedFieldNames = newLinkedHashSet(fields);
+    Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getDeclaredFields()));
+    if (expectedFieldNames.isEmpty()) {
+      if (actualFieldNames.isEmpty()) return;
+      throw assertionError(shouldHaveNoDeclaredFields(actual, actualFieldNames));
+    }
+    Set<String> missingFieldNames = missingElements(actualFieldNames, expectedFieldNames, LinkedHashSet::new);
+    if (!missingFieldNames.isEmpty())
+      throw assertionError(shouldHaveDeclaredFields(actual, expectedFieldNames, missingFieldNames));
   }
 
   /**
@@ -930,7 +1001,31 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasOnlyDeclaredFields(String... fields) {
-    return executeAssertion(() -> classes.assertHasOnlyDeclaredFields(info, actual, fields));
+    return executeAssertion(() -> assertHasOnlyDeclaredFields(fields));
+  }
+
+  private void assertHasOnlyDeclaredFields(String... expectedFields) {
+    isNotNull();
+    Set<String> actualFieldNames = fieldsToName(filterSyntheticMembers(actual.getDeclaredFields()));
+    if (expectedFields.length == 0) {
+      if (actualFieldNames.isEmpty()) return;
+      throw assertionError(shouldHaveNoDeclaredFields(actual, actualFieldNames));
+    }
+    List<String> notExpected = new ArrayList<>(actualFieldNames);
+    List<String> notFound = newArrayList(expectedFields);
+    removeFoundFields(expectedFields, notExpected, notFound);
+    if (notExpected.isEmpty() && notFound.isEmpty()) return;
+    throw assertionError(shouldOnlyHaveDeclaredFields(actual, newArrayList(expectedFields), notFound, notExpected));
+  }
+
+  private static void removeFoundFields(String[] expectedFields, List<String> notExpected, List<String> notFound) {
+    for (String field : expectedFields) {
+      if (notExpected.remove(field)) notFound.remove(field);
+    }
+  }
+
+  private static Set<String> fieldsToName(Set<Field> fields) {
+    return fields.stream().map(Field::getName).collect(toCollection(LinkedHashSet::new));
   }
 
   /**
@@ -960,7 +1055,22 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasMethods(String... methodNames) {
-    return executeAssertion(() -> classes.assertHasMethods(info, actual, methodNames));
+    return executeAssertion(() -> assertHasMethods(methodNames));
+  }
+
+  private void assertHasMethods(String... methodNames) {
+    isNotNull();
+    doAssertHasMethods(filterSyntheticMembers(getAllMethods(actual)), false, methodNames);
+  }
+
+  private static Method[] getAllMethods(Class<?> actual) {
+    Set<Method> allMethods = newLinkedHashSet(actual.getDeclaredMethods());
+    Class<?> superclass = actual.getSuperclass();
+    if (superclass != null) allMethods.addAll(newLinkedHashSet(getAllMethods(superclass)));
+    for (Class<?> superinterface : actual.getInterfaces()) {
+      allMethods.addAll(newLinkedHashSet(getAllMethods(superinterface)));
+    }
+    return allMethods.toArray(new Method[0]);
   }
 
   /**
@@ -992,7 +1102,28 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasDeclaredMethods(String... methodNames) {
-    return executeAssertion(() -> classes.assertHasDeclaredMethods(info, actual, methodNames));
+    return executeAssertion(() -> assertHasDeclaredMethods(methodNames));
+  }
+
+  private void assertHasDeclaredMethods(String... methodNames) {
+    isNotNull();
+    doAssertHasMethods(filterSyntheticMembers(actual.getDeclaredMethods()), true, methodNames);
+  }
+
+  private void doAssertHasMethods(Set<Method> actualMethods, boolean declared, String... expectedMethods) {
+    if (expectedMethods.length == 0) {
+      if (actualMethods.isEmpty()) return;
+      throw assertionError(shouldNotHaveMethods(actual, declared,
+                                                getMethodsWithModifier(actualMethods, Modifier.methodModifiers())));
+    }
+    SortedSet<String> expectedMethodNames = newTreeSet(expectedMethods);
+    SortedSet<String> missingMethodNames = missingElements(methodsToName(actualMethods), expectedMethodNames, TreeSet::new);
+    if (!missingMethodNames.isEmpty())
+      throw assertionError(shouldHaveMethods(actual, declared, expectedMethodNames, missingMethodNames));
+  }
+
+  private static SortedSet<String> methodsToName(Set<Method> methods) {
+    return methods.stream().map(Method::getName).collect(toCollection(TreeSet::new));
   }
 
   /**
@@ -1020,7 +1151,69 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasPublicMethods(String... methodNames) {
-    return executeAssertion(() -> classes.assertHasPublicMethods(info, actual, methodNames));
+    return executeAssertion(() -> assertHasPublicMethods(methodNames));
+  }
+
+  private void assertHasPublicMethods(String... methodNames) {
+    isNotNull();
+    Method[] actualMethods = actual.getMethods();
+    if (methodNames.length == 0 && hasPublicMethods(actualMethods)) {
+      throw assertionError(shouldNotHaveMethods(actual, Modifier.toString(Modifier.PUBLIC), false,
+                                                getMethodsWithModifier(newLinkedHashSet(actualMethods), Modifier.PUBLIC)));
+    }
+    SortedSet<String> expectedMethodNames = newTreeSet(methodNames);
+    Map<String, Integer> methodNamesWithModifier = methodsToNameAndModifier(actualMethods);
+    SortedSet<String> missingMethodNames = missingElements(methodNamesWithModifier.keySet(), expectedMethodNames,
+                                                           TreeSet::new);
+    if (!missingMethodNames.isEmpty())
+      throw assertionError(shouldHaveMethods(actual, false, expectedMethodNames, missingMethodNames));
+    Map<String, String> nonMatchingModifiers = nonMatchingModifiers(expectedMethodNames, methodNamesWithModifier,
+                                                                    Modifier.PUBLIC);
+    if (!nonMatchingModifiers.isEmpty())
+      throw assertionError(shouldHaveMethods(actual, false, expectedMethodNames, Modifier.toString(Modifier.PUBLIC),
+                                             nonMatchingModifiers));
+  }
+
+  private static boolean hasPublicMethods(Method[] methods) {
+    return stream(methods).anyMatch(method -> Modifier.isPublic(method.getModifiers()));
+  }
+
+  private static Map<String, Integer> methodsToNameAndModifier(Method[] methods) {
+    Map<String, Integer> methodMap = new LinkedHashMap<>(methods.length);
+    for (Method method : methods) {
+      methodMap.put(method.getName(), method.getModifiers());
+    }
+    return methodMap;
+  }
+
+  private static Map<String, String> nonMatchingModifiers(Set<String> expectedMethodNames,
+                                                          Map<String, Integer> methodsModifier, int modifier) {
+    Map<String, String> nonMatchingModifiers = new LinkedHashMap<>();
+    methodsModifier.forEach((method, methodModifiers) -> {
+      if (expectedMethodNames.contains(method) && (methodModifiers & modifier) == 0)
+        nonMatchingModifiers.put(method, Modifier.toString(methodModifiers));
+    });
+    return nonMatchingModifiers;
+  }
+
+  private static SortedSet<String> getMethodsWithModifier(Set<Method> methods, int modifier) {
+    return methods.stream()
+                  .filter(method -> (method.getModifiers() & modifier) != 0)
+                  .map(Method::getName)
+                  .collect(toCollection(TreeSet::new));
+  }
+
+  private static <M extends Member> Set<M> filterSyntheticMembers(M[] members) {
+    return stream(members).filter(not(Member::isSynthetic)).collect(toCollection(LinkedHashSet::new));
+  }
+
+  private static <S extends Set<String>> S missingElements(Set<String> actualNames, Set<String> expectedNames,
+                                                           Supplier<S> setFactory) {
+    return expectedNames.stream().filter(not(actualNames::contains)).collect(toCollection(setFactory));
+  }
+
+  private static void classParameterIsNotNull(Class<?> clazz) {
+    requireNonNull(clazz, "The class to compare actual with should not be null");
   }
 
   /**
@@ -1234,7 +1427,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   private void assertHasPermittedSubclasses(Class<?>[] expectedPermittedSubclasses) {
     for (Class<?> expectedPermittedSubclass : expectedPermittedSubclasses) {
-      classes.classParameterIsNotNull(expectedPermittedSubclass);
+      classParameterIsNotNull(expectedPermittedSubclass);
     }
     Set<Class<?>> actualPermittedSubclasses = newLinkedHashSet(getPermittedSubclasses(actual));
     Set<Class<?>> missingPermittedSubclasses = Stream.of(expectedPermittedSubclasses)

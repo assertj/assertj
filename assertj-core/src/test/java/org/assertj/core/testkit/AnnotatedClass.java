@@ -13,25 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api.classes;
+package org.assertj.core.testkit;
 
-import static org.mockito.Mockito.verify;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import org.assertj.core.api.ClassAssert;
-import org.assertj.core.api.ClassAssertBaseTest;
+import org.assertj.core.testkit.AnnotatedClass.AnotherAnnotation;
+import org.assertj.core.testkit.AnnotatedClass.MyAnnotation;
 
-/**
- * Tests for <code>{@link ClassAssert#hasMethods(String...)}</code>.
- */
-class ClassAssert_hasMethods_Test extends ClassAssertBaseTest {
+@MyAnnotation
+@AnotherAnnotation
+public class AnnotatedClass {
 
-  @Override
-  protected ClassAssert invoke_api_method() {
-    return assertions.hasMethods("method");
+  @Target(ElementType.TYPE)
+  @Retention(RetentionPolicy.RUNTIME)
+  public @interface MyAnnotation {
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(classes).assertHasMethods(getInfo(assertions), getActual(assertions), "method");
+  @Target(ElementType.TYPE)
+  @Retention(RetentionPolicy.RUNTIME)
+  public @interface AnotherAnnotation {
   }
+
 }
