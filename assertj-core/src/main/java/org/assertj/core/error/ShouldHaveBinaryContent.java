@@ -58,14 +58,34 @@ public class ShouldHaveBinaryContent extends BasicErrorMessageFactory {
     return new ShouldHaveBinaryContent(actual, diff);
   }
 
+  /// Creates an error message for a byte difference between two files.
+  ///
+  /// @param actual the actual [File] or [Path]
+  /// @param offset the zero-based offset of the difference
+  /// @param expectedByte the expected byte, or -1 for end of file
+  /// @param actualByte the actual byte, or -1 for end of file
+  /// @return the created [ErrorMessageFactory]
+  public static ErrorMessageFactory shouldHaveBinaryContent(Object actual, long offset, int expectedByte, int actualByte) {
+    String type = actual instanceof File ? "File" : "Path";
+    Object offsetForMessage = offset <= Integer.MAX_VALUE ? (int) offset : unquotedString(Long.toString(offset));
+    return new ShouldHaveBinaryContent(type, actual, offsetForMessage, describe(expectedByte), describe(actualByte));
+  }
+
   private ShouldHaveBinaryContent(File actual, BinaryDiffResult diff) {
-    super("%nFile:%n  %s%ndoes not have expected binary content at offset %s, expecting:%n  %s%nbut was:%n  %s",
-          actual, diff.offset, diff.expected, diff.actual);
+    this("File", actual, diff.offset, diff.expected, diff.actual);
   }
 
   private ShouldHaveBinaryContent(Path actual, BinaryDiffResult diff) {
-    super("%nPath:%n  %s%ndoes not have expected binary content at offset %s, expecting:%n  %s%nbut was:%n  %s",
-          actual, diff.offset, diff.expected, diff.actual);
+    this("Path", actual, diff.offset, diff.expected, diff.actual);
+  }
+
+  private ShouldHaveBinaryContent(String type, Object actual, Object offset, String expectedByte, String actualByte) {
+    super("%n" + type + ":%n  %s%ndoes not have expected binary content at offset %s, expecting:%n  %s%nbut was:%n  %s",
+          actual, offset, expectedByte, actualByte);
+  }
+
+  private static String describe(int value) {
+    return value == -1 ? "EOF" : "0x" + Integer.toHexString(value).toUpperCase();
   }
 
   private ShouldHaveBinaryContent(InputStream actual, BinaryDiffResult diff) {
