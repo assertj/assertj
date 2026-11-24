@@ -28,7 +28,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import java.util.Collection;
 import java.util.Iterator;
 
 import org.assertj.core.api.AssertionInfo;
@@ -38,8 +37,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Iterables#assertStartsWith(AssertionInfo, Collection, Object[])}</code>.
- * 
+ * Tests for <code>{@link Iterables#assertStartsWith(AssertionInfo, Iterable, Object[])}</code>.
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */

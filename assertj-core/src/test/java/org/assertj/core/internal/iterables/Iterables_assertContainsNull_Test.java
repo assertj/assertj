@@ -23,7 +23,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
@@ -32,8 +31,8 @@ import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Iterables#assertContainsNull(AssertionInfo, Collection)}</code>.
- * 
+ * Tests for <code>{@link Iterables#assertContainsNull(AssertionInfo, Iterable)}</code>.
+ *
  * @author Joel Costigliola
  */
 class Iterables_assertContainsNull_Test extends IterablesBaseTest {
