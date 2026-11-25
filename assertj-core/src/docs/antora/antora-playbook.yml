@@ -10,6 +10,9 @@ content:
     - url: ./../../../.. # the local repository, relative to this playbook
       branches: HEAD # use the worktree so that uncommitted changes are included
       start_path: assertj-core/src/docs/antora
+runtime:
+  log:
+    failure_level: warn
 ui:
   bundle:
     url: https://github.com/assertj/antora-ui/releases/latest/download/ui-bundle.zip
