@@ -140,6 +140,38 @@
         </configuration>
       </plugin>
       <plugin>
+        <!-- provides parsedVersion.* for the versioned AssertJ Core Javadoc URLs below -->
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.6.1</version>
+        <executions>
+          <execution>
+            <id>parse-version</id>
+            <goals>
+              <goal>parse-version</goal>
+            </goals>
+          </execution>
+          <execution>
+            <!-- the "antora" lifecycle does not include the validate phase -->
+            <id>parse-version-for-antora</id>
+            <phase>pre-antora</phase>
+            <goals>
+              <goal>parse-version</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.antora</groupId>
+        <artifactId>antora-maven-plugin</artifactId>
+        <configuration>
+          <additionalOptions>
+            <!-- this standalone build has no assertj-core component for the xref in antora.yml to resolve against -->
+            <option>attribute=assertj-core-javadoc=https://docs.assertj.dev/assertj-core/${parsedVersion.majorVersion}.${parsedVersion.minorVersion}/api</option>
+          </additionalOptions>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
@@ -148,7 +180,7 @@
           </links>
           <offlineLinks>
             <offlineLink>
-              <url>https://docs.assertj.dev/assertj-core/current/api</url>
+              <url>https://docs.assertj.dev/assertj-core/${parsedVersion.majorVersion}.${parsedVersion.minorVersion}/api</url>
               <location>${project.basedir}/../assertj-core/target/reports/apidocs</location>
             </offlineLink>
           </offlineLinks>
