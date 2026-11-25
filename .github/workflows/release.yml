@@ -37,3 +37,12 @@ jobs:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+  trigger-docs-build:
+
+    name: Trigger docs.assertj.dev build
+    needs: publish-release
+    uses: assertj/.github/.github/workflows/trigger-docs-build.yml@main
+    secrets:
+      client-id: ${{ secrets.ASSERTJ_BUILDS_CLIENT_ID }}
+      private-key: ${{ secrets.ASSERTJ_BUILDS_PRIVATE_KEY }}
