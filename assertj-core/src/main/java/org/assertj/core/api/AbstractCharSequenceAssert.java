@@ -1405,7 +1405,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
-   * @throws  if the given pattern is {@code null}.
+   * @throws NullPointerException if the given pattern is {@code null}.
    * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError       if the actual {@code CharSequence} does not match the given regular expression.
    */
