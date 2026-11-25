@@ -104,8 +104,6 @@ public class Maps {
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-
   /**
    * Verifies that every entry satisfies the requirements.
    *

@@ -67,6 +67,7 @@ import static org.assertj.core.internal.CommonValidations.checkConditionIsNotNul
 import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNullAndNotEmpty;
 import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkPredicateIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkSizeBetween;
 import static org.assertj.core.internal.CommonValidations.checkSizeGreaterThan;
 import static org.assertj.core.internal.CommonValidations.checkSizeGreaterThanOrEqualTo;
@@ -133,9 +134,6 @@ public class Iterables {
   private final ComparisonStrategy comparisonStrategy;
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Predicates predicates = Predicates.instance();
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
@@ -1399,7 +1397,7 @@ public class Iterables {
   public <E> void assertAllMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
                                  PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
-    predicates.assertIsNotNull(predicate);
+    checkPredicateIsNotNull(predicate);
     assertNotEmpty(info, actual);
     List<? extends E> nonMatches = stream(actual).filter(predicate.negate()).collect(toList());
 
@@ -1452,7 +1450,7 @@ public class Iterables {
   public <E> void assertAnyMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
                                  PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
-    predicates.assertIsNotNull(predicate);
+    checkPredicateIsNotNull(predicate);
     if (stream(actual).noneMatch(predicate)) {
       throw assertionErrorCreator.assertionError(info, anyElementShouldMatch(actual, predicateDescription));
     }
@@ -1470,7 +1468,7 @@ public class Iterables {
   public <E> void assertNoneMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
                                   PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
-    predicates.assertIsNotNull(predicate);
+    checkPredicateIsNotNull(predicate);
     stream(actual).filter(predicate)
                   .findFirst()
                   .ifPresent(e -> {

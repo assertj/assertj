@@ -36,6 +36,7 @@ import static org.assertj.core.util.IterableUtil.sizeOf;
 
 import java.lang.reflect.Array;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -313,5 +314,13 @@ public final class CommonValidations {
   /// @throws NullPointerException if the given condition is `null`
   public static void checkConditionIsNotNull(Condition<?> condition) {
     requireNonNull(condition, "The condition to evaluate should not be null");
+  }
+
+  /// Verifies that the given predicate is not `null`.
+  ///
+  /// @param predicate the predicate to check
+  /// @throws NullPointerException if the given predicate is `null`
+  public static void checkPredicateIsNotNull(Predicate<?> predicate) {
+    requireNonNull(predicate, "The predicate to evaluate should not be null");
   }
 }
