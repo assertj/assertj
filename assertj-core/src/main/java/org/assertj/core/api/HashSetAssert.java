@@ -24,7 +24,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
-import org.assertj.core.internal.Iterables;
 
 /**
  * Assertion methods for <code>{@link HashSet}</code>, honoring the hash code comparison.
@@ -47,8 +46,6 @@ import org.assertj.core.internal.Iterables;
 public class HashSetAssert<ELEMENT>
     extends AbstractCollectionAssert<HashSetAssert<ELEMENT>, HashSet<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
-  private final Iterables originalIterables;
-
   /**
    * Creates a new hash set assertion.
    *
@@ -56,8 +53,7 @@ public class HashSetAssert<ELEMENT>
    */
   public HashSetAssert(HashSet<? extends ELEMENT> elements) {
     super(elements, HashSetAssert.class);
-    originalIterables = iterables;
-    iterables = new Iterables(new InHashSetComparisonStrategy(actual));
+    usingComparisonStrategy(new InHashSetComparisonStrategy(actual));
   }
 
   /**
@@ -83,7 +79,7 @@ public class HashSetAssert<ELEMENT>
 
   @Override
   protected void assertIsSubsetOf(Iterable<? extends ELEMENT> values) {
-    originalIterables.assertIsSubsetOf(info, actual, values);
+    assertIsSubsetOf(values, StandardComparisonStrategy.instance());
   }
 
   private static class InHashSetComparisonStrategy extends StandardComparisonStrategy {

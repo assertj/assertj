@@ -16,37 +16,99 @@
 package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableList;
+import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.IterableSizeAssert.nullIterableSizeAssert;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.description.Description.mostRelevantDescription;
+import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
+import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
+import static org.assertj.core.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
+import static org.assertj.core.error.ElementsShouldBeAtMost.elementsShouldBeAtMost;
+import static org.assertj.core.error.ElementsShouldBeExactly.elementsShouldBeExactly;
+import static org.assertj.core.error.ElementsShouldHave.elementsShouldHave;
+import static org.assertj.core.error.ElementsShouldHaveAtLeast.elementsShouldHaveAtLeast;
+import static org.assertj.core.error.ElementsShouldHaveAtMost.elementsShouldHaveAtMost;
+import static org.assertj.core.error.ElementsShouldHaveExactly.elementsShouldHaveExactly;
+import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
+import static org.assertj.core.error.ElementsShouldNotHave.elementsShouldNotHave;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
+import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
+import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
+import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
+import static org.assertj.core.error.ShouldContainExactly.shouldContainExactlyWithIndexes;
+import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
+import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
+import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
+import static org.assertj.core.error.ShouldContainOnlyNulls.shouldContainOnlyNulls;
+import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainSubsequence.actualDoesNotHaveEnoughElementsToContainSubsequence;
+import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
+import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
+import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
+import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
+import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
+import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
+import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
+import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.descriptionOf;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod;
 import static org.assertj.core.extractor.Extractors.resultOf;
+import static org.assertj.core.internal.Arrays.assertIsArray;
+import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
+import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
+import static org.assertj.core.internal.CommonErrors.iterableOfValuesToLookForIsEmpty;
+import static org.assertj.core.internal.CommonErrors.iterableOfValuesToLookForIsNull;
+import static org.assertj.core.internal.CommonValidations.checkConditionIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkSizeBetween;
+import static org.assertj.core.internal.CommonValidations.checkSizeGreaterThan;
+import static org.assertj.core.internal.CommonValidations.checkSizeGreaterThanOrEqualTo;
+import static org.assertj.core.internal.CommonValidations.checkSizeLessThan;
+import static org.assertj.core.internal.CommonValidations.checkSizeLessThanOrEqualTo;
+import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
+import static org.assertj.core.internal.CommonValidations.failIfEmptySinceActualIsNotEmpty;
+import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
+import static org.assertj.core.internal.ErrorMessages.emptySequence;
+import static org.assertj.core.internal.ErrorMessages.emptySubsequence;
+import static org.assertj.core.internal.ErrorMessages.nullSequence;
+import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
 import static org.assertj.core.internal.Iterables.byPassingAssertions;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.Arrays.prepend;
+import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.IterableUtil.toArray;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.function.BiConsumer;
@@ -60,24 +122,28 @@ import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.IterableElementComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.condition.Not;
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
 import org.assertj.core.internal.ExtendedByTypesComparator;
+import org.assertj.core.internal.IndexedDiff;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.IterableUtil;
+import org.assertj.core.util.Streams;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -120,6 +186,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   /** Internal assertions for iterable values. */
   protected Iterables iterables = Iterables.instance();
+
+  private ComparisonStrategy elementComparisonStrategy = StandardComparisonStrategy.instance();
 
   /**
    * Creates a new iterable assertion.
@@ -176,7 +244,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @Override
   public void isNullOrEmpty() {
-    executeAssertion(() -> iterables.assertNullOrEmpty(info, actual));
+    executeAssertion(() -> assertNullOrEmpty());
   }
 
   @Override
@@ -205,7 +273,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @Override
   public SELF hasSize(int expected) {
-    return executeAssertion(() -> iterables.assertHasSize(info, actual, expected));
+    return executeAssertion(() -> assertHasSize(expected));
   }
 
   /**
@@ -225,7 +293,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @Override
   public SELF hasSizeGreaterThan(int boundary) {
-    return executeAssertion(() -> iterables.assertHasSizeGreaterThan(info, actual, boundary));
+    return executeAssertion(() -> assertHasSizeGreaterThan(boundary));
   }
 
   /**
@@ -246,7 +314,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @Override
   public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
-    return executeAssertion(() -> iterables.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary));
+    return executeAssertion(() -> assertHasSizeGreaterThanOrEqualTo(boundary));
   }
 
   /**
@@ -266,7 +334,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @Override
   public SELF hasSizeLessThan(int boundary) {
-    return executeAssertion(() -> iterables.assertHasSizeLessThan(info, actual, boundary));
+    return executeAssertion(() -> assertHasSizeLessThan(boundary));
   }
 
   /**
@@ -287,7 +355,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @Override
   public SELF hasSizeLessThanOrEqualTo(int boundary) {
-    return executeAssertion(() -> iterables.assertHasSizeLessThanOrEqualTo(info, actual, boundary));
+    return executeAssertion(() -> assertHasSizeLessThanOrEqualTo(boundary));
   }
 
   /**
@@ -310,17 +378,17 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @Override
   public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
-    return executeAssertion(() -> iterables.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary));
+    return executeAssertion(() -> assertHasSizeBetween(lowerBoundary, higherBoundary));
   }
 
   @Override
   public SELF hasSameSizeAs(Object other) {
-    return executeAssertion(() -> iterables.assertHasSameSizeAs(info, actual, other));
+    return executeAssertion(() -> assertHasSameSizeAs(other));
   }
 
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
-    return executeAssertion(() -> iterables.assertHasSameSizeAs(info, actual, other));
+    return executeAssertion(() -> assertHasSameSizeAs(other));
   }
 
   @Override
@@ -335,7 +403,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param values the values expected in the actual iterable
    */
   protected void assertContains(ELEMENT[] values) {
-    iterables.assertContains(info, actual, values);
+    assertIterableContains(values);
   }
 
   @Override
@@ -350,7 +418,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param values the values expected in the actual iterable
    */
   protected void assertContainsOnly(ELEMENT[] values) {
-    iterables.assertContainsOnly(info, actual, values);
+    assertIterableContainsOnly(values);
   }
 
   @Override
@@ -365,12 +433,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param values the values expected once in the actual iterable
    */
   protected void assertContainsOnlyOnce(ELEMENT[] values) {
-    iterables.assertContainsOnlyOnce(info, actual, values);
+    assertIterableContainsOnlyOnce(values);
   }
 
   @Override
   public SELF containsOnlyNulls() {
-    return executeAssertion(() -> iterables.assertContainsOnlyNulls(info, actual));
+    return executeAssertion(() -> assertContainsOnlyNulls());
   }
 
   @Override
@@ -385,7 +453,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param values the values expected in the actual iterable
    */
   protected void assertContainsExactly(ELEMENT[] values) {
-    iterables.assertContainsExactly(info, actual, values);
+    assertIterableContainsExactly(values);
   }
 
   /**
@@ -403,7 +471,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param values the values expected in the actual iterable
    */
   protected void assertContainsExactlyInAnyOrder(ELEMENT[] values) {
-    iterables.assertContainsExactlyInAnyOrder(info, actual, values);
+    assertIterableContainsExactlyInAnyOrder(values);
   }
 
   @Override
@@ -428,7 +496,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param values the values that may be present
    */
   protected void assertIsSubsetOf(Iterable<? extends ELEMENT> values) {
-    iterables.assertIsSubsetOf(info, actual, values);
+    assertIsSubsetOf(values, elementComparisonStrategy);
   }
 
   @Override
@@ -443,14 +511,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param sequence the expected sequence
    */
   protected void assertContainsSequence(ELEMENT[] sequence) {
-    iterables.assertContainsSequence(info, actual, sequence);
+    assertIterableContainsSequence(sequence);
   }
 
   @Override
   public SELF containsSequence(Iterable<? extends ELEMENT> sequence) {
     return executeAssertion(() -> {
       checkSequenceIsNotNull(sequence);
-      iterables.assertContainsSequence(info, actual, toArray(sequence));
+      assertIterableContainsSequence(toArray(sequence));
     });
   }
 
@@ -466,7 +534,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param sequence the sequence expected to be absent
    */
   protected void assertDoesNotContainSequence(ELEMENT[] sequence) {
-    iterables.assertDoesNotContainSequence(info, actual, sequence);
+    assertIterableDoesNotContainSequence(sequence);
   }
 
   @Override
@@ -489,7 +557,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param subsequence the expected subsequence
    */
   protected void assertContainsSubsequence(ELEMENT[] subsequence) {
-    iterables.assertContainsSubsequence(info, actual, subsequence);
+    assertIterableContainsSubsequence(subsequence);
   }
 
   @Override
@@ -512,7 +580,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param subsequence the subsequence expected to be absent
    */
   protected void assertDoesNotContainSubsequence(ELEMENT[] subsequence) {
-    iterables.assertDoesNotContainSubsequence(info, actual, subsequence);
+    assertIterableDoesNotContainSubsequence(subsequence);
   }
 
   @Override
@@ -535,17 +603,17 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param values the values expected to be absent
    */
   protected void assertDoesNotContain(ELEMENT[] values) {
-    iterables.assertDoesNotContain(info, actual, values);
+    assertIterableDoesNotContain(values);
   }
 
   @Override
   public SELF doesNotContainAnyElementsOf(Iterable<? extends ELEMENT> iterable) {
-    return executeAssertion(() -> iterables.assertDoesNotContainAnyElementsOf(info, actual, iterable));
+    return executeAssertion(() -> assertDoesNotContainAnyElementsOf(iterable));
   }
 
   @Override
   public SELF doesNotHaveDuplicates() {
-    return executeAssertion(() -> iterables.assertDoesNotHaveDuplicates(info, actual));
+    return executeAssertion(() -> assertDoesNotHaveDuplicates());
   }
 
   @Override
@@ -560,7 +628,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param sequence the expected starting sequence
    */
   protected void assertStartsWith(ELEMENT[] sequence) {
-    iterables.assertStartsWith(info, actual, sequence);
+    assertIterableStartsWith(sequence);
   }
 
   @Override
@@ -576,42 +644,42 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param rest the remaining expected ending elements
    */
   protected void assertEndsWith(ELEMENT first, ELEMENT[] rest) {
-    iterables.assertEndsWith(info, actual, first, rest);
+    assertIterableEndsWith(prepend(first, rest));
   }
 
   @Override
   public SELF endsWith(ELEMENT[] sequence) {
-    return executeAssertion(() -> iterables.assertEndsWith(info, actual, sequence));
+    return executeAssertion(() -> assertIterableEndsWith(sequence));
   }
 
   @Override
   public SELF containsNull() {
-    return executeAssertion(() -> iterables.assertContainsNull(info, actual));
+    return executeAssertion(() -> assertContainsNull());
   }
 
   @Override
   public SELF doesNotContainNull() {
-    return executeAssertion(() -> iterables.assertDoesNotContainNull(info, actual));
+    return executeAssertion(() -> assertDoesNotContainNull());
   }
 
   @Override
   public SELF are(Condition<? super ELEMENT> condition) {
-    return executeAssertion(() -> iterables.assertAre(info, actual, condition));
+    return executeAssertion(() -> assertAre(condition));
   }
 
   @Override
   public SELF areNot(Condition<? super ELEMENT> condition) {
-    return executeAssertion(() -> iterables.assertAreNot(info, actual, condition));
+    return executeAssertion(() -> assertAreNot(condition));
   }
 
   @Override
   public SELF have(Condition<? super ELEMENT> condition) {
-    return executeAssertion(() -> iterables.assertHave(info, actual, condition));
+    return executeAssertion(() -> assertHave(condition));
   }
 
   @Override
   public SELF doNotHave(Condition<? super ELEMENT> condition) {
-    return executeAssertion(() -> iterables.assertDoNotHave(info, actual, condition));
+    return executeAssertion(() -> assertDoNotHave(condition));
   }
 
   @Override
@@ -622,17 +690,17 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @Override
   public SELF areAtLeast(int times, Condition<? super ELEMENT> condition) {
-    return executeAssertion(() -> iterables.assertAreAtLeast(info, actual, times, condition));
+    return executeAssertion(() -> assertAreAtLeast(times, condition));
   }
 
   @Override
   public SELF areAtMost(int times, Condition<? super ELEMENT> condition) {
-    return executeAssertion(() -> iterables.assertAreAtMost(info, actual, times, condition));
+    return executeAssertion(() -> assertAreAtMost(times, condition));
   }
 
   @Override
   public SELF areExactly(int times, Condition<? super ELEMENT> condition) {
-    return executeAssertion(() -> iterables.assertAreExactly(info, actual, times, condition));
+    return executeAssertion(() -> assertAreExactly(times, condition));
   }
 
   /**
@@ -645,17 +713,17 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @Override
   public SELF haveAtLeast(int times, Condition<? super ELEMENT> condition) {
-    return executeAssertion(() -> iterables.assertHaveAtLeast(info, actual, times, condition));
+    return executeAssertion(() -> assertHaveAtLeast(times, condition));
   }
 
   @Override
   public SELF haveAtMost(int times, Condition<? super ELEMENT> condition) {
-    return executeAssertion(() -> iterables.assertHaveAtMost(info, actual, times, condition));
+    return executeAssertion(() -> assertHaveAtMost(times, condition));
   }
 
   @Override
   public SELF haveExactly(int times, Condition<? super ELEMENT> condition) {
-    return executeAssertion(() -> iterables.assertHaveExactly(info, actual, times, condition));
+    return executeAssertion(() -> assertHaveExactly(times, condition));
   }
 
   /**
@@ -759,13 +827,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @Override
   public SELF containsAll(Iterable<? extends ELEMENT> iterable) {
-    return executeAssertion(() -> iterables.assertContainsAll(info, actual, iterable));
+    return executeAssertion(() -> assertContainsAll(iterable));
   }
 
   @Override
   @CheckReturnValue
   public SELF usingElementComparator(Comparator<? super ELEMENT> elementComparator) {
-    this.iterables = new Iterables(new ComparatorBasedComparisonStrategy(elementComparator));
+    useElementComparisonStrategy(new ComparatorBasedComparisonStrategy(elementComparator));
     // to have the same semantics on base assertions like isEqualTo, we need to use an iterable comparator comparing
     // elements with elementComparator parameter
     objects = new Objects(new IterableElementComparisonStrategy<>(elementComparator));
@@ -776,6 +844,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public SELF usingDefaultElementComparator() {
     this.iterables = Iterables.instance();
+    this.elementComparisonStrategy = StandardComparisonStrategy.instance();
     return usingDefaultComparator();
   }
 
@@ -816,7 +885,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param values the values of which at least one is expected
    */
   protected void assertContainsAnyOf(ELEMENT[] values) {
-    iterables.assertContainsAnyOf(info, actual, values);
+    assertIterableContainsAnyOf(values);
   }
 
   /**
@@ -2001,7 +2070,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <T> SELF usingComparatorForType(Comparator<T> comparator, Class<T> type) {
-    if (iterables.getComparator() == null) {
+    if (!(elementComparisonStrategy instanceof ComparatorBasedComparisonStrategy)) {
       usingElementComparator(new ExtendedByTypesComparator(getComparatorsByType()));
     }
 
@@ -2382,8 +2451,23 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return this assertion object
    */
   protected SELF usingComparisonStrategy(ComparisonStrategy comparisonStrategy) {
-    iterables = new Iterables(comparisonStrategy);
+    useElementComparisonStrategy(comparisonStrategy);
     return myself;
+  }
+
+  /// Sets the comparison strategy used to compare the actual elements, keeping [#iterables] in sync.
+  ///
+  /// @param comparisonStrategy the element comparison strategy
+  private void useElementComparisonStrategy(ComparisonStrategy comparisonStrategy) {
+    iterables = new Iterables(comparisonStrategy);
+    elementComparisonStrategy = comparisonStrategy;
+  }
+
+  /// Returns the comparison strategy used to compare the actual elements.
+  ///
+  /// @return the element comparison strategy
+  ComparisonStrategy getElementComparisonStrategy() {
+    return elementComparisonStrategy;
   }
 
   /**
@@ -3223,7 +3307,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   private ELEMENT_ASSERT internalSingleElement() {
-    iterables.assertHasSize(info, actual, 1);
+    assertHasSize(1);
     return toAssert(actual.iterator().next(), navigationDescription("check single element"));
   }
 
@@ -3723,6 +3807,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   SELF withIterables(Iterables iterables) {
     this.iterables = iterables;
+    this.elementComparisonStrategy = iterables.getComparisonStrategy();
     return myself;
   }
 
@@ -3739,6 +3824,581 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   SELF withComparatorsForElementPropertyOrFieldTypes(TypeComparators comparatorsForElementPropertyOrFieldTypes) {
     this.comparatorsForElementPropertyOrFieldTypes = comparatorsForElementPropertyOrFieldTypes;
     return myself;
+  }
+
+  // internal assertions
+
+  private void assertNullOrEmpty() {
+    if (!IterableUtil.isNullOrEmpty(actual)) throw assertionError(shouldBeNullOrEmpty(actual));
+  }
+
+  private void assertHasSize(int expectedSize) {
+    isNotNull();
+    checkSizes(actual, sizeOf(actual), expectedSize, info);
+  }
+
+  private void assertHasSizeGreaterThan(int boundary) {
+    isNotNull();
+    checkSizeGreaterThan(actual, boundary, sizeOf(actual), info);
+  }
+
+  private void assertHasSizeGreaterThanOrEqualTo(int boundary) {
+    isNotNull();
+    checkSizeGreaterThanOrEqualTo(actual, boundary, sizeOf(actual), info);
+  }
+
+  private void assertHasSizeLessThan(int boundary) {
+    isNotNull();
+    checkSizeLessThan(actual, boundary, sizeOf(actual), info);
+  }
+
+  private void assertHasSizeLessThanOrEqualTo(int boundary) {
+    isNotNull();
+    checkSizeLessThanOrEqualTo(actual, boundary, sizeOf(actual), info);
+  }
+
+  private void assertHasSizeBetween(int lowerBoundary, int higherBoundary) {
+    isNotNull();
+    checkSizeBetween(actual, lowerBoundary, higherBoundary, sizeOf(actual), info);
+  }
+
+  private void assertHasSameSizeAs(Object array) {
+    isNotNull();
+    assertIsArray(info, array);
+    hasSameSizeAsCheck(info, actual, array, sizeOf(actual));
+  }
+
+  private void assertHasSameSizeAs(Iterable<?> other) {
+    isNotNull();
+    hasSameSizeAsCheck(info, actual, other, sizeOf(actual));
+  }
+
+  private void assertIterableContains(Object[] values) {
+    final Collection<?> actualAsCollection = ensureActualCanBeReadMultipleTimes();
+    if (commonCheckThatIterableAssertionSucceeds(actualAsCollection, values)) return;
+    // check for elements in values that are missing in actual.
+    assertIterableContainsGivenValues(actual.getClass(), actualAsCollection, values);
+  }
+
+  private Collection<?> ensureActualCanBeReadMultipleTimes() {
+    return actual instanceof Collection<?> collection ? collection : newArrayList(actual);
+  }
+
+  private void assertIterableContainsGivenValues(@SuppressWarnings("rawtypes") Class<? extends Iterable> clazz,
+                                                 Iterable<?> actualElements, Object[] values) {
+    Set<Object> notFound = Arrays.stream(values)
+                                 .filter(value -> !iterableContains(actualElements, value))
+                                 .collect(toCollection(LinkedHashSet::new));
+    if (notFound.isEmpty()) return;
+    throw assertionError(shouldContain(clazz, actualElements, values, notFound, elementComparisonStrategy));
+  }
+
+  private Stream<? extends ELEMENT> streamOfActual() {
+    Iterable<? extends ELEMENT> actualElements = actual;
+    return Streams.stream(actualElements);
+  }
+
+  private boolean iterableContains(Iterable<?> iterable, Object value) {
+    return elementComparisonStrategy.iterableContains(iterable, value);
+  }
+
+  private boolean areEqual(Object actualElement, Object other) {
+    return elementComparisonStrategy.areEqual(actualElement, other);
+  }
+
+  private void assertIterableContainsOnly(Object[] expectedValues) {
+    final Collection<?> actualAsCollection = ensureActualCanBeReadMultipleTimes();
+    // don't use commonCheckThatIterableAssertionSucceeds to get a better error message when actual is not empty and
+    // expectedValues is
+    checkNotNullIterables(expectedValues);
+    // if both actual and values are empty, then assertion passes.
+    if (actualAsCollection.isEmpty() && expectedValues.length == 0) return;
+
+    // after the for loop, unexpected = expectedValues - actual
+    List<Object> unexpectedValues = newArrayList(actualAsCollection);
+    // after the for loop, missing = actual - expectedValues
+    List<Object> missingValues = newArrayList(expectedValues);
+    for (Object expected : expectedValues) {
+      if (iterableContains(actualAsCollection, expected)) {
+        // since expected was found in actual:
+        // -- it does not belong to the missing elements
+        elementComparisonStrategy.iterableRemoves(missingValues, expected);
+        // -- it does not belong to the unexpected elements
+        elementComparisonStrategy.iterableRemoves(unexpectedValues, expected);
+      }
+    }
+
+    if (!unexpectedValues.isEmpty() || !missingValues.isEmpty()) {
+      throw assertionError(shouldContainOnly(actualAsCollection, expectedValues, missingValues, unexpectedValues,
+                                             elementComparisonStrategy));
+    }
+  }
+
+  private void assertIterableContainsOnlyOnce(Object[] values) {
+    if (commonCheckThatIterableAssertionSucceeds(actual, values)) return;
+    // check for elements in values that are missing in actual.
+    Set<Object> notFound = new LinkedHashSet<>();
+    Set<Object> notOnlyOnce = new LinkedHashSet<>();
+    Iterable<?> actualDuplicates = elementComparisonStrategy.duplicatesFrom(actual);
+    for (Object expectedOnlyOnce : values) {
+      if (!iterableContains(actual, expectedOnlyOnce)) {
+        notFound.add(expectedOnlyOnce);
+      } else if (iterableContains(actualDuplicates, expectedOnlyOnce)) {
+        notOnlyOnce.add(expectedOnlyOnce);
+      }
+    }
+    if (!notFound.isEmpty() || !notOnlyOnce.isEmpty())
+      throw assertionError(shouldContainsOnlyOnce(actual, values, notFound, notOnlyOnce, elementComparisonStrategy));
+  }
+
+  private void assertContainsOnlyNulls() {
+    isNotNull();
+    // empty => no null elements => assertionError
+    if (sizeOf(actual) == 0) throw assertionError(shouldContainOnlyNulls(actual));
+    // look for any non-null elements
+    List<Object> nonNullElements = streamOfActual().filter(java.util.Objects::nonNull).collect(toList());
+    if (!nonNullElements.isEmpty()) throw assertionError(shouldContainOnlyNulls(actual, nonNullElements));
+  }
+
+  private void assertIterableContainsSequence(Object[] sequence) {
+    // perform the checks that would have been done in commonCheckThatIterableAssertionSucceeds but do them explicitly
+    // without having to create a new iterator on actual - which would break if actual were only singly-traversable.
+    checkNotNullIterables(sequence);
+    // store the elements from actual that have been visited (because we don't know we can look ahead - the 'actual'
+    // might be singly-traversable) in a fixed-length LIFO having what is in effect a sliding window.
+    // So we store each element and slide for each new element until a match is found or until the 'actual' is
+    // exhausted. Of course if 'actual' really is infinite then this could take a while :-D
+    final Iterator<?> actualIterator = actual.iterator();
+    if (!actualIterator.hasNext() && sequence.length == 0) return;
+    failIfEmptySinceActualIsNotEmpty(info, assertionErrorCreator, actual, sequence);
+    // we only store sequence.length entries from actual in the LIFO, no need for more.
+    Lifo lifo = new Lifo(sequence.length);
+    while (actualIterator.hasNext()) {
+      lifo.add(actualIterator.next());
+      if (lifo.matchesExactly(sequence)) return;
+    }
+    throw assertionError(shouldContainSequence(actual, sequence, elementComparisonStrategy));
+  }
+
+  private class Lifo {
+    private final int maxSize;
+    private final LinkedList<Object> stack;
+
+    Lifo(int maxSize) {
+      this.maxSize = maxSize;
+      stack = new LinkedList<>();
+    }
+
+    void add(final Object element) {
+      if (stack.size() == maxSize) stack.removeFirst();
+      stack.addLast(element);
+    }
+
+    boolean matchesExactly(Object[] sequence) {
+      if (stack.size() != sequence.length) return false;
+      for (int i = 0; i < sequence.length; i++) {
+        if (!areEqual(stack.get(i), sequence[i])) return false;
+      }
+      return true;
+    }
+  }
+
+  private void assertIterableDoesNotContainSequence(Object[] sequence) {
+    requireNonNull(sequence, nullSequence());
+    if (sequence.length == 0) throw new IllegalArgumentException(emptySequence());
+    isNotNull();
+    // check for elements in values that are missing in actual.
+    List<?> actualAsList = newArrayList(actual);
+    for (int index = 0; index < actualAsList.size(); index++) {
+      // look for given sequence in actual starting from current index (i)
+      if (containsSequenceAtGivenIndex(actualAsList, sequence, index)) {
+        throw assertionError(shouldNotContainSequence(actual, sequence, index, elementComparisonStrategy));
+      }
+    }
+  }
+
+  /// Returns true if `actualAsList` contains exactly the given sequence at the given starting index, false otherwise.
+  ///
+  /// @param actualAsList the list to look the sequence in
+  /// @param sequence the sequence to look for
+  /// @param startingIndex the index of the actual list at which we start looking for the sequence
+  /// @return true if `actualAsList` contains exactly the given sequence at the given starting index, false otherwise
+  private boolean containsSequenceAtGivenIndex(List<?> actualAsList, Object[] sequence, int startingIndex) {
+    // check that, starting from given index, actualAsList has enough remaining elements to contain sequence
+    if (actualAsList.size() - startingIndex < sequence.length) return false;
+    for (int i = 0; i < sequence.length; i++) {
+      if (!areEqual(actualAsList.get(startingIndex + i), sequence[i])) return false;
+    }
+    return true;
+  }
+
+  private void assertIterableContainsSubsequence(Object[] subsequence) {
+    if (commonCheckThatIterableAssertionSucceeds(actual, subsequence)) return;
+    if (sizeOf(actual) < subsequence.length) {
+      throw assertionError(actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence));
+    }
+
+    Iterator<?> actualIterator = actual.iterator();
+    int subsequenceIndex = 0;
+    while (actualIterator.hasNext() && subsequenceIndex < subsequence.length) {
+      Object actualNext = actualIterator.next();
+      Object subsequenceNext = subsequence[subsequenceIndex];
+      if (areEqual(actualNext, subsequenceNext)) subsequenceIndex++;
+    }
+
+    if (subsequenceIndex < subsequence.length)
+      throw assertionError(shouldContainSubsequence(actual, subsequence, subsequenceIndex, elementComparisonStrategy));
+  }
+
+  private void assertIterableDoesNotContainSubsequence(Object[] subsequence) {
+    requireNonNull(subsequence, nullSubsequence());
+    if (subsequence.length == 0) throw new IllegalArgumentException(emptySubsequence());
+    isNotNull();
+
+    int subsequenceIndex = 0;
+    int subsequenceStartIndex = 0;
+
+    List<?> actualAsList = newArrayList(actual);
+    for (int index = 0; index < actualAsList.size(); index++) {
+      Object actualNext = actualAsList.get(index);
+      Object subsequenceNext = subsequence[subsequenceIndex];
+      if (areEqual(actualNext, subsequenceNext)) {
+        if (subsequenceIndex == 0) subsequenceStartIndex = index;
+        subsequenceIndex++;
+      }
+      if (subsequenceIndex == subsequence.length) {
+        throw assertionError(shouldNotContainSubsequence(actual, subsequence, elementComparisonStrategy,
+                                                         subsequenceStartIndex));
+      }
+    }
+  }
+
+  /// Verifies that the actual iterable is a subset of the given values, comparing elements with the given strategy.
+  ///
+  /// Both actual and the given iterable are treated as sets, therefore duplicates on either of them are ignored.
+  ///
+  /// @param values the values that should contain all actual elements
+  /// @param comparisonStrategy the strategy used to compare elements
+  void assertIsSubsetOf(Iterable<?> values, ComparisonStrategy comparisonStrategy) {
+    isNotNull();
+    checkIterableIsNotNull(values);
+    List<Object> extra = streamOfActual()
+                                         .filter(actualElement -> !comparisonStrategy.iterableContains(values, actualElement))
+                                         .collect(toList());
+    if (!extra.isEmpty()) throw assertionError(shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
+  }
+
+  private void assertIterableDoesNotContain(Object[] values) {
+    if (values == null) throw arrayOfValuesToLookForIsNull();
+    if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();
+    isNotNull();
+    Set<Object> found = new LinkedHashSet<>();
+    for (Object o : values) {
+      if (iterableContains(actual, o)) found.add(o);
+    }
+    if (!found.isEmpty()) throw assertionError(shouldNotContain(actual, values, found, elementComparisonStrategy));
+  }
+
+  private void assertDoesNotContainAnyElementsOf(Iterable<? extends ELEMENT> iterable) {
+    if (iterable == null) throw iterableOfValuesToLookForIsNull();
+    if (!iterable.iterator().hasNext()) throw iterableOfValuesToLookForIsEmpty();
+    List<ELEMENT> values = newArrayList(iterable);
+    assertIterableDoesNotContain(values.toArray());
+  }
+
+  private void assertDoesNotHaveDuplicates() {
+    isNotNull();
+    Iterable<?> duplicates = elementComparisonStrategy.duplicatesFrom(actual);
+    if (!IterableUtil.isNullOrEmpty(duplicates))
+      throw assertionError(shouldNotHaveDuplicates(actual, duplicates, elementComparisonStrategy));
+  }
+
+  private void assertIterableStartsWith(Object[] sequence) {
+    if (commonCheckThatIterableAssertionSucceeds(actual, sequence)) return;
+    int i = 0;
+    for (Object actualCurrentElement : actual) {
+      if (i >= sequence.length) break;
+      if (areEqual(actualCurrentElement, sequence[i++])) continue;
+      throw assertionError(shouldStartWith(actual, sequence, elementComparisonStrategy));
+    }
+    if (sequence.length > i) {
+      // sequence has more elements than actual
+      throw assertionError(shouldStartWith(actual, sequence, elementComparisonStrategy));
+    }
+  }
+
+  private void assertIterableEndsWith(Object[] sequence) {
+    checkNotNullIterables(sequence);
+
+    int sizeOfActual = sizeOf(actual);
+    if (sizeOfActual < sequence.length) throw assertionError(shouldEndWith(actual, sequence, elementComparisonStrategy));
+
+    int start = sizeOfActual - sequence.length;
+    int sequenceIndex = 0, indexOfActual = 0;
+    for (Object actualElement : actual) {
+      if (indexOfActual++ < start) continue;
+      if (areEqual(actualElement, sequence[sequenceIndex++])) continue;
+      throw assertionError(shouldEndWith(actual, sequence, elementComparisonStrategy));
+    }
+  }
+
+  private boolean commonCheckThatIterableAssertionSucceeds(Iterable<?> actualElements, Object[] sequence) {
+    checkNotNullIterables(sequence);
+    // if both actual and values are empty, then assertion passes.
+    if (!actualElements.iterator().hasNext() && sequence.length == 0) return true;
+    failIfEmptySinceActualIsNotEmpty(info, assertionErrorCreator, actualElements, sequence);
+    return false;
+  }
+
+  private void checkNotNullIterables(Object[] sequence) {
+    checkIsNotNull(sequence);
+    isNotNull();
+  }
+
+  private void assertContainsNull() {
+    isNotNull();
+    if (!iterableContains(actual, null)) throw assertionError(shouldContainNull(actual));
+  }
+
+  private void assertDoesNotContainNull() {
+    isNotNull();
+    if (iterableContains(actual, null)) throw assertionError(shouldNotContainNull(actual));
+  }
+
+  private void assertAre(Condition<? super ELEMENT> condition) {
+    isNotNull();
+    checkConditionIsNotNull(condition);
+    try {
+      List<? extends ELEMENT> notSatisfiesCondition = notSatisfyingCondition(condition);
+      if (!notSatisfiesCondition.isEmpty()) throw assertionError(elementsShouldBe(actual, notSatisfiesCondition, condition));
+    } catch (ClassCastException e) {
+      throw assertionError(shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+    }
+  }
+
+  private void assertAreNot(Condition<? super ELEMENT> condition) {
+    isNotNull();
+    checkConditionIsNotNull(condition);
+    try {
+      List<? extends ELEMENT> satisfiesCondition = satisfyingCondition(condition);
+      if (!satisfiesCondition.isEmpty()) throw assertionError(elementsShouldNotBe(actual, satisfiesCondition, condition));
+    } catch (ClassCastException e) {
+      throw assertionError(shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+    }
+  }
+
+  private void assertHave(Condition<? super ELEMENT> condition) {
+    isNotNull();
+    checkConditionIsNotNull(condition);
+    try {
+      List<? extends ELEMENT> notSatisfiesCondition = notSatisfyingCondition(condition);
+      if (!notSatisfiesCondition.isEmpty())
+        throw assertionError(elementsShouldHave(actual, notSatisfiesCondition, condition));
+    } catch (ClassCastException e) {
+      throw assertionError(shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+    }
+  }
+
+  private void assertDoNotHave(Condition<? super ELEMENT> condition) {
+    isNotNull();
+    checkConditionIsNotNull(condition);
+    try {
+      List<? extends ELEMENT> satisfiesCondition = satisfyingCondition(condition);
+      if (!satisfiesCondition.isEmpty())
+        throw assertionError(elementsShouldNotHave(actual, satisfiesCondition, condition));
+    } catch (ClassCastException e) {
+      throw assertionError(shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+    }
+  }
+
+  private void assertAreAtLeast(int times, Condition<? super ELEMENT> condition) {
+    isNotNull();
+    checkConditionIsNotNull(condition);
+    try {
+      if (satisfyingCondition(condition).size() < times)
+        throw assertionError(elementsShouldBeAtLeast(actual, times, condition));
+    } catch (ClassCastException e) {
+      throw assertionError(shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+    }
+  }
+
+  private void assertAreAtMost(int times, Condition<? super ELEMENT> condition) {
+    isNotNull();
+    checkConditionIsNotNull(condition);
+    try {
+      if (satisfyingCondition(condition).size() > times)
+        throw assertionError(elementsShouldBeAtMost(actual, times, condition));
+    } catch (ClassCastException e) {
+      throw assertionError(shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+    }
+  }
+
+  private void assertAreExactly(int times, Condition<? super ELEMENT> condition) {
+    isNotNull();
+    checkConditionIsNotNull(condition);
+    try {
+      if (satisfyingCondition(condition).size() != times)
+        throw assertionError(elementsShouldBeExactly(actual, times, condition));
+    } catch (ClassCastException e) {
+      throw assertionError(shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+    }
+  }
+
+  private void assertHaveAtLeast(int times, Condition<? super ELEMENT> condition) {
+    isNotNull();
+    checkConditionIsNotNull(condition);
+    try {
+      if (satisfyingCondition(condition).size() < times)
+        throw assertionError(elementsShouldHaveAtLeast(actual, times, condition));
+    } catch (ClassCastException e) {
+      throw assertionError(shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+    }
+  }
+
+  private void assertHaveAtMost(int times, Condition<? super ELEMENT> condition) {
+    isNotNull();
+    checkConditionIsNotNull(condition);
+    try {
+      if (satisfyingCondition(condition).size() > times)
+        throw assertionError(elementsShouldHaveAtMost(actual, times, condition));
+    } catch (ClassCastException e) {
+      throw assertionError(shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+    }
+  }
+
+  private void assertHaveExactly(int times, Condition<? super ELEMENT> condition) {
+    isNotNull();
+    checkConditionIsNotNull(condition);
+    try {
+      if (satisfyingCondition(condition).size() != times)
+        throw assertionError(elementsShouldHaveExactly(actual, times, condition));
+    } catch (ClassCastException e) {
+      throw assertionError(shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+    }
+  }
+
+  private List<? extends ELEMENT> notSatisfyingCondition(Condition<? super ELEMENT> condition) {
+    return streamOfActual().filter(element -> !condition.matches(element)).collect(toList());
+  }
+
+  private List<? extends ELEMENT> satisfyingCondition(Condition<? super ELEMENT> condition) {
+    return streamOfActual().filter(condition::matches).collect(toList());
+  }
+
+  private void assertContainsAll(Iterable<? extends ELEMENT> other) {
+    final List<?> actualAsList = newArrayList(actual);
+    checkIterableIsNotNull(other);
+    isNotNull();
+    Object[] values = newArrayList(other).toArray();
+    assertIterableContainsGivenValues(actual.getClass(), actualAsList, values);
+  }
+
+  private void assertIterableContainsExactly(Object[] values) {
+    checkIsNotNull(values);
+    isNotNull();
+    // use actualAsList instead of actual in case actual is a singly-passable iterable
+    List<Object> actualAsList = newArrayList(actual);
+    assertEquivalency(values, actualAsList);
+    assertElementOrder(values, actualAsList);
+  }
+
+  private void assertEquivalency(Object[] values, List<Object> actualAsList) {
+    List<Object> unexpected = unexpectedElements(actualAsList, values);
+    List<Object> missing = missingElements(actualAsList, values);
+    if (actualAsList.size() != values.length || !unexpected.isEmpty() || !missing.isEmpty()) {
+      throw assertionError(shouldContainExactly(actual, list(values), missing, unexpected, elementComparisonStrategy),
+                           actual, list(values));
+    }
+  }
+
+  /// Returns the elements of `actualElements` that are not in `expected`, taking duplicates into account.
+  ///
+  /// @param actualElements the elements to subtract from
+  /// @param expected the elements to subtract
+  /// @return `actualElements - expected`
+  private List<Object> unexpectedElements(List<Object> actualElements, Object[] expected) {
+    List<Object> unexpected = new ArrayList<>();
+    // use a copy to deal correctly with potential duplicates
+    List<Object> copyOfExpected = newArrayList(expected);
+    for (Object actualElement : actualElements) {
+      // the order of areEqual arguments is important if the element comparison is not symmetrical, we must compare
+      // actual elements to expected ones and not the other way around (ex: recursive comparison with a DTO as actual)
+      if (copyOfExpected.stream().anyMatch(expectedElement -> areEqual(actualElement, expectedElement))) {
+        // remove the element otherwise a duplicate would be found in the case if there is one in actual
+        elementComparisonStrategy.iterablesRemoveFirst(copyOfExpected, actualElement);
+      } else {
+        unexpected.add(actualElement);
+      }
+    }
+    return unmodifiableList(unexpected);
+  }
+
+  /// Returns the elements of `expected` that are not in `actualElements`, taking duplicates into account.
+  ///
+  /// @param actualElements the elements to subtract
+  /// @param expected the elements to subtract from
+  /// @return `expected - actualElements`
+  private List<Object> missingElements(List<Object> actualElements, Object[] expected) {
+    List<Object> missing = new ArrayList<>();
+    // use a copy to deal correctly with potential duplicates
+    List<Object> copyOfActual = newArrayList(actualElements);
+    for (Object expectedElement : expected) {
+      if (iterableContains(copyOfActual, expectedElement)) {
+        // remove the element otherwise a duplicate would be found in the case if there is one in actual
+        elementComparisonStrategy.iterablesRemoveFirst(copyOfActual, expectedElement);
+      } else {
+        missing.add(expectedElement);
+      }
+    }
+    return unmodifiableList(missing);
+  }
+
+  private void assertElementOrder(Object[] values, List<Object> actualAsList) {
+    List<IndexedDiff> indexDifferences = compareOrder(values, actualAsList);
+    if (!indexDifferences.isEmpty()) {
+      throw assertionError(shouldContainExactlyWithIndexes(actual, list(values), indexDifferences,
+                                                           elementComparisonStrategy),
+                           actual, list(values));
+    }
+  }
+
+  private List<IndexedDiff> compareOrder(Object[] values, List<Object> actualAsList) {
+    List<IndexedDiff> indexDifferences = new ArrayList<>(Configuration.MAX_INDICES_FOR_PRINTING);
+    for (int i = 0; i < actualAsList.size(); i++) {
+      if (!areEqual(actualAsList.get(i), values[i])) {
+        indexDifferences.add(new IndexedDiff(actualAsList.get(i), values[i], i));
+        if (indexDifferences.size() >= Configuration.MAX_INDICES_FOR_PRINTING) break;
+      }
+    }
+    return indexDifferences;
+  }
+
+  private void assertIterableContainsAnyOf(Object[] values) {
+    if (commonCheckThatIterableAssertionSucceeds(actual, values)) return;
+
+    Iterable<Object> valuesToSearchFor = newArrayList(values);
+    for (Object element : actual) {
+      if (iterableContains(valuesToSearchFor, element)) return;
+    }
+    throw assertionError(shouldContainAnyOf(actual, values, elementComparisonStrategy));
+  }
+
+  private void assertIterableContainsExactlyInAnyOrder(Object[] values) {
+    checkIsNotNull(values);
+    isNotNull();
+    List<Object> notExpected = newArrayList(actual);
+    List<Object> notFound = newArrayList(values);
+
+    for (Object value : values) {
+      if (iterableContains(notExpected, value)) {
+        elementComparisonStrategy.iterablesRemoveFirst(notExpected, value);
+        elementComparisonStrategy.iterablesRemoveFirst(notFound, value);
+      }
+    }
+
+    if (notExpected.isEmpty() && notFound.isEmpty()) return;
+
+    throw assertionError(shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, elementComparisonStrategy));
   }
 
   /**

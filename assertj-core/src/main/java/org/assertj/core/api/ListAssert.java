@@ -281,7 +281,7 @@ public class ListAssert<ELEMENT> extends
 
   protected void assertStartsWith(ELEMENT[] sequence) {
     if (!(actual instanceof ListFromStream)) {
-      iterables.assertStartsWith(info, actual, sequence);
+      super.assertStartsWith(sequence);
       return;
     }
     objects.assertNotNull(info, actual);
@@ -291,7 +291,7 @@ public class ListAssert<ELEMENT> extends
     int i = 0;
     while (iterator.hasNext()) {
       if (i >= sequence.length) break;
-      if (iterables.getComparisonStrategy().areEqual(iterator.next(), sequence[i++])) continue;
+      if (getElementComparisonStrategy().areEqual(iterator.next(), sequence[i++])) continue;
       throw actualDoesNotStartWithSequence(info, sequence);
     }
     if (sequence.length > i) {
@@ -301,7 +301,7 @@ public class ListAssert<ELEMENT> extends
 
   private AssertionError actualDoesNotStartWithSequence(AssertionInfo info, Object[] sequence) {
     return AssertionErrorCreator.instance().assertionError(info, shouldStartWith("Stream under test", sequence,
-                                                                                 iterables.getComparisonStrategy()));
+                                                                                 getElementComparisonStrategy()));
   }
 
   @SuppressWarnings("unchecked")
