@@ -15,13 +15,24 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Arrays.stream;
+import static java.util.function.Predicate.not;
+import static java.util.stream.Collectors.toCollection;
+import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
+import static org.assertj.core.internal.CommonValidations.failIfEmptySinceActualIsNotEmpty;
 import static org.assertj.core.internal.Comparables.assertNotNull;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Spliterator;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.error.AssertionErrorCreator;
 
 /**
  * Reusable assertions for <code>{@link Spliterator}</code>s.
@@ -67,8 +78,7 @@ public class Spliterators {
   private static final String SPLITERATOR_SUBSIZED = "SUBSIZED";
 
   private static final Spliterators INSTANCE = new Spliterators();
-
-  private final Iterables iterables = Iterables.instance();
+  private static final AssertionErrorCreator ASSERTION_ERROR_CREATOR = AssertionErrorCreator.instance();
 
   /**
    * Returns the singleton instance of this class.
@@ -92,7 +102,7 @@ public class Spliterators {
     assertNotNull(info, actual);
     Set<String> actualCharacteristicNames = characteristicNames(actual.characteristics());
     Set<String> expectedCharacteristicNames = characteristicNames(characteristics);
-    iterables.assertContains(info, actualCharacteristicNames, expectedCharacteristicNames.toArray(new String[0]));
+    assertContainsCharacteristics(info, actualCharacteristicNames, expectedCharacteristicNames.toArray(new String[0]));
   }
 
   /**
@@ -109,7 +119,31 @@ public class Spliterators {
     assertNotNull(info, actual);
     Set<String> actualCharacteristicNames = characteristicNames(actual.characteristics());
     Set<String> expectedCharacteristicNames = characteristicNames(characteristics);
-    iterables.assertContainsOnly(info, actualCharacteristicNames, expectedCharacteristicNames.toArray(new String[0]));
+    assertContainsOnlyCharacteristics(info, actualCharacteristicNames, expectedCharacteristicNames.toArray(new String[0]));
+  }
+
+  private static void assertContainsCharacteristics(AssertionInfo info, Set<String> actual, String[] expected) {
+    if (actual.isEmpty() && expected.length == 0) return;
+    failIfEmptySinceActualIsNotEmpty(info, ASSERTION_ERROR_CREATOR, actual, expected);
+    Set<String> notFound = stream(expected).filter(not(actual::contains)).collect(toCollection(LinkedHashSet::new));
+    if (!notFound.isEmpty())
+      throw ASSERTION_ERROR_CREATOR.assertionError(info, shouldContain(actual.getClass(), actual, expected, notFound,
+                                                                       StandardComparisonStrategy.instance()));
+  }
+
+  private static void assertContainsOnlyCharacteristics(AssertionInfo info, Set<String> actual, String[] expected) {
+    if (actual.isEmpty() && expected.length == 0) return;
+    List<String> unexpected = new ArrayList<>(actual);
+    List<String> missing = new ArrayList<>(List.of(expected));
+    for (String characteristic : expected) {
+      if (actual.contains(characteristic)) {
+        missing.remove(characteristic);
+        unexpected.remove(characteristic);
+      }
+    }
+    if (!unexpected.isEmpty() || !missing.isEmpty())
+      throw ASSERTION_ERROR_CREATOR.assertionError(info, shouldContainOnly(actual, expected, missing, unexpected,
+                                                                           StandardComparisonStrategy.instance()));
   }
 
   private static Set<String> characteristicNames(int[] characteristics) {

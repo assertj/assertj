@@ -18,7 +18,6 @@ package org.assertj.core.api;
 import static org.assertj.core.testkit.ObjectArrays.emptyArray;
 import static org.mockito.Mockito.mock;
 
-import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.ObjectArrays;
 
 /**
@@ -29,7 +28,6 @@ import org.assertj.core.internal.ObjectArrays;
 public abstract class ObjectArrayAssertBaseTest extends BaseTestTemplate<ObjectArrayAssert<Object>, Object[]> {
 
   protected ObjectArrays arrays;
-  protected Iterables iterables;
 
   @Override
   protected ObjectArrayAssert<Object> create_assertions() {
@@ -40,9 +38,7 @@ public abstract class ObjectArrayAssertBaseTest extends BaseTestTemplate<ObjectA
   protected void inject_internal_objects() {
     super.inject_internal_objects();
     arrays = mock(ObjectArrays.class);
-    iterables = mock(Iterables.class);
     assertions.arrays = arrays;
-    assertions.iterables = iterables;
   }
 
   protected ObjectArrays getArrays(ObjectArrayAssert<Object> someAssertions) {

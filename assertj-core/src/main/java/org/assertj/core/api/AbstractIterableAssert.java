@@ -86,7 +86,7 @@ import static org.assertj.core.internal.ErrorMessages.emptySequence;
 import static org.assertj.core.internal.ErrorMessages.emptySubsequence;
 import static org.assertj.core.internal.ErrorMessages.nullSequence;
 import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
-import static org.assertj.core.internal.Iterables.byPassingAssertions;
+import static org.assertj.core.internal.GroupElementsAssertions.byPassingAssertions;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Arrays.prepend;
@@ -136,8 +136,8 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
 import org.assertj.core.internal.ExtendedByTypesComparator;
+import org.assertj.core.internal.GroupElementsAssertions;
 import org.assertj.core.internal.IndexedDiff;
-import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
@@ -183,9 +183,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   private TypeComparators comparatorsByType;
   private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
   private TypeComparators comparatorsForElementPropertyOrFieldTypes;
-
-  /** Internal assertions for iterable values. */
-  protected Iterables iterables = Iterables.instance();
 
   private ComparisonStrategy elementComparisonStrategy = StandardComparisonStrategy.instance();
 
@@ -843,7 +840,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   @CheckReturnValue
   public SELF usingDefaultElementComparator() {
-    this.iterables = Iterables.instance();
     this.elementComparisonStrategy = StandardComparisonStrategy.instance();
     return usingDefaultComparator();
   }
@@ -2455,11 +2451,10 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /// Sets the comparison strategy used to compare the actual elements, keeping [#iterables] in sync.
+  /// Sets the comparison strategy used to compare the actual elements.
   ///
   /// @param comparisonStrategy the element comparison strategy
   private void useElementComparisonStrategy(ComparisonStrategy comparisonStrategy) {
-    iterables = new Iterables(comparisonStrategy);
     elementComparisonStrategy = comparisonStrategy;
   }
 
@@ -3383,18 +3378,18 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @Override
   public SELF allMatch(Predicate<? super ELEMENT> predicate) {
-    return executeAssertion(() -> iterables.assertAllMatch(info, actual, predicate, PredicateDescription.GIVEN));
+    return executeAssertion(() -> GroupElementsAssertions.assertAllMatch(info, actual, predicate, PredicateDescription.GIVEN));
   }
 
   @Override
   public SELF allMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
-    return executeAssertion(() -> iterables.assertAllMatch(info, actual, predicate,
-                                                           new PredicateDescription(predicateDescription)));
+    return executeAssertion(() -> GroupElementsAssertions.assertAllMatch(info, actual, predicate,
+                                                                         new PredicateDescription(predicateDescription)));
   }
 
   @Override
   public SELF allSatisfy(Consumer<? super ELEMENT> requirements) {
-    return executeAssertion(() -> iterables.assertAllSatisfy(info, actual, requirements));
+    return executeAssertion(() -> GroupElementsAssertions.assertAllSatisfy(info, actual, requirements));
   }
 
   @Override
@@ -3404,13 +3399,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @Override
   public SELF anyMatch(Predicate<? super ELEMENT> predicate) {
-    return executeAssertion(() -> iterables.assertAnyMatch(info, actual, predicate, PredicateDescription.GIVEN));
+    return executeAssertion(() -> GroupElementsAssertions.assertAnyMatch(info, actual, predicate, PredicateDescription.GIVEN));
   }
 
   @Override
   public SELF anyMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
-    return executeAssertion(() -> iterables.assertAnyMatch(info, actual, predicate,
-                                                           new PredicateDescription(predicateDescription)));
+    return executeAssertion(() -> GroupElementsAssertions.assertAnyMatch(info, actual, predicate,
+                                                                         new PredicateDescription(predicateDescription)));
   }
 
   /**
@@ -3443,12 +3438,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   public <OTHER_ELEMENT> SELF zipSatisfy(Iterable<OTHER_ELEMENT> other,
                                          BiConsumer<? super ELEMENT, OTHER_ELEMENT> zipRequirements) {
-    return executeAssertion(() -> iterables.assertZipSatisfy(info, actual, other, zipRequirements));
+    return executeAssertion(() -> GroupElementsAssertions.assertZipSatisfy(info, actual, other, zipRequirements));
   }
 
   @Override
   public SELF anySatisfy(Consumer<? super ELEMENT> requirements) {
-    return executeAssertion(() -> iterables.assertAnySatisfy(info, actual, requirements));
+    return executeAssertion(() -> GroupElementsAssertions.assertAnySatisfy(info, actual, requirements));
   }
 
   @Override
@@ -3458,7 +3453,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @Override
   public SELF noneSatisfy(Consumer<? super ELEMENT> restrictions) {
-    return executeAssertion(() -> iterables.assertNoneSatisfy(info, actual, restrictions));
+    return executeAssertion(() -> GroupElementsAssertions.assertNoneSatisfy(info, actual, restrictions));
   }
 
   @Override
@@ -3484,7 +3479,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param requirements the requirements to satisfy
    */
   protected void assertSatisfiesExactly(Consumer<? super ELEMENT>[] requirements) {
-    iterables.assertSatisfiesExactly(info, actual, requirements);
+    GroupElementsAssertions.assertSatisfiesExactly(info, actual, requirements);
   }
 
   @Override
@@ -3505,7 +3500,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param requirements the requirements to satisfy
    */
   protected void assertSatisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>[] requirements) {
-    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, requirements);
+    GroupElementsAssertions.assertSatisfiesExactlyInAnyOrder(info, actual, requirements);
   }
 
   @Override
@@ -3524,7 +3519,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param requirements the requirement to satisfy once
    */
   protected void assertSatisfiesOnlyOnce(Consumer<? super ELEMENT> requirements) {
-    iterables.assertSatisfiesOnlyOnce(info, actual, requirements);
+    GroupElementsAssertions.assertSatisfiesOnlyOnce(info, actual, requirements);
   }
 
   // override methods to avoid compilation error when chaining an AbstractAssert method with a AbstractIterableAssert
@@ -3676,13 +3671,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   @Override
   public SELF noneMatch(Predicate<? super ELEMENT> predicate) {
-    return executeAssertion(() -> iterables.assertNoneMatch(info, actual, predicate, PredicateDescription.GIVEN));
+    return executeAssertion(() -> GroupElementsAssertions.assertNoneMatch(info, actual, predicate,
+                                                                          PredicateDescription.GIVEN));
   }
 
   @Override
   public SELF noneMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
-    return executeAssertion(() -> iterables.assertNoneMatch(info, actual, predicate,
-                                                            new PredicateDescription(predicateDescription)));
+    return executeAssertion(() -> GroupElementsAssertions.assertNoneMatch(info, actual, predicate,
+                                                                          new PredicateDescription(predicateDescription)));
   }
 
   @Override
@@ -3790,14 +3786,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   SELF withAssertionState(AbstractAssert assertInstance) {
     if (assertInstance instanceof AbstractIterableAssert iterableAssert) {
-      return (SELF) super.withAssertionState(assertInstance).withIterables(iterableAssert.iterables)
+      return (SELF) super.withAssertionState(assertInstance).withElementComparisonStrategy(iterableAssert.elementComparisonStrategy)
                                                             .withTypeComparators(iterableAssert.comparatorsByType)
                                                             .withComparatorsForElementPropertyOrFieldNames(iterableAssert.comparatorsForElementPropertyOrFieldNames)
                                                             .withComparatorsForElementPropertyOrFieldTypes(iterableAssert.comparatorsForElementPropertyOrFieldTypes);
     }
     // we can go from ObjectArrayAssert -> IterableAssert when using extracting on an object array
     if (assertInstance instanceof AbstractObjectArrayAssert objectArrayAssert) {
-      return (SELF) super.withAssertionState(assertInstance).withIterables(objectArrayAssert.iterables)
+      return (SELF) super.withAssertionState(assertInstance).withElementComparisonStrategy(objectArrayAssert.arrays.getComparisonStrategy())
                                                             .withTypeComparators(objectArrayAssert.comparatorsByType)
                                                             .withComparatorsForElementPropertyOrFieldNames(objectArrayAssert.comparatorsForElementPropertyOrFieldNames)
                                                             .withComparatorsForElementPropertyOrFieldTypes(objectArrayAssert.comparatorsForElementPropertyOrFieldTypes);
@@ -3805,9 +3801,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return super.withAssertionState(assertInstance);
   }
 
-  SELF withIterables(Iterables iterables) {
-    this.iterables = iterables;
-    this.elementComparisonStrategy = iterables.getComparisonStrategy();
+  SELF withElementComparisonStrategy(ComparisonStrategy elementComparisonStrategy) {
+    this.elementComparisonStrategy = elementComparisonStrategy;
     return myself;
   }
 

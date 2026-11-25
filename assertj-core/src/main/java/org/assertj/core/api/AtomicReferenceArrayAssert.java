@@ -60,7 +60,7 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
 import org.assertj.core.internal.ExtendedByTypesComparator;
-import org.assertj.core.internal.Iterables;
+import org.assertj.core.internal.GroupElementsAssertions;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
@@ -83,8 +83,6 @@ public class AtomicReferenceArrayAssert<T>
   private final T[] array;
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ObjectArrays arrays = ObjectArrays.instance();
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Iterables iterables = Iterables.instance();
 
   private TypeComparators comparatorsByType;
   private TypeComparators comparatorsForElementPropertyOrFieldTypes;
@@ -2881,7 +2879,8 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> allMatch(Predicate<? super T> predicate) {
-    return executeAssertion(() -> iterables.assertAllMatch(info, newArrayList(array), predicate, PredicateDescription.GIVEN));
+    return executeAssertion(() -> GroupElementsAssertions.assertAllMatch(info, newArrayList(array), predicate,
+                                                                         PredicateDescription.GIVEN));
   }
 
   /**
@@ -2921,8 +2920,8 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> allMatch(Predicate<? super T> predicate, String predicateDescription) {
-    return executeAssertion(() -> iterables.assertAllMatch(info, newArrayList(array), predicate,
-                                                           new PredicateDescription(predicateDescription)));
+    return executeAssertion(() -> GroupElementsAssertions.assertAllMatch(info, newArrayList(array), predicate,
+                                                                         new PredicateDescription(predicateDescription)));
   }
 
   /**
@@ -2997,7 +2996,7 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   private AtomicReferenceArrayAssert<T> internalAllSatisfy(Consumer<? super T> requirements) {
-    iterables.assertAllSatisfy(info, newArrayList(array), requirements);
+    GroupElementsAssertions.assertAllSatisfy(info, newArrayList(array), requirements);
     return myself;
   }
 
@@ -3025,7 +3024,8 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> anyMatch(Predicate<? super T> predicate) {
-    return executeAssertion(() -> iterables.assertAnyMatch(info, newArrayList(array), predicate, PredicateDescription.GIVEN));
+    return executeAssertion(() -> GroupElementsAssertions.assertAnyMatch(info, newArrayList(array), predicate,
+                                                                         PredicateDescription.GIVEN));
   }
 
   /**
@@ -3055,8 +3055,8 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> anyMatch(Predicate<? super T> predicate, String predicateDescription) {
-    return executeAssertion(() -> iterables.assertAnyMatch(info, newArrayList(array), predicate,
-                                                           new PredicateDescription(predicateDescription)));
+    return executeAssertion(() -> GroupElementsAssertions.assertAnyMatch(info, newArrayList(array), predicate,
+                                                                         new PredicateDescription(predicateDescription)));
   }
 
   /**
@@ -3129,7 +3129,7 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   private AtomicReferenceArrayAssert<T> internalAnySatisfy(Consumer<? super T> requirements) {
-    iterables.assertAnySatisfy(info, newArrayList(array), requirements);
+    GroupElementsAssertions.assertAnySatisfy(info, newArrayList(array), requirements);
     return myself;
   }
 
@@ -3180,7 +3180,7 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   private AtomicReferenceArrayAssert<T> internalNoneSatisfy(Consumer<? super T> restrictions) {
-    iterables.assertNoneSatisfy(info, newArrayList(array), restrictions);
+    GroupElementsAssertions.assertNoneSatisfy(info, newArrayList(array), restrictions);
     return myself;
   }
 
@@ -3288,7 +3288,7 @@ public class AtomicReferenceArrayAssert<T>
    * @param requirements the requirements to satisfy
    */
   protected void assertSatisfiesExactly(Consumer<? super T>[] requirements) {
-    iterables.assertSatisfiesExactly(info, newArrayList(array), requirements);
+    GroupElementsAssertions.assertSatisfiesExactly(info, newArrayList(array), requirements);
   }
 
   /**
@@ -3410,7 +3410,7 @@ public class AtomicReferenceArrayAssert<T>
    * @param requirements the requirements to satisfy
    */
   protected void assertSatisfiesExactlyInAnyOrder(Consumer<? super T>[] requirements) {
-    iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(array), requirements);
+    GroupElementsAssertions.assertSatisfiesExactlyInAnyOrder(info, newArrayList(array), requirements);
   }
 
   /**
@@ -3476,7 +3476,7 @@ public class AtomicReferenceArrayAssert<T>
    * @param requirements the requirement to satisfy once
    */
   protected void assertSatisfiesOnlyOnce(Consumer<? super T> requirements) {
-    iterables.assertSatisfiesOnlyOnce(info, newArrayList(array), requirements);
+    GroupElementsAssertions.assertSatisfiesOnlyOnce(info, newArrayList(array), requirements);
   }
 
   /**
@@ -3573,7 +3573,8 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> noneMatch(Predicate<? super T> predicate) {
-    return executeAssertion(() -> iterables.assertNoneMatch(info, newArrayList(array), predicate, PredicateDescription.GIVEN));
+    return executeAssertion(() -> GroupElementsAssertions.assertNoneMatch(info, newArrayList(array), predicate,
+                                                                          PredicateDescription.GIVEN));
   }
 
   /**
@@ -3604,8 +3605,8 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> noneMatch(Predicate<? super T> predicate, String predicateDescription) {
-    return executeAssertion(() -> iterables.assertNoneMatch(info, newArrayList(array), predicate,
-                                                            new PredicateDescription(predicateDescription)));
+    return executeAssertion(() -> GroupElementsAssertions.assertNoneMatch(info, newArrayList(array), predicate,
+                                                                          new PredicateDescription(predicateDescription)));
   }
 
   // lazy init TypeComparators

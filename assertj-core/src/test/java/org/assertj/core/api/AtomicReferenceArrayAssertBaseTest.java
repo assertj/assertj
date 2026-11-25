@@ -21,14 +21,12 @@ import static org.mockito.Mockito.mock;
 
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
-import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.ObjectArrays;
 
 public abstract class AtomicReferenceArrayAssertBaseTest
     extends BaseTestTemplate<AtomicReferenceArrayAssert<Object>, AtomicReferenceArray<Object>> {
 
   protected ObjectArrays arrays;
-  protected Iterables iterables;
 
   @Override
   protected AtomicReferenceArrayAssert<Object> create_assertions() {
@@ -39,9 +37,7 @@ public abstract class AtomicReferenceArrayAssertBaseTest
   protected void inject_internal_objects() {
     super.inject_internal_objects();
     arrays = mock(ObjectArrays.class);
-    iterables = mock(Iterables.class);
     assertions.arrays = arrays;
-    assertions.iterables = iterables;
   }
 
   protected ObjectArrays getArrays(AtomicReferenceArrayAssert<Object> someAssertions) {

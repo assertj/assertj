@@ -15,15 +15,10 @@
  */
 package org.assertj.tests.core.internal;
 
-import static org.apache.commons.lang3.reflect.FieldUtils.readField;
-import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
-import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Spliterators;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -35,29 +30,11 @@ public class SpliteratorsBaseTest {
 
   protected static final AssertionInfo INFO = someInfo();
 
-  protected AssertionErrorCreator assertionErrorCreator;
   protected Spliterators spliterators;
 
   @BeforeEach
   public void setUp() {
-    assertionErrorCreator = spy(AssertionErrorCreator.instance());
     spliterators = new Spliterators();
-    setAssertionErrorCreator(spliterators, assertionErrorCreator);
-  }
-
-  @AfterEach
-  public void tearDown() {
-    setAssertionErrorCreator(spliterators, AssertionErrorCreator.instance());
-  }
-
-  private void setAssertionErrorCreator(Spliterators spliterators, AssertionErrorCreator assertionErrorCreator) {
-    try {
-      Object iterables = readField(spliterators, "iterables", true);
-      writeField(iterables, "assertionErrorCreator", assertionErrorCreator, true);
-    } catch (IllegalAccessException e) {
-      throw new RuntimeException(e);
-    }
-
   }
 
 }

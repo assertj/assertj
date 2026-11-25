@@ -24,6 +24,7 @@ import static org.assertj.core.error.ShouldBeSorted.shouldHaveComparableElements
 import static org.assertj.core.error.ShouldBeSorted.shouldHaveMutuallyComparableElements;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldHaveAtIndex.shouldHaveAtIndex;
+import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.internal.CommonValidations.checkConditionIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid;
@@ -104,7 +105,7 @@ public class Lists {
    */
   public void assertContains(AssertionInfo info, List<?> actual, Object value, Index index) {
     assertNotNull(info, actual);
-    Iterables.instance().assertNotEmpty(info, actual);
+    if (actual.isEmpty()) throw assertionErrorCreator.assertionError(info, shouldNotBeEmpty());
     checkIndexValueIsValid(index, actual.size() - 1);
     Object actualElement = actual.get(index.value);
     if (areEqual(actualElement, value)) return;
@@ -275,7 +276,7 @@ public class Lists {
   private <T> boolean conditionIsMetAtIndex(AssertionInfo info, List<T> actual, Condition<? super T> condition, Index index) {
     assertNotNull(info, actual);
     assertNotNull(condition);
-    Iterables.instance().assertNotEmpty(info, actual);
+    if (actual.isEmpty()) throw assertionErrorCreator.assertionError(info, shouldNotBeEmpty());
     checkIndexValueIsValid(index, actual.size() - 1);
     return condition.matches(actual.get(index.value));
   }

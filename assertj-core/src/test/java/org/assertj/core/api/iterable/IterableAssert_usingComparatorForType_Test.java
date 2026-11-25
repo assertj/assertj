@@ -28,8 +28,8 @@ import java.util.List;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.internal.ExtendedByTypesComparator;
-import org.assertj.core.internal.Iterables;
 import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -42,11 +42,11 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
   private Jedi actual = new Jedi("Yoda", "green");
   private Jedi other = new Jedi("Luke", "blue");
 
-  private Iterables iterablesBefore;
+  private ComparisonStrategy elementComparisonStrategyBefore;
 
   @BeforeEach
   void before() {
-    iterablesBefore = getIterables(assertions);
+    elementComparisonStrategyBefore = getElementComparisonStrategy(assertions);
   }
 
   @Override
@@ -56,10 +56,10 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
 
   @Override
   protected void verify_internal_effects() {
-    Iterables iterables = getIterables(assertions);
-    assertThat(iterables).isNotSameAs(iterablesBefore);
-    assertThat(iterables.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
-    ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy();
+    ComparisonStrategy elementComparisonStrategy = getElementComparisonStrategy(assertions);
+    assertThat(elementComparisonStrategy).isNotSameAs(elementComparisonStrategyBefore);
+    assertThat(elementComparisonStrategy).isInstanceOf(ComparatorBasedComparisonStrategy.class);
+    ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) elementComparisonStrategy;
     assertThat(strategy.getComparator()).isInstanceOf(ExtendedByTypesComparator.class);
   }
 

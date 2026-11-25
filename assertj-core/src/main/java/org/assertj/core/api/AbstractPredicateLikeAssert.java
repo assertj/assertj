@@ -20,7 +20,7 @@ import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
 
 import java.util.function.Predicate;
 
-import org.assertj.core.internal.Iterables;
+import org.assertj.core.internal.GroupElementsAssertions;
 import org.assertj.core.presentation.PredicateDescription;
 
 /**
@@ -34,9 +34,6 @@ import org.assertj.core.presentation.PredicateDescription;
  */
 abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAssert<SELF, PRIMITIVE_PREDICATE, PRIMITIVE>, PRIMITIVE_PREDICATE, PRIMITIVE>
     extends AbstractAssertWithComparator<SELF, PRIMITIVE_PREDICATE> {
-
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Iterables iterables = Iterables.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Predicate<PRIMITIVE> primitivePredicate;
@@ -84,7 +81,7 @@ abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAss
   protected SELF acceptsAllInternal(Iterable<? extends PRIMITIVE> values) {
     return executeAssertion(() -> {
       isNotNull();
-      iterables.assertAllMatch(info, values, primitivePredicate, PredicateDescription.GIVEN);
+      GroupElementsAssertions.assertAllMatch(info, values, primitivePredicate, PredicateDescription.GIVEN);
     });
   }
 
@@ -97,7 +94,7 @@ abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAss
   protected SELF rejectsAllInternal(Iterable<? extends PRIMITIVE> values) {
     return executeAssertion(() -> {
       isNotNull();
-      iterables.assertNoneMatch(info, values, primitivePredicate, PredicateDescription.GIVEN);
+      GroupElementsAssertions.assertNoneMatch(info, values, primitivePredicate, PredicateDescription.GIVEN);
     });
   }
 }

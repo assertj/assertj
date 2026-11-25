@@ -21,7 +21,7 @@ import static org.assertj.core.util.Lists.list;
 
 import java.util.function.Predicate;
 
-import org.assertj.core.internal.Iterables;
+import org.assertj.core.internal.GroupElementsAssertions;
 import org.assertj.core.presentation.PredicateDescription;
 
 /**
@@ -34,9 +34,6 @@ import org.assertj.core.presentation.PredicateDescription;
  */
 public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAssert<SELF, T>, T> extends
     AbstractAssertWithComparator<SELF, Predicate<T>> {
-
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Iterables iterables = Iterables.instance();
 
   /**
    * Creates a new {@link Predicate} assertion.
@@ -81,7 +78,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
     if (values.length == 1) {
       if (!actual.test(values[0])) throwAssertionError(shouldAccept(actual, values[0], PredicateDescription.GIVEN));
     } else {
-      iterables.assertAllMatch(info, list(values), actual, PredicateDescription.GIVEN);
+      GroupElementsAssertions.assertAllMatch(info, list(values), actual, PredicateDescription.GIVEN);
     }
   }
 
@@ -118,7 +115,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
     if (values.length == 1) {
       if (actual.test(values[0])) throwAssertionError(shouldNotAccept(actual, values[0], PredicateDescription.GIVEN));
     } else {
-      iterables.assertNoneMatch(info, list(values), actual, PredicateDescription.GIVEN);
+      GroupElementsAssertions.assertNoneMatch(info, list(values), actual, PredicateDescription.GIVEN);
     }
   }
 
@@ -141,7 +138,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
   public SELF acceptsAll(Iterable<? extends T> iterable) {
     return executeAssertion(() -> {
       isNotNull();
-      iterables.assertAllMatch(info, iterable, actual, PredicateDescription.GIVEN);
+      GroupElementsAssertions.assertAllMatch(info, iterable, actual, PredicateDescription.GIVEN);
     });
   }
 
@@ -164,7 +161,7 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
   public SELF rejectsAll(Iterable<? extends T> iterable) {
     return executeAssertion(() -> {
       isNotNull();
-      iterables.assertNoneMatch(info, iterable, actual, PredicateDescription.GIVEN);
+      GroupElementsAssertions.assertNoneMatch(info, iterable, actual, PredicateDescription.GIVEN);
     });
   }
 }

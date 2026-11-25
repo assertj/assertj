@@ -21,22 +21,22 @@ import static org.assertj.core.api.BDDAssertions.then;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.IterableElementComparisonStrategy;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
-import org.assertj.core.internal.Iterables;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class IterableAssert_usingRecursiveFieldByFieldElementComparator_with_RecursiveComparisonConfiguration_Test
     extends IterableAssertBaseTest {
 
-  private Iterables iterablesBefore;
+  private ComparisonStrategy elementComparisonStrategyBefore;
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
 
   @BeforeEach
   void before() {
-    iterablesBefore = getIterables(assertions);
+    elementComparisonStrategyBefore = getElementComparisonStrategy(assertions);
   }
 
   @Override
@@ -46,11 +46,11 @@ class IterableAssert_usingRecursiveFieldByFieldElementComparator_with_RecursiveC
 
   @Override
   protected void verify_internal_effects() {
-    then(iterablesBefore).isNotSameAs(getIterables(assertions));
-    then(getIterables(assertions).getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
+    then(elementComparisonStrategyBefore).isNotSameAs(getElementComparisonStrategy(assertions));
+    then(getElementComparisonStrategy(assertions)).isInstanceOf(ComparatorBasedComparisonStrategy.class);
     then(getObjects(assertions).getComparisonStrategy()).isInstanceOf(IterableElementComparisonStrategy.class);
     ConfigurableRecursiveFieldByFieldComparator expectedComparator = new ConfigurableRecursiveFieldByFieldComparator(recursiveComparisonConfiguration);
-    then(getIterables(assertions).getComparator()).isEqualTo(expectedComparator);
+    then(getElementComparator(assertions)).isEqualTo(expectedComparator);
     then(getObjects(assertions).getComparisonStrategy()).extracting("elementComparator").isEqualTo(expectedComparator);
   }
 

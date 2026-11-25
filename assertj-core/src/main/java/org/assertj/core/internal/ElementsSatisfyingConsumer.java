@@ -17,7 +17,7 @@ package org.assertj.core.internal;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.range;
-import static org.assertj.core.internal.Iterables.byPassingAssertions;
+import static org.assertj.core.internal.GroupElementsAssertions.byPassingAssertions;
 import static org.assertj.core.util.Streams.stream;
 
 import java.util.ArrayList;

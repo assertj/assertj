@@ -15,11 +15,7 @@
  */
 package org.assertj.core.api;
 
-import static org.mockito.Mockito.mock;
-
 import java.util.function.Predicate;
-
-import org.assertj.core.internal.Iterables;
 
 /**
  * Base class for {@link PredicateAssert} tests.
@@ -27,8 +23,6 @@ import org.assertj.core.internal.Iterables;
  * @author Filip Hrisafov
  */
 public abstract class PredicateAssertBaseTest extends BaseTestTemplate<PredicateAssert<Boolean>, Predicate<Boolean>> {
-
-  protected Iterables iterables;
 
   @Override
   protected PredicateAssert<Boolean> create_assertions() {
@@ -38,7 +32,5 @@ public abstract class PredicateAssertBaseTest extends BaseTestTemplate<Predicate
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    iterables = mock(Iterables.class);
-    assertions.iterables = iterables;
   }
 }

@@ -16,9 +16,11 @@
 package org.assertj.core.api;
 
 import static java.util.Collections.emptyList;
-import static org.mockito.Mockito.mock;
 
-import org.assertj.core.internal.Iterables;
+import java.util.Comparator;
+
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#contains(Object...)}</code>.
@@ -26,8 +28,6 @@ import org.assertj.core.internal.Iterables;
  * @author Joel Costigliola
  */
 public abstract class IterableAssertBaseTest extends BaseTestTemplate<ConcreteIterableAssert<Object>, Iterable<Object>> {
-
-  protected Iterables iterables;
 
   @Override
   protected ConcreteIterableAssert<Object> create_assertions() {
@@ -37,11 +37,13 @@ public abstract class IterableAssertBaseTest extends BaseTestTemplate<ConcreteIt
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    iterables = mock(Iterables.class);
-    assertions.iterables = iterables;
   }
 
-  protected Iterables getIterables(ConcreteIterableAssert<Object> assertions) {
-    return assertions.iterables;
+  protected ComparisonStrategy getElementComparisonStrategy(ConcreteIterableAssert<Object> assertions) {
+    return assertions.getElementComparisonStrategy();
+  }
+
+  protected Comparator<?> getElementComparator(ConcreteIterableAssert<Object> assertions) {
+    return ((ComparatorBasedComparisonStrategy) assertions.getElementComparisonStrategy()).getComparator();
   }
 }

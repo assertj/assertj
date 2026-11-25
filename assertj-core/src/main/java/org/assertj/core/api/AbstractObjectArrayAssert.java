@@ -27,7 +27,7 @@ import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod
 import static org.assertj.core.extractor.Extractors.resultOf;
 import static org.assertj.core.internal.CommonValidations.checkSequenceIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkSubsequenceIsNotNull;
-import static org.assertj.core.internal.Iterables.byPassingAssertions;
+import static org.assertj.core.internal.GroupElementsAssertions.byPassingAssertions;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toArray;
@@ -65,7 +65,7 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
 import org.assertj.core.internal.ExtendedByTypesComparator;
-import org.assertj.core.internal.Iterables;
+import org.assertj.core.internal.GroupElementsAssertions;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
@@ -101,8 +101,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ObjectArrays arrays = ObjectArrays.instance();
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Iterables iterables = Iterables.instance();
 
   // not private because AbstractIterableAssert.withAssertionState needs to access them
   TypeComparators comparatorsByType;
@@ -1641,7 +1639,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public SELF usingElementComparator(Comparator<? super ELEMENT> elementComparator) {
     this.arrays = new ObjectArrays(new ComparatorBasedComparisonStrategy(elementComparator));
-    this.iterables = new Iterables(new ComparatorBasedComparisonStrategy(elementComparator));
     // to have the same semantics on base assertions like isEqualTo, we need to use an iterable comparator comparing
     // elements with elementComparator parameter
     objects = new Objects(new ObjectArrayElementComparisonStrategy<>(elementComparator));
@@ -2865,8 +2862,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF allMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
-    return executeAssertion(() -> iterables.assertAllMatch(info, List.of(actual), predicate,
-                                                           new PredicateDescription(predicateDescription)));
+    return executeAssertion(() -> GroupElementsAssertions.assertAllMatch(info, newArrayList(actual), predicate,
+                                                                         new PredicateDescription(predicateDescription)));
   }
 
   /**
@@ -2874,7 +2871,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF allSatisfy(Consumer<? super ELEMENT> requirements) {
-    return executeAssertion(() -> iterables.assertAllSatisfy(info, newArrayList(actual), requirements));
+    return executeAssertion(() -> GroupElementsAssertions.assertAllSatisfy(info, newArrayList(actual), requirements));
   }
 
   /**
@@ -2972,8 +2969,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF anyMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
-    return executeAssertion(() -> iterables.assertAnyMatch(info, List.of(actual), predicate,
-                                                           new PredicateDescription(predicateDescription)));
+    return executeAssertion(() -> GroupElementsAssertions.assertAnyMatch(info, newArrayList(actual), predicate,
+                                                                         new PredicateDescription(predicateDescription)));
   }
 
   /**
@@ -3006,7 +3003,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   public <OTHER_ELEMENT> SELF zipSatisfy(OTHER_ELEMENT[] other,
                                          BiConsumer<? super ELEMENT, OTHER_ELEMENT> zipRequirements) {
-    return executeAssertion(() -> iterables.assertZipSatisfy(info, List.of(actual), List.of(other), zipRequirements));
+    return executeAssertion(() -> GroupElementsAssertions.assertZipSatisfy(info, newArrayList(actual), newArrayList(other),
+                                                                           zipRequirements));
   }
 
   /**
@@ -3014,7 +3012,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF anySatisfy(Consumer<? super ELEMENT> requirements) {
-    return executeAssertion(() -> iterables.assertAnySatisfy(info, newArrayList(actual), requirements));
+    return executeAssertion(() -> GroupElementsAssertions.assertAnySatisfy(info, newArrayList(actual), requirements));
   }
 
   /**
@@ -3060,7 +3058,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF noneSatisfy(Consumer<? super ELEMENT> restrictions) {
-    return executeAssertion(() -> iterables.assertNoneSatisfy(info, newArrayList(actual), restrictions));
+    return executeAssertion(() -> GroupElementsAssertions.assertNoneSatisfy(info, newArrayList(actual), restrictions));
   }
 
   /**
@@ -3154,7 +3152,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return this assertion object
    */
   protected SELF assertSatisfiesExactly(Consumer<? super ELEMENT>[] requirements) {
-    iterables.assertSatisfiesExactly(info, newArrayList(actual), requirements);
+    GroupElementsAssertions.assertSatisfiesExactly(info, newArrayList(actual), requirements);
     return myself;
   }
 
@@ -3273,7 +3271,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return this assertion object
    */
   protected SELF assertSatisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>[] requirements) {
-    iterables.assertSatisfiesExactlyInAnyOrder(info, List.of(actual), requirements);
+    GroupElementsAssertions.assertSatisfiesExactlyInAnyOrder(info, newArrayList(actual), requirements);
     return myself;
   }
 
@@ -3359,7 +3357,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF satisfiesOnlyOnce(Consumer<? super ELEMENT> requirements) {
-    return executeAssertion(() -> iterables.assertSatisfiesOnlyOnce(info, newArrayList(actual), requirements));
+    return executeAssertion(() -> GroupElementsAssertions.assertSatisfiesOnlyOnce(info, newArrayList(actual), requirements));
   }
 
   /**
@@ -3517,8 +3515,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF noneMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
-    return executeAssertion(() -> iterables.assertNoneMatch(info, List.of(actual), predicate,
-                                                            new PredicateDescription(predicateDescription)));
+    return executeAssertion(() -> GroupElementsAssertions.assertNoneMatch(info, newArrayList(actual), predicate,
+                                                                          new PredicateDescription(predicateDescription)));
   }
 
   /**
@@ -3850,18 +3848,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   SELF withAssertionState(AbstractAssert assertInstance) {
     if (assertInstance instanceof AbstractObjectArrayAssert objectArrayAssert) {
-      return (SELF) super.withAssertionState(assertInstance).withIterables(objectArrayAssert.iterables)
-                                                            .withObjectArrays(objectArrayAssert.arrays)
+      return (SELF) super.withAssertionState(assertInstance).withObjectArrays(objectArrayAssert.arrays)
                                                             .withTypeComparators(objectArrayAssert.comparatorsByType)
                                                             .withComparatorsForElementPropertyOrFieldNames(objectArrayAssert.comparatorsForElementPropertyOrFieldNames)
                                                             .withComparatorsForElementPropertyOrFieldTypes(objectArrayAssert.comparatorsForElementPropertyOrFieldTypes);
     }
     return super.withAssertionState(assertInstance);
-  }
-
-  SELF withIterables(Iterables iterables) {
-    this.iterables = iterables;
-    return myself;
   }
 
   SELF withObjectArrays(ObjectArrays arrays) {

@@ -15,12 +15,8 @@
  */
 package org.assertj.core.api;
 
-import static org.mockito.Mockito.mock;
-
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
-
-import org.assertj.core.internal.Iterables;
 
 /**
  * Base class for {@link LongPredicateAssert} tests.
@@ -29,7 +25,6 @@ import org.assertj.core.internal.Iterables;
  */
 public abstract class LongPredicateAssertBaseTest extends BaseTestTemplate<LongPredicateAssert, LongPredicate> {
 
-  protected Iterables iterables;
   protected Predicate<Long> wrapped;
 
   @Override
@@ -40,8 +35,6 @@ public abstract class LongPredicateAssertBaseTest extends BaseTestTemplate<LongP
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    iterables = mock(Iterables.class);
-    assertions.iterables = iterables;
     wrapped = assertions.primitivePredicate;
   }
 }

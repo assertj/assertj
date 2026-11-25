@@ -20,7 +20,6 @@ import static org.mockito.Mockito.mock;
 import java.util.Collections;
 import java.util.List;
 
-import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.Lists;
 
 /**
@@ -46,10 +45,6 @@ public abstract class ListAssertBaseTest extends BaseTestTemplate<ListAssert<Str
 
   protected Lists getLists(ListAssert<String> assertions) {
     return assertions.lists;
-  }
-
-  protected Iterables getIterables(ListAssert<String> assertions) {
-    return assertions.iterables;
   }
 
 }

@@ -21,10 +21,10 @@ import static org.assertj.core.util.Lists.list;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.IterableElementComparisonStrategy;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
-import org.assertj.core.internal.Iterables;
 import org.assertj.core.testkit.Name;
 import org.assertj.core.testkit.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,11 +32,11 @@ import org.junit.jupiter.api.Test;
 
 class IterableAssert_usingRecursiveFieldByFieldElementComparatorIgnoringFields_Test extends IterableAssertBaseTest {
 
-  private Iterables iterablesBefore;
+  private ComparisonStrategy elementComparisonStrategyBefore;
 
   @BeforeEach
   void before() {
-    iterablesBefore = getIterables(assertions);
+    elementComparisonStrategyBefore = getElementComparisonStrategy(assertions);
   }
 
   @Override
@@ -46,14 +46,14 @@ class IterableAssert_usingRecursiveFieldByFieldElementComparatorIgnoringFields_T
 
   @Override
   protected void verify_internal_effects() {
-    then(iterablesBefore).isNotSameAs(getIterables(assertions));
-    then(getIterables(assertions).getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
+    then(elementComparisonStrategyBefore).isNotSameAs(getElementComparisonStrategy(assertions));
+    then(getElementComparisonStrategy(assertions)).isInstanceOf(ComparatorBasedComparisonStrategy.class);
     then(getObjects(assertions).getComparisonStrategy()).isInstanceOf(IterableElementComparisonStrategy.class);
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = RecursiveComparisonConfiguration.builder()
                                                                                                         .withIgnoredFields("field")
                                                                                                         .build();
     ConfigurableRecursiveFieldByFieldComparator expectedComparator = new ConfigurableRecursiveFieldByFieldComparator(recursiveComparisonConfiguration);
-    then(getIterables(assertions).getComparator()).isEqualTo(expectedComparator);
+    then(getElementComparator(assertions)).isEqualTo(expectedComparator);
     then(getObjects(assertions).getComparisonStrategy()).extracting("elementComparator").isEqualTo(expectedComparator);
   }
 

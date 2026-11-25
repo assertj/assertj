@@ -15,12 +15,8 @@
  */
 package org.assertj.core.api;
 
-import static org.mockito.Mockito.mock;
-
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
-
-import org.assertj.core.internal.Iterables;
 
 /**
  * Base class for {@link IntPredicateAssert} tests.
@@ -29,7 +25,6 @@ import org.assertj.core.internal.Iterables;
  */
 public abstract class IntPredicateAssertBaseTest extends BaseTestTemplate<IntPredicateAssert, IntPredicate> {
 
-  protected Iterables iterables;
   protected Predicate<Integer> wrapped;
 
   @Override
@@ -40,8 +35,6 @@ public abstract class IntPredicateAssertBaseTest extends BaseTestTemplate<IntPre
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    iterables = mock(Iterables.class);
-    assertions.iterables = iterables;
     wrapped = assertions.primitivePredicate;
   }
 }
