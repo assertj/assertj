@@ -63,6 +63,7 @@ import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonErrors.iterableToLookForIsNull;
+import static org.assertj.core.internal.CommonValidations.checkConditionIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid;
 import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkSizeBetween;
@@ -635,13 +636,12 @@ public class Arrays {
    * @param <E> the element type
    * @param info assertion information
    * @param assertionErrorCreator assertionError handler
-   * @param conditions condition helper
    * @param array the actual array
    * @param condition the condition to satisfy
    */
-  public <E> void assertAre(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Conditions conditions, Object array,
+  public <E> void assertAre(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array,
                             Condition<E> condition) {
-    List<E> notMatchingCondition = getElementsNotMatchingCondition(info, assertionErrorCreator, conditions, array, condition);
+    List<E> notMatchingCondition = getElementsNotMatchingCondition(info, assertionErrorCreator, array, condition);
     if (!notMatchingCondition.isEmpty())
       throw assertionErrorCreator.assertionError(info, elementsShouldBe(array, notMatchingCondition, condition));
   }
@@ -652,14 +652,12 @@ public class Arrays {
    * @param <E> the element type
    * @param info assertion information
    * @param assertionErrorCreator assertionError handler
-   * @param conditions condition helper
    * @param array the actual array
    * @param condition the condition not to satisfy
    */
-  public <E> void assertAreNot(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Conditions conditions,
-                               Object array,
+  public <E> void assertAreNot(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array,
                                Condition<E> condition) {
-    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, conditions, array, condition);
+    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, array, condition);
     if (!matchingElements.isEmpty())
       throw assertionErrorCreator.assertionError(info, elementsShouldNotBe(array, matchingElements, condition));
   }
@@ -670,13 +668,12 @@ public class Arrays {
    * @param <E> the element type
    * @param info assertion information
    * @param assertionErrorCreator assertionError handler
-   * @param conditions condition helper
    * @param array the actual array
    * @param condition the condition to have
    */
-  public <E> void assertHave(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Conditions conditions, Object array,
+  public <E> void assertHave(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array,
                              Condition<E> condition) {
-    List<E> notMatchingCondition = getElementsNotMatchingCondition(info, assertionErrorCreator, conditions, array, condition);
+    List<E> notMatchingCondition = getElementsNotMatchingCondition(info, assertionErrorCreator, array, condition);
     if (!notMatchingCondition.isEmpty())
       throw assertionErrorCreator.assertionError(info, elementsShouldHave(array, notMatchingCondition, condition));
   }
@@ -687,14 +684,12 @@ public class Arrays {
    * @param <E> the element type
    * @param info assertion information
    * @param assertionErrorCreator assertionError handler
-   * @param conditions condition helper
    * @param array the actual array
    * @param condition the condition not to have
    */
-  public <E> void assertHaveNot(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Conditions conditions,
-                                Object array,
+  public <E> void assertHaveNot(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array,
                                 Condition<E> condition) {
-    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, conditions, array, condition);
+    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, array, condition);
     if (!matchingElements.isEmpty())
       throw assertionErrorCreator.assertionError(info, elementsShouldNotHave(array, matchingElements, condition));
   }
@@ -705,15 +700,13 @@ public class Arrays {
    * @param <E> the element type
    * @param info assertion information
    * @param assertionErrorCreator assertionError handler
-   * @param conditions condition helper
    * @param array the actual array
    * @param times the minimum number of matches
    * @param condition the condition to satisfy
    */
-  public <E> void assertAreAtLeast(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Conditions conditions,
-                                   Object array,
+  public <E> void assertAreAtLeast(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array,
                                    int times, Condition<E> condition) {
-    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, conditions, array, condition);
+    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, array, condition);
     if (matchingElements.size() < times)
       throw assertionErrorCreator.assertionError(info, elementsShouldBeAtLeast(array, times, condition));
   }
@@ -724,15 +717,13 @@ public class Arrays {
    * @param <E> the element type
    * @param info assertion information
    * @param assertionErrorCreator assertionError handler
-   * @param conditions condition helper
    * @param array the actual array
    * @param times the maximum number of matches
    * @param condition the condition to satisfy
    */
-  public <E> void assertAreAtMost(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Conditions conditions,
-                                  Object array,
+  public <E> void assertAreAtMost(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array,
                                   int times, Condition<E> condition) {
-    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, conditions, array, condition);
+    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, array, condition);
     if (matchingElements.size() > times)
       throw assertionErrorCreator.assertionError(info, elementsShouldBeAtMost(array, times, condition));
   }
@@ -743,15 +734,13 @@ public class Arrays {
    * @param <E> the element type
    * @param info assertion information
    * @param assertionErrorCreator assertionError handler
-   * @param conditions condition helper
    * @param array the actual array
    * @param times the expected number of matches
    * @param condition the condition to satisfy
    */
-  public <E> void assertAreExactly(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Conditions conditions,
-                                   Object array,
+  public <E> void assertAreExactly(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array,
                                    int times, Condition<E> condition) {
-    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, conditions, array, condition);
+    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, array, condition);
     if (matchingElements.size() != times)
       throw assertionErrorCreator.assertionError(info, elementsShouldBeExactly(array, times, condition));
   }
@@ -762,15 +751,13 @@ public class Arrays {
    * @param <E> the element type
    * @param info assertion information
    * @param assertionErrorCreator assertionError handler
-   * @param conditions condition helper
    * @param array the actual array
    * @param times the minimum number of matches
    * @param condition the condition to have
    */
-  public <E> void assertHaveAtLeast(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Conditions conditions,
-                                    Object array,
+  public <E> void assertHaveAtLeast(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array,
                                     int times, Condition<E> condition) {
-    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, conditions, array, condition);
+    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, array, condition);
     if (matchingElements.size() < times)
       throw assertionErrorCreator.assertionError(info, elementsShouldHaveAtLeast(array, times, condition));
 
@@ -782,15 +769,13 @@ public class Arrays {
    * @param <E> the element type
    * @param info assertion information
    * @param assertionErrorCreator assertionError handler
-   * @param conditions condition helper
    * @param array the actual array
    * @param times the maximum number of matches
    * @param condition the condition to have
    */
-  public <E> void assertHaveAtMost(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Conditions conditions,
-                                   Object array,
+  public <E> void assertHaveAtMost(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array,
                                    int times, Condition<E> condition) {
-    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, conditions, array, condition);
+    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, array, condition);
     if (matchingElements.size() > times)
       throw assertionErrorCreator.assertionError(info, elementsShouldHaveAtMost(array, times, condition));
 
@@ -802,15 +787,13 @@ public class Arrays {
    * @param <E> the element type
    * @param info assertion information
    * @param assertionErrorCreator assertionError handler
-   * @param conditions condition helper
    * @param array the actual array
    * @param times the expected number of matches
    * @param condition the condition to have
    */
-  public <E> void assertHaveExactly(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Conditions conditions,
-                                    Object array,
+  public <E> void assertHaveExactly(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array,
                                     int times, Condition<E> condition) {
-    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, conditions, array, condition);
+    List<E> matchingElements = getElementsMatchingCondition(info, assertionErrorCreator, array, condition);
     if (matchingElements.size() != times)
       throw assertionErrorCreator.assertionError(info, elementsShouldHaveExactly(array, times, condition));
   }
@@ -836,24 +819,21 @@ public class Arrays {
 
   }
 
-  private <E> List<E> getElementsMatchingCondition(AssertionInfo info, AssertionErrorCreator assertionErrorCreator,
-                                                   Conditions conditions,
-                                                   Object array, Condition<E> condition) {
-    return filterElements(info, assertionErrorCreator, conditions, array, condition, false);
+  private <E> List<E> getElementsMatchingCondition(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array,
+                                                   Condition<E> condition) {
+    return filterElements(info, assertionErrorCreator, array, condition, false);
   }
 
   private <E> List<E> getElementsNotMatchingCondition(AssertionInfo info, AssertionErrorCreator assertionErrorCreator,
-                                                      Conditions conditions,
                                                       Object array, Condition<E> condition) {
-    return filterElements(info, assertionErrorCreator, conditions, array, condition, true);
+    return filterElements(info, assertionErrorCreator, array, condition, true);
   }
 
   @SuppressWarnings("unchecked")
-  private <E> List<E> filterElements(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Conditions conditions,
-                                     Object array,
+  private <E> List<E> filterElements(AssertionInfo info, AssertionErrorCreator assertionErrorCreator, Object array,
                                      Condition<E> condition, boolean negateCondition) throws AssertionError {
     assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
+    checkConditionIsNotNull(condition);
     try {
       List<E> filteredElements = new LinkedList<>();
       int arraySize = sizeOf(array);

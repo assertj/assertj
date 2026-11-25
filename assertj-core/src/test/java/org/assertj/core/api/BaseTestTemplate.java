@@ -26,7 +26,6 @@ import java.util.Comparator;
 import org.assertj.core.api.abstract_.AbstractAssert_isNull_Test;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.error.AssertionErrorCreator;
-import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,7 +56,6 @@ import org.junit.jupiter.api.Test;
 public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> {
   protected S assertions;
   protected Objects objects;
-  protected Conditions conditions;
   protected AssertionErrorCreator assertionErrorCreator;
 
   @BeforeEach
@@ -82,8 +80,6 @@ public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> {
   protected void inject_internal_objects() {
     objects = mock(Objects.class);
     assertions.objects = objects;
-    conditions = mock(Conditions.class);
-    assertions.conditions = conditions;
     assertionErrorCreator = spy(assertions.assertionErrorCreator);
     assertions.assertionErrorCreator = assertionErrorCreator;
   }

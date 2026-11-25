@@ -21,7 +21,6 @@ import static org.assertj.core.error.ElementsShouldBeExactly.elementsShouldBeExa
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -42,7 +41,6 @@ class Iterables_assertAreExactly_Test extends IterablesWithConditionsBaseTest {
   void should_pass_if_satisfies_exactly_times_condition() {
     actual = newArrayList("Yoda", "Luke", "Leia");
     iterables.assertAreExactly(someInfo(), actual, 2, jedi);
-    verify(conditions).assertIsNotNull(jedi);
   }
 
   @Test
@@ -51,7 +49,6 @@ class Iterables_assertAreExactly_Test extends IterablesWithConditionsBaseTest {
       actual = newArrayList("Yoda", "Luke");
       iterables.assertAreExactly(someInfo(), actual, 2, null);
     }).withMessage("The condition to evaluate should not be null");
-    verify(conditions).assertIsNotNull(null);
   }
 
   @Test
@@ -61,7 +58,6 @@ class Iterables_assertAreExactly_Test extends IterablesWithConditionsBaseTest {
     actual = newArrayList("Yoda", "Solo", "Leia");
 
     var error = expectAssertionError(() -> iterables.assertAreExactly(someInfo(), actual, 2, jedi));
-    verify(conditions).assertIsNotNull(jedi);
     then(error).hasMessage(elementsShouldBeExactly(actual, 2, jedi).create());
   }
 
@@ -72,7 +68,6 @@ class Iterables_assertAreExactly_Test extends IterablesWithConditionsBaseTest {
     actual = newArrayList("Yoda", "Luke", "Obiwan");
 
     var error = expectAssertionError(() -> iterables.assertAreExactly(someInfo(), actual, 2, jedi));
-    verify(conditions).assertIsNotNull(jedi);
     then(error).hasMessage(elementsShouldBeExactly(actual, 2, jedi).create());
   }
 

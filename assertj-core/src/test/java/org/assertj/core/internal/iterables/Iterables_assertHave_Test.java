@@ -21,7 +21,6 @@ import static org.assertj.core.error.ElementsShouldHave.elementsShouldHave;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
@@ -41,7 +40,6 @@ class Iterables_assertHave_Test extends IterablesWithConditionsBaseTest {
   void should_pass_if_each_element_satisfies_condition() {
     actual = newArrayList("Yoda", "Luke");
     iterables.assertHave(someInfo(), actual, jediPower);
-    verify(conditions).assertIsNotNull(jediPower);
   }
 
   @Test
@@ -59,7 +57,6 @@ class Iterables_assertHave_Test extends IterablesWithConditionsBaseTest {
     actual = newArrayList("Yoda", "Luke", "Leia");
 
     var error = expectAssertionError(() -> iterables.assertHave(someInfo(), actual, jediPower));
-    verify(conditions).assertIsNotNull(jediPower);
     then(error).hasMessage(elementsShouldHave(actual, newArrayList("Leia"), jediPower).create());
   }
 

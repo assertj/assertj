@@ -77,7 +77,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @return this assertion object.
    */
   public SELF isPresent() {
-    return executeAssertion(() -> assertValueIsPresent());
+    return executeAssertion(this::assertValueIsPresent);
   }
 
   /**
@@ -232,7 +232,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
     return executeAssertion(() -> {
       assertValueIsPresent();
       // noinspection OptionalGetWithoutIsPresent
-      conditions.assertIs(info, actual.get(), condition);
+      assertIs(actual.get(), condition);
     });
   }
 

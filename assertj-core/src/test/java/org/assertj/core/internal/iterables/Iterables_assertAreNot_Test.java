@@ -21,7 +21,6 @@ import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
@@ -41,7 +40,6 @@ class Iterables_assertAreNot_Test extends IterablesWithConditionsBaseTest {
   void should_pass_if_each_element_not_satisfies_condition() {
     actual = newArrayList("Solo", "Leia");
     iterables.assertAreNot(someInfo(), actual, jedi);
-    verify(conditions).assertIsNotNull(jedi);
   }
 
   @Test
@@ -50,7 +48,6 @@ class Iterables_assertAreNot_Test extends IterablesWithConditionsBaseTest {
       actual = newArrayList("Solo", "Leia");
       iterables.assertAreNot(someInfo(), actual, null);
     }).withMessage("The condition to evaluate should not be null");
-    verify(conditions).assertIsNotNull(null);
   }
 
   @Test
@@ -60,7 +57,6 @@ class Iterables_assertAreNot_Test extends IterablesWithConditionsBaseTest {
     actual = newArrayList("Solo", "Leia", "Yoda");
 
     var error = expectAssertionError(() -> iterables.assertAreNot(someInfo(), actual, jedi));
-    verify(conditions).assertIsNotNull(jedi);
     then(error).hasMessage(elementsShouldNotBe(actual, newArrayList("Yoda"), jedi).create());
   }
 

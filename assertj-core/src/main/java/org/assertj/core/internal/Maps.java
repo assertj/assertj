@@ -42,6 +42,7 @@ import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
 import static org.assertj.core.error.ShouldNotContainKeys.shouldNotContainKeys;
 import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
 import static org.assertj.core.internal.Arrays.assertIsArray;
+import static org.assertj.core.internal.CommonValidations.checkConditionIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkSizeBetween;
 import static org.assertj.core.internal.CommonValidations.checkSizeGreaterThan;
 import static org.assertj.core.internal.CommonValidations.checkSizeGreaterThanOrEqualTo;
@@ -104,7 +105,6 @@ public class Maps {
   AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Conditions conditions = Conditions.instance();
 
   /**
    * Verifies that every entry satisfies the requirements.
@@ -413,7 +413,7 @@ public class Maps {
    */
   public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key, Condition<? super V> valueCondition) {
     assertContainsKey(info, actual, key);
-    conditions.assertIsNotNull(valueCondition);
+    checkConditionIsNotNull(valueCondition);
     V value = actual.get(key);
     if (!valueCondition.matches(value))
       throw assertionErrorCreator.assertionError(info, elementsShouldBe(actual, value, valueCondition));
@@ -449,7 +449,7 @@ public class Maps {
   public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual,
                                               Condition<? super Entry<K, V>> entryCondition) {
     assertNotNull(info, actual);
-    conditions.assertIsNotNull(entryCondition);
+    checkConditionIsNotNull(entryCondition);
     for (Entry<K, V> entry : actual.entrySet()) {
       if (entryCondition.matches(entry)) return;
     }
@@ -470,8 +470,8 @@ public class Maps {
   public <K, V> void assertHasEntrySatisfyingConditions(AssertionInfo info, Map<K, V> actual, Condition<? super K> keyCondition,
                                                         Condition<? super V> valueCondition) {
     assertNotNull(info, actual);
-    conditions.assertIsNotNull(keyCondition, "The condition to evaluate for entries key should not be null");
-    conditions.assertIsNotNull(valueCondition, "The condition to evaluate for entries value should not be null");
+    requireNonNull(keyCondition, "The condition to evaluate for entries key should not be null");
+    requireNonNull(valueCondition, "The condition to evaluate for entries value should not be null");
 
     for (Entry<K, V> entry : actual.entrySet()) {
       if (keyCondition.matches(entry.getKey()) && valueCondition.matches(entry.getValue())) return;
@@ -490,7 +490,7 @@ public class Maps {
    */
   public <K> void assertHasKeySatisfying(AssertionInfo info, Map<K, ?> actual, Condition<? super K> keyCondition) {
     assertNotNull(info, actual);
-    conditions.assertIsNotNull(keyCondition);
+    checkConditionIsNotNull(keyCondition);
 
     for (K key : actual.keySet()) {
       if (keyCondition.matches(key)) return;
@@ -509,7 +509,7 @@ public class Maps {
    */
   public <V> void assertHasValueSatisfying(AssertionInfo info, Map<?, V> actual, Condition<? super V> valueCondition) {
     assertNotNull(info, actual);
-    conditions.assertIsNotNull(valueCondition);
+    checkConditionIsNotNull(valueCondition);
 
     for (V value : actual.values()) {
       if (valueCondition.matches(value)) return;

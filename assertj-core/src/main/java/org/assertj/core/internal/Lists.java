@@ -25,6 +25,7 @@ import static org.assertj.core.error.ShouldBeSorted.shouldHaveMutuallyComparable
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldHaveAtIndex.shouldHaveAtIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
+import static org.assertj.core.internal.CommonValidations.checkConditionIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid;
 
 import java.util.Comparator;
@@ -289,7 +290,7 @@ public class Lists {
   }
 
   private void assertNotNull(Condition<?> condition) {
-    Conditions.instance().assertIsNotNull(condition);
+    checkConditionIsNotNull(condition);
   }
 
   private boolean areEqual(Object actual, Object other) {

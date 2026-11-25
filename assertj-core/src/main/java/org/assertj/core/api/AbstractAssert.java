@@ -19,11 +19,18 @@ import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.description.Description.mostRelevantDescription;
+import static org.assertj.core.error.ShouldBe.shouldBe;
+import static org.assertj.core.error.ShouldHave.shouldHave;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
+import static org.assertj.core.error.ShouldNotBe.shouldNotBe;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.error.ShouldNotHave.shouldNotHave;
 import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
+import static org.assertj.core.error.ShouldSatisfy.shouldSatisfy;
+import static org.assertj.core.error.ShouldSatisfy.shouldSatisfyAll;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
+import static org.assertj.core.internal.CommonValidations.checkConditionIsNotNull;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.formatIfArgs;
@@ -42,12 +49,12 @@ import org.assertj.core.api.AssertFactory.ValueProvider;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.condition.AllOf;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.description.Description;
 import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.MessageFormatter;
-import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.presentation.PredicateDescription;
@@ -79,9 +86,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Objects instance
    */
   protected Objects objects = Objects.instance();
-
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Conditions conditions = Conditions.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   /**
@@ -611,7 +615,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF is(Condition<? super ACTUAL> condition) {
-    return executeAssertion(() -> conditions.assertIs(info, actual, condition));
+    return executeAssertion(() -> assertIs(actual, condition));
   }
 
   /**
@@ -619,7 +623,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isNot(Condition<? super ACTUAL> condition) {
-    return executeAssertion(() -> conditions.assertIsNot(info, actual, condition));
+    return executeAssertion(() -> assertIsNot(condition));
   }
 
   /**
@@ -627,7 +631,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF has(Condition<? super ACTUAL> condition) {
-    return executeAssertion(() -> conditions.assertHas(info, actual, condition));
+    return executeAssertion(() -> assertHas(condition));
   }
 
   /**
@@ -635,7 +639,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF doesNotHave(Condition<? super ACTUAL> condition) {
-    return executeAssertion(() -> conditions.assertDoesNotHave(info, actual, condition));
+    return executeAssertion(() -> assertDoesNotHave(condition));
   }
 
   /**
@@ -643,7 +647,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF satisfies(Condition<? super ACTUAL> condition) {
-    return executeAssertion(() -> conditions.assertSatisfies(info, actual, condition));
+    return executeAssertion(() -> assertSatisfies(condition));
   }
 
   /**
@@ -1458,4 +1462,32 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return actual;
   }
 
+  // also used by assertions verifying a condition on a value derived from actual (Optional, CompletableFuture)
+  <T> void assertIs(T value, Condition<? super T> condition) {
+    checkConditionIsNotNull(condition);
+    if (!condition.matches(value)) throw assertionError(shouldBe(value, condition));
+  }
+
+  private void assertIsNot(Condition<? super ACTUAL> condition) {
+    checkConditionIsNotNull(condition);
+    if (condition.matches(actual)) throw assertionError(shouldNotBe(actual, condition));
+  }
+
+  private void assertHas(Condition<? super ACTUAL> condition) {
+    checkConditionIsNotNull(condition);
+    if (!condition.matches(actual)) throw assertionError(shouldHave(actual, condition));
+  }
+
+  private void assertDoesNotHave(Condition<? super ACTUAL> condition) {
+    checkConditionIsNotNull(condition);
+    if (condition.matches(actual)) throw assertionError(shouldNotHave(actual, condition));
+  }
+
+  private void assertSatisfies(Condition<? super ACTUAL> condition) {
+    checkConditionIsNotNull(condition);
+    if (condition.matches(actual)) return;
+    if (condition instanceof AllOf)
+      throw assertionError(shouldSatisfyAll(actual, condition.conditionDescriptionWithStatus(actual)));
+    throw assertionError(shouldSatisfy(actual, condition));
+  }
 }

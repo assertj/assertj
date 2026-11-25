@@ -21,7 +21,6 @@ import static org.assertj.core.error.ElementsShouldBeAtLeast.elementsShouldBeAtL
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -42,14 +41,12 @@ class Iterables_assertAreAtLeast_Test extends IterablesWithConditionsBaseTest {
   void should_pass_if_satisfies_at_least_times_condition() {
     actual = newArrayList("Yoda", "Luke", "Leia");
     iterables.assertAreAtLeast(someInfo(), actual, 2, jedi);
-    verify(conditions).assertIsNotNull(jedi);
   }
 
   @Test
   void should_pass_if_all_satisfies_condition_() {
     actual = newArrayList("Yoda", "Luke", "Obiwan");
     iterables.assertAreAtLeast(someInfo(), actual, 2, jedi);
-    verify(conditions).assertIsNotNull(jedi);
   }
 
   @Test
@@ -58,7 +55,6 @@ class Iterables_assertAreAtLeast_Test extends IterablesWithConditionsBaseTest {
       actual = newArrayList("Yoda", "Luke");
       iterables.assertAreAtLeast(someInfo(), actual, 2, null);
     }).withMessage("The condition to evaluate should not be null");
-    verify(conditions).assertIsNotNull(null);
   }
 
   @Test
@@ -68,7 +64,6 @@ class Iterables_assertAreAtLeast_Test extends IterablesWithConditionsBaseTest {
     actual = newArrayList("Yoda", "Solo", "Leia");
 
     var error = expectAssertionError(() -> iterables.assertAreAtLeast(someInfo(), actual, 2, jedi));
-    verify(conditions).assertIsNotNull(jedi);
     then(error).hasMessage(elementsShouldBeAtLeast(actual, 2, jedi).create());
   }
 

@@ -410,7 +410,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
     return executeAssertion(() -> {
       isCompleted();
       RESULT actualResult = actual.join();
-      conditions.assertIs(info, actualResult, condition);
+      assertIs(actualResult, condition);
     });
   }
 

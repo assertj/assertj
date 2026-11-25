@@ -107,7 +107,6 @@ public class ObjectArrays {
   AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Conditions conditions = Conditions.instance();
 
   /**
    * Asserts that the given array is {@code null} or empty.
@@ -566,7 +565,7 @@ public class ObjectArrays {
    * @throws AssertionError if one or more elements do not satisfy the given condition.
    */
   public <E> void assertAre(AssertionInfo info, E[] actual, Condition<? super E> condition) {
-    arrays.assertAre(info, assertionErrorCreator, conditions, actual, condition);
+    arrays.assertAre(info, assertionErrorCreator, actual, condition);
   }
 
   /**
@@ -580,7 +579,7 @@ public class ObjectArrays {
    * @throws AssertionError if one or more elements satisfy the given condition.
    */
   public <E> void assertAreNot(AssertionInfo info, E[] actual, Condition<? super E> condition) {
-    arrays.assertAreNot(info, assertionErrorCreator, conditions, actual, condition);
+    arrays.assertAreNot(info, assertionErrorCreator, actual, condition);
   }
 
   /**
@@ -594,7 +593,7 @@ public class ObjectArrays {
    * @throws AssertionError if one or more elements do not satisfy the given condition.
    */
   public <E> void assertHave(AssertionInfo info, E[] actual, Condition<? super E> condition) {
-    arrays.assertHave(info, assertionErrorCreator, conditions, actual, condition);
+    arrays.assertHave(info, assertionErrorCreator, actual, condition);
   }
 
   /**
@@ -608,7 +607,7 @@ public class ObjectArrays {
    * @throws AssertionError if one or more elements satisfy the given condition.
    */
   public <E> void assertDoNotHave(AssertionInfo info, E[] actual, Condition<? super E> condition) {
-    arrays.assertHaveNot(info, assertionErrorCreator, conditions, actual, condition);
+    arrays.assertHaveNot(info, assertionErrorCreator, actual, condition);
   }
 
   /**
@@ -623,7 +622,7 @@ public class ObjectArrays {
    * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
    */
   public <E> void assertAreAtLeast(AssertionInfo info, E[] actual, int n, Condition<? super E> condition) {
-    arrays.assertAreAtLeast(info, assertionErrorCreator, conditions, actual, n, condition);
+    arrays.assertAreAtLeast(info, assertionErrorCreator, actual, n, condition);
   }
 
   /**
@@ -638,7 +637,7 @@ public class ObjectArrays {
    * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
    */
   public <E> void assertAreAtMost(AssertionInfo info, E[] actual, int n, Condition<? super E> condition) {
-    arrays.assertAreAtMost(info, assertionErrorCreator, conditions, actual, n, condition);
+    arrays.assertAreAtMost(info, assertionErrorCreator, actual, n, condition);
   }
 
   /**
@@ -653,7 +652,7 @@ public class ObjectArrays {
    * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
    */
   public <E> void assertAreExactly(AssertionInfo info, E[] actual, int n, Condition<? super E> condition) {
-    arrays.assertAreExactly(info, assertionErrorCreator, conditions, actual, n, condition);
+    arrays.assertAreExactly(info, assertionErrorCreator, actual, n, condition);
   }
 
   /**
@@ -669,7 +668,7 @@ public class ObjectArrays {
    * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
    */
   public <E> void assertHaveAtLeast(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
-    arrays.assertHaveAtLeast(info, assertionErrorCreator, conditions, actual, times, condition);
+    arrays.assertHaveAtLeast(info, assertionErrorCreator, actual, times, condition);
   }
 
   /**
@@ -685,7 +684,7 @@ public class ObjectArrays {
    * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
    */
   public <E> void assertHaveAtMost(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
-    arrays.assertHaveAtMost(info, assertionErrorCreator, conditions, actual, times, condition);
+    arrays.assertHaveAtMost(info, assertionErrorCreator, actual, times, condition);
   }
 
   /**
@@ -701,7 +700,7 @@ public class ObjectArrays {
    * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
    */
   public <E> void assertHaveExactly(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
-    arrays.assertHaveExactly(info, assertionErrorCreator, conditions, actual, times, condition);
+    arrays.assertHaveExactly(info, assertionErrorCreator, actual, times, condition);
   }
 
   /**

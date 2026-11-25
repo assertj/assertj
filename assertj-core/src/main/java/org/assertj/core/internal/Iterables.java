@@ -63,6 +63,7 @@ import static org.assertj.core.error.ShouldSatisfyOnlyOnce.shouldSatisfyOnlyOnce
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.error.ZippedElementsShouldSatisfy.zippedElementsShouldSatisfy;
 import static org.assertj.core.internal.Arrays.assertIsArray;
+import static org.assertj.core.internal.CommonValidations.checkConditionIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNullAndNotEmpty;
 import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull;
@@ -133,7 +134,6 @@ public class Iterables {
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   AssertionErrorCreator assertionErrorCreator = AssertionErrorCreator.instance();
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Conditions conditions = Conditions.instance();
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Predicates predicates = Predicates.instance();
 
@@ -867,7 +867,7 @@ public class Iterables {
    */
   public <T> void assertAre(AssertionInfo info, Iterable<? extends T> actual, Condition<? super T> condition) {
     assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
+    checkConditionIsNotNull(condition);
     try {
       List<T> notSatisfiesCondition = notSatisfyingCondition(actual, condition);
       if (!notSatisfiesCondition.isEmpty())
@@ -890,7 +890,7 @@ public class Iterables {
    */
   public <E> void assertAreNot(AssertionInfo info, Iterable<? extends E> actual, Condition<? super E> condition) {
     assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
+    checkConditionIsNotNull(condition);
     try {
       List<E> satisfiesCondition = satisfiesCondition(actual, condition);
       if (!satisfiesCondition.isEmpty())
@@ -913,7 +913,7 @@ public class Iterables {
    */
   public <E> void assertHave(AssertionInfo info, Iterable<? extends E> actual, Condition<? super E> condition) {
     assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
+    checkConditionIsNotNull(condition);
     try {
       List<E> notSatisfiesCondition = notSatisfyingCondition(actual, condition);
       if (!notSatisfiesCondition.isEmpty())
@@ -936,7 +936,7 @@ public class Iterables {
    */
   public <E> void assertDoNotHave(AssertionInfo info, Iterable<? extends E> actual, Condition<? super E> condition) {
     assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
+    checkConditionIsNotNull(condition);
     try {
       List<E> satisfiesCondition = satisfiesCondition(actual, condition);
       if (!satisfiesCondition.isEmpty())
@@ -962,7 +962,7 @@ public class Iterables {
   public <E> void assertAreAtLeast(AssertionInfo info, Iterable<? extends E> actual, int times,
                                    Condition<? super E> condition) {
     assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
+    checkConditionIsNotNull(condition);
     try {
       if (!conditionIsSatisfiedAtLeastNTimes(actual, times, condition))
         throw assertionErrorCreator.assertionError(info, elementsShouldBeAtLeast(actual, times, condition));
@@ -993,7 +993,7 @@ public class Iterables {
   public <E> void assertAreAtMost(AssertionInfo info, Iterable<? extends E> actual, int n,
                                   Condition<? super E> condition) {
     assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
+    checkConditionIsNotNull(condition);
     try {
       if (!conditionIsSatisfiedAtMostNTimes(actual, condition, n))
         throw assertionErrorCreator.assertionError(info, elementsShouldBeAtMost(actual, n, condition));
@@ -1024,7 +1024,7 @@ public class Iterables {
   public <E> void assertAreExactly(AssertionInfo info, Iterable<? extends E> actual, int times,
                                    Condition<? super E> condition) {
     assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
+    checkConditionIsNotNull(condition);
     try {
       if (!conditionIsSatisfiedNTimes(actual, condition, times))
         throw assertionErrorCreator.assertionError(info, elementsShouldBeExactly(actual, times, condition));
@@ -1054,7 +1054,7 @@ public class Iterables {
   public <E> void assertHaveAtLeast(AssertionInfo info, Iterable<? extends E> actual, int times,
                                     Condition<? super E> condition) {
     assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
+    checkConditionIsNotNull(condition);
     try {
       if (!conditionIsSatisfiedAtLeastNTimes(actual, times, condition))
         throw assertionErrorCreator.assertionError(info, elementsShouldHaveAtLeast(actual, times, condition));
@@ -1079,7 +1079,7 @@ public class Iterables {
   public <E> void assertHaveAtMost(AssertionInfo info, Iterable<? extends E> actual, int times,
                                    Condition<? super E> condition) {
     assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
+    checkConditionIsNotNull(condition);
     try {
       if (!conditionIsSatisfiedAtMostNTimes(actual, condition, times))
         throw assertionErrorCreator.assertionError(info, elementsShouldHaveAtMost(actual, times, condition));
@@ -1104,7 +1104,7 @@ public class Iterables {
   public <E> void assertHaveExactly(AssertionInfo info, Iterable<? extends E> actual, int times,
                                     Condition<? super E> condition) {
     assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
+    checkConditionIsNotNull(condition);
     try {
       if (!conditionIsSatisfiedNTimes(actual, condition, times))
         throw assertionErrorCreator.assertionError(info, elementsShouldHaveExactly(actual, times, condition));

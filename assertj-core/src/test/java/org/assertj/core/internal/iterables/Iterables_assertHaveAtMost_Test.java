@@ -21,7 +21,6 @@ import static org.assertj.core.error.ElementsShouldHaveAtMost.elementsShouldHave
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -42,14 +41,12 @@ class Iterables_assertHaveAtMost_Test extends IterablesWithConditionsBaseTest {
   void should_pass_if_satisfies_at_most_times_condition() {
     actual = newArrayList("Yoda", "Luke", "Leia");
     iterables.assertHaveAtMost(someInfo(), actual, 2, jediPower);
-    verify(conditions).assertIsNotNull(jediPower);
   }
 
   @Test
   void should_pass_if_never_satisfies_condition_() {
     actual = newArrayList("Chewbacca", "Leia", "Obiwan");
     iterables.assertHaveAtMost(someInfo(), actual, 2, jediPower);
-    verify(conditions).assertIsNotNull(jediPower);
   }
 
   @Test
@@ -58,7 +55,6 @@ class Iterables_assertHaveAtMost_Test extends IterablesWithConditionsBaseTest {
       actual = newArrayList("Yoda", "Luke");
       iterables.assertHaveAtMost(someInfo(), actual, 2, null);
     }).withMessage("The condition to evaluate should not be null");
-    verify(conditions).assertIsNotNull(null);
   }
 
   @Test
@@ -68,7 +64,6 @@ class Iterables_assertHaveAtMost_Test extends IterablesWithConditionsBaseTest {
     actual = newArrayList("Yoda", "Luke", "Obiwan");
 
     var error = expectAssertionError(() -> iterables.assertHaveAtMost(someInfo(), actual, 2, jediPower));
-    verify(conditions).assertIsNotNull(jediPower);
     then(error).hasMessage(elementsShouldHaveAtMost(actual, 2, jediPower).create());
   }
 
