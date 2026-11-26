@@ -1,0 +1,75 @@
+= Quick start
+
+This guide is for the AssertJ Guava module.
+
+[[java-versions]]
+== Supported Java versions
+
+AssertJ Guava requires Java 17 or higher.
+
+[[get-assertj-guava]]
+== Get AssertJ Guava
+
+The AssertJ Guava artifact can be included directly using its xref:dependency-metadata.adoc#guava[dependency metadata] or indirectly via the xref:dependency-metadata.adoc#bom[_Bill of Materials_ POM].
+
+=== Maven
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+  <groupId>org.assertj</groupId>
+  <artifactId>assertj-guava</artifactId>
+  <version>{assertj-version}</version>
+  <scope>test</scope>
+</dependency>
+----
+
+=== Gradle
+
+[source,groovy,subs=attributes+]
+----
+testImplementation("org.assertj:assertj-guava:{assertj-version}")
+----
+
+=== Other build tools
+
+Check this page to find the relevant https://central.sonatype.com/artifact/org.assertj/assertj-guava/{assertj-version}[AssertJ Guava dependency declaration].
+
+== Use Assertions class entry point
+
+The `org.assertj.guava.api.Assertions` class is the only class you need to start using AssertJ Guava.
+
+[source,java]
+----
+import static org.assertj.guava.api.Assertions.assertThat;
+----
+
+== Examples
+
+[source,java]
+----
+include::example$java/example/guava/GuavaAssertionsExample.java[tags=imports,indent=0]
+
+include::example$java/example/guava/GuavaAssertionsExample.java[tags=multimap,indent=0]
+
+include::example$java/example/guava/GuavaAssertionsExample.java[tags=multiset,indent=0]
+
+include::example$java/example/guava/GuavaAssertionsExample.java[tags=range,indent=0]
+
+include::example$java/example/guava/GuavaAssertionsExample.java[tags=table,indent=0]
+----
+
+Note that you can find more working examples in the assertj-examples project: {assertj-examples-github}/tree/main/assertions-examples/src/test/java/org/assertj/examples/guava.
+
+[[ide]]
+== IDE configuration
+
+You can configure your IDE so that when you start typing `as` and trigger code completion `assertThat` will show up in the suggested completions.
+
+Eclipse:
+
+. Go to Window > Preferences > Java > Editor > Content Assist > Favorites > New Type.
+. Enter `org.assertj.guava.api.Assertions` and click OK.
+. Check that you see `org.assertj.guava.api.Assertions.*` in Favorites.
+
+Intellij Idea: No special configuration is needed, just start typing `asser` and then invoke completion (Ctrl-Space) twice.
