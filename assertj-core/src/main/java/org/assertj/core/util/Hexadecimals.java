@@ -43,6 +43,9 @@ public class Hexadecimals {
    * @return the hexadecimal string
    */
   public static String toHexString(byte... bytes) {
+    if (bytes == null) {
+      return null;
+    }
     StringBuilder stringBuilder = new StringBuilder();
     for (byte b : bytes)
       stringBuilder.append(byteToHexString(b));
