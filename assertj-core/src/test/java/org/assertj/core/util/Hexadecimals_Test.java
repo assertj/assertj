@@ -31,4 +31,11 @@ class Hexadecimals_Test {
     assertThat(Hexadecimals.byteToHexString((byte) 0xa2)).isEqualTo("A2");
   }
 
+  @Test
+  void should_return_hexadecimal_representation_of_bytes() {
+    assertThat(Hexadecimals.toHexString((byte[]) null)).isNull();
+    assertThat(Hexadecimals.toHexString()).isEmpty();
+    assertThat(Hexadecimals.toHexString((byte) 0x01, (byte) 0x02, (byte) 0x0a, (byte) 0xff)).isEqualTo("01020AFF");
+  }
+
 }
