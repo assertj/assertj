@@ -149,10 +149,10 @@ Some examples are:
 The user guides are written in AsciiDoc and built with [Antora](https://antora.org).
 Each module keeps its own guide next to its code:
 
-| Module          | Pages                                              | Code examples included in the pages  |
-|-----------------|----------------------------------------------------|--------------------------------------|
-| `assertj-core`  | `assertj-core/src/docs/antora/modules/ROOT/pages`  | `assertj-core/src/test/java/example` |
-| `assertj-guava` | `assertj-guava/src/docs/antora/modules/ROOT/pages` | none                                 |
+| Module          | Pages                                              | Code examples included in the pages   |
+|-----------------|----------------------------------------------------|---------------------------------------|
+| `assertj-core`  | `assertj-core/src/docs/antora/modules/ROOT/pages`  | `assertj-core/src/test/java/example`  |
+| `assertj-guava` | `assertj-guava/src/docs/antora/modules/ROOT/pages` | `assertj-guava/src/test/java/example` |
 
 The code examples are compiled with the test sources of the module, so an API change that breaks them fails the build.
 They are not executed as tests, because some of them fail on purpose, and they are excluded from `spotless:apply`, because it would strip their AsciiDoc callouts such as `// <1>`.
