@@ -136,7 +136,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>7.0.10</version>
+      <version>7.1.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
