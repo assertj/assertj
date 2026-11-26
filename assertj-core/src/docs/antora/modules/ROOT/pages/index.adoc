@@ -1,0 +1,36 @@
+= AssertJ Core
+
+The goal of this document is to provide comprehensive reference documentation for
+programmers writing tests assertions with AssertJ.
+
+// ifdef::backend-html5[This document is also available as a link:index.pdf[PDF download].]
+
+[[what-is-assertj]]
+== What is AssertJ Core?
+
+AssertJ is a Java library that provides a rich set of assertions and truly helpful error messages, improves test code readability, and is designed to be super easy to use within your favorite IDE.
+
+{assertj-core-javadoc} is the latest version of AssertJ Core Javadoc, each assertion is explained, most of them with code examples so be sure to check it if you want to know what a specific assertion does.
+
+Here are a few examples of AssertJ assertions:
+
+[source,java]
+----
+include::example$java/example/core/IntroductionExample.java[tags=import,indent=0]
+
+include::example$java/example/core/IntroductionExample.java[tags=user_guide,indent=0]
+----
+
+
+[[getting-help]]
+== Getting Help
+
+Ask AssertJ related questions on {StackOverflow}.
+
+== Contributing to this guide
+
+You are very welcome to suggest or contribute improvements to this guide, that's one great way to give back to open source projects!
+
+This guide is maintained along with the source code in {assertj-core-github}, you can {assertj-core-github}/issues[create a new issue], submit a pull request. Et voilà!
+
+This guide is written with the awesome https://asciidoctor.org/docs/asciidoc-writers-guide/[Asciidoctor] which makes it easy to improve.
