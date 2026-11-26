@@ -15,7 +15,10 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Comparator;
+import java.util.function.BiPredicate;
 
 /**
  * Assertions applicable to groups of values that can be enumerated (e.g. arrays, collections or strings.)
@@ -272,6 +275,47 @@ public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, 
    * @return {@code this} assertion object.
    */
   SELF usingElementComparator(Comparator<? super ELEMENT> customComparator);
+
+  /**
+   * Use given custom {@link BiPredicate} instead of relying on actual type A <code>equals</code> method to compare
+   * group elements for incoming assertion checks.
+   * <p>
+   * Custom predicate is bound to assertion instance, meaning that if a new assertion is created, it will use default
+   * comparison strategy.
+   * <p>
+   * This method is named after {@link AssertWithComparator#usingEquals(BiPredicate)} and not as an overload of
+   * {@link #usingElementComparator(Comparator)}: an overload taking a {@link BiPredicate} makes calls passing an
+   * implicitly typed lambda like {@code (o1, o2) -> o1.compareTo(o2)} ambiguous, since such a lambda is compatible
+   * with both functional interfaces.
+   * <p>
+   * Examples :
+   * <pre><code class='java'> // compares invoices by payee
+   * assertThat(invoiceList).usingElementEquals((i1, i2) -&gt; i1.payee.equals(i2.payee))
+   *                        .contains(expectedInvoice);
+   *
+   * // ... but if we compare only races, Sauron is in fellowshipOfTheRing because he's a Maia like Gandalf.
+   * assertThat(fellowshipOfTheRing).usingElementEquals((c1, c2) -&gt; c1.race.equals(c2.race))
+   *                                .contains(sauron);</code></pre>
+   *
+   * @param elementEquals the bi-predicate to use for incoming assertion checks.
+   * @throws NullPointerException if the given bi-predicate is {@code null}.
+   * @return {@code this} assertion object.
+   * @since 4.0.0
+   */
+  default SELF usingElementEquals(BiPredicate<? super ELEMENT, ? super ELEMENT> elementEquals) {
+    requireNonNull(elementEquals, "The element bi-predicate must not be null");
+    return usingElementComparator(new Comparator<ELEMENT>() {
+      @Override
+      public int compare(ELEMENT element, ELEMENT other) {
+        return elementEquals.test(element, other) ? 0 : -1;
+      }
+
+      @Override
+      public String toString() {
+        return elementEquals.toString();
+      }
+    });
+  }
 
   /**
    * Revert to standard comparison for incoming assertion group element checks.
