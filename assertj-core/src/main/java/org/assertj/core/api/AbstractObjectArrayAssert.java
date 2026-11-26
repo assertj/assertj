@@ -2062,7 +2062,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Person raj = new Person("Raj Koothrappali", true);
    * Person howard = new Person("Howard Wolowitz", true);
    *
-   * Doctor[] doctors = array(drSheldon, drLeonard, drRaj);
+   * Object[] doctors = array(drSheldon, drLeonard, drRaj);
    * Person[] people = array(sheldon, leonard, raj);
    *
    * // assertion succeeds as both lists contains equivalent items in order.
@@ -2075,7 +2075,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *                    .contains(leonard);
    *
    * // assertion fails because howard is missing and leonard is not expected.
-   * people = list(howard, sheldon, raj)
+   * people = array(howard, sheldon, raj);
    * assertThat(doctors).usingRecursiveFieldByFieldElementComparator()
    *                    .contains(howard);</code></pre>
    * <p>
@@ -2148,11 +2148,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Person raj = new Person("Raj Koothrappali", false);
    * Person howard = new Person("Howard Wolowitz", false);
    *
-   * Doctor[] doctors = array(drSheldon, drLeonard, drRaj);
+   * Object[] doctors = array(drSheldon, drLeonard, drRaj);
    * Person[] people = array(sheldon, leonard, raj);
    *
    * RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-   *                                                                                  .withIgnoredFields​("hasPhd");
+   *                                                                                  .withIgnoredFields("hasPhd")
+   *                                                                                  .build();
    *
    * // assertion succeeds as both lists contains equivalent items in order.
    * assertThat(doctors).usingRecursiveFieldByFieldElementComparator(configuration)
@@ -2164,7 +2165,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *                    .contains(leonard);
    *
    * // assertion fails because howard is missing and leonard is not expected.
-   * people = list(howard, sheldon, raj)
+   * people = array(howard, sheldon, raj);
    * assertThat(doctors).usingRecursiveFieldByFieldElementComparator(configuration)
    *                    .contains(howard);</code></pre>
    *

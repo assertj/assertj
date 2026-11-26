@@ -2180,8 +2180,8 @@ public class AtomicReferenceArrayAssert<T>
    * Person raj = new Person("Raj Koothrappali", true);
    * Person howard = new Person("Howard Wolowitz", true);
    *
-   * AtomicReferenceArray&lt;Doctor&gt; doctors = new AtomicReferenceArray&lt;&gt;(array(drSheldon, drLeonard, drRaj));
-   * AtomicReferenceArray&lt;Person&gt; persons = new AtomicReferenceArray&lt;&gt;(array(sheldon, leonard, raj));
+   * AtomicReferenceArray&lt;Object&gt; doctors = new AtomicReferenceArray&lt;&gt;(array(drSheldon, drLeonard, drRaj));
+   * AtomicReferenceArray&lt;Person&gt; people = new AtomicReferenceArray&lt;&gt;(array(sheldon, leonard, raj));
    *
    * // assertion succeeds as both lists contains equivalent items in order.
    * assertThat(doctors).usingRecursiveFieldByFieldElementComparator()
@@ -2193,7 +2193,7 @@ public class AtomicReferenceArrayAssert<T>
    *                    .contains(leonard);
    *
    * // assertion fails because howard is missing and leonard is not expected.
-   * people = list(howard, sheldon, raj)
+   * people = new AtomicReferenceArray&lt;&gt;(array(howard, sheldon, raj));
    * assertThat(doctors).usingRecursiveFieldByFieldElementComparator()
    *                    .contains(howard);</code></pre>
    * <p>
@@ -2264,11 +2264,12 @@ public class AtomicReferenceArrayAssert<T>
    * Person raj = new Person("Raj Koothrappali", false);
    * Person howard = new Person("Howard Wolowitz", false);
    *
-   * AtomicReferenceArray&lt;Doctor&gt; doctors = new AtomicReferenceArray&lt;&gt;(array(drSheldon, drLeonard, drRaj));
-   * AtomicReferenceArray&lt;Person&gt; persons = new AtomicReferenceArray&lt;&gt;(array(sheldon, leonard, raj));
+   * AtomicReferenceArray&lt;Object&gt; doctors = new AtomicReferenceArray&lt;&gt;(array(drSheldon, drLeonard, drRaj));
+   * AtomicReferenceArray&lt;Person&gt; people = new AtomicReferenceArray&lt;&gt;(array(sheldon, leonard, raj));
    *
    * RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-   *                                                                                  .withIgnoredFields​("hasPhd");
+   *                                                                                  .withIgnoredFields("hasPhd")
+   *                                                                                  .build();
    *
    * // assertion succeeds as both lists contains equivalent items in order.
    * assertThat(doctors).usingRecursiveFieldByFieldElementComparator(configuration)
@@ -2280,7 +2281,7 @@ public class AtomicReferenceArrayAssert<T>
    *                    .contains(leonard);
    *
    * // assertion fails because howard is missing and leonard is not expected.
-   * people = list(howard, sheldon, raj)
+   * people = new AtomicReferenceArray&lt;&gt;(array(howard, sheldon, raj));
    * assertThat(doctors).usingRecursiveFieldByFieldElementComparator(configuration)
    *                    .contains(howard);</code></pre>
    *

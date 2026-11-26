@@ -19,3 +19,9 @@ updates:
       github-actions:
         patterns:
           - "*"
+  - package-ecosystem: "npm"
+    directory: "/assertj-parent"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependabot: npm"

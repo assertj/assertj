@@ -1,0 +1,15 @@
+version: ${antora-component.version}
+prerelease: ${antora-component.prerelease}
+asciidoc:
+  attributes:
+    idprefix: ''
+    idseparator: '-'
+    tabsize: '3'
+    source-indent: '0'
+    assertj-version: '${project.version}'
+    assertj-core-javadoc: 'https://www.javadoc.io/doc/org.assertj/assertj-core/${project.version}'
+    assertj-core-github: 'https://github.com/assertj/assertj'
+    assertj-examples-github: 'https://github.com/assertj/assertj-examples'
+    assertj-examples-base-package: 'https://github.com/assertj/assertj-examples/blob/main/assertions-examples/src/test/java/org/assertj/examples'
+    current-branch: 'https://github.com/assertj/assertj/tree/main'
+    StackOverflow: 'https://stackoverflow.com/questions/tagged/assertj[Stack Overflow]'

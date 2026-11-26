@@ -122,7 +122,54 @@ BAD! (not in the same line)
 
 You can generate the Javadoc and read it in your browser to see what it actually looks like.
 
-## Binary compatibility
+### Navigation Methods
+
+In addition to assertions, AssertJ provides methods that change the object under test to a related one (for example, a field, a property, or a derived value), enabling further type-specific assertions.
+Such methods are referred to as _navigation methods_ and are named after the underlying getter or with a meaningful term describing the target element.
+
+Some examples are:
+* `first()` and `last()` in `IterableAssert`, providing assertions for the first and last iterable elements
+* `get()` in `OptionalAssert`, providing assertions for the value contained in the `Optional` (backed by `Optional#get()`)
+* `size()` in `MapAssert`, providing assertions for the size of the `Map` (backed by `Map#size()`)
+* `cause()` in `ThrowableAssert`, providing assertions for the cause of the `Throwable` (backed by `Throwable#getCause()`)
+
+The resulting assertions after navigation may also provide a way to return to the object that initiated the navigation.
+Such methods are named `returnToX`, where `X` is the type of the previous object under test.
+
+Some examples are:
+* `returnToBigDecimal()` in `BigDecimalScaleAssert`
+* `returnToFile()` in `FileSizeAssert`
+* `returnToIterable()` in `IterableSizeAssert`
+* `returnToMap()` in `MapSizeAssert`
+* `returnToThrowable()` in `SuppressedExceptionsAssert`
+
+## Documentation
+
+The user guides are written in AsciiDoc and built with [Antora](https://antora.org).
+Each module keeps its own guide next to its code:
+
+| Module          | Pages                                              | Code examples included in the pages   |
+|-----------------|----------------------------------------------------|---------------------------------------|
+| `assertj-core`  | `assertj-core/src/docs/antora/modules/ROOT/pages`  | `assertj-core/src/test/java/example`  |
+| `assertj-guava` | `assertj-guava/src/docs/antora/modules/ROOT/pages` | `assertj-guava/src/test/java/example` |
+
+The code examples are compiled with the test sources of the module, so an API change that breaks them fails the build.
+They are not executed as tests, because some of them fail on purpose, and they are excluded from `spotless:apply`, because it would strip their AsciiDoc callouts such as `// <1>`.
+Pages include them by tag, e.g. `include::example$java/example/core/SimpleAssertionsExample.java[tag=user_guide]`.
+
+To preview your changes, generate the site of the module you are working on:
+
+```shell
+./mvnw -pl assertj-core antora
+```
+
+Then open `assertj-core/target/site/index.html` in a browser (the build prints the full `file://` URL at the end).
+Use `-pl assertj-guava` and `assertj-guava/target/site/index.html` for the Guava guide, or `-pl assertj-core,assertj-guava` to generate both.
+Each preview only contains the guide of that module; the complete site is assembled from all AssertJ repositories by [docs.assertj.dev](https://github.com/assertj/docs.assertj.dev).
+No Node.js installation is required: the first run downloads Node.js into `target/node` and the Antora packages into the module's `node_modules`.
+To use a Node.js installation from your `PATH` instead, add `-Dnode.executable=node`.
+
+## Binary Compatibility
 
 Try to keep [binary compatibility](https://docs.oracle.com/javase/specs/jls/se25/html/jls-13.html) whenever possible.
 It means that you can safely:

@@ -2378,7 +2378,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Person raj = new Person("Raj Koothrappali", true);
    * Person howard = new Person("Howard Wolowitz", true);
    *
-   * List&lt;Doctor&gt; doctors = list(drSheldon, drLeonard, drRaj);
+   * List&lt;Object&gt; doctors = list(drSheldon, drLeonard, drRaj);
    * List&lt;Person&gt; people = list(sheldon, leonard, raj);
    *
    * // assertion succeeds as both lists contains equivalent items in order.
@@ -2391,7 +2391,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *                    .contains(leonard);
    *
    * // assertion fails because howard is missing and leonard is not expected.
-   * people = list(howard, sheldon, raj)
+   * people = list(howard, sheldon, raj);
    * assertThat(doctors).usingRecursiveFieldByFieldElementComparator()
    *                    .contains(howard);</code></pre>
    * <p>
@@ -2464,11 +2464,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Person raj = new Person("Raj Koothrappali", false);
    * Person howard = new Person("Howard Wolowitz", false);
    *
-   * List&lt;Doctor&gt; doctors = list(drSheldon, drLeonard, drRaj);
+   * List&lt;Object&gt; doctors = list(drSheldon, drLeonard, drRaj);
    * List&lt;Person&gt; people = list(sheldon, leonard, raj);
    *
    * RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-   *                                                                                  .withIgnoredFields​("hasPhd");
+   *                                                                                  .withIgnoredFields("hasPhd")
+   *                                                                                  .build();
    *
    * // assertion succeeds as both lists contains equivalent items in order.
    * assertThat(doctors).usingRecursiveFieldByFieldElementComparator(configuration)
@@ -2480,7 +2481,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *                    .contains(leonard);
    *
    * // assertion fails because howard is missing and leonard is not expected.
-   * people = list(howard, sheldon, raj)
+   * people = list(howard, sheldon, raj);
    * assertThat(doctors).usingRecursiveFieldByFieldElementComparator(configuration)
    *                    .contains(howard);</code></pre>
    *
@@ -2559,7 +2560,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *                    .isEqualTo(people);
    *
    * // assertion fails because howard is missing and leonard is not expected.
-   * people = Arrays.asList(howard, sheldon, raj)
+   * people = Arrays.asList(howard, sheldon, raj);
    * assertThat(doctors).usingRecursiveComparison()
    *                    .isEqualTo(people);</code></pre>
    *
