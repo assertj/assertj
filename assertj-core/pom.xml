@@ -114,7 +114,7 @@
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>7.4.16.Final</version>
+      <version>7.4.17.Final</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
