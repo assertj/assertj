@@ -27,9 +27,7 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,7 +40,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.InstanceFactory;
 
 /**
  * @author Stefano Cordio
@@ -274,23 +271,8 @@ class InstanceOfAssertFactoryTest {
     void should_honor_equals_contract() {
       // WHEN/THEN
       EqualsVerifier.forClass(underTest)
-                    .withFactory(instanceFactory(underTest))
                     .withNonnullFields("rawClass", "typeArguments")
                     .verify();
-    }
-
-    // https://github.com/easymock/objenesis/issues/555
-    @SuppressWarnings("unchecked")
-    private static <T> InstanceFactory<T> instanceFactory(Class<?> underTest) {
-      return values -> {
-        try {
-          Constructor<?> constructor = underTest.getDeclaredConstructor(Class.class, Type[].class);
-          constructor.setAccessible(true);
-          return (T) constructor.newInstance(values.get("rawClass"), values.get("typeArguments"));
-        } catch (Exception e) {
-          throw new RuntimeException(e);
-        }
-      };
     }
 
   }
