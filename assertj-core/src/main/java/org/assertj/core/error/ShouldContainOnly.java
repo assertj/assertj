@@ -46,7 +46,24 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
                                                       Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
-    GroupTypeDescription groupTypeDescription = getGroupTypeDescription(actual);
+    return shouldContainOnly(actual.getClass(), actual, expected, notFound, notExpected, comparisonStrategy);
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldContainOnly}</code>.
+   *
+   * @param clazz  the actual value class in the failed assertion.
+   * @param actual the actual value in the failed assertion.
+   * @param expected values expected to be contained in {@code actual}.
+   * @param notFound values in {@code expected} not found in {@code actual}.
+   * @param notExpected values in {@code actual} that were not in {@code expected}.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldContainOnly(Class<?> clazz, Object actual, Object expected,
+                                                      Iterable<?> notFound, Iterable<?> notExpected,
+                                                      ComparisonStrategy comparisonStrategy) {
+    GroupTypeDescription groupTypeDescription = getGroupTypeDescription(clazz);
     return shouldContainOnly(actual, expected, notFound, notExpected, comparisonStrategy, groupTypeDescription);
   }
 

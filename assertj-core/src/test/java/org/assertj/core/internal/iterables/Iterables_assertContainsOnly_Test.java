@@ -28,15 +28,17 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Iterables#assertContainsOnly(AssertionInfo, Collection, Object[])}</code>.
+ * Tests for <code>{@link Iterables#assertContainsOnly(AssertionInfo, Iterable, Object[])}</code>.
  *
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -125,7 +127,21 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     // WHEN
     var error = expectAssertionError(() -> iterables.assertContainsOnly(info, actual, expected));
     // THEN
-    then(error).hasMessage(shouldContainOnly(actual, expected, list("Han"), list("Leia")).create());
+    then(error).hasMessageContaining("Expecting ArrayList:")
+               .hasMessage(shouldContainOnly(actual, expected, list("Han"), list("Leia")).create());
+  }
+
+  @Test
+  void should_fail_with_the_right_actual_type() {
+    // GIVEN
+    Object[] expected = { "Luke", "Yoda", "Han" };
+    Set<String> actualSet = new HashSet<>(actual);
+    // WHEN
+    var error = expectAssertionError(() -> iterables.assertContainsOnly(info, actualSet, expected));
+    // THEN
+    then(error).hasMessageContaining("Expecting HashSet:")
+               .hasMessage(shouldContainOnly(HashSet.class, actualSet, expected, list("Han"), list("Leia"),
+                                             StandardComparisonStrategy.instance()).create());
   }
 
   @Test

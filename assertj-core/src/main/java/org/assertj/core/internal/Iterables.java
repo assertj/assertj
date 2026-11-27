@@ -415,7 +415,8 @@ public class Iterables {
     }
 
     if (!unexpectedValues.isEmpty() || !missingValues.isEmpty()) {
-      throw assertionErrorCreator.assertionError(info, shouldContainOnly(actualAsCollection, expectedValues,
+      throw assertionErrorCreator.assertionError(info, shouldContainOnly(actual.getClass(),
+                                                                         actualAsCollection, expectedValues,
                                                                          missingValues, unexpectedValues,
                                                                          comparisonStrategy));
     }

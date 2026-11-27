@@ -29,8 +29,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import java.util.Collection;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
@@ -38,7 +36,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Iterables#assertContainsSequence(AssertionInfo, Collection, Object[])}</code>.
+ * Tests for <code>{@link Iterables#assertContainsSequence(AssertionInfo, Iterable, Object[])}</code>.
  *
  * @author Alex Ruiz
  * @author Joel Costigliola

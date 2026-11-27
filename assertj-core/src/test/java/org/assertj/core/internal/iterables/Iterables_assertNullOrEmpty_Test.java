@@ -30,8 +30,8 @@ import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Iterables#assertNullOrEmpty(AssertionInfo, Collection)}</code>.
- * 
+ * Tests for <code>{@link Iterables#assertNullOrEmpty(AssertionInfo, Iterable)}</code>.
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */

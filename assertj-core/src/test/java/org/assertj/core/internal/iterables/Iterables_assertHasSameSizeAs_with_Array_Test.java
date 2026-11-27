@@ -31,8 +31,8 @@ import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Iterables#assertHasSameSizeAs(AssertionInfo, Iterable, Object[])}</code>.
- * 
+ * Tests for <code>{@link Iterables#assertHasSameSizeAs(AssertionInfo, Iterable, Object)}</code>.
+ *
  * @author Nicolas François
  */
 class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBaseTest {
