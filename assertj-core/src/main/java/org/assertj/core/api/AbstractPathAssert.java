@@ -141,7 +141,8 @@ import org.assertj.core.util.diff.Delta;
  *
  * @author Valeriy Vyrva
  */
-public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> extends AbstractComparableAssert<SELF, Path> {
+public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>>
+    extends AbstractComparableAssert<SELF, Path, Path> {
 
   private static final String UNABLE_TO_COMPARE_PATH_CONTENTS = "Unable to compare contents of paths:<%s> and:<%s>";
   private static final Filter<Path> ANY = any -> true;

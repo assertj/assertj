@@ -41,7 +41,7 @@ import java.util.Objects;
  *
  * @param <SELF> the "self" type of this assertion class.
  */
-public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> extends AbstractComparableAssert<SELF, URI> {
+public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> extends AbstractComparableAssert<SELF, URI, URI> {
 
   /// Creates a new [URI] assertion.
   ///
