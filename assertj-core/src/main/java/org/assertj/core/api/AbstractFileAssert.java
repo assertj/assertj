@@ -353,32 +353,28 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
     return executeAssertion(() -> assertSameContentAs(charset, expected, Charset.defaultCharset()));
   }
 
-  /**
-   * Verifies that the content of the actual {@code File} is equal to the content of the given one, the comparison is done at the binary level.<br>
-   * For text files, use {@link #hasSameTextualContentAs(File)}.
-   * <p>
-   * Examples:
-   * <pre><code class="java"> // The first two files have the same contents, the third does not
-   * File aFile = Files.write(Paths.get("a-file.bin"), new byte[] { 42 }).toFile();
-   * File bFile = Files.write(Paths.get("b-file.bin"), new byte[] { 42 }).toFile();
-   * File cFile = Files.write(Paths.get("c-file.bin"), new byte[] { 24 }).toFile();
-   *
-   * // The following assertion succeeds:
-   * assertThat(aFile).hasSameBinaryContentAs(bFile);
-   *
-   * // The following assertion fails:
-   * assertThat(aFile).hasSameBinaryContent(cFile);</code></pre>
-   *
-   * @param expected the given {@code File} to compare the actual {@code File} to.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given {@code File} is {@code null}.
-   * @throws IllegalArgumentException if the given {@code File} is not an existing file.
-   * @throws AssertionError if the actual {@code File} is {@code null}.
-   * @throws AssertionError if the actual {@code File} is not an existing file.
-   * @throws UncheckedIOException if an I/O error occurs.
-   * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
-   * @since 3.15
-   */
+  /// Verifies that the actual [File] has the same binary content as the expected one.
+  /// For text files, use [#hasSameTextualContentAs(File)].
+  ///
+  /// ```java
+  /// File aFile = Files.write(Paths.get("a-file.bin"), new byte[] { 42 }).toFile();
+  /// File bFile = Files.write(Paths.get("b-file.bin"), new byte[] { 42 }).toFile();
+  /// File cFile = Files.write(Paths.get("c-file.bin"), new byte[] { 24 }).toFile();
+  ///
+  /// // The following assertion succeeds:
+  /// assertThat(aFile).hasSameBinaryContentAs(bFile);
+  ///
+  /// // The following assertion fails:
+  /// assertThat(aFile).hasSameBinaryContentAs(cFile);
+  /// ```
+  ///
+  /// @param expected the [File] to compare with the actual one
+  /// @return this assertion object
+  /// @throws NullPointerException if the expected [File] is null.
+  /// @throws IllegalArgumentException if the expected [File] is not an existing file.
+  /// @throws AssertionError if the actual [File] is null, is not an existing file, or has different content.
+  /// @throws UncheckedIOException if an I/O error occurs.
+  /// @since 3.15
   public SELF hasSameBinaryContentAs(File expected) {
     return executeAssertion(() -> assertSameBinaryContentAs(expected));
   }
@@ -1535,9 +1531,9 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
     verifyIsFile(expected);
     assertIsFile();
     try {
-      BinaryDiffResult binaryDiffResult = BINARY_DIFF.diff(actual, readAllBytes(expected.toPath()));
-      if (binaryDiffResult.hasDiff())
-        throw assertionErrorCreator.assertionError(info, shouldHaveBinaryContent(actual, binaryDiffResult),
+      var mismatch = BinaryFileDiff.compare(actual.toPath(), expected.toPath(), actual);
+      if (mismatch != null)
+        throw assertionErrorCreator.assertionError(info, mismatch,
                                                    FileContent.of(actual), FileContent.of(expected));
     } catch (IOException ioe) {
       throw new UncheckedIOException(UNABLE_TO_COMPARE_FILE_CONTENTS.formatted(actual, expected), ioe);

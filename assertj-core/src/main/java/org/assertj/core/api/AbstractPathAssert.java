@@ -258,32 +258,28 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     return executeAssertion(() -> assertHasBinaryContent(expected));
   }
 
-  /**
-   * Verifies that the content of the actual {@code Path} is equal to the content of the given one, the comparison is done at the binary level.<br>
-   * For text files, use {@link #hasSameTextualContentAs(Path)} or {@link #hasSameTextualContentAs(Path, Charset)}.
-   * <p>
-   * Examples:
-   * <pre><code class="java"> // The first two paths have the same contents, the third does not
-   * Path aPath = Files.write(Paths.get("a-file.bin"), new byte[] { 42 });
-   * Path bPath = Files.write(Paths.get("b-file.bin"), new byte[] { 42 });
-   * Path cPath = Files.write(Paths.get("c-file.bin"), new byte[] { 24 });
-   *
-   * // The following assertion succeeds:
-   * assertThat(aPath).hasSameBinaryContentAs(bPath);
-   *
-   * // The following assertion fails:
-   * assertThat(aPath).hasSameBinaryContent(cPath);</code></pre>
-   *
-   * @param expected the given {@code Path} to compare the actual {@code Path} to.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given {@code Path} is {@code null}.
-   * @throws IllegalArgumentException if the given {@code Path} is not an existing file.
-   * @throws AssertionError if the actual {@code Path} is {@code null}.
-   * @throws AssertionError if the actual {@code Path} is not an existing file.
-   * @throws UncheckedIOException if any I/O error occurs.
-   * @throws AssertionError if the content of the actual {@code Path} is not equal to the content of the given one.
-   * @since 3.15
-   */
+  /// Verifies that the actual [Path] has the same binary content as the expected one.
+  /// For text files, use [#hasSameTextualContentAs(Path)] or [#hasSameTextualContentAs(Path, Charset)].
+  ///
+  /// ```java
+  /// Path aPath = Files.write(Paths.get("a-file.bin"), new byte[] { 42 });
+  /// Path bPath = Files.write(Paths.get("b-file.bin"), new byte[] { 42 });
+  /// Path cPath = Files.write(Paths.get("c-file.bin"), new byte[] { 24 });
+  ///
+  /// // The following assertion succeeds:
+  /// assertThat(aPath).hasSameBinaryContentAs(bPath);
+  ///
+  /// // The following assertion fails:
+  /// assertThat(aPath).hasSameBinaryContentAs(cPath);
+  /// ```
+  ///
+  /// @param expected the [Path] to compare with the actual one
+  /// @return this assertion object
+  /// @throws NullPointerException if the expected [Path] is null.
+  /// @throws IllegalArgumentException if the expected [Path] does not exist or is unreadable.
+  /// @throws AssertionError if the actual [Path] is null, does not exist, is unreadable, or has different content.
+  /// @throws UncheckedIOException if an I/O error occurs.
+  /// @since 3.15
   public SELF hasSameBinaryContentAs(Path expected) {
     return executeAssertion(() -> assertHasSameBinaryContentAs(expected));
   }
@@ -2296,9 +2292,9 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     verifyIsReadable(expected);
     assertIsReadable();
     try {
-      BinaryDiffResult binaryDiffResult = BINARY_DIFF.diff(actual, readAllBytes(expected));
-      if (binaryDiffResult.hasDiff())
-        throw assertionErrorCreator.assertionError(info, shouldHaveBinaryContent(actual, binaryDiffResult),
+      var mismatch = BinaryFileDiff.compare(actual, expected, actual);
+      if (mismatch != null)
+        throw assertionErrorCreator.assertionError(info, mismatch,
                                                    FileContent.of(actual), FileContent.of(expected));
     } catch (IOException e) {
       throw new UncheckedIOException(UNABLE_TO_COMPARE_PATH_CONTENTS.formatted(actual, expected), e);

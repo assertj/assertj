@@ -29,17 +29,19 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.junit.jupiter.api.condition.OS.WINDOWS;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.assertj.core.internal.BinaryDiff;
+import org.assertj.core.internal.BinaryDiffResult;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.opentest4j.AssertionFailedError;
 import org.opentest4j.FileInfo;
 
@@ -137,35 +139,75 @@ class PathAssert_hasSameBinaryContentAs_Test {
   }
 
   @ParameterizedTest
-  @CsvSource({
-      "Content, US-ASCII, Content, UTF-16",
-      "Content, US-ASCII, Another content, US-ASCII",
-  })
-  void should_fail_if_actual_does_not_have_the_same_binary_content_as_expected(String actualContent,
-                                                                               Charset actualCharset,
-                                                                               String expectedContent,
-                                                                               Charset expectedCharset) throws IOException {
+  @ValueSource(booleans = { true, false })
+  void should_fail_with_wrapped_IOException_when_either_path_is_a_directory(boolean actualIsDirectory) throws IOException {
     // GIVEN
-    Path actual = Files.write(tempDir.resolve("actual"), actualContent.getBytes(actualCharset));
-    Path expected = Files.write(tempDir.resolve("expected"), expectedContent.getBytes(expectedCharset));
-    var diff = new BinaryDiff().diff(actual, expectedContent.getBytes(expectedCharset));
-    // WHEN
-    var error = expectAssertionError(() -> assertThat(actual).hasSameBinaryContentAs(expected));
-    // THEN
-    then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create());
-  }
-
-  @Test
-  void should_rethrow_IOException_as_UncheckedIOException_if_actual_content_cannot_be_read() throws IOException {
-    // GIVEN
-    Path actual = createDirectory(tempDir.resolve("actual"));
-    Path expected = Files.write(tempDir.resolve("expected"), "Content".getBytes());
+    Path directory = createDirectory(tempDir.resolve("directory"));
+    Path file = Files.write(tempDir.resolve("file"), new byte[] { 1 });
+    Path actual = actualIsDirectory ? directory : file;
+    Path expected = actualIsDirectory ? file : directory;
     // WHEN
     Throwable thrown = catchThrowable(() -> assertThat(actual).hasSameBinaryContentAs(expected));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasMessage("Unable to compare contents of paths:<%s> and:<%s>", actual, expected)
                 .hasCauseInstanceOf(IOException.class);
+  }
+
+  @ParameterizedTest
+  @CsvSource({ "1, 2", "2, 1" })
+  void should_fail_with_both_sizes_when_the_files_have_different_sizes(int actualSize, int expectedSize) throws IOException {
+    // GIVEN
+    byte[] actualBytes = new byte[actualSize];
+    byte[] expectedBytes = new byte[expectedSize];
+    expectedBytes[0] = 1;
+    Path actual = Files.write(tempDir.resolve("actual"), actualBytes);
+    Path expected = Files.write(tempDir.resolve("expected"), expectedBytes);
+    // WHEN
+    var error = expectAssertionError(() -> assertThat(actual).hasSameBinaryContentAs(expected));
+    // THEN
+    then(error).isInstanceOf(AssertionFailedError.class)
+               .hasMessageContaining("sizes differ:")
+               .hasMessageContaining("expected: %s bytes".formatted(expectedSize))
+               .hasMessageContaining("actual: %s bytes".formatted(actualSize))
+               .hasMessageNotContaining("offset");
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = { 0, 8192, 16384 })
+  void should_fail_at_the_first_different_byte_when_the_files_have_the_same_size(int offset) throws IOException {
+    // GIVEN
+    byte[] actualBytes = new byte[16385];
+    byte[] expectedBytes = new byte[actualBytes.length];
+    actualBytes[offset] = (byte) 0xA5;
+    expectedBytes[offset] = (byte) 0xFE;
+    Path actual = Files.write(tempDir.resolve("actual"), actualBytes);
+    Path expected = Files.write(tempDir.resolve("expected"), expectedBytes);
+    // WHEN
+    var error = expectAssertionError(() -> assertThat(actual).hasSameBinaryContentAs(expected));
+    // THEN
+    then(error).isInstanceOf(AssertionFailedError.class)
+               .hasMessage(shouldHaveBinaryContent(actual, new BinaryDiffResult(offset, 0xFE, 0xA5)).create());
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = { 0, 1024 })
+  void should_pass_and_return_the_same_assertion_for_equal_files(int blocks) throws IOException {
+    // GIVEN
+    byte[] block = new byte[4096];
+    block[0] = (byte) 0xFF;
+    Path actual = tempDir.resolve("actual");
+    try (OutputStream stream = Files.newOutputStream(actual)) {
+      for (int i = 0; i < blocks; i++) {
+        stream.write(block);
+      }
+    }
+    Path expected = Files.copy(actual, tempDir.resolve("expected"));
+    var assertion = assertThat(actual);
+    // WHEN
+    var result = assertion.hasSameBinaryContentAs(expected);
+    // THEN
+    then(result).isSameAs(assertion);
   }
 
   @Test
