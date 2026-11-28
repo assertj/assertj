@@ -255,11 +255,10 @@
               <stylesheet>assertj-theme.css</stylesheet>
               <stylesheet>hljs-theme.css</stylesheet>
             </addStylesheets>
-            <!-- Explicitly set Javadoc locale to English -->
-            <locale>en_US</locale>
+            <locale>en_US</locale> <!-- Explicitly set Javadoc locale to English -->
             <excludePackageNames>*.internal</excludePackageNames>
             <nohelp>true</nohelp>
-            <use>false</use>
+            <use>false</use> <!-- Reduces the overall Javadoc size by ~15% -->
             <bottom><![CDATA[
               Copyright &#169; {currentYear} {organizationName}. All rights reserved.
               <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
