@@ -2,6 +2,7 @@
   "private": true,
   "devDependencies": {
     "@antora/collector-extension": "1.0.3",
+    "@springio/antora-extensions": "1.14.13",
     "antora": "3.2.2"
   }
 }

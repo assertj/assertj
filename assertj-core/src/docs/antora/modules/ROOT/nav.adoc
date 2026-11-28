@@ -18,3 +18,4 @@
 * xref:samples.adoc[]
 * xref:release-notes.adoc[]
 * xref:dependency-metadata.adoc[]
+* {assertj-core-javadoc}/index.html[Javadoc]

@@ -2,3 +2,4 @@
 * xref:assertions-guide.adoc[]
 * xref:release-notes.adoc[]
 * xref:dependency-metadata.adoc[]
+* {assertj-guava-javadoc}/index.html[Javadoc]

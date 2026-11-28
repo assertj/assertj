@@ -112,16 +112,16 @@ a|
 [[common-assertions]]
 == Common assertions
 
-This section describes the assertions common to all types, the Javadoc for common assertions methods is available {assertj-core-javadoc}/org/assertj/core/api/AbstractAssert.html#method.summary[here].
+This section describes the assertions common to all types, the Javadoc for common assertions methods is available {assertj-core-javadoc}/org/assertj/core/api/AbstractAssert.html#method-summary[here].
 
 [[object-assertions]]
 == Object assertions
 
-The Javadoc for `Object` assertions is available {assertj-core-javadoc}/org/assertj/core/api/AbstractObjectAssert.html#method.summary[here].
+The Javadoc for `Object` assertions is available {assertj-core-javadoc}/org/assertj/core/api/AbstractObjectAssert.html#method-summary[here].
 
 [[string-object-assertions]]
 == String/CharSequence assertions
 
 This section describes all the available assertions for `CharSequence` (including `String`, `StringBuilder`, `StringBuffer`, ...):
 
-The Javadoc for `CharSequence` assertions is available {assertj-core-javadoc}/org/assertj/core/api/AbstractCharSequenceAssert.html#method.summary[here].
+The Javadoc for `CharSequence` assertions is available {assertj-core-javadoc}/org/assertj/core/api/AbstractCharSequenceAssert.html#method-summary[here].

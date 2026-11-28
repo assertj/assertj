@@ -101,7 +101,7 @@ Use the Maven wrapper for the following verification and formatting commands:
   * **Single Test Class**: `./mvnw clean test -Dtest=<test-class-name>` to ensure all tests in a class pass (e.g., `./mvnw clean test -Dtest=OptionalAssert_containsInstanceOf_Test`).
   * **Module Test Suite**: `./mvnw -pl <module-name> -am clean test` to ensure all tests in a module pass (e.g., `./mvnw -pl assertj-core-tests -am clean test`).
   * **Full Test Suite**: `./mvnw clean verify` to ensure all tests and verifications pass.
-* **Documentation**: `./mvnw clean javadoc:javadoc` to generate Javadoc documentation.
+* **Documentation**: `./mvnw clean package javadoc:javadoc -DskipTests` to generate Javadoc documentation.
 
 ## Strict Restrictions (Do Not)
 

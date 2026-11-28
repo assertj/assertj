@@ -136,4 +136,4 @@ image::ide-completion.png[]
 [[javadoc-quickstart]]
 == Javadoc
 
-{assertj-core-javadoc} is the latest version of AssertJ Core Javadoc, each assertion is explained, most of them with code examples so be sure to check it if you want to know what a specific assertion does.
+The {assertj-core-javadoc}/index.html[AssertJ Core Javadoc] explains each assertion, most of them with code examples so be sure to check it if you want to know what a specific assertion does.

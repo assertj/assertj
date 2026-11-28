@@ -6,9 +6,12 @@ nav:
 ext:
   collector:
     - run:
-        command: ./mvnw -q -pl assertj-core io.spring.maven.antora:antora-component-version-maven-plugin:antora-component-version resources:copy-resources@antora-resources
+        command: ./mvnw -q -pl assertj-core io.spring.maven.antora:antora-component-version-maven-plugin:antora-component-version resources:copy-resources@antora-resources javadoc:javadoc-no-fork
         local: true
       scan:
         - dir: assertj-core/target/antora
+        - dir: assertj-core/target/reports/apidocs
+          clean: true
+          into: modules/ROOT/attachments/api
         - dir: assertj-core/src/test/java/example
           into: modules/ROOT/examples/java/example
