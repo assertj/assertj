@@ -1208,6 +1208,10 @@ public class StandardRepresentation implements Representation {
   }
 
   private static String classNameOf(Object obj, boolean shouldKeepPackage) {
+    if (obj instanceof Enum<?> value) {
+      Class<?> type = value.getDeclaringClass();
+      return shouldKeepPackage ? type.getName() : type.getSimpleName();
+    }
     return shouldKeepPackage ? packageAndClassNameOf(obj) : classNameOf(obj);
   }
 
