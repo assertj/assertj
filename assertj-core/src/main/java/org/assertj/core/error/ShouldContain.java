@@ -66,6 +66,18 @@ public class ShouldContain extends BasicErrorMessageFactory {
     return new ShouldContain(actual, expected, notFound, comparisonStrategy, groupTypeDescription);
   }
 
+  /// Creates a new [ShouldContain] using an explicit group type description.
+  ///
+  /// @param actual the actual value in the failed assertion.
+  /// @param expected values expected to be in `actual`.
+  /// @param notFound the values in `expected` not found in `actual`.
+  /// @param groupTypeDescription the description of the actual group and its elements.
+  /// @return the created `ErrorMessageFactory`.
+  public static ErrorMessageFactory shouldContain(Object actual, Object expected, Object notFound,
+                                                  GroupTypeDescription groupTypeDescription) {
+    return new ShouldContain(actual, expected, notFound, StandardComparisonStrategy.instance(), groupTypeDescription);
+  }
+
   /**
    * Creates a new <code>{@link ShouldContain}</code>.
    *

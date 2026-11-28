@@ -21,7 +21,6 @@ import java.util.Map;
  * Generates a description for the type of a group of elements. The description is used in the error message.
  */
 public class GroupTypeDescription {
-  private static final int SPLITERATORS_CLASS_STACK_TRACE_NUM = 5;
   private String groupTypeName;
   private String elementTypeName;
 
@@ -71,10 +70,6 @@ public class GroupTypeDescription {
    * @return the created GroupTypeDescription object
    */
   public static GroupTypeDescription getGroupTypeDescription(Class<?> clazz) {
-
-    if (Thread.currentThread().getStackTrace()[SPLITERATORS_CLASS_STACK_TRACE_NUM].getClassName().contains("Spliterators"))
-      return new GroupTypeDescription("spliterator characteristics", "characteristics");
-
     if (Map.class.isAssignableFrom(clazz)) return new GroupTypeDescription("map", "map entries");
 
     if (clazz.isArray())
