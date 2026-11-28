@@ -194,7 +194,7 @@ jobs:
 
     name: Trigger docs.assertj.dev build
     needs: documentation
-    if: github.repository_owner == 'assertj' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.repository_owner == 'assertj' && github.event_name == 'push' && github.ref == 'refs/heads/3.x'
     uses: assertj/.github/.github/workflows/trigger-docs-build.yml@main
     secrets:
       client-id: ${{ secrets.ASSERTJ_BUILDS_CLIENT_ID }}
