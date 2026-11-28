@@ -39,6 +39,8 @@ import static org.assertj.core.error.ShouldBeInSameSecondWindow.shouldBeInSameSe
 import static org.assertj.core.error.ShouldBeInSameYear.shouldBeInSameYear;
 import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
 import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
+import static org.assertj.core.error.ShouldBeNotInTheFuture.shouldBeNotInTheFuture;
+import static org.assertj.core.error.ShouldBeNotInThePast.shouldBeNotInThePast;
 import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.error.ShouldHaveSameTime.shouldHaveSameTime;
@@ -1372,6 +1374,40 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public SELF isInTheFuture() {
     return executeAssertion(this::assertIsInTheFuture);
+  }
+
+  /**
+   * Verifies that the actual {@code Date} is not in the past, i.e. it is either now or in the future.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(new Date(System.currentTimeMillis() + 1000)).isNotInThePast();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is in the past.
+   *
+   * @since 4.0.0
+   */
+  public SELF isNotInThePast() {
+    return executeAssertion(this::assertIsNotInThePast);
+  }
+
+  /**
+   * Verifies that the actual {@code Date} is not in the future, i.e. it is either now or in the past.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(theTwoTowers.getReleaseDate()).isNotInTheFuture();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is in the future.
+   *
+   * @since 4.0.0
+   */
+  public SELF isNotInTheFuture() {
+    return executeAssertion(this::assertIsNotInTheFuture);
   }
 
   /**
@@ -2755,6 +2791,16 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   private void assertIsInTheFuture() {
     isNotNull();
     if (!isAfter(actual, now())) throw assertionError(shouldBeInTheFuture(actual, getComparisonStrategy()));
+  }
+
+  private void assertIsNotInThePast() {
+    isNotNull();
+    if (isBefore(actual, now())) throw assertionError(shouldBeNotInThePast(actual, getComparisonStrategy()));
+  }
+
+  private void assertIsNotInTheFuture() {
+    isNotNull();
+    if (isAfter(actual, now())) throw assertionError(shouldBeNotInTheFuture(actual, getComparisonStrategy()));
   }
 
   private void assertIsBeforeYear(int year) {
