@@ -1,0 +1,13 @@
+version: ${antora-component.version}
+prerelease: ${antora-component.prerelease}
+asciidoc:
+  attributes:
+    idprefix: ''
+    idseparator: '-'
+    tabsize: '3'
+    source-indent: '0'
+    assertj-version: '${project.version}'
+    assertj-core-javadoc: 'https://www.javadoc.io/doc/org.assertj/assertj-core/${project.version}'
+    assertj-guava-javadoc: 'https://www.javadoc.io/doc/org.assertj/assertj-guava/${project.version}'
+    assertj-core-github: 'https://github.com/assertj/assertj'
+    assertj-examples-github: 'https://github.com/assertj/assertj-examples'

@@ -1,0 +1,317 @@
+= Field by field recursive comparison
+
+AssertJ Core provides a fluent recursive comparison API for `Object` assertions with the following capabilities:
+
+* xref:assertions-guide/recursive-comparison.adoc#recursive-comparison-strict[Choosing a strict or lenient recursive comparison]
+* xref:assertions-guide/recursive-comparison.adoc#recursive-comparison-ignoring-fields[Ignoring fields in the comparison]
+* xref:assertions-guide/recursive-comparison.adoc#recursive-comparison-comparators[Specifying how to compare specific types or fields in the comparison]
+* xref:assertions-guide/recursive-comparison.adoc#using-overridden-equals[Use overridden `equals` instead of a recursive comparison]
+* xref:assertions-guide/recursive-comparison.adoc#recursive-comparison-ignoring-all-expected-null-fields[Ignoring all expected null fields]
+* xref:assertions-guide/recursive-comparison.adoc#recursive-comparison-ignoring-all-actual-empty-optional-fields[Ignoring all actual empty optional fields].
+* xref:assertions-guide/recursive-comparison.adoc#recursive-comparison-overriding-error-messages[Overriding error messages for specific fields or types].
+* xref:assertions-guide/recursive-comparison.adoc#recursive-comparison-introspection-strategy[Specifying how to introspect the objects to compare].
+
+The recursive comparison is meant to to replace `isEqualToComparingFieldByFieldRecursively`.
+
+== Basic usage
+
+The recursive comparison mode starts after calling `usingRecursiveComparison()`.
+
+Here's a simple example:
+
+[source,java]
+----
+include::example$java/example/core/RecursiveComparisonExample.java[tags=basic_usage_classes,indent=0]
+
+include::example$java/example/core/RecursiveComparisonExample.java[tags=basic_usage,indent=0]
+----
+
+The comparison is *not symmetrical* since it is *limited to `actual` fields*.
+
+The algorithm gathers `actual` fields and then compares them to the corresponding `expected` fields. It is then possible for the `expected` object to have more fields than `actual`, which can be handy when comparing a base type to a subtype with additional fields.
+
+== How field values are resolved
+
+The recursive comparison uses introspection to find out the fields to compare and their values.
+
+It first looks for the object under test fields (skipping any ignored ones as specified in the configuration), then it looks for the same fields in the expected object to compare to.
+
+The next step is resolving the field values using first a getter method (if any) or reading the field value. The getter methods for a field `x` are `getX()` or `isX()` for boolean fields.
+If you enable bare properties resolution, a method `x()` is also used considered as a valid getter.
+
+Bare name property is enabled by calling `Assertions.setExtractBareNamePropertyMethods(true);` (it is disabled by default since 3.18.0).
+
+Lastly if the object under test is a map, the recursive comparison tries to resolve the field value by looking it up in the map with `map.get(fieldName)`.
+
+Since 3.24.0, you can specify your own strategy on how the recursive comparison resolve the values to compare, go to section xref:assertions-guide/recursive-comparison.adoc#recursive-comparison-introspection-strategy[specifying how to introspect the objects to compare] for details.
+
+
+== Breaking changes
+
+Since 3.18.0 bare name getter resolution are disabled by default, to get the previous behaviour back, call `Assertions.setExtractBareNamePropertyMethods(true);`
+
+Since 3.17.0 it does not use anymore `equals` methods of classes that have overridden it, so no need to force recursive comparison on these classes. To get the previous behavior back, use xref:assertions-guide/recursive-comparison.adoc#using-overridden-equals[`usingOverriddenEquals()`].
+
+
+
+[[recursive-comparison-isNotEqualTo]]
+== isNotEqualTo
+
+Since 3.17.0 `isNotEqualTo` is available in the recursive API, example:
+
+[source,java]
+----
+include::example$java/example/core/RecursiveComparisonExample.java[tags=is_not_equal_to,indent=0]
+----
+
+[[recursive-comparison-strict]]
+== Strict or lenient comparison
+
+By default the objects to compare can be of different types but must have the same properties/fields. For example if object under test has a `work` field of type `Address`, the expected object to compare the object under test to must also have one but it can of a different type like `AddressDto`.
+
+It is possible to enforce strict type checking by calling `withStrictTypeChecking()` and make the comparison fail whenever the compared objects or their fields are not compatible. Compatible means that the expected object/field types are the same or a subtype of actual/field types, for example if actual is an `Animal` and expected a `Dog`, they will be compared field by field in strict type checking mode.
+
+[source,java]
+----
+include::example$java/example/core/RecursiveComparisonExample.java[tags=strict_person_class,indent=0]
+
+include::example$java/example/core/RecursiveComparisonExample.java[tags=strict_same_type,indent=0]
+
+include::example$java/example/core/RecursiveComparisonExample.java[tags=strict_dto_class,indent=0]
+
+include::example$java/example/core/RecursiveComparisonExample.java[tags=strict_dto,indent=0]
+
+include::example$java/example/core/RecursiveComparisonExample.java[tags=strict_subclass_class,indent=0]
+
+include::example$java/example/core/RecursiveComparisonExample.java[tags=strict_subclass,indent=0]
+----
+
+[[recursive-comparison-ignoring-fields]]
+== Ignoring fields in the comparison
+
+It is possible to ignore fields of the object under test in the comparison, this is can be useful when a field has a generated value (like the current time) or is simply not relevant to compare.
+
+There are a few ways to specify the fields to ignore:
+
+* directly with `ignoringFields(String... fieldsToIgnore)`
+* by regexes with `ignoringFieldsMatchingRegexes(String... regexes)`
+* by types with `ignoringFieldsOfTypes(Class... typesToIgnore)`
+
+Nested fields can be specified like this: `home.address.street`
+
+It is also possible to ignore the object under test with `ignoringActualNullFields()`.
+
+Examples
+
+[source,java]
+----
+include::example$java/example/core/RecursiveComparisonExample.java[tags=ignoring_fields,indent=0]
+----
+
+[[using-overridden-equals]]
+== Using overridden equals
+
+Since 3.17.0 the recursive comparison does not use overridden `equals` methods to compare fields anymore, it performs a recursive comparison on these fields, it is possible to change that behavior by calling `usingOverriddenEquals()`.
+
+Once using overridden `equals` methods is enabled, you can disable it for certain types or fields (and perform a recursive comparison instead) using the following methods:
+
+* `ignoringOverriddenEqualsForTypes(Class...)` Any fields of these classes are compared recursively
+* `ignoringOverriddenEqualsForFields(String...)` Any given fields are compared recursively
+* `ignoringOverriddenEqualsForFieldsMatchingRegexes(String...)` Any fields matching one of these regexes are compared recursively
+* `ignoringAllOverriddenEquals()` except for java types, all fields are compared field by field recursively
+
+Example:
+
+[source,java]
+----
+include::example$java/example/core/RecursiveComparisonExample.java[tags=overridden_equals_classes,indent=0]
+
+include::example$java/example/core/RecursiveComparisonExample.java[tags=overridden_equals,indent=0]
+----
+
+[[recursive-comparison-ignoring-all-expected-null-fields]]
+== Ignoring all expected null fields
+
+By using `ignoringExpectedNullFields()` the recursive comparison will exclude from the comparison any null fields in the expected object. +
+One use case for that is when the object under test have fields with values hard to predict (id, timestamp, ...),  with this feature you simply build the expected object with null values values for these fields and they won't be compared.
+
+Example:
+
+[source,java]
+----
+include::example$java/example/core/RecursiveComparisonExample.java[tags=expected_null_fields_classes,indent=0]
+
+include::example$java/example/core/RecursiveComparisonExample.java[tags=expected_null_fields,indent=0]
+----
+
+[[recursive-comparison-ignoring-all-actual-empty-optional-fields]]
+== Ignoring all actual empty optional fields
+
+`ignoringActualEmptyOptionalFields()` makes the recursive comparison to ignore all actual empty optional fields (including `Optional`, `OptionalInt`, `OptionalLong` and `OptionalDouble`). +
+Note that the expected object empty optional fields are not ignored, this only applies to actual's fields.
+
+[source,java]
+----
+include::example$java/example/core/RecursiveComparisonExample.java[tags=actual_empty_optional_fields_classes,indent=0]
+
+include::example$java/example/core/RecursiveComparisonExample.java[tags=actual_empty_optional_fields,indent=0]
+----
+
+[[recursive-comparison-comparators]]
+== Specifying how to compare specific types or fields in the comparison
+
+You can specify how to compare values per (nested) fields or type with the methods below (but before calling `isEqualTo` otherwise this has no effect!):
+
+* `withEqualsForFields(BiPredicate, String...)` or `withComparatorForFields(Comparator, String...)` for one or multiple fields
+* `withEqualsForType(BiPredicate, Class)` or `withComparatorForType(Comparator, Class)` for a given type
+
+Note that comparisons specified for fields take precedence over the ones specified for types.
+
+By default floats are compared with a precision of 1.0E-6 and doubles with 1.0E-15.
+
+TIP: Prefer using `withEqualsForFields`/`withEqualsForType`, providing a `BiPredicate` is simpler than a `Comparator` (unless you have one already defined).
+
+Examples:
+
+[source,java]
+----
+include::example$java/example/core/RecursiveComparisonExample.java[tags=tolkien_character_class,indent=0]
+
+include::example$java/example/core/RecursiveComparisonExample.java[tags=comparators,indent=0]
+----
+
+[[recursive-comparison-overriding-error-messages]]
+== Overriding error messages for specific fields or types
+
+If AssertJ difference error description is not yo your liking, you can override it either by fields or types.
+
+You can override messages for all fields of a given type, example for `Double`:
+[source,java]
+----
+withErrorMessageForType("Double field differ", Double.class)
+----
+
+Alternatively can override messages for some specific fields which must be specified from the root object, for example if `Foo` has a `Bar` field and both have an `id` field, one can register a message for `Foo` and `Bar` id by calling:
+
+[source,java]
+----
+withErrorMessageForFields("id values differ", "foo.id", "foo.bar.id")
+----
+
+Messages registered with `withErrorMessageForFields` have precedence over the ones registered with `withErrorMessageForType`.
+
+Example overriding message for a field:
+[source,java]
+----
+include::example$java/example/core/RecursiveComparisonExample.java[tags=tolkien_character_class,indent=0]
+
+include::example$java/example/core/RecursiveComparisonExample.java[tags=error_message_for_fields,indent=0]
+----
+
+and the error will report the height field with the given overridden message instead of the one computed by AssertJ as with the name error:
+
+
+[source,text]
+----
+Expecting actual:
+  TolkienCharacter [name=Frodo, height=1.2]
+to be equal to:
+  TolkienCharacter [name=Frodon, height=1.4]
+when recursively comparing field by field, but found the following 2 differences:
+
+The field 'height' differ.
+
+field/property 'name' differ:
+- actual value  : "Frodo"
+- expected value: "Frodon"
+
+The recursive comparison was performed with this configuration:
+- no overridden equals methods were used in the comparison (except for java types)
+- these types were compared with the following comparators:
+  - java.lang.Double -> DoubleComparator[precision=1.0E-15]
+  - java.lang.Float -> FloatComparator[precision=1.0E-6]
+  - java.nio.file.Path -> lexicographic comparator (Path natural order)
+- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).
+- these fields had overridden error messages:
+  - height
+----
+
+Example overriding message for a type:
+[source,java]
+----
+include::example$java/example/core/RecursiveComparisonExample.java[tags=error_message_for_type,indent=0]
+----
+
+and the error will report the height field with the given overridden message instead of the one computed by AssertJ as with the name error:
+
+[source,text]
+----
+Expecting actual:
+  TolkienCharacter [name=Frodo, height=1.2]
+to be equal to:
+  TolkienCharacter [name=Frodon, height=1.4]
+when recursively comparing field by field, but found the following 2 differences:
+
+Double field differ.
+
+field/property 'name' differ:
+- actual value  : "Frodo"
+- expected value: "Frodon"
+
+The recursive comparison was performed with this configuration:
+- no overridden equals methods were used in the comparison (except for java types)
+- these types were compared with the following comparators:
+  - java.lang.Double -> DoubleComparator[precision=1.0E-15]
+  - java.lang.Float -> FloatComparator[precision=1.0E-6]
+  - java.nio.file.Path -> lexicographic comparator (Path natural order)
+- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).
+- these types had overridden error messages:
+  - height
+----
+
+
+[[recursive-comparison-for-iterable]]
+== Recursive comparison for iterable assertions
+
+`usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)` enables the recursive comparison for any iterable assertion as opposed to `usingRecursiveComparison()` which only allows `isEqualTo` and `isNotEqualTo`, the main difference between both `isEqualTo` assertions is that the `usingRecursiveComparison` one will give a detailed differences report while the `usingRecursiveFieldByFieldElementComparator` one will give a generic error message without details.
+
+Another difference is that `usingRecursiveComparison()` exposes a fluent API to tweak the recursive comparison, to achieve the same you will need to initialize a `RecursiveComparisonConfiguration` and pass it to `usingRecursiveFieldByFieldElementComparator`, you can take advantage of the `RecursiveComparisonConfiguration.builder()` to do so.
+
+Example:
+[source,java]
+----
+include::example$java/example/core/RecursiveComparisonExample.java[tags=iterable_classes,indent=0]
+
+include::example$java/example/core/RecursiveComparisonExample.java[tags=iterable,indent=0]
+----
+
+[[recursive-comparison-introspection-strategy]]
+== Specifying how to introspect the objects to compare
+
+Since 3.24.0, you can specify your own strategy telling the recursive comparison how to resolve the values to compare, this is useful if the default strategy does not suit you.
+
+To use your own introspection strategy, you need to:
+
+* implement `RecursiveComparisonIntrospectionStrategy`
+* call `withIntrospectionStrategy(myIntrospectionStrategy)` with an instance of your strategy
+
+AssertJ provides a few strategies out of the box:
+
+* `ComparingFields`: introspect fields only (no properties, map keys are not considered as fields)
+* `ComparingProperties`: introspect properties only (no fields, map keys are not considered as properties)
+* `ComparingSnakeOrCamelCaseFields`: compare fields only, can match camel case fields against snake case ones, ex: `firstName` vs `first_name` which is useful when comparing types with different fields naming conventions
+* `ComparingNormalizedFields`: an abstract strategy that compares fields after normalizing them, you just need to implement `normalizeFieldName(String fieldName)`
+
+`ComparingSnakeOrCamelCaseFields` is an example of `ComparingNormalizedFields` that normalizes snake case to camel case.
+
+Here's an example using `ComparingSnakeOrCamelCaseFields` where we compare `Author`/`Book` against `AuthorDto`/`BookDto`, `Author`/`Book` follow the regular camel case field naming convention while the dto classes follow the snake case naming convention.
+
+The recursive comparison would fail comparing the `Author`/`Book` fields against `AuthorDto`/`BookDto` ones, it would not know to match `Author.firstName` against `AuthorDto.first_name` for example but with `ComparingSnakeOrCamelCaseFields` it will know how to match these fields.
+
+Example:
+[source,java]
+----
+include::example$java/example/core/RecursiveComparisonExample.java[tags=introspection_strategy,indent=0]
+
+include::example$java/example/core/RecursiveComparisonExample.java[tags=introspection_strategy_classes,indent=0]
+----
