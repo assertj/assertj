@@ -1346,7 +1346,8 @@ public class Iterables {
     assertHasSameSizeAs(info, actual, other);
     Iterator<OTHER_ELEMENT> otherIterator = other.iterator();
 
-    List<ZipSatisfyError> errors = stream(actual).map(actualElement -> failsZipRequirements(actualElement, otherIterator.next(),
+    List<ZipSatisfyError> errors = stream(actual).map(actualElement -> failsZipRequirements(info, actualElement,
+                                                                                            otherIterator.next(),
                                                                                             zipRequirements))
                                                  .flatMap(Optional::stream)
                                                  .collect(toList());
@@ -1354,14 +1355,15 @@ public class Iterables {
       throw assertionErrorCreator.assertionError(info, zippedElementsShouldSatisfy(info, actual, other, errors));
   }
 
-  private <ACTUAL_ELEMENT, OTHER_ELEMENT> Optional<ZipSatisfyError> failsZipRequirements(ACTUAL_ELEMENT actualElement,
+  private <ACTUAL_ELEMENT, OTHER_ELEMENT> Optional<ZipSatisfyError> failsZipRequirements(AssertionInfo info,
+                                                                                         ACTUAL_ELEMENT actualElement,
                                                                                          OTHER_ELEMENT otherElement,
                                                                                          BiConsumer<ACTUAL_ELEMENT, OTHER_ELEMENT> zipRequirements) {
     try {
       zipRequirements.accept(actualElement, otherElement);
       return Optional.empty();
     } catch (AssertionError ex) {
-      return Optional.of(new ZipSatisfyError(actualElement, otherElement, ex.getMessage()));
+      return Optional.of(new ZipSatisfyError(actualElement, otherElement, info.representation().toStringOf(ex)));
     }
   }
 

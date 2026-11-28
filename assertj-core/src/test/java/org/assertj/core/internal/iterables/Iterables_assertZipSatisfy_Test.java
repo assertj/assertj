@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.error.ZippedElementsShouldSatisfy.zippedElementsShouldSatisfy;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
@@ -62,14 +61,22 @@ class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
   @Test
   void should_fail_according_to_requirements() {
     // GIVEN
+    List<AssertionError> requirementErrors = newArrayList();
     ThrowingCallable assertion = () -> iterables.assertZipSatisfy(someInfo(), actual, other,
-                                                                  (s1, s2) -> assertThat(s1).startsWith(s2));
+                                                                  (s1, s2) -> {
+                                                                    var error = expectAssertionError(() -> assertThat(s1).startsWith(s2));
+                                                                    requirementErrors.add(error);
+                                                                    throw error;
+                                                                  });
     // WHEN
     var assertionError = expectAssertionError(assertion);
     // THEN
-    List<ZipSatisfyError> errors = list(new ZipSatisfyError("Luke", "LUKE", shouldStartWith("Luke", "LUKE").create()),
-                                        new ZipSatisfyError("Yoda", "YODA", shouldStartWith("Yoda", "YODA").create()),
-                                        new ZipSatisfyError("Leia", "LEIA", shouldStartWith("Leia", "LEIA").create()));
+    List<ZipSatisfyError> errors = list(new ZipSatisfyError("Luke", "LUKE",
+                                                            info.representation().toStringOf(requirementErrors.get(0))),
+                                        new ZipSatisfyError("Yoda", "YODA",
+                                                            info.representation().toStringOf(requirementErrors.get(1))),
+                                        new ZipSatisfyError("Leia", "LEIA",
+                                                            info.representation().toStringOf(requirementErrors.get(2))));
     then(assertionError).hasMessage(zippedElementsShouldSatisfy(info, actual, other, errors).create());
   }
 
