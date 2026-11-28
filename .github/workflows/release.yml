@@ -44,5 +44,5 @@ jobs:
     needs: publish-release
     uses: assertj/.github/.github/workflows/trigger-docs-build.yml@main
     secrets:
-      client-id: ${{ secrets.ASSERTJ_BUILDS_CLIENT_ID }}
+      client-id: ${{ vars.ASSERTJ_BUILDS_CLIENT_ID }}
       private-key: ${{ secrets.ASSERTJ_BUILDS_PRIVATE_KEY }}

@@ -188,5 +188,5 @@ jobs:
     if: github.repository_owner == 'assertj' && github.event_name == 'push' && github.ref == 'refs/heads/3.x'
     uses: assertj/.github/.github/workflows/trigger-docs-build.yml@main
     secrets:
-      client-id: ${{ secrets.ASSERTJ_BUILDS_CLIENT_ID }}
+      client-id: ${{ vars.ASSERTJ_BUILDS_CLIENT_ID }}
       private-key: ${{ secrets.ASSERTJ_BUILDS_PRIVATE_KEY }}
